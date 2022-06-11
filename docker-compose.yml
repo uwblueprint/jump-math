@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  frontend:
+    container_name: jump_math_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./frontend/.env
+  ts-backend:
+    container_name: jump_math_ts_backend
+    build:
+      context: ./backend/typescript
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/typescript:/app
+      - /app/node_modules
+    ports:
+      - 5000:5000
+    dns:
+      - 8.8.8.8
+    env_file:
+      - ./.env
+
