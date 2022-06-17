@@ -10,6 +10,8 @@ export interface School extends Document {
   name: string;
   /** the country the school is located in */
   country: string;
+  /** the sub-region the school is located in */
+  subRegion: string;
   /** the city the school is located in */
   city: string;
   /** the address of the school */
@@ -28,6 +30,10 @@ const SchoolSchema: Schema = new Schema({
     required: true,
   },
   city: {
+    type: String,
+    required: true,
+  },
+  subRegion: {
     type: String,
     required: true,
   },
