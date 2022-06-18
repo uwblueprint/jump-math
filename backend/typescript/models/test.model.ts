@@ -25,7 +25,9 @@ export interface Question {
  * This interface contains additional information about a multiple-choice question
  */
 export interface MultipleChoiceQuestion {
+  /** the options for the multiple choice question */
   options: [string];
+  /** the index of the options array which contains the correct answer (0-indexed) */
   answerIndex: number;
 }
 
