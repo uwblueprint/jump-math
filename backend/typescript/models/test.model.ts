@@ -13,8 +13,11 @@ export enum QuestionType {
  * It contains information about a single question in a test.
  */
 export interface Question {
+  /** the type of question  */
   questionType: QuestionType;
+  /** the prompt of the question */
   questionPrompt: string;
+  /** additional metadata for the question */
   questionMetadata: MultipleChoiceQuestion | NumericQuestion;
 }
 
