@@ -36,6 +36,7 @@ export interface MultipleChoiceQuestion {
  * numeric answer
  */
 export interface NumericQuestion {
+  /** the numerical answer to the question */
   answer: number;
 }
 
