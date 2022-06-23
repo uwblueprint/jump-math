@@ -20,24 +20,33 @@ export default {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["**/*.{ts,tsx}", "!**/*.{config,test,d}.ts", "!/node_modules/**", "!*.{ts,tsx}" ], 
+  collectCoverageFrom: [
+    "**/*.{ts,tsx}",
+    "!**/*.{config,test,d}.ts",
+    "!/node_modules/**",
+    "!*.{ts,tsx}",
+  ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    "/node_modules/", "/graphql/", "/models/", "/testUtils/", "/utilities/", "/services/implementations/__tests__/", "/services/interfaces/",
-    "/middlewares/", 
+    "/node_modules/",
+    "/graphql/",
+    "/models/",
+    "/testUtils/",
+    "/utilities/",
+    "/services/implementations/__tests__/",
+    "/services/interfaces/",
+    "/middlewares/",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "babel",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: [
-    "text"
-  ],
+  coverageReporters: ["text"],
 
   // An object that configures minimum threshold enforcement for coverage results
   coverageThreshold: {
