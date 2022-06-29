@@ -12,12 +12,14 @@ const testUsers = [
     lastName: "Pan",
     authId: "123",
     role: "ADMIN",
+    email: "peter@gmail.com",
   },
   {
     firstName: "Wendy",
     lastName: "Darling",
     authId: "321",
     role: "TEACHER",
+    email: "wendy@gmail.com",
   },
 ];
 
