@@ -7,6 +7,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     volumes:
+      - ./scripts/launch_dev.sh:/.dev/launch_dev.sh
+      - ./.git/hooks:/.dev/git-hooks
       - ./frontend:/app
       - /app/node_modules
     ports:
@@ -15,12 +17,21 @@ services:
       - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./frontend/.env
+    entrypoint:
+      - /bin/bash
+      - /.dev/launch_dev.sh
+      - -p
+      - /.dev/git-hooks
+      - yarn
+      - start
   ts-backend:
     container_name: jump_math_ts_backend
     build:
       context: ./backend/typescript
       dockerfile: Dockerfile
     volumes:
+      - ./scripts/launch_dev.sh:/.dev/launch_dev.sh
+      - ./.git/hooks:/.dev/git-hooks
       - ./backend/typescript:/app
       - /app/node_modules
     ports:
@@ -29,4 +40,11 @@ services:
       - 8.8.8.8
     env_file:
       - ./.env
+    entrypoint:
+      - /bin/bash
+      - /.dev/launch_dev.sh
+      - -p
+      - /.dev/git-hooks
+      - yarn
+      - dev
 
