@@ -11,13 +11,13 @@ const testUsers = [
     firstName: "Peter",
     lastName: "Pan",
     authId: "123",
-    role: "Admin",
+    role: "ADMIN",
   },
   {
     firstName: "Wendy",
     lastName: "Darling",
     authId: "321",
-    role: "User",
+    role: "TEACHER",
   },
 ];
 
