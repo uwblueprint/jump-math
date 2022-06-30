@@ -42,7 +42,7 @@ const SchoolSchema: Schema = new Schema({
     required: true,
   },
   teachers: {
-    type: [String],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     required: true,
   },
 });
