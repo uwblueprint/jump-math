@@ -38,4 +38,3 @@ const EntitySchema: Schema = new Schema({
 });
 
 export default model<Entity>("Entity", EntitySchema);
-
