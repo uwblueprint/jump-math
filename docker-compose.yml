@@ -18,10 +18,10 @@ services:
   ts-backend:
     container_name: jump_math_ts_backend
     build:
-      context: ./backend/typescript
+      context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend/typescript:/app
+      - ./backend:/app
       - /app/node_modules
     ports:
       - 5000:5000
