@@ -18,13 +18,13 @@ export interface Question {
   /** the prompt of the question */
   questionPrompt: string;
   /** additional metadata for the question */
-  questionMetadata: MultipleChoiceQuestion | NumericQuestion;
+  questionMetadata: MultipleChoiceMetadata | NumericQuestionMetadata;
 }
 
 /**
  * This interface contains additional information about a multiple-choice question
  */
-export interface MultipleChoiceQuestion {
+export interface MultipleChoiceMetadata {
   /** the options for the multiple choice question */
   options: [string];
   /** the index of the options array which contains the correct answer (0-indexed) */
@@ -35,7 +35,7 @@ export interface MultipleChoiceQuestion {
  * This interface contains additional information about a question with a
  * numeric answer
  */
-export interface NumericQuestion {
+export interface NumericQuestionMetadata {
   /** the numerical answer to the question */
   answer: number;
 }
@@ -72,6 +72,8 @@ export interface Test extends Document {
   admin: string;
   /** A list of questions to be asked when students take the test */
   questions: [Question];
+  /** The intended grade the test was made for */
+  grade: number;
 }
 
 const TestSchema: Schema = new Schema(
@@ -85,11 +87,15 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     admin: {
-      type: String,
+      type: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       required: true,
     },
     questions: {
       type: [questionSchema],
+      required: true,
+    },
+    grade: {
+      type: Number,
       required: true,
     },
   },
