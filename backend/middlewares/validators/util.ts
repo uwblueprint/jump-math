@@ -1,4 +1,4 @@
-type Type = "string" | "integer" | "boolean";
+type Type = "string" | "integer" | "boolean" | "date" | "Result";
 
 const allowableContentTypes = new Set([
   "text/plain",
@@ -41,6 +41,32 @@ export const validateArray = (value: any, type: Type): boolean => {
 
 export const validateFileType = (mimetype: string): boolean => {
   return allowableContentTypes.has(mimetype);
+};
+
+export const validateResult = (value: any): boolean => {
+  return (
+    value !== undefined &&
+    value !== null &&
+    typeof value === "object" &&
+    validatePrimitive(value.student, "string") &&
+    validatePrimitive(value.score, "integer") &&
+    validateArray(value.answers, "integer") &&
+    validateArray(value.breakdown, "boolean")
+  );
+};
+
+export const validateResultsArray = (value: any): boolean => {
+  return (
+    value !== undefined &&
+    value !== null &&
+    typeof value === "object" &&
+    Array.isArray(value) &&
+    value.every((item) => validateResult(item))
+  );
+};
+
+export const validateDate = (value: any): boolean => {
+  return !!Date.parse(value);
 };
 
 export const getApiValidationError = (

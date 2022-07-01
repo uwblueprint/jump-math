@@ -55,4 +55,4 @@ export type Result = {
    * whether the student got the question right or not
    * */
   breakdown: [boolean];
-}
+};

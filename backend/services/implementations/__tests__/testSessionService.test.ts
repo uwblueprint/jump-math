@@ -26,8 +26,8 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
     expect(res).toMatchObject({
-        id: "1",
-        ...mockTestSession,
-      });
+      id: "1",
+      ...mockTestSession,
+    });
   });
 });
