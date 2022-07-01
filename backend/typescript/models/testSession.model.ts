@@ -13,7 +13,12 @@ export interface Result {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  breakdown: [number];
+  answers: [number];
+  /**
+   * a list corresponding to the question list with each fielding indicating
+   * whether the student got the question right or not
+   * */
+  breakdown: [boolean];
 }
 
 const ResultSchema: Schema = new Schema({
@@ -25,8 +30,12 @@ const ResultSchema: Schema = new Schema({
     type: Number,
     required: true,
   },
-  breakdown: {
+  answers: {
     type: [Number],
+    required: true,
+  },
+  breakdown: {
+    type: [Boolean],
     required: true,
   },
 });
