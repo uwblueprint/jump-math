@@ -37,10 +37,10 @@ export type NodemailerConfig = {
 export type SignUpMethod = "PASSWORD" | "GOOGLE";
 
 /**
- * This interface holds information about the result of a single student
+ * This type holds information about the result of a single student
  * on a test
  */
-export interface Result {
+export type Result = {
   /** the name of the student */
   student: string;
   /** the score of the student */

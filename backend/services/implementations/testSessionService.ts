@@ -31,6 +31,7 @@ class TestSessionService implements ITestSessionService {
       grade_level: newTestSession.grade_level,
       results: newTestSession.results,
       access_code: newTestSession.access_code,
+      start_time: newTestSession.start_time,
     };
   }
 }
