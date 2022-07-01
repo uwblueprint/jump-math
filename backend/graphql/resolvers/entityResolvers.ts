@@ -6,14 +6,14 @@ import multer from "multer";
 import {
   validateFileType,
   getFileTypeValidationError,
-} from "../../typescript/middlewares/validators/util";
-import EntityService from "../../typescript/services/implementations/entityService";
-import FileStorageService from "../../typescript/services/implementations/fileStorageService";
+} from "../../middlewares/validators/util";
+import EntityService from "../../services/implementations/entityService";
+import FileStorageService from "../../services/implementations/fileStorageService";
 import {
   EntityRequestDTO,
   EntityResponseDTO,
-} from "../../typescript/services/interfaces/IEntityService";
-import { generateCSV } from "../../typescript/utilities/CSVUtils";
+} from "../../services/interfaces/IEntityService";
+import { generateCSV } from "../../utilities/CSVUtils";
 
 const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
 const fileStorageService = new FileStorageService(defaultBucket);

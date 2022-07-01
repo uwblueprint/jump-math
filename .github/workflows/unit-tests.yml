@@ -30,7 +30,7 @@ jobs:
       
       # Install dependencies for backend
       - name: Install backend dependencies
-        run:  yarn --ignore-engines --cwd ./backend/typescript/
+        run:  yarn --ignore-engines --cwd ./backend/
         
       # Install dependencies for backend
       - name: Install frontend dependencies
@@ -38,7 +38,7 @@ jobs:
         
       #Run test for backend
       - name: Run tests for backend
-        working-directory: ./backend/typescript
+        working-directory: ./backend
         run: yarn --ignore-engines test
         
       #Run test for backend

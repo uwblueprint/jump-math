@@ -1,9 +1,9 @@
-import SimpleEntityService from "../../typescript/services/implementations/simpleEntityService";
+import SimpleEntityService from "../../services/implementations/simpleEntityService";
 import {
   SimpleEntityRequestDTO,
   SimpleEntityResponseDTO,
-} from "../../typescript/services/interfaces/simpleEntityService";
-import { generateCSV } from "../../typescript/utilities/CSVUtils";
+} from "../../services/interfaces/simpleEntityService";
+import { generateCSV } from "../../utilities/CSVUtils";
 
 const simpleEntityService = new SimpleEntityService();
 

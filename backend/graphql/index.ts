@@ -6,7 +6,7 @@ import {
   isAuthorizedByEmail,
   isAuthorizedByRole,
   isAuthorizedByUserId,
-} from "../typescript/middlewares/auth";
+} from "../middlewares/auth";
 import authResolvers from "./resolvers/authResolvers";
 import authType from "./types/authType";
 import entityResolvers from "./resolvers/entityResolvers";

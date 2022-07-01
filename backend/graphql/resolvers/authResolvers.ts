@@ -1,13 +1,13 @@
 import { CookieOptions, Request, Response } from "express";
 
-import nodemailerConfig from "../../typescript/nodemailer.config";
-import AuthService from "../../typescript/services/implementations/authService";
-import EmailService from "../../typescript/services/implementations/emailService";
-import UserService from "../../typescript/services/implementations/userService";
-import IAuthService from "../../typescript/services/interfaces/authService";
-import IEmailService from "../../typescript/services/interfaces/emailService";
-import IUserService from "../../typescript/services/interfaces/userService";
-import { AuthDTO, RegisterUserDTO } from "../../typescript/types";
+import nodemailerConfig from "../../nodemailer.config";
+import AuthService from "../../services/implementations/authService";
+import EmailService from "../../services/implementations/emailService";
+import UserService from "../../services/implementations/userService";
+import IAuthService from "../../services/interfaces/authService";
+import IEmailService from "../../services/interfaces/emailService";
+import IUserService from "../../services/interfaces/userService";
+import { AuthDTO, RegisterUserDTO } from "../../types";
 
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);
