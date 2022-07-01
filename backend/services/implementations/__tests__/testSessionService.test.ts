@@ -1,6 +1,6 @@
 import TestSessionService from "../testSessionService";
 
-import { mockTestSession } from "../../../testUtils/testSession";
+import mockTestSession from "../../../testUtils/testSession";
 import db from "../../../testUtils/testDb";
 
 describe("mongo testSessionService", (): void => {
