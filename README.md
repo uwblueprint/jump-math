@@ -30,10 +30,10 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 **Linting Locally**: 
 
     # linting & formatting warnings only
-    $ docker exec -it <container-name> /bin/bash -c "yarn lint"
+    $ docker exec -it jump_math_ts_backend /bin/bash -c "yarn lint"
 
     # linting with fix & formatting
-    $ docker exec -it <container-name> /bin/bash -c "yarn fix"
+    $ docker exec -it jump_math_ts_backend /bin/bash -c "yarn fix"
 
 **Updating Vault Secrets**:
 
