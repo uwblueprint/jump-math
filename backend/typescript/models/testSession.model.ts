@@ -10,10 +10,10 @@ export interface Result {
   /** the score of the student */
   score: number;
   /**
-   * a list corresponding to the question list with each fielding indicating
-   * whether the student got the question right or not
+   * a list corresponding to the question list with each field indicating
+   * the student's answer
    */
-  breakdown: [boolean];
+  breakdown: [number];
 }
 
 const ResultSchema: Schema = new Schema({
@@ -26,7 +26,7 @@ const ResultSchema: Schema = new Schema({
     required: true,
   },
   breakdown: {
-    type: [Boolean],
+    type: [Number],
     required: true,
   },
 });
@@ -50,20 +50,22 @@ export interface TestSession extends Document {
    * there should be one entry here per student
    * */
   results: [Result];
+  /** the code that students can use to access the test when it is live */
+  access_code: string;
 }
 
 const TestSessionSchema: Schema = new Schema(
   {
     test: {
-      type: String,
+      type: { type: mongoose.Schema.Types.ObjectId, ref: "Test" },
       required: true,
     },
     teacher: {
-      type: String,
+      type: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       required: true,
     },
     school: {
-      type: String,
+      type: { type: mongoose.Schema.Types.ObjectId, ref: "School" },
       required: true,
     },
     grade_level: {
