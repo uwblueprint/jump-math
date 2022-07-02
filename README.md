@@ -37,5 +37,4 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 
 **Updating Vault Secrets**:
 
-    vault kv patch kv/jump-math YOUR_SECRET_KEY=@filename 
-`filename` corresponds to the name of the `.env` file you are looking to update. `YOUR_SECRET_KEY` corresponds to the key for the same file in your `secret.config`.
+    vault kv get -format=json kv/jump-math | python update_secret_files.py
