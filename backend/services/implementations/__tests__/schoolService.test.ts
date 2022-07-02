@@ -10,7 +10,7 @@ jest.mock("firebase-admin", () => {
   return { auth };
 });
 
-describe("mongo userService", (): void => {
+describe("mongo schoolService", (): void => {
   let schoolService: SchoolService;
   let userService: UserService;
 
