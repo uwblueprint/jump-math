@@ -91,6 +91,13 @@ interface IUserService {
    * @throws Error if user deletion fails
    */
   deleteUserByEmail(email: string): Promise<void>;
+
+  /**
+   * This method gets all the users corresponding to the ids parameter
+   *
+   * @param ids the unique identifiers of the users to fetch
+   */
+  findAllUsersByIds(ids: string[]): Promise<Array<UserDTO>>;
 }
 
 export default IUserService;
