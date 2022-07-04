@@ -1,7 +1,7 @@
 import TestSessionService from "../../services/implementations/testSessionService";
 import {
-    CreateTestSessionRequestDTO,
-    CreateTestSessionResponseDTO,
+  CreateTestSessionRequestDTO,
+  CreateTestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
 
 const testSessionService = new TestSessionService();
