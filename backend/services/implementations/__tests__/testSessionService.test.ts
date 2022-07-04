@@ -2,7 +2,6 @@ import TestSessionService from "../testSessionService";
 
 import {
   mockTestSession,
-  mockTestSessionWithoutGradeLevel,
 } from "../../../testUtils/testSession";
 import db from "../../../testUtils/testDb";
 
@@ -34,13 +33,4 @@ describe("mongo testSessionService", (): void => {
       ...mockTestSession,
     });
   });
-
-  //   it("createTestSession without Grade Level", async () => {
-  //     const res = await testSessionService.createTestSession(mockTestSessionWithoutTestId);
-
-  //     expect(res).toMatchObject({
-  //       id: "1",
-  //       ...mockTestSession,
-  //     });
-  //   });
 });

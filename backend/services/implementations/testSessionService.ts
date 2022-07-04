@@ -15,6 +15,7 @@ class TestSessionService implements ITestSessionService {
     testSession: CreateTestSessionRequestDTO,
   ): Promise<CreateTestSessionResponseDTO> {
     let newTestSession: TestSession | null;
+
     try {
       newTestSession = await MgTestSession.create(testSession);
     } catch (error: unknown) {
@@ -23,6 +24,7 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
+
     return {
       id: String(newTestSession.id),
       test: String(newTestSession.test),
