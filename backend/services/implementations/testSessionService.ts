@@ -1,8 +1,8 @@
 import MgTestSession, { TestSession } from "../../models/testSession.model";
 import {
   ITestSessionService,
-  TestSessionRequestDTO,
-  TestSessionResponseDTO,
+  CreateTestSessionRequestDTO,
+  CreateTestSessionResponseDTO,
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
@@ -12,8 +12,8 @@ const Logger = logger(__filename);
 class TestSessionService implements ITestSessionService {
   /* eslint-disable class-methods-use-this */
   async createTestSession(
-    testSession: TestSessionRequestDTO,
-  ): Promise<TestSessionResponseDTO> {
+    testSession: CreateTestSessionRequestDTO,
+  ): Promise<CreateTestSessionResponseDTO> {
     let newTestSession: TestSession | null;
     try {
       newTestSession = await MgTestSession.create(testSession);

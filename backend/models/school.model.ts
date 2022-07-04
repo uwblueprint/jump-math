@@ -1,11 +1,11 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 
 /**
  * This document contains information about a single school.
  */
 export interface School extends Document {
   /** the unique identifier for the school */
-  id: string;
+  id: Types.ObjectId;
   /** the name of the school */
   name: string;
   /** the country the school is located in */
@@ -17,7 +17,7 @@ export interface School extends Document {
   /** the address of the school */
   address: string;
   /** the teachers that teach at the school (reference to the IDs in the User table) */
-  teachers: [string];
+  teachers: [Types.ObjectId];
 }
 
 const SchoolSchema: Schema = new Schema({
@@ -42,8 +42,7 @@ const SchoolSchema: Schema = new Schema({
     required: true,
   },
   teachers: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "User",
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }], 
     required: true,
   },
 });

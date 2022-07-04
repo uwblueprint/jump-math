@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { Result } from "../types";
 
 const ResultSchema: Schema = new Schema({
@@ -25,20 +25,20 @@ const ResultSchema: Schema = new Schema({
  */
 export interface TestSession extends Document {
   /** the unique identifier of the test session */
-  id: string;
+  id: Types.ObjectId;
   /** the ID of the corresponding test from the Test collection */
-  test: string;
+  test: Types.ObjectId;
   /** the ID of the teacher administering the test from the User collection */
-  teacher: string;
+  teacher: Types.ObjectId;
   /** the ID of the school that's administering the test from the School collection */
-  school: string;
+  school: Types.ObjectId;
   /** the grade level that is being tested */
   grade_level: number;
   /**
    * the result of the test session
    * there should be one entry here per student
    * */
-  results: [Result];
+  results?: [Result];
   /** the code that students can use to access the test when it is live */
   access_code: string;
   /** the time when the test session is started by teacher */
@@ -68,7 +68,7 @@ const TestSessionSchema: Schema = new Schema(
     },
     results: {
       type: [ResultSchema],
-      required: true,
+      required: false,
     },
     access_code: {
       type: String,

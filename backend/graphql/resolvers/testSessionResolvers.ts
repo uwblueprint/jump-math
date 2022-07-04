@@ -1,7 +1,7 @@
 import TestSessionService from "../../services/implementations/testSessionService";
 import {
-  TestSessionRequestDTO,
-  TestSessionResponseDTO,
+    CreateTestSessionRequestDTO,
+    CreateTestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
 
 const testSessionService = new TestSessionService();
@@ -10,8 +10,8 @@ const testSessionResolvers = {
   Mutation: {
     createTestSession: async (
       _req: undefined,
-      { newTestSession }: { newTestSession: TestSessionRequestDTO },
-    ): Promise<TestSessionResponseDTO> => {
+      { newTestSession }: { newTestSession: CreateTestSessionRequestDTO },
+    ): Promise<CreateTestSessionResponseDTO> => {
       return testSessionService.createTestSession({
         test: newTestSession.test,
         teacher: newTestSession.teacher,

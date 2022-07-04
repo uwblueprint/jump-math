@@ -1,6 +1,6 @@
 import TestSessionService from "../testSessionService";
 
-import mockTestSession from "../../../testUtils/testSession";
+import { mockTestSession, mockTestSessionWithoutGradeLevel } from "../../../testUtils/testSession";
 import db from "../../../testUtils/testDb";
 
 describe("mongo testSessionService", (): void => {
@@ -26,8 +26,17 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
     expect(res).toMatchObject({
-      id: "1",
+      id: res.id,
       ...mockTestSession,
     });
   });
+
+//   it("createTestSession without Grade Level", async () => {
+//     const res = await testSessionService.createTestSession(mockTestSessionWithoutTestId);
+
+//     expect(res).toMatchObject({
+//       id: "1",
+//       ...mockTestSession,
+//     });
+//   });
 });
