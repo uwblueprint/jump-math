@@ -6,15 +6,13 @@ on:
       - main
     paths:
       - "frontend/**"
-      - "backend/typescript/**"
-      - "backend/python/**"
+      - "backend/**"
   pull_request:
     branches:
       - main
     paths:
       - "frontend/**"
-      - "backend/typescript/**"
-      - "backend/python/**"
+      - "backend/**"
 
 jobs:
   run-lint:
@@ -31,9 +29,7 @@ jobs:
             frontend:
               - "frontend/**"
             typescript-backend:
-              - "backend/typescript/**"
-            python-backend:
-              - "backend/python/**"
+              - "backend/**"
       
       - name: Set up Node.js
         if: steps.changes.outputs.frontend == 'true' || steps.changes.outputs.typescript-backend == 'true'
@@ -43,11 +39,11 @@ jobs:
           cache: "yarn"
           cache-dependency-path: |
             frontend/yarn.lock
-            backend/typescript/yarn.lock
+            backend/yarn.lock
 
       - name: Install Node.js dependencies
         if: steps.changes.outputs.frontend == 'true' || steps.changes.outputs.typescript-backend == 'true'
-        run: yarn --cwd ./frontend --prefer-offline && yarn --cwd ./backend/typescript --prefer-offline
+        run: yarn --cwd ./frontend --prefer-offline && yarn --cwd ./backend --prefer-offline
 
       - name: Lint frontend
         if: steps.changes.outputs.frontend == 'true'
@@ -56,10 +52,5 @@ jobs:
 
       - name: Lint TypeScript backend
         if: steps.changes.outputs.typescript-backend == 'true'
-        working-directory: ./backend/typescript
+        working-directory: ./backend
         run: yarn lint
-      
-      - name: Lint Python backend
-        if: steps.changes.outputs.python-backend == 'true'
-        working-directory: ./backend/python
-        run: pip install black && python -m black --check .
