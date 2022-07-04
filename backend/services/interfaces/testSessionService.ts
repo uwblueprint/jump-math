@@ -1,11 +1,8 @@
-import { Result } from "../../types";
-
 export interface TestSessionRequestDTO {
   test: string;
   teacher: string;
   school: string;
   grade_level: number;
-  results: [Result];
   access_code: string;
   start_time: Date;
 }
@@ -16,7 +13,6 @@ export interface TestSessionResponseDTO {
   teacher: string;
   school: string;
   grade_level: number;
-  results: [Result];
   access_code: string;
   start_time: Date;
 }

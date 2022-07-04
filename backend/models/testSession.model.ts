@@ -48,15 +48,18 @@ export interface TestSession extends Document {
 const TestSessionSchema: Schema = new Schema(
   {
     test: {
-      type: { type: mongoose.Schema.Types.ObjectId, ref: "Test" },
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Test",
       required: true,
     },
     teacher: {
-      type: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User",
       required: true,
     },
     school: {
-      type: { type: mongoose.Schema.Types.ObjectId, ref: "School" },
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "School",
       required: true,
     },
     grade_level: {
