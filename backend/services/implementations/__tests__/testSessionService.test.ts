@@ -25,6 +25,7 @@ describe("mongo testSessionService", (): void => {
   it("createTestSession", async () => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
+    expect(res.id).not.toBeNull();
     expect(res).toMatchObject({
       id: res.id,
       ...mockTestSession,

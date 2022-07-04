@@ -1,11 +1,11 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 /**
  * This document contains information about a single school.
  */
 export interface School extends Document {
   /** the unique identifier for the school */
-  id: Types.ObjectId;
+  id: string;
   /** the name of the school */
   name: string;
   /** the country the school is located in */
@@ -17,7 +17,7 @@ export interface School extends Document {
   /** the address of the school */
   address: string;
   /** the teachers that teach at the school (reference to the IDs in the User table) */
-  teachers: [Types.ObjectId];
+  teachers: [string];
 }
 
 const SchoolSchema: Schema = new Schema({

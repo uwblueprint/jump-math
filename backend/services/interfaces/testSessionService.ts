@@ -1,18 +1,17 @@
-import { Types } from "mongoose";
 export interface CreateTestSessionRequestDTO {
-  test: Types.ObjectId;
-  teacher: Types.ObjectId;
-  school: Types.ObjectId;
+  test: string;
+  teacher: string;
+  school: string;
   grade_level: number;
   access_code: string;
   start_time: Date;
 }
 
 export interface CreateTestSessionResponseDTO {
-  id: Types.ObjectId;
-  test: Types.ObjectId;
-  teacher: Types.ObjectId;
-  school: Types.ObjectId;
+  id: string;
+  test: string;
+  teacher: string;
+  school: string;
   grade_level: number;
   access_code: string;
   start_time: Date;

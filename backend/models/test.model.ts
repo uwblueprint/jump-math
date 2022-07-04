@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 /**
  * An enum containing the types of questions that can be asked
@@ -61,7 +61,7 @@ const questionSchema = new Schema({
  */
 export interface Test extends Document {
   /** The unique identifier for the test */
-  id: Types.ObjectId;
+  id: string;
   /** The name of the test */
   name: string;
   /** The duration of the test */
@@ -69,7 +69,7 @@ export interface Test extends Document {
   /** The administrator to which the test belongs to - this is a reference to
    * an ID in the User collection
    */
-  admin: Types.ObjectId;
+  admin: string;
   /** A list of questions to be asked when students take the test */
   questions: [Question];
   /** The intended grade the test was made for */

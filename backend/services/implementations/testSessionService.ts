@@ -24,10 +24,10 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
     return {
-      id: newTestSession.id,
-      test: newTestSession.test,
-      teacher: newTestSession.teacher,
-      school: newTestSession.school,
+      id: String(newTestSession.id),
+      test: String(newTestSession.test),
+      teacher: String(newTestSession.teacher),
+      school: String(newTestSession.school),
       grade_level: newTestSession.grade_level,
       access_code: newTestSession.access_code,
       start_time: newTestSession.start_time,

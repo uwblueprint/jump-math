@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { Result } from "../types";
 
 const ResultSchema: Schema = new Schema({
@@ -25,13 +25,13 @@ const ResultSchema: Schema = new Schema({
  */
 export interface TestSession extends Document {
   /** the unique identifier of the test session */
-  id: Types.ObjectId;
+  id: string;
   /** the ID of the corresponding test from the Test collection */
-  test: Types.ObjectId;
+  test: string;
   /** the ID of the teacher administering the test from the User collection */
-  teacher: Types.ObjectId;
+  teacher: string;
   /** the ID of the school that's administering the test from the School collection */
-  school: Types.ObjectId;
+  school: string;
   /** the grade level that is being tested */
   grade_level: number;
   /**
