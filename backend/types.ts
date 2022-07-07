@@ -1,3 +1,5 @@
+import { Question } from "./models/test.model";
+
 export type Role = "Teacher" | "Admin";
 
 export type Token = {
@@ -35,3 +37,14 @@ export type NodemailerConfig = {
 };
 
 export type SignUpMethod = "PASSWORD" | "GOOGLE";
+
+export type SchoolTestDTO = {
+    id: string;
+    name: string;
+    duration: number;
+    admin: string;
+    questions: Question[];
+    grade: number;
+};
+
+export type CreateTestRequestDTO = Omit<SchoolTestDTO, "id">;
