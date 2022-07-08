@@ -1,8 +1,8 @@
 import MgTestSession, { TestSession } from "../../models/testSession.model";
 import {
   ITestSessionService,
-  CreateTestSessionRequestDTO,
-  CreateTestSessionResponseDTO,
+  TestSessionRequestDTO,
+  TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
@@ -12,8 +12,8 @@ const Logger = logger(__filename);
 class TestSessionService implements ITestSessionService {
   /* eslint-disable class-methods-use-this */
   async createTestSession(
-    testSession: CreateTestSessionRequestDTO,
-  ): Promise<CreateTestSessionResponseDTO> {
+    testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO> {
     let newTestSession: TestSession | null;
 
     try {
@@ -25,8 +25,11 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
+    // TODO: Add validation for test, teacher and school ids via 
+    //       getTestById, getTeacherById and getSchoolById
+
     return {
-      id: String(newTestSession.id),
+      id: newTestSession.id,
       test: String(newTestSession.test),
       teacher: String(newTestSession.teacher),
       school: String(newTestSession.school),
