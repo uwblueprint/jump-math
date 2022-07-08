@@ -25,7 +25,7 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    // TODO: Add validation for test, teacher and school ids via 
+    // TODO: Add validation for test, teacher and school ids via
     //       getTestById, getTeacherById and getSchoolById
 
     return {
@@ -33,9 +33,9 @@ class TestSessionService implements ITestSessionService {
       test: String(newTestSession.test),
       teacher: String(newTestSession.teacher),
       school: String(newTestSession.school),
-      grade_level: newTestSession.grade_level,
-      access_code: newTestSession.access_code,
-      start_time: newTestSession.start_time,
+      gradeLevel: newTestSession.gradeLevel,
+      accessCode: newTestSession.accessCode,
+      startTime: newTestSession.startTime,
     };
   }
 }

@@ -12,16 +12,16 @@ export interface TestSessionRequestDTO {
   /** the ID of the school that's administering the test from the School collection */
   school: string;
   /** the grade level that is being tested */
-  grade_level: number;
+  gradeLevel: number;
   /**
    * the result of the test session
    * there should be one entry here per student
    * */
   results?: [Result];
   /** the code that students can use to access the test when it is live */
-  access_code: string;
+  accessCode: string;
   /** the time when the test session is started by teacher */
-  start_time: Date;
+  startTime: Date;
 }
 
 /**
@@ -38,16 +38,16 @@ export interface TestSessionResponseDTO {
   /** the ID of the school that's administering the test from the School collection */
   school: string;
   /** the grade level that is being tested */
-  grade_level: number;
+  gradeLevel: number;
   /**
    * the result of the test session
    * there should be one entry here per student
    * */
   results?: [Result];
   /** the code that students can use to access the test when it is live */
-  access_code: string;
+  accessCode: string;
   /** the time when the test session is started by teacher */
-  start_time: Date;
+  startTime: Date;
 }
 
 export interface ITestSessionService {
