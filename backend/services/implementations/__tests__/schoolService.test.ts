@@ -1,7 +1,45 @@
+import SchoolModel from "../../../models/school.model";
 import SchoolService from "../schoolService";
 
 import db from "../../../testUtils/testDb";
 import UserService from "../userService";
+import { SchoolResponseDTO } from "../../interfaces/schoolService";
+
+const testTeachers = [
+  {
+    id: "56cb91bdc3464f14678934ca",
+    firstName: "Teacher",
+    lastName: "One",
+    authId: "123",
+    role: "Teacher",
+  },
+  {
+    id: "56cb91bdc3464f14678934cb",
+    firstName: "Teacher",
+    lastName: "Two",
+    authId: "456",
+    role: "Teacher",
+  },
+];
+
+const testSchools = [
+  {
+    name: "school1",
+    country: "some-country",
+    subRegion: "some-region",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testTeachers[0].id, testTeachers[1].id],
+  },
+  {
+    name: "school2",
+    country: "some-country",
+    subRegion: "some-region",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testTeachers[0].id, testTeachers[0].id],
+  },
+];
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
@@ -29,6 +67,24 @@ describe("mongo schoolService", (): void => {
 
   afterEach(async () => {
     await db.clear();
+  });
+
+  it("getAllSchools", async () => {
+    await SchoolModel.insertMany(testSchools);
+
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testTeachers);
+    const res = await schoolService.getAllSchools();
+
+    res.forEach((school: SchoolResponseDTO, i) => {
+      expect(school.id).not.toBeNull();
+      expect(school.name).toEqual(testSchools[i].name);
+      expect(school.country).toEqual(testSchools[i].country);
+      expect(school.subRegion).toEqual(testSchools[i].subRegion);
+      expect(school.city).toEqual(testSchools[i].city);
+      expect(school.address).toEqual(testSchools[i].address);
+      expect(school.teachers).toEqual(testTeachers);
+    });
   });
 
   it("create school for valid teachers", async () => {
