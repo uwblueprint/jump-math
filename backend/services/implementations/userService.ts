@@ -333,6 +333,54 @@ class UserService implements IUserService {
       throw error;
     }
   }
+
+  /**
+   * This method gets all the users corresponding to the ids parameter
+   *
+   * @param ids the unique identifiers of the users to fetch
+   */
+  async findAllUsersByIds(ids: string[]): Promise<Array<UserDTO>> {
+    let userDtos: Array<UserDTO> = [];
+    try {
+      const users: Array<User> = await MgUser.find({ _id: { $in: ids } });
+
+      userDtos = await this.mapUsersToUserDTOs(users);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get users. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return userDtos;
+  }
+
+  private async mapUsersToUserDTOs(
+    users: Array<User>,
+  ): Promise<Array<UserDTO>> {
+    const userDtos: Array<UserDTO> = await Promise.all(
+      users.map(async (user) => {
+        let firebaseUser: firebaseAdmin.auth.UserRecord;
+
+        try {
+          firebaseUser = await firebaseAdmin.auth().getUser(user.authId);
+        } catch (error) {
+          Logger.error(
+            `user with authId ${user.authId} could not be fetched from Firebase`,
+          );
+          throw error;
+        }
+
+        return {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: firebaseUser.email ?? "",
+          role: user.role,
+        };
+      }),
+    );
+
+    return userDtos;
+  }
 }
 
 export default UserService;
