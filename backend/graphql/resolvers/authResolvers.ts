@@ -46,7 +46,7 @@ const authResolvers = {
       { user }: { user: RegisterUserDTO },
       { res }: { res: Response },
     ): Promise<Omit<AuthDTO, "refreshToken">> => {
-      await userService.createUser({ ...user, role: "User" });
+      await userService.createUser({ ...user, role: "Teacher" });
       const authDTO = await authService.generateToken(
         user.email,
         user.password,

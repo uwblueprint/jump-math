@@ -39,7 +39,7 @@ const executableSchema = makeExecutableSchema({
 });
 
 const authorizedByAllRoles = () =>
-  isAuthorizedByRole(new Set(["User", "Admin"]));
+  isAuthorizedByRole(new Set(["Teacher", "Admin"]));
 const authorizedByAdmin = () => isAuthorizedByRole(new Set(["Admin"]));
 
 const graphQLMiddlewares = {
