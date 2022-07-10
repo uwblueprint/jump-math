@@ -60,4 +60,8 @@ export interface ITestSessionService {
   createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
+
+  getTestSessionById(
+    id: string,
+  ): Promise<TestSessionResponseDTO>;
 }
