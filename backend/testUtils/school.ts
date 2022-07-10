@@ -1,3 +1,8 @@
+import {
+  SchoolRequestDTO,
+  SchoolResponseDTO,
+} from "../services/interfaces/schoolService";
+
 // set up test users to return from mock user service
 export const testUsers = [
   {
@@ -45,3 +50,22 @@ export const testSchoolInvalidTeacher = {
   address: "some-address",
   teachers: ["56cb91bdc3464f14678934cb"],
 };
+
+/**
+ * This method asserts that all attributes in the school response match the expected values
+ *
+ * @param school The test School object response
+ * @param testSchool The test School object request
+ */
+export function assertResponseMatchesExpected(
+  school: SchoolResponseDTO,
+  testSchool: SchoolRequestDTO,
+): void {
+  expect(school.id).not.toBeNull();
+  expect(school.name).toEqual(testSchool.name);
+  expect(school.country).toEqual(testSchool.country);
+  expect(school.subRegion).toEqual(testSchool.subRegion);
+  expect(school.city).toEqual(testSchool.city);
+  expect(school.address).toEqual(testSchool.address);
+  expect(school.teachers).toEqual(testUsers);
+}
