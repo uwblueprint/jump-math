@@ -38,6 +38,23 @@ class TestSessionService implements ITestSessionService {
       startTime: newTestSession.startTime,
     };
   }
+
+  async deleteTestSession(
+    id: string
+  ): Promise<string> {
+    try{
+      const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
+      if(!deletedTestSession){
+        throw new Error(`Test Session id ${id} not found`);
+      }
+      return id;
+    } catch (error: unknown){
+      Logger.error(
+        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default TestSessionService;

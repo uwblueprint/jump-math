@@ -2,6 +2,7 @@ import TestSessionService from "../testSessionService";
 
 import mockTestSession from "../../../testUtils/testSession";
 import db from "../../../testUtils/testDb";
+import testSessionModel from "../../../models/testSession.model";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -30,5 +31,17 @@ describe("mongo testSessionService", (): void => {
       id: res.id,
       ...mockTestSession,
     });
+  });
+
+  it("deleteTestSession", async () => {
+    const testSession = new testSessionModel(mockTestSession);
+    const savedTestSession = await testSession.save();
+
+    const deletedTestSessionId = await testSessionService.deleteTestSession(savedTestSession.id);
+    expect(deletedTestSessionId).toBe(savedTestSession.id);
+  });
+
+  it("deleteTestSession not found", async () => {
+    expect(testSessionService.deleteTestSession("not_found_id")).rejects.toThrowError();
   });
 });

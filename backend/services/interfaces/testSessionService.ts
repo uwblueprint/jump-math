@@ -60,4 +60,7 @@ export interface ITestSessionService {
   createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
+  deleteTestSession(
+    id: string
+  ): Promise<string>;
 }
