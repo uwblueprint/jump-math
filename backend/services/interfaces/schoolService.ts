@@ -46,12 +46,12 @@ export interface SchoolResponseDTO {
  */
 export interface ISchoolService {
   /**
-   * This method retrieve all Schools
+   * This method retrieves all Schools
    * @param
    * @returns returns array of SchoolResponseDTO
    * @throws Error if retrieval fails
    */
-  getAllSchools(): Promise<SchoolResponseDTO[]>;
+  getAllSchools(): Promise<Array<SchoolResponseDTO>>;
 
   /**
    * This method retrieve all Schools with the given subregion

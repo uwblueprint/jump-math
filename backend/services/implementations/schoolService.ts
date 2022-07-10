@@ -18,34 +18,22 @@ class SchoolService implements ISchoolService {
     this.userService = userService;
   }
 
-  // This method gets all schools from the database.
-  async getAllSchools(): Promise<SchoolResponseDTO[]> {
+  /**
+   * This method gets all schools from the database.
+   */
+  async getAllSchools(): Promise<Array<SchoolResponseDTO>> {
     try {
       const schools: Array<School> = await MgSchool.find();
-      return await Promise.all(
-        schools.map(async (school) => {
-          const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
-            school.teachers,
-          );
-
-          return {
-            id: school.id,
-            name: school.name,
-            country: school.country,
-            subRegion: school.subRegion,
-            city: school.city,
-            address: school.address,
-            teachers: teacherDTOs,
-          };
-        }),
-      );
+      return await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
   }
 
-  // This method gets all schools with the given sub-region from the database.
+  /**
+   * This method gets all schools with the given sub-region from the database.
+   */
   async getSchoolsBySubregion(subRegion: string): Promise<SchoolResponseDTO[]> {
     let schools: Array<School> | null;
 
@@ -56,28 +44,33 @@ class SchoolService implements ISchoolService {
       if (!schools.length) {
         throw new Error(`Sub region ${subRegion} not found`);
       }
-
-      return await Promise.all(
-        schools.map(async (school) => {
-          const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
-            school.teachers,
-          );
-
-          return {
-            id: school.id,
-            name: school.name,
-            country: school.country,
-            subRegion: school.subRegion,
-            city: school.city,
-            address: school.address,
-            teachers: teacherDTOs,
-          };
-        }),
-      );
+      
+      return await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
+
+  private async mapSchoolsToSchoolResponseDTOs(
+    schools: Array<School>,
+  ): Promise<Array<SchoolResponseDTO>> {
+    return Promise.all(
+      schools.map(async (school) => {
+        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
+          school.teachers,
+        );
+
+        return {
+          id: school.id,
+          name: school.name,
+          country: school.country,
+          subRegion: school.subRegion,
+          city: school.city,
+          address: school.address,
+          teachers: teacherDTOs,
+        };
+      }),
+    );
   }
 
   /**
