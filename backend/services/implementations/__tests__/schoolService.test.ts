@@ -37,7 +37,7 @@ const testSchools = [
     subRegion: "some-region",
     city: "some-city",
     address: "some-address",
-    teachers: [testTeachers[0].id, testTeachers[0].id],
+    teachers: [testTeachers[0].id, testTeachers[1].id],
   },
 ];
 
@@ -71,9 +71,9 @@ describe("mongo schoolService", (): void => {
 
   it("getAllSchools", async () => {
     await SchoolModel.insertMany(testSchools);
-
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testTeachers);
+
     const res = await schoolService.getAllSchools();
 
     res.forEach((school: SchoolResponseDTO, i) => {

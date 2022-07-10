@@ -20,13 +20,13 @@ class SchoolService implements ISchoolService {
 
   // This method gets all schools from the database.
   async getAllSchools(): Promise<SchoolResponseDTO[]> {
-    let teacherDTOs: Array<UserDTO>;
-
     try {
       const schools: Array<School> = await MgSchool.find();
-      await Promise.all(
+      return await Promise.all(
         schools.map(async (school) => {
-          teacherDTOs = await this.userService.findAllUsersByIds(school.teachers);
+          const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
+            school.teachers,
+          );
 
           return {
             id: school.id,
@@ -36,11 +36,9 @@ class SchoolService implements ISchoolService {
             city: school.city,
             address: school.address,
             teachers: teacherDTOs,
-          }
-      }));
-
-      // conversion of type 'School[]' to 'SchoolResponseDTO[]'
-      return schools as unknown as SchoolResponseDTO[];
+          };
+        }),
+      );
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
       throw error;
