@@ -38,6 +38,31 @@ class TestSessionService implements ITestSessionService {
       startTime: newTestSession.startTime,
     };
   }
+
+  async getTestSessionById(
+    id: string
+  ): Promise<TestSessionResponseDTO> {
+    let testSession: TestSession | null;
+    try{
+        testSession = await MgTestSession.findById(id);
+        if(!testSession){
+          throw new Error(`Entity id ${id} not found`);
+        } 
+      }catch (error: unknown) {
+        Logger.error(`Failed to get entity. Reason = ${getErrorMessage(error)}`);
+        throw error;
+    }
+    return {
+      id: testSession.id,
+      test: testSession.test,
+      teacher: testSession.teacher,
+      school: testSession.school,
+      gradeLevel: testSession.gradeLevel,
+      accessCode: testSession.accessCode,
+      startTime: testSession.startTime,
+      results: testSession.results,
+    };
+  }
 }
 
 export default TestSessionService;
