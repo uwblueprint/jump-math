@@ -51,7 +51,7 @@ class SchoolService implements ISchoolService {
 
     try {
       schools = await MgSchool.find({ subRegion: { $eq: subRegion } });
-      
+
       // check if no schools match the given sub-region
       if (!schools.length) {
         throw new Error(`Sub region ${subRegion} not found`);
