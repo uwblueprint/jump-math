@@ -51,21 +51,15 @@ export const testSchoolInvalidTeacher = {
   teachers: ["56cb91bdc3464f14678934cb"],
 };
 
-/**
- * This method asserts that all attributes in the school response match the expected values
- *
- * @param school The test School object response
- * @param testSchool The test School object request
- */
-export function assertResponseMatchesExpected(
-  school: SchoolResponseDTO,
-  testSchool: SchoolRequestDTO,
-): void {
-  expect(school.id).not.toBeNull();
-  expect(school.name).toEqual(testSchool.name);
-  expect(school.country).toEqual(testSchool.country);
-  expect(school.subRegion).toEqual(testSchool.subRegion);
-  expect(school.city).toEqual(testSchool.city);
-  expect(school.address).toEqual(testSchool.address);
-  expect(school.teachers).toEqual(testUsers);
-}
+export const assertResponseMatchesExpected = (
+  expected: SchoolRequestDTO,
+  result: SchoolResponseDTO,
+): void => {
+  expect(result.id).not.toBeNull();
+  expect(result.name).toEqual(expected.name);
+  expect(result.country).toEqual(expected.country);
+  expect(result.subRegion).toEqual(expected.subRegion);
+  expect(result.city).toEqual(expected.city);
+  expect(result.address).toEqual(expected.address);
+  expect(result.teachers).toEqual(testUsers);
+};

@@ -49,7 +49,7 @@ describe("mongo schoolService", (): void => {
 
     // assert
     res.forEach((school: SchoolResponseDTO, i) => {
-      assertResponseMatchesExpected(school, testSchools[i]);
+      assertResponseMatchesExpected(testSchools[i], school);
     });
   });
 
@@ -61,7 +61,7 @@ describe("mongo schoolService", (): void => {
     const createdSchool = await schoolService.createSchool(testSchools[0]);
 
     // assert
-    assertResponseMatchesExpected(createdSchool, testSchools[0]);
+    assertResponseMatchesExpected(testSchools[0], createdSchool);
   });
 
   it("throw error for non-existing teachers", async () => {
