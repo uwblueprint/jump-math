@@ -1,7 +1,15 @@
+import SchoolModel from "../../../models/school.model";
 import SchoolService from "../schoolService";
 
 import db from "../../../testUtils/testDb";
+import {
+  testUsers,
+  testSchools,
+  testSchoolInvalidTeacher,
+  assertResponseMatchesExpected,
+} from "../../../testUtils/school";
 import UserService from "../userService";
+import { SchoolResponseDTO } from "../../interfaces/schoolService";
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
@@ -31,72 +39,38 @@ describe("mongo schoolService", (): void => {
     await db.clear();
   });
 
-  it("create school for valid teachers", async () => {
-    // set up test case
-
-    // set up test users to return from user service
-    const testUsers = [
-      {
-        id: "56cb91bdc3464f14678934ca",
-        firstName: "Teacher",
-        lastName: "One",
-        authId: "123",
-        role: "Admin",
-      },
-      {
-        id: "56cb91bdc3464f14678934cb",
-        firstName: "Teacher",
-        lastName: "Two",
-        authId: "456",
-        role: "Admin",
-      },
-    ];
-
-    // set up test school to create
-    const testSchool = {
-      name: "some-name",
-      country: "some-country",
-      subRegion: "some-region",
-      city: "some-city",
-      address: "some-address",
-      teachers: [testUsers[0].id, testUsers[1].id],
-    };
-
+  it("getAllSchools", async () => {
+    await SchoolModel.insertMany(testSchools);
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
-    const createdSchool = await schoolService.createSchool(testSchool);
+    const res = await schoolService.getAllSchools();
 
     // assert
-    expect(createdSchool.id).not.toBeNull();
-    expect(createdSchool.name).toEqual(testSchool.name);
-    expect(createdSchool.country).toEqual(testSchool.country);
-    expect(createdSchool.subRegion).toEqual(testSchool.subRegion);
-    expect(createdSchool.city).toEqual(testSchool.city);
-    expect(createdSchool.address).toEqual(testSchool.address);
-    expect(createdSchool.teachers).toEqual(testUsers);
+    res.forEach((school: SchoolResponseDTO, i) => {
+      assertResponseMatchesExpected(testSchools[i], school);
+    });
+  });
+
+  it("create school for valid teachers", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute
+    const createdSchool = await schoolService.createSchool(testSchools[0]);
+
+    // assert
+    assertResponseMatchesExpected(testSchools[0], createdSchool);
   });
 
   it("throw error for non-existing teachers", async () => {
-    // set up test case
-
-    // set up test school to create
-    const testSchool = {
-      name: "some-name",
-      country: "some-country",
-      subRegion: "some-region",
-      city: "some-city",
-      address: "some-address",
-      teachers: ["56cb91bdc3464f14678934cb"],
-    };
-
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue([]);
 
     // execute and assert
     await expect(async () => {
-      await schoolService.createSchool(testSchool);
+      await schoolService.createSchool(testSchoolInvalidTeacher);
     }).rejects.toThrowError("One or more of the teacher IDs was not found");
   });
 });

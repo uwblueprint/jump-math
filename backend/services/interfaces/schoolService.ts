@@ -46,10 +46,18 @@ export interface SchoolResponseDTO {
  */
 export interface ISchoolService {
   /**
+   * This method retrieves all Schools
+   * @param
+   * @returns returns array of SchoolResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getAllSchools(): Promise<Array<SchoolResponseDTO>>;
+
+  /**
    * This method creates a new school in the database.
-   *
-   * @param school The request object containing information about the school
-   * to create
+   * @param school The request object containing information about the school to create
+   * @returns the created SchoolResponseDTO
+   * @throws Error if creation fails
    */
   createSchool(school: SchoolRequestDTO): Promise<SchoolResponseDTO>;
 }
