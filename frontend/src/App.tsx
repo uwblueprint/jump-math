@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ChakraProvider } from "@chakra-ui/react";
 import React, { useState, useReducer } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 
 import Login from "./components/auth/Login";
