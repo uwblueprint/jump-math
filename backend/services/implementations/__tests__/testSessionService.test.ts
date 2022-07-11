@@ -4,6 +4,7 @@ import db from "../../../testUtils/testDb";
 import MgTestSession from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
+  assertResultsResponseMatchesExpected,
   mockTestSession,
 } from "../../../testUtils/testSession";
 
@@ -30,7 +31,8 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
     // TODO: uncomment when results are added to test session response object
-    // assertResponseMatchesExpected(mockTestSession, res);
+    assertResponseMatchesExpected(mockTestSession, res);
+    expect(res.results).toBeUndefined();
   });
 
   it("getAllTestSessions", async () => {
@@ -38,5 +40,6 @@ describe("mongo testSessionService", (): void => {
 
     const res = await testSessionService.getAllTestSessions();
     assertResponseMatchesExpected(mockTestSession, res[0]);
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
 });

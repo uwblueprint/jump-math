@@ -32,7 +32,12 @@ export const assertResponseMatchesExpected = (
   expect(result.gradeLevel).toEqual(expected.gradeLevel);
   expect(result.accessCode).toEqual(expected.accessCode);
   expect(result.startTime).toEqual(expected.startTime);
+};
 
+export const assertResultsResponseMatchesExpected = (
+  expected: TestSessionRequestDTO,
+  result: TestSessionResponseDTO,
+): void => {
   const actualResults = result.results != null ? result.results[0] : null;
   const expectedResults = expected.results != null ? expected.results[0] : null;
 
