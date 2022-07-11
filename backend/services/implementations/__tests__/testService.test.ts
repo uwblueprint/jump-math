@@ -3,7 +3,6 @@ import TestService from "../testService";
 import db from "../../../testUtils/testDb";
 import { QuestionType } from "../../../models/test.model";
 
-
 const questions = [
   {
     questionType: QuestionType.NUMERIC_ANSWER,
