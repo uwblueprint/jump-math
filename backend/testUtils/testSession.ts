@@ -8,7 +8,7 @@ export const testResult: ResultRequestDTO = {
   student: "some-student-name",
   score: 25,
   answers: [10, 11],
-  breakdown: [false, true, true],
+  breakdown: [false, true],
 };
 
 export const mockTestSession: TestSessionRequestDTO = {
