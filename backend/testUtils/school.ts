@@ -1,3 +1,8 @@
+import {
+  SchoolRequestDTO,
+  SchoolResponseDTO,
+} from "../services/interfaces/schoolService";
+
 // set up test users to return from mock user service
 export const testUsers = [
   {
@@ -44,4 +49,17 @@ export const testSchoolInvalidTeacher = {
   city: "some-city",
   address: "some-address",
   teachers: ["56cb91bdc3464f14678934cb"],
+};
+
+export const assertResponseMatchesExpected = (
+  expected: SchoolRequestDTO,
+  result: SchoolResponseDTO,
+): void => {
+  expect(result.id).not.toBeNull();
+  expect(result.name).toEqual(expected.name);
+  expect(result.country).toEqual(expected.country);
+  expect(result.subRegion).toEqual(expected.subRegion);
+  expect(result.city).toEqual(expected.city);
+  expect(result.address).toEqual(expected.address);
+  expect(result.teachers).toEqual(testUsers);
 };

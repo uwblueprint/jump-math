@@ -6,6 +6,7 @@ import {
   testUsers,
   testSchools,
   testSchoolInvalidTeacher,
+  assertResponseMatchesExpected,
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
@@ -42,35 +43,27 @@ describe("mongo schoolService", (): void => {
     await SchoolModel.insertMany(testSchools);
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
+    
+    // execute
     const res = await schoolService.getAllSchools();
 
+    // assert
     res.forEach((school: SchoolResponseDTO, i) => {
-      expect(school.id).not.toBeNull();
-      expect(school.name).toEqual(testSchools[i].name);
-      expect(school.country).toEqual(testSchools[i].country);
-      expect(school.subRegion).toEqual(testSchools[i].subRegion);
-      expect(school.city).toEqual(testSchools[i].city);
-      expect(school.address).toEqual(testSchools[i].address);
-      expect(school.teachers).toEqual(testUsers);
+      assertResponseMatchesExpected(testSchools[i], school);
     });
-  });
+   });
 
   it("getSchoolsBySubregion for valid region", async () => {
     await SchoolModel.insertMany(testSchools);
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers[0]);
 
+    // execute
     const res = await schoolService.getSchoolsBySubregion("some-region1");
 
+    // assert
     res.forEach((school: SchoolResponseDTO) => {
-      expect(school.id).not.toBeNull();
-      expect(school.name).toEqual(testSchools[0].name);
-      expect(school.country).toEqual(testSchools[0].country);
-      expect(school.subRegion).toEqual(testSchools[0].subRegion);
-      expect(school.city).toEqual(testSchools[0].city);
-      expect(school.address).toEqual(testSchools[0].address);
-      expect(school.teachers).toEqual(testUsers[0]);
+      assertResponseMatchesExpected(testSchools[0], school);
     });
   });
 
@@ -93,13 +86,7 @@ describe("mongo schoolService", (): void => {
     const createdSchool = await schoolService.createSchool(testSchools[0]);
 
     // assert
-    expect(createdSchool.id).not.toBeNull();
-    expect(createdSchool.name).toEqual(testSchools[0].name);
-    expect(createdSchool.country).toEqual(testSchools[0].country);
-    expect(createdSchool.subRegion).toEqual(testSchools[0].subRegion);
-    expect(createdSchool.city).toEqual(testSchools[0].city);
-    expect(createdSchool.address).toEqual(testSchools[0].address);
-    expect(createdSchool.teachers).toEqual(testUsers);
+    assertResponseMatchesExpected(testSchools[0], createdSchool);
   });
 
   it("throw error for non-existing teachers", async () => {
