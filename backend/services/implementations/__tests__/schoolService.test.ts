@@ -43,7 +43,7 @@ describe("mongo schoolService", (): void => {
     await SchoolModel.insertMany(testSchools);
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-    
+
     // execute
     const res = await schoolService.getAllSchools();
 
@@ -51,12 +51,12 @@ describe("mongo schoolService", (): void => {
     res.forEach((school: SchoolResponseDTO, i) => {
       assertResponseMatchesExpected(testSchools[i], school);
     });
-   });
+  });
 
   it("getSchoolsBySubregion for valid region", async () => {
     await SchoolModel.insertMany(testSchools);
     // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers[0]);
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
     const res = await schoolService.getSchoolsBySubregion("some-region1");
