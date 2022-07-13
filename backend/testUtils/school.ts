@@ -41,6 +41,42 @@ export const testSchools = [
   },
 ];
 
+// set up test schools
+export const testSchools2 = [
+  {
+    name: "school1",
+    country: "some-country1",
+    subRegion: "some-region1",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  },
+  {
+    name: "school2",
+    country: "some-country1",
+    subRegion: "some-region2",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  },
+  {
+    name: "school1",
+    country: "some-country2",
+    subRegion: "some-region1",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  },
+  {
+    name: "school2",
+    country: "some-country3",
+    subRegion: "some-region2",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  },
+];
+
 // set up test school with invalid teacher id
 export const testSchoolInvalidTeacher = {
   name: "some-name",
