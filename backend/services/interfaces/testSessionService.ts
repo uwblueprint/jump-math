@@ -60,6 +60,13 @@ export interface ITestSessionService {
   createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
+
+  /** 
+   * delete a TestSession with the given id, return deleted id
+   * @param id id to delete
+   * @returns deleted id
+   * @throws Error if deletion fails
+   */
   deleteTestSession(
     id: string
   ): Promise<string>;
