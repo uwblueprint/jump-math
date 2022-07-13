@@ -19,6 +19,62 @@ class SchoolService implements ISchoolService {
   }
 
   /**
+   * This method gets all schools from the database.
+   */
+  async getAllSchools(): Promise<Array<SchoolResponseDTO>> {
+    try {
+      const schools: Array<School> = await MgSchool.find();
+      return await this.mapSchoolsToSchoolResponseDTOs(schools);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
+  /**
+   * This method gets all schools with the given sub-region from the database.
+   */
+  async getSchoolsBySubregion(subRegion: string): Promise<SchoolResponseDTO[]> {
+    let schools: Array<School> | null;
+
+    try {
+      schools = await MgSchool.find({ subRegion: { $eq: subRegion } });
+
+      // check if no schools match the given sub-region
+      if (!schools.length) {
+        throw new Error(`Sub region ${subRegion} not found`);
+      }
+
+      return await this.mapSchoolsToSchoolResponseDTOs(schools);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
+  private async mapSchoolsToSchoolResponseDTOs(
+    schools: Array<School>,
+  ): Promise<Array<SchoolResponseDTO>> {
+    return Promise.all(
+      schools.map(async (school) => {
+        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
+          school.teachers,
+        );
+
+        return {
+          id: school.id,
+          name: school.name,
+          country: school.country,
+          subRegion: school.subRegion,
+          city: school.city,
+          address: school.address,
+          teachers: teacherDTOs,
+        };
+      }),
+    );
+  }
+
+  /**
    * This method creates a new school in the database.
    *
    * @param school The request object containing information about the school
