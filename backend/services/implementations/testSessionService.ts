@@ -54,7 +54,7 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-    
+  }
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
 
