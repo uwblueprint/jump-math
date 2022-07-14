@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from "mongoose";
  * This interface holds information about the result of a single student
  * on a test
  */
-export interface Result {
+export interface Result extends Document {
   /** the name of the student */
   student: string;
   /** the score of the student */
@@ -13,12 +13,12 @@ export interface Result {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: [number];
+  answers: number[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
-  breakdown: [boolean];
+  breakdown: boolean[];
 }
 
 const ResultSchema: Schema = new Schema({
@@ -58,7 +58,7 @@ export interface TestSession extends Document {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: [Result];
+  results?: Result[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */

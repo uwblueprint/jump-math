@@ -1,7 +1,12 @@
 import TestSessionService from "../testSessionService";
 
-import mockTestSession from "../../../testUtils/testSession";
 import db from "../../../testUtils/testDb";
+import MgTestSession from "../../../models/testSession.model";
+import {
+  assertResponseMatchesExpected,
+  assertResultsResponseMatchesExpected,
+  mockTestSession,
+} from "../../../testUtils/testSession";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -24,13 +29,17 @@ describe("mongo testSessionService", (): void => {
 
   it("createTestSession", async () => {
     const res = await testSessionService.createTestSession(mockTestSession);
-    res.test = res.test.toString()
-    res.teacher = res.teacher.toString()
-    res.school = res.school.toString()
-    expect(res.id).not.toBeNull();
-    expect(res).toMatchObject({
-      id: res.id,
-      ...mockTestSession,
-    });
+
+    // TODO: uncomment when results are added to test session response object
+    assertResponseMatchesExpected(mockTestSession, res);
+    expect(res.results).toBeUndefined();
+  });
+
+  it("getAllTestSessions", async () => {
+    await MgTestSession.create(mockTestSession);
+
+    const res = await testSessionService.getAllTestSessions();
+    assertResponseMatchesExpected(mockTestSession, res[0]);
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
 });

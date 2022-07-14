@@ -26,7 +26,7 @@ export const testSchools = [
   {
     name: "school1",
     country: "some-country",
-    subRegion: "some-region",
+    subRegion: "some-region1",
     city: "some-city",
     address: "some-address",
     teachers: [testUsers[0].id, testUsers[1].id],
@@ -34,7 +34,7 @@ export const testSchools = [
   {
     name: "school2",
     country: "some-country",
-    subRegion: "some-region",
+    subRegion: "some-region2",
     city: "some-city",
     address: "some-address",
     teachers: [testUsers[0].id, testUsers[1].id],

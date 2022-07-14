@@ -38,6 +38,53 @@ class TestSessionService implements ITestSessionService {
       startTime: newTestSession.startTime,
     };
   }
+
+  async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
+    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+
+    try {
+      const testSessions: Array<TestSession> = await MgTestSession.find();
+      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
+        testSessions,
+      );
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return testSessionDtos;
+  }
+
+  private async mapTestSessionsToTestSessionDTOs(
+    testSessions: Array<TestSession>,
+  ): Promise<Array<TestSessionResponseDTO>> {
+    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
+      testSessions.map(async (testSession) => {
+        return {
+          id: testSession.id,
+          test: testSession.test,
+          teacher: testSession.teacher,
+          school: testSession.school,
+          gradeLevel: testSession.gradeLevel,
+          results: testSession.results?.map((testSessionResult) => {
+            return {
+              id: testSessionResult.id,
+              student: testSessionResult.student,
+              score: testSessionResult.score,
+              answers: testSessionResult.answers,
+              breakdown: testSessionResult.breakdown,
+            };
+          }),
+          accessCode: testSession.accessCode,
+          startTime: testSession.startTime,
+        };
+      }),
+    );
+
+    return testSessionDtos;
+  }
 }
 
 export default TestSessionService;

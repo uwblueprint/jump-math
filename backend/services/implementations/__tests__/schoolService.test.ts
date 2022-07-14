@@ -53,6 +53,31 @@ describe("mongo schoolService", (): void => {
     });
   });
 
+  it("getSchoolsBySubregion for valid region", async () => {
+    await SchoolModel.insertMany(testSchools);
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute
+    const res = await schoolService.getSchoolsBySubregion("some-region1");
+
+    // assert
+    res.forEach((school: SchoolResponseDTO) => {
+      assertResponseMatchesExpected(testSchools[0], school);
+    });
+  });
+
+  it("getSchoolsBySubregion for invalid region", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue([]);
+    const invalidRegion = "fake-region";
+
+    // execute and assert
+    await expect(async () => {
+      await schoolService.getSchoolsBySubregion(invalidRegion);
+    }).rejects.toThrowError(`Sub region ${invalidRegion} not found`);
+  });
+
   it("create school for valid teachers", async () => {
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
