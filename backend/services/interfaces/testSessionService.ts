@@ -1,5 +1,3 @@
-import { Result } from "../../models/testSession.model";
-
 /**
  * This interface contains the request object that is fed into
  * the school service to create or update the test session in the database.
