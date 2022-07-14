@@ -1,5 +1,3 @@
-import { Result } from "../../models/testSession.model";
-
 /**
  * This interface contains the request object that is fed into
  * the school service to create or update the test session in the database.
@@ -101,4 +99,12 @@ export interface ITestSessionService {
    * This method fetches all the test sessions from the database.
    */
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
+
+  /**
+   * This method retrieves all TestSessions associated with the given teacherId
+   * @param teacherId the teacher id associated with the test session
+   * @returns returns array of requested TestSessionResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getTestSessionsByTeacherId(teacherId: string): Promise<Array<TestSessionResponseDTO>>;
 }
