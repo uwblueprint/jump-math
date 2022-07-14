@@ -42,4 +42,21 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
+
+  it("get test sessions by school id for valid id", async () => {
+    await MgTestSession.create(mockTestSession);
+    const res = await testSessionService.getTestSessionsBySchoolId(
+      mockTestSession.school,
+    );
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
+  });
+
+  it("get test sessions by school id for invalid id", async () => {
+    await MgTestSession.create(mockTestSession);
+    // school id that's different than the created test session
+    const schoolId = "62c248c0f79d6c3c9ebbea94";
+    await expect(async () => {
+      await testSessionService.getTestSessionsBySchoolId(schoolId);
+    }).rejects.toThrowError(`School Id ${schoolId} not found`);
+  });
 });
