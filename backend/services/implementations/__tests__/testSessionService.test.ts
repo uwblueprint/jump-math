@@ -8,12 +8,9 @@ import {
   assertResultsResponseMatchesExpected,
   mockTestSession,
 } from "../../../testUtils/testSession";
-import UserService from "../userService";
-import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
-  let userService: UserService;
 
   beforeAll(async () => {
     await db.connect();
@@ -24,8 +21,7 @@ describe("mongo testSessionService", (): void => {
   });
 
   beforeEach(async () => {
-    userService = new UserService();
-    testSessionService = new TestSessionService(userService);
+    testSessionService = new TestSessionService();
   });
 
   afterEach(async () => {
@@ -49,23 +45,21 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getTestSessionsByTeacherId for valid teacher id", async () => {
-    await TestSessionModel.insertMany(mockTestSession);
+    await MgTestSession.create(mockTestSession);
+
     // execute
     const res = await testSessionService.getTestSessionsByTeacherId(mockTestSession.teacher);
 
     // assert
-    res.forEach((testSession: TestSessionResponseDTO, i) => {
-      assertResponseMatchesExpected(testSession, res[i]);
-    });
+    assertResponseMatchesExpected(mockTestSession, res[0]);
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
 
   it("getTestSessionsByTeacherId for invalid teacher id", async () => {
-    userService.findAllUsersByIds = jest.fn().mockReturnValue([]);
-    const invalidId = "1234";
+    const invalidId = "56cb91bdc3464f14678934ca";
 
-    // execute and assert
     await expect(async () => {
-      testSessionService.getTestSessionsByTeacherId(invalidId);
+      await testSessionService.getTestSessionsByTeacherId(invalidId);
     }).rejects.toThrowError(`Test session for teacher id ${invalidId} not found`);
   });
 });

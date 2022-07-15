@@ -6,17 +6,10 @@ import {
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import IUserService from "../interfaces/userService";
 
 const Logger = logger(__filename);
 
 class TestSessionService implements ITestSessionService {
-  userService: IUserService;
-
-  constructor(userService: IUserService) {
-    this.userService = userService;
-  }
-
   /* eslint-disable class-methods-use-this */
   async createTestSession(
     testSession: TestSessionRequestDTO,
@@ -67,20 +60,19 @@ class TestSessionService implements ITestSessionService {
   async getTestSessionsByTeacherId(
     teacherId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
-    let testSessions: Array<TestSession> | null;
+    let testSessionDtos: Array<TestSession> | null;
 
     try {
-      testSessions = await MgTestSession.find({
-        teacherId: { $eq: teacherId },
+      testSessionDtos = await MgTestSession.find({
+        teacher: { $eq: teacherId },
       });
 
       // check if no testSessions are associated with the given teacherId
-      if (!testSessions.length) {
-        console.log(testSessions.length);
+      if (!testSessionDtos || !testSessionDtos.length) {
         throw new Error(`Test session for teacher id ${teacherId} not found`);
       }
 
-      return await this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return await this.mapTestSessionsToTestSessionDTOs(testSessionDtos);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
