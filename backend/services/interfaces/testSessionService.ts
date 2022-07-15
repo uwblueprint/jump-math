@@ -106,5 +106,7 @@ export interface ITestSessionService {
    * @returns returns array of requested TestSessionResponseDTO
    * @throws Error if retrieval fails
    */
-  getTestSessionsByTeacherId(teacherId: string): Promise<Array<TestSessionResponseDTO>>;
+  getTestSessionsByTeacherId(
+    teacherId: string,
+  ): Promise<Array<TestSessionResponseDTO>>;
 }

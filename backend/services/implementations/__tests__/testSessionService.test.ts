@@ -2,7 +2,6 @@ import TestSessionService from "../testSessionService";
 
 import db from "../../../testUtils/testDb";
 import MgTestSession from "../../../models/testSession.model";
-import TestSessionModel from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
@@ -48,7 +47,9 @@ describe("mongo testSessionService", (): void => {
     await MgTestSession.create(mockTestSession);
 
     // execute
-    const res = await testSessionService.getTestSessionsByTeacherId(mockTestSession.teacher);
+    const res = await testSessionService.getTestSessionsByTeacherId(
+      mockTestSession.teacher,
+    );
 
     // assert
     assertResponseMatchesExpected(mockTestSession, res[0]);
@@ -60,6 +61,8 @@ describe("mongo testSessionService", (): void => {
 
     await expect(async () => {
       await testSessionService.getTestSessionsByTeacherId(invalidId);
-    }).rejects.toThrowError(`Test session for teacher id ${invalidId} not found`);
+    }).rejects.toThrowError(
+      `Test session for teacher id ${invalidId} not found`,
+    );
   });
 });
