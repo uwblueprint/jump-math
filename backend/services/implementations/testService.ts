@@ -7,6 +7,7 @@ import { ITestService } from "../interfaces/testService";
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
+  /* eslint-disable class-methods-use-this */
   async createTest(test: CreateTestRequestDTO): Promise<SchoolTestDTO> {
     let newTest: Test;
 

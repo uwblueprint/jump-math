@@ -12,7 +12,8 @@ const questions = [
     },
   },
 ];
-export const mockTest = {
+
+const mockTest = {
   name: "test",
   duration: 300,
   admin: "62c248c0f79d6c3c9ebbea94",
@@ -42,6 +43,7 @@ describe("mongo testService", (): void => {
   it("createTest", async () => {
     const res = await testService.createTest(mockTest);
 
+    res.admin = res.admin.toString();
     expect(res.id).not.toBeNull();
     expect(res).toMatchObject({
       ...mockTest,
