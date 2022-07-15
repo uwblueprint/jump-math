@@ -17,7 +17,7 @@ export interface TestSessionRequestDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: [Result];
+  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -43,11 +43,47 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: [Result];
+  results?: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
   startTime: Date;
+}
+
+export interface ResultRequestDTO {
+  /** the name of the student */
+  student: string;
+  /** the score of the student */
+  score: number;
+  /**
+   * a list corresponding to the question list with each field indicating
+   * the student's answer
+   */
+  answers: number[];
+  /**
+   * a list corresponding to the question list with each fielding indicating
+   * whether the student got the question right or not
+   * */
+  breakdown: boolean[];
+}
+
+export interface ResultResponseDTO {
+  /** the unique identifier of the response */
+  id: string;
+  /** the name of the student */
+  student: string;
+  /** the score of the student */
+  score: number;
+  /**
+   * a list corresponding to the question list with each field indicating
+   * the student's answer
+   */
+  answers: number[];
+  /**
+   * a list corresponding to the question list with each fielding indicating
+   * whether the student got the question right or not
+   * */
+  breakdown: boolean[];
 }
 
 export interface ITestSessionService {
@@ -62,10 +98,16 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO>;
 
   /**
+<<<<<<< HEAD
    * get a TestSession with the given id
    * @param id TestSession id
    * @returns requested TestSession
    * @throws Error if retrieval fails
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
+=======
+   * This method fetches all the test sessions from the database.
+   */
+  getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
+>>>>>>> staging
 }
