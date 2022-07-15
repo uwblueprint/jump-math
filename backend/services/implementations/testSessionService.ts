@@ -39,18 +39,16 @@ class TestSessionService implements ITestSessionService {
     };
   }
 
-  async getTestSessionById(
-    id: string
-  ): Promise<TestSessionResponseDTO> {
+  async getTestSessionById(id: string): Promise<TestSessionResponseDTO> {
     let testSession: TestSession | null;
-    try{
-        testSession = await MgTestSession.findById(id);
-        if(!testSession){
-          throw new Error(`Entity id ${id} not found`);
-        } 
-      }catch (error: unknown) {
-        Logger.error(`Failed to get entity. Reason = ${getErrorMessage(error)}`);
-        throw error;
+    try {
+      testSession = await MgTestSession.findById(id);
+      if (!testSession) {
+        throw new Error(`Entity id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get entity. Reason = ${getErrorMessage(error)}`);
+      throw error;
     }
     return {
       id: testSession.id,

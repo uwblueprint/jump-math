@@ -61,7 +61,11 @@ export interface ITestSessionService {
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 
-  getTestSessionById(
-    id: string,
-  ): Promise<TestSessionResponseDTO>;
+  /**
+   * get a TestSession with the given id
+   * @param id TestSession id
+   * @returns requested TestSession
+   * @throws Error if retrieval fails
+   */
+  getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
 }
