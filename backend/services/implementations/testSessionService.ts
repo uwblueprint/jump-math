@@ -58,7 +58,15 @@ class TestSessionService implements ITestSessionService {
       gradeLevel: testSession.gradeLevel,
       accessCode: testSession.accessCode,
       startTime: testSession.startTime,
-      results: testSession.results,
+      results: testSession.results?.map((testSessionResult) => {
+        return {
+          id: testSessionResult.id,
+          student: testSessionResult.student,
+          score: testSessionResult.score,
+          answers: testSessionResult.answers,
+          breakdown: testSessionResult.breakdown,
+        };
+      }),
     };
   }
   
