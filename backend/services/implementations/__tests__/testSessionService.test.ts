@@ -6,6 +6,7 @@ import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
   mockTestSession,
+  mockTestSessionsWithSameTestId,
 } from "../../../testUtils/testSession";
 
 describe("mongo testSessionService", (): void => {
@@ -43,16 +44,22 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getTestSessionsByTestId", async () => {
-    await MgTestSession.create(mockTestSession);
+    await MgTestSession.create(mockTestSessionsWithSameTestId);
     const testId = "62c248c0f79d6c3c9ebbea95";
 
     const res = await testSessionService.getTestSessionsByTestId(testId);
-    assertResponseMatchesExpected(mockTestSession, res[0]);
-    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
+    expect(res.length).toEqual(mockTestSessionsWithSameTestId.length);
+    for (let i = 0; i < res.length; i += 1) {
+      assertResponseMatchesExpected(mockTestSessionsWithSameTestId[i], res[i]);
+      assertResultsResponseMatchesExpected(
+        mockTestSessionsWithSameTestId[i],
+        res[i],
+      );
+    }
   });
 
   it("getTestSessionsByTestId for non-existing id", async () => {
-    await MgTestSession.create(mockTestSession);
+    await MgTestSession.insertMany(mockTestSession);
     const testId = "62c248c0f79d6c3c9ebbea96";
 
     const res = await testSessionService.getTestSessionsByTestId(testId);
