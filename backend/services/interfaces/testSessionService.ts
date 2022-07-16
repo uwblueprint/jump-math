@@ -99,4 +99,8 @@ export interface ITestSessionService {
    * This method fetches all the test sessions from the database.
    */
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
+
+  getTestSessionsByTestId(
+    testId: string,
+  ): Promise<Array<TestSessionResponseDTO>>;
 }
