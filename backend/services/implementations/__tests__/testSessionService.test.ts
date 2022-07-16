@@ -30,7 +30,6 @@ describe("mongo testSessionService", (): void => {
   it("createTestSession", async () => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
-    // TODO: uncomment when results are added to test session response object
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toBeUndefined();
   });
@@ -41,5 +40,22 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.getAllTestSessions();
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(mockTestSession, res[0]);
+  });
+
+  it("getTestSessionsByTestId", async () => {
+    await MgTestSession.create(mockTestSession);
+    const testId = "62c248c0f79d6c3c9ebbea95";
+
+    const res = await testSessionService.getTestSessionsByTestId(testId);
+    assertResponseMatchesExpected(mockTestSession, res[0]);
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
+  });
+
+  it("getTestSessionsByTestId for non-existing id", async () => {
+    await MgTestSession.create(mockTestSession);
+    const testId = "62c248c0f79d6c3c9ebbea96";
+
+    const res = await testSessionService.getTestSessionsByTestId(testId);
+    expect(res.length).toEqual(0);
   });
 });
