@@ -61,16 +61,20 @@ class TestSessionService implements ITestSessionService {
     teacherId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
-    let field = "teacher";
+    const field = "teacher";
     try {
-      const testSessions: Array<TestSession>  = await MgTestSession.find({
+      const testSessions: Array<TestSession> = await MgTestSession.find({
         [field]: { $eq: teacherId },
       });
 
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(testSessions);
+      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
+        testSessions,
+      );
     } catch (error: unknown) {
       Logger.error(
-        `Failed to get test sessions for ${field}Id=${teacherId}. Reason = ${getErrorMessage(error)}`,
+        `Failed to get test sessions for ${field}Id=${teacherId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
       );
       throw error;
     }

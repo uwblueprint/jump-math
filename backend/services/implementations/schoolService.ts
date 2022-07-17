@@ -35,14 +35,20 @@ class SchoolService implements ISchoolService {
    * This method gets all schools with the given sub-region from the database.
    */
   async getSchoolsBySubregion(subRegion: string): Promise<SchoolResponseDTO[]> {
-    let schoolDtos: Array<SchoolResponseDTO>  = [];
+    let schoolDtos: Array<SchoolResponseDTO> = [];
 
     try {
-      const schools: Array<School> = await MgSchool.find({ subRegion: { $eq: subRegion } });
+      const schools: Array<School> = await MgSchool.find({
+        subRegion: { $eq: subRegion },
+      });
 
       schoolDtos = await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
-      Logger.error(`Failed to get schools for sub-region ${subRegion}. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get schools for sub-region ${subRegion}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
       throw error;
     }
 
