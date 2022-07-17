@@ -57,12 +57,10 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getTestSessionsByTeacherId for invalid teacher id", async () => {
+    await MgTestSession.create(mockTestSession);
     const invalidId = "56cb91bdc3464f14678934ca";
 
-    await expect(async () => {
-      await testSessionService.getTestSessionsByTeacherId(invalidId);
-    }).rejects.toThrowError(
-      `Test session for teacher id ${invalidId} not found`,
-    );
+    const res = await testSessionService.getTestSessionsByTeacherId(invalidId);
+    expect(res.length).toEqual(0);
   });
 });
