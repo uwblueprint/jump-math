@@ -96,10 +96,6 @@ class TestSessionService implements ITestSessionService {
         school: { $eq: schoolId },
       });
 
-      if (!testSessions.length) {
-        throw new Error(`School Id ${schoolId} not found`);
-      }
-
       testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
         testSessions,
       );
