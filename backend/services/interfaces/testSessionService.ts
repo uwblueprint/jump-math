@@ -103,7 +103,7 @@ export interface ITestSessionService {
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
 
   /**
-   * This method returns all test session by the provided school id
+   * This method returns all test sessions by the provided school id
    */
   getTestSessionsBySchoolId(
     schoolId: string,
