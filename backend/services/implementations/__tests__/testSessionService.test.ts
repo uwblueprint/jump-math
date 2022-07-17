@@ -55,8 +55,7 @@ describe("mongo testSessionService", (): void => {
     await MgTestSession.create(mockTestSession);
     // school id that's different than the created test session
     const schoolId = "62c248c0f79d6c3c9ebbea94";
-    await expect(async () => {
-      await testSessionService.getTestSessionsBySchoolId(schoolId);
-    }).rejects.toThrowError(`School Id ${schoolId} not found`);
+    const res = await testSessionService.getTestSessionsBySchoolId(schoolId);
+    expect(res.length).toEqual(0);
   });
 });
