@@ -63,6 +63,7 @@ describe("mongo testSessionService", (): void => {
 
     const res = await testSessionService.getTestSessionsByTeacherId(invalidId);
     expect(res.length).toEqual(0);
+  });
 
   it("deleteTestSession", async () => {
     const savedTestSession = await MgTestSession.create(mockTestSession);;
