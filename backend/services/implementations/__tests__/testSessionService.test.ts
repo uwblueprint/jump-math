@@ -8,6 +8,7 @@ import {
   mockTestSession,
   mockTestSessionsWithSameTestId,
 } from "../../../testUtils/testSession";
+import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -49,17 +50,20 @@ describe("mongo testSessionService", (): void => {
 
     const res = await testSessionService.getTestSessionsByTestId(testId);
     expect(res.length).toEqual(mockTestSessionsWithSameTestId.length);
-    for (let i = 0; i < res.length; i += 1) {
-      assertResponseMatchesExpected(mockTestSessionsWithSameTestId[i], res[i]);
+    res.forEach((testSession: TestSessionResponseDTO, i) => {
+      assertResponseMatchesExpected(
+        mockTestSessionsWithSameTestId[i],
+        testSession,
+      );
       assertResultsResponseMatchesExpected(
         mockTestSessionsWithSameTestId[i],
-        res[i],
+        testSession,
       );
-    }
+    });
   });
 
   it("getTestSessionsByTestId for non-existing id", async () => {
-    await MgTestSession.insertMany(mockTestSession);
+    await MgTestSession.create(mockTestSession);
     const testId = "62c248c0f79d6c3c9ebbea96";
 
     const res = await testSessionService.getTestSessionsByTestId(testId);
