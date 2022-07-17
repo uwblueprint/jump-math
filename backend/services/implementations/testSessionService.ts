@@ -30,15 +30,31 @@ class TestSessionService implements ITestSessionService {
 
     return {
       id: newTestSession.id,
-      test: String(newTestSession.test),
-      teacher: String(newTestSession.teacher),
-      school: String(newTestSession.school),
+      test: newTestSession.test,
+      teacher: newTestSession.teacher,
+      school: newTestSession.school,
       gradeLevel: newTestSession.gradeLevel,
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
     };
   }
 
+  async deleteTestSession(
+    id: string
+  ): Promise<string> {
+    try{
+      const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
+      if(!deletedTestSession){
+        throw new Error(`Test Session id ${id} not found`);
+      }
+      return id;
+    } catch (error: unknown){
+      Logger.error(
+        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
 
