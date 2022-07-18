@@ -44,30 +44,13 @@ class TestSessionService implements ITestSessionService {
     try {
       testSession = await MgTestSession.findById(id);
       if (!testSession) {
-        throw new Error(`Entity id ${id} not found`);
+        throw new Error(`Test Session id ${id} not found`);
       }
     } catch (error: unknown) {
-      Logger.error(`Failed to get entity. Reason = ${getErrorMessage(error)}`);
+      Logger.error(`Failed to get Test Session. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return {
-      id: testSession.id,
-      test: testSession.test,
-      teacher: testSession.teacher,
-      school: testSession.school,
-      gradeLevel: testSession.gradeLevel,
-      accessCode: testSession.accessCode,
-      startTime: testSession.startTime,
-      results: testSession.results?.map((testSessionResult) => {
-        return {
-          id: testSessionResult.id,
-          student: testSessionResult.student,
-          score: testSessionResult.score,
-          answers: testSessionResult.answers,
-          breakdown: testSessionResult.breakdown,
-        };
-      }),
-    };
+    return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
   }
   
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {

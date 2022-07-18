@@ -47,27 +47,9 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getTestSession", async () => {
-    const testSession = new testSessionModel(mockTestSession);
-    const savedTestSession = await testSession.save();
-
-    const res = await testSessionService.getTestSessionById(
-      savedTestSession.id,
-    );
-
-    expect(res.id).toBe(savedTestSession.id);
-    expect(res.gradeLevel).toBe(savedTestSession.gradeLevel);
-    expect(res.accessCode).toBe(savedTestSession.accessCode);
-    expect(res.startTime.toISOString()).toBe(
-      savedTestSession.startTime.toISOString(),
-    );
-    expect(res.teacher.toString()).toBe(
-      ObjectId(savedTestSession.teacher).toString(),
-    );
-    expect(res.test.toString()).toBe(
-      ObjectId(savedTestSession.test).toString(),
-    );
-    expect(res.school.toString()).toBe(
-      ObjectId(savedTestSession.school).toString(),
-    );
+    const savedTestSession = await MgTestSession.create(mockTestSession);
+    const res = await testSessionService.getTestSessionById(savedTestSession.id,);
+    assertResponseMatchesExpected(mockTestSession, res);
+    assertResultsResponseMatchesExpected(mockTestSession, res);
   });
 });
