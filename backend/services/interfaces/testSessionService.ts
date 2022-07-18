@@ -115,6 +115,17 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO[]>;
 
   /* This method fetches all the test sessions that have the provided test ID.
+   * This method retrieves all TestSessions associated with the given teacherId
+   * @param teacherId the teacher id associated with the test session
+   * @returns returns array of requested TestSessionResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getTestSessionsByTeacherId(
+    teacherId: string,
+   ): Promise<Array<TestSessionResponseDTO>>;
+ 
+  /**
+   * This method fetches all the test sessions that have the provided test ID.
    * @param testId The unique identifier of the test to query by
    */
   getTestSessionsByTestId(

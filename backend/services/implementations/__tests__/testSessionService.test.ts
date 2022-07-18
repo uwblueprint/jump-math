@@ -60,6 +60,27 @@ describe("mongo testSessionService", (): void => {
     expect(res.length).toEqual(0);
   });
 
+  it("getTestSessionsByTeacherId for valid teacher id", async () => {
+    await MgTestSession.create(mockTestSession);
+
+    // execute
+    const res = await testSessionService.getTestSessionsByTeacherId(
+      mockTestSession.teacher,
+    );
+
+    // assert
+    assertResponseMatchesExpected(mockTestSession, res[0]);
+    assertResultsResponseMatchesExpected(mockTestSession, res[0]);
+  });
+
+  it("getTestSessionsByTeacherId for invalid teacher id", async () => {
+    await MgTestSession.create(mockTestSession);
+    const invalidId = "56cb91bdc3464f14678934ca";
+
+    const res = await testSessionService.getTestSessionsByTeacherId(invalidId);
+    expect(res.length).toEqual(0);
+  });
+  
   it("getTestSessionsByTestId", async () => {
     await MgTestSession.create(mockTestSessionsWithSameTestId);
     const testId = "62c248c0f79d6c3c9ebbea95";

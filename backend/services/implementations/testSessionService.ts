@@ -39,22 +39,21 @@ class TestSessionService implements ITestSessionService {
     };
   }
 
-  async deleteTestSession(
-    id: string
-  ): Promise<string> {
-    try{
+  async deleteTestSession(id: string): Promise<string> {
+    try {
       const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
-      if(!deletedTestSession){
+      if (!deletedTestSession) {
         throw new Error(`Test Session id ${id} not found`);
       }
       return id;
-    } catch (error: unknown){
+    } catch (error: unknown) {
       Logger.error(
         `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
   }
+
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
 
@@ -73,6 +72,31 @@ class TestSessionService implements ITestSessionService {
     return testSessionDtos;
   }
 
+  async getTestSessionsByTeacherId(
+    teacherId: string,
+  ): Promise<Array<TestSessionResponseDTO>> {
+    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+
+    try {
+      const testSessions: Array<TestSession> = await MgTestSession.find({
+        teacher: { $eq: teacherId },
+      });
+      
+      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
+        testSessions,
+      );
+    } catch (error: unknown) {
+      Logger.error(
+         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
+              error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return testSessionDtos;
+  }
+  
   async getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
@@ -82,6 +106,7 @@ class TestSessionService implements ITestSessionService {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         test: { $eq: testId },
       });
+
       testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
         testSessions,
       );
