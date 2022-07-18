@@ -47,13 +47,13 @@ describe("mongo testSessionService", (): void => {
     assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
 
-<<<<<<< HEAD
   it("getTestSession", async () => {
     const savedTestSession = await MgTestSession.create(mockTestSession);
     const res = await testSessionService.getTestSessionById(savedTestSession.id,);
     assertResponseMatchesExpected(mockTestSession, res);
     assertResultsResponseMatchesExpected(mockTestSession, res);
-=======
+  });
+
   it("getTestSessionsByTeacherId for valid teacher id", async () => {
     await MgTestSession.create(mockTestSession);
 
@@ -115,6 +115,6 @@ describe("mongo testSessionService", (): void => {
     expect(
       testSessionService.deleteTestSession(notFoundId),
     ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
->>>>>>> staging
   });
+
 });

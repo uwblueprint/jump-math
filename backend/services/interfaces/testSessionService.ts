@@ -96,7 +96,6 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO>;
 
   /**
-<<<<<<< HEAD
    * get a TestSession with the given id
    * @param id TestSession id
    * @returns requested TestSession
@@ -104,7 +103,6 @@ export interface ITestSessionService {
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
   /*
-=======
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id
@@ -112,7 +110,6 @@ export interface ITestSessionService {
    */
   deleteTestSession(id: string): Promise<string>;
   /**
->>>>>>> staging
    * This method fetches all the test sessions from the database.
    */
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;

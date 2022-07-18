@@ -39,7 +39,6 @@ class TestSessionService implements ITestSessionService {
     };
   }
 
-<<<<<<< HEAD
   async getTestSessionById(id: string): Promise<TestSessionResponseDTO> {
     let testSession: TestSession | null;
     try {
@@ -54,7 +53,6 @@ class TestSessionService implements ITestSessionService {
     return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
   }
   
-=======
   async deleteTestSession(id: string): Promise<string> {
     try {
       const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
@@ -70,7 +68,6 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
->>>>>>> staging
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
 
