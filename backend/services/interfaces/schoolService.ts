@@ -54,7 +54,7 @@ export interface ISchoolService {
   getAllSchools(): Promise<Array<SchoolResponseDTO>>;
 
   /**
-   * This method retrieve all Schools with the given subregion
+   * This method retrieves all Schools with the given subregion
    * @param subRegion the sub-region the school is located in
    * @returns returns array of requested SchoolResponseDTO
    * @throws Error if retrieval fails

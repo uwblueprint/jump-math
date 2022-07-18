@@ -1,5 +1,3 @@
-import { Result } from "../../models/testSession.model";
-
 /**
  * This interface contains the request object that is fed into
  * the school service to create or update the test session in the database.
@@ -98,6 +96,7 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO>;
 
   /**
+<<<<<<< HEAD
    * get a TestSession with the given id
    * @param id TestSession id
    * @returns requested TestSession
@@ -105,7 +104,34 @@ export interface ITestSessionService {
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
   /*
+=======
+   * delete a TestSession with the given id, return deleted id
+   * @param id id to delete
+   * @returns deleted id
+   * @throws Error if deletion fails
+   */
+  deleteTestSession(id: string): Promise<string>;
+  /**
+>>>>>>> staging
    * This method fetches all the test sessions from the database.
    */
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
+
+  /**
+   * This method retrieves all TestSessions associated with the given teacherId
+   * @param teacherId the teacher id associated with the test session
+   * @returns returns array of requested TestSessionResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getTestSessionsByTeacherId(
+    teacherId: string,
+   ): Promise<Array<TestSessionResponseDTO>>;
+ 
+  /**
+   * This method fetches all the test sessions that have the provided test ID.
+   * @param testId The unique identifier of the test to query by
+   */
+  getTestSessionsByTestId(
+    testId: string,
+  ): Promise<Array<TestSessionResponseDTO>>;
 }

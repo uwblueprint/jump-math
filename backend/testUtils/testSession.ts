@@ -21,6 +21,27 @@ export const mockTestSession: TestSessionRequestDTO = {
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
+export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
+  {
+    test: "62c248c0f79d6c3c9ebbea95",
+    teacher: "62c248c0f79d6c3c9ebbea95",
+    school: "62c248c0f79d6c3c9ebbea97",
+    gradeLevel: 7,
+    results: [testResult],
+    accessCode: "789",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: "62c248c0f79d6c3c9ebbea95",
+    teacher: "62c248c0f79d6c3c9ebbea94",
+    school: "62c248c0f79d6c3c9ebbea93",
+    gradeLevel: 4,
+    results: [testResult],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+];
+
 export const assertResponseMatchesExpected = (
   expected: TestSessionRequestDTO,
   result: TestSessionResponseDTO,
