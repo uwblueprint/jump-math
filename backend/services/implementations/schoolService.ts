@@ -60,11 +60,6 @@ class SchoolService implements ISchoolService {
 
     try {
       schools = await MgSchool.find({ country });
-
-      if (!schools.length) {
-        throw new Error(`Country ${country} not found`);
-      }
-
       return await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
