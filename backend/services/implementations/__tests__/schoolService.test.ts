@@ -73,9 +73,8 @@ describe("mongo schoolService", (): void => {
     const invalidRegion = "fake-region";
 
     // execute and assert
-    await expect(async () => {
-      await schoolService.getSchoolsBySubregion(invalidRegion);
-    }).rejects.toThrowError(`Sub region ${invalidRegion} not found`);
+    const res = await schoolService.getSchoolsBySubregion(invalidRegion);
+    expect(res.length).toEqual(0);
   });
 
   it("create school for valid teachers", async () => {
