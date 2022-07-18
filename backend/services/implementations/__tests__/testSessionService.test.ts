@@ -62,6 +62,7 @@ describe("mongo testSessionService", (): void => {
     const invalidId = "56cb91bdc3464f14678934ca";
 
     const res = await testSessionService.getTestSessionsByTeacherId(invalidId);
+    expect(res.length).toEqual(0);
   });
   
   it("getTestSessionsByTestId", async () => {
