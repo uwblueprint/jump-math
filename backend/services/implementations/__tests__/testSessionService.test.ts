@@ -6,7 +6,9 @@ import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
   mockTestSession,
+  mockTestSessionsWithSameTestId,
 } from "../../../testUtils/testSession";
+import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -30,7 +32,6 @@ describe("mongo testSessionService", (): void => {
   it("createTestSession", async () => {
     const res = await testSessionService.createTestSession(mockTestSession);
 
-    // TODO: uncomment when results are added to test session response object
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toBeUndefined();
   });
@@ -57,5 +58,47 @@ describe("mongo testSessionService", (): void => {
     const schoolId = "62c248c0f79d6c3c9ebbea94";
     const res = await testSessionService.getTestSessionsBySchoolId(schoolId);
     expect(res.length).toEqual(0);
+  });
+
+  it("getTestSessionsByTestId", async () => {
+    await MgTestSession.create(mockTestSessionsWithSameTestId);
+    const testId = "62c248c0f79d6c3c9ebbea95";
+
+    const res = await testSessionService.getTestSessionsByTestId(testId);
+    expect(res.length).toEqual(mockTestSessionsWithSameTestId.length);
+    res.forEach((testSession: TestSessionResponseDTO, i) => {
+      assertResponseMatchesExpected(
+        mockTestSessionsWithSameTestId[i],
+        testSession,
+      );
+      assertResultsResponseMatchesExpected(
+        mockTestSessionsWithSameTestId[i],
+        testSession,
+      );
+    });
+  });
+
+  it("getTestSessionsByTestId for non-existing id", async () => {
+    await MgTestSession.create(mockTestSession);
+    const testId = "62c248c0f79d6c3c9ebbea96";
+
+    const res = await testSessionService.getTestSessionsByTestId(testId);
+    expect(res.length).toEqual(0);
+  });
+
+  it("deleteTestSession", async () => {
+    const savedTestSession = await MgTestSession.create(mockTestSession);
+
+    const deletedTestSessionId = await testSessionService.deleteTestSession(
+      savedTestSession.id,
+    );
+    expect(deletedTestSessionId).toBe(savedTestSession.id);
+  });
+
+  it("deleteTestSession not found", async () => {
+    const notFoundId = "62cf26998b7308f775a572aa";
+    expect(
+      testSessionService.deleteTestSession(notFoundId),
+    ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
 });
