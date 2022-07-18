@@ -95,33 +95,29 @@ export interface ITestSessionService {
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 
-  /** 
+  /**
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id
    * @throws Error if deletion fails
    */
-  deleteTestSession(
-    id: string
-  ): Promise<string>;
+  deleteTestSession(id: string): Promise<string>;
   /**
    * This method fetches all the test sessions from the database.
    */
   getAllTestSessions(): Promise<Array<TestSessionResponseDTO>>;
 
   /**
-
    * This method returns all test sessions by the provided school id
    */
   getTestSessionsBySchoolId(
     schoolId: string,
   ): Promise<TestSessionResponseDTO[]>;
 
-   * This method fetches all the test sessions that have the provided test ID.
+  /* This method fetches all the test sessions that have the provided test ID.
    * @param testId The unique identifier of the test to query by
    */
   getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>>;
-
 }
