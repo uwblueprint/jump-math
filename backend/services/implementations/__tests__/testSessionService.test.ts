@@ -1,9 +1,7 @@
 import TestSessionService from "../testSessionService";
 
 import db from "../../../testUtils/testDb";
-import testSessionModel from "../../../models/testSession.model";
 
-const { ObjectId } = require("mongodb");
 import MgTestSession from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
@@ -49,7 +47,7 @@ describe("mongo testSessionService", (): void => {
 
   it("getTestSession", async () => {
     const savedTestSession = await MgTestSession.create(mockTestSession);
-    const res = await testSessionService.getTestSessionById(savedTestSession.id,);
+    const res = await testSessionService.getTestSessionById(savedTestSession.id);
     assertResponseMatchesExpected(mockTestSession, res);
     assertResultsResponseMatchesExpected(mockTestSession, res);
   });
