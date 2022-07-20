@@ -67,7 +67,7 @@ export interface ISchoolService {
    * @returns returns array of requested SchoolResponseDTO
    * @throws Error if retrieval fails
    */
-  getSchoolsBySubregion(country: string): Promise<SchoolResponseDTO[]>;
+  getSchoolsByCountry(country: string): Promise<SchoolResponseDTO[]>;
 
   /**
    * This method creates a new school in the database.
