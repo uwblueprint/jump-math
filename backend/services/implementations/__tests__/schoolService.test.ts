@@ -85,7 +85,7 @@ describe("mongo schoolService", (): void => {
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
-    const res = await schoolService.getSchoolByCountry("some-country1");
+    const res = await schoolService.getSchoolsByCountry("some-country1");
 
     // assert
     assertResponseMatchesExpected(testSchools2[0], res[0]);
@@ -98,7 +98,7 @@ describe("mongo schoolService", (): void => {
     const invalidCountry = "fake-country";
 
     // execute 
-    const res = await schoolService.getSchoolByCountry(invalidCountry);
+    const res = await schoolService.getSchoolsByCountry(invalidCountry);
     
     //assert
     expect(res).toEqual([]);
