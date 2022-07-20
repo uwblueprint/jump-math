@@ -55,7 +55,7 @@ class SchoolService implements ISchoolService {
   /**
    * This method gets all schools with the given country from the database.
    */
-  async getSchoolByCountry(country: string): Promise<SchoolResponseDTO[]> {
+  async getSchoolsByCountry(country: string): Promise<SchoolResponseDTO[]> {
     let schools: Array<School> | null;
 
     try {
