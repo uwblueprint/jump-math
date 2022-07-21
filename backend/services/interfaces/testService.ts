@@ -4,7 +4,7 @@ import { UserDTO } from "../../types";
 export type TestResponseDTO = {
   /** the unique identifier of the response */
   id: string;
-  /** the name of the student */
+  /** the name of the test */
   name: string;
   /** the duration of the test */
   duration: number;
@@ -16,6 +16,7 @@ export type TestResponseDTO = {
   grade: number;
 };
 
+/** the request input expects an admin userId string rather than a UserDTO */
 export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
   admin: string;
 };
