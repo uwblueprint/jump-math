@@ -96,6 +96,13 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO>;
 
   /**
+   * get a TestSession with the given id
+   * @param id TestSession id
+   * @returns requested TestSession
+   * @throws Error if retrieval fails
+   */
+  getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
+  /*
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id

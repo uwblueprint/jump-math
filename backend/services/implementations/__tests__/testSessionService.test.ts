@@ -1,6 +1,7 @@
 import TestSessionService from "../testSessionService";
 
 import db from "../../../testUtils/testDb";
+
 import MgTestSession from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
@@ -44,6 +45,13 @@ describe("mongo testSessionService", (): void => {
     assertResultsResponseMatchesExpected(mockTestSession, res[0]);
   });
 
+  it("getTestSession", async () => {
+    const savedTestSession = await MgTestSession.create(mockTestSession);
+    const res = await testSessionService.getTestSessionById(savedTestSession.id);
+    assertResponseMatchesExpected(mockTestSession, res);
+    assertResultsResponseMatchesExpected(mockTestSession, res);
+  });
+  
   it("get test sessions by school id for valid id", async () => {
     await MgTestSession.create(mockTestSession);
     const res = await testSessionService.getTestSessionsBySchoolId(
@@ -122,4 +130,5 @@ describe("mongo testSessionService", (): void => {
       testSessionService.deleteTestSession(notFoundId),
     ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
+
 });

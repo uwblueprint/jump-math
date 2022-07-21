@@ -39,6 +39,20 @@ class TestSessionService implements ITestSessionService {
     };
   }
 
+  async getTestSessionById(id: string): Promise<TestSessionResponseDTO> {
+    let testSession: TestSession | null;
+    try {
+      testSession = await MgTestSession.findById(id);
+      if (!testSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get Test Session. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+    return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
+  }
+  
   async deleteTestSession(id: string): Promise<string> {
     try {
       const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
