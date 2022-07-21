@@ -1,4 +1,5 @@
 import { Question } from "../../models/test.model";
+import { UserDTO } from "../../types";
 
 export type TestResponseDTO = {
   /** the unique identifier of the response */
@@ -7,15 +8,17 @@ export type TestResponseDTO = {
   name: string;
   /** the duration of the test */
   duration: number;
-  /** the id of the admin */
-  admin: string;
+  /** the UserDTO for the admin */
+  admin: UserDTO;
   /** an array of questions on the test */
   questions: Question[];
   /** the grade of the student */
   grade: number;
 };
 
-export type CreateTestRequestDTO = Omit<TestResponseDTO, "id">;
+export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
+  admin: string;
+};
 
 export interface ITestService {
   /**
