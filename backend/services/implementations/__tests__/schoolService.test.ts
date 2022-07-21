@@ -5,6 +5,7 @@ import db from "../../../testUtils/testDb";
 import {
   testUsers,
   testSchools,
+  testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
 } from "../../../testUtils/school";
@@ -75,6 +76,31 @@ describe("mongo schoolService", (): void => {
     // execute and assert
     const res = await schoolService.getSchoolsBySubregion(invalidRegion);
     expect(res.length).toEqual(0);
+  });
+
+  it("getSchoolByCountry for valid country", async () => {
+    await SchoolModel.insertMany(testSchools2);
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute
+    const res = await schoolService.getSchoolsByCountry("some-country1");
+
+    // assert
+    assertResponseMatchesExpected(testSchools2[0], res[0]);
+    assertResponseMatchesExpected(testSchools2[1], res[1]);
+  });
+
+  it("getSchoolByCountry for invalid country", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+    const invalidCountry = "fake-country";
+
+    // execute 
+    const res = await schoolService.getSchoolsByCountry(invalidCountry);
+    
+    //assert
+    expect(res).toEqual([]);
   });
 
   it("create school for valid teachers", async () => {

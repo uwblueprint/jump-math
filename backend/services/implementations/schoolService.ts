@@ -55,6 +55,21 @@ class SchoolService implements ISchoolService {
     return schoolDtos;
   }
 
+  /**
+   * This method gets all schools with the given country from the database.
+   */
+  async getSchoolsByCountry(country: string): Promise<SchoolResponseDTO[]> {
+    let schools: Array<School> | null;
+
+    try {
+      schools = await MgSchool.find({ country });
+      return await this.mapSchoolsToSchoolResponseDTOs(schools);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get schools for country ${country}. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
   private async mapSchoolsToSchoolResponseDTOs(
     schools: Array<School>,
   ): Promise<Array<SchoolResponseDTO>> {
