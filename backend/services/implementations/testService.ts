@@ -22,14 +22,9 @@ class TestService implements ITestService {
   async createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
     let adminDto: UserDTO | null;
-    
+
     try {
       adminDto = await this.userService.getUserById(test.admin);
-
-      if(!adminDto || adminDto.role != "Admin"){
-        throw new Error("Admin ID was not valid ID or not a admin");
-      }
-
       newTest = await MgTest.create(test);
     } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
