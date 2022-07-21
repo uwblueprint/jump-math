@@ -2,6 +2,7 @@ import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
 import { mockAdmin, mockTest } from "../../../testUtils/tests";
+import MgTest from "../../../models/test.model";
 import UserService from "../userService";
 
 describe("mongo testService", (): void => {
@@ -31,10 +32,10 @@ describe("mongo testService", (): void => {
 
     expect(res.id).not.toBeNull();
     expect(res).toMatchObject({
+      id: res.id,
       ...mockTest,
       questions: res.questions,
       admin: mockAdmin,
-      id: res.id,
     });
   });
 
@@ -42,5 +43,21 @@ describe("mongo testService", (): void => {
     await expect(async () => {
       await testService.createTest(mockTest);
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
+  });
+
+
+  it("getTestById", async () => {
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+    const test = await testService.createTest(mockTest);
+    const res = await testService.getTestById(test.id);
+
+    expect(res).toMatchObject(test);
+  });
+
+  it("getTestById id not found", async () => {
+    const testId = "62c248c0f79d6c3c9ebbea93";
+      expect(async () => {
+        await testService.getTestById(testId);
+      }).rejects.toThrowError(`Entity id ${testId} not found`);
   });
 });
