@@ -8,7 +8,6 @@ import {
   testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
-  testSchool,
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
@@ -130,7 +129,7 @@ describe("mongo schoolService", (): void => {
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute and assert
-    const savedSchool = await SchoolModel.create(testSchool);
+    const savedSchool = await SchoolModel.create(testSchools[0]);
     const res = await schoolService.getSchoolById(savedSchool.id);
     assertResponseMatchesExpected(savedSchool, res);
   });
@@ -141,7 +140,7 @@ describe("mongo schoolService", (): void => {
 
     // execute and assert
     const notFoundId = "56cb91bdc3464f14678934cd";
-    await SchoolModel.create(testSchool);
+    await SchoolModel.create(testSchools[0]);
     expect(schoolService.getSchoolById(notFoundId)).rejects.toThrowError(
       `School id ${notFoundId} not found`,
     );
