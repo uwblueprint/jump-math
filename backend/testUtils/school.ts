@@ -87,6 +87,24 @@ export const testSchoolInvalidTeacher = {
   teachers: ["56cb91bdc3464f14678934cb"],
 };
 
+export const testSchool = {
+  name: "school1",
+  country: "some-country2",
+  subRegion: "some-region1",
+  city: "some-city",
+  address: "some-address",
+  teachers: [testUsers[0].id, testUsers[1].id],
+};
+
+export const updatedTestSchool = {
+  name: "school1Changed",
+  country: "some-country2Changed",
+  subRegion: "some-region1Changed",
+  city: "some-cityChanged",
+  address: "some-addressChanged",
+  teachers: [testUsers[0].id, testUsers[1].id],
+};
+
 export const assertResponseMatchesExpected = (
   expected: SchoolRequestDTO,
   result: SchoolResponseDTO,

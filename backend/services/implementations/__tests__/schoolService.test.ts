@@ -8,6 +8,8 @@ import {
   testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
+  testSchool,
+  updatedTestSchool,
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
@@ -96,10 +98,10 @@ describe("mongo schoolService", (): void => {
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
     const invalidCountry = "fake-country";
 
-    // execute 
+    // execute
     const res = await schoolService.getSchoolsByCountry(invalidCountry);
-    
-    //assert
+
+    // assert
     expect(res).toEqual([]);
   });
 
@@ -122,5 +124,26 @@ describe("mongo schoolService", (): void => {
     await expect(async () => {
       await schoolService.createSchool(testSchoolInvalidTeacher);
     }).rejects.toThrowError("One or more of the teacher IDs was not found");
+  });
+
+  it("update school for valid schools", async () => {
+    // add test school
+    const savedId = await SchoolModel.create(testSchool);
+
+    // mock return value
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute
+    const res = await schoolService.updateSchool(savedId.id, updatedTestSchool);
+
+    // assert
+    assertResponseMatchesExpected(updatedTestSchool, res);
+  });
+
+  it("update school for school not found", async () => {
+    const notFoundId = "62d9fc947195ae705e71f0d9";
+    await expect(async () => {
+      await schoolService.updateSchool(notFoundId, updatedTestSchool);
+    }).rejects.toThrowError(`School id ${notFoundId} not found`);
   });
 });
