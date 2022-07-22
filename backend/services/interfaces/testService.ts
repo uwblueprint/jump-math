@@ -30,11 +30,11 @@ export interface ITestService {
    */
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 
-    /**
+  /**
    * Find a test given the id
    * @param id string with the test id to be found
    * @returns a TestDTO with the test that has the given id
    * @throws Error if test with given id not found
    */
-     getTestById(id: string): Promise<TestResponseDTO>;
+  getTestById(id: string): Promise<TestResponseDTO>;
 }
