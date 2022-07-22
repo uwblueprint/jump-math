@@ -40,6 +40,21 @@ class TestService implements ITestService {
       grade: newTest.grade,
     };
   }
+
+  async deleteTest(id: string): Promise<string> {
+    try {
+      const deletedTest = await MgTest.findByIdAndDelete(id);
+      if (!deletedTest) {
+        throw new Error(`Test ${id} not found`);
+      }
+      return id;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default TestService;

@@ -29,4 +29,12 @@ export interface ITestService {
    * @throws Error if creation fails
    */
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+
+  /**
+   * delete a TestSession with the given id, return deleted id
+   * @param id id to delete
+   * @returns deleted id
+   * @throws Error if deletion fails
+   */
+  deleteTest(id: string): Promise<string>;
 }
