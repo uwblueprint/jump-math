@@ -65,9 +65,28 @@ class SchoolService implements ISchoolService {
       schools = await MgSchool.find({ country });
       return await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
-      Logger.error(`Failed to get schools for country ${country}. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get schools for country ${country}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
       throw error;
     }
+  }
+
+  async getSchoolById(id: string): Promise<SchoolResponseDTO> {
+    let school: School | null;
+    try {
+      school = await MgSchool.findById(id);
+      if (!school) {
+        throw new Error(`School id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get School. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return (await this.mapSchoolsToSchoolResponseDTOs([school]))[0];
   }
 
   private async mapSchoolsToSchoolResponseDTOs(
