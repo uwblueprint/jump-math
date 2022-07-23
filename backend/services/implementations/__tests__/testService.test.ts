@@ -1,4 +1,5 @@
 import TestService from "../testService";
+import MgTest from "../../../models/test.model";
 
 import db from "../../../testUtils/testDb";
 import { mockAdmin, mockTest } from "../../../testUtils/tests";
@@ -42,5 +43,18 @@ describe("mongo testService", (): void => {
     await expect(async () => {
       await testService.createTest(mockTest);
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
+  });
+
+  it("deleteTest", async () => {
+    const savedTest = await MgTest.create(mockTest);
+    const deletedTestId = await testService.deleteTest(savedTest.id);
+    expect(deletedTestId).toBe(savedTest.id);
+  });
+
+  it("deleteTest not found", async () => {
+    const notFoundId = "62c248c0f79d6c3c9ebbea95";
+    expect(testService.deleteTest(notFoundId)).rejects.toThrowError(
+      `Test ${notFoundId} not found`,
+    );
   });
 });
