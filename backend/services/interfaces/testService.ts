@@ -31,7 +31,7 @@ export interface ITestService {
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 
   /**
-   * delete a TestSession with the given id, return deleted id
+   * delete a Test with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id
    * @throws Error if deletion fails
