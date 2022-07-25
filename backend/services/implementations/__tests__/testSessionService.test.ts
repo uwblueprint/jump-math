@@ -6,13 +6,24 @@ import MgTestSession from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
+  mockTest,
   mockTestSession,
+  mockTestSessionWithoutResults,
   mockTestSessionsWithSameTestId,
+  newTestResult,
+  updatedTestSession,
+  updatedTestSessionWithoutResults,
+  updatedTestSessionMultipleResults,
+  newTestResultMissingAnswer,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
+import TestService from "../testService";
+import UserService from "../userService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
+  let testService: TestService;
+  let userService: UserService;
 
   beforeAll(async () => {
     await db.connect();
@@ -23,7 +34,9 @@ describe("mongo testSessionService", (): void => {
   });
 
   beforeEach(async () => {
-    testSessionService = new TestSessionService();
+    userService = new UserService();
+    testService = new TestService(userService);
+    testSessionService = new TestSessionService(testService);
   });
 
   afterEach(async () => {
@@ -131,4 +144,50 @@ describe("mongo testSessionService", (): void => {
     ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
 
+  it("updateTestSession with no results arg", async () => {
+    const testSession = await MgTestSession.create(mockTestSession);
+
+    const res = await testSessionService.updateTestSession(testSession.id, updatedTestSession);
+    assertResponseMatchesExpected(updatedTestSession, res as TestSessionResponseDTO);
+    assertResultsResponseMatchesExpected(updatedTestSession, res as TestSessionResponseDTO);
+  });
+
+  it("updateTestSession with empty results array", async () => {
+    const testSession = await MgTestSession.create(mockTestSessionWithoutResults);
+    testService.getTestById = jest.fn().mockReturnValue(mockTest);
+
+    const res = await testSessionService.updateTestSession(testSession.id, updatedTestSessionWithoutResults, newTestResult);
+    console.log(mockTest.questions);
+    console.log(newTestResult);
+    console.log(res);
+    assertResponseMatchesExpected(updatedTestSession, res as TestSessionResponseDTO);
+    assertResultsResponseMatchesExpected(updatedTestSession, res as TestSessionResponseDTO);
+  });
+
+  it("updateTestSession with non-empty results array", async () => {
+    const testSession = await MgTestSession.create(mockTestSession);
+    testService.getTestById = jest.fn().mockReturnValue(mockTest);
+
+    const res = await testSessionService.updateTestSession(testSession.id, updatedTestSession, newTestResult);
+    console.log(res);
+    assertResponseMatchesExpected(updatedTestSessionMultipleResults, res as TestSessionResponseDTO);
+    assertResultsResponseMatchesExpected(updatedTestSessionMultipleResults, res as TestSessionResponseDTO);
+  });
+
+  it("updateTestSession with invalid id", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.updateTestSession(invalidId, updatedTestSession);
+    }).rejects.toThrowError(`Test session id ${invalidId} not found`);
+  });
+
+  it("updateTestSession with invalid result", async () => {
+    const testSession = await MgTestSession.create(mockTestSession);
+    testService.getTestById = jest.fn().mockReturnValue(mockTest);
+
+    await expect(async () => {
+      await testSessionService.updateTestSession(testSession.id, updatedTestSession, newTestResultMissingAnswer);
+    }).rejects.toThrowError("One or more of the student's test answers was not found");
+  });
 });

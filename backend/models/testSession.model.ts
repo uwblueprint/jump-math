@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from "mongoose";
  * This interface holds information about the result of a single student
  * on a test
  */
-export interface Result extends Document {
+export interface Result {
   /** the name of the student */
   student: string;
   /** the score of the student */
