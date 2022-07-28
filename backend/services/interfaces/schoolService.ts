@@ -76,4 +76,10 @@ export interface ISchoolService {
    * @throws Error if creation fails
    */
   createSchool(school: SchoolRequestDTO): Promise<SchoolResponseDTO>;
+
+  /**
+   * This method retrieves a school by its unique identifier
+   * @param id The unique identifier to get the school by
+   */
+  getSchoolById(id: string): Promise<SchoolResponseDTO>;
 }
