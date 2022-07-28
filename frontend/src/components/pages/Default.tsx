@@ -38,11 +38,11 @@ const TeamInfoDisplay = () => {
   );
 };
 
-const DesignLibraryDisplay = () => {
+const DesignLibraryExamples = () => {
   const { teamName, numTerms, members, isActive } = useContext(SampleContext);
   return (
     <div>
-      {/* example for how to apply custom colors */}
+      {/* Example: how to apply custom colors */}
       <ButtonGroup gap='4'>
           <ChakraButton bg="blue.50" color="white"> Test Chakra Button </ChakraButton>
           <ChakraButton bg="blue.100" color="white"> Test Chakra Button </ChakraButton>
@@ -83,7 +83,7 @@ const Default = (): React.ReactElement => {
       <div style={{ height: "2rem" }} />
 
       <TeamInfoDisplay />
-      <DesignLibraryDisplay />
+      <DesignLibraryExamples />
     </div>
   );
 };
