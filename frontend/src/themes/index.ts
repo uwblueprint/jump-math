@@ -1,6 +1,8 @@
-import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react"
+import { extendTheme, theme as base } from "@chakra-ui/react";
+import colors from "./colors"
 
-const theme = extendTheme(
-)
+const jumpMathTheme = extendTheme({
+  colors,
+});
 
-export default jumpMathTheme
+export default jumpMathTheme;
