@@ -129,8 +129,8 @@ export interface ITestSessionService {
    */
   getTestSessionsByTeacherId(
     teacherId: string,
-   ): Promise<Array<TestSessionResponseDTO>>;
- 
+  ): Promise<Array<TestSessionResponseDTO>>;
+
   /**
    * This method fetches all the test sessions that have the provided test ID.
    * @param testId The unique identifier of the test to query by
