@@ -100,7 +100,7 @@ describe("mongo schoolService", (): void => {
     // execute
     const res = await schoolService.getSchoolsByCountry(invalidCountry);
 
-    // assert
+    //assert
     expect(res).toEqual([]);
   });
 
@@ -144,5 +144,27 @@ describe("mongo schoolService", (): void => {
     await expect(async () => {
       await schoolService.updateSchool(notFoundId, updatedTestSchool);
     }).rejects.toThrowError(`School id ${notFoundId} not found`);
+  });
+  
+  it("getSchoolById for valid Id", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    const savedSchool = await SchoolModel.create(testSchools[0]);
+    const res = await schoolService.getSchoolById(savedSchool.id);
+    assertResponseMatchesExpected(savedSchool, res);
+  });
+
+  it("getSchoolById for invalid Id", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    const notFoundId = "56cb91bdc3464f14678934cd";
+    await SchoolModel.create(testSchools[0]);
+    expect(schoolService.getSchoolById(notFoundId)).rejects.toThrowError(
+      `School id ${notFoundId} not found`,
+    );
   });
 });

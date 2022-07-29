@@ -74,6 +74,21 @@ class SchoolService implements ISchoolService {
     }
   }
 
+  async getSchoolById(id: string): Promise<SchoolResponseDTO> {
+    let school: School | null;
+    try {
+      school = await MgSchool.findById(id);
+      if (!school) {
+        throw new Error(`School id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get School. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return (await this.mapSchoolsToSchoolResponseDTOs([school]))[0];
+  }
+
   private async mapSchoolsToSchoolResponseDTOs(
     schools: Array<School>,
   ): Promise<Array<SchoolResponseDTO>> {
