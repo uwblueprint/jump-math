@@ -1,8 +1,9 @@
 import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
-import { mockAdmin, mockTest } from "../../../testUtils/tests";
+import { mockAdmin, mockTest, questions } from "../../../testUtils/tests";
 import UserService from "../userService";
+import MgTest from "../../../models/test.model";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
@@ -42,5 +43,55 @@ describe("mongo testService", (): void => {
     await expect(async () => {
       await testService.createTest(mockTest);
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
+  });
+
+  it("updateTest", async () => {
+    // insert test into database
+    const createdTest = await MgTest.create(mockTest);
+
+    // mock response of user service
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+
+    // create DTO object to update to
+    const testUpdate = {
+      name: "newTest",
+      duration: 400,
+      admin: "62c248c0f79d6c3c9ebbea94",
+      questions,
+      grade: 10,
+    };
+
+    // update test and assert
+    const res = await testService.updateTest(createdTest.id, testUpdate);
+
+    expect(res.id).not.toBeNull();
+    expect(res).toMatchObject({
+      ...testUpdate,
+      questions: res.questions,
+      admin: mockAdmin,
+      id: res.id,
+    });
+  });
+
+  it("updateTest for non-existing ID", async () => {
+    // insert test into database
+    await MgTest.create(mockTest);
+
+    // mock response of user service
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+
+    // create DTO object to update to
+    const testUpdate = {
+      name: "newTest",
+      duration: 400,
+      admin: "62c248c0f79d6c3c9ebbea94",
+      questions,
+      grade: 10,
+    };
+
+    // update test and assert
+    await expect(async () => {
+      await testService.updateTest("62c248c0f79d6c3c9ebbea95", testUpdate);
+    }).rejects.toThrowError(`Test with id 62c248c0f79d6c3c9ebbea95 not found`);
   });
 });

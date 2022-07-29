@@ -30,5 +30,11 @@ export interface ITestService {
    */
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 
+  /**
+   * This method updates a Test document by it's unique identifier in the database.
+   *
+   * @param id The unique identifier of the Test document to update
+   * @param test The object containing the updated the Test
+   */
   updateTest(id: string, test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 }

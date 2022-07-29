@@ -1,6 +1,6 @@
 import { QuestionType } from "../models/test.model";
 
-const questions = [
+export const questions = [
   {
     questionType: QuestionType.NUMERIC_ANSWER,
     questionPrompt: "Question",
