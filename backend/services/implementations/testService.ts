@@ -48,11 +48,11 @@ class TestService implements ITestService {
     try {
       test = await MgTest.findById(id);
       if (!test) {
-        throw new Error(`Entity id ${id} not found`);
+        throw new Error(`Test ID ${id} not found`);
       }
       adminDto = await this.userService.getUserById(test.admin);
     } catch (error: unknown) {
-      Logger.error(`Failed to get entity. Reason = ${getErrorMessage(error)}`);
+      Logger.error(`Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
     return {
