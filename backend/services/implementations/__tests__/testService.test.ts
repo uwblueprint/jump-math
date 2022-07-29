@@ -1,7 +1,11 @@
 import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
-import { mockAdmin, mockTest } from "../../../testUtils/tests";
+import {
+  assertResponseMatchesExpected,
+  mockAdmin,
+  mockTest,
+} from "../../../testUtils/tests";
 import MgTest from "../../../models/test.model";
 import UserService from "../userService";
 
@@ -30,13 +34,7 @@ describe("mongo testService", (): void => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     const res = await testService.createTest(mockTest);
 
-    expect(res.id).not.toBeNull();
-    expect(res).toMatchObject({
-      id: res.id,
-      ...mockTest,
-      questions: res.questions,
-      admin: mockAdmin,
-    });
+    assertResponseMatchesExpected(mockTest, res);
   });
 
   it("createTest invalid admin userId", async () => {
@@ -45,13 +43,13 @@ describe("mongo testService", (): void => {
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
   });
 
-
   it("getTestById", async () => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     const test  = await MgTest.create(mockTest);
     const res = await testService.getTestById(test.id);
 
-    expect(res).toMatchObject(test);
+    expect(res.id).toEqual(test.id);
+    assertResponseMatchesExpected(mockTest, res);
   });
 
   it("getTestById id not found", async () => {
