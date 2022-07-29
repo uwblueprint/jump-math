@@ -45,7 +45,7 @@ describe("mongo testService", (): void => {
 
   it("getTestById", async () => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
-    const test = await testService.createTest(mockTest);
+    const test = await MgTest.create(mockTest);
     const res = await testService.getTestById(test.id);
 
     expect(res.id).toEqual(test.id);
@@ -56,6 +56,6 @@ describe("mongo testService", (): void => {
     const testId = "62c248c0f79d6c3c9ebbea93";
     expect(async () => {
       await testService.getTestById(testId);
-    }).rejects.toThrowError(`Entity id ${testId} not found`);
+    }).rejects.toThrowError(`Test ID ${testId} not found`);
   });
 });
