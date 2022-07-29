@@ -15,7 +15,7 @@ export interface TestSessionRequestDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: ResultRequestDTO[];
+  results?: ResultDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -41,33 +41,24 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: ResultResponseDTO[];
+  results?: ResultDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
   startTime: Date;
 }
 
-export interface ResultRequestDTO {
+export interface NewResultDTO {
   /** the name of the student */
   student: string;
-  /** the score of the student */
-  score: number;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
   answers: number[];
-  /**
-   * a list corresponding to the question list with each fielding indicating
-   * whether the student got the question right or not
-   * */
-  breakdown: boolean[];
 }
 
-export interface ResultResponseDTO {
-  /** the unique identifier of the response */
-  id: string;
+export interface ResultDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */

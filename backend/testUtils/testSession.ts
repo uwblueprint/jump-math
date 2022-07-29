@@ -1,16 +1,64 @@
 import {
-  ResultRequestDTO,
+  ResultDTO,
+  NewResultDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
+import { QuestionType } from "../models/test.model";
 
-export const testResult: ResultRequestDTO = {
+/**
+ * Mock Tests
+ */
+export const mockTest = {
+  id: "62c248c0f79d6c3c9ebbea95",
+  name: "test",
+  duration: 300,
+  admin: "62c248c0f79d6c3c9ebbea94",
+  questions: [
+    {
+      questionType: QuestionType.NUMERIC_ANSWER,
+      questionPrompt: "Numeric answer question",
+      questionMetadata: {
+        answer: 20,
+      },
+    },
+    {
+      questionType: QuestionType.MULTIPLE_CHOICE,
+      questionPrompt: "Multiple Choice question",
+      questionMetadata: {
+        options: ["11", "12", "13", "14"],
+        answerIndex: 0,
+      },
+    },
+  ],
+  grade: 11,
+};
+
+
+/**
+ * Mock Test Results
+ */
+export const testResult: ResultDTO = {
   student: "some-student-name",
-  score: 25,
+  score: 50.00,
   answers: [10, 11],
   breakdown: [false, true],
 };
 
+export const newTestResult: NewResultDTO = {
+  student: "some-student-name",
+  answers: [10, 11],
+};
+
+export const newTestResultMissingAnswer: NewResultDTO = {
+  student: "some-student-name",
+  answers: [10],
+};
+
+
+/**
+ * Mock Test Sessions
+ */
 export const mockTestSession: TestSessionRequestDTO = {
   test: "62c248c0f79d6c3c9ebbea95",
   teacher: "62c248c0f79d6c3c9ebbea94",
@@ -62,7 +110,6 @@ export const assertResultsResponseMatchesExpected = (
   const actualResults = result.results != null ? result.results[0] : null;
   const expectedResults = expected.results != null ? expected.results[0] : null;
 
-  expect(actualResults?.id).not.toBeNull();
   expect(
     Array.from(actualResults != null ? Array.from(actualResults.answers) : []),
   ).toEqual(expectedResults?.answers);
