@@ -29,4 +29,6 @@ export interface ITestService {
    * @throws Error if creation fails
    */
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+
+  updateTest(id: string, test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 }
