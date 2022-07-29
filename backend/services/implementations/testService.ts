@@ -40,6 +40,32 @@ class TestService implements ITestService {
       grade: newTest.grade,
     };
   }
+
+  async getTestById(id: string): Promise<TestResponseDTO> {
+    let test: Test | null;
+    let adminDto: UserDTO | null;
+
+    try {
+      test = await MgTest.findById(id);
+      if (!test) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+      adminDto = await this.userService.getUserById(test.admin);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return {
+      id: test.id,
+      name: test.name,
+      duration: test.duration,
+      admin: adminDto,
+      questions: test.questions,
+      grade: test.grade,
+    };
+  }
 }
 
 export default TestService;
