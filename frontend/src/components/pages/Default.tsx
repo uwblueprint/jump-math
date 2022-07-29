@@ -39,15 +39,14 @@ const TeamInfoDisplay = () => {
 };
 
 const DesignLibraryExamples = () => {
-  const { teamName, numTerms, members, isActive } = useContext(SampleContext);
   return (
     <div>
       {/* Example: how to apply custom colors */}
       <ButtonGroup gap='4'>
-          <ChakraButton bg="blue.50" color="white"> Test Chakra Button </ChakraButton>
-          <ChakraButton bg="blue.100" color="white"> Test Chakra Button </ChakraButton>
-          <ChakraButton bg="blue.200" color="white"> Test Chakra Button </ChakraButton>
-          <ChakraButton bg="blue.300" color="white"> Test Chakra Button </ChakraButton>
+          <ChakraButton bg="blue.50" color="white"> Very Light Blue Button </ChakraButton>
+          <ChakraButton bg="blue.100" color="white"> Light Blue Button </ChakraButton>
+          <ChakraButton bg="blue.200" color="white"> Medium Blue Button </ChakraButton>
+          <ChakraButton bg="blue.300" color="white"> Blue Button </ChakraButton>
       </ButtonGroup>
     </div>
   );

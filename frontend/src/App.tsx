@@ -29,7 +29,7 @@ import HooksDemo from "./components/pages/HooksDemo";
 
 import { AuthenticatedUser } from "./types/AuthTypes";
 
-import jumpMathTheme from "./themes"
+import theme from "./themes"
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -49,7 +49,7 @@ const App = (): React.ReactElement => {
   );
 
   return (
-    <ChakraProvider theme={jumpMathTheme}>
+    <ChakraProvider theme={theme}>
       <SampleContext.Provider value={sampleContext}>
         <SampleContextDispatcherContext.Provider
           value={dispatchSampleContextUpdate}
