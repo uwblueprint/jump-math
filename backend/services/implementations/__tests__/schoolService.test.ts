@@ -8,7 +8,6 @@ import {
   testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
-  testSchool,
   updatedTestSchool,
 } from "../../../testUtils/school";
 import UserService from "../userService";
@@ -128,13 +127,13 @@ describe("mongo schoolService", (): void => {
 
   it("update school for valid schools", async () => {
     // add test school
-    const savedId = await SchoolModel.create(testSchool);
+    const school = await SchoolModel.create(testSchools[0]);
 
     // mock return value
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
-    const res = await schoolService.updateSchool(savedId.id, updatedTestSchool);
+    const res = await schoolService.updateSchool(school.id, updatedTestSchool);
 
     // assert
     assertResponseMatchesExpected(updatedTestSchool, res);

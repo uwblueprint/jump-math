@@ -141,6 +141,7 @@ class SchoolService implements ISchoolService {
     try {
       updatedSchool = await MgSchool.findByIdAndUpdate(id, school, {
         new: true,
+        runValidators: true,
       });
 
       if (!updatedSchool) {
