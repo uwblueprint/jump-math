@@ -99,7 +99,7 @@ describe("mongo schoolService", (): void => {
     // execute
     const res = await schoolService.getSchoolsByCountry(invalidCountry);
 
-    //assert
+    // assert
     expect(res).toEqual([]);
   });
 

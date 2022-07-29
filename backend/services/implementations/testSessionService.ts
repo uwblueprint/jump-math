@@ -47,12 +47,14 @@ class TestSessionService implements ITestSessionService {
         throw new Error(`Test Session id ${id} not found`);
       }
     } catch (error: unknown) {
-      Logger.error(`Failed to get Test Session. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get Test Session. Reason = ${getErrorMessage(error)}`,
+      );
       throw error;
     }
     return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
   }
-  
+
   async deleteTestSession(id: string): Promise<string> {
     try {
       const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
@@ -95,14 +97,14 @@ class TestSessionService implements ITestSessionService {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         teacher: { $eq: teacherId },
       });
-      
+
       testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
         testSessions,
       );
     } catch (error: unknown) {
       Logger.error(
-         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
-              error,
+        `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
+          error,
         )}`,
       );
       throw error;
@@ -110,7 +112,7 @@ class TestSessionService implements ITestSessionService {
 
     return testSessionDtos;
   }
-  
+
   async getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
