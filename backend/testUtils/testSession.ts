@@ -34,7 +34,6 @@ export const mockTest = {
   grade: 11,
 };
 
-
 /**
  * Mock Test Results
  */
@@ -54,7 +53,6 @@ export const newTestResultMissingAnswer: NewResultDTO = {
   student: "some-student-name",
   answers: [10],
 };
-
 
 /**
  * Mock Test Sessions
