@@ -52,7 +52,9 @@ class TestService implements ITestService {
       }
       adminDto = await this.userService.getUserById(test.admin);
     } catch (error: unknown) {
-      Logger.error(`Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
+      );
       throw error;
     }
     return {
