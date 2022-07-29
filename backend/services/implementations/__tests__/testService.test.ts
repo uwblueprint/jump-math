@@ -5,9 +5,13 @@ import {
   assertResponseMatchesExpected,
   mockAdmin,
   mockTest,
+  mockTestArray,
 } from "../../../testUtils/tests";
 import MgTest from "../../../models/test.model";
 import UserService from "../userService";
+import testModel from "../../../models/test.model";
+import SchoolService from "../schoolService";
+import { TestResponseDTO } from "../../interfaces/testService";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
@@ -57,5 +61,15 @@ describe("mongo testService", (): void => {
     expect(async () => {
       await testService.getTestById(testId);
     }).rejects.toThrowError(`Test ID ${testId} not found`);
+  });
+
+  it("getAllTests", async () => {
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+    await testModel.insertMany(mockTestArray);
+    const res = await testService.getAllTests();
+
+    res.forEach((test: TestResponseDTO, i) => {
+      assertResponseMatchesExpected(mockTestArray[i], test);
+    });
   });
 });

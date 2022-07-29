@@ -66,6 +66,34 @@ class TestService implements ITestService {
       grade: test.grade,
     };
   }
+
+  async getAllTests(): Promise<TestResponseDTO[]> {
+    try {
+      const tests = await MgTest.find();
+      return await this.mapTestsToTestResponseDTOs(tests);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get tests. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
+  async mapTestsToTestResponseDTOs(
+    tests: Array<Test>,
+  ): Promise<TestResponseDTO[]> {
+    return Promise.all(
+      tests.map(async (test) => {
+        const adminDTO = await this.userService.getUserById(test.admin);
+        return {
+          id: test.id,
+          name: test.name,
+          duration: test.duration,
+          admin: adminDTO,
+          questions: test.questions,
+          grade: test.grade,
+        };
+      }),
+    );
+  }
 }
 
 export default TestService;
