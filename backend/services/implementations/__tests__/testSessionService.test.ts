@@ -9,8 +9,8 @@ import {
   mockTest,
   mockTestSession,
   mockTestSessionsWithSameTestId,
-  newTestResult,
-  testResult,
+  mockUngradedTestResult,
+  mockGradedTestResult,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
@@ -146,17 +146,17 @@ describe("mongo testSessionService", (): void => {
     testService.getTestById = jest.fn().mockReturnValue(mockTest);
 
     const res = await testSessionService.computeTestGrades(
-      newTestResult,
+      mockUngradedTestResult,
       mockTest.id,
     );
-    expect(res).toStrictEqual(testResult);
+    expect(res).toStrictEqual(mockGradedTestResult);
   });
 
   it("computeTestGrades with invalid test id", async () => {
     const invalidId = "62c248c0f79d6c3c9ebbea94";
 
     await expect(async () => {
-      await testSessionService.computeTestGrades(newTestResult, invalidId);
+      await testSessionService.computeTestGrades(mockUngradedTestResult, invalidId);
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
   });
 });

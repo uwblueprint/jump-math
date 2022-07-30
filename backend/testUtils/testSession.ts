@@ -52,16 +52,16 @@ export const mockTest = {
 /**
  * Mock Test Results
  */
-export const testResult: GradedResultResponseDTO = {
+export const mockUngradedTestResult: UngradedResultDTO = {
+  student: "some-student-name",
+  answers: [10, 11, 1, null],
+};
+
+export const mockGradedTestResult: GradedResultResponseDTO = {
   student: "some-student-name",
   score: 50.00,
   answers: [10, 11, 1, null],
   breakdown: [true, false, true, false],
-};
-
-export const newTestResult: UngradedResultDTO = {
-  student: "some-student-name",
-  answers: [10, 11, 1, null],
 };
 
 /**
@@ -72,7 +72,7 @@ export const mockTestSession: TestSessionRequestDTO = {
   teacher: "62c248c0f79d6c3c9ebbea94",
   school: "62c248c0f79d6c3c9ebbea93",
   gradeLevel: 4,
-  results: [testResult],
+  results: [mockGradedTestResult],
   accessCode: "1234",
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
@@ -83,7 +83,7 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
     teacher: "62c248c0f79d6c3c9ebbea95",
     school: "62c248c0f79d6c3c9ebbea97",
     gradeLevel: 7,
-    results: [testResult],
+    results: [mockGradedTestResult],
     accessCode: "789",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
@@ -92,7 +92,7 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
     teacher: "62c248c0f79d6c3c9ebbea94",
     school: "62c248c0f79d6c3c9ebbea93",
     gradeLevel: 4,
-    results: [testResult],
+    results: [mockGradedTestResult],
     accessCode: "1234",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
