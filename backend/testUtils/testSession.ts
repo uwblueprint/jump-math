@@ -1,6 +1,6 @@
 import {
-  ResultDTO,
-  NewResultDTO,
+  GradedResultResponseDTO,
+  UngradedResultDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
@@ -19,7 +19,7 @@ export const mockTest = {
       questionType: QuestionType.NUMERIC_ANSWER,
       questionPrompt: "Numeric answer question",
       questionMetadata: {
-        answer: 20,
+        answer: 10,
       },
     },
     {
@@ -30,6 +30,21 @@ export const mockTest = {
         answerIndex: 0,
       },
     },
+    {
+      questionType: QuestionType.MULTIPLE_CHOICE,
+      questionPrompt: "Multiple Choice question",
+      questionMetadata: {
+        options: ["11", "12", "13", "14"],
+        answerIndex: 1,
+      },
+    },
+    {
+      questionType: QuestionType.NUMERIC_ANSWER,
+      questionPrompt: "Numeric answer question",
+      questionMetadata: {
+        answer: 14,
+      },
+    },
   ],
   grade: 11,
 };
@@ -37,21 +52,16 @@ export const mockTest = {
 /**
  * Mock Test Results
  */
-export const testResult: ResultDTO = {
+export const testResult: GradedResultResponseDTO = {
   student: "some-student-name",
   score: 50.00,
-  answers: [10, 11],
-  breakdown: [false, true],
+  answers: [10, 11, 1, null],
+  breakdown: [true, false, true, false],
 };
 
-export const newTestResult: NewResultDTO = {
+export const newTestResult: UngradedResultDTO = {
   student: "some-student-name",
-  answers: [10, 11],
-};
-
-export const newTestResultMissingAnswer: NewResultDTO = {
-  student: "some-student-name",
-  answers: [10],
+  answers: [10, 11, 1, null],
 };
 
 /**

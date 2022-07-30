@@ -10,7 +10,6 @@ import {
   mockTestSession,
   mockTestSessionsWithSameTestId,
   newTestResult,
-  newTestResultMissingAnswer,
   testResult,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
@@ -159,18 +158,5 @@ describe("mongo testSessionService", (): void => {
     await expect(async () => {
       await testSessionService.computeTestGrades(newTestResult, invalidId);
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
-  });
-
-  it("computeTestGrades with different number of answers to questions", async () => {
-    testService.getTestById = jest.fn().mockReturnValue(mockTest);
-
-    await expect(async () => {
-      await testSessionService.computeTestGrades(
-        newTestResultMissingAnswer,
-        mockTest.id,
-      );
-    }).rejects.toThrowError(
-      "One or more of the student's test answers was not found",
-    );
   });
 });

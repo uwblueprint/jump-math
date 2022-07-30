@@ -1,6 +1,6 @@
 /**
  * This interface contains the request object that is fed into
- * the school service to create or update the test session in the database.
+ * the test session service to create or update the test session in the database.
  */
 export interface TestSessionRequestDTO {
   /** the ID of the corresponding test from the Test collection */
@@ -15,7 +15,7 @@ export interface TestSessionRequestDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: ResultDTO[];
+  results?: GradedResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -41,24 +41,28 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: ResultDTO[];
+  results?: GradedResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
   startTime: Date;
 }
 
-export interface NewResultDTO {
+/**
+ * This interface contains the request object that is fed into the test session
+ * service that represents a new test result that has not yet been graded
+ */
+export interface UngradedResultDTO {
   /** the name of the student */
   student: string;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: number[];
+  answers: (number | null)[];
 }
 
-export interface ResultDTO {
+export interface GradedResultRequestDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */
@@ -67,7 +71,24 @@ export interface ResultDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: number[];
+  answers: (number | null)[];
+  /**
+   * a list corresponding to the question list with each fielding indicating
+   * whether the student got the question right or not
+   * */
+  breakdown: boolean[];
+}
+
+export interface GradedResultResponseDTO {
+  /** the name of the student */
+  student: string;
+  /** the score of the student */
+  score: number;
+  /**
+   * a list corresponding to the question list with each field indicating
+   * the student's answer
+   */
+  answers: (number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not

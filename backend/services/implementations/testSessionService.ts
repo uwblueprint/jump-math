@@ -1,8 +1,8 @@
 import MgTestSession, { TestSession } from "../../models/testSession.model";
 import {
   ITestSessionService,
-  NewResultDTO,
-  ResultDTO,
+  UngradedResultDTO,
+  GradedResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
@@ -206,63 +206,55 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
-   * computeTestGrades computes the breakdown and score of a given result and returns the ResultDTO
+   * computeTestGrades computes the breakdown and score of a given 
+   * UngradedResultDTO and returns the GradedResultResponseDTO
    */
   async computeTestGrades(
-    result: NewResultDTO,
+    result: UngradedResultDTO,
     testId: string,
-  ): Promise<ResultDTO> {
-    let resultDto: ResultDTO;
-    let questionsCorrect = 0; // the number of questions the student gets correct
-    const studentAnswers: number[] = result.answers; // the array of the student's raw answers
-    let updatedScore = 0.0; // the final score that will be returned
-    const updatedBreakdown: boolean[] = []; // the final breakdown that will be returned
+  ): Promise<GradedResultResponseDTO> {
+    let gradedResultResponseDTO: GradedResultResponseDTO;
+
+    // the list of a student's answers with each field being either the 
+    // numeric answer (for short answer) or index (for multiple choice)
+    const studentAnswers: (number | null)[] = result.answers;
+   
+    let computedScore = 0.00;
+    let computedBreakdown: boolean[] = [];
+    let questionsCorrect = 0;
 
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
 
-      // check if the number of test questions matches the number of student answers
-      if (test.questions.length !== studentAnswers.length) {
-        throw new Error(
-          "One or more of the student's test answers was not found",
-        );
-      }
-
-      // check the correctness of each question and answer pair
       test.questions.forEach((question: Question, i) => {
         let actualAnswer: number;
 
         if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
-          // set the actualAnswer for the multiple choice question
           const questionMetadata = question.questionMetadata as MultipleChoiceMetadata;
-          actualAnswer = Number(
-            questionMetadata.options[questionMetadata.answerIndex],
-          );
+          actualAnswer = questionMetadata.answerIndex;
         } else {
-          // set the actualAnswer for the numeric answer question
           const questionMetadata = question.questionMetadata as NumericQuestionMetadata;
           actualAnswer = questionMetadata.answer;
         }
 
-        // check if the student's answer and the actual answer match
         if (studentAnswers[i] === actualAnswer) {
-          questionsCorrect += 1; // update the counter
-          updatedBreakdown[i] = true;
+          questionsCorrect += 1;
+          computedBreakdown[i] = true;
         } else {
-          updatedBreakdown[i] = false;
+          computedBreakdown[i] = false;
         }
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
-      updatedScore = parseFloat(
+      computedScore = parseFloat(
         ((questionsCorrect * 100) / studentAnswers.length).toFixed(2),
       );
 
-      resultDto = {
+      gradedResultResponseDTO = {
         student: result.student,
-        score: updatedScore,
+        score: computedScore,
         answers: result.answers,
-        breakdown: updatedBreakdown,
+        breakdown: computedBreakdown,
       };
     } catch (error: unknown) {
       Logger.error(
@@ -273,8 +265,7 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    // return Result with updated score and breakdown values
-    return resultDto;
+    return gradedResultResponseDTO;
   }
 }
 
