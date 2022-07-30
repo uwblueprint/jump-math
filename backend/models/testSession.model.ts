@@ -11,7 +11,7 @@ export interface Result extends Document {
   score: number;
   /**
    * a list corresponding to the question list with each field indicating
-   * the student's answer - either the numeric answer (for short answer) 
+   * the student's answer - either the numeric answer (for short answer)
    * or the option's corresponding index (for multiple choice)
    */
   answers: number[];

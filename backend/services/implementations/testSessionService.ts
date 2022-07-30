@@ -206,7 +206,7 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
-   * computeTestGrades computes the breakdown and score of a given 
+   * computeTestGrades computes the breakdown and score of a given
    * UngradedResultDTO and returns the GradedResultResponseDTO
    */
   async computeTestGrades(
@@ -215,12 +215,12 @@ class TestSessionService implements ITestSessionService {
   ): Promise<GradedResultResponseDTO> {
     let gradedResultResponseDTO: GradedResultResponseDTO;
 
-    // the list of a student's answers with each field being either the 
+    // the list of a student's answers with each field being either the
     // numeric answer (for short answer) or index (for multiple choice)
     const studentAnswers: (number | null)[] = result.answers;
-   
+
     let computedScore = 0.00;
-    let computedBreakdown: boolean[] = [];
+    const computedBreakdown: boolean[] = [];
     let questionsCorrect = 0;
 
     try {

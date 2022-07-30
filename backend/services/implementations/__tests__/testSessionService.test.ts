@@ -156,7 +156,10 @@ describe("mongo testSessionService", (): void => {
     const invalidId = "62c248c0f79d6c3c9ebbea94";
 
     await expect(async () => {
-      await testSessionService.computeTestGrades(mockUngradedTestResult, invalidId);
+      await testSessionService.computeTestGrades(
+        mockUngradedTestResult,
+        invalidId,
+      );
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
   });
 });
