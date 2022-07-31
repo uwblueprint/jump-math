@@ -167,4 +167,18 @@ describe("mongo schoolService", (): void => {
       `School id ${notFoundId} not found`,
     );
   });
+
+  it("deleteSchool", async () => {
+    const savedSchool = await SchoolModel.create(testSchools[0]);
+
+    const deletedSchoolId = await schoolService.deleteSchool(savedSchool.id);
+    expect(deletedSchoolId).toBe(savedSchool.id);
+  });
+
+  it("deleteSchool with non-existing id", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await schoolService.deleteSchool(notFoundId);
+    }).rejects.toThrowError(`School with id ${notFoundId} not found`);
+  });
 });
