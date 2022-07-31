@@ -12,7 +12,7 @@ import {
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
   score: null,
-  answers: [10, 11, 1, null],
+  answers: [10.5, 11, 1, null],
   breakdown: [],
   gradingStatus: GradingStatus.UNGRADED,
 };
@@ -20,7 +20,7 @@ export const mockUngradedTestResult: ResultRequestDTO = {
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
   score: 50.00,
-  answers: [10, 11, 1, null],
+  answers: [10.5, 11, 1, null],
   breakdown: [true, false, true, false],
   gradingStatus: GradingStatus.GRADED,
 };

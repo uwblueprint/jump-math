@@ -10,7 +10,7 @@ const questions: Array<Question> = [
     questionType: QuestionType.NUMERIC_ANSWER,
     questionPrompt: "Numeric answer question",
     questionMetadata: {
-      answer: 10.00,
+      answer: 10.5,
     },
   },
   {
@@ -46,7 +46,7 @@ export const mockTest: CreateTestRequestDTO = {
   grade: 11,
 };
 
- export const mockTestWithId: TestResponseDTO = {
+export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,
   admin: mockAdmin,

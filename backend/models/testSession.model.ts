@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 /**
  * An enum containing the grading status of a Result
  */
- export enum GradingStatus {
+export enum GradingStatus {
   GRADED,
   UNGRADED,
 }
@@ -54,7 +54,7 @@ const ResultSchema: Schema = new Schema({
     required: true,
     default: GradingStatus.UNGRADED,
     enum: Object.keys(GradingStatus),
-  }
+  },
 });
 
 /**
