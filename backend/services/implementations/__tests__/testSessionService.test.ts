@@ -164,24 +164,24 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
   });
 
-  it("createTestResult", async () => {
+  it("gradeTestResult", async () => {
     testSessionService.getTestSessionById = jest
       .fn()
       .mockReturnValue(mockTestSessionWithId);
     testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
 
-    const res = await testSessionService.createTestResult(
+    const res = await testSessionService.gradeTestResult(
       mockUngradedTestResult,
       mockTestSessionWithId.test,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });
 
-  it("createTestResult with invalid test session id", async () => {
+  it("gradeTestResult with invalid test session id", async () => {
     const invalidId = "62c248c0f79d6c3c9ebbea94";
 
     await expect(async () => {
-      await testSessionService.createTestResult(
+      await testSessionService.gradeTestResult(
         mockUngradedTestResult,
         invalidId,
       );
