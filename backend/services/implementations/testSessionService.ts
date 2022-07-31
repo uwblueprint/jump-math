@@ -210,7 +210,7 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
-   * gradeTestResult returns the ResultResponseDTO corresponding to the given ResultRequestDTO
+   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
    */
   async gradeTestResult(
     result: ResultRequestDTO,
