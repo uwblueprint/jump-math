@@ -94,5 +94,9 @@ export interface ISchoolService {
    */
   getSchoolById(id: string): Promise<SchoolResponseDTO>;
 
+  /**
+   * This method deletes a school given its unique identifer
+   * @param id The unique identifier of the school to delete
+   */
   deleteSchool(id: string): Promise<string>;
 }
