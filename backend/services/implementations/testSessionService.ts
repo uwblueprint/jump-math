@@ -1,4 +1,7 @@
-import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
+import MgTestSession, {
+  GradingStatus,
+  TestSession,
+} from "../../models/testSession.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -204,6 +207,30 @@ class TestSessionService implements ITestSessionService {
     }
 
     return testSessionDtos;
+  }
+
+  /*
+   * createTestResult returns the ResultResponseDTO corresponding to the given ResultRequestDTO
+   */
+  async createTestResult(
+    result: ResultRequestDTO,
+    testSessionId: string,
+  ): Promise<ResultResponseDTO> {
+    let newResult: ResultResponseDTO;
+
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+      newResult = await this.computeTestGrades(result, testSession.test);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to create test result. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return newResult;
   }
 
   /*
