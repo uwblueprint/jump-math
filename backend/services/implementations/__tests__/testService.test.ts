@@ -63,14 +63,7 @@ describe("mongo testService", (): void => {
 
     // update test and assert
     const res = await testService.updateTest(createdTest.id, testUpdate);
-
-    expect(res.id).not.toBeNull();
-    expect(res).toMatchObject({
-      ...testUpdate,
-      questions: res.questions,
-      admin: mockAdmin,
-      id: res.id,
-    });
+    assertResponseMatchesExpected(testUpdate, res);
   });
 
   it("updateTest for non-existing ID", async () => {
@@ -89,10 +82,12 @@ describe("mongo testService", (): void => {
       grade: 10,
     };
 
+    const notFoundId = "62c248c0f79d6c3c9ebbea95";
+
     // update test and assert
     await expect(async () => {
-      await testService.updateTest("62c248c0f79d6c3c9ebbea95", testUpdate);
-    }).rejects.toThrowError(`Test with id 62c248c0f79d6c3c9ebbea95 not found`);
+      await testService.updateTest(notFoundId, testUpdate);
+    }).rejects.toThrowError(`Test with id ${notFoundId} not found`);
   });
 
   it("getTestById", async () => {
