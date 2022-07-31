@@ -177,7 +177,7 @@ class SchoolService implements ISchoolService {
   /* eslint-disable class-methods-use-this */
   async deleteSchool(id: string): Promise<string> {
     try {
-      const deletedSchool = await MgSchool.findByIdAndDelete(id);
+      const deletedSchool: School | null = await MgSchool.findByIdAndDelete(id);
       if (!deletedSchool) {
         throw new Error(`School with id ${id} not found`);
       }

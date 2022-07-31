@@ -171,16 +171,14 @@ describe("mongo schoolService", (): void => {
   it("deleteSchool", async () => {
     const savedSchool = await SchoolModel.create(testSchools[0]);
 
-    const deletedSchool = await schoolService.deleteSchool(savedSchool.id);
-    expect(deletedSchool).toBe(savedSchool.id);
+    const deletedSchoolId = await schoolService.deleteSchool(savedSchool.id);
+    expect(deletedSchoolId).toBe(savedSchool.id);
   });
 
   it("deleteSchool with non-existing id", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
     await expect(async () => {
-      const notFoundId = "86cb91bdc3464f14678934cd";
       await schoolService.deleteSchool(notFoundId);
-    }).rejects.toThrowError(
-      `School with id 86cb91bdc3464f14678934cd not found`,
-    );
+    }).rejects.toThrowError(`School with id ${notFoundId} not found`);
   });
 });
