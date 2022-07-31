@@ -6,7 +6,6 @@ import MgTestSession from "../../../models/testSession.model";
 import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
-  mockTest,
   mockTestSession,
   mockTestSessionsWithSameTestId,
   mockUngradedTestResult,
@@ -15,6 +14,7 @@ import {
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
+import { mockTestWithId } from "../../../testUtils/tests";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -143,11 +143,11 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("computeTestGrades", async () => {
-    testService.getTestById = jest.fn().mockReturnValue(mockTest);
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
 
     const res = await testSessionService.computeTestGrades(
       mockUngradedTestResult,
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });

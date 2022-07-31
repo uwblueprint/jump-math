@@ -1,6 +1,14 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 /**
+ * An enum containing the grading status of a Result
+ */
+ export enum GradingStatus {
+  GRADED,
+  UNGRADED,
+}
+
+/**
  * This interface holds information about the result of a single student
  * on a test
  */
@@ -20,6 +28,8 @@ export interface Result extends Document {
    * whether the student got the question right or not
    * */
   breakdown: boolean[];
+  /** the grading status of the result */
+  gradingStatus: GradingStatus;
 }
 
 const ResultSchema: Schema = new Schema({
@@ -39,6 +49,12 @@ const ResultSchema: Schema = new Schema({
     type: [Boolean],
     required: true,
   },
+  gradingStatus: {
+    type: String,
+    required: true,
+    default: GradingStatus.UNGRADED,
+    enum: Object.keys(GradingStatus),
+  }
 });
 
 /**

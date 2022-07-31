@@ -1,8 +1,8 @@
-import MgTestSession, { TestSession } from "../../models/testSession.model";
+import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
 import {
   ITestSessionService,
-  UngradedResultDTO,
-  GradedResultResponseDTO,
+  ResultRequestDTO,
+  ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
@@ -171,6 +171,7 @@ class TestSessionService implements ITestSessionService {
               score: testSessionResult.score,
               answers: testSessionResult.answers,
               breakdown: testSessionResult.breakdown,
+              gradingStatus: testSessionResult.gradingStatus,
             };
           }),
           accessCode: testSession.accessCode,
@@ -207,13 +208,13 @@ class TestSessionService implements ITestSessionService {
 
   /*
    * computeTestGrades computes the breakdown and score of a given
-   * UngradedResultDTO and returns the GradedResultResponseDTO
+   * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
    */
   async computeTestGrades(
-    result: UngradedResultDTO,
+    result: ResultRequestDTO,
     testId: string,
-  ): Promise<GradedResultResponseDTO> {
-    let gradedResultResponseDTO: GradedResultResponseDTO;
+  ): Promise<ResultResponseDTO> {
+    let resultResponseDTO: ResultResponseDTO;
 
     // the list of a student's answers with each field being either the
     // numeric answer (for short answer) or index (for multiple choice)
@@ -227,15 +228,7 @@ class TestSessionService implements ITestSessionService {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
 
       test.questions.forEach((question: Question, i) => {
-        let actualAnswer: number;
-
-        if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
-          const questionMetadata = question.questionMetadata as MultipleChoiceMetadata;
-          actualAnswer = questionMetadata.answerIndex;
-        } else {
-          const questionMetadata = question.questionMetadata as NumericQuestionMetadata;
-          actualAnswer = questionMetadata.answer;
-        }
+        const actualAnswer: number = this.getCorrectAnswer(question);
 
         if (studentAnswers[i] === actualAnswer) {
           questionsCorrect += 1;
@@ -250,11 +243,12 @@ class TestSessionService implements ITestSessionService {
         ((questionsCorrect * 100) / studentAnswers.length).toFixed(2),
       );
 
-      gradedResultResponseDTO = {
+      resultResponseDTO = {
         student: result.student,
         score: computedScore,
         answers: result.answers,
         breakdown: computedBreakdown,
+        gradingStatus: GradingStatus.GRADED,
       };
     } catch (error: unknown) {
       Logger.error(
@@ -265,7 +259,21 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    return gradedResultResponseDTO;
+    return resultResponseDTO;
+  }
+
+  private getCorrectAnswer(question: Question): number {
+    let actualAnswer: number;
+
+    if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
+      const questionMetadata = question.questionMetadata as MultipleChoiceMetadata;
+      actualAnswer = questionMetadata.answerIndex;
+    } else if (question.questionType === QuestionType.NUMERIC_ANSWER) {
+      const questionMetadata = question.questionMetadata as NumericQuestionMetadata;
+      actualAnswer = questionMetadata.answer;
+    }
+
+    return actualAnswer!;
   }
 }
 

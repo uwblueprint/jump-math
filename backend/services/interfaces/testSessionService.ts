@@ -1,3 +1,5 @@
+import { GradingStatus } from "../../models/testSession.model";
+
 /**
  * This interface contains the request object that is fed into
  * the test session service to create or update the test session in the database.
@@ -15,7 +17,7 @@ export interface TestSessionRequestDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: GradedResultRequestDTO[];
+  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -41,7 +43,7 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: GradedResultResponseDTO[];
+  results?: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -49,20 +51,33 @@ export interface TestSessionResponseDTO {
 }
 
 /**
- * This interface contains the request object that is fed into the test session
- * service that represents a new test result that has not yet been graded
+ * This interface contains the request object that is fed into the test
+ * session service to create or update a result in a given test session
  */
-export interface UngradedResultDTO {
+export interface ResultRequestDTO {
   /** the name of the student */
   student: string;
+  /** the score of the student */
+  score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
   answers: (number | null)[];
+  /**
+   * a list corresponding to the question list with each fielding indicating
+   * whether the student got the question right or not
+   * */
+  breakdown: boolean[];
+  /** the grading status of a result - either graded or ungraded (default) */
+  gradingStatus: GradingStatus;
 }
 
-export interface GradedResultRequestDTO {
+/**
+ * This interface contains the response object that is returned by
+ * the test session service to represent a result in a given test session
+ */
+export interface ResultResponseDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */
@@ -77,23 +92,8 @@ export interface GradedResultRequestDTO {
    * whether the student got the question right or not
    * */
   breakdown: boolean[];
-}
-
-export interface GradedResultResponseDTO {
-  /** the name of the student */
-  student: string;
-  /** the score of the student */
-  score: number;
-  /**
-   * a list corresponding to the question list with each field indicating
-   * the student's answer
-   */
-  answers: (number | null)[];
-  /**
-   * a list corresponding to the question list with each fielding indicating
-   * whether the student got the question right or not
-   * */
-  breakdown: boolean[];
+  /** the grading status of a result - either graded or ungraded (default) */
+  gradingStatus: GradingStatus;
 }
 
 export interface ITestSessionService {

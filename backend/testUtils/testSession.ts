@@ -1,67 +1,28 @@
+import { GradingStatus } from "../models/testSession.model";
 import {
-  GradedResultResponseDTO,
-  UngradedResultDTO,
+  ResultRequestDTO,
+  ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
-import { QuestionType } from "../models/test.model";
-
-/**
- * Mock Tests
- */
-export const mockTest = {
-  id: "62c248c0f79d6c3c9ebbea95",
-  name: "test",
-  duration: 300,
-  admin: "62c248c0f79d6c3c9ebbea94",
-  questions: [
-    {
-      questionType: QuestionType.NUMERIC_ANSWER,
-      questionPrompt: "Numeric answer question",
-      questionMetadata: {
-        answer: 10,
-      },
-    },
-    {
-      questionType: QuestionType.MULTIPLE_CHOICE,
-      questionPrompt: "Multiple Choice question",
-      questionMetadata: {
-        options: ["11", "12", "13", "14"],
-        answerIndex: 0,
-      },
-    },
-    {
-      questionType: QuestionType.MULTIPLE_CHOICE,
-      questionPrompt: "Multiple Choice question",
-      questionMetadata: {
-        options: ["11", "12", "13", "14"],
-        answerIndex: 1,
-      },
-    },
-    {
-      questionType: QuestionType.NUMERIC_ANSWER,
-      questionPrompt: "Numeric answer question",
-      questionMetadata: {
-        answer: 14,
-      },
-    },
-  ],
-  grade: 11,
-};
 
 /**
  * Mock Test Results
  */
-export const mockUngradedTestResult: UngradedResultDTO = {
+export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
+  score: null,
   answers: [10, 11, 1, null],
+  breakdown: [],
+  gradingStatus: GradingStatus.UNGRADED,
 };
 
-export const mockGradedTestResult: GradedResultResponseDTO = {
+export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
   score: 50.00,
   answers: [10, 11, 1, null],
   breakdown: [true, false, true, false],
+  gradingStatus: GradingStatus.GRADED,
 };
 
 /**

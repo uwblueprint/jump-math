@@ -3,18 +3,42 @@ import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
+import { mockAdmin } from "./users";
 
-const questions = [
+const questions: Array<Question> = [
   {
     questionType: QuestionType.NUMERIC_ANSWER,
-    questionPrompt: "Question",
+    questionPrompt: "Numeric answer question",
     questionMetadata: {
-      answer: 3,
+      answer: 10.00,
+    },
+  },
+  {
+    questionType: QuestionType.MULTIPLE_CHOICE,
+    questionPrompt: "Multiple Choice question",
+    questionMetadata: {
+      options: ["11", "12", "13", "14"],
+      answerIndex: 0,
+    },
+  },
+  {
+    questionType: QuestionType.MULTIPLE_CHOICE,
+    questionPrompt: "Multiple Choice question",
+    questionMetadata: {
+      options: ["11", "12", "13", "14"],
+      answerIndex: 1,
+    },
+  },
+  {
+    questionType: QuestionType.NUMERIC_ANSWER,
+    questionPrompt: "Numeric answer question",
+    questionMetadata: {
+      answer: 14,
     },
   },
 ];
 
-export const mockTest = {
+export const mockTest: CreateTestRequestDTO = {
   name: "test",
   duration: 300,
   admin: "62c248c0f79d6c3c9ebbea94",
@@ -22,12 +46,10 @@ export const mockTest = {
   grade: 11,
 };
 
-export const mockAdmin = {
-  id: "62c248c0f79d6c3c9ebbea94",
-  firstName: "Admin",
-  lastName: "One",
-  authId: "123",
-  role: "Admin",
+ export const mockTestWithId: TestResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea95",
+  ...mockTest,
+  admin: mockAdmin,
 };
 
 export const assertResponseMatchesExpected = (
