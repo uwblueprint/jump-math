@@ -3,11 +3,11 @@ import TestService from "../testService";
 import db from "../../../testUtils/testDb";
 import {
   assertResponseMatchesExpected,
-  mockAdmin,
   mockTest,
 } from "../../../testUtils/tests";
 import MgTest from "../../../models/test.model";
 import UserService from "../userService";
+import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
   let testService: TestService;

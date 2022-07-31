@@ -100,7 +100,7 @@ describe("mongo schoolService", (): void => {
     // execute
     const res = await schoolService.getSchoolsByCountry(invalidCountry);
 
-    //assert
+    // assert
     expect(res).toEqual([]);
   });
 
@@ -145,7 +145,7 @@ describe("mongo schoolService", (): void => {
       await schoolService.updateSchool(notFoundId, updatedTestSchool);
     }).rejects.toThrowError(`School id ${notFoundId} not found`);
   });
-  
+
   it("getSchoolById for valid Id", async () => {
     // mock return value of user service
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
