@@ -210,9 +210,9 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
-   * createTestResult returns the ResultResponseDTO corresponding to the given ResultRequestDTO
+   * gradeTestResult returns the ResultResponseDTO corresponding to the given ResultRequestDTO
    */
-  async createTestResult(
+  async gradeTestResult(
     result: ResultRequestDTO,
     testSessionId: string,
   ): Promise<ResultResponseDTO> {
