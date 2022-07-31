@@ -29,6 +29,8 @@ import HooksDemo from "./components/pages/HooksDemo";
 
 import { AuthenticatedUser } from "./types/AuthTypes";
 
+import theme from "./themes"
+
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
     AUTHENTICATED_USER_KEY,
@@ -47,7 +49,7 @@ const App = (): React.ReactElement => {
   );
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <SampleContext.Provider value={sampleContext}>
         <SampleContextDispatcherContext.Provider
           value={dispatchSampleContextUpdate}
