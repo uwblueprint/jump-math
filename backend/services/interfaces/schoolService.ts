@@ -83,10 +83,16 @@ export interface ISchoolService {
    * @returns the new updated SchoolResponseDTO
    * @throws Error if creation fails
    */
-  updateSchool(id: string, school: SchoolRequestDTO): Promise<SchoolResponseDTO>;
-   /** 
+  updateSchool(
+    id: string,
+    school: SchoolRequestDTO,
+  ): Promise<SchoolResponseDTO>;
+
+  /**
    * This method retrieves a school by its unique identifier
    * @param id The unique identifier to get the school by
    */
   getSchoolById(id: string): Promise<SchoolResponseDTO>;
+
+  deleteSchool(id: string): Promise<string>;
 }

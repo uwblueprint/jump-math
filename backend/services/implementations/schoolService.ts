@@ -94,8 +94,9 @@ class SchoolService implements ISchoolService {
   ): Promise<Array<SchoolResponseDTO>> {
     return Promise.all(
       schools.map(async (school) => {
-        const teacherDTOs: Array<UserDTO> =
-          await this.userService.findAllUsersByIds(school.teachers);
+        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
+          school.teachers,
+        );
 
         return {
           id: school.id,
@@ -168,6 +169,23 @@ class SchoolService implements ISchoolService {
     } catch (error: unknown) {
       Logger.error(
         `Failed to update school. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
+
+  /* eslint-disable class-methods-use-this */
+  async deleteSchool(id: string): Promise<string> {
+    try {
+      const deletedSchool = await MgSchool.findByIdAndDelete(id);
+      if (!deletedSchool) {
+        throw new Error(`School with id ${id} not found`);
+      }
+
+      return id;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to delete school. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
