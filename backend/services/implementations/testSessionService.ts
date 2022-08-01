@@ -1,4 +1,7 @@
-import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
+import MgTestSession, {
+  GradingStatus,
+  TestSession,
+} from "../../models/testSession.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -166,7 +169,6 @@ class TestSessionService implements ITestSessionService {
           gradeLevel: testSession.gradeLevel,
           results: testSession.results?.map((testSessionResult) => {
             return {
-              id: testSessionResult.id,
               student: testSessionResult.student,
               score: testSessionResult.score,
               answers: testSessionResult.answers,
@@ -204,6 +206,63 @@ class TestSessionService implements ITestSessionService {
     }
 
     return testSessionDtos;
+  }
+
+  async updateTestSession(
+    id: string,
+    testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO | null> {
+    let updatedTestSession: TestSession | null;
+
+    try {
+      testSession.results?.forEach(async (result: ResultRequestDTO, i) => {
+        if (result.gradingStatus === GradingStatus.UNGRADED) {
+          const resultResponseDTO: ResultResponseDTO = await this.gradeTestResult(result, id);
+          testSession.results![i] = resultResponseDTO;
+        }
+      })
+  
+      testSession.results = testSession.results as ResultResponseDTO[];
+
+      updatedTestSession = await MgTestSession.findByIdAndUpdate(id, testSession, {
+        new: true,
+        runValidators: true,
+      });
+
+      if (!updatedTestSession) {
+        throw new Error(`Test session id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update test session. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return (await this.mapTestSessionsToTestSessionDTOs([updatedTestSession]))[0];
+  }
+
+  /*
+   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
+   */
+  async gradeTestResult(
+    result: ResultRequestDTO,
+    testSessionId: string,
+  ): Promise<ResultResponseDTO> {
+    let newResult: ResultResponseDTO;
+
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+      newResult = await this.computeTestGrades(result, testSession.test);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to create test result. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return newResult;
   }
 
   /*

@@ -81,7 +81,7 @@ export interface ResultResponseDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */
-  score: number;
+  score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
