@@ -2,24 +2,7 @@ import {
   SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../services/interfaces/schoolService";
-
-// set up test users to return from mock user service
-export const testUsers = [
-  {
-    id: "56cb91bdc3464f14678934ca",
-    firstName: "Teacher",
-    lastName: "One",
-    authId: "123",
-    role: "Admin",
-  },
-  {
-    id: "56cb91bdc3464f14678934cb",
-    firstName: "Teacher",
-    lastName: "Two",
-    authId: "456",
-    role: "Admin",
-  },
-];
+import { testUsers } from "./users";
 
 // set up test schools
 export const testSchools = [
@@ -94,6 +77,11 @@ export const updatedTestSchool = {
   city: "some-cityChanged",
   address: "some-addressChanged",
   teachers: [testUsers[0].id, testUsers[1].id],
+};
+
+export const mockSchoolWithId = {
+  id: "62c248c0f79d6c3c9ebbea93",
+  ...testSchools[0],
 };
 
 export const assertResponseMatchesExpected = (

@@ -3,7 +3,6 @@ import SchoolService from "../schoolService";
 
 import db from "../../../testUtils/testDb";
 import {
-  testUsers,
   testSchools,
   testSchools2,
   testSchoolInvalidTeacher,
@@ -12,6 +11,7 @@ import {
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
+import { testUsers } from "../../../testUtils/users";
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
