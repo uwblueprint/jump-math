@@ -1,4 +1,7 @@
 import { GradingStatus } from "../../models/testSession.model";
+import { UserDTO } from "../../types";
+import { SchoolResponseDTO } from "./schoolService";
+import { TestResponseDTO } from "./testService";
 
 /**
  * This interface contains the request object that is fed into
@@ -32,11 +35,11 @@ export interface TestSessionResponseDTO {
   /** the unique identifier for the test session */
   id: string;
   /** the ID of the corresponding test from the Test collection */
-  test: string;
+  test: TestResponseDTO;
   /** the ID of the teacher administering the test from the User collection */
-  teacher: string;
+  teacher: UserDTO;
   /** the ID of the school that's administering the test from the School collection */
-  school: string;
+  school: SchoolResponseDTO;
   /** the grade level that is being tested */
   gradeLevel: number;
   /**

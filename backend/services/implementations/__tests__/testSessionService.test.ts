@@ -15,11 +15,15 @@ import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
 import { mockTestWithId } from "../../../testUtils/tests";
+import SchoolService from "../schoolService";
+import { mockTeacher } from "../../../testUtils/users";
+import { mockSchoolWithId } from "../../../testUtils/school";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
   let testService: TestService;
   let userService: UserService;
+  let schoolService: SchoolService;
 
   beforeAll(async () => {
     await db.connect();
@@ -31,8 +35,19 @@ describe("mongo testSessionService", (): void => {
 
   beforeEach(async () => {
     userService = new UserService();
+    schoolService = new SchoolService(userService);
     testService = new TestService(userService);
-    testSessionService = new TestSessionService(testService);
+    testSessionService = new TestSessionService(
+      testService,
+      userService,
+      schoolService,
+    );
+
+    if (expect.getState().currentTestName.includes("exclude mock values"))
+      return;
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
+    userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
+    schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
   });
 
   afterEach(async () => {
@@ -152,7 +167,7 @@ describe("mongo testSessionService", (): void => {
     expect(res).toStrictEqual(mockGradedTestResult);
   });
 
-  it("computeTestGrades with invalid test id", async () => {
+  it("computeTestGrades with invalid test id - exclude mock values", async () => {
     const invalidId = "62c248c0f79d6c3c9ebbea94";
 
     await expect(async () => {
