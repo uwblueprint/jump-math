@@ -34,11 +34,11 @@ export interface TestSessionRequestDTO {
 export interface TestSessionResponseDTO {
   /** the unique identifier for the test session */
   id: string;
-  /** the ID of the corresponding test from the Test collection */
+  /** the corresponding test from the Test collection */
   test: TestResponseDTO;
-  /** the ID of the teacher administering the test from the User collection */
+  /** the teacher administering the test from the User collection */
   teacher: UserDTO;
-  /** the ID of the school that's administering the test from the School collection */
+  /** the school that's administering the test from the School collection */
   school: SchoolResponseDTO;
   /** the grade level that is being tested */
   gradeLevel: number;
