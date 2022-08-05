@@ -48,11 +48,6 @@ const DesignLibraryExamples = () => {
           <ChakraButton variant="tertiary">Tertiary</ChakraButton>
       </ButtonGroup>
       <ButtonGroup gap='4'>
-          <ChakraButton variant="primary">Primary</ChakraButton>
-          <ChakraButton variant="secondary">Secondary</ChakraButton>
-          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
-      </ButtonGroup>
-      <ButtonGroup gap='4'>
           <ChakraButton variant="primary" isActive>Primary</ChakraButton>
           <ChakraButton variant="secondary" isActive>Secondary</ChakraButton>
           <ChakraButton variant="tertiary" isActive>Tertiary</ChakraButton>
