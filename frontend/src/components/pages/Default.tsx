@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { ButtonGroup, Button as ChakraButton } from "@chakra-ui/react"
+import { ButtonGroup, Button as ChakraButton, VStack } from "@chakra-ui/react"
 import * as Routes from "../../constants/Routes";
 import SampleContext from "../../contexts/SampleContext";
 
@@ -38,17 +38,31 @@ const TeamInfoDisplay = () => {
   );
 };
 
+// Example: how to apply custom colors
 const DesignLibraryExamples = () => {
   return (
-    <div>
-      {/* Example: how to apply custom colors */}
+    <VStack spacing={4} bg="yellow.50" padding={2}>
       <ButtonGroup gap='4'>
-          <ChakraButton bg="blue.50" color="white"> Very Light Blue Button </ChakraButton>
-          <ChakraButton bg="blue.100" color="white"> Light Blue Button </ChakraButton>
-          <ChakraButton bg="blue.200" color="white"> Medium Blue Button </ChakraButton>
-          <ChakraButton bg="blue.300" color="white"> Blue Button </ChakraButton>
+          <ChakraButton variant="primary">Primary</ChakraButton>
+          <ChakraButton variant="secondary">Secondary</ChakraButton>
+          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
       </ButtonGroup>
-    </div>
+      <ButtonGroup gap='4'>
+          <ChakraButton variant="primary">Primary</ChakraButton>
+          <ChakraButton variant="secondary">Secondary</ChakraButton>
+          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
+      </ButtonGroup>
+      <ButtonGroup gap='4'>
+          <ChakraButton variant="primary" isActive>Primary</ChakraButton>
+          <ChakraButton variant="secondary" isActive>Secondary</ChakraButton>
+          <ChakraButton variant="tertiary" isActive>Tertiary</ChakraButton>
+      </ButtonGroup>
+      <ButtonGroup gap='4'isDisabled>
+          <ChakraButton variant="primary">Primary</ChakraButton>
+          <ChakraButton variant="secondary">Secondary</ChakraButton>
+          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
+      </ButtonGroup>
+    </VStack>
   );
 };
 
