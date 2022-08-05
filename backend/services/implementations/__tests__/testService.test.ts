@@ -10,7 +10,6 @@ import {
 import MgTest from "../../../models/test.model";
 import UserService from "../userService";
 import testModel from "../../../models/test.model";
-import SchoolService from "../schoolService";
 import { TestResponseDTO } from "../../interfaces/testService";
 
 describe("mongo testService", (): void => {

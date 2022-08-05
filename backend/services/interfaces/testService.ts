@@ -37,4 +37,12 @@ export interface ITestService {
    * @throws Error if test with given id not found
    */
   getTestById(id: string): Promise<TestResponseDTO>;
+
+  /**
+   * This method retrieves all Tests
+   * @param
+   * @returns an array of TestResponseDTO
+   * @throws Error if retrieval fails
+   */
+   getAllTests(): Promise<TestResponseDTO[]>;
 }
