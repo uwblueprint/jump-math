@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { ButtonGroup, Button as ChakraButton } from "@chakra-ui/react"
 import * as Routes from "../../constants/Routes";
 import SampleContext from "../../contexts/SampleContext";
 
@@ -37,6 +38,20 @@ const TeamInfoDisplay = () => {
   );
 };
 
+const DesignLibraryExamples = () => {
+  return (
+    <div>
+      {/* Example: how to apply custom colors */}
+      <ButtonGroup gap='4'>
+          <ChakraButton bg="blue.50" color="white"> Very Light Blue Button </ChakraButton>
+          <ChakraButton bg="blue.100" color="white"> Light Blue Button </ChakraButton>
+          <ChakraButton bg="blue.200" color="white"> Medium Blue Button </ChakraButton>
+          <ChakraButton bg="blue.300" color="white"> Blue Button </ChakraButton>
+      </ButtonGroup>
+    </div>
+  );
+};
+
 const Default = (): React.ReactElement => {
   return (
     <div style={{ textAlign: "center", paddingTop: "20px" }}>
@@ -67,6 +82,7 @@ const Default = (): React.ReactElement => {
       <div style={{ height: "2rem" }} />
 
       <TeamInfoDisplay />
+      <DesignLibraryExamples />
     </div>
   );
 };

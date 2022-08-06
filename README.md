@@ -23,9 +23,15 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 - **Pull Requests**: Upon completing and testing your changes locally, open a PR. At least one reviewer must approve your PR for you to merge your branch into `staging`. 
 - **Main**: After your PR has been approved and you have merged your change into `staging`, please test your changes accordingly. If all works as expected, please open a PR to merge into `main`. Do not merge directly to `main`.
 
-*TODO: add descriptions for testing (code coverage tools, unit tests, end-to-end tests)*
-
 ## Helpful Commands ⛑
+
+**Running Tests**
+    
+    # running frontend tests
+    $ docker exec -it ts-frontend "yarn test"
+    
+    # running backend tests
+    $ docker exec -it ts-backend "yarn test"
 
 **Linting Locally**: 
 
@@ -37,5 +43,4 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 
 **Updating Vault Secrets**:
 
-    vault kv patch kv/jump-math YOUR_SECRET_KEY=@filename 
-`filename` corresponds to the name of the `.env` file you are looking to update. `YOUR_SECRET_KEY` corresponds to the key for the same file in your `secret.config`.
+    vault kv get -format=json kv/jump-math | python update_secret_files.py

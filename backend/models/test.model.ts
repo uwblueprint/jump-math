@@ -26,7 +26,7 @@ export interface Question {
  */
 export interface MultipleChoiceMetadata {
   /** the options for the multiple choice question */
-  options: [string];
+  options: string[];
   /** the index of the options array which contains the correct answer (0-indexed) */
   answerIndex: number;
 }
@@ -71,7 +71,7 @@ export interface Test extends Document {
    */
   admin: string;
   /** A list of questions to be asked when students take the test */
-  questions: [Question];
+  questions: Question[];
   /** The intended grade the test was made for */
   grade: number;
 }
@@ -87,7 +87,8 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     admin: {
-      type: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     questions: {
