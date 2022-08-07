@@ -1,12 +1,12 @@
 import TestService from "../testService";
-import MgTest from "../../../models/test.model";
 
 import db from "../../../testUtils/testDb";
+
+import MgTest from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
   mockTest,
 } from "../../../testUtils/tests";
-import MgTest from "../../../models/test.model";
 import UserService from "../userService";
 import { mockAdmin } from "../../../testUtils/users";
 
@@ -44,7 +44,6 @@ describe("mongo testService", (): void => {
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
   });
 
-
   it("deleteTest", async () => {
     const savedTest = await MgTest.create(mockTest);
     const deletedTestId = await testService.deleteTest(savedTest.id);
@@ -56,6 +55,7 @@ describe("mongo testService", (): void => {
     expect(testService.deleteTest(notFoundId)).rejects.toThrowError(
       `Test ${notFoundId} not found`,
     );
+  });
 
   it("getTestById", async () => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);

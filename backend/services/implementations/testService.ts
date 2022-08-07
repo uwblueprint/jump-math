@@ -49,11 +49,10 @@ class TestService implements ITestService {
       }
       return id;
     } catch (error: unknown) {
-      Logger.error(
-        `Failed to delete test. Reason = ${getErrorMessage(error)}`,
-      );
+      Logger.error(`Failed to delete test. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
+  }
 
   async getTestById(id: string): Promise<TestResponseDTO> {
     let test: Test | null;

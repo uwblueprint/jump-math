@@ -37,6 +37,8 @@ export interface ITestService {
    * @throws Error if deletion fails
    */
   deleteTest(id: string): Promise<string>;
+
+  /**
    * Find a test given the id
    * @param id string with the test id to be found
    * @returns a TestDTO with the test that has the given id

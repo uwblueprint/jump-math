@@ -1,4 +1,7 @@
-import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
+import MgTestSession, {
+  GradingStatus,
+  TestSession,
+} from "../../models/testSession.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -220,7 +223,7 @@ class TestSessionService implements ITestSessionService {
     // numeric answer (for short answer) or index (for multiple choice)
     const studentAnswers: (number | null)[] = result.answers;
 
-    let computedScore = 0.00;
+    let computedScore = 0.0;
     const computedBreakdown: boolean[] = [];
     let questionsCorrect = 0;
 

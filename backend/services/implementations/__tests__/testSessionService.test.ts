@@ -141,7 +141,7 @@ describe("mongo testSessionService", (): void => {
       testSessionService.deleteTestSession(notFoundId),
     ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
-  
+
   it("computeTestGrades", async () => {
     testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
 
@@ -162,5 +162,4 @@ describe("mongo testSessionService", (): void => {
       );
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
   });
-
 });
