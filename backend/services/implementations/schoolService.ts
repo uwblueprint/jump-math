@@ -173,6 +173,23 @@ class SchoolService implements ISchoolService {
       throw error;
     }
   }
+
+  /* eslint-disable class-methods-use-this */
+  async deleteSchool(id: string): Promise<string> {
+    try {
+      const deletedSchool: School | null = await MgSchool.findByIdAndDelete(id);
+      if (!deletedSchool) {
+        throw new Error(`School with id ${id} not found`);
+      }
+
+      return id;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to delete school. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default SchoolService;

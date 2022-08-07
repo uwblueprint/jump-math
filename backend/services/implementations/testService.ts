@@ -52,6 +52,37 @@ class TestService implements ITestService {
       Logger.error(`Failed to delete test. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
+
+  async updateTest(
+    id: string,
+    test: CreateTestRequestDTO,
+  ): Promise<TestResponseDTO> {
+    let updatedTest: Test | null;
+    let adminDto: UserDTO | null;
+
+    try {
+      updatedTest = await MgTest.findByIdAndUpdate(id, test, {
+        new: true,
+        runValidators: true,
+      });
+      if (!updatedTest) {
+        throw new Error(`Test with id ${id} not found`);
+      }
+
+      adminDto = await this.userService.getUserById(test.admin);
+    } catch (error: unknown) {
+      Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return {
+      id: updatedTest.id,
+      name: updatedTest.name,
+      duration: updatedTest.duration,
+      admin: adminDto,
+      questions: updatedTest.questions,
+      grade: updatedTest.grade,
+    };
   }
 
   async getTestById(id: string): Promise<TestResponseDTO> {

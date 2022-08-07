@@ -5,7 +5,7 @@ import {
 } from "../services/interfaces/testService";
 import mockAdmin from "./users";
 
-const questions: Array<Question> = [
+export const questions: Array<Question> = [
   {
     questionType: QuestionType.NUMERIC_ANSWER,
     questionPrompt: "Numeric answer question",
