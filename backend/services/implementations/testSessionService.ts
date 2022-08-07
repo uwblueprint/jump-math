@@ -1,16 +1,31 @@
-import MgTestSession, { TestSession } from "../../models/testSession.model";
+import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
 import {
   ITestSessionService,
+  ResultRequestDTO,
+  ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
+import {
+  MultipleChoiceMetadata,
+  NumericQuestionMetadata,
+  Question,
+  QuestionType,
+} from "../../models/test.model";
+import { ITestService, TestResponseDTO } from "../interfaces/testService";
 
 const Logger = logger(__filename);
 
 class TestSessionService implements ITestSessionService {
   /* eslint-disable class-methods-use-this */
+  testService: ITestService;
+
+  constructor(testService: ITestService) {
+    this.testService = testService;
+  }
+
   async createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
@@ -156,6 +171,7 @@ class TestSessionService implements ITestSessionService {
               score: testSessionResult.score,
               answers: testSessionResult.answers,
               breakdown: testSessionResult.breakdown,
+              gradingStatus: testSessionResult.gradingStatus,
             };
           }),
           accessCode: testSession.accessCode,
@@ -188,6 +204,76 @@ class TestSessionService implements ITestSessionService {
     }
 
     return testSessionDtos;
+  }
+
+  /*
+   * computeTestGrades computes the breakdown and score of a given
+   * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
+   */
+  async computeTestGrades(
+    result: ResultRequestDTO,
+    testId: string,
+  ): Promise<ResultResponseDTO> {
+    let resultResponseDTO: ResultResponseDTO;
+
+    // the list of a student's answers with each field being either the
+    // numeric answer (for short answer) or index (for multiple choice)
+    const studentAnswers: (number | null)[] = result.answers;
+
+    let computedScore = 0.00;
+    const computedBreakdown: boolean[] = [];
+    let questionsCorrect = 0;
+
+    try {
+      const test: TestResponseDTO = await this.testService.getTestById(testId);
+
+      test.questions.forEach((question: Question, i) => {
+        const actualAnswer: number = this.getCorrectAnswer(question);
+
+        if (studentAnswers[i] === actualAnswer) {
+          questionsCorrect += 1;
+          computedBreakdown[i] = true;
+        } else {
+          computedBreakdown[i] = false;
+        }
+      });
+
+      // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
+      computedScore = parseFloat(
+        ((questionsCorrect * 100) / studentAnswers.length).toFixed(2),
+      );
+
+      resultResponseDTO = {
+        student: result.student,
+        score: computedScore,
+        answers: result.answers,
+        breakdown: computedBreakdown,
+        gradingStatus: GradingStatus.GRADED,
+      };
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to compute test grades for result=${result}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return resultResponseDTO;
+  }
+
+  private getCorrectAnswer(question: Question): number {
+    let actualAnswer: number;
+
+    if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
+      const questionMetadata = question.questionMetadata as MultipleChoiceMetadata;
+      actualAnswer = questionMetadata.answerIndex;
+    } else if (question.questionType === QuestionType.NUMERIC_ANSWER) {
+      const questionMetadata = question.questionMetadata as NumericQuestionMetadata;
+      actualAnswer = questionMetadata.answer;
+    }
+
+    return actualAnswer!;
   }
 }
 

@@ -147,6 +147,31 @@ class SchoolService implements ISchoolService {
       teachers: teacherDTOs,
     };
   }
+
+  async updateSchool(
+    id: string,
+    school: SchoolRequestDTO,
+  ): Promise<SchoolResponseDTO> {
+    let updatedSchool: School | null;
+    try {
+      updatedSchool = await MgSchool.findByIdAndUpdate(id, school, {
+        new: true,
+        runValidators: true,
+      });
+
+      if (!updatedSchool) {
+        throw new Error(`School id ${id} not found`);
+      }
+      return (
+        await this.mapSchoolsToSchoolResponseDTOs([updatedSchool as School])
+      )[0];
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update school. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default SchoolService;

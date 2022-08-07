@@ -17,7 +17,7 @@ export interface School extends Document {
   /** the address of the school */
   address: string;
   /** the teachers that teach at the school (reference to the IDs in the User table) */
-  teachers: [string];
+  teachers: string[];
 }
 
 const SchoolSchema: Schema = new Schema({
