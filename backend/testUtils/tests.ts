@@ -3,7 +3,7 @@ import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
-import { mockAdmin } from "./users";
+import mockAdmin from "./users";
 
 const questions: Array<Question> = [
   {
