@@ -1,15 +1,16 @@
 import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
+
+import MgTest from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
   mockTest,
   questions,
 } from "../../../testUtils/tests";
 
-import MgTest from "../../../models/test.model";
 import UserService from "../userService";
-import { mockAdmin } from "../../../testUtils/users";
+import mockAdmin from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
@@ -43,6 +44,19 @@ describe("mongo testService", (): void => {
     await expect(async () => {
       await testService.createTest(mockTest);
     }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
+  });
+
+  it("deleteTest", async () => {
+    const savedTest = await MgTest.create(mockTest);
+    const deletedTestId = await testService.deleteTest(savedTest.id);
+    expect(deletedTestId).toBe(savedTest.id);
+  });
+
+  it("deleteTest not found", async () => {
+    const notFoundId = "62c248c0f79d6c3c9ebbea95";
+    expect(testService.deleteTest(notFoundId)).rejects.toThrowError(
+      `Test ${notFoundId} not found`,
+    );
   });
 
   it("updateTest", async () => {

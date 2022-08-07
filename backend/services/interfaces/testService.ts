@@ -31,6 +31,15 @@ export interface ITestService {
   createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
 
   /**
+   * delete a Test with the given id, return deleted id
+   * @param id id to delete
+   * @returns deleted id
+   * @throws Error if deletion fails
+   */
+  deleteTest(id: string): Promise<string>;
+
+  /**
+   * Find a test given the id
    * This method updates a Test document by its unique identifier in the database.
    *
    * @param id The unique identifier of the Test document to update

@@ -41,6 +41,19 @@ class TestService implements ITestService {
     };
   }
 
+  async deleteTest(id: string): Promise<string> {
+    try {
+      const deletedTest = await MgTest.findByIdAndDelete(id);
+      if (!deletedTest) {
+        throw new Error(`Test ${id} not found`);
+      }
+      return id;
+    } catch (error: unknown) {
+      Logger.error(`Failed to delete test. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
   async updateTest(
     id: string,
     test: CreateTestRequestDTO,
