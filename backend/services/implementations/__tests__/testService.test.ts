@@ -8,7 +8,7 @@ import {
   mockTest,
   questions,
 } from "../../../testUtils/tests";
-import MgTest from "../../../models/test.model";
+
 import UserService from "../userService";
 import mockAdmin from "../../../testUtils/users";
 
@@ -57,6 +57,7 @@ describe("mongo testService", (): void => {
     expect(testService.deleteTest(notFoundId)).rejects.toThrowError(
       `Test ${notFoundId} not found`,
     );
+  });
 
   it("updateTest", async () => {
     // insert test into database

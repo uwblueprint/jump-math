@@ -52,6 +52,7 @@ class TestService implements ITestService {
       Logger.error(`Failed to delete test. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
+  }
 
   async updateTest(
     id: string,
