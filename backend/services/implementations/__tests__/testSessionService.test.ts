@@ -8,11 +8,18 @@ import {
   assertResultsResponseMatchesExpected,
   mockTestSession,
   mockTestSessionsWithSameTestId,
+  mockUngradedTestResult,
+  mockGradedTestResult,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
+import TestService from "../testService";
+import UserService from "../userService";
+import { mockTestWithId } from "../../../testUtils/tests";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
+  let testService: TestService;
+  let userService: UserService;
 
   beforeAll(async () => {
     await db.connect();
@@ -23,7 +30,9 @@ describe("mongo testSessionService", (): void => {
   });
 
   beforeEach(async () => {
-    testSessionService = new TestSessionService();
+    userService = new UserService();
+    testService = new TestService(userService);
+    testSessionService = new TestSessionService(testService);
   });
 
   afterEach(async () => {
@@ -132,4 +141,26 @@ describe("mongo testSessionService", (): void => {
       testSessionService.deleteTestSession(notFoundId),
     ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
+  
+  it("computeTestGrades", async () => {
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
+
+    const res = await testSessionService.computeTestGrades(
+      mockUngradedTestResult,
+      mockTestWithId.id,
+    );
+    expect(res).toStrictEqual(mockGradedTestResult);
+  });
+
+  it("computeTestGrades with invalid test id", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.computeTestGrades(
+        mockUngradedTestResult,
+        invalidId,
+      );
+    }).rejects.toThrowError(`Test ID ${invalidId} not found`);
+  });
+
 });

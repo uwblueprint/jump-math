@@ -1,6 +1,8 @@
+import { GradingStatus } from "../../models/testSession.model";
+
 /**
  * This interface contains the request object that is fed into
- * the school service to create or update the test session in the database.
+ * the test session service to create or update the test session in the database.
  */
 export interface TestSessionRequestDTO {
   /** the ID of the corresponding test from the Test collection */
@@ -48,26 +50,34 @@ export interface TestSessionResponseDTO {
   startTime: Date;
 }
 
+/**
+ * This interface contains the request object that is fed into the test
+ * session service to create or update a result in a given test session
+ */
 export interface ResultRequestDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */
-  score: number;
+  score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: number[];
+  answers: (number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
   breakdown: boolean[];
+  /** the grading status of a result - either graded or ungraded (default) */
+  gradingStatus: GradingStatus;
 }
 
+/**
+ * This interface contains the response object that is returned by
+ * the test session service to represent a result in a given test session
+ */
 export interface ResultResponseDTO {
-  /** the unique identifier of the response */
-  id: string;
   /** the name of the student */
   student: string;
   /** the score of the student */
@@ -76,12 +86,14 @@ export interface ResultResponseDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: number[];
+  answers: (number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
   breakdown: boolean[];
+  /** the grading status of a result - either graded or ungraded (default) */
+  gradingStatus: GradingStatus;
 }
 
 export interface ITestSessionService {

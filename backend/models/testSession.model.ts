@@ -1,6 +1,14 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 /**
+ * An enum containing the grading status of a Result
+ */
+export enum GradingStatus {
+  GRADED,
+  UNGRADED,
+}
+
+/**
  * This interface holds information about the result of a single student
  * on a test
  */
@@ -11,7 +19,8 @@ export interface Result extends Document {
   score: number;
   /**
    * a list corresponding to the question list with each field indicating
-   * the student's answer
+   * the student's answer - either the numeric answer (for short answer)
+   * or the option's corresponding index (for multiple choice)
    */
   answers: number[];
   /**
@@ -19,6 +28,8 @@ export interface Result extends Document {
    * whether the student got the question right or not
    * */
   breakdown: boolean[];
+  /** the grading status of the result */
+  gradingStatus: GradingStatus;
 }
 
 const ResultSchema: Schema = new Schema({
@@ -37,6 +48,12 @@ const ResultSchema: Schema = new Schema({
   breakdown: {
     type: [Boolean],
     required: true,
+  },
+  gradingStatus: {
+    type: String,
+    required: true,
+    default: GradingStatus.UNGRADED,
+    enum: Object.keys(GradingStatus),
   },
 });
 

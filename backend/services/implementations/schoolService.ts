@@ -65,9 +65,28 @@ class SchoolService implements ISchoolService {
       schools = await MgSchool.find({ country });
       return await this.mapSchoolsToSchoolResponseDTOs(schools);
     } catch (error: unknown) {
-      Logger.error(`Failed to get schools for country ${country}. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get schools for country ${country}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
       throw error;
     }
+  }
+
+  async getSchoolById(id: string): Promise<SchoolResponseDTO> {
+    let school: School | null;
+    try {
+      school = await MgSchool.findById(id);
+      if (!school) {
+        throw new Error(`School id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get School. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return (await this.mapSchoolsToSchoolResponseDTOs([school]))[0];
   }
 
   private async mapSchoolsToSchoolResponseDTOs(
@@ -75,9 +94,8 @@ class SchoolService implements ISchoolService {
   ): Promise<Array<SchoolResponseDTO>> {
     return Promise.all(
       schools.map(async (school) => {
-        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
-          school.teachers,
-        );
+        const teacherDTOs: Array<UserDTO> =
+          await this.userService.findAllUsersByIds(school.teachers);
 
         return {
           id: school.id,
@@ -128,6 +146,31 @@ class SchoolService implements ISchoolService {
       address: newSchool.address,
       teachers: teacherDTOs,
     };
+  }
+
+  async updateSchool(
+    id: string,
+    school: SchoolRequestDTO,
+  ): Promise<SchoolResponseDTO> {
+    let updatedSchool: School | null;
+    try {
+      updatedSchool = await MgSchool.findByIdAndUpdate(id, school, {
+        new: true,
+        runValidators: true,
+      });
+
+      if (!updatedSchool) {
+        throw new Error(`School id ${id} not found`);
+      }
+      return (
+        await this.mapSchoolsToSchoolResponseDTOs([updatedSchool as School])
+      )[0];
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update school. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
   }
 }
 

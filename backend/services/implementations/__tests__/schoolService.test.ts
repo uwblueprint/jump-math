@@ -8,6 +8,7 @@ import {
   testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
+  updatedTestSchool,
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
@@ -96,10 +97,10 @@ describe("mongo schoolService", (): void => {
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
     const invalidCountry = "fake-country";
 
-    // execute 
+    // execute
     const res = await schoolService.getSchoolsByCountry(invalidCountry);
-    
-    //assert
+
+    // assert
     expect(res).toEqual([]);
   });
 
@@ -122,5 +123,48 @@ describe("mongo schoolService", (): void => {
     await expect(async () => {
       await schoolService.createSchool(testSchoolInvalidTeacher);
     }).rejects.toThrowError("One or more of the teacher IDs was not found");
+  });
+
+  it("update school for valid schools", async () => {
+    // add test school
+    const school = await SchoolModel.create(testSchools[0]);
+
+    // mock return value
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute
+    const res = await schoolService.updateSchool(school.id, updatedTestSchool);
+
+    // assert
+    assertResponseMatchesExpected(updatedTestSchool, res);
+  });
+
+  it("update school for school not found", async () => {
+    const notFoundId = "62d9fc947195ae705e71f0d9";
+    await expect(async () => {
+      await schoolService.updateSchool(notFoundId, updatedTestSchool);
+    }).rejects.toThrowError(`School id ${notFoundId} not found`);
+  });
+
+  it("getSchoolById for valid Id", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    const savedSchool = await SchoolModel.create(testSchools[0]);
+    const res = await schoolService.getSchoolById(savedSchool.id);
+    assertResponseMatchesExpected(savedSchool, res);
+  });
+
+  it("getSchoolById for invalid Id", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    const notFoundId = "56cb91bdc3464f14678934cd";
+    await SchoolModel.create(testSchools[0]);
+    expect(schoolService.getSchoolById(notFoundId)).rejects.toThrowError(
+      `School id ${notFoundId} not found`,
+    );
   });
 });
