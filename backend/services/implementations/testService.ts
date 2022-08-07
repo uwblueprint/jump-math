@@ -50,7 +50,7 @@ class TestService implements ITestService {
       return id;
     } catch (error: unknown) {
       Logger.error(
-        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+        `Failed to delete test. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
