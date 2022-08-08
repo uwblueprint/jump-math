@@ -5,6 +5,7 @@ import {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
+import { mockTestWithId } from "./tests";
 
 /**
  * Mock Test Results
@@ -19,7 +20,7 @@ export const mockUngradedTestResult: ResultRequestDTO = {
 
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
-  score: 50.00,
+  score: 50.0,
   answers: [10.5, 11, 1, null],
   breakdown: [true, false, true, false],
   gradingStatus: GradingStatus.GRADED,
@@ -29,7 +30,7 @@ export const mockGradedTestResult: ResultResponseDTO = {
  * Mock Test Sessions
  */
 export const mockTestSession: TestSessionRequestDTO = {
-  test: "62c248c0f79d6c3c9ebbea95",
+  test: mockTestWithId.id,
   teacher: "62c248c0f79d6c3c9ebbea94",
   school: "62c248c0f79d6c3c9ebbea93",
   gradeLevel: 4,
@@ -58,6 +59,12 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
 ];
+
+export const mockTestSessionWithId: TestSessionResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea90",
+  ...mockTestSession,
+  results: [mockGradedTestResult],
+};
 
 export const assertResponseMatchesExpected = (
   expected: TestSessionRequestDTO,
