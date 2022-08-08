@@ -64,8 +64,13 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
 
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
-  ...mockTestSession,
+  test: mockTestWithId,
+  teacher: mockTeacher,
+  school: mockSchoolWithId,
+  gradeLevel: 4,
   results: [mockGradedTestResult],
+  accessCode: "1234",
+  startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
 export const assertResponseMatchesExpected = (

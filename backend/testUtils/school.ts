@@ -82,6 +82,7 @@ export const updatedTestSchool = {
 export const mockSchoolWithId = {
   id: "62c248c0f79d6c3c9ebbea93",
   ...testSchools[0],
+  teachers: [testUsers[0], testUsers[1]],
 };
 
 export const assertResponseMatchesExpected = (

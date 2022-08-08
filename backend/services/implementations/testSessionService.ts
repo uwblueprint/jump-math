@@ -249,7 +249,7 @@ class TestSessionService implements ITestSessionService {
       const testSession: TestSessionResponseDTO = await this.getTestSessionById(
         testSessionId,
       );
-      newResult = await this.computeTestGrades(result, testSession.test);
+      newResult = await this.computeTestGrades(result, testSession.test.id);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test result. Reason = ${getErrorMessage(error)}`,
