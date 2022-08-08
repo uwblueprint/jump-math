@@ -22,7 +22,7 @@ export const mockUngradedTestResult: ResultRequestDTO = {
 
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
-  score: 50.00,
+  score: 50.0,
   answers: [10.5, 11, 1, null],
   breakdown: [true, false, true, false],
   gradingStatus: GradingStatus.GRADED,
@@ -61,6 +61,12 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
 ];
+
+export const mockTestSessionWithId: TestSessionResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea90",
+  ...mockTestSession,
+  results: [mockGradedTestResult],
+};
 
 export const assertResponseMatchesExpected = (
   expected: TestSessionRequestDTO,

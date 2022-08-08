@@ -10,6 +10,7 @@ import {
   mockTestSessionsWithSameTestId,
   mockUngradedTestResult,
   mockGradedTestResult,
+  mockTestSessionWithId,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
@@ -176,5 +177,29 @@ describe("mongo testSessionService", (): void => {
         invalidId,
       );
     }).rejects.toThrowError(`Test ID ${invalidId} not found`);
+  });
+
+  it("gradeTestResult", async () => {
+    testSessionService.getTestSessionById = jest
+      .fn()
+      .mockReturnValue(mockTestSessionWithId);
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
+
+    const res = await testSessionService.gradeTestResult(
+      mockUngradedTestResult,
+      mockTestSessionWithId.test,
+    );
+    expect(res).toStrictEqual(mockGradedTestResult);
+  });
+
+  it("gradeTestResult with invalid test session id", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.gradeTestResult(
+        mockUngradedTestResult,
+        invalidId,
+      );
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 });

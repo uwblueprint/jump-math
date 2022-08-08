@@ -105,8 +105,9 @@ class SimpleEntityService implements ISimpleEntityService {
 
   async deleteEntity(id: string): Promise<string> {
     try {
-      const deletedEntity: SimpleEntity | null =
-        await MgSimpleEntity.findByIdAndDelete(id);
+      const deletedEntity: SimpleEntity | null = await MgSimpleEntity.findByIdAndDelete(
+        id,
+      );
       if (!deletedEntity) {
         throw new Error(`Entity id ${id} not found`);
       }

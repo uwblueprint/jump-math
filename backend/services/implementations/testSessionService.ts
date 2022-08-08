@@ -237,6 +237,30 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
+   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
+   */
+  async gradeTestResult(
+    result: ResultRequestDTO,
+    testSessionId: string,
+  ): Promise<ResultResponseDTO> {
+    let newResult: ResultResponseDTO;
+
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+      newResult = await this.computeTestGrades(result, testSession.test);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to create test result. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return newResult;
+  }
+
+  /*
    * computeTestGrades computes the breakdown and score of a given
    * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
    */
@@ -250,7 +274,7 @@ class TestSessionService implements ITestSessionService {
     // numeric answer (for short answer) or index (for multiple choice)
     const studentAnswers: (number | null)[] = result.answers;
 
-    let computedScore = 0.00;
+    let computedScore = 0.0;
     const computedBreakdown: boolean[] = [];
     let questionsCorrect = 0;
 
