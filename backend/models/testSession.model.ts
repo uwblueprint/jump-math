@@ -12,17 +12,17 @@ export enum GradingStatus {
  * This interface holds information about the result of a single student
  * on a test
  */
-export interface Result extends Document {
+export interface Result {
   /** the name of the student */
   student: string;
   /** the score of the student */
-  score: number;
+  score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer - either the numeric answer (for short answer)
    * or the option's corresponding index (for multiple choice)
    */
-  answers: number[];
+  answers: (number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
