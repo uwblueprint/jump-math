@@ -5,7 +5,9 @@ import {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
+import { mockSchoolWithId } from "./school";
 import { mockTestWithId } from "./tests";
+import { mockTeacher } from "./users";
 
 /**
  * Mock Test Results
@@ -31,8 +33,8 @@ export const mockGradedTestResult: ResultResponseDTO = {
  */
 export const mockTestSession: TestSessionRequestDTO = {
   test: mockTestWithId.id,
-  teacher: "62c248c0f79d6c3c9ebbea94",
-  school: "62c248c0f79d6c3c9ebbea93",
+  teacher: mockTeacher.id,
+  school: mockSchoolWithId.id,
   gradeLevel: 4,
   results: [mockGradedTestResult],
   accessCode: "1234",
@@ -62,8 +64,13 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
 
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
-  ...mockTestSession,
+  test: mockTestWithId,
+  teacher: mockTeacher,
+  school: mockSchoolWithId,
+  gradeLevel: 4,
   results: [mockGradedTestResult],
+  accessCode: "1234",
+  startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
 export const assertResponseMatchesExpected = (
@@ -71,9 +78,9 @@ export const assertResponseMatchesExpected = (
   result: TestSessionResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.test.toString()).toEqual(expected.test);
-  expect(result.teacher.toString()).toEqual(expected.teacher);
-  expect(result.school.toString()).toEqual(expected.school);
+  expect(result.test).toEqual(mockTestWithId);
+  expect(result.teacher).toEqual(mockTeacher);
+  expect(result.school).toEqual(mockSchoolWithId);
   expect(result.gradeLevel).toEqual(expected.gradeLevel);
   expect(result.accessCode).toEqual(expected.accessCode);
   expect(result.startTime).toEqual(expected.startTime);

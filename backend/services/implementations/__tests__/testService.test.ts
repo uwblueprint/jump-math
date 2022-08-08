@@ -10,7 +10,7 @@ import {
 } from "../../../testUtils/tests";
 
 import UserService from "../userService";
-import mockAdmin from "../../../testUtils/users";
+import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
