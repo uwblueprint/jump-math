@@ -13,6 +13,7 @@ import {
 import UserService from "../userService";
 import { TestResponseDTO } from "../../interfaces/testService";
 import mockAdmin from "../../../testUtils/users";
+import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
   let testService: TestService;

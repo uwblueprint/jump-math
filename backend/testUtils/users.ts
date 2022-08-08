@@ -1,6 +1,7 @@
 import { UserDTO } from "../types";
 
-const mockAdmin: UserDTO = {
+// set up test users to return from mock user service
+export const mockAdmin: UserDTO = {
   id: "62c248c0f79d6c3c9ebbea94",
   firstName: "Admin",
   lastName: "One",
@@ -8,5 +9,12 @@ const mockAdmin: UserDTO = {
   role: "Admin",
 };
 
-// default export for linter
-export default mockAdmin;
+export const mockTeacher: UserDTO = {
+  id: "62c248c0f79d6c3c9ebbea91",
+  firstName: "Teacher",
+  lastName: "One",
+  email: "teacher@gmail.com",
+  role: "Teacher",
+};
+
+export const testUsers = [mockAdmin, mockTeacher];
