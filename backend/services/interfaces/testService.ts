@@ -60,5 +60,5 @@ export interface ITestService {
    * @returns an array of TestResponseDTO
    * @throws Error if retrieval fails
    */
-   getAllTests(): Promise<TestResponseDTO[]>;
+  getAllTests(): Promise<TestResponseDTO[]>;
 }

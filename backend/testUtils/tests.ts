@@ -70,14 +70,6 @@ export const mockTestArray = [
   },
 ];
 
-export const mockAdmin = {
-  id: "62c248c0f79d6c3c9ebbea94",
-  firstName: "Admin",
-  lastName: "One",
-  authId: "123",
-  role: "Admin",
-};
-
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,

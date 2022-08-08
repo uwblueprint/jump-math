@@ -11,7 +11,6 @@ import {
 } from "../../../testUtils/tests";
 
 import UserService from "../userService";
-import testModel from "../../../models/test.model";
 import { TestResponseDTO } from "../../interfaces/testService";
 import mockAdmin from "../../../testUtils/users";
 
@@ -125,7 +124,7 @@ describe("mongo testService", (): void => {
 
   it("getAllTests", async () => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
-    await testModel.insertMany(mockTestArray);
+    await MgTest.insertMany(mockTestArray);
     const res = await testService.getAllTests();
 
     res.forEach((test: TestResponseDTO, i) => {
