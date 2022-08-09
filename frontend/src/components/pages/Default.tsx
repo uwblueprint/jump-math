@@ -7,6 +7,7 @@ import SampleContext from "../../contexts/SampleContext";
 import Logout from "../auth/Logout";
 import RefreshCredentials from "../auth/RefreshCredentials";
 import ResetPassword from "../auth/ResetPassword";
+import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 
 type ButtonProps = { text: string; path: string };
 
@@ -41,23 +42,62 @@ const TeamInfoDisplay = () => {
 // Example: how to apply custom colors
 const DesignLibraryExamples = () => {
   return (
-    <VStack spacing={4} bg="yellow.50" padding={2}>
-      <ButtonGroup gap='4'>
-          <ChakraButton variant="primary">Primary</ChakraButton>
-          <ChakraButton variant="secondary">Secondary</ChakraButton>
-          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
-      </ButtonGroup>
-      <ButtonGroup gap='4'>
-          <ChakraButton variant="primary" isActive>Primary</ChakraButton>
-          <ChakraButton variant="secondary" isActive>Secondary</ChakraButton>
-          <ChakraButton variant="tertiary" isActive>Tertiary</ChakraButton>
-      </ButtonGroup>
-      <ButtonGroup gap='4'isDisabled>
-          <ChakraButton variant="primary">Primary</ChakraButton>
-          <ChakraButton variant="secondary">Secondary</ChakraButton>
-          <ChakraButton variant="tertiary">Tertiary</ChakraButton>
-      </ButtonGroup>
-    </VStack>
+    <>
+      <VStack spacing={4} bg="yellow.50" padding={6}>
+        <ButtonGroup gap='4'>
+            <ChakraButton variant="primary">Primary</ChakraButton>
+            <ChakraButton variant="secondary">Secondary</ChakraButton>
+            <ChakraButton variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="primary">Primary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="secondary">Secondary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="primary">Primary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="secondary">Secondary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+      </VStack>
+
+      <VStack spacing={4} bg="yellow.50" padding={6}>
+        <ButtonGroup gap='4'>
+            <ChakraButton variant="primary" isActive>Primary</ChakraButton>
+            <ChakraButton variant="secondary" isActive>Secondary</ChakraButton>
+            <ChakraButton variant="tertiary" isActive>Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="primary" isActive>Primary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="secondary" isActive>Secondary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="tertiary" isActive>Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="primary" isActive>Primary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="secondary" isActive>Secondary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="tertiary" isActive>Tertiary</ChakraButton>
+        </ButtonGroup>
+      </VStack>
+
+
+      <VStack spacing={4} bg="yellow.50" padding={6}>
+        <ButtonGroup gap='4'isDisabled>
+            <ChakraButton variant="primary">Primary</ChakraButton>
+            <ChakraButton variant="secondary">Secondary</ChakraButton>
+            <ChakraButton variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'isDisabled>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="primary">Primary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="secondary">Secondary</ChakraButton>
+            <ChakraButton leftIcon={<ArrowBackOutlineIcon />} variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+        <ButtonGroup gap='4'isDisabled>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="primary">Primary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="secondary">Secondary</ChakraButton>
+            <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="tertiary">Tertiary</ChakraButton>
+        </ButtonGroup>
+      </VStack>
+    </>
   );
 };
 
