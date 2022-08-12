@@ -28,6 +28,30 @@ export const mockGradedTestResult: ResultResponseDTO = {
   gradingStatus: GradingStatus.GRADED,
 };
 
+export const mockGradedTestResult2: ResultResponseDTO = {
+  student: "some-student-name-2",
+  score: 75.0,
+  answers: [10.5, 0, 2, 14],
+  breakdown: [true, true, false, true],
+  gradingStatus: GradingStatus.GRADED,
+};
+
+export const mockGradedTestResult3: ResultResponseDTO = {
+  student: "some-student-name-3",
+  score: 100.0,
+  answers: [10.5, 0, 1, 14],
+  breakdown: [true, true, true, true],
+  gradingStatus: GradingStatus.GRADED,
+};
+
+export const mockGradedTestResult4: ResultResponseDTO = {
+  student: "some-student-name-3",
+  score: 50.0,
+  answers: [10.5, 1, 1, 13],
+  breakdown: [true, false, true, false],
+  gradingStatus: GradingStatus.GRADED,
+};
+
 /**
  * Mock Test Sessions
  */

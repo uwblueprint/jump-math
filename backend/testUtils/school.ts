@@ -85,6 +85,12 @@ export const mockSchoolWithId = {
   teachers: [testUsers[0], testUsers[1]],
 };
 
+export const mockSchoolWithId2 = {
+  id: "62c248c0f79d6c3c9ebbea92",
+  ...testSchools[0],
+  teachers: [testUsers[0], testUsers[1]],
+};
+
 export const assertResponseMatchesExpected = (
   expected: SchoolRequestDTO,
   result: SchoolResponseDTO,
