@@ -80,13 +80,13 @@ export const mockStatisticsBySchool: StatisticsResponseDTO[] = [
     test: mockTestWithId,
     school: mockSchoolWithId2,
     averageScore: 67.86,
-    averageScoresByQuestions: [1, 0.57, 0.57, 0.57],
+    averageScoresByQuestions: [100.0, 57.14, 57.14, 57.14],
   },
   {
     test: mockTestWithId,
     school: mockSchoolWithId,
     averageScore: 66.67,
-    averageScoresByQuestions: [1, 0.5, 0.67, 0.5],
+    averageScoresByQuestions: [100.0, 50.0, 66.67, 50.0],
   },
 ];
 
@@ -97,7 +97,7 @@ export const assertResponseMatchesExpected = (
   expect(result.test).toEqual(expected.test);
   expect(result.school).toEqual(expected.school);
   expect(result.averageScore).toEqual(expected.averageScore);
-  expect(result.averageScoresByQuestions).toEqual(
-    expected.averageScoresByQuestions,
-  );
+  result.averageScoresByQuestions.forEach((score, i) => {
+    expect(score).toEqual(expected.averageScoresByQuestions[i]);
+  });
 };

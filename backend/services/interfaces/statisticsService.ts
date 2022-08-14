@@ -1,6 +1,19 @@
 import { SchoolResponseDTO } from "./schoolService";
 import { TestResponseDTO } from "./testService";
 
+export interface AggregateTestSessionDTO {
+  /** the ID of the corresponding test from the Test collection */
+  test: string;
+  /** the ID of the corresponding school from the School collection */
+  id: string;
+  /** the average overall test score */
+  averageScore: number;
+  /** the array of test result breakdowns */
+  resultsPerTestArr: number[][];
+  /** the array of average test scores for each Question */
+  averageScoresByQuestions: number[];
+}
+
 export interface StatisticsResponseDTO {
   /** the corresponding test from the Test collection */
   test: TestResponseDTO;
