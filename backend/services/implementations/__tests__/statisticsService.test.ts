@@ -13,7 +13,7 @@ import {
   mockStatisticsBySchool,
   mockTestSessions,
 } from "../../../testUtils/statistics";
-import { StatisticsResponseDTO } from "../../interfaces/statisticsService";
+import { StatisticsBySchoolDTO } from "../../interfaces/statisticsService";
 import { mockSchoolWithId, mockSchoolWithId2 } from "../../../testUtils/school";
 
 describe("mongo statisticsService", (): void => {
@@ -64,7 +64,7 @@ describe("mongo statisticsService", (): void => {
       mockTestWithId.id,
     );
     expect(res.length).toEqual(mockStatisticsBySchool.length);
-    res.forEach((schoolStatistic: StatisticsResponseDTO, i) => {
+    res.forEach((schoolStatistic: StatisticsBySchoolDTO, i) => {
       assertResponseMatchesExpected(mockStatisticsBySchool[i], schoolStatistic);
     });
   });

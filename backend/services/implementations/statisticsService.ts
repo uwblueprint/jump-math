@@ -6,7 +6,7 @@ import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import {
   IStatisticsService,
   AggregateTestSessionDTO,
-  StatisticsResponseDTO,
+  StatisticsBySchoolDTO,
 } from "../interfaces/statisticsService";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import { ITestSessionService } from "../interfaces/testSessionService";
@@ -38,11 +38,11 @@ class StatisticsService implements IStatisticsService {
 
   async getAverageScoresBySchool(
     testId: string,
-  ): Promise<Array<StatisticsResponseDTO>> {
-    let statisticsDTOs: Array<StatisticsResponseDTO> = [];
+  ): Promise<Array<StatisticsBySchoolDTO>> {
+    let statisticsBySchoolDtos: Array<StatisticsBySchoolDTO> = [];
 
     try {
-      const statistics: AggregateTestSessionDTO[] = await MgTestSession.aggregate(
+      const statisticsBySchool: AggregateTestSessionDTO[] = await MgTestSession.aggregate(
         [
           // Stage 1: Filter Test Session documents by test id
           {
@@ -56,14 +56,8 @@ class StatisticsService implements IStatisticsService {
             $group: {
               _id: "$school",
               averageScore: { $avg: "$results.score" },
-              resultsPerTestArr: {
-                $push: {
-                  $map: {
-                    input: "$results.breakdown",
-                    as: "result",
-                    in: { $cond: ["$$result", 1, 0] },
-                  },
-                },
+              resultBreakdowns: {
+                $push: "$results.breakdown",
               },
             },
           },
@@ -75,15 +69,15 @@ class StatisticsService implements IStatisticsService {
       );
 
       /* eslint-disable no-param-reassign */
-      statistics.forEach((statistic: AggregateTestSessionDTO) => {
-        statistic.averageScoresByQuestions = this.computeAverageScorePerQuestion(
-          statistic.resultsPerTestArr,
+      statisticsBySchool.forEach((school: AggregateTestSessionDTO) => {
+        school.averageScoresByQuestions = this.computeAverageScorePerQuestion(
+          school.resultBreakdowns,
         );
       });
 
-      statisticsDTOs = await this.mapStatisticsToStatisticsDTOs(
+      statisticsBySchoolDtos = await this.mapStatisticsToStatisticsDTOs(
         testId,
-        statistics,
+        statisticsBySchool,
       );
     } catch (error: unknown) {
       Logger.error(
@@ -94,45 +88,42 @@ class StatisticsService implements IStatisticsService {
       throw error;
     }
 
-    return statisticsDTOs;
+    return statisticsBySchoolDtos;
   }
 
   private computeAverageScorePerQuestion(
-    resultsPerTestArr: number[][],
+    resultBreakdowns: boolean[][],
   ): number[] {
-    const averageResultsPerQuestion: number[] = [];
-    const numOfQuestions = resultsPerTestArr[0].length;
-    const numOfResults = resultsPerTestArr.length;
+    const averageScorePerQuestion: number[] = [];
+    const numOfQuestions = resultBreakdowns[0].length;
+    const numOfResults = resultBreakdowns.length;
 
     for (let i = 0; i < numOfQuestions; i += 1) {
       let scoresSum = 0;
 
-      resultsPerTestArr.forEach((test: number[]) => {
-        scoresSum += test[i];
+      resultBreakdowns.forEach((result: boolean[]) => {
+        scoresSum += result[i] ? 1 : 0;
       });
 
       const averageScore = +((scoresSum * 100) / numOfResults).toFixed(2);
-      averageResultsPerQuestion.push(averageScore);
+      averageScorePerQuestion.push(averageScore);
     }
 
-    return averageResultsPerQuestion;
+    return averageScorePerQuestion;
   }
 
   private async mapStatisticsToStatisticsDTOs(
     testId: string,
     statistics: AggregateTestSessionDTO[],
-  ): Promise<Array<StatisticsResponseDTO>> {
-    const testSessionDtos: Array<StatisticsResponseDTO> = await Promise.all(
+  ): Promise<Array<StatisticsBySchoolDTO>> {
+    const statisticsDtos: Array<StatisticsBySchoolDTO> = await Promise.all(
       statistics.map(async (schoolStatistics: AggregateTestSessionDTO) => {
-        const testDTO: TestResponseDTO = await this.testService.getTestById(
-          testId,
-        );
         const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
           schoolStatistics.id,
         );
 
         return {
-          test: testDTO,
+          test: testId,
           school: schoolDTO,
           averageScore: +schoolStatistics.averageScore.toFixed(2),
           averageScoresByQuestions: schoolStatistics.averageScoresByQuestions,
@@ -140,7 +131,7 @@ class StatisticsService implements IStatisticsService {
       }),
     );
 
-    return testSessionDtos;
+    return statisticsDtos;
   }
 }
 

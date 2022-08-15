@@ -1,22 +1,21 @@
 import { SchoolResponseDTO } from "./schoolService";
-import { TestResponseDTO } from "./testService";
 
 export interface AggregateTestSessionDTO {
   /** the ID of the corresponding test from the Test collection */
   test: string;
-  /** the ID of the corresponding school from the School collection */
+  /** the MongoDB ID representing the school/sub-region/country being queried */
   id: string;
   /** the average overall test score */
   averageScore: number;
   /** the array of test result breakdowns */
-  resultsPerTestArr: number[][];
+  resultBreakdowns: boolean[][];
   /** the array of average test scores for each Question */
   averageScoresByQuestions: number[];
 }
 
-export interface StatisticsResponseDTO {
-  /** the corresponding test from the Test collection */
-  test: TestResponseDTO;
+export interface StatisticsBySchoolDTO {
+  /** the ID of the corresponding test from the Test collection */
+  test: string;
   /** the corresponding school from the School collection */
   school: SchoolResponseDTO;
   /** the average overall test score */
@@ -32,5 +31,5 @@ export interface IStatisticsService {
    */
   getAverageScoresBySchool(
     testId: string,
-  ): Promise<Array<StatisticsResponseDTO>>;
+  ): Promise<Array<StatisticsBySchoolDTO>>;
 }

@@ -1,4 +1,4 @@
-import { StatisticsResponseDTO } from "../services/interfaces/statisticsService";
+import { StatisticsBySchoolDTO } from "../services/interfaces/statisticsService";
 import { TestSessionRequestDTO } from "../services/interfaces/testSessionService";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
@@ -75,15 +75,15 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
   },
 ];
 
-export const mockStatisticsBySchool: StatisticsResponseDTO[] = [
+export const mockStatisticsBySchool: StatisticsBySchoolDTO[] = [
   {
-    test: mockTestWithId,
+    test: mockTestWithId.id,
     school: mockSchoolWithId2,
     averageScore: 67.86,
     averageScoresByQuestions: [100.0, 57.14, 57.14, 57.14],
   },
   {
-    test: mockTestWithId,
+    test: mockTestWithId.id,
     school: mockSchoolWithId,
     averageScore: 66.67,
     averageScoresByQuestions: [100.0, 50.0, 66.67, 50.0],
@@ -91,8 +91,8 @@ export const mockStatisticsBySchool: StatisticsResponseDTO[] = [
 ];
 
 export const assertResponseMatchesExpected = (
-  expected: StatisticsResponseDTO,
-  result: StatisticsResponseDTO,
+  expected: StatisticsBySchoolDTO,
+  result: StatisticsBySchoolDTO,
 ): void => {
   expect(result.test).toEqual(expected.test);
   expect(result.school).toEqual(expected.school);
