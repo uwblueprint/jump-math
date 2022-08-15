@@ -19,6 +19,10 @@ export interface Question {
   questionPrompt: string;
   /** additional metadata for the question */
   questionMetadata: MultipleChoiceMetadata | NumericQuestionMetadata;
+  /** the optional image associated with the question */
+  imageFileName?: string;
+  /** the optional description of the image */
+  imageDescription?: string;
 }
 
 /**
@@ -53,6 +57,12 @@ const questionSchema = new Schema({
   questionMetadata: {
     type: Schema.Types.Mixed,
     required: true,
+  },
+  imageFileName: {
+    type: String,
+  },
+  imageDescription: {
+    type: String,
   },
 });
 

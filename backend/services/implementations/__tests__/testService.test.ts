@@ -11,10 +11,12 @@ import {
 
 import UserService from "../userService";
 import { mockAdmin } from "../../../testUtils/users";
+import FileStorageService from "../fileStorageService";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
   let userService: UserService;
+  let storageService: FileStorageService;
 
   beforeAll(async () => {
     await db.connect();
@@ -26,7 +28,8 @@ describe("mongo testService", (): void => {
 
   beforeEach(async () => {
     userService = new UserService();
-    testService = new TestService(userService);
+    storageService = new FileStorageService("mock-test-images");
+    testService = new TestService(userService, storageService);
   });
 
   afterEach(async () => {

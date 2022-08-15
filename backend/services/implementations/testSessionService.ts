@@ -17,7 +17,11 @@ import {
   Question,
   QuestionType,
 } from "../../models/test.model";
-import { ITestService, TestResponseDTO } from "../interfaces/testService";
+import {
+  ITestService,
+  QuestionResponseDTO,
+  TestResponseDTO,
+} from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
@@ -281,7 +285,7 @@ class TestSessionService implements ITestSessionService {
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
 
-      test.questions.forEach((question: Question, i) => {
+      test.questions.forEach((question: QuestionResponseDTO, i) => {
         const actualAnswer: number = this.getCorrectAnswer(question);
 
         if (studentAnswers[i] === actualAnswer) {
@@ -316,7 +320,7 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private getCorrectAnswer(question: Question): number {
+  private getCorrectAnswer(question: QuestionResponseDTO): number {
     let actualAnswer: number;
 
     if (question.questionType === QuestionType.MULTIPLE_CHOICE) {

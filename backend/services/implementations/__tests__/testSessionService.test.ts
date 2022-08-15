@@ -19,12 +19,14 @@ import { mockTestWithId } from "../../../testUtils/tests";
 import SchoolService from "../schoolService";
 import { mockTeacher } from "../../../testUtils/users";
 import { mockSchoolWithId } from "../../../testUtils/school";
+import FileStorageService from "../fileStorageService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
   let testService: TestService;
   let userService: UserService;
   let schoolService: SchoolService;
+  let storageService: FileStorageService;
 
   beforeAll(async () => {
     await db.connect();
@@ -37,7 +39,8 @@ describe("mongo testSessionService", (): void => {
   beforeEach(async () => {
     userService = new UserService();
     schoolService = new SchoolService(userService);
-    testService = new TestService(userService);
+    storageService = new FileStorageService("mock-test-images");
+    testService = new TestService(userService, storageService);
     testSessionService = new TestSessionService(
       testService,
       userService,
