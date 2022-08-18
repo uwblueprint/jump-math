@@ -15,13 +15,8 @@ export interface TestStatistic {
   averageQuestionScores: QuestionStatistic[];
 }
 
-export interface CountryStatistic {
-  country: string;
-  testStatistic: TestStatistic;
-}
-
 export interface IStatisticService {
   getTestGradeStatisticsByCountry(
     testId: string,
-  ): Promise<Array<CountryStatistic>>;
+  ): Promise<Map<string, TestStatistic>>;
 }

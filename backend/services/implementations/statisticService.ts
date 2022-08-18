@@ -1,18 +1,15 @@
-import MgTestSession, {
-  GradingStatus,
-  TestSession,
-} from "../../models/testSession.model";
+import MgTestSession from "../../models/testSession.model";
 import {
-  CountryStatistic,
   IStatisticService,
   QuestionStatistic,
+  TestStatistic,
 } from "../interfaces/statisticService";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
   async getTestGradeStatisticsByCountry(
     testId: string,
-  ): Promise<Array<CountryStatistic>> {
+  ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       // Stage 1: filter out tests that have the requested testId
       { $match: { test: { $eq: testId } } },
@@ -71,19 +68,16 @@ class StatisticService implements IStatisticService {
 
   private constructTestStatisticsByCountry(
     aggCursor: any[],
-  ): Array<CountryStatistic> {
-    const testStatistics: CountryStatistic[] = [];
+  ): Map<string, TestStatistic> {
+    const testStatistics = new Map<string, TestStatistic>();
 
     aggCursor.forEach((statistic: any) => {
-      testStatistics.push({
-        // eslint-disable-next-line no-underscore-dangle
-        country: statistic._id[0],
-        testStatistic: {
-          averageScore: statistic.averageScore,
-          averageQuestionScores: this.getAverageScorePerQuestion(
-            statistic.resultBreakdowns,
-          ),
-        },
+      // eslint-disable-next-line no-underscore-dangle
+      testStatistics.set(statistic._id[0], {
+        averageScore: statistic.averageScore,
+        averageQuestionScores: this.getAverageScorePerQuestion(
+          statistic.resultBreakdowns,
+        ),
       });
     });
 
