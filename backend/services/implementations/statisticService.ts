@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import MgTestSession from "../../models/testSession.model";
 import {
   IStatisticService,
@@ -12,7 +13,7 @@ class StatisticService implements IStatisticService {
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       // Stage 1: filter out tests that have the requested testId
-      { $match: { test: { $eq: testId } } },
+      { $match: { test: { $eq: Types.ObjectId(testId) } } },
 
       // Stage 2: unwind on the results field so that there is a document for each student result
       { $unwind: "$results" },
