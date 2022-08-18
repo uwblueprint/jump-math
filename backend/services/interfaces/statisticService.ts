@@ -1,4 +1,7 @@
 export interface QuestionStatistic {
+  /**
+   * The average score obtained by the students for a given question.
+   */
   averageScore: number;
 }
 
@@ -16,6 +19,13 @@ export interface TestStatistic {
 }
 
 export interface IStatisticService {
+  /**
+   * This method returns the statistics grouped by country for a given test. The
+   * return value is a map with a key of the country and the value contains information
+   * about the stats for the country.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
   getTestGradeStatisticsByCountry(
     testId: string,
   ): Promise<Map<string, TestStatistic>>;
