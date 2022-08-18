@@ -15,6 +15,7 @@ class StatisticService implements IStatisticService {
       // Stage 1: filter out tests that have the requested testId
       { $match: { test: { $eq: Types.ObjectId(testId) } } },
 
+      // Stage 2: filter out results that are not graded
       {
         $project: {
           results: {
@@ -33,10 +34,10 @@ class StatisticService implements IStatisticService {
         },
       },
 
-      // Stage 2: unwind on the results field so that there is a document for each student result
+      // Stage 3: unwind on the results field so that there is a document for each student result
       { $unwind: "$results" },
 
-      // Stage 3: get school documents corresponding to the school id
+      // Stage 4: get school documents corresponding to the school id
       {
         $lookup: {
           from: "schools",
@@ -46,7 +47,7 @@ class StatisticService implements IStatisticService {
         },
       },
 
-      // Stage 4: group together documents by the school country and keep track of the
+      // Stage 5: group together documents by the school country and keep track of the
       // result breakdown array so that the average grade per question can be computed
       {
         $group: {
