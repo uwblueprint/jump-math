@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import MgTestSession from "../../models/testSession.model";
+import MgTestSession, { GradingStatus } from "../../models/testSession.model";
 import {
   IStatisticService,
   QuestionStatistic,
@@ -14,6 +14,24 @@ class StatisticService implements IStatisticService {
     const pipeline = [
       // Stage 1: filter out tests that have the requested testId
       { $match: { test: { $eq: Types.ObjectId(testId) } } },
+
+      {
+        $project: {
+          results: {
+            $filter: {
+              input: "$results",
+              as: "results",
+              cond: {
+                $eq: [
+                  "$$results.gradingStatus",
+                  GradingStatus.GRADED.toString(),
+                ],
+              },
+            },
+          },
+          school: 1,
+        },
+      },
 
       // Stage 2: unwind on the results field so that there is a document for each student result
       { $unwind: "$results" },
@@ -60,7 +78,7 @@ class StatisticService implements IStatisticService {
         numCorrect += result[i] ? 1 : 0;
       });
 
-      const averageScore = +((numCorrect * 100) / numResults).toFixed(2);
+      const averageScore = +((numCorrect * 100) / numResults);
       averageScorePerQuestion.push({ averageScore });
     }
 
