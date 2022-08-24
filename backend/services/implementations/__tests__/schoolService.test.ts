@@ -3,7 +3,6 @@ import SchoolService from "../schoolService";
 
 import db from "../../../testUtils/testDb";
 import {
-  testUsers,
   testSchools,
   testSchools2,
   testSchoolInvalidTeacher,
@@ -12,6 +11,7 @@ import {
 } from "../../../testUtils/school";
 import UserService from "../userService";
 import { SchoolResponseDTO } from "../../interfaces/schoolService";
+import { testUsers } from "../../../testUtils/users";
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
@@ -166,5 +166,19 @@ describe("mongo schoolService", (): void => {
     expect(schoolService.getSchoolById(notFoundId)).rejects.toThrowError(
       `School id ${notFoundId} not found`,
     );
+  });
+
+  it("deleteSchool", async () => {
+    const savedSchool = await SchoolModel.create(testSchools[0]);
+
+    const deletedSchoolId = await schoolService.deleteSchool(savedSchool.id);
+    expect(deletedSchoolId).toBe(savedSchool.id);
+  });
+
+  it("deleteSchool with non-existing id", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await schoolService.deleteSchool(notFoundId);
+    }).rejects.toThrowError(`School with id ${notFoundId} not found`);
   });
 });

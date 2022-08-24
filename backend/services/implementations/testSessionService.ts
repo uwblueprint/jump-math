@@ -1,4 +1,7 @@
-import MgTestSession, { GradingStatus, TestSession } from "../../models/testSession.model";
+import MgTestSession, {
+  GradingStatus,
+  TestSession,
+} from "../../models/testSession.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -15,6 +18,9 @@ import {
   QuestionType,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
+import IUserService from "../interfaces/userService";
+import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
+import { UserDTO } from "../../types";
 
 const Logger = logger(__filename);
 
@@ -22,16 +28,33 @@ class TestSessionService implements ITestSessionService {
   /* eslint-disable class-methods-use-this */
   testService: ITestService;
 
-  constructor(testService: ITestService) {
+  userService: IUserService;
+
+  schoolService: ISchoolService;
+
+  constructor(
+    testService: ITestService,
+    userService: IUserService,
+    schoolService: ISchoolService,
+  ) {
     this.testService = testService;
+    this.userService = userService;
+    this.schoolService = schoolService;
   }
 
   async createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
+    let testDTO: TestResponseDTO;
+    let teacherDTO: UserDTO;
+    let schoolDTO: SchoolResponseDTO;
     let newTestSession: TestSession | null;
 
     try {
+      testDTO = await this.testService.getTestById(testSession.test);
+      teacherDTO = await this.userService.getUserById(testSession.teacher);
+      schoolDTO = await this.schoolService.getSchoolById(testSession.school);
+
       newTestSession = await MgTestSession.create(testSession);
     } catch (error: unknown) {
       Logger.error(
@@ -40,14 +63,11 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    // TODO: Add validation for test, teacher and school ids via
-    //       getTestById, getTeacherById and getSchoolById
-
     return {
       id: newTestSession.id,
-      test: newTestSession.test,
-      teacher: newTestSession.teacher,
-      school: newTestSession.school,
+      test: testDTO,
+      teacher: teacherDTO,
+      school: schoolDTO,
       gradeLevel: newTestSession.gradeLevel,
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
@@ -158,11 +178,21 @@ class TestSessionService implements ITestSessionService {
   ): Promise<Array<TestSessionResponseDTO>> {
     const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
       testSessions.map(async (testSession) => {
+        const testDTO: TestResponseDTO = await this.testService.getTestById(
+          testSession.test,
+        );
+        const teacherDTO: UserDTO = await this.userService.getUserById(
+          testSession.teacher,
+        );
+        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
+          testSession.school,
+        );
+
         return {
           id: testSession.id,
-          test: testSession.test,
-          teacher: testSession.teacher,
-          school: testSession.school,
+          test: testDTO,
+          teacher: teacherDTO,
+          school: schoolDTO,
           gradeLevel: testSession.gradeLevel,
           results: testSession.results?.map((testSessionResult) => {
             return {
@@ -207,6 +237,30 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
+   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
+   */
+  async gradeTestResult(
+    result: ResultRequestDTO,
+    testSessionId: string,
+  ): Promise<ResultResponseDTO> {
+    let newResult: ResultResponseDTO;
+
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+      newResult = await this.computeTestGrades(result, testSession.test.id);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to create test result. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return newResult;
+  }
+
+  /*
    * computeTestGrades computes the breakdown and score of a given
    * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
    */
@@ -220,7 +274,7 @@ class TestSessionService implements ITestSessionService {
     // numeric answer (for short answer) or index (for multiple choice)
     const studentAnswers: (number | null)[] = result.answers;
 
-    let computedScore = 0.00;
+    let computedScore = 0.0;
     const computedBreakdown: boolean[] = [];
     let questionsCorrect = 0;
 
