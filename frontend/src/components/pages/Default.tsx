@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { ButtonGroup, Button as ChakraButton } from "@chakra-ui/react"
+import { ButtonGroup, Button as ChakraButton, Box } from "@chakra-ui/react"
 import * as Routes from "../../constants/Routes";
 import SampleContext from "../../contexts/SampleContext";
 
@@ -48,6 +48,7 @@ const DesignLibraryExamples = () => {
           <ChakraButton bg="blue.200" color="white"> Medium Blue Button </ChakraButton>
           <ChakraButton bg="blue.300" color="white"> Blue Button </ChakraButton>
       </ButtonGroup>
+      <Box textStyle='eyebrow'>hihihihihihi</Box>
     </div>
   );
 };
