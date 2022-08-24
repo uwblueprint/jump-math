@@ -98,6 +98,17 @@ const DesignLibraryExamples = () => {
             <ChakraButton rightIcon={<ArrowForwardOutlineIcon />} variant="tertiary">Tertiary</ChakraButton>
         </ButtonGroup>
       </VStack>
+      <VStack>
+        <Box textStyle='header1'>header1</Box>
+        <Box textStyle='header2'>header2</Box>
+        <Box textStyle='header3'>header3</Box>
+        <Box textStyle='header4'>header4</Box>
+        <Box textStyle='subtitle1'>subtitle1</Box>
+        <Box textStyle='subtitle2'>subtitle2</Box>
+        <Box textStyle='paragraph'>paragraph</Box>
+        <Box textStyle='link'>link</Box>
+        <Box textStyle='eyebrow'>eyebrow</Box>
+      </VStack>
     </>
 
   );
