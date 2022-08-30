@@ -1,4 +1,4 @@
-import { GradingStatus } from "../models/testSession.model";
+import MgTestSession, { GradingStatus } from "../models/testSession.model";
 import {
   ResultRequestDTO,
   ResultResponseDTO,
@@ -102,4 +102,19 @@ export const assertResultsResponseMatchesExpected = (
     ),
   ).toEqual(expectedResults?.breakdown);
   expect(actualResults?.score).toEqual(expectedResults?.score);
+};
+
+export const createTestSessionWithSchoolAndResults = async (
+  schoolId: string,
+  results: ResultRequestDTO[],
+): Promise<void> => {
+  await MgTestSession.create({
+    test: mockTestWithId.id,
+    teacher: mockTeacher.id,
+    school: schoolId,
+    gradeLevel: 4,
+    results,
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  });
 };
