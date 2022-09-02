@@ -6,10 +6,12 @@ import MgTest from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
   mockTest,
+  mockTestArray,
   questions,
 } from "../../../testUtils/tests";
 
 import UserService from "../userService";
+import { TestResponseDTO } from "../../interfaces/testService";
 import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
@@ -118,5 +120,15 @@ describe("mongo testService", (): void => {
     expect(async () => {
       await testService.getTestById(testId);
     }).rejects.toThrowError(`Test ID ${testId} not found`);
+  });
+
+  it("getAllTests", async () => {
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+    await MgTest.insertMany(mockTestArray);
+    const res = await testService.getAllTests();
+
+    res.forEach((test: TestResponseDTO, i) => {
+      assertResponseMatchesExpected(mockTestArray[i], test);
+    });
   });
 });
