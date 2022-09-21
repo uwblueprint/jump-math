@@ -1,21 +1,13 @@
 export const HOME_PAGE = "/";
 
 export const LOGIN_PAGE = "/login";
-
 export const SIGNUP_PAGE = "/signup";
 
-export const EDIT_TEAM_PAGE = "/edit-team";
+export const STUDENT_PAGE = "/students"
+export const TEACHER_PAGE = "/teachers"
+export const ADMIN_PAGE = "/admins"
 
-export const DISPLAY_ENTITY_PAGE = "/entity";
+export const COMPONENT_LIBRARY = "/component-library"
 
-export const CREATE_ENTITY_PAGE = "/entity/create";
-
-export const UPDATE_ENTITY_PAGE = "/entity/update";
-
-export const DISPLAY_SIMPLE_ENTITY_PAGE = "/simpleEntity";
-
-export const CREATE_SIMPLE_ENTITY_PAGE = "/simpleEntity/create";
-
-export const UPDATE_SIMPLE_ENTITY_PAGE = "/simpleEntity/update";
-
+// TODO: REMOVE
 export const HOOKS_PAGE = "/hooks";
