@@ -5,7 +5,7 @@ import {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
-import { mockSchoolWithId } from "./school";
+import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
 
@@ -24,6 +24,30 @@ export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
   score: 50.0,
   answers: [10.5, 11, 1, null],
+  breakdown: [true, false, true, false],
+  gradingStatus: GradingStatus.GRADED,
+};
+
+export const mockGradedTestResult2: ResultResponseDTO = {
+  student: "some-student-name-2",
+  score: 75.0,
+  answers: [10.5, 0, 2, 14],
+  breakdown: [true, true, false, true],
+  gradingStatus: GradingStatus.GRADED,
+};
+
+export const mockGradedTestResult3: ResultResponseDTO = {
+  student: "some-student-name-3",
+  score: 100.0,
+  answers: [10.5, 0, 1, 14],
+  breakdown: [true, true, true, true],
+  gradingStatus: GradingStatus.GRADED,
+};
+
+export const mockGradedTestResult4: ResultResponseDTO = {
+  student: "some-student-name-3",
+  score: 50.0,
+  answers: [10.5, 1, 1, 13],
   breakdown: [true, false, true, false],
   gradingStatus: GradingStatus.GRADED,
 };
@@ -72,6 +96,73 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   accessCode: "1234",
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
+
+export const mockTestSessions: TestSessionRequestDTO[] = [
+  {
+    test: mockTestWithId.id,
+    teacher: mockTeacher.id,
+    school: mockSchoolWithId.id,
+    gradeLevel: 4,
+    results: [
+      mockGradedTestResult,
+      mockGradedTestResult2,
+      mockGradedTestResult3,
+      mockUngradedTestResult,
+    ],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: mockTestWithId.id,
+    teacher: mockTeacher.id,
+    school: mockSchoolWithId.id,
+    gradeLevel: 4,
+    results: [
+      mockGradedTestResult2,
+      mockGradedTestResult4,
+      mockGradedTestResult,
+    ],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: mockTestWithId.id,
+    teacher: mockTeacher.id,
+    school: mockSchoolWithId2.id,
+    gradeLevel: 4,
+    results: [
+      mockGradedTestResult3,
+      mockUngradedTestResult,
+      mockGradedTestResult4,
+      mockGradedTestResult,
+    ],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: mockTestWithId.id,
+    teacher: mockTeacher.id,
+    school: mockSchoolWithId2.id,
+    gradeLevel: 4,
+    results: [
+      mockGradedTestResult4,
+      mockGradedTestResult2,
+      mockGradedTestResult2,
+      mockGradedTestResult2,
+    ],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: "62c248c0f79d6c3c9ebbea94",
+    teacher: mockTeacher.id,
+    school: mockSchoolWithId.id,
+    gradeLevel: 4,
+    results: [mockGradedTestResult],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+];
 
 export const assertResponseMatchesExpected = (
   expected: TestSessionRequestDTO,

@@ -29,4 +29,15 @@ export interface IStatisticService {
   getTestGradeStatisticsByCountry(
     testId: string,
   ): Promise<Map<string, TestStatistic>>;
+
+  /**
+   * This method returns the statistics grouped by school for a given test. The
+   * return value is a map with a key of the school id and the value contains information
+   * about the stats for the school.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getTestGradeStatisticsBySchool(
+    testId: string,
+  ): Promise<Map<string, TestStatistic>>;
 }

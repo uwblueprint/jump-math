@@ -62,7 +62,54 @@ class StatisticService implements IStatisticService {
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
 
-    return this.constructTestStatisticsByCountry(aggCursor);
+    return this.constructTestStatisticsByGroup(aggCursor, "country");
+  }
+
+  async getTestGradeStatisticsBySchool(
+    testId: string,
+  ): Promise<Map<string, TestStatistic>> {
+    const pipeline = [
+      // Stage 1: match tests that have the requested testId
+      { $match: { test: { $eq: Types.ObjectId(testId) } } },
+
+      // Stage 2: filter out results that are not graded
+      {
+        $project: {
+          results: {
+            $filter: {
+              input: "$results",
+              as: "results",
+              cond: {
+                $eq: [
+                  "$$results.gradingStatus",
+                  GradingStatus.GRADED.toString(),
+                ],
+              },
+            },
+          },
+          school: 1,
+        },
+      },
+
+      // Stage 3: unwind on the results field so that there is a document for each student result
+      { $unwind: "$results" },
+
+      // Stage 4: group together documents by the school id and keep track of the
+      // result breakdown array so that the average grade per question can be computed
+      {
+        $group: {
+          _id: "$school",
+          averageScore: { $avg: "$results.score" },
+          resultBreakdowns: {
+            $push: "$results.breakdown",
+          },
+        },
+      },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+
+    return this.constructTestStatisticsByGroup(aggCursor, "school");
   }
 
   private getAverageScorePerQuestion(
@@ -79,21 +126,36 @@ class StatisticService implements IStatisticService {
         numCorrect += result[i] ? 1 : 0;
       });
 
-      const averageScore = ((numCorrect * 100) / numResults);
+      const averageScore = (numCorrect * 100) / numResults;
       averageScorePerQuestion.push({ averageScore });
     }
 
     return averageScorePerQuestion;
   }
 
-  private constructTestStatisticsByCountry(
+  private constructTestStatisticsByGroup(
     aggCursor: any[],
+    group: string,
   ): Map<string, TestStatistic> {
     const testStatistics = new Map<string, TestStatistic>();
 
     aggCursor.forEach((statistic: any) => {
-      // eslint-disable-next-line no-underscore-dangle
-      testStatistics.set(statistic._id[0], {
+      let key = "";
+
+      switch (group) {
+        case "country":
+          // eslint-disable-next-line no-underscore-dangle
+          [key] = statistic._id;
+          break;
+        case "school":
+          // eslint-disable-next-line no-underscore-dangle
+          key = statistic._id.toString();
+          break;
+        default:
+          break;
+      }
+
+      testStatistics.set(key, {
         averageScore: statistic.averageScore,
         averageQuestionScores: this.getAverageScorePerQuestion(
           statistic.resultBreakdowns,
