@@ -150,4 +150,16 @@ export interface ITestSessionService {
   getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>>;
+
+  /**
+   * Update a test session given the id
+   * This method updates a Test Session document by its unique identifier in the database.
+   *
+   * @param id The unique identifier of the Test Session document to update
+   * @param testSession The object containing the updated Test Session
+   */
+  updateTestSession(
+    id: string,
+    testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO>;
 }
