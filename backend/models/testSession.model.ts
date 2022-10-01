@@ -39,7 +39,6 @@ const ResultSchema: Schema = new Schema({
   },
   score: {
     type: Number,
-    required: true,
   },
   answers: {
     type: [Number],

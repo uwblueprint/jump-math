@@ -2,24 +2,8 @@ import {
   SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../services/interfaces/schoolService";
-
-// set up test users to return from mock user service
-export const testUsers = [
-  {
-    id: "56cb91bdc3464f14678934ca",
-    firstName: "Teacher",
-    lastName: "One",
-    authId: "123",
-    role: "Admin",
-  },
-  {
-    id: "56cb91bdc3464f14678934cb",
-    firstName: "Teacher",
-    lastName: "Two",
-    authId: "456",
-    role: "Admin",
-  },
-];
+import { testUsers } from "./users";
+import MgSchool, { School } from "../models/school.model";
 
 // set up test schools
 export const testSchools = [
@@ -96,6 +80,17 @@ export const updatedTestSchool = {
   teachers: [testUsers[0].id, testUsers[1].id],
 };
 
+export const mockSchoolWithId = {
+  id: "62c248c0f79d6c3c9ebbea93",
+  ...testSchools[0],
+  teachers: [testUsers[0], testUsers[1]],
+};
+
+export const mockSchoolWithId2 = {
+  ...mockSchoolWithId,
+  id: "62c248c0f79d6c3c9ebbea92",
+};
+
 export const assertResponseMatchesExpected = (
   expected: SchoolRequestDTO,
   result: SchoolResponseDTO,
@@ -107,4 +102,17 @@ export const assertResponseMatchesExpected = (
   expect(result.city).toEqual(expected.city);
   expect(result.address).toEqual(expected.address);
   expect(result.teachers).toEqual(testUsers);
+};
+
+export const createSchoolWithCountry = async (
+  country: string,
+): Promise<School> => {
+  return MgSchool.create({
+    name: "school1",
+    country,
+    subRegion: "some-region1",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  });
 };

@@ -3,7 +3,7 @@ import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
-import mockAdmin from "./users";
+import { mockAdmin } from "./users";
 
 export const questions: Array<Question> = [
   {
@@ -45,6 +45,30 @@ export const mockTest: CreateTestRequestDTO = {
   questions,
   grade: 11,
 };
+
+export const mockTestArray = [
+  {
+    name: "test1",
+    duration: 300,
+    admin: "62c248c0f79d6c3c9ebbea94",
+    questions,
+    grade: 11,
+  },
+  {
+    name: "test2",
+    duration: 301,
+    admin: "62c248c0f79d6c3c9ebbea94",
+    questions,
+    grade: 11,
+  },
+  {
+    name: "test3",
+    duration: 302,
+    admin: "62c248c0f79d6c3c9ebbea94",
+    questions,
+    grade: 11,
+  },
+];
 
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
