@@ -16,10 +16,9 @@ import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
 import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
-import { testUsers } from "../../../testUtils/school";
-import SchoolService from "../schoolService";
-import { mockTeacher } from "../../../testUtils/users";
 import { mockSchoolWithId } from "../../../testUtils/school";
+import SchoolService from "../schoolService";
+import { mockTeacher, testUsers } from "../../../testUtils/users";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
