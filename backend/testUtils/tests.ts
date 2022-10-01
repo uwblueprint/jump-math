@@ -52,6 +52,12 @@ export const mockTestWithId: TestResponseDTO = {
   admin: mockAdmin,
 };
 
+export const mockTestWithId2: TestResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea90",
+  ...mockTest,
+  admin: mockAdmin,
+};
+
 export const assertResponseMatchesExpected = (
   expected: CreateTestRequestDTO,
   result: TestResponseDTO,

@@ -188,21 +188,24 @@ class TestSessionService implements ITestSessionService {
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
-  ): Promise<TestSessionResponseDTO | null> {
+  ): Promise<TestSessionResponseDTO> {
     let updatedTestSession: TestSession | null;
 
     try {
       const { results } = testSession;
-
-      results?.forEach(async (result: ResultRequestDTO, i) => {
-        if (result.gradingStatus === GradingStatus.UNGRADED) {
-          const resultResponseDTO: ResultResponseDTO = await this.gradeTestResult(
-            result,
-            id,
-          );
-          results[i] = resultResponseDTO;
-        }
-      });
+      if (results) {
+        await Promise.all(
+          results.map(async (result: ResultRequestDTO, i) => {
+            if (result.gradingStatus === GradingStatus.UNGRADED) {
+              const gradedResult: ResultResponseDTO = await this.gradeTestResult(
+                result,
+                id,
+              );
+              results[i] = gradedResult;
+            }
+          }),
+        );
+      }
 
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
@@ -214,7 +217,7 @@ class TestSessionService implements ITestSessionService {
       );
 
       if (!updatedTestSession) {
-        throw new Error(`Test session id ${id} not found`);
+        throw new Error(`Test Session id ${id} not found`);
       }
     } catch (error: unknown) {
       Logger.error(

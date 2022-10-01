@@ -15,7 +15,8 @@ import {
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
-import { mockTestWithId } from "../../../testUtils/tests";
+import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
+import { testUsers } from "../../../testUtils/school";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -185,6 +186,43 @@ describe("mongo testSessionService", (): void => {
         mockUngradedTestResult,
         invalidId,
       );
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("updateTestSession", async () => {
+    // insert test session into database
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
+    const testSession = await MgTestSession.create(mockTestSession);
+
+    // create DTO object to update to
+    const updatedTestSession = {
+      test: mockTestWithId2.id,
+      teacher: testUsers[0].id,
+      school: "62c248c0f79d6c3c9ebbea92",
+      gradeLevel: 3,
+      results: [mockGradedTestResult, mockUngradedTestResult],
+      accessCode: "1235",
+      startTime: new Date("2022-09-10T09:00:00.000Z"),
+    };
+
+    const updatedGradedTestSession = {
+      ...updatedTestSession,
+      results: [mockGradedTestResult, mockGradedTestResult],
+    };
+
+    // update test and assert
+    const res = await testSessionService.updateTestSession(
+      testSession.id,
+      updatedTestSession,
+    );
+    assertResponseMatchesExpected(updatedGradedTestSession, res);
+  });
+
+  it("updateTestSession for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.updateTestSession(invalidId, mockTestSession);
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 });
