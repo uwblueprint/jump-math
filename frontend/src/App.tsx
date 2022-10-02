@@ -13,7 +13,7 @@ import StudentPage from "./components/pages/StudentPage";
 import AdminPage from "./components/pages/AdminPage";
 import TeacherPage from "./components/pages/TeacherPage";
 
-import ComponentLibrary from "./components/pages/ComponentLibrary"
+import ComponentLibrary from "./components/pages/ComponentLibrary";
 
 import * as Routes from "./constants/Routes";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
@@ -27,7 +27,7 @@ import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherCo
 
 import { AuthenticatedUser } from "./types/AuthTypes";
 
-import theme from "./themes"
+import theme from "./themes";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -60,14 +60,34 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
 
-                { /* TODO, change to private routes after user management setup */ }
-                <PrivateRoute exact path={Routes.HOME_PAGE} component={Default} />
+                {/* TODO, change to private routes after user management setup */}
+                <PrivateRoute
+                  exact
+                  path={Routes.HOME_PAGE}
+                  component={Default}
+                />
 
-                <PrivateRoute exact path={Routes.STUDENT_PAGE} component={StudentPage} />
-                <PrivateRoute exact path={Routes.TEACHER_PAGE} component={TeacherPage} />
-                <PrivateRoute exact path={Routes.ADMIN_PAGE} component={AdminPage} />
+                <PrivateRoute
+                  exact
+                  path={Routes.STUDENT_PAGE}
+                  component={StudentPage}
+                />
+                <PrivateRoute
+                  exact
+                  path={Routes.TEACHER_PAGE}
+                  component={TeacherPage}
+                />
+                <PrivateRoute
+                  exact
+                  path={Routes.ADMIN_PAGE}
+                  component={AdminPage}
+                />
 
-                <PrivateRoute exact path={Routes.COMPONENT_LIBRARY} component={ComponentLibrary} />
+                <PrivateRoute
+                  exact
+                  path={Routes.COMPONENT_LIBRARY}
+                  component={ComponentLibrary}
+                />
 
                 <Route exact path="*" component={NotFound} />
               </Switch>

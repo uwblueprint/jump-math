@@ -18,7 +18,6 @@ const Button = ({ text, path }: ButtonProps) => {
   );
 };
 
-
 const Default = (): React.ReactElement => {
   return (
     <div style={{ textAlign: "center", paddingTop: "20px" }}>
