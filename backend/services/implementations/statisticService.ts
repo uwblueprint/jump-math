@@ -79,7 +79,7 @@ class StatisticService implements IStatisticService {
         numCorrect += result[i] ? 1 : 0;
       });
 
-      const averageScore = ((numCorrect * 100) / numResults);
+      const averageScore = (numCorrect * 100) / numResults;
       averageScorePerQuestion.push({ averageScore });
     }
 

@@ -59,4 +59,25 @@ describe("mongo userService", (): void => {
       expect(user.role).toEqual(testUsers[i].role);
     });
   });
+
+  it("getUsersByRole", async () => {
+    await UserModel.insertMany(testUsers);
+    const adminRole = "Admin";
+    const teacherRole = "Teacher";
+    const admins = await userService.getUsersByRole(adminRole);
+
+    admins.forEach((user: UserDTO) => {
+      expect(user.role).toEqual(adminRole);
+    });
+
+    const teachers = await userService.getUsersByRole(teacherRole);
+
+    teachers.forEach((user: UserDTO) => {
+      expect(user.role).toEqual(teacherRole);
+    });
+
+    const emptyRes = await userService.getUsersByRole("nonexisting_role");
+
+    expect(emptyRes.length).toEqual(0);
+  });
 });
