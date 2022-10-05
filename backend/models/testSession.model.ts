@@ -15,12 +15,14 @@ export enum GradingStatus {
 export interface Result {
   /** the name of the student */
   student: string;
-  /** the score of the student */
+  /** the score of the student - can be null if Result is ungraded */
   score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
-   * the student's answer - either the numeric answer (for short answer)
-   * or the option's corresponding index (for multiple choice)
+   * the student's answer, either:
+   *  - the numeric answer (for short answer)
+   *  - the option's corresponding index (for multiple choice)
+   *  - null (for no answer)
    */
   answers: (number | null)[];
   /**

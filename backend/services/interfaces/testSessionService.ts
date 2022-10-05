@@ -156,7 +156,8 @@ export interface ITestSessionService {
 
   /**
    * Update a test session given the id
-   * This method updates a Test Session document by its unique identifier in the database.
+   * This method updates a Test Session document by its unique identifier in
+   * the database (auto-grading all ungraded Results before updating).
    *
    * @param id The unique identifier of the Test Session document to update
    * @param testSession The object containing the updated Test Session
