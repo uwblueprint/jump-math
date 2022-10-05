@@ -3,6 +3,7 @@ import {
   SchoolResponseDTO,
 } from "../services/interfaces/schoolService";
 import { testUsers } from "./users";
+import MgSchool, { School } from "../models/school.model";
 
 // set up test schools
 export const testSchools = [
@@ -85,6 +86,11 @@ export const mockSchoolWithId = {
   teachers: [testUsers[0], testUsers[1]],
 };
 
+export const mockSchoolWithId2 = {
+  ...mockSchoolWithId,
+  id: "62c248c0f79d6c3c9ebbea92",
+};
+
 export const assertResponseMatchesExpected = (
   expected: SchoolRequestDTO,
   result: SchoolResponseDTO,
@@ -96,4 +102,17 @@ export const assertResponseMatchesExpected = (
   expect(result.city).toEqual(expected.city);
   expect(result.address).toEqual(expected.address);
   expect(result.teachers).toEqual(testUsers);
+};
+
+export const createSchoolWithCountry = async (
+  country: string,
+): Promise<School> => {
+  return MgSchool.create({
+    name: "school1",
+    country,
+    subRegion: "some-region1",
+    city: "some-city",
+    address: "some-address",
+    teachers: [testUsers[0].id, testUsers[1].id],
+  });
 };
