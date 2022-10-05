@@ -55,6 +55,13 @@ interface IUserService {
   getUsers(): Promise<Array<UserDTO>>;
 
   /**
+   * Get all user information based on role
+   * @returns array of UserDTOs
+   * @throws Error if user retrieval fails
+   */
+  getUsersByRole(role: string): Promise<Array<UserDTO>>;
+
+  /**
    * Create a user, email verification configurable
    * @param user the user to be created
    * @param authId the user's firebase auth id, optional

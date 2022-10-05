@@ -140,6 +140,43 @@ class UserService implements IUserService {
     return userDtos;
   }
 
+  async getUsersByRole(role: string): Promise<Array<UserDTO>> {
+    let userDtos: Array<UserDTO> = [];
+    try {
+      const users: Array<User> = await MgUser.find({
+        role: { $eq: role as Role },
+      });
+      userDtos = await Promise.all(
+        users.map(async (user) => {
+          let firebaseUser: firebaseAdmin.auth.UserRecord;
+
+          try {
+            firebaseUser = await firebaseAdmin.auth().getUser(user.authId);
+          } catch (error) {
+            Logger.error(
+              `user with authId ${user.authId} could not be fetched from Firebase`,
+            );
+            throw error;
+          }
+
+          return {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: firebaseUser.email ?? "",
+            role: user.role,
+          };
+        }),
+      );
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get users by role. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return userDtos;
+  }
+
   async createUser(
     user: CreateUserDTO,
     authId?: string,

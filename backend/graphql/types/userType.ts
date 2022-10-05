@@ -33,6 +33,7 @@ const userType = gql`
     userById(id: ID!): UserDTO!
     userByEmail(email: String!): UserDTO!
     users: [UserDTO!]!
+    usersByRole(role: String!): [UserDTO!]!
     usersCSV: String!
   }
 
