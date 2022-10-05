@@ -155,7 +155,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <h1>Component Library</h1>
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
-      <div style={{ width: "75%", margin: "auto" }}>
+      <div style={{ margin: "auto" }}>
         <ConfirmationMessage />
       </div>
       <MainPageButton />
