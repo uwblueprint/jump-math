@@ -98,9 +98,6 @@ const Button = {
     },
   },
   defaultProps: {
-    fontWeight: "700",
-    fontSize: "16px",
-    lineHeight: "21px",
     size: "md",
     variant: "default",
   },
