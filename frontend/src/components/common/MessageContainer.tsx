@@ -1,9 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Button, Container, Text } from "@chakra-ui/react";
+import IllustrationWrapper from "./IllustrationWrapper";
 
 interface MessageContainerProps {
-  illustration: React.ReactNode;
+  illustration: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   subtitle: string;
   paragraphs: string[];
   buttonText: string;
@@ -32,7 +33,7 @@ const MessageContainer = ({
       centerContent
     >
       <Box maxW="md">
-        {illustration}
+        <IllustrationWrapper Illustration={illustration} pb="1.5em" m="auto" />
         <Text textStyle="subtitle1">{subtitle}</Text>
         {paragraphs.map((paragraph, index) => (
           <Text key={index} textStyle="paragraph">

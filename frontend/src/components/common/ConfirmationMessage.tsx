@@ -6,11 +6,7 @@ import MessageContainer from "./MessageContainer";
 const ConfirmationMessage = (): React.ReactElement => {
   return (
     <MessageContainer
-      illustration={
-        <EnvelopePaperIllustration
-          style={{ paddingBottom: "1.5em", margin: "auto" }}
-        />
-      }
+      illustration={EnvelopePaperIllustration}
       subtitle="Thank you for your submission."
       paragraphs={[
         "The associate will shortly get emailed regarding their onboarding process for Jump Math and changing their user name and password accordingly.",
