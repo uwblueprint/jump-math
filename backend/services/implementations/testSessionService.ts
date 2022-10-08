@@ -196,7 +196,6 @@ class TestSessionService implements ITestSessionService {
           gradeLevel: testSession.gradeLevel,
           results: testSession.results?.map((testSessionResult) => {
             return {
-              id: testSessionResult.id,
               student: testSessionResult.student,
               score: testSessionResult.score,
               answers: testSessionResult.answers,
@@ -211,6 +210,51 @@ class TestSessionService implements ITestSessionService {
     );
 
     return testSessionDtos;
+  }
+
+  async updateTestSession(
+    id: string,
+    testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO> {
+    let updatedTestSession: TestSession | null;
+
+    try {
+      const { results } = testSession;
+      if (results) {
+        await Promise.all(
+          results.map(async (result: ResultRequestDTO, i) => {
+            if (result.gradingStatus === GradingStatus.UNGRADED) {
+              const gradedResult: ResultResponseDTO = await this.gradeTestResult(
+                result,
+                id,
+              );
+              results[i] = gradedResult;
+            }
+          }),
+        );
+      }
+
+      updatedTestSession = await MgTestSession.findByIdAndUpdate(
+        id,
+        testSession,
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!updatedTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update test session. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return (
+      await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
+    )[0];
   }
 
   async getTestSessionsBySchoolId(

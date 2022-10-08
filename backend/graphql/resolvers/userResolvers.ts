@@ -29,6 +29,12 @@ const userResolvers = {
     users: async (): Promise<UserDTO[]> => {
       return userService.getUsers();
     },
+    usersByRole: async (
+      _parent: undefined,
+      { role }: { role: string },
+    ): Promise<UserDTO[]> => {
+      return userService.getUsersByRole(role);
+    },
     usersCSV: async (): Promise<string> => {
       const users = await userService.getUsers();
       const csv = await generateCSV<UserDTO>({ data: users });

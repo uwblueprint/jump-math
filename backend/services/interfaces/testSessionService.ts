@@ -84,7 +84,7 @@ export interface ResultResponseDTO {
   /** the name of the student */
   student: string;
   /** the score of the student */
-  score: number;
+  score: number | null;
   /**
    * a list corresponding to the question list with each field indicating
    * the student's answer
@@ -153,4 +153,17 @@ export interface ITestSessionService {
   getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>>;
+
+  /**
+   * Update a test session given the id
+   * This method updates a Test Session document by its unique identifier in
+   * the database (auto-grading all ungraded Results before updating).
+   *
+   * @param id The unique identifier of the Test Session document to update
+   * @param testSession The object containing the updated Test Session
+   */
+  updateTestSession(
+    id: string,
+    testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO>;
 }

@@ -1,5 +1,6 @@
-import React from "react";
-import { ButtonGroup, Button as ChakraButton, VStack } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { ButtonGroup, Button as ChakraButton, VStack, Text } from "@chakra-ui/react"
 
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
@@ -145,6 +146,19 @@ const ButtonExamples = () => {
           </ChakraButton>
         </ButtonGroup>
       </VStack>
+
+      <VStack>
+        <Text textStyle='header1'>header1</Text>
+        <Text textStyle='header2'>header2</Text>
+        <Text textStyle='header3'>header3</Text>
+        <Text textStyle='header4'>header4</Text>
+        <Text textStyle='subtitle1'>subtitle1</Text>
+        <Text textStyle='subtitle2'>subtitle2</Text>
+        <Text textStyle='paragraph'>paragraph</Text>
+        <Text textStyle='link'>link</Text>
+        <Text textStyle='eyebrow'>eyebrow</Text>
+      </VStack>
+  
     </>
   );
 };
