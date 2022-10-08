@@ -8,7 +8,7 @@ import {
 
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
-import AdminConfirmationMessage from "../common/AdminConfirmationMessage";
+import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 
 const ButtonExamples = () => {
   return (

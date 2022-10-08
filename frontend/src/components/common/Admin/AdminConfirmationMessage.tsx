@@ -1,7 +1,7 @@
 import React from "react";
-import { ADMIN_PAGE } from "../../constants/Routes";
-import { ReactComponent as EnvelopePaperIllustration } from "../../assets/illustrations/envelope-paper.svg";
-import MessageContainer from "./MessageContainer";
+import { ADMIN_PAGE } from "../../../constants/Routes";
+import { ReactComponent as EnvelopePaperIllustration } from "../../../assets/illustrations/envelope-paper.svg";
+import MessageContainer from "../MessageContainer";
 
 const AdminConfirmationMessage = (): React.ReactElement => {
   return (
