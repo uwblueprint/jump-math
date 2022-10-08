@@ -19,10 +19,10 @@ const DarkBlueIcon = {
 const Button = {
   sizes: {
     md: {
-      fontSize: "18px",
+      fontSize: "16px",
       minWidth: "180px",
       height: "48px",
-      lineHeight: "23px",
+      lineHeight: "21px",
       padding: "10px 24px",
       borderRadius: "16px",
       fontWeight: "700",
@@ -98,6 +98,9 @@ const Button = {
     },
   },
   defaultProps: {
+    fontWeight: "700",
+    fontSize: "16px",
+    lineHeight: "21px",
     size: "md",
     variant: "default",
   },

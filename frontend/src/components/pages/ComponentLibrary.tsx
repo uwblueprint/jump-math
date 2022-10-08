@@ -8,7 +8,7 @@ import {
 
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
-import ConfirmationMessage from "../common/ConfirmationMessage";
+import AdminConfirmationMessage from "../common/AdminConfirmationMessage";
 
 const ButtonExamples = () => {
   return (
@@ -172,7 +172,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <h1>Component Library</h1>
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
-      <ConfirmationMessage />
+      <AdminConfirmationMessage />
       <MainPageButton />
     </div>
   );
