@@ -173,9 +173,9 @@ const ComponentLibrary = (): React.ReactElement => {
       <h1>Component Library</h1>
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
-      <MainPageButton />
       <AdminConfirmationMessage />
       <RemoveUserPopover email="shutch@jumpmath.ca" />
+      <MainPageButton />
     </div>
   );
 };
