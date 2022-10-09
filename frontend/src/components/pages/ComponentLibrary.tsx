@@ -5,10 +5,10 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
+import QuestionCard from "../common/QuestionCard";
 
 const ButtonExamples = () => {
   return (
@@ -174,6 +174,13 @@ const ComponentLibrary = (): React.ReactElement => {
       <ButtonExamples />
       <AdminConfirmationMessage />
       <MainPageButton />
+      <QuestionCard
+        date={new Date()}
+        questionTitle="Question Title"
+        image=""
+        text="Question Text"
+        tags={["Grade 2", "Unit #", "Lesson #"]}
+      />
     </div>
   );
 };
