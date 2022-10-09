@@ -86,6 +86,7 @@ const QuestionCard = ({
                 padding="4px 16px"
                 whiteSpace="nowrap"
                 minWidth="fitContent"
+                borderRadius="40px"
               >
                 <Text textStyle="paragraph">{tag}</Text>
               </Tag>
