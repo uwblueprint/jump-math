@@ -24,34 +24,13 @@ const QuestionCard = ({
   text,
   tags,
 }: QuestionCardProps): React.ReactElement => {
-  const buttons: React.ReactElement = (
-    <>
-      <Text
-        as="button"
-        fontWeight="700"
-        fontSize="16px"
-        align="right"
-        marginRight="24px"
-      >
-        Edit
-      </Text>
-      <Text
-        as="button"
-        color="#CC4949"
-        fontWeight="700"
-        fontSize="16px"
-        align="right"
-      >
-        Delete
-      </Text>
-    </>
-  );
   return (
     <Container
       borderRadius="22px"
       padding="24px"
       maxWidth="2xl"
-      background="#fff"
+      background="white"
+      color="grey.300"
     >
       <Stack direction={["column", "row"]}>
         <Box>
@@ -94,7 +73,25 @@ const QuestionCard = ({
           </Stack>
         </Box>
         <Stack direction="row" alignItems="start">
-          {buttons}
+          <Text
+            as="button"
+            color="black"
+            align="right"
+            marginRight="24px"
+            textStyle="link"
+          >
+            Edit
+          </Text>
+          <Text
+            as="button"
+            color="red.200"
+            fontWeight="700"
+            fontSize="16px"
+            align="right"
+            textStyle="link"
+          >
+            Delete
+          </Text>
         </Stack>
       </Stack>
     </Container>
