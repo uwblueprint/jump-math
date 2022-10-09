@@ -5,6 +5,7 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
+
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
@@ -178,7 +179,7 @@ const ComponentLibrary = (): React.ReactElement => {
         date={new Date()}
         questionTitle="Question Title"
         image=""
-        text="Question Text"
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra."
         tags={["Grade 2", "Unit #", "Lesson #"]}
       />
     </div>
