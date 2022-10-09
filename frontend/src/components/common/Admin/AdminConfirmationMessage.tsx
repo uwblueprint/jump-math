@@ -8,7 +8,10 @@ const AdminConfirmationMessage = (): React.ReactElement => {
     <MessageContainer
       illustration={EnvelopePaperIllustration}
       subtitle="Thank you for your submission."
-      paragraph="The associate will shortly get emailed regarding their onboarding process for Jump Math. Changes will appear within 2-3 business days once the associate confirms the email."
+      paragraphs={[
+        "The admin will receive an email shortly regarding their onboarding process for Jump Math.",
+        "Changes will appear on the dashboard within 2-3 business days once the admin confirms their email.",
+      ]}
       textColor="blue.300"
       buttonText="Return to Database"
       pageToNavigate={ADMIN_PAGE}

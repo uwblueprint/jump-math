@@ -6,7 +6,7 @@ import IllustrationWrapper from "./IllustrationWrapper";
 interface MessageContainerProps {
   illustration: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   subtitle: string;
-  paragraph: string;
+  paragraphs: string[];
   textColor: string;
   buttonText: string;
   pageToNavigate: string;
@@ -15,7 +15,7 @@ interface MessageContainerProps {
 const MessageContainer = ({
   illustration,
   subtitle,
-  paragraph,
+  paragraphs,
   textColor,
   buttonText,
   pageToNavigate,
@@ -39,9 +39,16 @@ const MessageContainer = ({
         <Text textStyle="subtitle1" color={textColor} pb="0.5em">
           {subtitle}
         </Text>
-        <Text textStyle="paragraph" color={textColor}>
-          {paragraph}
-        </Text>
+        {paragraphs.map((paragraph, i) => (
+          <Text
+            key={i}
+            textStyle="paragraph"
+            color={textColor}
+            pb={i < paragraphs.length - 1 ? "0.5em" : "0"}
+          >
+            {paragraph}
+          </Text>
+        ))}
         <Button onClick={navigateTo} mt={10} variant="primary">
           {buttonText}
         </Button>
