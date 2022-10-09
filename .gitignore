@@ -9,5 +9,5 @@
 .vscode
 **/*.cache
 **/*.egg-info
-.eslintcache
+**/.eslintcache
 **/.idea

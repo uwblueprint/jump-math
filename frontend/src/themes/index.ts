@@ -1,11 +1,16 @@
-import { extendTheme, theme as base } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import colors from "./colors";
 import Button from "./components/button";
-import textStyles from './typography';
+import textStyles from "./typography";
+import "@fontsource/dm-sans";
 
 const theme = extendTheme({
+  fonts: {
+    heading: "'DM Sans', sans-serif",
+    body: "'DM Sans', sans-serif",
+  },
   colors,
-  textStyles: {...textStyles},
+  textStyles: { ...textStyles },
   components: {
     Button,
   },
