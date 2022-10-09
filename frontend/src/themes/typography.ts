@@ -42,13 +42,13 @@ const textStyles = {
     letterSpacing: "0",
   },
   link: {
-    fontSize: "16pt",
+    fontSize: "16px",
     fontWeight: "700",
     lineHeight: "21px",
     letterSpacing: "0",
   },
   eyebrow: {
-    fontSize: "16pt",
+    fontSize: "16px",
     fontWeight: "500",
     lineHeight: "21px",
     letterSpacing: "0.16em",
