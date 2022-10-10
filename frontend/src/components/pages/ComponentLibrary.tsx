@@ -177,7 +177,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <MainPageButton />
       <QuestionCard
         date={new Date()}
-        questionTitle="Question Title"
+        title="Question Title"
         image=""
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra."
         tags={["Grade 2", "Unit #", "Lesson #"]}

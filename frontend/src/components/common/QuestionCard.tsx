@@ -11,7 +11,7 @@ import {
 
 type QuestionCardProps = {
   date: Date;
-  questionTitle: string;
+  title: string;
   image: string;
   text: string;
   tags: string[];
@@ -19,11 +19,16 @@ type QuestionCardProps = {
 
 const QuestionCard = ({
   date,
-  questionTitle,
+  title,
   image,
   text,
   tags,
 }: QuestionCardProps): React.ReactElement => {
+  const formatDate = (d: Date) =>
+    `${String(d.getDate()).padStart(2, "0")} / ${String(
+      d.getMonth() + 1,
+    ).padStart(2, "0")} / ${String(d.getFullYear()).substring(2, 4)}`;
+
   return (
     <Container
       borderRadius="22px"
@@ -33,17 +38,12 @@ const QuestionCard = ({
       color="grey.300"
     >
       <Stack direction={["column", "row"]}>
-        <Box>
+        <Box marginBottom={["24px", "0px"]}>
           <Text textStyle="eyebrow" align="left">
-            {`${String(date.getDate()).padStart(2, "0")} / ${String(
-              date.getMonth() + 1,
-            ).padStart(2, "0")} / ${String(date.getFullYear()).substring(
-              2,
-              4,
-            )}`}
+            {formatDate(date)}
           </Text>
           <Text marginBottom="12px" textStyle="subtitle1" align="left">
-            {questionTitle}
+            {title}
           </Text>
           <Flex justifyContent="left">
             <Image src={image} alt="IMAGE" />
