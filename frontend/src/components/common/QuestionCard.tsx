@@ -33,7 +33,7 @@ const QuestionCard = ({
     <Container
       borderRadius="22px"
       padding="24px"
-      maxWidth="2xl"
+      maxWidth={["318px", "918px"]}
       background="white"
       color="grey.300"
     >
@@ -56,7 +56,7 @@ const QuestionCard = ({
           >
             {text}
           </Text>
-          <Stack overflow="hidden" minWidth="sm" direction="row">
+          <Stack overflow="hidden" direction="row">
             {tags.map((tag, key) => (
               <Tag
                 key={key}
