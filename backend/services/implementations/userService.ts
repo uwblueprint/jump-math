@@ -203,6 +203,7 @@ class UserService implements IUserService {
           lastName: user.lastName,
           authId: firebaseUser.uid,
           role: user.role,
+          email: user.email,
         });
       } catch (mongoDbError) {
         // rollback user creation in Firebase
