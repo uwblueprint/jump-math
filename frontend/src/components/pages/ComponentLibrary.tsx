@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import {
   ButtonGroup,
@@ -10,6 +11,7 @@ import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import QuestionCard from "../common/QuestionCard";
+import Sidebar, { LinkItemProps } from "../common/Sidebar";
 
 const ButtonExamples = () => {
   return (
@@ -167,11 +169,27 @@ const ButtonExamples = () => {
   );
 };
 
+const LinkItems: LinkItemProps[] = [
+  {
+    name: "Student Page",
+    urlLink: "/students",
+    subPages: [
+      { name: "Also student", urlLink: "/students" },
+      { name: "Another one", urlLink: "/students" },
+    ],
+  },
+  { name: "Teacher Page", urlLink: "/teachers" },
+  { name: "Admin Page", urlLink: "/admins" },
+  { name: "Component Library", urlLink: "/component-library" },
+  { name: "Assessments", urlLink: "/" },
+];
+
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div style={{ textAlign: "center", paddingTop: "20px" }}>
       <h1>Component Library</h1>
       <div style={{ height: "2rem" }} />
+      <Sidebar {...LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <MainPageButton />
