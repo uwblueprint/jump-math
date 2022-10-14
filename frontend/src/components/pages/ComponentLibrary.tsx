@@ -10,6 +10,7 @@ import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
+import QuestionCard from "../common/QuestionCard";
 
 const ButtonExamples = () => {
   return (
@@ -176,6 +177,13 @@ const ComponentLibrary = (): React.ReactElement => {
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
       <MainPageButton />
+      <QuestionCard
+        date={new Date()}
+        title="Question Title"
+        image=""
+        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet,"
+        tags={["Grade 2", "Unit #", "Lesson #"]}
+      />
     </div>
   );
 };
