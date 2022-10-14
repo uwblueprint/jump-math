@@ -38,8 +38,14 @@ const RemoveUserPopover = ({
       </PopoverTrigger>
       <PopoverContent width="3xs" borderColor="grey.300" borderRadius="12px">
         <PopoverBody>
-          <RemoveUserModal name={name} email={email} />
-          <Button variant="primary" mb={2} isActive onClick={onClose}>
+          <RemoveUserModal name={name} email={email} onCloseParent={onClose} />
+          <Button
+            variant="primary"
+            mb={2}
+            bg="blue.200"
+            opacity="0.4"
+            onClick={onClose}
+          >
             Cancel
           </Button>
         </PopoverBody>
