@@ -69,7 +69,8 @@ const RemoveUserModal = ({
                 <Button
                   variant="primary"
                   mr={2}
-                  isActive
+                  bg="blue.200"
+                  opacity="0.6"
                   onClick={() => {
                     onCloseParent();
                     onClose();

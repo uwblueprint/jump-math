@@ -43,7 +43,7 @@ const RemoveUserPopover = ({
             variant="primary"
             mb={2}
             bg="blue.200"
-            opacity="0.4"
+            opacity="0.6"
             onClick={onClose}
           >
             Cancel
