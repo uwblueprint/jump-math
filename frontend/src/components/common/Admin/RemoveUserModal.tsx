@@ -7,8 +7,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { ADMIN_PAGE } from "../../../constants/Routes";
 import { CloseOutlineIcon } from "../icons";
 import ModalText from "../ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
