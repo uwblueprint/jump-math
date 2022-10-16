@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import {
   Button,
   Modal,
@@ -8,14 +9,21 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { CloseOutlineIcon } from "../icons";
-import ModalText from "../ModalText";
+import ModalText from "./ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
+import RemoveUserErrorModal from "./RemoveUserErrorModal";
 
 interface RemoveUserModalProps {
   name: string;
   email: string;
   onCloseParent: () => void;
 }
+
+const REMOVE_USER = gql`
+  mutation RemoveUserModal_DeleteUserByEmail($email: String!) {
+    deleteUserByEmail(email: $email)
+  }
+`;
 
 const RemoveUserModal = ({
   name,
@@ -24,10 +32,18 @@ const RemoveUserModal = ({
 }: RemoveUserModalProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
+  const [removeUser, { loading, error }] = useMutation<{ removeUser: null }>(
+    REMOVE_USER,
+  );
 
-  const onRemoveUserClick = () => {
-    console.log("Remove user with email: ", email);
-    setShowConfirmation(true);
+  const onRemoveUserClick = async () => {
+    await removeUser({ variables: { email } });
+    if (error) {
+      setShowError(true);
+    } else {
+      setShowConfirmation(true);
+    }
   };
 
   return (
@@ -43,9 +59,10 @@ const RemoveUserModal = ({
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent alignItems="center" p={2}>
-          {showConfirmation ? (
-            <RemoveUserConfirmationModal />
-          ) : (
+          {showError && <RemoveUserErrorModal />}
+          {showConfirmation && <RemoveUserConfirmationModal />}
+          {loading && <ModalText body={["Loading..."]} />}
+          {!loading && !showConfirmation && !showError && (
             <>
               <ModalText
                 header={`Are you sure you want to remove ${name}?`}

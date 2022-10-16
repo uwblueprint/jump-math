@@ -4,15 +4,16 @@ import { useHistory } from "react-router-dom";
 import { ADMIN_PAGE } from "../../../constants/Routes";
 import ModalText from "./ModalText";
 
-const RemoveUserConfirmationModal = (): React.ReactElement => {
+const RemoveUserErrorModal = (): React.ReactElement => {
   const history = useHistory();
   const navigateTo = () => history.push(ADMIN_PAGE);
-
   return (
     <>
       <ModalText
-        header="The user has been removed from the Jump Math Database"
-        body={["The data has been removed securely."]}
+        header="You do not have permission to remove this user."
+        body={[
+          "Please contact administration if you believe this is an error.",
+        ]}
       />
       <ModalFooter my={3}>
         <Button variant="primary" mr={2} onClick={navigateTo}>
@@ -23,4 +24,4 @@ const RemoveUserConfirmationModal = (): React.ReactElement => {
   );
 };
 
-export default RemoveUserConfirmationModal;
+export default RemoveUserErrorModal;
