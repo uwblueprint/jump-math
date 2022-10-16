@@ -5,7 +5,6 @@ import * as Routes from "../../constants/Routes";
 import Logout from "../auth/Logout";
 import RefreshCredentials from "../auth/RefreshCredentials";
 import ResetPassword from "../auth/ResetPassword";
-import MainPageButton from "../common/MainPageButton";
 
 type ButtonProps = { text: string; path: string };
 
@@ -29,7 +28,6 @@ const AdminPage = (): React.ReactElement => {
         <ResetPassword />
         <Button text="Student Page" path={Routes.STUDENT_PAGE} />
         <Button text="Component Library" path={Routes.COMPONENT_LIBRARY} />
-        <MainPageButton />
       </div>
     </div>
   );

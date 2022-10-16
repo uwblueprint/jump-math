@@ -3,7 +3,6 @@ import React from "react";
 import Logout from "../auth/Logout";
 import RefreshCredentials from "../auth/RefreshCredentials";
 import ResetPassword from "../auth/ResetPassword";
-import MainPageButton from "../common/MainPageButton";
 
 const TeacherPage = (): React.ReactElement => {
   return (
@@ -13,7 +12,6 @@ const TeacherPage = (): React.ReactElement => {
         <Logout />
         <RefreshCredentials />
         <ResetPassword />
-        <MainPageButton />
       </div>
     </div>
   );

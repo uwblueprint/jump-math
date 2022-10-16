@@ -56,16 +56,14 @@ const App = (): React.ReactElement => {
           >
             <Router>
               <Switch>
-                <Route exact path={Routes.LOGIN_PAGE} component={Login} />
+                <Route
+                  exact
+                  path={["/", Routes.LOGIN_PAGE]}
+                  component={Login}
+                />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
 
                 {/* TODO, change to private routes after user management setup */}
-                <PrivateRoute
-                  exact
-                  path={Routes.HOME_PAGE}
-                  component={Default}
-                />
-
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
@@ -87,8 +85,6 @@ const App = (): React.ReactElement => {
                   path={Routes.COMPONENT_LIBRARY}
                   component={ComponentLibrary}
                 />
-
-                <Route exact path="*" component={NotFound} />
               </Switch>
             </Router>
           </AuthContext.Provider>
