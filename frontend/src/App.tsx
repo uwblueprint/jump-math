@@ -6,7 +6,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import Default from "./components/pages/Default";
 import NotFound from "./components/pages/NotFound";
 
 import StudentPage from "./components/pages/StudentPage";
