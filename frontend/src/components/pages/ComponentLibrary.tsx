@@ -9,6 +9,7 @@ import {
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
+import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 
 const ButtonExamples = () => {
@@ -174,6 +175,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
       <AdminConfirmationMessage />
+      <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
       <MainPageButton />
       <QuestionCard
         date={new Date()}
