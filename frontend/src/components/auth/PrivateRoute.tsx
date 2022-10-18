@@ -6,9 +6,9 @@ import { ADMIN_PAGE, LOGIN_PAGE, TEACHER_PAGE } from "../../constants/Routes";
 import NotFound from "../pages/NotFound";
 
 type PrivateRouteProps = {
+  component: React.FC;
   path: string;
   exact: boolean;
-  component: React.FC;
 };
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
