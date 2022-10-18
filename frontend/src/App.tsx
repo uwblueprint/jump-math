@@ -63,7 +63,6 @@ const App = (): React.ReactElement => {
                 />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
 
-                {/* TODO, change to private routes after user management setup */}
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
@@ -79,12 +78,12 @@ const App = (): React.ReactElement => {
                   path={Routes.ADMIN_PAGE}
                   component={AdminPage}
                 />
-
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
                   component={ComponentLibrary}
                 />
+                <Route exact path="*" component={NotFound} />
               </Switch>
             </Router>
           </AuthContext.Provider>
