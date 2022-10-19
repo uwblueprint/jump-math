@@ -10,31 +10,19 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const userDataArr = [
-  {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
-  },
-  {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
-  },
-  {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
-  },
-  {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email:
-      "The quick brown fox jumps over the lazy dog is an English-language pangram—a sentence that contains all of the letters of the English alphabet. Owing to its existence, Chakra was created.",
-  },
-];
+type AdminUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
 
-const AdminUserTable = (): React.ReactElement => {
+interface AdminUserTableProps {
+  adminUserArray: AdminUser[];
+}
+
+const AdminUserTable = ({
+  adminUserArray,
+}: AdminUserTableProps): React.ReactElement => {
   return (
     <TableContainer
       padding="10px"
@@ -45,12 +33,20 @@ const AdminUserTable = (): React.ReactElement => {
       <Table sx={{ tableLayout: "fixed" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
-            <Th>Name</Th>
-            <Th>Email</Th>
+            <Th>
+              <Text textStyle="link" fontWeight="700" textTransform="none">
+                Name
+              </Text>
+            </Th>
+            <Th>
+              <Text textStyle="link" fontWeight="700" textTransform="none">
+                Email
+              </Text>
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
-          {userDataArr.map((user, index) => (
+          {adminUserArray.map((user, index) => (
             <Tr
               _hover={{ backgroundColor: "#154472", color: "white" }}
               key={user.firstName}
