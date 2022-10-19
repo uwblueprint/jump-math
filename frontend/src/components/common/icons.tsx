@@ -18,3 +18,30 @@ export const ArrowBackOutlineIcon = (): React.ReactElement => (
     />
   </Icon>
 );
+
+export const ChevronUpIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M18 15a1 1 0 0 1-.64-.23L12 10.29l-5.37 4.32a1 1 0 0 1-1.41-.15 1 1 0 0 1 .15-1.41l6-4.83a1 1 0 0 1 1.27 0l6 5a1 1 0 0 1 .13 1.41A1 1 0 0 1 18 15z"
+    />
+  </Icon>
+);
+
+export const ChevronDownIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M12 16a1 1 0 0 1-.64-.23l-6-5a1 1 0 1 1 1.28-1.54L12 13.71l5.36-4.32a1 1 0 0 1 1.41.15 1 1 0 0 1-.14 1.46l-6 4.83A1 1 0 0 1 12 16z"
+    />
+  </Icon>
+);
+
+export const BookIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M20.62 4.22a1 1 0 0 0-.84-.2L12 5.77 4.22 4A1 1 0 0 0 3 5v12.2a1 1 0 0 0 .78 1l8 1.8h.44l8-1.8a1 1 0 0 0 .78-1V5a1 1 0 0 0-.38-.78zM5 6.25l6 1.35v10.15L5 16.4zM19 16.4l-6 1.35V7.6l6-1.35z"
+    />
+  </Icon>
+);

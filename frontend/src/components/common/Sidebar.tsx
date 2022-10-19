@@ -14,8 +14,9 @@ import {
   BoxProps,
   FlexProps,
   Spacer,
+  Image,
 } from "@chakra-ui/react";
-import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "./icons";
+import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
 
 export interface LinkItemProps {
   name: string;
@@ -108,10 +109,10 @@ const NavItem = ({
           color: "black",
         }}
       >
-        <Box>
-          <ArrowBackOutlineIcon />
-          {navText}
+        <Box p={1}>
+          <BookIcon />
         </Box>
+        <Box>{navText}</Box>
         <Spacer />
         <Box
           onClick={(e) => {
@@ -119,8 +120,7 @@ const NavItem = ({
             setShowMore(!showMore);
           }}
         >
-          {existSubPage &&
-            (showMore ? <ArrowBackOutlineIcon /> : <ArrowForwardOutlineIcon />)}
+          {existSubPage && (showMore ? <ChevronUpIcon /> : <ChevronDownIcon />)}
         </Box>
       </Flex>
     </Link>
@@ -214,7 +214,7 @@ const SidebarContent = ({ onClose, linkItems, ...rest }: SidebarProps) => {
     </Box>
   );
 };
-const Sidebar = (LinkItemsArray: LinkItemProps[]): React.ReactElement => {
+const Sidebar = (): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
