@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   ButtonGroup,
   Button as ChakraButton,
@@ -11,11 +11,8 @@ import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import AuthContext from "../../contexts/AuthContext";
 
 const ButtonExamples = () => {
-  const { authenticatedUser } = useContext(AuthContext);
-  console.log(authenticatedUser?.role);
   return (
     <>
       <VStack spacing={4} bg="yellow.50" padding={6}>

@@ -1,23 +1,38 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   Button,
+  Divider,
   Modal,
   ModalContent,
   ModalFooter,
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../../contexts/AuthContext";
 import { CloseOutlineIcon } from "../icons";
 import ModalText from "./ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
+import { Role } from "../../../types/AuthTypes";
 
 interface RemoveUserModalProps {
   name: string;
   email: string;
   onCloseParent: () => void;
 }
+
+interface UserGQLObject {
+  userByEmail: { id: string };
+}
+
+const GET_USER = gql`
+  query RemoveUserModal_UserByEmail($email: String!) {
+    userByEmail(email: $email) {
+      id
+    }
+  }
+`;
 
 const REMOVE_USER = gql`
   mutation RemoveUserModal_DeleteUserByEmail($email: String!) {
@@ -36,13 +51,25 @@ const RemoveUserModal = ({
   const [removeUser, { error }] = useMutation<{ removeUser: null }>(
     REMOVE_USER,
   );
+  const [user, setUser] = React.useState<string | null>("");
+  const { authenticatedUser } = useContext(AuthContext);
+
+  useQuery(GET_USER, {
+    variables: { email },
+    fetchPolicy: "cache-and-network",
+    onCompleted: (data: UserGQLObject) => setUser(data.userByEmail.id),
+  });
 
   const onRemoveUserClick = async () => {
-    await removeUser({ variables: { email } });
-    if (error) {
-      setShowError(true);
+    if (user && authenticatedUser?.role === Role.ADMIN) {
+      await removeUser({ variables: { email } });
+      if (error) {
+        setShowError(true);
+      } else {
+        setShowConfirmation(true);
+      }
     } else {
-      setShowConfirmation(true);
+      setShowError(true);
     }
   };
 
@@ -58,21 +85,20 @@ const RemoveUserModal = ({
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent alignItems="center" p={2}>
+        <ModalContent alignItems="center" p={2} maxW="600px">
           {showError && <RemoveUserErrorModal />}
           {showConfirmation && <RemoveUserConfirmationModal />}
           {!showConfirmation && !showError && (
             <>
               <ModalText
                 header={`Are you sure you want to remove ${name}?`}
-                body={["NOTE", "This user is an admin."]}
+                body={["NOTE:", "This user is an admin."]}
               />
-              <ModalFooter my={3}>
+              <Divider style={{ marginTop: "1.5em" }} />
+              <ModalFooter my={0.5}>
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   mr={2}
-                  bg="blue.200"
-                  opacity="0.6"
                   onClick={() => {
                     onCloseParent();
                     onClose();
@@ -80,12 +106,8 @@ const RemoveUserModal = ({
                 >
                   Cancel
                 </Button>
-                <Button
-                  rightIcon={<CloseOutlineIcon />}
-                  variant="primary"
-                  onClick={onRemoveUserClick}
-                >
-                  Remove User
+                <Button variant="primary" onClick={onRemoveUserClick}>
+                  Confirm
                 </Button>
               </ModalFooter>
             </>

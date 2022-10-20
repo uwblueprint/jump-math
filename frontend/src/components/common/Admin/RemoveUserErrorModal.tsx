@@ -10,10 +10,8 @@ const RemoveUserErrorModal = (): React.ReactElement => {
   return (
     <>
       <ModalText
-        header="You do not have permission to remove this user."
-        body={[
-          "Please contact administration if you believe this is an error.",
-        ]}
+        header="Unable to remove user at this moment. Please try again."
+        textColor="red.200"
       />
       <ModalFooter my={3}>
         <Button variant="primary" mr={2} onClick={navigateTo}>

@@ -11,3 +11,8 @@ export type DecodedJWT =
   | string
   | null
   | { [key: string]: unknown; exp: number };
+
+export enum Role {
+  TEACHER = "Teacher",
+  ADMIN = "Admin",
+}
