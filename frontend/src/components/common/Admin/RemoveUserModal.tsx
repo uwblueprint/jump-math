@@ -33,7 +33,7 @@ const RemoveUserModal = ({
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showError, setShowError] = React.useState(false);
-  const [removeUser, { loading, error }] = useMutation<{ removeUser: null }>(
+  const [removeUser, { error }] = useMutation<{ removeUser: null }>(
     REMOVE_USER,
   );
 
@@ -61,8 +61,7 @@ const RemoveUserModal = ({
         <ModalContent alignItems="center" p={2}>
           {showError && <RemoveUserErrorModal />}
           {showConfirmation && <RemoveUserConfirmationModal />}
-          {loading && <ModalText body={["Loading..."]} />}
-          {!loading && !showConfirmation && !showError && (
+          {!showConfirmation && !showError && (
             <>
               <ModalText
                 header={`Are you sure you want to remove ${name}?`}
