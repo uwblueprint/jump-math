@@ -189,7 +189,7 @@ const ComponentLibrary = (): React.ReactElement => {
     <div style={{ textAlign: "center", paddingTop: "20px" }}>
       <h1>Component Library</h1>
       <div style={{ height: "2rem" }} />
-      <Sidebar />
+      <Sidebar linkItems={LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <MainPageButton />

@@ -25,20 +25,9 @@ export interface LinkItemProps {
   subPages?: LinkItemProps[];
 }
 
-const LinkItems: LinkItemProps[] = [
-  {
-    name: "Student Page",
-    urlLink: "/students",
-    subPages: [
-      { name: "Also student", urlLink: "/students" },
-      { name: "Another one", urlLink: "/students" },
-    ],
-  },
-  { name: "Teacher Page", urlLink: "/teachers" },
-  { name: "Admin Page", urlLink: "/admins" },
-  { name: "Component Library", urlLink: "/component-library" },
-  { name: "Assessments", urlLink: "/" },
-];
+export interface LinkItemArrayProps {
+  linkItems: LinkItemProps[];
+}
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -214,14 +203,14 @@ const SidebarContent = ({ onClose, linkItems, ...rest }: SidebarProps) => {
     </Box>
   );
 };
-const Sidebar = (): React.ReactElement => {
+const Sidebar = ({ linkItems }: LinkItemArrayProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
         display={{ base: "none", md: "block" }}
         onClose={() => onClose}
-        linkItems={LinkItems}
+        linkItems={linkItems}
       />
       <Drawer
         autoFocus={false}
@@ -233,7 +222,7 @@ const Sidebar = (): React.ReactElement => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} linkItems={LinkItems} />
+          <SidebarContent onClose={onClose} linkItems={linkItems} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
