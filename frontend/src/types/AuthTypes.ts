@@ -1,9 +1,11 @@
+export type Role = "Admin" | "Teacher";
+
 export type AuthenticatedUser = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: "Admin" | "Teacher";
+  role: Role;
   accessToken: string;
 } | null;
 

@@ -67,21 +67,25 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.STUDENT_PAGE}
                   component={StudentPage}
+                  roles={["Admin"]}
                 />
                 <PrivateRoute
                   exact
                   path={Routes.TEACHER_PAGE}
                   component={TeacherPage}
+                  roles={["Teacher"]}
                 />
                 <PrivateRoute
                   exact
                   path={Routes.ADMIN_PAGE}
                   component={AdminPage}
+                  roles={["Admin"]}
                 />
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
                   component={ComponentLibrary}
+                  roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
               </Switch>
