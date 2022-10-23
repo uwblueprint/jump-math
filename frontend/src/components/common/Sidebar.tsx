@@ -14,7 +14,6 @@ import {
   BoxProps,
   FlexProps,
   Spacer,
-  Image,
 } from "@chakra-ui/react";
 import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
 
