@@ -20,7 +20,7 @@ const Button = ({ text, path }: ButtonProps) => {
 
 const AdminPage = (): React.ReactElement => {
   return (
-    <div style={{ textAlign: "center", width: "25%", margin: "0px auto" }}>
+    <div style={{ textAlign: "center", margin: "0px auto" }}>
       <h1>Admin Page</h1>
       <div className="btn-group">
         <Logout />

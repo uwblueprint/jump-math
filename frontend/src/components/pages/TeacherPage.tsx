@@ -6,7 +6,7 @@ import ResetPassword from "../auth/ResetPassword";
 
 const TeacherPage = (): React.ReactElement => {
   return (
-    <div style={{ textAlign: "center", width: "25%", margin: "0px auto" }}>
+    <div style={{ textAlign: "center", margin: "0px auto" }}>
       <h1>Teacher Page</h1>
       <div className="btn-group">
         <Logout />

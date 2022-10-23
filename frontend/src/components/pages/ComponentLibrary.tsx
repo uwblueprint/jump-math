@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
+import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import QuestionCard from "../common/QuestionCard";
 
@@ -173,6 +174,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
       <AdminConfirmationMessage />
+      <MainPageButton />
       <QuestionCard
         date={new Date()}
         title="Question Title"
