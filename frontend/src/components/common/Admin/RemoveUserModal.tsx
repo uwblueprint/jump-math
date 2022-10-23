@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import {
   Button,
   Divider,
@@ -8,13 +8,11 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
-import AuthContext from "../../../contexts/AuthContext";
+import React from "react";
 import { CloseOutlineIcon } from "../icons";
 import ModalText from "./ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
-import { Role } from "../../../types/AuthTypes";
 
 interface RemoveUserModalProps {
   name: string;
@@ -22,21 +20,20 @@ interface RemoveUserModalProps {
   onCloseParent: () => void;
 }
 
-interface UserGQLObject {
-  userByEmail: { id: string };
-}
-
-const GET_USER = gql`
-  query RemoveUserModal_UserByEmail($email: String!) {
-    userByEmail(email: $email) {
-      id
-    }
+const REMOVE_USER = gql`
+  mutation DeleteUserByEmail($email: String!) {
+    deleteUserByEmail(email: $email)
   }
 `;
 
-const REMOVE_USER = gql`
-  mutation RemoveUserModal_DeleteUserByEmail($email: String!) {
-    deleteUserByEmail(email: $email)
+const GET_USERS_BY_ROLE = gql`
+  query GetUsersByRole($role: String!) {
+    usersByRole(role: $role) {
+      id
+      firstName
+      lastName
+      email
+    }
   }
 `;
 
@@ -50,26 +47,19 @@ const RemoveUserModal = ({
   const [showError, setShowError] = React.useState(false);
   const [removeUser, { error }] = useMutation<{ removeUser: null }>(
     REMOVE_USER,
+    {
+      refetchQueries: [
+        { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
+      ],
+    },
   );
-  const [user, setUser] = React.useState<string | null>("");
-  const { authenticatedUser } = useContext(AuthContext);
-
-  useQuery(GET_USER, {
-    variables: { email },
-    fetchPolicy: "cache-and-network",
-    onCompleted: (data: UserGQLObject) => setUser(data.userByEmail.id),
-  });
 
   const onRemoveUserClick = async () => {
-    if (user && authenticatedUser?.role === Role.ADMIN) {
-      await removeUser({ variables: { email } });
-      if (error) {
-        setShowError(true);
-      } else {
-        setShowConfirmation(true);
-      }
-    } else {
+    await removeUser({ variables: { email } });
+    if (error) {
       setShowError(true);
+    } else {
+      setShowConfirmation(true);
     }
   };
 
