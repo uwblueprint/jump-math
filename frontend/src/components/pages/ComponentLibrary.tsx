@@ -10,6 +10,7 @@ import {
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
 import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
+import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar, { LinkItemProps } from "../common/Sidebar";
 
@@ -192,6 +193,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <Sidebar linkItems={LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
+      <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
       <MainPageButton />
       <QuestionCard
         date={new Date()}

@@ -19,6 +19,23 @@ export const ArrowBackOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
+export const MoreVerticalOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="2" />
+    <circle cx="12" cy="5" r="2" />
+    <circle cx="12" cy="19" r="2" />
+  </Icon>
+);
+
+export const CloseOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
+    />
+  </Icon>
+);
+
 export const ChevronUpIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <path

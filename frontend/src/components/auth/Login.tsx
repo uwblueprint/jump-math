@@ -8,7 +8,7 @@ import {
 import { gql, useMutation } from "@apollo/client";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
-import { HOME_PAGE, SIGNUP_PAGE } from "../../constants/Routes";
+import { ADMIN_PAGE, SIGNUP_PAGE, TEACHER_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
 
@@ -78,7 +78,11 @@ const Login = (): React.ReactElement => {
   };
 
   if (authenticatedUser) {
-    return <Redirect to={HOME_PAGE} />;
+    return authenticatedUser.role === "Teacher" ? (
+      <Redirect to={TEACHER_PAGE} />
+    ) : (
+      <Redirect to={ADMIN_PAGE} />
+    );
   }
 
   return (
