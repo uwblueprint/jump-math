@@ -6,7 +6,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import Default from "./components/pages/Default";
 import NotFound from "./components/pages/NotFound";
 
 import StudentPage from "./components/pages/StudentPage";
@@ -57,38 +56,37 @@ const App = (): React.ReactElement => {
           >
             <Router>
               <Switch>
-                <Route exact path={Routes.LOGIN_PAGE} component={Login} />
-                <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
-
-                {/* TODO, change to private routes after user management setup */}
-                <PrivateRoute
+                <Route
                   exact
-                  path={Routes.HOME_PAGE}
-                  component={Default}
+                  path={[Routes.HOME_PAGE, Routes.LOGIN_PAGE]}
+                  component={Login}
                 />
+                <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
 
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
                   component={StudentPage}
+                  roles={["Admin"]}
                 />
                 <PrivateRoute
                   exact
                   path={Routes.TEACHER_PAGE}
                   component={TeacherPage}
+                  roles={["Teacher"]}
                 />
                 <PrivateRoute
                   exact
                   path={Routes.ADMIN_PAGE}
                   component={AdminPage}
+                  roles={["Admin"]}
                 />
-
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
                   component={ComponentLibrary}
+                  roles={["Admin", "Teacher"]}
                 />
-
                 <Route exact path="*" component={NotFound} />
               </Switch>
             </Router>
