@@ -69,6 +69,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const apolloClient = new ApolloClient({
+  uri: `${process.env.REACT_APP_BACKEND_URL}`,
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   link: authLink.concat(link as any),
   cache: new InMemoryCache(),

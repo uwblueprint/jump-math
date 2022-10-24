@@ -175,7 +175,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <div style={{ height: "2rem" }} />
       <ButtonExamples />
       <AdminConfirmationMessage />
-      <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
+      <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />
       <MainPageButton />
       <QuestionCard
         date={new Date()}
