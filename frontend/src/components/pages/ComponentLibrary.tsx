@@ -11,6 +11,7 @@ import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
+import AdminUserTable from "../common/AdminUserTable";
 
 const ButtonExamples = () => {
   return (
@@ -168,6 +169,29 @@ const ButtonExamples = () => {
   );
 };
 
+const ADMINUSERS = [
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email:
+      "The quick brown fox jumps over the lazy dog is an English-language pangram—a sentence that contains all of the letters of the English alphabet. Owing to its existence, Chakra was created.",
+  },
+];
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div style={{ textAlign: "center", paddingTop: "20px" }}>
@@ -184,6 +208,7 @@ const ComponentLibrary = (): React.ReactElement => {
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet,"
         tags={["Grade 2", "Unit #", "Lesson #"]}
       />
+      <AdminUserTable adminUsers={ADMINUSERS} />
     </div>
   );
 };

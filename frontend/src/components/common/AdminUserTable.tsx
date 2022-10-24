@@ -10,55 +10,54 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-type AdminUser = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
+import { AdminUser } from "../../types/UserTypes";
 
 interface AdminUserTableProps {
-  adminUserArray: AdminUser[];
+  adminUsers: AdminUser[];
 }
 
 const AdminUserTable = ({
-  adminUserArray,
+  adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
   return (
     <TableContainer
       padding="10px"
       border="1px solid"
-      borderColor="grey.200"
+      borderColor="#E2E8F0"
       borderRadius="12px"
     >
       <Table sx={{ tableLayout: "fixed" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
             <Th>
-              <Text textStyle="link" fontWeight="700" textTransform="none">
+              <Text textStyle="link" color="blue.700" textTransform="none">
                 Name
               </Text>
             </Th>
             <Th>
-              <Text textStyle="link" fontWeight="700" textTransform="none">
+              <Text textStyle="link" color="blue.700" textTransform="none">
                 Email
               </Text>
             </Th>
           </Tr>
         </Thead>
         <Tbody>
-          {adminUserArray.map((user, index) => (
+          {adminUsers.map((user, index) => (
             <Tr
-              _hover={{ backgroundColor: "#154472", color: "white" }}
+              _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
               key={user.firstName}
-              backgroundColor={index % 2 === 0 ? "#E8EDF1" : "white"}
+              backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
             >
               <Td>
                 <Text
                   noOfLines={1}
+                  style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
               </Td>
               <Td>
-                <Text noOfLines={1}>{user.email}</Text>
+                <Text noOfLines={1} style={{ display: "block" }}>
+                  {user.email}
+                </Text>
               </Td>
             </Tr>
           ))}
