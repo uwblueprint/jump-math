@@ -187,9 +187,7 @@ const LinkItems: LinkItemProps[] = [
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
-    <div style={{ textAlign: "center", paddingTop: "20px" }}>
-      <h1>Component Library</h1>
-      <div style={{ height: "2rem" }} />
+    <div>
       <Sidebar linkItems={LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
