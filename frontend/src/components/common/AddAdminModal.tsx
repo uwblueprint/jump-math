@@ -21,33 +21,29 @@ import { PlusOutlineIcon } from "./icons";
 
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [inputVals, setInputVals] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    confirmEmail: "",
-  });
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
   const [hasJumpMathEmail, setHasJumpMathEmail] = useState<boolean | null>(
     null,
   );
-
-  const handleSelect = (value: string) => {
-    setHasJumpMathEmail(value === "yes");
-  };
-
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setInputVals({
-      ...inputVals,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
-  };
 
   const onModalClose = () => {
     setHasJumpMathEmail(null);
     onClose();
   };
 
-  const onAddAdminClick = () => {};
+  const onAddAdminClick = () => {
+    if (email !== confirmEmail) {
+      console.log("emails don't match");
+      return;
+    }
+    console.log("creating admin with data");
+    console.log(
+      `first name: ${firstName}\nlast name: ${lastName}\n email: ${email}`,
+    );
+  };
 
   return (
     <>
@@ -59,7 +55,7 @@ const AddAdminModal = (): React.ReactElement => {
       >
         Add Admin
       </Button>
-      <Modal isOpen={isOpen} onClose={onModalClose} size="2xl" isCentered>
+      <Modal isOpen={isOpen} onClose={onModalClose} size="6xl" isCentered>
         <ModalOverlay />
         <ModalContent p={2}>
           <ModalHeader>
@@ -70,61 +66,110 @@ const AddAdminModal = (): React.ReactElement => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel textStyle="subtitle2" color="blue.300">
+              <FormLabel color="blue.300" fontSize="20px" lineHeight="26px">
                 Name of Admin
               </FormLabel>
-              <HStack direction="row">
+              <HStack direction="row" mt={6}>
                 <Input
                   type="text"
                   placeholder="First Name"
                   name="firstName"
-                  onChange={handleInputChange}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  fontSize="18px"
+                  fontWeight="400"
+                  width="320px"
+                  height="48px"
+                  textAlign="center"
+                  backgroundColor="grey.100"
+                  borderColor="grey.100"
                 />
                 <Input
                   type="text"
                   placeholder="Last Name"
                   name="lastName"
-                  onChange={handleInputChange}
+                  onChange={(e) => setLastName(e.target.value)}
+                  fontSize="18px"
+                  width="320px"
+                  height="48px"
+                  textAlign="center"
+                  backgroundColor="grey.100"
+                  borderColor="grey.100"
                 />
               </HStack>
             </FormControl>
-            <FormControl as="fieldset" mt={8}>
-              <FormLabel as="legend" textStyle="subtitle2" color="blue.300">
+            <FormControl isRequired as="fieldset" mt={8}>
+              <FormLabel
+                as="legend"
+                textStyle="subtitle2"
+                color="blue.300"
+                mb={0}
+                fontSize="20px"
+                lineHeight="26px"
+              >
                 Does the user already have a Jump Math email address?
               </FormLabel>
-              <RadioGroup onChange={handleSelect}>
+              <RadioGroup
+                onChange={(val) => setHasJumpMathEmail(val === "yes")}
+                mt={5}
+              >
                 <HStack spacing="24px">
-                  <Radio value="no" mt={2}>
+                  <Radio value="no" mt={2} outlineColor="grey.300" size="lg">
                     No
                   </Radio>
-                  <Radio value="yes">Yes</Radio>
+                  <Radio value="yes" outlineColor="grey.300" size="lg">
+                    Yes
+                  </Radio>
                 </HStack>
               </RadioGroup>
             </FormControl>
             {hasJumpMathEmail !== null && (
               <>
                 <FormControl isRequired mt={6}>
-                  <FormLabel textStyle="subtitle2" color="blue.300">
+                  <FormLabel
+                    color="blue.300"
+                    mb={0}
+                    fontSize="20px"
+                    lineHeight="26px"
+                  >
                     {`Please enter their ${
                       hasJumpMathEmail ? "Jump Math" : ""
                     } email address`}
                   </FormLabel>
                   <Input
-                    type="text"
+                    type="email"
                     placeholder="Email Address"
                     name="email"
-                    onChange={handleInputChange}
+                    onChange={(e) => setEmail(e.target.value)}
+                    mt={6}
+                    fontSize="18px"
+                    width="320px"
+                    height="48px"
+                    textAlign="center"
+                    backgroundColor="grey.100"
+                    borderColor="grey.100"
                   />
                 </FormControl>
                 <FormControl isRequired mt={6}>
-                  <FormLabel textStyle="subtitle2" color="blue.300">
+                  <FormLabel
+                    color="blue.300"
+                    mb={0}
+                    fontSize="20px"
+                    lineHeight="26px"
+                  >
                     Confirm email address
                   </FormLabel>
                   <Input
-                    type="text"
+                    type="email"
                     placeholder="Email Address"
                     name="confirmEmail"
-                    onChange={handleInputChange}
+                    onChange={(e) => setConfirmEmail(e.target.value)}
+                    mt={6}
+                    fontSize="18px"
+                    width="320px"
+                    height="48px"
+                    textAlign="center"
+                    backgroundColor="grey.100"
+                    borderColor="grey.100"
                   />
                 </FormControl>
               </>
@@ -134,12 +179,19 @@ const AddAdminModal = (): React.ReactElement => {
             <Button
               variant="secondary"
               onClick={onModalClose}
-              mr={3}
+              mr={2}
               borderColor="blue.50"
+              minWidth="108px"
+              width="108px"
             >
               Discard
             </Button>
-            <Button variant="primary" onClick={onAddAdminClick}>
+            <Button
+              variant="primary"
+              onClick={onAddAdminClick}
+              minWidth="108px"
+              width="108px"
+            >
               Save
             </Button>
           </ModalFooter>
