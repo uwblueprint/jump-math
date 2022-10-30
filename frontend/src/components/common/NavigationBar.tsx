@@ -12,10 +12,14 @@ import {
   BoxProps,
   FlexProps,
   Spacer,
+  Image,
+  VStack,
 } from "@chakra-ui/react";
 import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
 import RouterLink from "./RouterLink";
 import MobileNav from "./MobileNav";
+import { HOME_PAGE } from "../../constants/Routes";
+import JumpMathLogo from "../../assets/jump-math-logo.png";
 
 export interface LinkItemProps {
   name: string;
@@ -146,34 +150,40 @@ const UpperNavItem = ({ navText, urlLink, subPages }: UpperNavItemProps) => {
   );
 };
 
-const SidebarContent = ({ onClose, linkItems, ...rest }: SidebarProps) => {
+const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
   return (
     <Box
-      bg={useColorModeValue("white", "gray.900")}
-      borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      boxShadow="base"
       pos="fixed"
+      w={{ base: "full", md: 60 }}
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+      <Flex
+        h="20"
+        alignItems="center"
+        mx="8"
+        justifyContent="space-between"
+        mt="16"
+        mb="6"
+      >
+        <RouterLink to={HOME_PAGE}>
+          <Image src={JumpMathLogo} alt="Jump Math Logo" h="64px" />
+        </RouterLink>
       </Flex>
-      {linkItems.map((link) => (
-        <UpperNavItem
-          key={link.name}
-          navText={link.name}
-          urlLink={link.urlLink}
-          subPages={link.subPages}
-        >
-          {link.name}
-          {link.subPages}
-        </UpperNavItem>
-      ))}
+      <VStack alignItems="left">
+        {linkItems.map((link) => (
+          <UpperNavItem
+            key={link.name}
+            navText={link.name}
+            urlLink={link.urlLink}
+            subPages={link.subPages}
+          >
+            {link.name}
+            {link.subPages}
+          </UpperNavItem>
+        ))}
+      </VStack>
     </Box>
   );
 };
@@ -183,7 +193,7 @@ const NavigationBar = ({
 }: LinkItemArrayProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH="100vh">
       <SidebarContent
         display={{ base: "none", md: "block" }}
         onClose={() => onClose}
