@@ -12,7 +12,7 @@ import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import Sidebar, { LinkItemProps } from "../common/Sidebar";
+import NavigationBar, { LinkItemProps } from "../common/NavigationBar";
 
 const ButtonExamples = () => {
   return (
@@ -188,7 +188,7 @@ const LinkItems: LinkItemProps[] = [
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <Sidebar linkItems={LinkItems} />
+      <NavigationBar linkItems={LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />

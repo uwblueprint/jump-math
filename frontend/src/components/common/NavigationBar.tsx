@@ -1,12 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactText, useState } from "react";
 import {
-  IconButton,
   Box,
   CloseButton,
   Flex,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -16,6 +14,8 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
+import RouterLink from "./RouterLink";
+import MobileNav from "./MobileNav";
 
 export interface LinkItemProps {
   name: string;
@@ -48,8 +48,8 @@ interface UpperNavItemProps extends FlexProps {
 }
 const LowerNavItem = ({ name, urlLink }: LinkItemProps) => {
   return (
-    <Link
-      href={urlLink}
+    <RouterLink
+      to={urlLink}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -68,7 +68,7 @@ const LowerNavItem = ({ name, urlLink }: LinkItemProps) => {
       >
         {name}
       </Flex>
-    </Link>
+    </RouterLink>
   );
 };
 
@@ -80,8 +80,8 @@ const NavItem = ({
   existSubPage,
 }: NavItemProps) => {
   return (
-    <Link
-      href={urlLink}
+    <RouterLink
+      to={urlLink}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -111,7 +111,7 @@ const NavItem = ({
           {existSubPage && (showMore ? <ChevronUpIcon /> : <ChevronDownIcon />)}
         </Box>
       </Flex>
-    </Link>
+    </RouterLink>
   );
 };
 
@@ -146,31 +146,6 @@ const UpperNavItem = ({ navText, urlLink, subPages }: UpperNavItemProps) => {
   );
 };
 
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
-}
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent="flex-start"
-      {...rest}
-    >
-      <IconButton variant="outline" onClick={onOpen} aria-label="open menu" />
-
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
-      </Text>
-    </Flex>
-  );
-};
-
 const SidebarContent = ({ onClose, linkItems, ...rest }: SidebarProps) => {
   return (
     <Box
@@ -202,7 +177,10 @@ const SidebarContent = ({ onClose, linkItems, ...rest }: SidebarProps) => {
     </Box>
   );
 };
-const Sidebar = ({ linkItems }: LinkItemArrayProps): React.ReactElement => {
+
+const NavigationBar = ({
+  linkItems,
+}: LinkItemArrayProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -224,10 +202,9 @@ const Sidebar = ({ linkItems }: LinkItemArrayProps): React.ReactElement => {
           <SidebarContent onClose={onClose} linkItems={linkItems} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
     </Box>
   );
 };
 
-export default Sidebar;
+export default NavigationBar;
