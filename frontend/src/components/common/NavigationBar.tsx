@@ -66,7 +66,7 @@ const LowerNavItem = ({ name, urlLink }: LinkItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "gray.400",
+          bg: "blue.50",
           color: "black",
         }}
       >
@@ -84,35 +84,30 @@ const NavItem = ({
   existSubPage,
 }: NavItemProps) => {
   return (
-    <RouterLink
-      to={urlLink}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
+    <RouterLink to={urlLink} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
+        mx="6"
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "gray.400",
+          bg: "blue.50",
           color: "black",
         }}
       >
-        <Box p={1}>
+        <Box p={2}>
           <BookIcon />
         </Box>
-        <Box>{navText}</Box>
+        <Text fontSize="14px">{navText}</Text>
         <Spacer />
         <Box
           onClick={(e) => {
             e.preventDefault();
             setShowMore(!showMore);
           }}
+          m={2}
         >
-          {existSubPage && (showMore ? <ChevronUpIcon /> : <ChevronDownIcon />)}
+          {existSubPage && (showMore ? <ChevronDownIcon /> : <ChevronUpIcon />)}
         </Box>
       </Flex>
     </RouterLink>
@@ -157,6 +152,7 @@ const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
       pos="fixed"
       w={{ base: "full", md: 60 }}
       h="full"
+      bg="white"
       {...rest}
     >
       <Flex
@@ -165,10 +161,10 @@ const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
         mx="8"
         justifyContent="space-between"
         mt="16"
-        mb="6"
+        mb="10"
       >
         <RouterLink to={HOME_PAGE}>
-          <Image src={JumpMathLogo} alt="Jump Math Logo" h="64px" />
+          <Image src={JumpMathLogo} alt="Jump Math Logo" h="68px" />
         </RouterLink>
       </Flex>
       <VStack alignItems="left">

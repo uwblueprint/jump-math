@@ -181,7 +181,7 @@ const LinkItems: LinkItemProps[] = [
   },
   { name: "Teacher Page", urlLink: "/teachers" },
   { name: "Admin Page", urlLink: "/admins" },
-  { name: "Component Library", urlLink: "/component-library" },
+  { name: "Library", urlLink: "/component-library" },
   { name: "Assessments", urlLink: "/" },
 ];
 
