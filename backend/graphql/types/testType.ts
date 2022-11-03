@@ -1,14 +1,23 @@
 import { gql } from "apollo-server-express";
 
 const testType = gql`
-  enum QuestionType {
+  enum QuestionTypeEnum {
     MULTIPLE_CHOICE
     NUMERIC_ANSWER
+  }
+
+  input MultipleChoiceMetadataInput {
+    options: [String!]!
+    answerIndex: Int!
   }
 
   type MultipleChoiceMetadata {
     options: [String!]!
     answerIndex: Int!
+  }
+
+  input NumericQuestionMetadataInput {
+    answer: Int!
   }
 
   type NumericQuestionMetadata {
@@ -18,9 +27,16 @@ const testType = gql`
   union QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata
 
   type Question {
-    questionType: QuestionType
+    questionType: QuestionTypeEnum!
     questionPrompt: String!
-    questionMetadata: QuestionMetadata
+    questionMetadata: QuestionMetadata!
+  }
+
+  input QuestionInput {
+    questionType: QuestionTypeEnum!
+    questionPrompt: String!
+    questionMetadataMultipleChoice: MultipleChoiceMetadataInput!
+    questionMetadataNumericQuestion: NumericQuestionMetadataInput!
   }
 
   type TestResponseDTO {
@@ -36,17 +52,17 @@ const testType = gql`
     name: String!
     duration: Int!
     admin: ID!
-    questions: [Question]!
+    questions: [QuestionInput]!
     grade: Int!
   }
 
   extend type Query {
-    tests: [TestResponseDTO!]!
+    tests: [TestResponseDTO]!
   }
 
   extend type Mutation {
-    createTest(entity: CreateTestRequestDTO!): TestResponseDTO!
-    updateTest(id: ID!, entity: CreateTestRequestDTO!): TestResponseDTO!
+    createTest(test: CreateTestRequestDTO!): TestResponseDTO!
+    updateTest(id: ID!, test: CreateTestRequestDTO!): TestResponseDTO!
     deleteTestById(id: ID!): ID
   }
 `;
