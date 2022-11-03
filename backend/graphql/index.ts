@@ -80,7 +80,7 @@ const graphQLMiddlewares = {
     resetPassword: isAuthorizedByEmail("email"),
     createTest: authorizedByAdmin(),
     updateTest: authorizedByAdmin(),
-    deleteTest: authorizedByAdmin(),
+    deleteTestById: authorizedByAdmin(),
   },
 };
 
