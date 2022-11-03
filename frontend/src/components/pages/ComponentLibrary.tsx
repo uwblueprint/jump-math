@@ -12,7 +12,9 @@ import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import NavigationBar, { LinkItemProps } from "../common/NavigationBar";
+
+import Sidebar from "../common/Sidebar";
+import LinkItemProps from "../common/LinkTypes";
 
 const ButtonExamples = () => {
   return (
@@ -173,22 +175,22 @@ const ButtonExamples = () => {
 const LinkItems: LinkItemProps[] = [
   {
     name: "Student Page",
-    urlLink: "/students",
+    url: "/students",
     subPages: [
-      { name: "Also student", urlLink: "/students" },
-      { name: "Another one", urlLink: "/students" },
+      { name: "Also student", url: "/students" },
+      { name: "Another one", url: "/students" },
     ],
   },
-  { name: "Teacher Page", urlLink: "/teachers" },
-  { name: "Admin Page", urlLink: "/admins" },
-  { name: "Library", urlLink: "/component-library" },
-  { name: "Assessments", urlLink: "/" },
+  { name: "Teacher Page", url: "/teachers" },
+  { name: "Admin Page", url: "/admins" },
+  { name: "Library", url: "/component-library" },
+  { name: "Assessments", url: "/" },
 ];
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <NavigationBar linkItems={LinkItems} />
+      <Sidebar linkItems={LinkItems} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
