@@ -2,16 +2,14 @@
 import React from "react";
 import {
   Box,
-  CloseButton,
   Drawer,
   DrawerContent,
   useDisclosure,
   BoxProps,
   VStack,
 } from "@chakra-ui/react";
-import RouterLink from "./RouterLink";
 import MobileNav from "./MobileNav";
-import SidebarItem, { UpperSidebarItem, LowerSidebarItem } from "./SidebarItem";
+import { PageItem } from "./SidebarItem";
 import LinkItemProps, { LinkItemArrayProps } from "./LinkTypes";
 import HomeButton from "./HomeButton";
 
@@ -33,9 +31,9 @@ const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
       <HomeButton />
       <VStack alignItems="left">
         {linkItems.map((link) => (
-          <UpperSidebarItem
+          <PageItem
             key={link.name}
-            text={link.name}
+            name={link.name}
             url={link.url}
             subPages={link.subPages}
           />

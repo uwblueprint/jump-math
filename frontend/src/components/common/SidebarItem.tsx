@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React, { ReactText, useState } from "react";
 import { Flex, Box, Text, Spacer, FlexProps } from "@chakra-ui/react";
 import RouterLink from "./RouterLink";
@@ -10,39 +12,15 @@ interface SidebarItemProps extends FlexProps {
   setShowMore: React.Dispatch<React.SetStateAction<boolean>>;
   showMore: boolean;
   existSubPage: boolean;
+  isSubPage: boolean;
 }
 
-interface UpperSidebarItemProps extends FlexProps {
-  text: ReactText;
+interface PageItemProps extends FlexProps {
+  name: ReactText;
   url: string;
   subPages?: LinkItemProps[];
+  isSubPage?: boolean;
 }
-
-export const LowerSidebarItem = ({ name, url }: LinkItemProps) => {
-  return (
-    <RouterLink
-      to={url}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        pl="8"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "blue.50",
-          color: "black",
-        }}
-      >
-        {name}
-      </Flex>
-    </RouterLink>
-  );
-};
 
 const SidebarItem = ({
   showMore,
@@ -50,12 +28,15 @@ const SidebarItem = ({
   text,
   url,
   existSubPage,
+  isSubPage,
 }: SidebarItemProps) => {
   return (
     <RouterLink to={url} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
-        mx="6"
+        p={isSubPage ? "2" : undefined}
+        pl={isSubPage ? "8" : undefined}
+        mx="4"
         role="group"
         cursor="pointer"
         _hover={{
@@ -63,9 +44,7 @@ const SidebarItem = ({
           color: "black",
         }}
       >
-        <Box p={2}>
-          <BookIcon />
-        </Box>
+        <Box p={2}>{!isSubPage && <BookIcon />}</Box>
         <Text fontSize="14px">{text}</Text>
         <Spacer />
         <Box
@@ -82,35 +61,37 @@ const SidebarItem = ({
   );
 };
 
-export const UpperSidebarItem = ({
-  text,
+export const PageItem = ({
+  name,
   url,
   subPages,
-}: UpperSidebarItemProps) => {
-  const [showMore, setShowMore] = useState(false);
-  let existSubPage;
-  let displaySub;
+  isSubPage = false,
+}: PageItemProps) => {
+  let displaySub = null;
+  if (subPages) {
+    displaySub = subPages.map((subPage) => (
+      <PageItem key={1} name={subPage.name} url={subPage.url} isSubPage />
+    ));
+  }
+
+  let existSubPage = false;
   if (subPages) {
     existSubPage = true;
-    displaySub = subPages.map((page) => (
-      <LowerSidebarItem key={page.name} name={page.name} url={page.url} />
-    ));
-  } else {
-    displaySub = null;
-    existSubPage = false;
   }
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <>
       <SidebarItem
         showMore={showMore}
         setShowMore={setShowMore}
-        key={text}
-        text={text}
+        key={name}
+        text={name}
         url={url}
         existSubPage={existSubPage}
+        isSubPage={isSubPage}
       >
-        {text}
+        {name}
       </SidebarItem>
       {showMore && displaySub}
     </>
