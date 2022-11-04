@@ -3,37 +3,17 @@ import React from "react";
 import {
   Box,
   CloseButton,
-  Flex,
   Drawer,
   DrawerContent,
   useDisclosure,
   BoxProps,
-  Image,
   VStack,
 } from "@chakra-ui/react";
 import RouterLink from "./RouterLink";
 import MobileNav from "./MobileNav";
 import SidebarItem, { UpperSidebarItem, LowerSidebarItem } from "./SidebarItem";
-import { HOME_PAGE } from "../../constants/Routes";
-import JumpMathLogo from "../../assets/jump-math-logo.png";
 import LinkItemProps, { LinkItemArrayProps } from "./LinkTypes";
-
-const HomeButton = (): React.ReactElement => {
-  return (
-    <Flex
-      h="20"
-      alignItems="center"
-      mx="8"
-      justifyContent="space-between"
-      mt="16"
-      mb="10"
-    >
-      <RouterLink to={HOME_PAGE}>
-        <Image src={JumpMathLogo} alt="Jump Math Logo" h="68px" />
-      </RouterLink>
-    </Flex>
-  );
-};
+import HomeButton from "./HomeButton";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
