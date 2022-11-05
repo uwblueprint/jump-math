@@ -10,15 +10,19 @@ import {
 } from "@chakra-ui/react";
 import MobileNav from "./MobileNav";
 import SidebarItem from "./SidebarItem";
-import LinkItemProps, { LinkItemArrayProps } from "./LinkTypes";
+import Page from "../../types/PageTypes";
 import HomeButton from "./HomeButton";
 
-interface SidebarProps extends BoxProps {
+interface SidebarContentProps extends BoxProps {
   onClose: () => void;
-  linkItems: LinkItemProps[];
+  pages: Page[];
 }
 
-const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
+interface SidebarProps extends BoxProps {
+  pages: Page[];
+}
+
+const SidebarContent = ({ pages, ...rest }: SidebarContentProps) => {
   return (
     <Box
       boxShadow="base"
@@ -30,22 +34,22 @@ const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
     >
       <HomeButton />
       <VStack alignItems="left">
-        {linkItems.map((link, index) => (
-          <SidebarItem key={index} page={link} />
+        {pages.map((page, index) => (
+          <SidebarItem key={index} page={page} />
         ))}
       </VStack>
     </Box>
   );
 };
 
-const Sidebar = ({ linkItems }: LinkItemArrayProps): React.ReactElement => {
+const Sidebar = ({ pages }: SidebarProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh">
       <SidebarContent
         display={{ base: "none", md: "block" }}
         onClose={() => onClose}
-        linkItems={linkItems}
+        pages={pages}
       />
       <Drawer
         autoFocus={false}
@@ -57,7 +61,7 @@ const Sidebar = ({ linkItems }: LinkItemArrayProps): React.ReactElement => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} linkItems={linkItems} />
+          <SidebarContent onClose={onClose} pages={pages} />
         </DrawerContent>
       </Drawer>
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />

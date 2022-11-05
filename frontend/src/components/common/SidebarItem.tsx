@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Flex, Box, Text, Spacer, FlexProps } from "@chakra-ui/react";
 import RouterLink from "./RouterLink";
 import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
-import LinkItemProps from "./LinkTypes";
+import Page from "../../types/PageTypes";
 
 interface SidebarItemProps extends FlexProps {
-  page: LinkItemProps;
+  page: Page;
   isSubPage?: boolean;
 }
 
@@ -13,8 +13,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   page,
   isSubPage = false,
 }: SidebarItemProps) => {
+  const { title, url, subPages } = page;
   const [showMore, setShowMore] = useState(false);
-  const { name, url, subPages } = page;
 
   let children = null;
   if (subPages) {
@@ -39,14 +39,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           }}
         >
           <Box p={2}>{!isSubPage && <BookIcon />}</Box>
-          <Text fontSize="14px">{name}</Text>
+          <Text fontSize="14px">{title}</Text>
           <Spacer />
           <Box
+            m={2}
             onClick={(e) => {
               e.preventDefault();
               setShowMore(!showMore);
             }}
-            m={2}
           >
             {subPages && (showMore ? <ChevronDownIcon /> : <ChevronUpIcon />)}
           </Box>

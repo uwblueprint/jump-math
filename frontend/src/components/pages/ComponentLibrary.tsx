@@ -13,7 +13,7 @@ import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 
 import Sidebar from "../common/Sidebar";
-import LinkItemProps from "../common/LinkTypes";
+import Page from "../../types/PageTypes";
 
 const ButtonExamples = () => {
   return (
@@ -171,25 +171,25 @@ const ButtonExamples = () => {
   );
 };
 
-const LinkItems: LinkItemProps[] = [
+const pages: Page[] = [
   {
-    name: "Student Page",
+    title: "Student Page",
     url: "/students",
     subPages: [
-      { name: "Also student", url: "/students" },
-      { name: "Another one", url: "/students" },
+      { title: "Also student", url: "/students" },
+      { title: "Another one", url: "/students" },
     ],
   },
-  { name: "Teacher Page", url: "/teachers" },
-  { name: "Admin Page", url: "/admins" },
-  { name: "Library", url: "/component-library" },
-  { name: "Assessments", url: "/" },
+  { title: "Teacher Page", url: "/teachers" },
+  { title: "Admin Page", url: "/admins" },
+  { title: "Library", url: "/component-library" },
+  { title: "Assessments", url: "/" },
 ];
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <Sidebar linkItems={LinkItems} />
+      <Sidebar pages={pages} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
