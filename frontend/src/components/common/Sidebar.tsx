@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import MobileNav from "./MobileNav";
-import { PageItem } from "./SidebarItem";
+import SidebarItem from "./SidebarItem";
 import LinkItemProps, { LinkItemArrayProps } from "./LinkTypes";
 import HomeButton from "./HomeButton";
 
@@ -30,13 +30,8 @@ const SidebarContent = ({ linkItems, ...rest }: SidebarProps) => {
     >
       <HomeButton />
       <VStack alignItems="left">
-        {linkItems.map((link) => (
-          <PageItem
-            key={link.name}
-            name={link.name}
-            url={link.url}
-            subPages={link.subPages}
-          />
+        {linkItems.map((link, index) => (
+          <SidebarItem key={index} page={link} />
         ))}
       </VStack>
     </Box>
