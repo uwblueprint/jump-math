@@ -13,6 +13,7 @@ import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
 
+import * as Routes from "../../constants/Routes";
 import Page from "../../types/PageTypes";
 
 const ButtonExamples = () => {
@@ -174,15 +175,15 @@ const ButtonExamples = () => {
 const pages: Page[] = [
   {
     title: "Student Page",
-    url: "/students",
+    url: Routes.STUDENT_PAGE,
     subPages: [
-      { title: "Also student", url: "/students" },
-      { title: "Another one", url: "/students" },
+      { title: "Also student", url: Routes.STUDENT_PAGE },
+      { title: "Another one", url: Routes.STUDENT_PAGE },
     ],
   },
-  { title: "Teacher Page", url: "/teachers" },
-  { title: "Admin Page", url: "/admins" },
-  { title: "Library", url: "/component-library" },
+  { title: "Teacher Page", url: Routes.TEACHER_PAGE },
+  { title: "Admin Page", url: Routes.ADMIN_PAGE },
+  { title: "Library", url: Routes.COMPONENT_LIBRARY },
   { title: "Assessments", url: "/" },
 ];
 
