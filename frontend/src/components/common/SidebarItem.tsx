@@ -16,12 +16,16 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const { title, url, subPages } = page;
   const [showMore, setShowMore] = useState(false);
 
-  let children = null;
-  if (subPages) {
-    children = subPages.map((subPage, index) => (
-      <SidebarItem key={index} page={subPage} isSubPage />
-    ));
-  }
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    setShowMore(!showMore);
+  };
+
+  const children = subPages
+    ? subPages.map((subPage, index) => (
+        <SidebarItem key={index} page={subPage} isSubPage />
+      ))
+    : null;
 
   return (
     <>
@@ -41,13 +45,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           <Box p={2}>{!isSubPage && <BookIcon />}</Box>
           <Text fontSize="14px">{title}</Text>
           <Spacer />
-          <Box
-            m={2}
-            onClick={(e) => {
-              e.preventDefault();
-              setShowMore(!showMore);
-            }}
-          >
+          <Box m={2} onClick={handleClick}>
             {subPages && (showMore ? <ChevronDownIcon /> : <ChevronUpIcon />)}
           </Box>
         </Flex>
