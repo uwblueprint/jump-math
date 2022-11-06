@@ -19,6 +19,44 @@ import {
 } from "@chakra-ui/react";
 import { PlusOutlineIcon } from "./icons";
 
+const AddAdminFormLabel = ({ text }: { text: string }): React.ReactElement => {
+  return (
+    <FormLabel
+      as="legend"
+      color="blue.300"
+      mb={0}
+      fontSize="20px"
+      lineHeight="26px"
+    >
+      {text}
+    </FormLabel>
+  );
+};
+
+const AddAdminTextInput = ({
+  validationType,
+  placeholder,
+  handleChange,
+}: {
+  validationType: string;
+  placeholder: string;
+  handleChange: (val: string) => void;
+}): React.ReactElement => {
+  return (
+    <Input
+      type={validationType}
+      placeholder={placeholder}
+      onChange={(e) => handleChange(e.target.value)}
+      fontSize="18px"
+      width="320px"
+      height="48px"
+      textAlign="center"
+      backgroundColor="grey.100"
+      borderColor="grey.100"
+    />
+  );
+};
+
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [firstName, setFirstName] = useState("");
@@ -41,8 +79,9 @@ const AddAdminModal = (): React.ReactElement => {
     }
     console.log("creating admin with data");
     console.log(
-      `first name: ${firstName}\nlast name: ${lastName}\n email: ${email}`,
+      `first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
     );
+    onModalClose();
   };
 
   return (
@@ -66,48 +105,22 @@ const AddAdminModal = (): React.ReactElement => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel color="blue.300" fontSize="20px" lineHeight="26px">
-                Name of Admin
-              </FormLabel>
+              <AddAdminFormLabel text="Name of Admin" />
               <HStack direction="row" mt={6}>
-                <Input
-                  type="text"
+                <AddAdminTextInput
+                  validationType="text"
                   placeholder="First Name"
-                  name="firstName"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  fontSize="18px"
-                  fontWeight="400"
-                  width="320px"
-                  height="48px"
-                  textAlign="center"
-                  backgroundColor="grey.100"
-                  borderColor="grey.100"
+                  handleChange={setFirstName}
                 />
-                <Input
-                  type="text"
+                <AddAdminTextInput
+                  validationType="text"
                   placeholder="Last Name"
-                  name="lastName"
-                  onChange={(e) => setLastName(e.target.value)}
-                  fontSize="18px"
-                  width="320px"
-                  height="48px"
-                  textAlign="center"
-                  backgroundColor="grey.100"
-                  borderColor="grey.100"
+                  handleChange={setLastName}
                 />
               </HStack>
             </FormControl>
             <FormControl isRequired as="fieldset" mt={8}>
-              <FormLabel
-                as="legend"
-                textStyle="subtitle2"
-                color="blue.300"
-                mb={0}
-                fontSize="20px"
-                lineHeight="26px"
-              >
-                Does the user already have a Jump Math email address?
-              </FormLabel>
+              <AddAdminFormLabel text="Does the user already have a Jump Math email address?" />
               <RadioGroup
                 onChange={(val) => setHasJumpMathEmail(val === "yes")}
                 mt={5}
@@ -125,51 +138,23 @@ const AddAdminModal = (): React.ReactElement => {
             {hasJumpMathEmail !== null && (
               <>
                 <FormControl isRequired mt={6}>
-                  <FormLabel
-                    color="blue.300"
-                    mb={0}
-                    fontSize="20px"
-                    lineHeight="26px"
-                  >
-                    {`Please enter their ${
+                  <AddAdminFormLabel
+                    text={`Please enter their ${
                       hasJumpMathEmail ? "Jump Math" : ""
                     } email address`}
-                  </FormLabel>
-                  <Input
-                    type="email"
+                  />
+                  <AddAdminTextInput
+                    validationType="email"
                     placeholder="Email Address"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    mt={6}
-                    fontSize="18px"
-                    width="320px"
-                    height="48px"
-                    textAlign="center"
-                    backgroundColor="grey.100"
-                    borderColor="grey.100"
+                    handleChange={setEmail}
                   />
                 </FormControl>
                 <FormControl isRequired mt={6}>
-                  <FormLabel
-                    color="blue.300"
-                    mb={0}
-                    fontSize="20px"
-                    lineHeight="26px"
-                  >
-                    Confirm email address
-                  </FormLabel>
-                  <Input
-                    type="email"
+                  <AddAdminFormLabel text="Confirm email address" />
+                  <AddAdminTextInput
+                    validationType="email"
                     placeholder="Email Address"
-                    name="confirmEmail"
-                    onChange={(e) => setConfirmEmail(e.target.value)}
-                    mt={6}
-                    fontSize="18px"
-                    width="320px"
-                    height="48px"
-                    textAlign="center"
-                    backgroundColor="grey.100"
-                    borderColor="grey.100"
+                    handleChange={setConfirmEmail}
                   />
                 </FormControl>
               </>
