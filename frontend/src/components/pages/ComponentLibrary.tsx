@@ -12,6 +12,7 @@ import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
+import AdminUserTable from "../common/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";
 import Page from "../../types/PageTypes";
@@ -187,13 +188,37 @@ const pages: Page[] = [
   { title: "Assessments", url: "/" },
 ];
 
+const ADMINUSERS = [
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email: "albertkuhl@jumpmath.ca",
+  },
+  {
+    firstName: "Albert",
+    lastName: "Kuhl",
+    email:
+      "The quick brown fox jumps over the lazy dog is an English-language pangram—a sentence that contains all of the letters of the English alphabet. Owing to its existence, Chakra was created.",
+  },
+];
+
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
       <Sidebar pages={pages} />
       <ButtonExamples />
       <AdminConfirmationMessage />
-      <RemoveUserPopover name="Sam Hutchinson" email="shutch@jumpmath.ca" />
+      <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />
       <QuestionCard
         date={new Date()}
         title="Question Title"
@@ -201,6 +226,7 @@ const ComponentLibrary = (): React.ReactElement => {
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet,"
         tags={["Grade 2", "Unit #", "Lesson #"]}
       />
+      <AdminUserTable adminUsers={ADMINUSERS} />
     </div>
   );
 };
