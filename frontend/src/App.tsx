@@ -40,6 +40,7 @@ const App = (): React.ReactElement => {
   // Some sort of global state. Context API replaces redux.
   // Split related states into different contexts as necessary.
   // Split dispatcher and state into separate contexts as necessary.
+  // TODO: remove sample context code from starter-code - joyce
   const [sampleContext, dispatchSampleContextUpdate] = useReducer(
     sampleContextReducer,
     DEFAULT_SAMPLE_CONTEXT,

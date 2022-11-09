@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 import AuthContext from "../../contexts/AuthContext";
-import { ADMIN_PAGE, LOGIN_PAGE, TEACHER_PAGE } from "../../constants/Routes";
+import { LOGIN_PAGE } from "../../constants/Routes";
 import NotFound from "../pages/NotFound";
 import { Role } from "../../types/AuthTypes";
 

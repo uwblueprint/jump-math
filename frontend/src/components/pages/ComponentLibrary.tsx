@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import {
   ButtonGroup,
@@ -7,11 +8,14 @@ import {
 } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
-import MainPageButton from "../common/MainPageButton";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
+import Sidebar from "../common/Sidebar";
 import AdminUserTable from "../common/AdminUserTable";
+
+import * as Routes from "../../constants/Routes";
+import Page from "../../types/PageTypes";
 
 const ButtonExamples = () => {
   return (
@@ -169,6 +173,21 @@ const ButtonExamples = () => {
   );
 };
 
+const pages: Page[] = [
+  {
+    title: "Student Page",
+    url: Routes.STUDENT_PAGE,
+    subPages: [
+      { title: "Also student", url: Routes.STUDENT_PAGE },
+      { title: "Another one", url: Routes.STUDENT_PAGE },
+    ],
+  },
+  { title: "Teacher Page", url: Routes.TEACHER_PAGE },
+  { title: "Admin Page", url: Routes.ADMIN_PAGE },
+  { title: "Library", url: Routes.COMPONENT_LIBRARY },
+  { title: "Assessments", url: "/" },
+];
+
 const ADMINUSERS = [
   {
     firstName: "Albert",
@@ -192,15 +211,14 @@ const ADMINUSERS = [
       "The quick brown fox jumps over the lazy dog is an English-language pangram—a sentence that contains all of the letters of the English alphabet. Owing to its existence, Chakra was created.",
   },
 ];
+
 const ComponentLibrary = (): React.ReactElement => {
   return (
-    <div style={{ textAlign: "center", paddingTop: "20px" }}>
-      <h1>Component Library</h1>
-      <div style={{ height: "2rem" }} />
+    <div>
+      <Sidebar pages={pages} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />
-      <MainPageButton />
       <QuestionCard
         date={new Date()}
         title="Question Title"
