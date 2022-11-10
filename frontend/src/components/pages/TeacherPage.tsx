@@ -24,7 +24,15 @@ const TeacherPage = (): React.ReactElement => {
     fetchPolicy: "cache-and-network",
     variables: { role: "Admin" },
     onCompleted: (data) => {
-      setAdminUsers(data.usersByRole);
+      setAdminUsers(
+        data.usersByRole.map((user: AdminUser) => {
+          return {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          };
+        }),
+      );
     },
     onError: (error) => {
       console.log(error);
