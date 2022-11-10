@@ -141,18 +141,72 @@ class AuthService implements IAuthService {
       Logger.error(errorMessage);
       throw new Error(errorMessage);
     }
-
+    const user = await this.userService.getUserByEmail(email);
     try {
       const emailVerificationLink = await firebaseAdmin
         .auth()
         .generateEmailVerificationLink(email);
       const emailBody = `
-      Hello,
-      <br><br>
-      Please click the following link to verify your email and activate your account.
-      <strong>This link is only valid for 1 hour.</strong>
-      <br><br>
-      <a href=${emailVerificationLink}>Verify email</a>`;
+        <link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
+        <img src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/jump-math-logo-removebg.png"
+             style = "display: block;
+                      margin-left: auto;
+                      margin-right: auto;
+                      width: 222px;
+                      height: 64px;">
+        <img src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/email-header.png"
+             style = "display: block;
+                      margin-left: auto;
+                      margin-right: auto;
+                      width: 100%;
+                      height: auto;
+                      max-width: 520px;
+                      max-height: 300px;">
+        <span style="color:#4B7BEC;
+                    font-family: 'DM Sans';
+                    font-weight: bold;
+                    font-size: 18px;
+                    line-height: 23px;">
+          Hey ${user.firstName},
+        </span>
+        <br><br>
+        <span style="font-size: 24px;
+                    font-family: 'DM Sans';
+                    color: #154472;">
+          You have been invited to join the Jump Math Workspace!
+        </span>
+        <br><br>
+        <span style="font-family: 'DM Sans';
+                    font-weight: 400;
+                    font-size: 18px;
+                    color: #154472;">
+          Please use the link below to confirm your log in details and you can receive your personalized Jump Math email address if you haven’t already!
+          <br><br>
+          We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally!
+          <br><br>
+          <form action="${emailVerificationLink}" target="_blank">
+            <input style="border: none;
+                          background: #154472;
+                          color: white;
+                          border-radius: 16px;
+                          font-family: 'DM Sans';
+                          font-weight: 700;
+                          font-size: 16px;
+                          padding: 10px 24px;
+                          width: 100%;
+                          max-width: 600px;
+                          height: 48px;
+                          -webkit-appearance: none;" 
+                  type="submit" value="Open Jump Math" />
+          </form>
+          <br>
+          Have questions about Jump Math? Drop us an email at <span style="text-decoration: underline;">askus@jumpmath.ca</span> and we’ll get in touch shortly!
+          <br><br>
+          <strong style="letter-spacing: 0.16em;">AUTOMATION PRIVACY POLICY:</strong>
+          <br><br>
+          Please do not share this email to anyone as it contains confidential information!
+        </span>
+      `;
 
       this.emailService.sendEmail(email, "Verify your email", emailBody);
     } catch (error) {
