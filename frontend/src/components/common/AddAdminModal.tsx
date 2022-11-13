@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import {
   Button,
   FormControl,
-  FormLabel,
-  Input,
+  FormErrorMessage,
   Modal,
   ModalHeader,
   ModalCloseButton,
@@ -17,45 +16,10 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import EmailInput from "./Form/EmailInput";
+import InputLabel from "./Form/InputLabel";
+import TextInput from "./Form/TextInput";
 import { PlusOutlineIcon } from "./icons";
-
-const AddAdminFormLabel = ({ text }: { text: string }): React.ReactElement => {
-  return (
-    <FormLabel
-      as="legend"
-      color="blue.300"
-      mb={0}
-      fontSize="20px"
-      lineHeight="26px"
-    >
-      {text}
-    </FormLabel>
-  );
-};
-
-const AddAdminTextInput = ({
-  validationType,
-  placeholder,
-  handleChange,
-}: {
-  validationType: string;
-  placeholder: string;
-  handleChange: (val: string) => void;
-}): React.ReactElement => {
-  return (
-    <Input
-      type={validationType}
-      placeholder={placeholder}
-      onChange={(e) => handleChange(e.target.value)}
-      fontSize="18px"
-      width="320px"
-      height="48px"
-      textAlign="center"
-      backgroundColor="grey.100"
-      borderColor="grey.100"
-    />
-  );
-};
 
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -67,19 +31,21 @@ const AddAdminModal = (): React.ReactElement => {
     null,
   );
 
+  const isInvalidEmail =
+    !!hasJumpMathEmail && email !== "" && !/@jumpmath.org$/.test(email);
+
+  const isInvalidConfirmationEmail =
+    confirmEmail !== "" && email !== confirmEmail;
+
   const onModalClose = () => {
     setHasJumpMathEmail(null);
     onClose();
   };
 
-  const onAddAdminClick = () => {
-    if (email !== confirmEmail) {
-      console.log("emails don't match");
-      return;
-    }
-    console.log("creating admin with data");
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log(
-      `first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
+      `creating admin with first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
     );
     onModalClose();
   };
@@ -97,89 +63,97 @@ const AddAdminModal = (): React.ReactElement => {
       <Modal isOpen={isOpen} onClose={onModalClose} size="6xl" isCentered>
         <ModalOverlay />
         <ModalContent p={2}>
-          <ModalHeader>
-            <Text textStyle="subtitle1" color="grey.400">
-              Add Admin
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl isRequired>
-              <AddAdminFormLabel text="Name of Admin" />
-              <HStack direction="row" mt={6}>
-                <AddAdminTextInput
-                  validationType="text"
-                  placeholder="First Name"
-                  handleChange={setFirstName}
-                />
-                <AddAdminTextInput
-                  validationType="text"
-                  placeholder="Last Name"
-                  handleChange={setLastName}
-                />
-              </HStack>
-            </FormControl>
-            <FormControl isRequired as="fieldset" mt={8}>
-              <AddAdminFormLabel text="Does the user already have a Jump Math email address?" />
-              <RadioGroup
-                onChange={(val) => setHasJumpMathEmail(val === "yes")}
-                mt={5}
-              >
-                <HStack spacing="24px">
-                  <Radio value="no" mt={2} outlineColor="grey.300" size="lg">
-                    No
-                  </Radio>
-                  <Radio value="yes" outlineColor="grey.300" size="lg">
-                    Yes
-                  </Radio>
+          <form onSubmit={onSubmit}>
+            <ModalHeader>
+              <Text textStyle="subtitle1" color="grey.400">
+                Add Admin
+              </Text>
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl isRequired>
+                <InputLabel text="Name of Admin" />
+                <HStack direction="row" mt={6}>
+                  <TextInput
+                    placeholder="First Name"
+                    handleChange={setFirstName}
+                  />
+                  <TextInput
+                    placeholder="Last Name"
+                    handleChange={setLastName}
+                  />
                 </HStack>
-              </RadioGroup>
-            </FormControl>
-            {hasJumpMathEmail !== null && (
-              <>
-                <FormControl isRequired mt={6}>
-                  <AddAdminFormLabel
-                    text={`Please enter their ${
-                      hasJumpMathEmail ? "Jump Math" : ""
-                    } email address`}
-                  />
-                  <AddAdminTextInput
-                    validationType="email"
-                    placeholder="Email Address"
-                    handleChange={setEmail}
-                  />
-                </FormControl>
-                <FormControl isRequired mt={6}>
-                  <AddAdminFormLabel text="Confirm email address" />
-                  <AddAdminTextInput
-                    validationType="email"
-                    placeholder="Email Address"
-                    handleChange={setConfirmEmail}
-                  />
-                </FormControl>
-              </>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              variant="secondary"
-              onClick={onModalClose}
-              mr={2}
-              borderColor="blue.50"
-              minWidth="108px"
-              width="108px"
-            >
-              Discard
-            </Button>
-            <Button
-              variant="primary"
-              onClick={onAddAdminClick}
-              minWidth="108px"
-              width="108px"
-            >
-              Save
-            </Button>
-          </ModalFooter>
+              </FormControl>
+              <FormControl isRequired as="fieldset" mt={8}>
+                <InputLabel text="Does the user already have a Jump Math email address?" />
+                <RadioGroup
+                  onChange={(val) => setHasJumpMathEmail(val === "yes")}
+                  mt={5}
+                >
+                  <HStack spacing="24px">
+                    <Radio value="no" mt={2} size="lg">
+                      No
+                    </Radio>
+                    <Radio value="yes" size="lg">
+                      Yes
+                    </Radio>
+                  </HStack>
+                </RadioGroup>
+              </FormControl>
+              {hasJumpMathEmail !== null && (
+                <>
+                  <FormControl isRequired mt={6} isInvalid={isInvalidEmail}>
+                    <InputLabel
+                      text={`Please enter their ${
+                        hasJumpMathEmail ? "Jump Math" : ""
+                      } email address`}
+                    />
+                    <EmailInput
+                      placeholder="Email Address"
+                      handleChange={setEmail}
+                      pattern={hasJumpMathEmail ? ".+@jumpmath.org" : ".+"}
+                    />
+                    <FormErrorMessage>
+                      Email is not a Jump Math email
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired
+                    mt={6}
+                    isInvalid={isInvalidConfirmationEmail}
+                  >
+                    <InputLabel text="Confirm email address" />
+                    <EmailInput
+                      placeholder="Email Address"
+                      handleChange={setConfirmEmail}
+                      pattern={email}
+                    />
+                    <FormErrorMessage>Emails do not match</FormErrorMessage>
+                  </FormControl>
+                </>
+              )}
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                variant="secondary"
+                onClick={onModalClose}
+                mr={2}
+                borderColor="blue.50"
+                minWidth="108px"
+                width="108px"
+              >
+                Discard
+              </Button>
+              <Button
+                variant="primary"
+                minWidth="108px"
+                width="108px"
+                type="submit"
+              >
+                Save
+              </Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
     </>
