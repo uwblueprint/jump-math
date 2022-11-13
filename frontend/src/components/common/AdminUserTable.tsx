@@ -9,8 +9,8 @@ import {
   TableContainer,
   Text,
 } from "@chakra-ui/react";
-
 import { AdminUser } from "../../types/UserTypes";
+import RemoveUserPopover from "./Admin/RemoveUserPopover";
 
 interface AdminUserTableProps {
   adminUsers: AdminUser[];
@@ -26,7 +26,7 @@ const AdminUserTable = ({
       borderColor="#E2E8F0"
       borderRadius="12px"
     >
-      <Table sx={{ tableLayout: "fixed" }} variant="unstyled" size="md">
+      <Table sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
             <Th>
@@ -48,16 +48,22 @@ const AdminUserTable = ({
               key={user.email}
               backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
             >
-              <Td>
+              <Td sx={{ width: "50%", pr: "400px" }}>
                 <Text
                   noOfLines={1}
                   style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
               </Td>
-              <Td>
+              <Td maxWidth="200px">
                 <Text noOfLines={1} style={{ display: "block" }}>
                   {user.email}
                 </Text>
+              </Td>
+              <Td sx={{ width: "7%" }} maxWidth="5px" p="0" m="0">
+                <RemoveUserPopover
+                  name={`${user.firstName} ${user.lastName}`}
+                  email={user.email}
+                />
               </Td>
             </Tr>
           ))}
