@@ -21,6 +21,7 @@ const TextInput = ({
       height="48px"
       textAlign="center"
       variant="filled"
+      _invalid={{ borderColor: "red.200" }}
     />
   );
 };

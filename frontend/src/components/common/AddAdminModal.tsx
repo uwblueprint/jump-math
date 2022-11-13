@@ -17,6 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import EmailInput from "./Form/EmailInput";
+import InputError from "./Form/InputError";
 import InputLabel from "./Form/InputLabel";
 import TextInput from "./Form/TextInput";
 import ModalFooterButtons from "./ModalFooterButtons";
@@ -118,9 +119,10 @@ const AddAdminModal = (): React.ReactElement => {
                       handleChange={setEmail}
                       pattern={hasJumpMathEmail ? ".+@jumpmath.org" : ".+"}
                     />
-                    <FormErrorMessage>
-                      Email is not a Jump Math email
-                    </FormErrorMessage>
+                    <InputError>
+                      The email does not end in @jumpmath.org. Please ensure the
+                      email address is correct.
+                    </InputError>
                   </FormControl>
                   <FormControl
                     isRequired
@@ -133,7 +135,10 @@ const AddAdminModal = (): React.ReactElement => {
                       handleChange={setConfirmEmail}
                       pattern={email}
                     />
-                    <FormErrorMessage>Emails do not match</FormErrorMessage>
+                    <InputError>
+                      The email addresses do not currently match. Please check
+                      them again.
+                    </InputError>
                   </FormControl>
                 </>
               )}
