@@ -12,6 +12,7 @@ import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
+import AddAdminModal from "../common/AddAdminModal";
 import AdminUserTable from "../common/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";
@@ -227,6 +228,7 @@ const ComponentLibrary = (): React.ReactElement => {
         tags={["Grade 2", "Unit #", "Lesson #"]}
       />
       <AdminUserTable adminUsers={ADMINUSERS} />
+      <AddAdminModal />
     </div>
   );
 };
