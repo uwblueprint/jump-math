@@ -1,6 +1,8 @@
 import { Icon } from "@chakra-ui/react";
 import React from "react";
 
+// svg paths are from Eva, our icon pack: https://akveo.github.io/eva-icons/#/
+
 export const ArrowForwardOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <path
