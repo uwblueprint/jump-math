@@ -2,7 +2,11 @@ import React from "react";
 
 import { FormLabel } from "@chakra-ui/react";
 
-const InputLabel = ({ text }: { text: string }): React.ReactElement => {
+type InputLabelProps = {
+  children: React.ReactNode;
+};
+
+const InputLabel = ({ children }: InputLabelProps): React.ReactElement => {
   return (
     <FormLabel
       as="legend"
@@ -11,7 +15,7 @@ const InputLabel = ({ text }: { text: string }): React.ReactElement => {
       fontSize="20px"
       lineHeight="26px"
     >
-      {text}
+      {children}
     </FormLabel>
   );
 };

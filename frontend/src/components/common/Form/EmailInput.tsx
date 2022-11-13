@@ -2,15 +2,17 @@ import React from "react";
 
 import { Input } from "@chakra-ui/react";
 
+type EmailInputProps = {
+  placeholder: string;
+  handleChange: (val: string) => void;
+  pattern?: string;
+};
+
 const EmailInput = ({
   placeholder,
   handleChange,
   pattern,
-}: {
-  placeholder: string;
-  handleChange: (val: string) => void;
-  pattern?: string;
-}): React.ReactElement => {
+}: EmailInputProps): React.ReactElement => {
   return (
     <Input
       type="email"

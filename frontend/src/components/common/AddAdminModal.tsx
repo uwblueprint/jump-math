@@ -19,6 +19,7 @@ import {
 import EmailInput from "./Form/EmailInput";
 import InputLabel from "./Form/InputLabel";
 import TextInput from "./Form/TextInput";
+import ModalFooterButtons from "./ModalFooterButtons";
 import { PlusOutlineIcon } from "./icons";
 
 const AddAdminModal = (): React.ReactElement => {
@@ -32,13 +33,17 @@ const AddAdminModal = (): React.ReactElement => {
   );
 
   const isInvalidEmail =
-    !!hasJumpMathEmail && email !== "" && !/@jumpmath.org$/.test(email);
+    !!hasJumpMathEmail && email.length > 0 && !/@jumpmath.org$/.test(email);
 
   const isInvalidConfirmationEmail =
-    confirmEmail !== "" && email !== confirmEmail;
+    confirmEmail.length > 0 && email !== confirmEmail;
 
   const onModalClose = () => {
+    setFirstName("");
+    setLastName("");
     setHasJumpMathEmail(null);
+    setEmail("");
+    setConfirmEmail("");
     onClose();
   };
 
@@ -72,7 +77,7 @@ const AddAdminModal = (): React.ReactElement => {
             <ModalCloseButton />
             <ModalBody>
               <FormControl isRequired>
-                <InputLabel text="Name of Admin" />
+                <InputLabel>Name of Admin</InputLabel>
                 <HStack direction="row" mt={6}>
                   <TextInput
                     placeholder="First Name"
@@ -85,7 +90,9 @@ const AddAdminModal = (): React.ReactElement => {
                 </HStack>
               </FormControl>
               <FormControl isRequired as="fieldset" mt={8}>
-                <InputLabel text="Does the user already have a Jump Math email address?" />
+                <InputLabel>
+                  Does the user already have a Jump Math email address?
+                </InputLabel>
                 <RadioGroup
                   onChange={(val) => setHasJumpMathEmail(val === "yes")}
                   mt={5}
@@ -103,11 +110,9 @@ const AddAdminModal = (): React.ReactElement => {
               {hasJumpMathEmail !== null && (
                 <>
                   <FormControl isRequired mt={6} isInvalid={isInvalidEmail}>
-                    <InputLabel
-                      text={`Please enter their ${
-                        hasJumpMathEmail ? "Jump Math" : ""
-                      } email address`}
-                    />
+                    <InputLabel>{`Please enter their ${
+                      hasJumpMathEmail ? "Jump Math" : ""
+                    } email address`}</InputLabel>
                     <EmailInput
                       placeholder="Email Address"
                       handleChange={setEmail}
@@ -122,7 +127,7 @@ const AddAdminModal = (): React.ReactElement => {
                     mt={6}
                     isInvalid={isInvalidConfirmationEmail}
                   >
-                    <InputLabel text="Confirm email address" />
+                    <InputLabel>Confirm email address</InputLabel>
                     <EmailInput
                       placeholder="Email Address"
                       handleChange={setConfirmEmail}
@@ -134,24 +139,7 @@ const AddAdminModal = (): React.ReactElement => {
               )}
             </ModalBody>
             <ModalFooter>
-              <Button
-                variant="secondary"
-                onClick={onModalClose}
-                mr={2}
-                borderColor="blue.50"
-                minWidth="108px"
-                width="108px"
-              >
-                Discard
-              </Button>
-              <Button
-                variant="primary"
-                minWidth="108px"
-                width="108px"
-                type="submit"
-              >
-                Save
-              </Button>
+              <ModalFooterButtons onModalClose={onModalClose} />
             </ModalFooter>
           </form>
         </ModalContent>
