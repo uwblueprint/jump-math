@@ -8,20 +8,20 @@ const testType = gql`
 
   input MultipleChoiceMetadataInput {
     options: [String!]!
-    answerIndex: Int!
+    answerIndex: Float!
   }
 
   type MultipleChoiceMetadata {
     options: [String!]!
-    answerIndex: Int!
+    answerIndex: Float!
   }
 
   input NumericQuestionMetadataInput {
-    answer: Int!
+    answer: Float!
   }
 
   type NumericQuestionMetadata {
-    answer: Int!
+    answer: Float!
   }
 
   union QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata
@@ -35,8 +35,8 @@ const testType = gql`
   input QuestionInput {
     questionType: QuestionTypeEnum!
     questionPrompt: String!
-    questionMetadataMultipleChoice: MultipleChoiceMetadataInput!
-    questionMetadataNumericQuestion: NumericQuestionMetadataInput!
+    questionMetadataMultipleChoice: MultipleChoiceMetadataInput
+    questionMetadataNumericQuestion: NumericQuestionMetadataInput
   }
 
   type TestResponseDTO {
@@ -48,7 +48,7 @@ const testType = gql`
     grade: Int!
   }
 
-  input CreateTestRequestDTO {
+  input TestRequestDTO {
     name: String!
     duration: Int!
     admin: ID!
@@ -61,8 +61,8 @@ const testType = gql`
   }
 
   extend type Mutation {
-    createTest(test: CreateTestRequestDTO!): TestResponseDTO!
-    updateTest(id: ID!, test: CreateTestRequestDTO!): TestResponseDTO!
+    createTest(test: TestRequestDTO!): TestResponseDTO!
+    updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
     deleteTestById(id: ID!): ID
   }
 `;
