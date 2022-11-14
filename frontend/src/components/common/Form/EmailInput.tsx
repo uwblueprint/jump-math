@@ -24,6 +24,7 @@ const EmailInput = ({
       textAlign="center"
       variant="filled"
       pattern={pattern}
+      _invalid={{ borderColor: "red.200" }}
     />
   );
 };

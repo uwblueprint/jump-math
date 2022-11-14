@@ -13,6 +13,7 @@ const InputLabel = ({ children }: InputLabelProps): React.ReactElement => {
       color="blue.300"
       mb={0}
       fontSize="20px"
+      fontWeight="500"
       lineHeight="26px"
     >
       {children}
