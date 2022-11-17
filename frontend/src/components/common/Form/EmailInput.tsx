@@ -5,12 +5,14 @@ import { Input } from "@chakra-ui/react";
 type EmailInputProps = {
   placeholder: string;
   handleChange: (val: string) => void;
+  isInvalid?: boolean;
   pattern?: string;
 };
 
 const EmailInput = ({
   placeholder,
   handleChange,
+  isInvalid,
   pattern,
 }: EmailInputProps): React.ReactElement => {
   return (
@@ -23,8 +25,9 @@ const EmailInput = ({
       height="48px"
       textAlign="center"
       variant="filled"
-      pattern={pattern}
+      pattern={pattern ?? ".+"}
       _invalid={{ borderColor: "red.200" }}
+      isInvalid={isInvalid ?? false}
     />
   );
 };
