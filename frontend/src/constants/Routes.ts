@@ -11,3 +11,5 @@ export const COMPONENT_LIBRARY = "/component-library";
 
 // TODO: REMOVE
 export const HOOKS_PAGE = "/hooks";
+
+export const CREATE_QUESTION_PAGE = "/create-question";
