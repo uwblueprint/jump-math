@@ -13,6 +13,7 @@ import { CloseOutlineIcon } from "../icons";
 import ModalText from "./ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
+import GET_USERS_BY_ROLE from "../../../APIClients/queries/GetUsersByRole";
 
 interface RemoveUserModalProps {
   name: string;
@@ -23,17 +24,6 @@ interface RemoveUserModalProps {
 const REMOVE_USER = gql`
   mutation DeleteUserByEmail($email: String!) {
     deleteUserByEmail(email: $email)
-  }
-`;
-
-const GET_USERS_BY_ROLE = gql`
-  query GetUsersByRole($role: String!) {
-    usersByRole(role: $role) {
-      id
-      firstName
-      lastName
-      email
-    }
   }
 `;
 
