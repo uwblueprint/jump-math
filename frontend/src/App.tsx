@@ -27,7 +27,6 @@ import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherCo
 import { AuthenticatedUser } from "./types/AuthTypes";
 
 import theme from "./themes";
-import AdminTablePage from "./components/pages/AdminTablePage";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -87,12 +86,6 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.COMPONENT_LIBRARY}
                   component={ComponentLibrary}
-                  roles={["Admin", "Teacher"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.ADMIN_TABLE_PAGE}
-                  component={AdminTablePage}
                   roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
