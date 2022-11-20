@@ -7,7 +7,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ArrowBackOutlineIcon, ArrowForwardOutlineIcon } from "../common/icons";
+import {
+  ArrowBackOutlineIcon,
+  ArrowForwardOutlineIcon,
+  BookIcon,
+} from "../common/icons";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
@@ -182,11 +186,12 @@ const pages: Page[] = [
       { title: "Also student", url: Routes.STUDENT_PAGE },
       { title: "Another one", url: Routes.STUDENT_PAGE },
     ],
+    icon: BookIcon,
   },
-  { title: "Teacher Page", url: Routes.TEACHER_PAGE },
-  { title: "Admin Page", url: Routes.ADMIN_PAGE },
-  { title: "Library", url: Routes.COMPONENT_LIBRARY },
-  { title: "Assessments", url: "/" },
+  { title: "Teacher Page", url: Routes.TEACHER_PAGE, icon: BookIcon },
+  { title: "Admin Page", url: Routes.ADMIN_PAGE, icon: BookIcon },
+  { title: "Library", url: Routes.COMPONENT_LIBRARY, icon: BookIcon },
+  { title: "Assessments", url: "/", icon: BookIcon },
 ];
 
 const ADMINUSERS = [

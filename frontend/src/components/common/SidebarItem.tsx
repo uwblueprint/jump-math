@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Flex, Box, Text, Spacer, FlexProps } from "@chakra-ui/react";
+import { Flex, Box, Text, Spacer, FlexProps, Icon } from "@chakra-ui/react";
 import RouterLink from "./RouterLink";
-import { ChevronUpIcon, ChevronDownIcon, BookIcon } from "./icons";
+import { ChevronUpIcon, ChevronDownIcon } from "./icons";
 import Page from "../../types/PageTypes";
 
 interface SidebarItemProps extends FlexProps {
@@ -13,7 +13,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   page,
   isSubPage = false,
 }: SidebarItemProps) => {
-  const { title, url, subPages } = page;
+  const { title, url, subPages, icon } = page;
   const [showMore, setShowMore] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -42,7 +42,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             color: "black",
           }}
         >
-          <Box p={2}>{!isSubPage && <BookIcon />}</Box>
+          <Box p={2}>{!isSubPage && <Icon as={icon} />}</Box>
           <Text fontSize="14px">{title}</Text>
           <Spacer />
           <Box m={2} onClick={handleClick}>
