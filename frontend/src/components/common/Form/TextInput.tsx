@@ -18,10 +18,11 @@ const TextInput = ({
       type="text"
       placeholder={placeholder}
       onChange={(e) => handleChange(e.target.value.trim())}
+      backgroundColor="grey.100"
+      color="grey.300"
       fontSize="18px"
       width="320px"
       height="48px"
-      textAlign="center"
       variant="filled"
       isInvalid={isInvalid ?? false}
       _invalid={{ borderColor: "red.200" }}

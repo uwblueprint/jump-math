@@ -1,6 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { Box, Button, Container, Text } from "@chakra-ui/react";
+import { Box, Container, Text } from "@chakra-ui/react";
 import IllustrationWrapper from "./IllustrationWrapper";
 
 interface MessageContainerProps {
@@ -8,8 +7,6 @@ interface MessageContainerProps {
   subtitle: string;
   paragraphs: string[];
   textColor: string;
-  buttonText: string;
-  pageToNavigate: string;
 }
 
 const MessageContainer = ({
@@ -17,14 +14,9 @@ const MessageContainer = ({
   subtitle,
   paragraphs,
   textColor,
-  buttonText,
-  pageToNavigate,
 }: MessageContainerProps): React.ReactElement => {
-  const history = useHistory();
-  const navigateTo = () => history.push(pageToNavigate);
   return (
     <Container
-      bg="blue.50"
       maxW="3xl"
       pt={32}
       pb={20}
@@ -49,9 +41,6 @@ const MessageContainer = ({
             {paragraph}
           </Text>
         ))}
-        <Button onClick={navigateTo} mt={10} variant="primary">
-          {buttonText}
-        </Button>
       </Box>
     </Container>
   );

@@ -29,7 +29,7 @@ import {
   AlertIcon,
   SearchOutlineIcon,
 } from "../common/icons";
-import GET_USERS_BY_ROLE from "../../APIClients/queries/GetUsersByRole";
+import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
 const pages: Page[] = [
   { title: "Assessments", url: "/", icon: SettingsOutlineIcon },
