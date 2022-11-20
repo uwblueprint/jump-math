@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import CreateQuestionSidebar from "./CreateQuestionSidebar";
+import { HOME_PAGE } from "../../../constants/Routes";
 
 const CreateQuestionPage = (): React.ReactElement => {
   return (
     <Flex margin={0}>
-      <CreateQuestionSidebar />
+      <CreateQuestionSidebar pageToNavigate={HOME_PAGE} />
       <Box flex="1">
         <VStack margin="3em 5em" align="left" color="grey.400">
           <Text textStyle="subtitle1" marginBottom={5}>

@@ -15,6 +15,7 @@ import {
   WrapItem,
   Wrap,
 } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
 import {
   ArrowBackOutlineIcon,
   ColumnIcon,
@@ -26,6 +27,9 @@ import {
   TextIcon,
 } from "../icons";
 
+interface CreateQuestionSidebarProps {
+  pageToNavigate: string;
+}
 interface AccordionItemProps {
   title: string;
   panels: AccordianPanelProps[];
@@ -71,7 +75,12 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const CreateQuestionSidebar = (): React.ReactElement => {
+const CreateQuestionSidebar = ({
+  pageToNavigate,
+}: CreateQuestionSidebarProps): React.ReactElement => {
+  const history = useHistory();
+  const navigateTo = () => history.push(pageToNavigate);
+
   return (
     <VStack
       minHeight="100vh"
@@ -85,6 +94,7 @@ const CreateQuestionSidebar = (): React.ReactElement => {
           variant="tertiary"
           paddingLeft={0}
           justifyContent="flex-start"
+          onClick={navigateTo}
         >
           Back
         </Button>
