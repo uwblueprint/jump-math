@@ -5,11 +5,13 @@ import { Input } from "@chakra-ui/react";
 type TextInputProps = {
   placeholder: string;
   handleChange: (val: string) => void;
+  isInvalid?: boolean;
 };
 
 const TextInput = ({
   placeholder,
   handleChange,
+  isInvalid,
 }: TextInputProps): React.ReactElement => {
   return (
     <Input
@@ -21,6 +23,7 @@ const TextInput = ({
       height="48px"
       textAlign="center"
       variant="filled"
+      isInvalid={isInvalid ?? false}
       _invalid={{ borderColor: "red.200" }}
     />
   );

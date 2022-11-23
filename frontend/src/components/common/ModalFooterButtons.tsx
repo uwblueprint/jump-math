@@ -3,17 +3,19 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 
 type ModalFooterButtonsProps = {
-  onModalClose: () => void;
+  onDiscard: () => void;
+  onSave: () => void;
 };
 
 const ModalFooterButtons = ({
-  onModalClose,
+  onDiscard,
+  onSave,
 }: ModalFooterButtonsProps): React.ReactElement => {
   return (
     <>
       <Button
         variant="secondary"
-        onClick={onModalClose}
+        onClick={onDiscard}
         mr={2}
         borderColor="blue.50"
         minWidth="108px"
@@ -21,7 +23,7 @@ const ModalFooterButtons = ({
       >
         Discard
       </Button>
-      <Button variant="primary" minWidth="108px" width="108px" type="submit">
+      <Button variant="primary" minWidth="108px" width="108px" onClick={onSave}>
         Save
       </Button>
     </>
