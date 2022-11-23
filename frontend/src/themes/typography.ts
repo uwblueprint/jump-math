@@ -54,6 +54,12 @@ const textStyles = {
     letterSpacing: "0.16em",
     textTransform: "uppercase",
   },
+  caption: {
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "18px",
+    letterSpacing: "-0.02em",
+  },
 };
 
 export default textStyles;
