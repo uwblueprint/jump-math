@@ -1,4 +1,8 @@
-import { Question } from "../../models/test.model";
+import {
+  MultipleChoiceMetadata,
+  NumericQuestionMetadata,
+  Question,
+} from "../../models/test.model";
 import { UserDTO } from "../../types";
 
 export type TestResponseDTO = {
@@ -19,6 +23,24 @@ export type TestResponseDTO = {
 /** the request input expects an admin userId string rather than a UserDTO */
 export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
   admin: string;
+};
+
+export type QuestionRequest = Omit<Question, "questionMetadata"> & {
+  questionMetadataMultipleChoice: MultipleChoiceMetadata;
+  questionMetadataNumericQuestion: NumericQuestionMetadata;
+};
+
+export type TestRequestDTO = {
+  /** the name of the test */
+  name: string;
+  /** the duration of the test */
+  duration: number;
+  /** the UserDTO for the admin */
+  admin: string;
+  /** an array of questions on the test */
+  questions: QuestionRequest[];
+  /** the grade of the student */
+  grade: number;
 };
 
 export interface ITestService {
