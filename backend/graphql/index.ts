@@ -11,6 +11,8 @@ import authResolvers from "./resolvers/authResolvers";
 import authType from "./types/authType";
 import entityResolvers from "./resolvers/entityResolvers";
 import entityType from "./types/entityType";
+import schoolResolvers from "./resolvers/schoolResolvers";
+import schoolType from "./types/schoolType";
 import simpleEntityResolvers from "./resolvers/simpleEntityResolvers";
 import simpleEntityType from "./types/simpleEntityType";
 import userResolvers from "./resolvers/userResolvers";
@@ -36,6 +38,7 @@ const executableSchema = makeExecutableSchema({
     mutation,
     authType,
     entityType,
+    schoolType,
     simpleEntityType,
     userType,
     testType,
@@ -43,6 +46,7 @@ const executableSchema = makeExecutableSchema({
   resolvers: merge(
     authResolvers,
     entityResolvers,
+    schoolResolvers,
     simpleEntityResolvers,
     userResolvers,
     testResolvers,
