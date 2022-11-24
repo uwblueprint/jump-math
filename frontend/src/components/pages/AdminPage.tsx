@@ -3,6 +3,7 @@ import {
   Flex,
   Text,
   Box,
+  Center,
   Tabs,
   TabList,
   Tab,
@@ -32,7 +33,7 @@ const pages: Page[] = [
 ];
 
 const LoadingState = (): React.ReactElement => (
-  <VStack spacing={6}>
+  <VStack spacing={6} textAlign="center">
     <Spinner
       color="blue.300"
       size="xl"
@@ -40,8 +41,18 @@ const LoadingState = (): React.ReactElement => (
       emptyColor="gray.200"
       speed="0.65s"
     />
-    <Text textStyle="paragraph">
+    <Text textStyle="paragraph" color="blue.300">
       Please wait for the data to load. It will load momentarily.
+    </Text>
+  </VStack>
+);
+
+const ErrorState = (): React.ReactElement => (
+  <VStack spacing={6} textAlign="center">
+    <AlertIcon />
+    <Text textStyle="paragraph" color="blue.300">
+      The data has not loaded properly. Please reload the page or contact Jump
+      Math.
     </Text>
   </VStack>
 );
@@ -53,16 +64,6 @@ const getAdminUser = (user: AdminUser) => {
     lastName: user.lastName,
   };
 };
-
-const ErrorState = (): React.ReactElement => (
-  <VStack spacing={6}>
-    <AlertIcon />
-    <Text textStyle="paragraph">
-      The data has not loaded properly. Please reload the page or contact Jump
-      Math.
-    </Text>
-  </VStack>
-);
 
 const AdminPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
@@ -86,58 +87,63 @@ const AdminPage = (): React.ReactElement => {
     );
   }, [search, data]);
 
-  if (loading) return <LoadingState />;
-  if (error) return <ErrorState />;
-
   return (
     <Flex margin={0}>
       <SideBar pages={pages} />
-      <Box flex="1" margin="5em 2em 0em 2em">
-        <Text
-          textStyle="header4"
-          color="blue.300"
-          style={{ textAlign: "left" }}
-          marginBottom="0.5em"
-        >
-          Database
-        </Text>
-        <HStack justifyContent="space-between">
-          <InputGroup maxWidth="280px">
-            <Input
-              borderRadius="6px"
-              backgroundColor="grey.100"
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search bar"
-            />
-            <InputRightElement pointerEvents="none" h="full">
-              <SearchBar />
-            </InputRightElement>
-          </InputGroup>
-          <AddAdminModal />
-        </HStack>
-        <Tabs marginTop={3}>
-          <TabList>
-            <Tab color={unselectedColor}>Admin</Tab>
-            <Tab color={unselectedColor}>Teachers</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <AdminUserTable
-                adminUsers={adminData?.map((user: AdminUser) =>
-                  getAdminUser(user),
-                )}
+      <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
+        <Box>
+          <Text
+            textStyle="header4"
+            color="blue.300"
+            style={{ textAlign: "left" }}
+            marginBottom="0.5em"
+          >
+            Database
+          </Text>
+          <HStack justifyContent="space-between">
+            <InputGroup maxWidth="280px">
+              <Input
+                borderRadius="6px"
+                backgroundColor="grey.100"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search bar"
               />
-            </TabPanel>
-            <TabPanel>
-              <AdminUserTable
-                adminUsers={adminData?.map((user: AdminUser) =>
-                  getAdminUser(user),
-                )}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
+              <InputRightElement pointerEvents="none" h="full">
+                <SearchBar />
+              </InputRightElement>
+            </InputGroup>
+            <AddAdminModal />
+          </HStack>
+        </Box>
+        <Center flex="1">
+          {loading && <LoadingState />}
+          {error && <ErrorState />}
+          {data && !error && !loading && (
+            <Tabs marginTop={3}>
+              <TabList>
+                <Tab color={unselectedColor}>Admin</Tab>
+                <Tab color={unselectedColor}>Teachers</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <AdminUserTable
+                    adminUsers={adminData?.map((user: AdminUser) =>
+                      getAdminUser(user),
+                    )}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <AdminUserTable
+                    adminUsers={adminData?.map((user: AdminUser) =>
+                      getAdminUser(user),
+                    )}
+                  />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          )}
+        </Center>
+      </VStack>
     </Flex>
   );
 };
