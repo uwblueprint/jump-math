@@ -11,6 +11,10 @@ import {
   useColorModeValue,
   Spinner,
   VStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
@@ -19,7 +23,7 @@ import SideBar from "../common/Sidebar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../common/AdminUserTable";
 import AddAdminModal from "../common/AddAdminModal";
-import { SettingsOutlineIcon, AlertIcon } from "../common/icons";
+import { SettingsOutlineIcon, AlertIcon, SearchBar } from "../common/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/GetUsersByRole";
 
 const pages: Page[] = [
@@ -62,42 +66,56 @@ const ErrorState = (): React.ReactElement => (
 
 const AdminPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
+  const [search, setSearch] = React.useState("");
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
     variables: { role: "Admin" },
   });
 
-  if (loading)
-    return (
-      <>
-        <LoadingState />
-      </>
+  const adminData = React.useMemo(() => {
+    const filteredUsers = data?.usersByRole;
+
+    if (!search) return filteredUsers;
+    return filteredUsers.filter(
+      (user: AdminUser) =>
+        `${user.firstName} ${user.lastName}`
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        user.email.toLowerCase().includes(search.toLowerCase()),
     );
-  if (error)
-    return (
-      <>
-        <ErrorState />
-      </>
-    );
+  }, [search, data]);
+
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState />;
 
   return (
-    <Flex mx="4">
-      <Box p={0} w="20%">
-        <SideBar pages={pages} />
-      </Box>
-      <Flex direction="column" w="100%" pt={20}>
+    <Flex margin={0}>
+      <SideBar pages={pages} />
+      <Box flex="1" margin="5em 2em 0em 2em">
         <Text
           textStyle="header4"
           color="blue.300"
           style={{ textAlign: "left" }}
+          marginBottom="0.5em"
         >
           Database
         </Text>
-        <Box textAlign="right" pr={10}>
+        <HStack justifyContent="space-between">
+          <InputGroup maxWidth="280px">
+            <Input
+              borderRadius="6px"
+              backgroundColor="grey.100"
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search bar"
+            />
+            <InputRightElement pointerEvents="none" h="full">
+              <SearchBar />
+            </InputRightElement>
+          </InputGroup>
           <AddAdminModal />
-        </Box>
-        <Tabs pr={5}>
+        </HStack>
+        <Tabs marginTop={3}>
           <TabList>
             <Tab color={unselectedColor}>Admin</Tab>
             <Tab color={unselectedColor}>Teachers</Tab>
@@ -105,21 +123,21 @@ const AdminPage = (): React.ReactElement => {
           <TabPanels>
             <TabPanel>
               <AdminUserTable
-                adminUsers={data?.usersByRole?.map((user: AdminUser) =>
+                adminUsers={adminData?.map((user: AdminUser) =>
                   getAdminUser(user),
                 )}
               />
             </TabPanel>
             <TabPanel>
               <AdminUserTable
-                adminUsers={data?.usersByRole?.map((user: AdminUser) =>
+                adminUsers={adminData?.map((user: AdminUser) =>
                   getAdminUser(user),
                 )}
               />
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </Flex>
+      </Box>
     </Flex>
   );
 };
