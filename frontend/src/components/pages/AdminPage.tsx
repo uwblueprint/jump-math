@@ -24,7 +24,11 @@ import SideBar from "../common/Sidebar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../common/AdminUserTable";
 import AddAdminModal from "../common/AddAdminModal";
-import { SettingsOutlineIcon, AlertIcon, SearchBar } from "../common/icons";
+import {
+  SettingsOutlineIcon,
+  AlertIcon,
+  SearchOutlineIcon,
+} from "../common/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/GetUsersByRole";
 
 const pages: Page[] = [
@@ -74,17 +78,20 @@ const AdminPage = (): React.ReactElement => {
     variables: { role: "Admin" },
   });
 
-  const adminData = React.useMemo(() => {
-    const filteredUsers = data?.usersByRole;
+  const admins = React.useMemo(() => {
+    let filteredUsers = data?.usersByRole;
 
-    if (!search) return filteredUsers;
-    return filteredUsers.filter(
-      (user: AdminUser) =>
-        `${user.firstName} ${user.lastName}`
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        user.email.toLowerCase().includes(search.toLowerCase()),
-    );
+    if (search) {
+      filteredUsers = filteredUsers.filter(
+        (user: AdminUser) =>
+          `${user.firstName} ${user.lastName}`
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+
+    return filteredUsers?.map(getAdminUser);
   }, [search, data]);
 
   return (
@@ -109,16 +116,24 @@ const AdminPage = (): React.ReactElement => {
                 placeholder="Search bar"
               />
               <InputRightElement pointerEvents="none" h="full">
-                <SearchBar />
+                <SearchOutlineIcon />
               </InputRightElement>
             </InputGroup>
             <AddAdminModal />
           </HStack>
         </Box>
-        <Center flex="1">
-          {loading && <LoadingState />}
-          {error && <ErrorState />}
-          {data && !error && !loading && (
+        {loading && (
+          <Center flex="1">
+            <LoadingState />
+          </Center>
+        )}
+        {error && (
+          <Center flex="1">
+            <ErrorState />
+          </Center>
+        )}
+        {data && !error && !loading && (
+          <Box flex="1">
             <Tabs marginTop={3}>
               <TabList>
                 <Tab color={unselectedColor}>Admin</Tab>
@@ -126,23 +141,15 @@ const AdminPage = (): React.ReactElement => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <AdminUserTable
-                    adminUsers={adminData?.map((user: AdminUser) =>
-                      getAdminUser(user),
-                    )}
-                  />
+                  <AdminUserTable adminUsers={admins} />
                 </TabPanel>
                 <TabPanel>
-                  <AdminUserTable
-                    adminUsers={adminData?.map((user: AdminUser) =>
-                      getAdminUser(user),
-                    )}
-                  />
+                  <AdminUserTable adminUsers={admins} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
-          )}
-        </Center>
+          </Box>
+        )}
       </VStack>
     </Flex>
   );

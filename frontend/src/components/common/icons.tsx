@@ -194,7 +194,7 @@ export const AlertIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const SearchBar = (): React.ReactElement => (
+export const SearchOutlineIcon = (): React.ReactElement => (
   <Icon color="grey.300" viewBox="0 0 24 24">
     <path
       fill="currentColor"
