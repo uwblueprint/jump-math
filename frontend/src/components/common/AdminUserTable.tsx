@@ -45,7 +45,7 @@ const AdminUserTable = ({
           {adminUsers.map((user, index) => (
             <Tr
               _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
-              key={user.firstName}
+              key={user.email}
               backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
             >
               <Td>
