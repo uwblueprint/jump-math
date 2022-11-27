@@ -97,7 +97,7 @@ export const ColumnIcon = (): React.ReactElement => (
       fill="#C4C4C4"
       stroke="black"
       strokeDasharray="2 2"
-     />
+    />
   </Icon>
 );
 
@@ -166,7 +166,6 @@ export const ShortAnswerIcon = (): React.ReactElement => (
     <rect x="10" y="36" width="68" height="16" fill="#666666" />
   </Icon>
 );
-
 
 export const SettingsOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">

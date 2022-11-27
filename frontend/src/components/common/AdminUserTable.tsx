@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   Thead,
@@ -19,6 +19,18 @@ interface AdminUserTableProps {
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
+  const [users, setUsers] = useState(adminUsers);
+  // const [order, setOrder] = useState("Ascending");
+  // const sorting = (property: string)=>{
+  //   if (order == "Ascending") {
+  //     const sorted = [...users].sort((a, b)=>
+  //     a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1
+  //     );
+  //     setUsers(sorted);
+  //     setOrder("Descending")
+  //   };
+  // };
+
   return (
     <TableContainer
       padding="10px"
@@ -42,7 +54,7 @@ const AdminUserTable = ({
           </Tr>
         </Thead>
         <Tbody>
-          {adminUsers.map((user, index) => (
+          {users.map((user, index) => (
             <Tr
               _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
               key={user.firstName}

@@ -11,13 +11,16 @@ import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
   BookIcon,
+  ChevronDownIcon,
 } from "../common/icons";
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
 import AddAdminModal from "../common/AddAdminModal";
+// eslint-disable-next-line import/no-named-as-default
 import AdminUserTable from "../common/AdminUserTable";
+import SortTablePopover from "../common/Admin/SortTablePopover";
 
 import * as Routes from "../../constants/Routes";
 import Page from "../../types/PageTypes";
@@ -234,6 +237,7 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <AdminUserTable adminUsers={ADMINUSERS} />
       <AddAdminModal />
+      <SortTablePopover />
     </div>
   );
 };
