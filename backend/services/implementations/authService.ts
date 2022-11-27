@@ -148,13 +148,13 @@ class AuthService implements IAuthService {
         .generateEmailVerificationLink(email);
       const emailBody = `
         <link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
-        <img src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump-math-logo.png"
+        <img src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/jump-math-logo-removebg.png"
              style = "display: block;
                       margin-left: auto;
                       margin-right: auto;
                       width: 222px;
                       height: 64px;">
-        <img src="https://storage.googleapis.com/jump-math-98edf.appspot.com/email-header.png"
+        <img src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/email-header.png"
              style = "display: block;
                       margin-left: auto;
                       margin-right: auto;
@@ -184,7 +184,7 @@ class AuthService implements IAuthService {
           <br><br>
           We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally!
           <br><br>
-          <form action="${emailVerificationLink}" method="post" target="_blank">
+          <form action="${emailVerificationLink}" target="_blank">
             <input style="border: none;
                           background: #154472;
                           color: white;
