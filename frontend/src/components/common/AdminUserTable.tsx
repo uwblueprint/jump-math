@@ -48,18 +48,18 @@ const AdminUserTable = ({
               key={user.email}
               backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
             >
-              <Td sx={{ width: "50%", pr: "400px" }}>
+              <Td>
                 <Text
                   noOfLines={1}
                   style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
               </Td>
-              <Td maxWidth="200px">
+              <Td>
                 <Text noOfLines={1} style={{ display: "block" }}>
                   {user.email}
                 </Text>
               </Td>
-              <Td sx={{ width: "7%" }} maxWidth="5px" p="0" m="0">
+              <Td width="10%">
                 <RemoveUserPopover
                   name={`${user.firstName} ${user.lastName}`}
                   email={user.email}

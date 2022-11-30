@@ -32,8 +32,9 @@ const RemoveUserPopover = ({
     >
       <PopoverTrigger>
         <IconButton
-          icon={<MoreVerticalOutlineIcon />}
+          icon={<MoreVerticalOutlineIcon boxSize={5} />}
           aria-label="more-vertical-outline"
+          size="sm"
         />
       </PopoverTrigger>
       <PopoverContent width="3xs" borderColor="grey.300" borderRadius="12px">
