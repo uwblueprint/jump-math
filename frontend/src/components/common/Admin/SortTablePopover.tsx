@@ -1,34 +1,36 @@
 import React from "react";
 import {
   Button,
-  Button as ChakraButton,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
   Radio,
   Stack,
-  useDisclosure,
   Text,
   RadioGroup,
+  Popover,
+  PopoverTrigger,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  ButtonGroup,
+  PopoverFooter,
+  Box,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "../icons";
 
 const SortTablePopover = (): React.ReactElement => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <ChakraButton
-        onClick={onOpen}
-        rightIcon={<ChevronDownIcon />}
-        variant="secondary"
-      >
-        Sort
-      </ChakraButton>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
-          <ModalBody maxW="350px">
-            <Stack direction="row" spacing={120} sx={{ pt: "2" }}>
+      <Popover placement="top-start">
+        <PopoverTrigger>
+          <Button>Sort</Button>
+        </PopoverTrigger>
+        <PopoverContent color="black" bg="white" borderColor="blue.800">
+          {/* <PopoverHeader pt={4} fontWeight="bold" border="0">
+            Type Sort
+          </PopoverHeader> */}
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <PopoverBody>
+            <Stack direction="row" spacing={100} sx={{ pt: "2" }}>
               <RadioGroup defaultValue="1">
                 <Stack>
                   <Text textStyle="subtitle2">Type</Text>
@@ -48,24 +50,21 @@ const SortTablePopover = (): React.ReactElement => {
                 </Stack>
               </RadioGroup>
             </Stack>
-          </ModalBody>
-
-          <ModalFooter pt={2} pl={0}>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              mt={0}
-              pl={0}
-              ml={0}
-              pt={0}
-              mr={3}
-              onClick={onClose}
-            >
-              Apply
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </PopoverBody>
+          <PopoverFooter
+            border="0"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            pb={4}
+          >
+            <Box fontSize="sm">Step 2 of 4</Box>
+            <ButtonGroup size="sm">
+              <Button colorScheme="blue">Apply</Button>
+            </ButtonGroup>
+          </PopoverFooter>
+        </PopoverContent>
+      </Popover>
     </>
   );
 };

@@ -199,19 +199,19 @@ const pages: Page[] = [
 
 const ADMINUSERS = [
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "John",
+    lastName: "Doe",
+    email: "AJohnDoe@jumpmath.ca",
   },
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "BJaneDoe@jumpmath.ca",
   },
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "Mary",
+    lastName: "Jane",
+    email: "CMaryjane@jumpmath.ca",
   },
   {
     firstName: "Albert",
@@ -224,7 +224,7 @@ const ADMINUSERS = [
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <Sidebar pages={pages} />
+      {/* <Sidebar pages={pages} /> */}
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />

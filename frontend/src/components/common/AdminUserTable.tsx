@@ -24,14 +24,22 @@ const AdminUserTable = ({
   const [users, setUsers] = useState(adminUsers);
   const [order, setOrder] = useState("Ascending");
   const sorting = (property: AdminUserProperty) => {
-     if (order === "Ascending") {
-       setUsers(users.sort((a, b)=>
-         a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1
-       ));
-       setUsers(sorted);
-       setOrder("Descending")
-     }
-   };
+    if (order === "Ascending") {
+      setUsers(
+        users.sort((a, b) =>
+          a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1,
+        ),
+      );
+      setOrder("Descending");
+    } else {
+      setUsers(
+        users.sort((a, b) =>
+          a[property].toLowerCase() < b[property].toLowerCase() ? 1 : -1,
+        ),
+      );
+      setOrder("Ascending");
+    }
+  };
 
   return (
     <TableContainer
@@ -43,12 +51,12 @@ const AdminUserTable = ({
       <Table sx={{ tableLayout: "fixed" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
-            <Th>
+            <Th onClick={() => sorting("firstName")}>
               <Text textStyle="link" color="blue.700" textTransform="none">
                 Name
               </Text>
             </Th>
-            <Th>
+            <Th onClick={() => sorting("email")}>
               <Text textStyle="link" color="blue.700" textTransform="none">
                 Email
               </Text>
