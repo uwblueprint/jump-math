@@ -16,20 +16,22 @@ interface AdminUserTableProps {
   adminUsers: AdminUser[];
 }
 
+type AdminUserProperty = "firstName" | "lastName" | "email";
+
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
   const [users, setUsers] = useState(adminUsers);
-  // const [order, setOrder] = useState("Ascending");
-  // const sorting = (property: string)=>{
-  //   if (order == "Ascending") {
-  //     const sorted = [...users].sort((a, b)=>
-  //     a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1
-  //     );
-  //     setUsers(sorted);
-  //     setOrder("Descending")
-  //   };
-  // };
+  const [order, setOrder] = useState("Ascending");
+  const sorting = (property: AdminUserProperty) => {
+     if (order === "Ascending") {
+       setUsers(users.sort((a, b)=>
+         a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1
+       ));
+       setUsers(sorted);
+       setOrder("Descending")
+     }
+   };
 
   return (
     <TableContainer
