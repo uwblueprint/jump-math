@@ -25,4 +25,3 @@ export type EntityResponse = {
   boolField: boolean;
   fileName: string;
 };
-

@@ -21,11 +21,12 @@ export const ArrowBackOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const MoreVerticalOutlineIcon = (): React.ReactElement => (
-  <Icon viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="2" />
-    <circle cx="12" cy="5" r="2" />
-    <circle cx="12" cy="19" r="2" />
+/* eslint-disable react/jsx-props-no-spreading */
+export const MoreVerticalOutlineIcon = (props: any): React.ReactElement => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <circle cx="12" cy="12" r="2" fill="currentColor" />
+    <circle cx="12" cy="5" r="2" fill="currentColor" />
+    <circle cx="12" cy="19" r="2" fill="currentColor" />
   </Icon>
 );
 

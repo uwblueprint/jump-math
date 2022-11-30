@@ -21,4 +21,3 @@ export type SimpleEntityResponse = {
   enumField: EnumField;
   boolField: boolean;
 };
-
