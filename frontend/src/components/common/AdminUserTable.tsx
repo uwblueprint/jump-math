@@ -30,12 +30,12 @@ const AdminUserTable = ({
         <Thead>
           <Tr>
             <Th>
-              <Text textStyle="link" color="blue.700" textTransform="none">
+              <Text textStyle="link" color="blue.300" textTransform="none">
                 Name
               </Text>
             </Th>
             <Th>
-              <Text textStyle="link" color="blue.700" textTransform="none">
+              <Text textStyle="link" color="blue.300" textTransform="none">
                 Email
               </Text>
             </Th>
@@ -50,6 +50,7 @@ const AdminUserTable = ({
             >
               <Td>
                 <Text
+                  as="b"
                   noOfLines={1}
                   style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
