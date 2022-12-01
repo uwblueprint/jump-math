@@ -31,12 +31,22 @@ const AdminUserTable = ({
         <Thead>
           <Tr>
             <Th>
-              <Text textStyle="link" color="blue.300" textTransform="none">
+              <Text
+                textStyle="mobileSubtitle2"
+                fontWeight="bold"
+                color="blue.300"
+                textTransform="none"
+              >
                 Name
               </Text>
             </Th>
             <Th>
-              <Text textStyle="link" color="blue.300" textTransform="none">
+              <Text
+                textStyle="mobileSubtitle2"
+                fontWeight="bold"
+                color="blue.300"
+                textTransform="none"
+              >
                 Email
               </Text>
             </Th>
@@ -51,13 +61,18 @@ const AdminUserTable = ({
             >
               <Td>
                 <Text
-                  as="b"
+                  fontWeight="bold"
+                  textStyle="mobileSubtitle2"
                   noOfLines={1}
                   style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
               </Td>
               <Td>
-                <Text noOfLines={1} style={{ display: "block" }}>
+                <Text
+                  textStyle="mobileSubtitle2"
+                  noOfLines={1}
+                  style={{ display: "block" }}
+                >
                   {user.email}
                 </Text>
               </Td>
