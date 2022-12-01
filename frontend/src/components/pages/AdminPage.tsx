@@ -143,6 +143,11 @@ const AdminPage = (): React.ReactElement => {
                         <SearchOutlineIcon />
                       </InputRightElement>
                     </InputGroup>
+                    {search && (
+                      <Text fontSize="16px" color="grey.300" width="100%">
+                        Showing {admins.length} results for &quot;{search}&quot;
+                      </Text>
+                    )}
                     <AdminUserTable adminUsers={admins} />
                   </VStack>
                 </TabPanel>
