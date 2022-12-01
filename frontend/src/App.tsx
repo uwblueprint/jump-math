@@ -28,6 +28,7 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 
 import theme from "./themes";
 import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
+import TeacherSignup from "./components/auth/TeacherSignup";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -64,7 +65,11 @@ const App = (): React.ReactElement => {
                   component={Login}
                 />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
-
+                <Route
+                  exact
+                  path={Routes.TEACHER_SIGNUP_PAGE}
+                  component={TeacherSignup}
+                />
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
@@ -81,7 +86,7 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.ADMIN_PAGE}
                   component={AdminPage}
-                  roles={["Admin"]}
+                  roles={["Admin", "Teacher"]}
                 />
                 <PrivateRoute
                   exact
