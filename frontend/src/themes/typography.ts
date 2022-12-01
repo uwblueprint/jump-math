@@ -60,6 +60,12 @@ const textStyles = {
     lineHeight: "18px",
     letterSpacing: "-0.02em",
   },
+  mobileSubtitle1: {
+    fontSize: "16px",
+    fontWeight: "500",
+    lineHeight: "21px",
+    letterSpacing: 0,
+  },
 };
 
 export default textStyles;
