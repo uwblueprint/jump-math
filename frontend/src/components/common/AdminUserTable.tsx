@@ -25,6 +25,7 @@ const AdminUserTable = ({
       border="1px solid"
       borderColor="#E2E8F0"
       borderRadius="12px"
+      minWidth="100%"
     >
       <Table sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
         <Thead>
