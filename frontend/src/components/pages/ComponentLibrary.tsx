@@ -16,7 +16,7 @@ import {
 import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
 import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import Sidebar from "../common/Sidebar";
+// import Sidebar from "../common/Sidebar";
 import AddAdminModal from "../common/AddAdminModal";
 // eslint-disable-next-line import/no-named-as-default
 import AdminUserTable from "../common/AdminUserTable";

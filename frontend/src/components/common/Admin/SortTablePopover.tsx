@@ -13,20 +13,19 @@ import {
   PopoverContent,
   ButtonGroup,
   PopoverFooter,
-  Box,
 } from "@chakra-ui/react";
+import { FilterOptionsIcon } from "../icons";
 
 const SortTablePopover = (): React.ReactElement => {
   return (
     <>
       <Popover placement="top-start">
         <PopoverTrigger>
-          <Button>Sort</Button>
+          <Button size="md" rightIcon={<FilterOptionsIcon />} bg="#F4F4F4">
+            Sort
+          </Button>
         </PopoverTrigger>
         <PopoverContent color="black" bg="white" borderColor="blue.800">
-          {/* <PopoverHeader pt={4} fontWeight="bold" border="0">
-            Type Sort
-          </PopoverHeader> */}
           <PopoverArrow />
           <PopoverCloseButton />
           <PopoverBody>
@@ -58,9 +57,11 @@ const SortTablePopover = (): React.ReactElement => {
             justifyContent="space-between"
             pb={4}
           >
-            <Box fontSize="sm">Step 2 of 4</Box>
+            {/* <Box fontSize="sm">Step 2 of 4</Box> */}
             <ButtonGroup size="sm">
-              <Button colorScheme="blue">Apply</Button>
+              <Button pl="500%" colorScheme="blue">
+                Apply
+              </Button>
             </ButtonGroup>
           </PopoverFooter>
         </PopoverContent>
