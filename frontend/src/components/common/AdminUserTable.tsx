@@ -59,7 +59,7 @@ const AdminUserTable = ({
                   {user.email}
                 </Text>
               </Td>
-              <Td width="10%">
+              <Td width="5%">
                 <RemoveUserPopover
                   name={`${user.firstName} ${user.lastName}`}
                   email={user.email}

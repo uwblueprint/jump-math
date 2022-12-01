@@ -111,6 +111,7 @@ const AdminPage = (): React.ReactElement => {
             <InputGroup maxWidth="280px">
               <Input
                 borderRadius="6px"
+                borderColor="grey.100"
                 backgroundColor="grey.100"
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search bar"
