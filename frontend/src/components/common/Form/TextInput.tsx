@@ -26,6 +26,7 @@ const TextInput = ({
       variant="filled"
       isInvalid={isInvalid ?? false}
       _invalid={{ borderColor: "red.200" }}
+      borderRadius="6px"
     />
   );
 };

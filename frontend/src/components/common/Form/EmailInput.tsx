@@ -29,6 +29,7 @@ const EmailInput = ({
       variant="filled"
       _invalid={{ borderColor: "red.200" }}
       isInvalid={isInvalid ?? false}
+      borderRadius="6px"
     />
   );
 };
