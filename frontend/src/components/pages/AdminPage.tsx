@@ -3,6 +3,7 @@ import {
   Flex,
   Text,
   Box,
+  Center,
   Tabs,
   TabList,
   Tab,
@@ -11,6 +12,10 @@ import {
   useColorModeValue,
   Spinner,
   VStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
@@ -19,7 +24,11 @@ import SideBar from "../common/Sidebar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../common/AdminUserTable";
 import AddAdminModal from "../common/AddAdminModal";
-import { SettingsOutlineIcon, AlertIcon } from "../common/icons";
+import {
+  SettingsOutlineIcon,
+  AlertIcon,
+  SearchOutlineIcon,
+} from "../common/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/GetUsersByRole";
 
 const pages: Page[] = [
@@ -28,7 +37,7 @@ const pages: Page[] = [
 ];
 
 const LoadingState = (): React.ReactElement => (
-  <VStack spacing={6}>
+  <VStack spacing={6} textAlign="center">
     <Spinner
       color="blue.300"
       size="xl"
@@ -36,8 +45,18 @@ const LoadingState = (): React.ReactElement => (
       emptyColor="gray.200"
       speed="0.65s"
     />
-    <Text textStyle="paragraph">
+    <Text textStyle="paragraph" color="blue.300">
       Please wait for the data to load. It will load momentarily.
+    </Text>
+  </VStack>
+);
+
+const ErrorState = (): React.ReactElement => (
+  <VStack spacing={6} textAlign="center">
+    <AlertIcon />
+    <Text textStyle="paragraph" color="blue.300">
+      The data has not loaded properly. Please reload the page or contact Jump
+      Math.
     </Text>
   </VStack>
 );
@@ -50,76 +69,88 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
-const ErrorState = (): React.ReactElement => (
-  <VStack spacing={6}>
-    <AlertIcon />
-    <Text textStyle="paragraph">
-      The data has not loaded properly. Please reload the page or contact Jump
-      Math.
-    </Text>
-  </VStack>
-);
-
 const AdminPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
+  const [search, setSearch] = React.useState("");
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
     variables: { role: "Admin" },
   });
 
-  if (loading)
-    return (
-      <>
-        <LoadingState />
-      </>
-    );
-  if (error)
-    return (
-      <>
-        <ErrorState />
-      </>
-    );
+  const admins = React.useMemo(() => {
+    let filteredUsers = data?.usersByRole;
+
+    if (search) {
+      filteredUsers = filteredUsers.filter(
+        (user: AdminUser) =>
+          `${user.firstName} ${user.lastName}`
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+
+    return filteredUsers?.map(getAdminUser);
+  }, [search, data]);
 
   return (
-    <Flex mx="4">
-      <Box p={0} w="20%">
-        <SideBar pages={pages} />
-      </Box>
-      <Flex direction="column" w="100%" pt={20}>
-        <Text
-          textStyle="header4"
-          color="blue.300"
-          style={{ textAlign: "left" }}
-        >
-          Database
-        </Text>
-        <Box textAlign="right" pr={10}>
-          <AddAdminModal />
+    <Flex margin={0}>
+      <SideBar pages={pages} />
+      <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
+        <Box>
+          <Text
+            textStyle="header4"
+            color="blue.300"
+            style={{ textAlign: "left" }}
+            marginBottom="0.5em"
+          >
+            Database
+          </Text>
+          <HStack justifyContent="space-between">
+            <InputGroup maxWidth="280px">
+              <Input
+                borderRadius="6px"
+                backgroundColor="grey.100"
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search bar"
+              />
+              <InputRightElement pointerEvents="none" h="full">
+                <SearchOutlineIcon />
+              </InputRightElement>
+            </InputGroup>
+            <AddAdminModal />
+          </HStack>
         </Box>
-        <Tabs pr={5}>
-          <TabList>
-            <Tab color={unselectedColor}>Admin</Tab>
-            <Tab color={unselectedColor}>Teachers</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <AdminUserTable
-                adminUsers={data?.usersByRole?.map((user: AdminUser) =>
-                  getAdminUser(user),
-                )}
-              />
-            </TabPanel>
-            <TabPanel>
-              <AdminUserTable
-                adminUsers={data?.usersByRole?.map((user: AdminUser) =>
-                  getAdminUser(user),
-                )}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Flex>
+        {loading && (
+          <Center flex="1">
+            <LoadingState />
+          </Center>
+        )}
+        {error && (
+          <Center flex="1">
+            <ErrorState />
+          </Center>
+        )}
+        {data && !error && !loading && (
+          <Box flex="1">
+            <Tabs marginTop={3}>
+              <TabList>
+                <Tab color={unselectedColor}>Admin</Tab>
+                <Tab color={unselectedColor}>Teachers</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <AdminUserTable adminUsers={admins} />
+                </TabPanel>
+                <TabPanel>
+                  <AdminUserTable adminUsers={admins} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
+        )}
+      </VStack>
     </Flex>
   );
 };
