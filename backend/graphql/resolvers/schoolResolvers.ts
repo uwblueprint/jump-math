@@ -11,6 +11,11 @@ const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
 
 const schoolResolvers = {
+  Query: {
+    schools: async (): Promise<SchoolResponseDTO[]> => {
+      return schoolService.getAllSchools();
+    },
+  },
   Mutation: {
     createSchool: async (
       _parent: undefined,

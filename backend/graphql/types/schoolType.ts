@@ -20,6 +20,10 @@ const schoolType = gql`
     teachers: [UserDTO!]!
   }
 
+  extend type Query {
+    schools: [SchoolResponseDTO!]
+  }
+
   extend type Mutation {
     createSchool(school: SchoolRequestDTO!): SchoolResponseDTO!
     addTeacherToSchool(
