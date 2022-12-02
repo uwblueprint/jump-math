@@ -1,9 +1,12 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   Alert,
   AlertIcon,
   Button,
   FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
   Modal,
   ModalHeader,
   ModalCloseButton,
@@ -21,10 +24,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import AdminConfirmationMessage from "./Admin/AdminConfirmationMessage";
-import EmailInput from "./Form/EmailInput";
-import InputError from "./Form/InputError";
-import InputLabel from "./Form/InputLabel";
-import TextInput from "./Form/TextInput";
 import ModalFooterButtons from "./ModalFooterButtons";
 import { PlusOutlineIcon } from "./icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
@@ -154,38 +153,34 @@ const AddAdminModal = (): React.ReactElement => {
               <ModalCloseButton />
               <ModalBody>
                 {showRequestError && (
-                  <Alert
-                    status="error"
-                    mb={10}
-                    variant="top-accent"
-                    borderColor="red.200"
-                    backgroundColor="red.50"
-                    color="red.200"
-                    textStyle="mobileSubtitle1"
-                  >
-                    <AlertIcon />
+                  <Alert status="error" mb={10} borderColor="red.200">
+                    <AlertIcon color="red.200" />
                     {requestErrorMessage}
                   </Alert>
                 )}
                 <FormControl isRequired>
-                  <InputLabel>Name of Admin</InputLabel>
+                  <FormLabel>Name of Admin</FormLabel>
                   <HStack direction="row" mt={6}>
-                    <TextInput
+                    <Input
+                      type="text"
                       placeholder="First Name"
-                      handleChange={setFirstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      width="320px"
                       isInvalid={requiredFieldEmpty && firstName.length === 0}
                     />
-                    <TextInput
+                    <Input
+                      type="text"
                       placeholder="Last Name"
-                      handleChange={setLastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      width="320px"
                       isInvalid={requiredFieldEmpty && lastName.length === 0}
                     />
                   </HStack>
                 </FormControl>
                 <FormControl isRequired as="fieldset" mt={8}>
-                  <InputLabel>
+                  <FormLabel>
                     Does the user already have a Jump Math email address?
-                  </InputLabel>
+                  </FormLabel>
                   <RadioGroup
                     onChange={(val) => setHasJumpMathEmail(val === "yes")}
                     mt={5}
@@ -216,37 +211,42 @@ const AddAdminModal = (): React.ReactElement => {
                 {hasJumpMathEmail !== null && (
                   <>
                     <FormControl isRequired mt={6} isInvalid={isInvalidEmail}>
-                      <InputLabel>{`Please enter their ${
+                      <FormLabel>{`Please enter their ${
                         hasJumpMathEmail ? "Jump Math" : ""
-                      } email address`}</InputLabel>
-                      <EmailInput
-                        id="add-admin-email"
+                      } email address`}</FormLabel>
+                      <Input
+                        type="email"
                         placeholder="Email Address"
-                        handleChange={setEmail}
+                        onChange={(e) => setEmail(e.target.value)}
+                        width="320px"
+                        mt={4}
                         isInvalid={requiredFieldEmpty && email.length === 0}
                       />
-                      <InputError>
+                      <FormErrorMessage>
                         The email does not end in @jumpmath.org. Please ensure
                         the email address is correct.
-                      </InputError>
+                      </FormErrorMessage>
                     </FormControl>
                     <FormControl
                       isRequired
                       mt={6}
                       isInvalid={isInvalidConfirmationEmail}
                     >
-                      <InputLabel>Confirm email address</InputLabel>
-                      <EmailInput
+                      <FormLabel>Confirm email address</FormLabel>
+                      <Input
+                        type="email"
                         placeholder="Email Address"
-                        handleChange={setConfirmEmail}
+                        onChange={(e) => setConfirmEmail(e.target.value)}
+                        width="320px"
+                        mt={4}
                         isInvalid={
                           requiredFieldEmpty && confirmEmail.length === 0
                         }
                       />
-                      <InputError>
+                      <FormErrorMessage>
                         The email addresses do not currently match. Please check
                         them again.
-                      </InputError>
+                      </FormErrorMessage>
                     </FormControl>
                   </>
                 )}
