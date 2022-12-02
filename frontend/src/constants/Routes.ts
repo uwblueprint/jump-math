@@ -13,3 +13,4 @@ export const COMPONENT_LIBRARY = "/component-library";
 export const HOOKS_PAGE = "/hooks";
 
 export const CREATE_QUESTION_PAGE = "/create-question";
+export const LANDING_PAGE = "/landing-page";

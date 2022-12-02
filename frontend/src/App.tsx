@@ -26,6 +26,8 @@ import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherCo
 
 import { AuthenticatedUser } from "./types/AuthTypes";
 
+import LandingPage from "./components/pages/LandingPage";
+
 import theme from "./themes";
 import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
 
@@ -63,8 +65,12 @@ const App = (): React.ReactElement => {
                   path={[Routes.HOME_PAGE, Routes.LOGIN_PAGE]}
                   component={Login}
                 />
+                <Route
+                  exact
+                  path={Routes.LANDING_PAGE}
+                  component={LandingPage}
+                />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
-
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
