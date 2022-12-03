@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
+import Landing from "../pages/Landing";
 
 import AuthContext from "../../contexts/AuthContext";
 import { LOGIN_PAGE } from "../../constants/Routes";

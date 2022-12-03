@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Center,
@@ -9,24 +10,30 @@ import {
   Button,
   Link,
 } from "@chakra-ui/react";
+import * as Routes from "../../constants/Routes";
 
 import JumpMathLogo from "../../assets/jump-math-logo.png";
 
-const NavOptions = (): React.ReactElement => (
-  <VStack gap={1.5}>
-    <Button width={300} variant="primary">
-      Admin
-    </Button>
-    <Button width={300} variant="primary">
-      Teacher
-    </Button>
-    <Button width={300} variant="primary">
-      Student
-    </Button>
-  </VStack>
-);
+const PageLinks = (): React.ReactElement => {
+  const history = useHistory();
+  const navigateTo = () => history.push(Routes.LOGIN_PAGE);
 
-const LandingPage = (): React.ReactElement => {
+  return (
+    <VStack gap={1.5}>
+      <Button onClick={navigateTo} width={300} variant="primary">
+        Admin
+      </Button>
+      <Button onClick={navigateTo} width={300} variant="primary">
+        Teacher
+      </Button>
+      <Button onClick={navigateTo} width={300} variant="primary">
+        Student
+      </Button>
+    </VStack>
+  );
+};
+
+const Landing = (): React.ReactElement => {
   return (
     <Box>
       <Stack p={8} pb={20} justifyContent="left">
@@ -44,13 +51,11 @@ const LandingPage = (): React.ReactElement => {
         >
           <VStack gap={6}>
             <Image src={JumpMathLogo} alt="Jump Math Logo" h={90} />
-            <Text textStyle="header4" textAlign="center">
+            <Text textStyle="header4">
               Welcome to the Online Assessment Platform
             </Text>
-            <Text textStyle="subtitle1" textAlign="center">
-              To begin, are you a...
-            </Text>
-            <NavOptions />
+            <Text textStyle="subtitle1">To begin, are you a...</Text>
+            <PageLinks />
           </VStack>
         </Box>
       </Center>
@@ -58,4 +63,4 @@ const LandingPage = (): React.ReactElement => {
   );
 };
 
-export default LandingPage;
+export default Landing;

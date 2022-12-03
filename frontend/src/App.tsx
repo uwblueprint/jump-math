@@ -1,6 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useReducer } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
@@ -26,7 +31,7 @@ import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherCo
 
 import { AuthenticatedUser } from "./types/AuthTypes";
 
-import LandingPage from "./components/pages/LandingPage";
+import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
 import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
@@ -60,16 +65,22 @@ const App = (): React.ReactElement => {
           >
             <Router>
               <Switch>
-                <Route
-                  exact
-                  path={[Routes.HOME_PAGE, Routes.LOGIN_PAGE]}
-                  component={Login}
-                />
-                <Route
-                  exact
-                  path={Routes.LANDING_PAGE}
-                  component={LandingPage}
-                />
+                {authenticatedUser?.role === "Admin" && (
+                  <Redirect
+                    exact
+                    from={Routes.HOME_PAGE}
+                    to={Routes.ADMIN_PAGE}
+                  />
+                )}
+                {authenticatedUser?.role === "Teacher" && (
+                  <Redirect
+                    exact
+                    from={Routes.HOME_PAGE}
+                    to={Routes.TEACHER_PAGE}
+                  />
+                )}
+                <Route exact path={Routes.HOME_PAGE} component={Landing} />
+                <Route exact path={Routes.LOGIN_PAGE} component={Login} />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
                 <PrivateRoute
                   exact
