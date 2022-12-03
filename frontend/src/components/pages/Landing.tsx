@@ -14,19 +14,31 @@ import * as Routes from "../../constants/Routes";
 
 import JumpMathLogo from "../../assets/jump-math-logo.png";
 
-const PageLinks = (): React.ReactElement => {
+const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
   const navigateTo = () => history.push(Routes.LOGIN_PAGE);
 
   return (
-    <VStack gap={1.5}>
-      <Button onClick={navigateTo} width={300} variant="primary">
+    <VStack gap={1.5} mx={2}>
+      <Button
+        onClick={navigateTo}
+        width={{ base: "10em", md: "20em" }}
+        variant="primary"
+      >
         Admin
       </Button>
-      <Button onClick={navigateTo} width={300} variant="primary">
+      <Button
+        onClick={navigateTo}
+        width={{ base: "10em", md: "20em" }}
+        variant="primary"
+      >
         Teacher
       </Button>
-      <Button onClick={navigateTo} width={300} variant="primary">
+      <Button
+        onClick={navigateTo}
+        width={{ base: "10em", md: "20em" }}
+        variant="primary"
+      >
         Student
       </Button>
     </VStack>
@@ -36,12 +48,16 @@ const PageLinks = (): React.ReactElement => {
 const Landing = (): React.ReactElement => {
   return (
     <Box>
-      <Stack p={8} pb={20} justifyContent="left">
-        <Link textStyle="subtitle2" href="https://jumpmath.org/">
+      <Stack p={8} justifyContent="left">
+        <Link
+          _hover={{ color: "blue.200", textDecoration: "none" }}
+          textStyle="subtitle2"
+          href="https://jumpmath.org/"
+        >
           {"< Back to Home"}
         </Link>
       </Stack>
-      <Center>
+      <Center pt={10} pb={24}>
         <Box
           p={10}
           width="60%"
@@ -51,11 +67,11 @@ const Landing = (): React.ReactElement => {
         >
           <VStack gap={6}>
             <Image src={JumpMathLogo} alt="Jump Math Logo" h={90} />
-            <Text textStyle="header4">
+            <Text textStyle="header4" textAlign="center">
               Welcome to the Online Assessment Platform
             </Text>
             <Text textStyle="subtitle1">To begin, are you a...</Text>
-            <PageLinks />
+            <DashboardLinks />
           </VStack>
         </Box>
       </Center>
