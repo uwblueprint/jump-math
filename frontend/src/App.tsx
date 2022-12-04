@@ -28,7 +28,7 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 
 import theme from "./themes";
 import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
-import TeacherSignup from "./components/auth/TeacherSignup";
+import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
