@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack, Button } from "@chakra-ui/react";
+import { Image, HStack, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
