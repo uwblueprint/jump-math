@@ -60,6 +60,61 @@ const textStyles = {
     lineHeight: "18px",
     letterSpacing: "-0.02em",
   },
+  mobileHeader1: {
+    fontSize: "34px",
+    fontWeight: "700",
+    lineHeight: "44px",
+    letterSpacing: "-0.02em",
+  },
+  mobileHeader2: {
+    fontSize: "24px",
+    fontWeight: "700",
+    lineHeight: "31px",
+    letterSpacing: "-0.01em",
+  },
+  mobileHeader3: {
+    fontSize: "20px",
+    fontWeight: "700",
+    lineHeight: "26px",
+    letterSpacing: "-0.01em",
+  },
+  mobileHeader4: {
+    fontSize: "18px",
+    fontWeight: "700",
+    lineHeight: "23px",
+    letterSpacing: "-0.01em",
+  },
+  mobileSubtitle1: {
+    fontSize: "16px",
+    fontWeight: "500",
+    lineHeight: "21px",
+    letterSpacing: 0,
+  },
+  mobileSubtitle2: {
+    fontSize: "14px",
+    fontWeight: "500",
+    lineHeight: "18px",
+    letterSpacing: 0,
+  },
+  mobileParagraph: {
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "18px",
+    letterSpacing: 0,
+  },
+  mobileLink: {
+    fontSize: "14px",
+    fontWeight: "700",
+    lineHeight: "18px",
+    letterSpacing: 0,
+  },
+  mobileEyebrow: {
+    fontSize: "12px",
+    fontWeight: "500",
+    lineHeight: "16px",
+    letterSpacing: "0.16em",
+    textTransform: "uppercase",
+  },
 };
 
 export default textStyles;

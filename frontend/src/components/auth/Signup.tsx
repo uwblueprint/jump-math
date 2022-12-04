@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
-import { ADMIN_PAGE, TEACHER_PAGE } from "../../constants/Routes";
+import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
 
@@ -53,11 +53,7 @@ const Signup = (): React.ReactElement => {
   };
 
   if (authenticatedUser) {
-    return authenticatedUser.role === "Teacher" ? (
-      <Redirect to={TEACHER_PAGE} />
-    ) : (
-      <Redirect to={ADMIN_PAGE} />
-    );
+    return <Redirect to={HOME_PAGE} />;
   }
 
   return (
