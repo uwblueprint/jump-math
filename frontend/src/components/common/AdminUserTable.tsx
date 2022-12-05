@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Table,
   Thead,
@@ -16,30 +16,10 @@ interface AdminUserTableProps {
   adminUsers: AdminUser[];
 }
 
-type AdminUserProperty = "firstName" | "lastName" | "email";
-
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
-  const [users, setUsers] = useState(adminUsers);
-  const [order, setOrder] = useState("Ascending");
-  const sorting = (property: AdminUserProperty) => {
-    if (order === "Ascending") {
-      setUsers(
-        users.sort((a, b) =>
-          a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1,
-        ),
-      );
-      setOrder("Descending");
-    } else {
-      setUsers(
-        users.sort((a, b) =>
-          a[property].toLowerCase() < b[property].toLowerCase() ? 1 : -1,
-        ),
-      );
-      setOrder("Ascending");
-    }
-  };
+  const users = adminUsers;
 
   return (
     <TableContainer
@@ -51,12 +31,12 @@ const AdminUserTable = ({
       <Table sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
-            <Th onClick={() => sorting("firstName")}>
+            <Th>
               <Text textStyle="link" color="blue.700" textTransform="none">
                 Name
               </Text>
             </Th>
-            <Th onClick={() => sorting("email")}>
+            <Th>
               <Text textStyle="link" color="blue.700" textTransform="none">
                 Email
               </Text>
