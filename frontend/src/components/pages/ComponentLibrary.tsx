@@ -17,6 +17,7 @@ import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
 import AddAdminModal from "../common/AddAdminModal";
+// eslint-disable-next-line import/no-named-as-default
 import AdminUserTable from "../common/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";
@@ -196,19 +197,19 @@ const pages: Page[] = [
 
 const ADMINUSERS = [
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "John",
+    lastName: "Doe",
+    email: "AJohnDoe@jumpmath.ca",
   },
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "BJaneDoe@jumpmath.ca",
   },
   {
-    firstName: "Albert",
-    lastName: "Kuhl",
-    email: "albertkuhl@jumpmath.ca",
+    firstName: "Mary",
+    lastName: "Jane",
+    email: "CMaryjane@jumpmath.ca",
   },
   {
     firstName: "Albert",

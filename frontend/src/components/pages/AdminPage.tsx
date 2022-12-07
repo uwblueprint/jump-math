@@ -30,6 +30,7 @@ import {
   SearchOutlineIcon,
 } from "../common/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
+import SortTablePopover from "../common/Admin/SortTablePopover";
 
 const pages: Page[] = [
   { title: "Assessments", url: "/", icon: SettingsOutlineIcon },
@@ -69,18 +70,31 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
+type AdminUserProperty = "firstName" | "email";
+type SortOrder = "Ascending" | "Descending";
+
 const AdminPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
+  const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
+    "firstName",
+  );
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
+
+  const OrderingSets = {
+    sortProperty,
+    sortOrder,
+    setSortProperty,
+    setSortOrder,
+  };
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
     variables: { role: "Admin" },
   });
 
-  const admins = React.useMemo(() => {
+  const filteredAdmins = React.useMemo(() => {
     let filteredUsers = data?.usersByRole;
-
     if (search) {
       filteredUsers = filteredUsers.filter(
         (user: AdminUser) =>
@@ -90,24 +104,52 @@ const AdminPage = (): React.ReactElement => {
           user.email.toLowerCase().includes(search.toLowerCase()),
       );
     }
-
     return filteredUsers?.map(getAdminUser);
   }, [search, data]);
+
+  const admins = React.useMemo(() => {
+    let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
+    if (sortOrder === "Descending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+      );
+    } else if (sortOrder === "Ascending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
+      );
+    }
+    return sortedUsers;
+  }, [filteredAdmins, sortProperty, sortOrder]);
 
   return (
     <Flex margin={0}>
       <SideBar pages={pages} />
       <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
         <Box>
+          <Text
+            textStyle="header4"
+            color="blue.300"
+            style={{ textAlign: "left" }}
+            marginBottom="0.5em"
+          >
+            Database
+          </Text>
           <HStack justifyContent="space-between">
-            <Text
-              textStyle="header4"
-              color="blue.300"
-              style={{ textAlign: "left" }}
-              marginBottom="0.5em"
-            >
-              Database
-            </Text>
+            <HStack>
+              <InputGroup maxWidth="280px">
+                <Input
+                  borderRadius="6px"
+                  backgroundColor="grey.100"
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search bar"
+                />
+                <InputRightElement pointerEvents="none" h="full">
+                  <SearchOutlineIcon />
+                </InputRightElement>
+              </InputGroup>
+              <SortTablePopover OrderingSets={OrderingSets} />
+            </HStack>
+
             <AddAdminModal />
           </HStack>
         </Box>
