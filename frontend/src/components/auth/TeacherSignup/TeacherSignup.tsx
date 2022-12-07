@@ -65,9 +65,9 @@ const TeacherSignup = (): React.ReactElement => {
       />
       <VStack width="50%" height="100vh" padding={6}>
         <Image
-          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump-math-logo.png"
+          src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
           alt="Jump-Math-Logo"
-          paddingBottom={5}
+          py={5}
         />
         <Text textStyle="header4" textAlign="center" pb={4}>
           Teacher Sign Up
