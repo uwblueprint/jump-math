@@ -27,17 +27,28 @@ const AdminUserTable = ({
       border="1px solid"
       borderColor="#E2E8F0"
       borderRadius="12px"
+      minWidth="100%"
     >
       <Table sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
         <Thead>
           <Tr>
             <Th>
-              <Text textStyle="link" color="blue.700" textTransform="none">
+              <Text
+                textStyle="mobileSubtitle2"
+                fontWeight="bold"
+                color="blue.300"
+                textTransform="none"
+              >
                 Name
               </Text>
             </Th>
             <Th>
-              <Text textStyle="link" color="blue.700" textTransform="none">
+              <Text
+                textStyle="mobileSubtitle2"
+                fontWeight="bold"
+                color="blue.300"
+                textTransform="none"
+              >
                 Email
               </Text>
             </Th>
@@ -52,16 +63,22 @@ const AdminUserTable = ({
             >
               <Td>
                 <Text
+                  fontWeight="bold"
+                  textStyle="mobileSubtitle2"
                   noOfLines={1}
                   style={{ display: "block" }}
                 >{`${user.firstName} ${user.lastName}`}</Text>
               </Td>
               <Td>
-                <Text noOfLines={1} style={{ display: "block" }}>
+                <Text
+                  textStyle="mobileSubtitle2"
+                  noOfLines={1}
+                  style={{ display: "block" }}
+                >
                   {user.email}
                 </Text>
               </Td>
-              <Td width="10%">
+              <Td width="5%">
                 <RemoveUserPopover
                   name={`${user.firstName} ${user.lastName}`}
                   email={user.email}

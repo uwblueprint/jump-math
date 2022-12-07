@@ -29,7 +29,7 @@ import {
   AlertIcon,
   SearchOutlineIcon,
 } from "../common/icons";
-import GET_USERS_BY_ROLE from "../../APIClients/queries/GetUsersByRole";
+import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/Admin/SortTablePopover";
 
 const pages: Page[] = [
@@ -126,14 +126,6 @@ const AdminPage = (): React.ReactElement => {
       <SideBar pages={pages} />
       <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
         <Box>
-          <Text
-            textStyle="header4"
-            color="blue.300"
-            style={{ textAlign: "left" }}
-            marginBottom="0.5em"
-          >
-            Database
-          </Text>
           <HStack justifyContent="space-between">
             <HStack>
               <InputGroup maxWidth="280px">
@@ -149,6 +141,14 @@ const AdminPage = (): React.ReactElement => {
               </InputGroup>
               <SortTablePopover OrderingSets={OrderingSets} />
             </HStack>
+            <Text
+              textStyle="header4"
+              color="blue.300"
+              style={{ textAlign: "left" }}
+              marginBottom="0.5em"
+            >
+              Database
+            </Text>
             <AddAdminModal />
           </HStack>
         </Box>
@@ -171,7 +171,26 @@ const AdminPage = (): React.ReactElement => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <AdminUserTable adminUsers={admins} />
+                  <VStack pt={4} spacing={6}>
+                    <InputGroup>
+                      <Input
+                        borderRadius="6px"
+                        borderColor="grey.100"
+                        backgroundColor="grey.100"
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search bar"
+                      />
+                      <InputRightElement pointerEvents="none" h="full">
+                        <SearchOutlineIcon />
+                      </InputRightElement>
+                    </InputGroup>
+                    {search && (
+                      <Text fontSize="16px" color="grey.300" width="100%">
+                        Showing {admins.length} results for &quot;{search}&quot;
+                      </Text>
+                    )}
+                    <AdminUserTable adminUsers={admins} />
+                  </VStack>
                 </TabPanel>
                 <TabPanel>
                   <AdminUserTable adminUsers={admins} />
