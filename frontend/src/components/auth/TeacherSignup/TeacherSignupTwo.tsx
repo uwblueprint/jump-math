@@ -1,6 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
+import {
+  AsyncCreatableSelect,
+  AsyncSelect,
+  CreatableSelect,
+  Select,
+} from "chakra-react-select";
+import GET_SCHOOLS from "../../../APIClients/queries/SchoolQueries";
+import { SchoolResponse } from "../../../types/SchoolTypes";
 import { ArrowBackOutlineIcon } from "../../common/icons";
 import SelectFormInput from "./SelectFormInput";
 import { TeacherSignupProps } from "./types";
@@ -10,6 +19,15 @@ const TeacherSignupTwo = ({
   register,
   errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
+
+  useQuery(GET_SCHOOLS, {
+    fetchPolicy: "cache-and-network",
+    onCompleted: (data) => {
+      setSchools(data.schools.map((school: SchoolResponse) => school));
+    },
+  });
+
   return (
     <VStack>
       <Text textStyle="subtitle2" textAlign="center" pb={10}>
@@ -32,10 +50,30 @@ const TeacherSignupTwo = ({
 
       <FormControl>
         <FormLabel color="grey.400">School</FormLabel>
+        <Select<ColorOption, false, GroupBase<ColorOption>>
+          name="colors"
+          className="chakra-react-select"
+          classNamePrefix="chakra-react-select"
+          options={colorOptions}
+          placeholder="Select a color"
+          selectedOptionStyle="check"
+          chakraStyles={{
+            dropdownIndicator: (provided) => ({
+              ...provided,
+              bg: "transparent",
+              px: 2,
+              cursor: "inherit",
+            }),
+            indicatorSeparator: (provided) => ({
+              ...provided,
+              display: "none",
+            }),
+          }}
+        />
         <SelectFormInput
           register={register}
           name="school"
-          options={["yes", "no"]}
+          options={schools.map((school) => school.name)}
           placeholder="Search School by typing it in field"
           required
         />
