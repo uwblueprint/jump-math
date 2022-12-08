@@ -48,8 +48,10 @@ const TeacherSignup = (): React.ReactElement => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<TeacherSignupForm>({ defaultValues });
+  } = useForm<TeacherSignupForm>({ defaultValues, mode: "onChange" });
   const [page, setPage] = React.useState(1);
 
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
@@ -72,7 +74,14 @@ const TeacherSignup = (): React.ReactElement => {
         <Text textStyle="header4" textAlign="center" pb={4}>
           Teacher Sign Up
         </Text>
-        {renderPageComponent(page, { setPage, register, handleSubmit, errors })}
+        {renderPageComponent(page, {
+          setPage,
+          register,
+          handleSubmit,
+          watch,
+          setValue,
+          errors,
+        })}
       </VStack>
     </HStack>
   );

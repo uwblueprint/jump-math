@@ -23,7 +23,7 @@ const TeacherSignupFour = ({
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         variant="tertiary"
-        onClick={() => setPage(3)}
+        onClick={() => setPage(3)} // TODO: Page can either be 2 or 3 depending on whether school exists or not
       >
         Back
       </Button>

@@ -1,7 +1,12 @@
-/* eslint-disable react/jsx-props-no-spreading */
+import {
+  GroupBase,
+  OptionBase,
+  Select,
+  SingleValue,
+} from "chakra-react-select";
 import React from "react";
-import { Select } from "@chakra-ui/react";
-import { UseFormRegister } from "react-hook-form";
+
+import { UseFormSetValue } from "react-hook-form";
 import { TeacherSignupForm } from "./types";
 
 type TeacherInput =
@@ -19,33 +24,62 @@ type TeacherInput =
   | "password"
   | `grades.${number}`;
 
+interface Option extends OptionBase {
+  label: string;
+  value: string;
+}
 interface SelectFormInputProps {
-  register: UseFormRegister<TeacherSignupForm>;
+  setValue: UseFormSetValue<TeacherSignupForm>;
   name: TeacherInput;
-  options: string[];
+  options: Option[];
   placeholder: string;
-  required: boolean;
+  isSearchable: boolean;
 }
 
 const SelectFormInput = ({
-  register,
+  setValue,
   name,
   options,
   placeholder,
-  required,
+  isSearchable,
 }: SelectFormInputProps): React.ReactElement => {
+  const handleChange = (option: SingleValue<Option>) => {
+    if (option) setValue(name, option.value);
+  };
   return (
-    <Select
-      {...register(name, { required })}
-      variant="filled"
+    <Select<Option, false, GroupBase<Option>>
+      name={name}
+      options={options}
       placeholder={placeholder}
-    >
-      {options.map((value) => (
-        <option key={value} value={value}>
-          {value}
-        </option>
-      ))}
-    </Select>
+      selectedOptionStyle="check"
+      onChange={handleChange}
+      chakraStyles={{
+        dropdownIndicator: (provided) => ({
+          ...provided,
+          bg: "transparent",
+          px: 2,
+          cursor: "inherit",
+        }),
+        indicatorSeparator: (provided) => ({
+          ...provided,
+          display: "none",
+        }),
+        placeholder: (provided) => ({
+          ...provided,
+          color: "grey.300",
+        }),
+        input: (provided) => ({
+          ...provided,
+          bg: "grey.100",
+        }),
+        container: (provided) => ({
+          ...provided,
+          marginBottom: "1em",
+        }),
+      }}
+      isSearchable={isSearchable}
+      errorBorderColor="red.200"
+    />
   );
 };
 

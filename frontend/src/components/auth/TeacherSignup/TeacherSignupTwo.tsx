@@ -2,24 +2,21 @@
 import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
-import {
-  AsyncCreatableSelect,
-  AsyncSelect,
-  CreatableSelect,
-  Select,
-} from "chakra-react-select";
 import GET_SCHOOLS from "../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../types/SchoolTypes";
 import { ArrowBackOutlineIcon } from "../../common/icons";
 import SelectFormInput from "./SelectFormInput";
 import { TeacherSignupProps } from "./types";
+import ErrorMessage from "./ErrorMessage";
 
 const TeacherSignupTwo = ({
   setPage,
-  register,
+  watch,
+  setValue,
   errors,
 }: TeacherSignupProps): React.ReactElement => {
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
+  const [errorMessage, setErrorMessage] = React.useState(false);
 
   useQuery(GET_SCHOOLS, {
     fetchPolicy: "cache-and-network",
@@ -28,63 +25,74 @@ const TeacherSignupTwo = ({
     },
   });
 
+  const onContinueClick = () => {
+    if (
+      !!watch("currentlyTeachingJM") &&
+      !!watch("school") &&
+      !errors.currentlyTeachingJM &&
+      !errors.school
+    ) {
+      setPage(4);
+    } else {
+      setErrorMessage(true);
+    }
+  };
+
   return (
     <VStack>
-      <Text textStyle="subtitle2" textAlign="center" pb={10}>
+      <Text textStyle="subtitle2" textAlign="center" pb={3}>
         Enter your credentials below to get access to your classes
       </Text>
-
-      <FormControl>
+      {errorMessage && (
+        <ErrorMessage message="Please ensure fields are filled" />
+      )}
+      <FormControl
+        pt={10}
+        isInvalid={!!watch("currentlyTeachingJM")}
+        isRequired
+      >
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
         <SelectFormInput
-          register={register}
+          setValue={setValue}
           name="currentlyTeachingJM"
-          options={["Yes", "No"]}
+          options={["Yes", "No"].map((option) => ({
+            value: option,
+            label: option,
+          }))}
           placeholder="Select Response"
-          required
+          isSearchable={false}
         />
-        {errors.currentlyTeachingJM && <p>Field is required.</p>}
       </FormControl>
 
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel color="grey.400">School</FormLabel>
-        <Select<ColorOption, false, GroupBase<ColorOption>>
-          name="colors"
-          className="chakra-react-select"
-          classNamePrefix="chakra-react-select"
-          options={colorOptions}
-          placeholder="Select a color"
-          selectedOptionStyle="check"
-          chakraStyles={{
-            dropdownIndicator: (provided) => ({
-              ...provided,
-              bg: "transparent",
-              px: 2,
-              cursor: "inherit",
-            }),
-            indicatorSeparator: (provided) => ({
-              ...provided,
-              display: "none",
-            }),
-          }}
-        />
         <SelectFormInput
-          register={register}
+          setValue={setValue}
           name="school"
-          options={schools.map((school) => school.name)}
+          options={schools.map((school) => ({
+            value: school.id,
+            label: school.name,
+          }))}
           placeholder="Search School by typing it in field"
-          required
+          isSearchable
         />
-        {errors.currentlyTeachingJM && <p>School is required.</p>}
       </FormControl>
 
-      <Text textStyle="subtitle2" color="grey.400">
-        If your school is not listed, click here.
+      <Text textStyle="subtitle2" color="grey.400" pb="2em">
+        If your school is not listed,{" "}
+        <Button
+          onClick={() => setPage(3)}
+          display="contents"
+          color="blue.300"
+          style={{ font: "inherit" }}
+        >
+          click here.
+        </Button>
       </Text>
 
-      <Button variant="primary" onClick={() => setPage(3)}>
+      <Button variant="primary" width="100%" onClick={onContinueClick}>
         Continue
       </Button>
       <Button

@@ -2,6 +2,8 @@ import {
   FieldErrorsImpl,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
 
 export interface TeacherSignupForm {
@@ -23,5 +25,7 @@ export interface TeacherSignupProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   register: UseFormRegister<TeacherSignupForm>;
   handleSubmit: UseFormHandleSubmit<TeacherSignupForm>;
+  watch: UseFormWatch<TeacherSignupForm>;
+  setValue: UseFormSetValue<TeacherSignupForm>;
   errors: Partial<FieldErrorsImpl<TeacherSignupForm>>;
 }
