@@ -37,6 +37,14 @@ const SortTablePopover = ({
     setSortProperty,
     setSortOrder,
   } = OrderingSets;
+  const [order, setOrder] = React.useState<SortOrder>("Ascending");
+  const [property, setProperty] = React.useState<AdminUserProperty>(
+    "firstName",
+  );
+  function setFiltering() {
+    setSortOrder(order);
+    setSortProperty(property);
+  }
   return (
     <>
       <Popover placement="bottom-end">
@@ -44,11 +52,14 @@ const SortTablePopover = ({
           <>
             <PopoverTrigger>
               <Button
-                size="sm"
-                pl="10%"
-                ml="0"
-                rightIcon={<FilterOptionsIcon />}
+                height="35px"
+                minWidth="110px"
+                leftIcon={<FilterOptionsIcon />}
                 bg="#blue.300"
+                variant="ghost"
+                color="blue.800"
+                _hover={{ bg: "#DFDFDF" }}
+                fontSize="15px"
               >
                 Sort
               </Button>
@@ -60,10 +71,10 @@ const SortTablePopover = ({
                     <RadioGroup
                       onChange={(e) => {
                         if (e === "firstName" || e === "email") {
-                          setSortProperty(e);
+                          setProperty(e);
                         }
                       }}
-                      value={sortProperty}
+                      value={property}
                     >
                       <Stack>
                         <Text
@@ -86,10 +97,10 @@ const SortTablePopover = ({
                     <RadioGroup
                       onChange={(e) => {
                         if (e === "Ascending" || e === "Descending") {
-                          setSortOrder(e);
+                          setOrder(e);
                         }
                       }}
-                      value={sortOrder}
+                      value={order}
                     >
                       <Stack>
                         <Text
@@ -100,14 +111,12 @@ const SortTablePopover = ({
                         >
                           Order
                         </Text>
-                        <Radio
-                          color="blue.800"
-                          defaultChecked
-                          value="Ascending"
-                        >
+                        <Radio color="#154472" defaultChecked value="Ascending">
                           Ascending
                         </Radio>
-                        <Radio value="Descending">Descending</Radio>
+                        <Radio color="#154472" value="Descending">
+                          Descending
+                        </Radio>
                       </Stack>
                     </RadioGroup>
                   </Stack>
@@ -124,11 +133,16 @@ const SortTablePopover = ({
               >
                 <Spacer />
                 <Button
-                  onClick={onClose}
+                  onClick={() => {
+                    onClose();
+                    setFiltering();
+                  }}
+                  variant="secondary"
                   color="blue.800"
-                  size="lg"
-                  bg="#DFDFDF"
-                  colorScheme="blue"
+                  bg="#E8EDF1"
+                  borderColor="white"
+                  height="48px"
+                  minWidth="100px"
                 >
                   Apply
                 </Button>
