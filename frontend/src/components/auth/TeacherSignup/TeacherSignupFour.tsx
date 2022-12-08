@@ -9,7 +9,6 @@ const TeacherSignupFour = ({
   handleSubmit,
   errors,
 }: TeacherSignupProps): React.ReactElement => {
-
   // TODO: handle submission of data to the backend
   const onSubmit = handleSubmit((data) => console.log(data));
 

@@ -16,13 +16,13 @@ type TeacherInput =
   | "grades"
   | "currentlyTeachingJM"
   | "school"
-  | "newSchoolName"
-  | "newSchoolCountry"
-  | "newSchoolCity"
-  | "newSchoolDistrict"
-  | "newSchoolAddress"
   | "password"
-  | `grades.${number}`;
+  | `grades.${number}`
+  | "school.name"
+  | "school.country"
+  | "school.city"
+  | "school.district"
+  | "school.address";
 
 interface Option extends OptionBase {
   label: string;
