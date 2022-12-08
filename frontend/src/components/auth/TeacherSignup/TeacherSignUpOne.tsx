@@ -1,7 +1,7 @@
 import { Button, VStack, Text } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { HOME_PAGE } from "../../../constants/Routes";
+import { LOGIN_PAGE } from "../../../constants/Routes";
 import { ArrowBackOutlineIcon } from "../../common/icons";
 import { TeacherSignupProps } from "./types";
 
@@ -23,7 +23,7 @@ const TeacherSignupOne = ({
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         variant="tertiary"
-        onClick={() => history.push(HOME_PAGE)}
+        onClick={() => history.push(LOGIN_PAGE)}
       >
         Back to login page
       </Button>

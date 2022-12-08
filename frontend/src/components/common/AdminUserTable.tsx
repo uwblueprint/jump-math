@@ -19,6 +19,8 @@ interface AdminUserTableProps {
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
+  const users = adminUsers;
+
   return (
     <TableContainer
       padding="10px"
@@ -53,7 +55,7 @@ const AdminUserTable = ({
           </Tr>
         </Thead>
         <Tbody>
-          {adminUsers.map((user, index) => (
+          {users.map((user, index) => (
             <Tr
               _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
               key={user.email}

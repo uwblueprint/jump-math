@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
