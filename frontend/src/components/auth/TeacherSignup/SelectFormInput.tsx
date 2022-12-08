@@ -68,10 +68,6 @@ const SelectFormInput = ({
           ...provided,
           color: "grey.300",
         }),
-        input: (provided) => ({
-          ...provided,
-          bg: "grey.100",
-        }),
         container: (provided) => ({
           ...provided,
           marginBottom: "1em",
