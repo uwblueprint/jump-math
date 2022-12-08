@@ -35,6 +35,7 @@ import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
 import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
+import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -82,6 +83,11 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
+                <Route
+                  exact
+                  path={Routes.TEACHER_SIGNUP_PAGE}
+                  component={TeacherSignup}
+                />
                 <PrivateRoute
                   exact
                   path={Routes.STUDENT_PAGE}
