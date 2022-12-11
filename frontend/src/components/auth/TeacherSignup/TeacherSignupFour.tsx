@@ -1,7 +1,8 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
-  Flex,
   FormControl,
   FormLabel,
   HStack,
@@ -9,9 +10,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowBackOutlineIcon,
+  CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../common/icons";
 import { TeacherSignupProps } from "./types";
@@ -27,7 +29,15 @@ const PasswordRequirement = ({
 }: PasswordRequirementProps): React.ReactElement => {
   return (
     <HStack>
-      {isFulfilled ? <CheckmarkCircleOutlineIcon /> : <ArrowBackOutlineIcon />}
+      {isFulfilled ? (
+        <Box color="green.300" fontSize="20px">
+          <CheckmarkCircleFillIcon />
+        </Box>
+      ) : (
+        <Box color="red.200" fontSize="20px">
+          <CheckmarkCircleOutlineIcon />
+        </Box>
+      )}
       <Text textStyle="mobileParagraph">{requirement}</Text>
     </HStack>
   );
@@ -39,20 +49,74 @@ const TeacherSignupFour = ({
   handleSubmit,
   errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [match, setMatch] = useState(true);
+  const [displayMatchError, setDisplayMatchError] = useState(false);
+  const [displayRequirementError, setDisplayRequirementError] = useState(false);
+  const [minNineChars, setMinNineChars] = useState(false);
+  const [hasUppercase, setHasUppercase] = useState(false);
+  const [hasLowercase, setHasLowercase] = useState(false);
+  const [hasSpecial, setHasSpecial] = useState(false);
+  const [hasNum, setHasNum] = useState(false);
   // TODO: handle submission of data to the backend
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = () => {
+    setDisplayMatchError(false);
+    setDisplayRequirementError(false);
+
+    if (!match) {
+      setDisplayMatchError(true);
+      return;
+    }
+    if (
+      !minNineChars ||
+      !hasUppercase ||
+      !hasLowercase ||
+      !hasSpecial ||
+      !hasNum
+    ) {
+      setDisplayRequirementError(true);
+      return;
+    }
+    handleSubmit((data) => console.log(data));
+  };
+
+  useEffect(() => {
+    setMatch(password === confirmPassword);
+    setMinNineChars(password.length >= 9);
+    setHasUppercase(/[A-Z]/.test(password));
+    setHasLowercase(/[a-z]/.test(password));
+    setHasSpecial(/[~`! @#$%^&*()_\-+={[}\]|\\:;“’<,>.?/]/.test(password));
+    setHasNum(/[0-9]/.test(password));
+  }, [password, confirmPassword]);
 
   return (
     <VStack>
-      <Text textStyle="subtitle2" textAlign="center" pb={14}>
+      <Text
+        textStyle="subtitle2"
+        textAlign="center"
+        pb={displayMatchError || displayRequirementError ? 0 : 14}
+      >
         Please set a secure password for your account
       </Text>
+      {displayMatchError && (
+        <Alert status="error" variant="no-background">
+          <AlertIcon color="red.200" />
+          Please ensure passwords match.
+        </Alert>
+      )}
+      {displayRequirementError && (
+        <Alert status="error" variant="no-background">
+          <AlertIcon color="red.200" />
+          Password does not meet all of the requirements.
+        </Alert>
+      )}
       <FormControl isRequired pb={6}>
         <FormLabel>Password</FormLabel>
         <Input
           type="text"
           placeholder="Enter Password"
-          onChange={(e) => console.log(e)}
+          onChange={(e) => setPassword(e.target.value)}
           width="458px"
         />
       </FormControl>
@@ -61,28 +125,31 @@ const TeacherSignupFour = ({
         <Input
           type="text"
           placeholder="Enter Password"
-          onChange={(e) => console.log(e)}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           width="458px"
         />
       </FormControl>
       <HStack alignItems="top">
         <VStack alignItems="left" mr={4}>
           <PasswordRequirement
-            isFulfilled
+            isFulfilled={minNineChars}
             requirement="minimum of 9 characters"
           />
           <PasswordRequirement
-            isFulfilled={false}
+            isFulfilled={hasUppercase}
             requirement="one uppercase letter"
           />
-          <PasswordRequirement isFulfilled requirement="one lowercase letter" />
+          <PasswordRequirement
+            isFulfilled={hasLowercase}
+            requirement="one lowercase letter"
+          />
         </VStack>
         <VStack alignItems="left">
           <PasswordRequirement
-            isFulfilled
+            isFulfilled={hasSpecial}
             requirement="one special character"
           />
-          <PasswordRequirement isFulfilled requirement="one number" />
+          <PasswordRequirement isFulfilled={hasNum} requirement="one number" />
         </VStack>
       </HStack>
       <Button variant="primary" onClick={onSubmit}>
