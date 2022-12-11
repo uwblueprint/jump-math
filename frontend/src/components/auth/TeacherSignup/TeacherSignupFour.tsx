@@ -112,7 +112,7 @@ const TeacherSignupFour = ({
         </Alert>
       )}
       <FormControl isRequired pb={6}>
-        <FormLabel>Password</FormLabel>
+        <FormLabel color="grey.400">Password</FormLabel>
         <Input
           type="text"
           placeholder="Enter Password"
@@ -121,7 +121,7 @@ const TeacherSignupFour = ({
         />
       </FormControl>
       <FormControl isRequired pb={6}>
-        <FormLabel>Confirm Password</FormLabel>
+        <FormLabel color="grey.400">Confirm Password</FormLabel>
         <Input
           type="text"
           placeholder="Enter Password"
