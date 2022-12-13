@@ -153,13 +153,13 @@ const AddAdminModal = (): React.ReactElement => {
               <ModalCloseButton />
               <ModalBody>
                 {showRequestError && (
-                  <Alert status="error" mb={10} borderColor="red.200">
-                    <AlertIcon color="red.200" />
+                  <Alert status="error" mb={10}>
+                    <AlertIcon />
                     {requestErrorMessage}
                   </Alert>
                 )}
                 <FormControl isRequired>
-                  <FormLabel>Name of Admin</FormLabel>
+                  <FormLabel color="blue.300">Name of Admin</FormLabel>
                   <HStack direction="row" mt={6}>
                     <Input
                       type="text"
@@ -178,7 +178,7 @@ const AddAdminModal = (): React.ReactElement => {
                   </HStack>
                 </FormControl>
                 <FormControl isRequired as="fieldset" mt={8}>
-                  <FormLabel>
+                  <FormLabel color="blue.300">
                     Does the user already have a Jump Math email address?
                   </FormLabel>
                   <RadioGroup
@@ -211,7 +211,7 @@ const AddAdminModal = (): React.ReactElement => {
                 {hasJumpMathEmail !== null && (
                   <>
                     <FormControl isRequired mt={6} isInvalid={isInvalidEmail}>
-                      <FormLabel>{`Please enter their ${
+                      <FormLabel color="blue.300">{`Please enter their ${
                         hasJumpMathEmail ? "Jump Math" : ""
                       } email address`}</FormLabel>
                       <Input
@@ -232,7 +232,9 @@ const AddAdminModal = (): React.ReactElement => {
                       mt={6}
                       isInvalid={isInvalidConfirmationEmail}
                     >
-                      <FormLabel>Confirm email address</FormLabel>
+                      <FormLabel color="blue.300">
+                        Confirm email address
+                      </FormLabel>
                       <Input
                         type="email"
                         placeholder="Email Address"
