@@ -45,8 +45,8 @@ const PasswordRequirement = ({
 
 const TeacherSignupFour = ({
   setPage,
-  register,
   handleSubmit,
+  setValue,
   errors,
 }: TeacherSignupProps): React.ReactElement => {
   const [password, setPassword] = useState("");
@@ -59,6 +59,12 @@ const TeacherSignupFour = ({
   const [hasLowercase, setHasLowercase] = useState(false);
   const [hasSpecial, setHasSpecial] = useState(false);
   const [hasNum, setHasNum] = useState(false);
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue("password", e.target.value);
+    setPassword(e.target.value);
+  };
+
   // TODO: handle submission of data to the backend
   const onSubmit = () => {
     setDisplayMatchError(false);
@@ -116,8 +122,9 @@ const TeacherSignupFour = ({
         <Input
           type="text"
           placeholder="Enter Password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
           width="458px"
+          isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
       <FormControl isRequired pb={6}>
@@ -127,9 +134,10 @@ const TeacherSignupFour = ({
           placeholder="Enter Password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           width="458px"
+          isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <HStack alignItems="top">
+      <HStack alignItems="top" pb={6}>
         <VStack alignItems="left" mr={4}>
           <PasswordRequirement
             isFulfilled={minNineChars}
