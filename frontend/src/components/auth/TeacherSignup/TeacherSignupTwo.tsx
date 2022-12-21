@@ -15,7 +15,11 @@ const TeacherSignupTwo = ({
   errors,
 }: TeacherSignupProps): React.ReactElement => {
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
-  const [errorMessage, setErrorMessage] = React.useState(false);
+  const [
+    isCurrentlyTeachingJMError,
+    setIsCurrentlyTeachingJMError,
+  ] = React.useState(false);
+  const [isSchoolError, setSchoolError] = React.useState(false);
 
   useQuery(GET_SCHOOLS, {
     fetchPolicy: "cache-and-network",
@@ -25,15 +29,12 @@ const TeacherSignupTwo = ({
   });
 
   const onContinueClick = () => {
-    if (
-      !!watch("currentlyTeachingJM") &&
-      !!watch("school") &&
-      !errors.currentlyTeachingJM &&
-      !errors.school
-    ) {
-      setPage(4);
+    if (!watch("currentlyTeachingJM") || !!errors.currentlyTeachingJM) {
+      setIsCurrentlyTeachingJMError(true);
+    } else if (!watch("school") || !!errors.school) {
+      setSchoolError(true);
     } else {
-      setErrorMessage(true);
+      setPage(4);
     }
   };
 
@@ -42,14 +43,10 @@ const TeacherSignupTwo = ({
       <Text textStyle="subtitle2" textAlign="center" pb={3}>
         Enter your credentials below to get access to your classes
       </Text>
-      {errorMessage && (
+      {(isCurrentlyTeachingJMError || isSchoolError) && (
         <ErrorMessage message="Please ensure fields are filled" />
       )}
-      <FormControl
-        pt={10}
-        isInvalid={!!watch("currentlyTeachingJM")}
-        isRequired
-      >
+      <FormControl pt={10} isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
@@ -61,11 +58,12 @@ const TeacherSignupTwo = ({
             label: option,
           }))}
           placeholder="Select Response"
+          resetError={setIsCurrentlyTeachingJMError}
           isSearchable={false}
         />
       </FormControl>
 
-      <FormControl isRequired>
+      <FormControl isRequired isInvalid={isSchoolError}>
         <FormLabel color="grey.400">School</FormLabel>
         <SelectFormInput
           setValue={setValue}
@@ -75,6 +73,7 @@ const TeacherSignupTwo = ({
             label: school.name,
           }))}
           placeholder="Search School by typing it in field"
+          resetError={setSchoolError}
           isSearchable
         />
       </FormControl>

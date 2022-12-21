@@ -33,6 +33,7 @@ interface SelectFormInputProps {
   name: TeacherInput;
   options: Option[];
   placeholder: string;
+  resetError: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchable: boolean;
 }
 
@@ -41,10 +42,14 @@ const SelectFormInput = ({
   name,
   options,
   placeholder,
+  resetError,
   isSearchable,
 }: SelectFormInputProps): React.ReactElement => {
   const handleChange = (option: SingleValue<Option>) => {
-    if (option) setValue(name, option.value);
+    if (option) {
+      setValue(name, option.value);
+      resetError(false);
+    }
   };
   return (
     <Select<Option, false, GroupBase<Option>>
