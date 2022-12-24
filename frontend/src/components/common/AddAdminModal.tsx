@@ -153,8 +153,8 @@ const AddAdminModal = (): React.ReactElement => {
               <ModalCloseButton />
               <ModalBody>
                 {showRequestError && (
-                  <Alert status="error" mb={10} borderColor="red.200">
-                    <AlertIcon color="red.200" />
+                  <Alert status="error" mb={10}>
+                    <AlertIcon />
                     {requestErrorMessage}
                   </Alert>
                 )}

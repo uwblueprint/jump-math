@@ -3,6 +3,7 @@ const Form = {
     container: {
       label: {
         textStyle: "subtitle2",
+        marginBottom: 4,
       },
     },
   },
