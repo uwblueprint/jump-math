@@ -12,12 +12,13 @@ export interface TeacherSignupForm {
   email: string;
   grades: number[];
   currentlyTeachingJM: boolean;
-  school: string | SchoolMetadata;
+  school: SchoolMetadata;
   password: string;
 }
 
 export interface SchoolMetadata {
   name: string;
+  id: string;
   country: string;
   city: string;
   district: string;

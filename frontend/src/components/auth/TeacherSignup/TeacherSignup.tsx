@@ -17,14 +17,16 @@ const defaultValues = {
   email: "",
   grades: [],
   currentlyTeachingJM: false,
-  school: "",
-  newSchoolName: "",
-  newSchoolCountry: "",
-  newSchoolCity: "",
-  newSchoolDistrict: "",
-  newSchoolAddress: "",
+  school: {
+    name: "",
+    id: "",
+    country: "",
+    city: "",
+    district: "",
+    address: "",
+  },
   password: "",
-};
+} as TeacherSignupForm;
 
 const renderPageComponent = (
   page: number,

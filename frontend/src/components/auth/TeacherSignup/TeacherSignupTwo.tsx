@@ -28,14 +28,29 @@ const TeacherSignupTwo = ({
     },
   });
 
-  const onContinueClick = () => {
+  const validateCurrentlyTeachingJM = (): boolean => {
     if (!watch("currentlyTeachingJM") || !!errors.currentlyTeachingJM) {
       setIsCurrentlyTeachingJMError(true);
-    } else if (!watch("school") || !!errors.school) {
-      setSchoolError(true);
-    } else {
-      setPage(4);
+      return false;
     }
+    return true;
+  };
+
+  const validateSchool = (): boolean => {
+    if (!watch("school.name") || !!errors.school) {
+      setSchoolError(true);
+      return false;
+    }
+    return true;
+  };
+
+  const onNewSchoolClick = () => {
+    if (validateCurrentlyTeachingJM()) setPage(3);
+  };
+
+  const onContinueClick = () => {
+    const validSchool = validateSchool();
+    if (validateCurrentlyTeachingJM() && validSchool) setPage(4);
   };
 
   return (
@@ -52,6 +67,7 @@ const TeacherSignupTwo = ({
         </FormLabel>
         <SelectFormInput
           setValue={setValue}
+          watch={watch}
           name="currentlyTeachingJM"
           options={["Yes", "No"].map((option) => ({
             value: option,
@@ -67,13 +83,15 @@ const TeacherSignupTwo = ({
         <FormLabel color="grey.400">School</FormLabel>
         <SelectFormInput
           setValue={setValue}
-          name="school"
+          watch={watch}
+          name="school.name"
           options={schools.map((school) => ({
             value: school.id,
             label: school.name,
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
+          hiddenField="school.id"
           isSearchable
         />
       </FormControl>
@@ -81,7 +99,7 @@ const TeacherSignupTwo = ({
       <Text textStyle="subtitle2" color="grey.400" pb="2em">
         If your school is not listed,{" "}
         <Button
-          onClick={() => setPage(3)}
+          onClick={onNewSchoolClick}
           display="contents"
           color="blue.300"
           style={{ font: "inherit" }}

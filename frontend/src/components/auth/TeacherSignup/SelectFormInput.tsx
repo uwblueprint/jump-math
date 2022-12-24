@@ -6,7 +6,7 @@ import {
 } from "chakra-react-select";
 import React from "react";
 
-import { UseFormSetValue } from "react-hook-form";
+import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { TeacherSignupForm } from "./types";
 
 type TeacherInput =
@@ -19,6 +19,7 @@ type TeacherInput =
   | "password"
   | `grades.${number}`
   | "school.name"
+  | "school.id"
   | "school.country"
   | "school.city"
   | "school.district"
@@ -30,29 +31,37 @@ interface Option extends OptionBase {
 }
 interface SelectFormInputProps {
   setValue: UseFormSetValue<TeacherSignupForm>;
+  watch: UseFormWatch<TeacherSignupForm>;
   name: TeacherInput;
   options: Option[];
   placeholder: string;
   resetError: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchable: boolean;
+  hiddenField?: TeacherInput;
 }
 
 const SelectFormInput = ({
   setValue,
+  watch,
   name,
   options,
   placeholder,
   resetError,
   isSearchable,
+  hiddenField,
 }: SelectFormInputProps): React.ReactElement => {
+  const selectedValue = options.find((option) => option.label === watch(name));
   const handleChange = (option: SingleValue<Option>) => {
     if (option) {
-      setValue(name, option.value);
+      setValue(name, option.label);
       resetError(false);
+
+      if (hiddenField) setValue(hiddenField, option.value);
     }
   };
   return (
     <Select<Option, false, GroupBase<Option>>
+      value={selectedValue || undefined}
       name={name}
       options={options}
       placeholder={placeholder}
