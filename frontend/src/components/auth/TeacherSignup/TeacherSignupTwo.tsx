@@ -79,7 +79,7 @@ const TeacherSignupTwo = ({
         />
       </FormControl>
 
-      <FormControl isRequired isInvalid={isSchoolError}>
+      <FormControl isInvalid={isSchoolError} isRequired>
         <FormLabel color="grey.400">School</FormLabel>
         <SelectFormInput
           setValue={setValue}
