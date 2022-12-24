@@ -29,7 +29,7 @@ const TeacherSignupTwo = ({
   });
 
   const validateCurrentlyTeachingJM = (): boolean => {
-    if (!watch("currentlyTeachingJM") || !!errors.currentlyTeachingJM) {
+    if (watch("currentlyTeachingJM") === null || !!errors.currentlyTeachingJM) {
       setIsCurrentlyTeachingJMError(true);
       return false;
     }
@@ -72,11 +72,17 @@ const TeacherSignupTwo = ({
         <SelectFormInput
           setValue={setValue}
           watch={watch}
-          name="currentlyTeachingJM"
-          options={["Yes", "No"].map((option) => ({
-            value: option,
-            label: option,
-          }))}
+          field="currentlyTeachingJM"
+          options={[
+            {
+              value: true,
+              label: "Yes",
+            },
+            {
+              value: false,
+              label: "No",
+            },
+          ]}
           placeholder="Select Response"
           resetError={setIsCurrentlyTeachingJMError}
           isSearchable={false}
@@ -88,14 +94,14 @@ const TeacherSignupTwo = ({
         <SelectFormInput
           setValue={setValue}
           watch={watch}
-          name="school.name"
+          field="school.id"
           options={schools.map((school) => ({
             value: school.id,
             label: school.name,
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
-          hiddenField="school.id"
+          hiddenField="school.name"
           isSearchable
         />
       </FormControl>

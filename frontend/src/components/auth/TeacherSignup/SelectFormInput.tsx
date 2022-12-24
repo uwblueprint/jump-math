@@ -27,12 +27,12 @@ type TeacherInput =
 
 interface Option extends OptionBase {
   label: string;
-  value: string;
+  value: string | boolean;
 }
 interface SelectFormInputProps {
   setValue: UseFormSetValue<TeacherSignupForm>;
   watch: UseFormWatch<TeacherSignupForm>;
-  name: TeacherInput;
+  field: TeacherInput;
   options: Option[];
   placeholder: string;
   resetError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,26 +43,27 @@ interface SelectFormInputProps {
 const SelectFormInput = ({
   setValue,
   watch,
-  name,
+  field,
   options,
   placeholder,
   resetError,
   isSearchable,
   hiddenField,
 }: SelectFormInputProps): React.ReactElement => {
-  const selectedValue = options.find((option) => option.label === watch(name));
   const handleChange = (option: SingleValue<Option>) => {
     if (option) {
-      setValue(name, option.label);
+      setValue(field, option.value);
       resetError(false);
 
-      if (hiddenField) setValue(hiddenField, option.value);
+      if (hiddenField) setValue(hiddenField, option.label);
     }
   };
   return (
     <Select<Option, false, GroupBase<Option>>
-      value={selectedValue || undefined}
-      name={name}
+      value={
+        options.find((option) => option.value === watch(field)) || undefined
+      }
+      name={field}
       options={options}
       placeholder={placeholder}
       selectedOptionStyle="check"

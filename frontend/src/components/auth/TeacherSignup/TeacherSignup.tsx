@@ -16,7 +16,7 @@ const defaultValues = {
   lastName: "",
   email: "",
   grades: [],
-  currentlyTeachingJM: false,
+  currentlyTeachingJM: null,
   school: {
     name: "",
     id: "",

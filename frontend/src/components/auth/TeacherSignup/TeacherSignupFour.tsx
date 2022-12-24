@@ -111,20 +111,18 @@ const TeacherSignupFour = ({
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
-          type="text"
+          type="password"
           placeholder="Enter Password"
           onChange={handlePasswordChange}
-          width="458px"
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Confirm Password</FormLabel>
         <Input
-          type="text"
+          type="password"
           placeholder="Enter Password"
           onChange={(e) => setConfirmPassword(e.target.value)}
-          width="458px"
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
