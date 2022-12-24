@@ -3,10 +3,10 @@ import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import GET_SCHOOLS from "../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../types/SchoolTypes";
-import { ArrowBackOutlineIcon } from "../../common/icons";
 import SelectFormInput from "./SelectFormInput";
 import { TeacherSignupProps } from "./types";
 import ErrorMessage from "./ErrorMessage";
+import NavigationButtons from "./NavigationButtons";
 
 const TeacherSignupTwo = ({
   setPage,
@@ -55,13 +55,17 @@ const TeacherSignupTwo = ({
 
   return (
     <VStack>
-      <Text textStyle="subtitle2" textAlign="center" pb={3}>
+      <Text
+        textStyle="subtitle2"
+        textAlign="center"
+        pb={isCurrentlyTeachingJMError || isSchoolError ? 0 : 14}
+      >
         Enter your credentials below to get access to your classes
       </Text>
       {(isCurrentlyTeachingJMError || isSchoolError) && (
         <ErrorMessage message="Please ensure fields are filled" />
       )}
-      <FormControl pt={10} isInvalid={isCurrentlyTeachingJMError} isRequired>
+      <FormControl pt={4} isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
@@ -108,16 +112,10 @@ const TeacherSignupTwo = ({
         </Button>
       </Text>
 
-      <Button variant="primary" width="100%" onClick={onContinueClick}>
-        Continue
-      </Button>
-      <Button
-        leftIcon={<ArrowBackOutlineIcon />}
-        variant="tertiary"
-        onClick={() => setPage(1)}
-      >
-        Back
-      </Button>
+      <NavigationButtons
+        onContinueClick={onContinueClick}
+        onBackClick={() => setPage(1)}
+      />
     </VStack>
   );
 };

@@ -1,6 +1,6 @@
-import { Button, VStack, Text } from "@chakra-ui/react";
+import { VStack, Text } from "@chakra-ui/react";
 import React from "react";
-import { ArrowBackOutlineIcon } from "../../common/icons";
+import NavigationButtons from "./NavigationButtons";
 import { TeacherSignupProps } from "./types";
 
 const TeacherSignupThree = ({
@@ -14,16 +14,10 @@ const TeacherSignupThree = ({
         Enter your credentials below to get access to your classes
       </Text>
 
-      <Button variant="primary" onClick={() => setPage(4)}>
-        Continue
-      </Button>
-      <Button
-        leftIcon={<ArrowBackOutlineIcon />}
-        variant="tertiary"
-        onClick={() => setPage(2)}
-      >
-        Back
-      </Button>
+      <NavigationButtons
+        onContinueClick={() => setPage(4)}
+        onBackClick={() => setPage(2)}
+      />
     </VStack>
   );
 };

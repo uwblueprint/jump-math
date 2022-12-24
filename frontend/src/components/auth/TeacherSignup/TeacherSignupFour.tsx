@@ -1,8 +1,5 @@
 import {
-  Alert,
-  AlertIcon,
   Box,
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -12,10 +9,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
-  ArrowBackOutlineIcon,
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../common/icons";
+import ErrorMessage from "./ErrorMessage";
+import NavigationButtons from "./NavigationButtons";
 import { TeacherSignupProps } from "./types";
 
 type PasswordRequirementProps = {
@@ -47,7 +45,6 @@ const TeacherSignupFour = ({
   setPage,
   handleSubmit,
   setValue,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -106,16 +103,10 @@ const TeacherSignupFour = ({
         Please set a secure password for your account
       </Text>
       {displayMatchError && (
-        <Alert status="error" variant="no-background">
-          <AlertIcon color="red.200" />
-          Please ensure passwords match.
-        </Alert>
+        <ErrorMessage message="Please ensure passwords match" />
       )}
       {displayRequirementError && (
-        <Alert status="error" variant="no-background">
-          <AlertIcon color="red.200" />
-          Password does not meet all of the requirements.
-        </Alert>
+        <ErrorMessage message="Password does not meet all of the requirements" />
       )}
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>
@@ -160,16 +151,12 @@ const TeacherSignupFour = ({
           <PasswordRequirement isFulfilled={hasNum} requirement="one number" />
         </VStack>
       </HStack>
-      <Button variant="primary" onClick={onSubmit}>
-        Continue
-      </Button>
-      <Button
-        leftIcon={<ArrowBackOutlineIcon />}
-        variant="tertiary"
-        onClick={() => setPage(3)} // TODO: Page can either be 2 or 3 depending on whether school exists or not
-      >
-        Back
-      </Button>
+
+      {/* TODO: Back button can either go to page 2 or 3 depending on whether school exists or not */}
+      <NavigationButtons
+        onContinueClick={onSubmit}
+        onBackClick={() => setPage(3)}
+      />
     </VStack>
   );
 };
