@@ -5,12 +5,25 @@ export type Token = {
   refreshToken: string;
 };
 
+export type Grade =
+  | "K"
+  | "Grade 1"
+  | "Grade 2"
+  | "Grade 3"
+  | "Grade 4"
+  | "Grade 5"
+  | "Grade 6"
+  | "Grade 7"
+  | "Grade 8";
+
 export type UserDTO = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
   role: Role;
+  gradesTeaching?: Grade[];
+  currentlyTeachingJM?: boolean;
 };
 
 export type CreateUserDTO = Omit<UserDTO, "id"> & { password: string };

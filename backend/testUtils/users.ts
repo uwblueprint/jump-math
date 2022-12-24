@@ -15,6 +15,8 @@ export const mockTeacher: UserDTO = {
   lastName: "One",
   email: "teacher@gmail.com",
   role: "Teacher",
+  gradesTeaching: ["K", "Grade 1", "Grade 2", "Grade 3"],
+  currentlyTeachingJM: true,
 };
 
 export const testUsers = [mockAdmin, mockTeacher];

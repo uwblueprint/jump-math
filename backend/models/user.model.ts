@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-import { Role } from "../types";
+import { Grade, Role } from "../types";
 
 export interface User extends Document {
   id: string;
@@ -9,6 +9,8 @@ export interface User extends Document {
   authId: string;
   role: Role;
   email: string;
+  gradesTeaching?: Grade[];
+  currentlyTeachingJM?: boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -32,6 +34,29 @@ const UserSchema: Schema = new Schema({
   email: {
     type: String,
     required: true,
+  },
+  gradesTeaching: {
+    type: [
+      {
+        type: String,
+        enum: [
+          "K",
+          "Grade 1",
+          "Grade 2",
+          "Grade 3",
+          "Grade 4",
+          "Grade 5",
+          "Grade 6",
+          "Grade 7",
+          "Grade 8",
+        ],
+      },
+    ],
+    required: false,
+  },
+  currentlyTeachingJM: {
+    type: Boolean,
+    required: false,
   },
 });
 

@@ -41,6 +41,8 @@ class UserService implements IUserService {
       lastName: user.lastName,
       email: firebaseUser.email ?? "",
       role: user.role,
+      gradesTeaching: user.gradesTeaching,
+      currentlyTeachingJM: user.currentlyTeachingJM,
     };
   }
 
@@ -66,6 +68,8 @@ class UserService implements IUserService {
       lastName: user.lastName,
       email: firebaseUser.email ?? "",
       role: user.role,
+      gradesTeaching: user.gradesTeaching,
+      currentlyTeachingJM: user.currentlyTeachingJM,
     };
   }
 
@@ -129,6 +133,8 @@ class UserService implements IUserService {
             lastName: user.lastName,
             email: firebaseUser.email ?? "",
             role: user.role,
+            gradesTeaching: user.gradesTeaching,
+            currentlyTeachingJM: user.currentlyTeachingJM,
           };
         }),
       );
@@ -165,6 +171,8 @@ class UserService implements IUserService {
             lastName: user.lastName,
             email: firebaseUser.email ?? "",
             role: user.role,
+            gradesTeaching: user.gradesTeaching,
+            currentlyTeachingJM: user.currentlyTeachingJM,
           };
         }),
       );
@@ -204,6 +212,8 @@ class UserService implements IUserService {
           authId: firebaseUser.uid,
           role: user.role,
           email: user.email,
+          gradesTeaching: user.gradesTeaching,
+          currentlyTeachingJM: user.currentlyTeachingJM,
         });
       } catch (mongoDbError) {
         // rollback user creation in Firebase
@@ -232,6 +242,8 @@ class UserService implements IUserService {
       lastName: newUser.lastName,
       email: firebaseUser.email ?? "",
       role: newUser.role,
+      gradesTeaching: newUser.gradesTeaching,
+      currentlyTeachingJM: newUser.currentlyTeachingJM,
     };
   }
 
@@ -243,7 +255,13 @@ class UserService implements IUserService {
       // must explicitly specify runValidators when updating through findByIdAndUpdate
       oldUser = await MgUser.findByIdAndUpdate(
         userId,
-        { firstName: user.firstName, lastName: user.lastName, role: user.role },
+        {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+          gradesTeaching: user.gradesTeaching,
+          currentlyTeachingJM: user.currentlyTeachingJM,
+        },
         { runValidators: true },
       );
 
@@ -264,6 +282,8 @@ class UserService implements IUserService {
               firstName: oldUser.firstName,
               lastName: oldUser.lastName,
               role: oldUser.role,
+              gradesTeaching: oldUser.gradesTeaching,
+              currentlyTeachingJM: oldUser.currentlyTeachingJM,
             },
             { runValidators: true },
           );
@@ -290,6 +310,8 @@ class UserService implements IUserService {
       lastName: user.lastName,
       email: updatedFirebaseUser.email ?? "",
       role: user.role,
+      gradesTeaching: user.gradesTeaching,
+      currentlyTeachingJM: user.currentlyTeachingJM,
     };
   }
 
@@ -311,6 +333,8 @@ class UserService implements IUserService {
             lastName: deletedUser.lastName,
             authId: deletedUser.authId,
             role: deletedUser.role,
+            gradesTeaching: deletedUser.gradesTeaching,
+            currentlyTeachingJM: deletedUser.currentlyTeachingJM,
           });
         } catch (mongoDbError: unknown) {
           const errorMessage = [
@@ -353,6 +377,8 @@ class UserService implements IUserService {
             lastName: deletedUser.lastName,
             authId: deletedUser.authId,
             role: deletedUser.role,
+            gradesTeaching: deletedUser.gradesTeaching,
+            currentlyTeachingJM: deletedUser.currentlyTeachingJM,
           });
         } catch (mongoDbError: unknown) {
           const errorMessage = [
@@ -413,6 +439,8 @@ class UserService implements IUserService {
           lastName: user.lastName,
           email: firebaseUser.email ?? "",
           role: user.role,
+          gradesTeaching: user.gradesTeaching,
+          currentlyTeachingJM: user.currentlyTeachingJM,
         };
       }),
     );
