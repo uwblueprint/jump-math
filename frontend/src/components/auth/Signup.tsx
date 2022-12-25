@@ -13,6 +13,8 @@ const REGISTER = gql`
     $lastName: String!
     $email: String!
     $password: String!
+    $gradesTeaching: [String]
+    $currentlyTeachingJM: Boolean
   ) {
     register(
       user: {
@@ -20,6 +22,8 @@ const REGISTER = gql`
         lastName: $lastName
         email: $email
         password: $password
+        gradesTeaching: $gradesTeaching
+        currentlyTeachingJM: $currentlyTeachingJM
       }
     ) {
       id
@@ -38,6 +42,8 @@ const Signup = (): React.ReactElement => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [gradesTeaching, setGradesTeaching] = useState(undefined);
+  const [currentlyTeachingJM, setCurrentlyTeachingJM] = useState(undefined);
 
   const [register] = useMutation<{ register: AuthenticatedUser }>(REGISTER);
 
@@ -48,6 +54,8 @@ const Signup = (): React.ReactElement => {
       email,
       password,
       register,
+      gradesTeaching,
+      currentlyTeachingJM,
     );
     setAuthenticatedUser(user);
   };

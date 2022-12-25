@@ -39,6 +39,7 @@ const UserSchema: Schema = new Schema({
     type: [
       {
         type: String,
+        required: false,
         enum: [
           "K",
           "Grade 1",
@@ -53,6 +54,7 @@ const UserSchema: Schema = new Schema({
       },
     ],
     required: false,
+    default: undefined,
   },
   currentlyTeachingJM: {
     type: Boolean,

@@ -12,6 +12,8 @@ const userType = gql`
     lastName: String!
     email: String!
     role: Role!
+    gradesTeaching: [String]
+    currentlyTeachingJM: Boolean
   }
 
   input CreateUserDTO {
@@ -20,6 +22,8 @@ const userType = gql`
     email: String!
     role: Role!
     password: String!
+    gradesTeaching: [String]
+    currentlyTeachingJM: Boolean
   }
 
   input UpdateUserDTO {
@@ -27,6 +31,8 @@ const userType = gql`
     lastName: String!
     email: String!
     role: Role!
+    gradesTeaching: [String]
+    currentlyTeachingJM: Boolean
   }
 
   extend type Query {

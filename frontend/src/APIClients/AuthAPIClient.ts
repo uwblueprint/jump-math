@@ -94,11 +94,20 @@ const register = async (
   email: string,
   password: string,
   registerFunction: RegisterFunction,
+  gradesTeaching?: string[],
+  currentlyTeachingJM?: boolean,
 ): Promise<AuthenticatedUser | null> => {
   let user: AuthenticatedUser = null;
   try {
     const result = await registerFunction({
-      variables: { firstName, lastName, email, password },
+      variables: {
+        firstName,
+        lastName,
+        email,
+        password,
+        gradesTeaching,
+        currentlyTeachingJM,
+      },
     });
     user = result.data?.register ?? null;
     if (user) {

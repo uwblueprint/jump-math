@@ -15,6 +15,8 @@ const authType = gql`
     lastName: String!
     email: String!
     password: String!
+    gradesTeaching: [String]
+    currentlyTeachingJM: Boolean
   }
 
   extend type Mutation {
