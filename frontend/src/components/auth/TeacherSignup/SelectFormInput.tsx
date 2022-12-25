@@ -7,23 +7,7 @@ import {
 import React from "react";
 
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { TeacherSignupForm } from "./types";
-
-type TeacherInput =
-  | "firstName"
-  | "lastName"
-  | "email"
-  | "grades"
-  | "currentlyTeachingJM"
-  | "school"
-  | "password"
-  | `grades.${number}`
-  | "school.name"
-  | "school.id"
-  | "school.country"
-  | "school.city"
-  | "school.district"
-  | "school.address";
+import { TeacherInput, TeacherSignupForm } from "./types";
 
 interface Option extends OptionBase {
   label: string;
