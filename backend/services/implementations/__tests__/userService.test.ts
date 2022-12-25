@@ -59,9 +59,13 @@ describe("mongo userService", (): void => {
       expect(user.firstName).toEqual(testUsers[i].firstName);
       expect(user.lastName).toEqual(testUsers[i].lastName);
       expect(user.role).toEqual(testUsers[i].role);
-      expect(Array.from(user.gradesTeaching || [])).toEqual(
-        testUsers[i].gradesTeaching || [],
-      );
+      if (user.gradesTeaching) {
+        expect(Array.from(user.gradesTeaching)).toEqual(
+          testUsers[i].gradesTeaching,
+        );
+      } else {
+        expect(user.gradesTeaching).toEqual(testUsers[i].gradesTeaching);
+      }
       expect(user.currentlyTeachingJM).toEqual(
         testUsers[i].currentlyTeachingJM,
       );
