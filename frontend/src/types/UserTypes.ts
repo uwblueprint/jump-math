@@ -6,7 +6,7 @@ export type AdminUser = {
   email: string;
 };
 
-export type AddUserRequest = {
+export type UserRequest = {
   firstName: string;
   lastName: string;
   password: string;
@@ -14,7 +14,7 @@ export type AddUserRequest = {
   role: Role;
 };
 
-export type AddUserResponse = {
+export type UserResponse = {
   id: string;
   firstName: string;
   lastName: string;
