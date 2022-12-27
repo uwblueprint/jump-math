@@ -6,6 +6,22 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 
+export type TeacherInput =
+  | "firstName"
+  | "lastName"
+  | "email"
+  | "grades"
+  | "currentlyTeachingJM"
+  | "school"
+  | "password"
+  | `grades.${number}`
+  | "school.name"
+  | "school.id"
+  | "school.country"
+  | "school.city"
+  | "school.district"
+  | "school.address";
+
 export interface TeacherSignupForm {
   firstName: string;
   lastName: string;
