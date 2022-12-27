@@ -116,6 +116,7 @@ const TeacherSignupThree = ({
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
           type="text"
+          value={watch("school.name")}
           placeholder="Name of School"
           onChange={(e) => handleChange(e, "school.name")}
         />
@@ -138,6 +139,7 @@ const TeacherSignupThree = ({
           <FormLabel color="grey.400">City</FormLabel>
           <Input
             type="text"
+            value={watch("school.city")}
             placeholder="Enter City"
             onChange={(e) => handleChange(e, "school.city")}
           />
@@ -149,6 +151,7 @@ const TeacherSignupThree = ({
           <FormLabel color="grey.400">District</FormLabel>
           <Input
             type="text"
+            value={watch("school.district")}
             placeholder="Name of District"
             onChange={(e) => handleChange(e, "school.district")}
           />
@@ -157,6 +160,7 @@ const TeacherSignupThree = ({
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
             type="text"
+            value={watch("school.address")}
             placeholder="Enter Address"
             onChange={(e) => handleChange(e, "school.address")}
           />
