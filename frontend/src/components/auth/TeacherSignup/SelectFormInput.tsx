@@ -21,7 +21,6 @@ interface SelectFormInputProps {
   placeholder: string;
   resetError: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchable: boolean;
-  hiddenField?: TeacherInput;
 }
 
 const SelectFormInput = ({
@@ -32,14 +31,11 @@ const SelectFormInput = ({
   placeholder,
   resetError,
   isSearchable,
-  hiddenField,
 }: SelectFormInputProps): React.ReactElement => {
   const handleChange = (option: SingleValue<Option>) => {
     if (option) {
       setValue(field, option.value);
       resetError(false);
-
-      if (hiddenField) setValue(hiddenField, option.label);
     }
   };
   return (
