@@ -43,7 +43,7 @@ const PasswordRequirement = ({
 
 const TeacherSignupFour = ({
   setPage,
-  handleSubmit,
+  handleSubmitCallback,
   setValue,
 }: TeacherSignupProps): React.ReactElement => {
   const [password, setPassword] = useState("");
@@ -81,7 +81,7 @@ const TeacherSignupFour = ({
       setDisplayRequirementError(true);
       return;
     }
-    handleSubmit((data) => console.log(data));
+    handleSubmitCallback();
   };
 
   useEffect(() => {

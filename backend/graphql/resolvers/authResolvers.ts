@@ -7,7 +7,7 @@ import UserService from "../../services/implementations/userService";
 import IAuthService from "../../services/interfaces/authService";
 import IEmailService from "../../services/interfaces/emailService";
 import IUserService from "../../services/interfaces/userService";
-import { AuthDTO, RegisterUserDTO } from "../../types";
+import { AuthDTO, RegisterUserDTO, Role } from "../../types";
 
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);
@@ -33,10 +33,10 @@ const authResolvers = {
     },
     register: async (
       _parent: undefined,
-      { user }: { user: RegisterUserDTO },
+      { user, role }: { user: RegisterUserDTO; role: Role },
       { res }: { res: Response },
     ): Promise<Omit<AuthDTO, "refreshToken">> => {
-      await userService.createUser({ ...user, role: "Teacher" });
+      await userService.createUser({ ...user, role });
       const authDTO = await authService.generateToken(
         user.email,
         user.password,

@@ -21,6 +21,7 @@ const schoolType = gql`
   }
 
   extend type Query {
+    school(id: ID!): SchoolResponseDTO!
     schools: [SchoolResponseDTO!]
   }
 

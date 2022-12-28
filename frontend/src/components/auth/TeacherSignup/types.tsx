@@ -44,7 +44,7 @@ export interface SchoolMetadata {
 export interface TeacherSignupProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   register: UseFormRegister<TeacherSignupForm>;
-  handleSubmit: UseFormHandleSubmit<TeacherSignupForm>;
+  handleSubmitCallback: () => void;
   watch: UseFormWatch<TeacherSignupForm>;
   setValue: UseFormSetValue<TeacherSignupForm>;
   errors: Partial<FieldErrorsImpl<TeacherSignupForm>>;
