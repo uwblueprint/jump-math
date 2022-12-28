@@ -37,7 +37,7 @@ const TeacherSignupTwo = ({
   };
 
   const validateSchool = (): boolean => {
-    if (!watch("school.name") || !!errors.school) {
+    if (!watch("school.id") || !!errors.school) {
       setSchoolError(true);
       return false;
     }
@@ -101,7 +101,6 @@ const TeacherSignupTwo = ({
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
-          hiddenField="school.name"
           isSearchable
         />
       </FormControl>
