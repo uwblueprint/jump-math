@@ -28,7 +28,7 @@ import ModalFooterButtons from "./ModalFooterButtons";
 import { PlusOutlineIcon } from "./icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
 import { UserRequest } from "../../types/UserTypes";
-import ADD_USER from "../../APIClients/mutations/UserMutations";
+import { ADD_USER } from "../../APIClients/mutations/UserMutations";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
 const AddAdminModal = (): React.ReactElement => {

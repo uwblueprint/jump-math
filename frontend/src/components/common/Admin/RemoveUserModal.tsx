@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   Button,
   Divider,
@@ -14,18 +14,13 @@ import ModalText from "./ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
 import GET_USERS_BY_ROLE from "../../../APIClients/queries/UserQueries";
+import { REMOVE_USER } from "../../../APIClients/mutations/UserMutations";
 
 interface RemoveUserModalProps {
   name: string;
   email: string;
   onCloseParent: () => void;
 }
-
-const REMOVE_USER = gql`
-  mutation DeleteUserByEmail($email: String!) {
-    deleteUserByEmail(email: $email)
-  }
-`;
 
 const RemoveUserModal = ({
   name,
