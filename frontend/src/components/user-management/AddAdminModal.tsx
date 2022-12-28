@@ -23,9 +23,9 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import AdminConfirmationMessage from "./Admin/AdminConfirmationMessage";
-import ModalFooterButtons from "./ModalFooterButtons";
-import { PlusOutlineIcon } from "./icons";
+import AdminConfirmationMessage from "./AdminConfirmationMessage";
+import ModalFooterButtons from "../common/ModalFooterButtons";
+import { PlusOutlineIcon } from "../../assets/icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
 import { UserRequest } from "../../types/UserTypes";
 import ADD_USER from "../../APIClients/mutations/UserMutations";

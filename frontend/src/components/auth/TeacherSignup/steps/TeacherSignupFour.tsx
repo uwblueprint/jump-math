@@ -11,10 +11,10 @@ import React, { useEffect, useState } from "react";
 import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
-} from "../../common/icons";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupProps } from "./types";
+} from "../../../../assets/icons";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import { TeacherSignupProps } from "../types";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;

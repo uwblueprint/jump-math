@@ -5,11 +5,12 @@ import { Image, HStack, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import TeacherSignupOne from "./TeacherSignUpOne";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
-import TeacherSignupFour from "./TeacherSignupFour";
-import TeacherSignupThree from "./TeacherSignupThree";
-import TeacherSignupTwo from "./TeacherSignupTwo";
+
+import TeacherSignupOne from "./steps/TeacherSignUpOne";
+import TeacherSignupTwo from "./steps/TeacherSignupTwo";
+import TeacherSignupThree from "./steps/TeacherSignupThree";
+import TeacherSignupFour from "./steps/TeacherSignupFour";
 
 const defaultValues = {
   firstName: "",

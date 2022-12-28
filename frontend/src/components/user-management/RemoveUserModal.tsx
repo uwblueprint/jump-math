@@ -9,11 +9,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { CloseOutlineIcon } from "../icons";
-import ModalText from "./ModalText";
+import { CloseOutlineIcon } from "../../assets/icons";
+import ModalText from "../common/ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
-import GET_USERS_BY_ROLE from "../../../APIClients/queries/UserQueries";
+import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
 interface RemoveUserModalProps {
   name: string;
