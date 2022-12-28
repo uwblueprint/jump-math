@@ -1,36 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
+import { REGISTER } from "../../APIClients/mutations/AuthMutations";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
-
-const REGISTER = gql`
-  mutation Signup_Register(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    register(
-      user: {
-        firstName: $firstName
-        lastName: $lastName
-        email: $email
-        password: $password
-      }
-    ) {
-      id
-      firstName
-      lastName
-      email
-      role
-      accessToken
-    }
-  }
-`;
 
 const Signup = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);

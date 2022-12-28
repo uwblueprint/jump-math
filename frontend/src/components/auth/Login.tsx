@@ -8,6 +8,7 @@ import {
 import { gql, useMutation } from "@apollo/client";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
+import { LOGIN } from "../../APIClients/mutations/AuthMutations";
 import { HOME_PAGE, SIGNUP_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
@@ -18,19 +19,6 @@ type GoogleErrorResponse = {
   error: string;
   details: string;
 };
-
-const LOGIN = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      id
-      firstName
-      lastName
-      email
-      role
-      accessToken
-    }
-  }
-`;
 
 const LOGIN_WITH_GOOGLE = gql`
   mutation LoginWithGoogle($idToken: String!) {

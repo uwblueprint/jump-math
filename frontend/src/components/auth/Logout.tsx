@@ -1,14 +1,9 @@
 import React, { useContext } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
+import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
-
-const LOGOUT = gql`
-  mutation Logout($userId: ID!) {
-    logout(userId: $userId)
-  }
-`;
 
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);

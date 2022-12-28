@@ -1,4 +1,4 @@
-import { UserResponse } from "./UserTypes";
+import { UserResponse } from "./UserClientTypes";
 
 export interface SchoolResponse {
   /** the unique identifier for the school */
