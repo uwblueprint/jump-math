@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-const GET_SCHOOL = gql`
-  query GetSchool($id: ID!)) {
+export const GET_SCHOOL = gql`
+  query GetSchool($id: ID!) {
     school(id: $id) {
       id
       name
@@ -20,7 +20,7 @@ const GET_SCHOOL = gql`
   }
 `;
 
-const GET_SCHOOLS = gql`
+export const GET_SCHOOLS = gql`
   query GetSchools {
     schools {
       id
@@ -39,5 +39,3 @@ const GET_SCHOOLS = gql`
     }
   }
 `;
-
-export default { GET_SCHOOL, GET_SCHOOLS };

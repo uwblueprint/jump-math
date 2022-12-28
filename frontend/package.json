@@ -21,6 +21,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-jsonschema-form": "^1.7.4",
+    "@types/react-select-country-list": "^2.2.1",
     "@types/react-table": "^7.0.29",
     "apollo-upload-client": "^16.0.0",
     "axios": "^0.21.1",
