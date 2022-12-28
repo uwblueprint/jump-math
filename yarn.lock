@@ -2,3 +2,7 @@
 # yarn lockfile v1
 
 
+"@types/react-select-country-list@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/react-select-country-list/-/react-select-country-list-2.2.1.tgz#ba42ee969302055ccf8f2925882c8a4f2b7126f1"
+  integrity sha512-Ixc9Vk+X+7P5KEEOK22ASf3y2McupLTfjQwhCUYUzlj00AgkDiERxT3t6Iv9MYkXQxkNx3pi+w8z/u7hdT3khg==
