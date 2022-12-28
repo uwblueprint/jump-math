@@ -206,8 +206,9 @@ class AuthService implements IAuthService {
       Logger.error(errorMessage);
       throw new Error(errorMessage);
     }
-    const user = await this.userService.getUserByEmail(email);
+
     try {
+      const user = await this.userService.getUserByEmail(email);
       const emailVerificationLink = await firebaseAdmin
         .auth()
         .generateEmailVerificationLink(email);
