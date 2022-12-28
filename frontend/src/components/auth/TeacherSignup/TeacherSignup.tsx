@@ -12,7 +12,7 @@ import TeacherSignupFour from "./TeacherSignupFour";
 import TeacherSignupThree from "./TeacherSignupThree";
 import TeacherSignupTwo from "./TeacherSignupTwo";
 import { AuthenticatedUser } from "../../../types/AuthTypes";
-import REGISTER_TEACHER from "../../../APIClients/mutations/AuthMutations";
+import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
 import ADD_TEACHER_TO_SCHOOL from "../../../APIClients/mutations/SchoolMutations";
 
