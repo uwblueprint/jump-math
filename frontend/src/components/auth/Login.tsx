@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
 import { HOME_PAGE, SIGNUP_PAGE } from "../../constants/Routes";
