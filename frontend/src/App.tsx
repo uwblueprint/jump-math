@@ -98,7 +98,7 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.TEACHER_PAGE}
                   component={TeacherPage}
-                  roles={["Teacher"]}
+                  roles={["Teacher", "Admin"]}
                 />
                 <PrivateRoute
                   exact

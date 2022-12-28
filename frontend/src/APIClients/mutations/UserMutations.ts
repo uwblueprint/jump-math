@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const ADD_USER = gql`
+export const ADD_USER = gql`
   mutation AddUser($user: CreateUserDTO!) {
     createUser(user: $user) {
       id
@@ -12,4 +12,8 @@ const ADD_USER = gql`
   }
 `;
 
-export default ADD_USER;
+export const REMOVE_USER = gql`
+  mutation DeleteUserByEmail($email: String!) {
+    deleteUserByEmail(email: $email)
+  }
+`;

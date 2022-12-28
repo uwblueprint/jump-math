@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import GET_SCHOOLS from "../../../APIClients/queries/SchoolQueries";
-import { SchoolResponse } from "../../../types/SchoolTypes";
+import { SchoolResponse } from "../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "./SelectFormInput";
 import { TeacherSignupProps } from "./types";
 import ErrorMessage from "./ErrorMessage";
@@ -37,7 +37,7 @@ const TeacherSignupTwo = ({
   };
 
   const validateSchool = (): boolean => {
-    if (!watch("school.name") || !!errors.school) {
+    if (!watch("school.id") || !!errors.school) {
       setSchoolError(true);
       return false;
     }
@@ -101,7 +101,6 @@ const TeacherSignupTwo = ({
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
-          hiddenField="school.name"
           isSearchable
         />
       </FormControl>
