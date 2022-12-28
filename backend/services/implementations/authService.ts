@@ -9,7 +9,6 @@ import FirebaseRestClient from "../../utilities/firebaseRestClient";
 import logger from "../../utilities/logger";
 
 const Logger = logger(__filename);
-const ENV_PATH = process.env.NODE_ENV === "production" ? "" : "staging.";
 
 class AuthService implements IAuthService {
   userService: IUserService;
@@ -105,6 +104,66 @@ class AuthService implements IAuthService {
     }
   }
 
+  private getEmailTemplate(
+    imageHeaderPath: string,
+    firstName: string,
+    paragraphs: string[],
+    link: string,
+    buttonText: string,
+  ): string {
+    return `
+    <link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
+    <img src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump-math-logo.png"
+         style = "display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                  width: 222px;
+                  height: 64px;">
+    <img src="https://storage.googleapis.com/jump-math-98edf.appspot.com/${imageHeaderPath}"
+         style = "display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                  width: 100%;
+                  height: auto;
+                  max-width: 520px;
+                  max-height: 300px;">
+    <span style="color:#4B7BEC;
+                font-family: 'DM Sans';
+                font-weight: bold;
+                font-size: 18px;
+                line-height: 23px;">
+    <br><br>
+    Hey ${firstName},
+    </span>
+    <br><br>
+    <span style="font-size: 24px;
+                font-family: 'DM Sans';
+                color: #154472;">
+      ${paragraphs[0]}
+    </span>
+    <br><br>
+    <span style="font-family: 'DM Sans';
+                font-weight: 400;
+                font-size: 18px;
+                color: #154472;">
+      ${paragraphs[1]}
+      <br><br>
+      ${paragraphs[2]}
+      <br><br>
+      <center>
+      <a href="${link}" target="_blank" style="font-size: 16px; font-family: 'DM Sans'; color: #ffffff; font-weight: 700; text-align:center; background-color: #154472; text-decoration: none; border: none; -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px; display: inline-block; -webkit-text-decoration: none; -moz-text-decoration: none; text-decoration: none;">
+        <span style="font-size: 16px; font-family: 'DM Sans'; color: #ffffff; font-weight: 700; line-height:3em; text-align:center; padding: 20px;">${buttonText}</span>
+      </a>
+      </center>
+      <br>
+      Have questions about Jump Math? Drop us an email at <span style="text-decoration: underline;">askus@jumpmath.ca</span> and we’ll get in touch shortly!
+      <br><br>
+      <strong style="letter-spacing: 0.16em;">AUTOMATION PRIVACY POLICY:</strong>
+      <br><br>
+      Please do not share this email to anyone as it contains confidential information!
+    </span>`;
+  }
+
   async resetPassword(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
@@ -114,17 +173,22 @@ class AuthService implements IAuthService {
     }
 
     try {
+      const user = await this.userService.getUserByEmail(email);
       const resetLink = await firebaseAdmin
         .auth()
         .generatePasswordResetLink(email);
-      const emailBody = `
-      Hello,
-      <br><br>
-      We have received a password reset request for your account.
-      Please click the following link to reset it.
-      <strong>This link is only valid for 1 hour.</strong>
-      <br><br>
-      <a href=${resetLink}>Reset Password</a>`;
+
+      const emailBody = this.getEmailTemplate(
+        "password-reset-header.png",
+        user.firstName,
+        [
+          "You’re receiving this email because you requested to reset your password.",
+          "Please use the link below to reset your log in details and you can hop back into helping your class excel in mathematics!",
+          "If you did not request this change, please disregard this message or contact HR if you are facing doubt.",
+        ],
+        resetLink,
+        "Reset Password",
+      );
 
       this.emailService.sendEmail(email, "Your Password Reset Link", emailBody);
     } catch (error) {
@@ -142,64 +206,23 @@ class AuthService implements IAuthService {
       Logger.error(errorMessage);
       throw new Error(errorMessage);
     }
-    const user = await this.userService.getUserByEmail(email);
+
     try {
+      const user = await this.userService.getUserByEmail(email);
       const emailVerificationLink = await firebaseAdmin
         .auth()
         .generateEmailVerificationLink(email);
-      const emailBody = `
-        <link href='https://fonts.googleapis.com/css?family=DM Sans' rel='stylesheet'>
-        <img src="https://storage.googleapis.com/${ENV_PATH}jump-math-98edf.appspot.com/jump-math-logo.png"
-             style = "display: block;
-                      margin-left: auto;
-                      margin-right: auto;
-                      width: 222px;
-                      height: 64px;">
-        <img src="https://storage.googleapis.com/${ENV_PATH}jump-math-98edf.appspot.com/email-header.png"
-             style = "display: block;
-                      margin-left: auto;
-                      margin-right: auto;
-                      width: 100%;
-                      height: auto;
-                      max-width: 520px;
-                      max-height: 300px;">
-        <span style="color:#4B7BEC;
-                    font-family: 'DM Sans';
-                    font-weight: bold;
-                    font-size: 18px;
-                    line-height: 23px;">
-        <br><br>
-        Hey ${user.firstName},
-        </span>
-        <br><br>
-        <span style="font-size: 24px;
-                    font-family: 'DM Sans';
-                    color: #154472;">
-          You have been invited to join the Jump Math Workspace!
-        </span>
-        <br><br>
-        <span style="font-family: 'DM Sans';
-                    font-weight: 400;
-                    font-size: 18px;
-                    color: #154472;">
-          Please use the link below to confirm your log in details and you can receive your personalized Jump Math email address if you haven’t already!
-          <br><br>
-          We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally! 
-          <br><br>
-          <center>
-          <a href="${emailVerificationLink}" target="_blank" style="font-size: 16px; font-family: 'DM Sans'; color: #ffffff; font-weight: 700; text-align:center; background-color: #154472; text-decoration: none; border: none; -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px; display: inline-block; -webkit-text-decoration: none; -moz-text-decoration: none; text-decoration: none;">
-            <span style="font-size: 16px; font-family: 'DM Sans'; color: #ffffff; font-weight: 700; line-height:3em; text-align:center; padding: 20px;">Open Jump Math</span>
-          </a>
-          </center>
-          <br>
-          Have questions about Jump Math? Drop us an email at <span style="text-decoration: underline;">askus@jumpmath.ca</span> and we’ll get in touch shortly!
-          <br><br>
-          <strong style="letter-spacing: 0.16em;">AUTOMATION PRIVACY POLICY:</strong>
-          <br><br>
-          Please do not share this email to anyone as it contains confidential information!
-        </span>
-      `;
-
+      const emailBody = this.getEmailTemplate(
+        "email-header.png",
+        user.firstName,
+        [
+          "You have been invited to join the Jump Math Workspace!",
+          "Please use the link below to confirm your log in details and you can receive your personalized Jump Math email address if you haven’t already!",
+          "We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally!",
+        ],
+        emailVerificationLink,
+        "Open Jump Math",
+      );
       this.emailService.sendEmail(email, "Verify your email", emailBody);
     } catch (error) {
       Logger.error(
