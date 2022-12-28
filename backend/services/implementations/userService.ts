@@ -185,25 +185,15 @@ class UserService implements IUserService {
     return userDtos;
   }
 
-  async createUser(
-    user: CreateUserDTO,
-    authId?: string,
-    signUpMethod = "PASSWORD",
-  ): Promise<UserDTO> {
+  async createUser(user: CreateUserDTO): Promise<UserDTO> {
     let newUser: User;
     let firebaseUser: firebaseAdmin.auth.UserRecord;
 
     try {
-      if (signUpMethod === "GOOGLE") {
-        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-        firebaseUser = await firebaseAdmin.auth().getUser(authId!);
-      } else {
-        // signUpMethod === PASSWORD
-        firebaseUser = await firebaseAdmin.auth().createUser({
-          email: user.email,
-          password: user.password,
-        });
-      }
+      firebaseUser = await firebaseAdmin.auth().createUser({
+        email: user.email,
+        password: user.password,
+      });
 
       try {
         newUser = await MgUser.create({

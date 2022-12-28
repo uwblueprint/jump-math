@@ -1,5 +1,4 @@
 import React from "react";
-import { ADMIN_PAGE } from "../../../constants/Routes";
 import { ReactComponent as EnvelopePaperIllustration } from "../../../assets/illustrations/envelope-paper.svg";
 import MessageContainer from "../MessageContainer";
 

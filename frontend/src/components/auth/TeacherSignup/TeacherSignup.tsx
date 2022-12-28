@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack, Button } from "@chakra-ui/react";
+import { Image, HStack, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
@@ -16,15 +16,17 @@ const defaultValues = {
   lastName: "",
   email: "",
   grades: [],
-  currentlyTeachingJM: false,
-  school: "",
-  newSchoolName: "",
-  newSchoolCountry: "",
-  newSchoolCity: "",
-  newSchoolDistrict: "",
-  newSchoolAddress: "",
+  currentlyTeachingJM: null,
+  school: {
+    name: "",
+    id: "",
+    country: "",
+    city: "",
+    district: "",
+    address: "",
+  },
   password: "",
-};
+} as TeacherSignupForm;
 
 const renderPageComponent = (
   page: number,
@@ -59,7 +61,7 @@ const TeacherSignup = (): React.ReactElement => {
   return (
     <HStack>
       <Image
-        src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/teacher-signup.png"
+        src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
         alt="Teacher-Signup"
         fit="cover"
         width="50%"
@@ -67,7 +69,7 @@ const TeacherSignup = (): React.ReactElement => {
       />
       <VStack width="50%" height="100vh" padding={6}>
         <Image
-          src="https://storage.googleapis.com/staging.jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
+          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
           alt="Jump-Math-Logo"
           py={5}
         />

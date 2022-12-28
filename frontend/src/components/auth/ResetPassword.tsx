@@ -1,12 +1,7 @@
 import React, { useContext } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import AuthContext from "../../contexts/AuthContext";
-
-const RESET_PASSWORD = gql`
-  mutation ResetPassword($email: String!) {
-    resetPassword(email: $email)
-  }
-`;
+import { RESET_PASSWORD } from "../../APIClients/mutations/AuthMutations";
 
 const ResetPassword = (): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);

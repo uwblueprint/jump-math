@@ -27,8 +27,8 @@ import AdminConfirmationMessage from "./Admin/AdminConfirmationMessage";
 import ModalFooterButtons from "./ModalFooterButtons";
 import { PlusOutlineIcon } from "./icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
-import { AddUserRequest, AddUserResponse } from "../../types/UserTypes";
-import ADD_USER from "../../APIClients/mutations/UserMutations";
+import { UserRequest } from "../../APIClients/types/UserClientTypes";
+import { ADD_USER } from "../../APIClients/mutations/UserMutations";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
 const AddAdminModal = (): React.ReactElement => {
@@ -94,7 +94,7 @@ const AddAdminModal = (): React.ReactElement => {
       `creating admin with first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
     );
     const password = Math.random().toString(36).substring(2, 10);
-    const user: AddUserRequest = {
+    const user: UserRequest = {
       firstName,
       lastName,
       email,

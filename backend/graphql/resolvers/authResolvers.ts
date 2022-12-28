@@ -31,16 +31,6 @@ const authResolvers = {
       res.cookie("refreshToken", refreshToken, cookieOptions);
       return rest;
     },
-    loginWithGoogle: async (
-      _parent: undefined,
-      { idToken }: { idToken: string },
-      { res }: { res: Response },
-    ): Promise<Omit<AuthDTO, "refreshToken">> => {
-      const authDTO = await authService.generateTokenOAuth(idToken);
-      const { refreshToken, ...rest } = authDTO;
-      res.cookie("refreshToken", refreshToken, cookieOptions);
-      return rest;
-    },
     register: async (
       _parent: undefined,
       { user }: { user: RegisterUserDTO },

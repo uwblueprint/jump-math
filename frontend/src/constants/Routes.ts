@@ -9,9 +9,5 @@ export const ADMIN_PAGE = "/admin-dashboard";
 
 export const COMPONENT_LIBRARY = "/component-library";
 
-// TODO: REMOVE
-export const HOOKS_PAGE = "/hooks";
-
 export const CREATE_QUESTION_PAGE = "/create-question";
-
 export const TEACHER_SIGNUP_PAGE = "/teacher-signup";
