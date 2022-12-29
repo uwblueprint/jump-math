@@ -53,24 +53,17 @@ const Button = {
     secondary: {
       bg: "blue.50",
       color: "blue.300",
-      border: "1.5px solid",
-      borderColor: "blue.300",
       _active: {
         bg: "blue.100",
-        border: "1.5px solid",
       },
       _hover: {
         bg: "blue.100",
-        border: "1.5px solid #FFFFFF",
         _disabled: {
           bg: "blue.100",
-          borderColor: "blue.300",
         },
       },
       _disabled: {
         bg: "blue.100",
-        border: "1.5px solid",
-        borderColor: "blue.300",
         opacity: 0.4,
       },
       DarkBlueIcon,
