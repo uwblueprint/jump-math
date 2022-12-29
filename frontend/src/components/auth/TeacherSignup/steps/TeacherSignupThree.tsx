@@ -8,10 +8,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import countryList from "react-select-country-list";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import SelectFormInput from "./SelectFormInput";
-import { TeacherInput, TeacherSignupProps } from "./types";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
+import { TeacherInput, TeacherSignupProps } from "../types";
 
 const TeacherSignupThree = ({
   setPage,

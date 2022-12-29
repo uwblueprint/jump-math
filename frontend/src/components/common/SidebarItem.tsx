@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Flex, Box, Text, Spacer, FlexProps, Icon } from "@chakra-ui/react";
 import RouterLink from "./RouterLink";
-import { ChevronUpIcon, ChevronDownIcon } from "./icons";
+import { ChevronUpIcon, ChevronDownIcon } from "../../assets/icons";
 import Page from "../../types/PageTypes";
 
 interface SidebarItemProps extends FlexProps {
