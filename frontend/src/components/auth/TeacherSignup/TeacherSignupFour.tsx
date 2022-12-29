@@ -8,13 +8,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../common/icons";
 import ErrorMessage from "./ErrorMessage";
 import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupProps } from "./types";
+import { TeacherSignupForm, TeacherSignupProps } from "./types";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;
@@ -44,8 +45,8 @@ const PasswordRequirement = ({
 const TeacherSignupFour = ({
   setPage,
   handleSubmitCallback,
-  setValue,
 }: TeacherSignupProps): React.ReactElement => {
+  const { setValue } = useFormContext<TeacherSignupForm>();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [match, setMatch] = useState(true);

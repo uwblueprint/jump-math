@@ -1,19 +1,22 @@
 import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import { SchoolResponse } from "../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "./SelectFormInput";
-import { TeacherSignupProps } from "./types";
+import { TeacherSignupForm, TeacherSignupProps } from "./types";
 import ErrorMessage from "./ErrorMessage";
 import NavigationButtons from "./NavigationButtons";
 import { GET_SCHOOLS } from "../../../APIClients/queries/SchoolQueries";
 
 const TeacherSignupTwo = ({
   setPage,
-  watch,
-  setValue,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
   const [
     isCurrentlyTeachingJMError,

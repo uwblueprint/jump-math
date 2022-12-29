@@ -68,8 +68,6 @@ const graphQLMiddlewares = {
     users: authorizedByAdmin(),
     usersByRole: authorizedByAdmin(),
     tests: authorizedByAllRoles(),
-    school: authorizedByAllRoles(),
-    schools: authorizedByAllRoles(),
   },
   Mutation: {
     createEntity: authorizedByAllRoles(),
@@ -87,8 +85,6 @@ const graphQLMiddlewares = {
     createTest: authorizedByAdmin(),
     updateTest: authorizedByAdmin(),
     deleteTestById: authorizedByAdmin(),
-    createSchool: authorizedByAllRoles(),
-    addTeacherToSchool: authorizedByAllRoles(),
   },
 };
 

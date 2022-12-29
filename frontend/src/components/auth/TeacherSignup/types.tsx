@@ -1,11 +1,3 @@
-import {
-  FieldErrorsImpl,
-  UseFormHandleSubmit,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
-
 export type TeacherInput =
   | "firstName"
   | "lastName"
@@ -43,9 +35,5 @@ export interface SchoolMetadata {
 
 export interface TeacherSignupProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  register: UseFormRegister<TeacherSignupForm>;
   handleSubmitCallback: () => void;
-  watch: UseFormWatch<TeacherSignupForm>;
-  setValue: UseFormSetValue<TeacherSignupForm>;
-  errors: Partial<FieldErrorsImpl<TeacherSignupForm>>;
 }

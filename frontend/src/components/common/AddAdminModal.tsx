@@ -27,7 +27,10 @@ import AdminConfirmationMessage from "./Admin/AdminConfirmationMessage";
 import ModalFooterButtons from "./ModalFooterButtons";
 import { PlusOutlineIcon } from "./icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
-import { UserRequest } from "../../APIClients/types/UserClientTypes";
+import {
+  UserRequest,
+  UserResponse,
+} from "../../APIClients/types/UserClientTypes";
 import { ADD_USER } from "../../APIClients/mutations/UserMutations";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
@@ -46,7 +49,7 @@ const AddAdminModal = (): React.ReactElement => {
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
-  const [addAdmin] = useMutation<{ addAdmin: null }>(ADD_USER, {
+  const [addAdmin] = useMutation<{ addAdmin: UserResponse }>(ADD_USER, {
     refetchQueries: [
       { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
     ],

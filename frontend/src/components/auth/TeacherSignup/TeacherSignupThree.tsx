@@ -7,18 +7,21 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
 import ErrorMessage from "./ErrorMessage";
 import NavigationButtons from "./NavigationButtons";
 import SelectFormInput from "./SelectFormInput";
-import { TeacherInput, TeacherSignupProps } from "./types";
+import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "./types";
 
 const TeacherSignupThree = ({
   setPage,
-  setValue,
-  watch,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const [schoolNameError, setSchoolNameError] = React.useState(false);
   const [countryError, setCountryError] = React.useState(false);
   const [cityError, setCityError] = React.useState(false);

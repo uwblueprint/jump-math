@@ -1,15 +1,18 @@
 import { VStack, Text } from "@chakra-ui/react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../constants/Routes";
 import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupProps } from "./types";
+import { TeacherSignupForm, TeacherSignupProps } from "./types";
 
 const TeacherSignupOne = ({
   setPage,
-  register,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const history = useHistory();
   return (
     <VStack>
