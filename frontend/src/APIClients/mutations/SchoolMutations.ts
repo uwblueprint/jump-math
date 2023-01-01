@@ -17,7 +17,13 @@ export const ADD_TEACHER_TO_SCHOOL = gql`
       subRegion
       city
       address
-      teachers
+      teachers {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
 `;
@@ -31,7 +37,13 @@ export const CREATE_SCHOOL = gql`
       subRegion
       city
       address
-      teachers
+      teachers {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
 `;

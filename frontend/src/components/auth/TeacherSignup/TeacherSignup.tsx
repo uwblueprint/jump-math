@@ -15,14 +15,12 @@ import {
   CREATE_SCHOOL,
 } from "../../../APIClients/mutations/SchoolMutations";
 import { GET_SCHOOL } from "../../../APIClients/queries/SchoolQueries";
-import {
-  SchoolRequest,
-  SchoolResponse,
-} from "../../../APIClients/types/SchoolClientTypes";
+import { SchoolResponse } from "../../../APIClients/types/SchoolClientTypes";
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
+import { UserResponse } from "../../../APIClients/types/UserClientTypes";
 
 const defaultValues = {
   firstName: "",
@@ -58,6 +56,7 @@ const renderPageComponent = (
       return <></>;
   }
 };
+
 const TeacherSignup = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
   const methods = useForm<TeacherSignupForm>({
@@ -65,53 +64,76 @@ const TeacherSignup = (): React.ReactElement => {
     mode: "onChange",
   });
   const [page, setPage] = React.useState(1);
-  const [getSchool, schoolRes] = useLazyQuery<SchoolResponse>(GET_SCHOOL);
+  const [user, setUser] = React.useState<AuthenticatedUser>();
+
   const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
     REGISTER_TEACHER,
   );
-  const [createSchool] = useMutation<{ createSchool: SchoolResponse }>(
-    CREATE_SCHOOL,
-  );
   const [addTeacherToSchool] = useMutation<{
     addTeacherToSchool: SchoolResponse;
-  }>(ADD_TEACHER_TO_SCHOOL);
+  }>(ADD_TEACHER_TO_SCHOOL, {
+    onCompleted() {
+      if (user) setAuthenticatedUser(user);
+    },
+  });
+  const [getSchool] = useLazyQuery<{ school: SchoolResponse }>(GET_SCHOOL, {
+    onCompleted: async (data) => {
+      await addTeacherToSchool({
+        variables: {
+          school: {
+            address: data.school.address,
+            city: data.school.city,
+            country: data.school.country,
+            name: data.school.name,
+            subRegion: data.school.subRegion,
+            teachers: data.school.teachers?.map(
+              (teacher: UserResponse) => teacher.id,
+            ),
+          },
+          schoolId: data.school.id,
+          teacherId: user?.id,
+        },
+      });
+    },
+  });
+  const [createSchool] = useMutation<{ createSchool: SchoolResponse }>(
+    CREATE_SCHOOL,
+    {
+      onCompleted() {
+        if (user) setAuthenticatedUser(user);
+      },
+    },
+  );
 
   const onSubmitSuccess = async (data: TeacherSignupForm) => {
     console.log("Data being submitted: ", data);
-    const user: AuthenticatedUser = await authAPIClient.register(
+    const newUser: AuthenticatedUser = await authAPIClient.register(
       data.firstName,
       data.lastName,
       data.email,
       data.password,
       registerTeacher,
     );
-    if (data.school.id) {
-      getSchool({ variables: { id: data.school.id } });
-      if (schoolRes.data) {
-        const { id, ...schoolObj }: SchoolResponse = schoolRes.data;
-        const schoolReq: SchoolRequest = {
-          ...schoolObj,
-          teachers: schoolObj.teachers.map((teacher) => teacher.id),
-        };
-        await addTeacherToSchool({
-          variables: { school: schoolReq, schoolId: id, teacherId: user?.id },
+    if (newUser) {
+      setUser(newUser);
+
+      if (data.school.id) {
+        await getSchool({ variables: { id: data.school.id } });
+      } else {
+        await createSchool({
+          variables: {
+            school: {
+              name: data.school.name,
+              country: data.school.country,
+              subRegion: data.school.district,
+              city: data.school.city,
+              address: data.school.address,
+              teachers: [newUser.id],
+            },
+          },
         });
       }
-    } else {
-      await createSchool({
-        variables: {
-          school: {
-            name: data.school.name,
-            country: data.school.country,
-            subRegion: data.school.district,
-            city: data.school.city,
-            address: data.school.address,
-            teachers: [user?.id],
-          },
-        },
-      });
     }
-    setAuthenticatedUser(user);
   };
 
   const handleSubmitCallback = (e: React.MouseEvent<HTMLButtonElement>) => {
