@@ -106,7 +106,6 @@ const TeacherSignup = (): React.ReactElement => {
   );
 
   const onSubmitSuccess = async (data: TeacherSignupForm) => {
-    console.log("Data being submitted: ", data);
     const newUser: AuthenticatedUser = await authAPIClient.register(
       data.firstName,
       data.lastName,
