@@ -126,30 +126,15 @@ const AdminPage = (): React.ReactElement => {
       <SideBar pages={pages} />
       <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
         <Box>
-          <Text
-            textStyle="header4"
-            color="blue.300"
-            style={{ textAlign: "left" }}
-            marginBottom="0.5em"
-          >
-            Database
-          </Text>
           <HStack justifyContent="space-between">
-            <HStack>
-              <InputGroup maxWidth="280px">
-                <Input
-                  borderRadius="6px"
-                  backgroundColor="grey.100"
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search bar"
-                />
-                <InputRightElement pointerEvents="none" h="full">
-                  <SearchOutlineIcon />
-                </InputRightElement>
-              </InputGroup>
-              <SortTablePopover OrderingSets={OrderingSets} />
-            </HStack>
-
+            <Text
+              textStyle="header4"
+              color="blue.300"
+              style={{ textAlign: "left" }}
+              marginBottom="0.5em"
+            >
+              Database
+            </Text>
             <AddAdminModal />
           </HStack>
         </Box>
@@ -173,18 +158,21 @@ const AdminPage = (): React.ReactElement => {
               <TabPanels>
                 <TabPanel>
                   <VStack pt={4} spacing={6}>
-                    <InputGroup>
-                      <Input
-                        borderRadius="6px"
-                        borderColor="grey.100"
-                        backgroundColor="grey.100"
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search bar"
-                      />
-                      <InputRightElement pointerEvents="none" h="full">
-                        <SearchOutlineIcon />
-                      </InputRightElement>
-                    </InputGroup>
+                    <HStack width="100%">
+                      <InputGroup width="90%">
+                        <Input
+                          borderRadius="6px"
+                          borderColor="grey.100"
+                          backgroundColor="grey.100"
+                          onChange={(e) => setSearch(e.target.value)}
+                          placeholder="Search bar"
+                        />
+                        <InputRightElement pointerEvents="none" h="full">
+                          <SearchOutlineIcon />
+                        </InputRightElement>
+                      </InputGroup>
+                      <SortTablePopover OrderingSets={OrderingSets} />
+                    </HStack>
                     {search && (
                       <Text fontSize="16px" color="grey.300" width="100%">
                         Showing {admins.length} results for &quot;{search}&quot;
