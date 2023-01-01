@@ -35,5 +35,5 @@ export interface SchoolMetadata {
 
 export interface TeacherSignupProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  handleSubmitCallback: () => void;
+  handleSubmitCallback: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }

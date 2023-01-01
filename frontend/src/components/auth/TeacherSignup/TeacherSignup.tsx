@@ -114,13 +114,8 @@ const TeacherSignup = (): React.ReactElement => {
     setAuthenticatedUser(user);
   };
 
-  const onSubmitFailure = (err: any) => {
-    console.log("Errors: ", err);
-  };
-
-  const handleSubmitCallback = () => {
-    console.log("Submitting");
-    methods.handleSubmit(onSubmitSuccess, onSubmitFailure);
+  const handleSubmitCallback = (e: React.MouseEvent<HTMLButtonElement>) => {
+    methods.handleSubmit(onSubmitSuccess)(e);
   };
 
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;

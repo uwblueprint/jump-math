@@ -64,7 +64,7 @@ const TeacherSignupFour = ({
   };
 
   // TODO: handle submission of data to the backend
-  const onSubmit = () => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     setDisplayMatchError(false);
     setDisplayRequirementError(false);
 
@@ -82,7 +82,7 @@ const TeacherSignupFour = ({
       setDisplayRequirementError(true);
       return;
     }
-    handleSubmitCallback();
+    handleSubmitCallback(e);
   };
 
   useEffect(() => {
@@ -153,7 +153,9 @@ const TeacherSignupFour = ({
 
       {/* TODO: Back button can either go to page 2 or 3 depending on whether school exists or not */}
       <NavigationButtons
-        onContinueClick={onSubmit}
+        onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          onSubmit(e)
+        }
         onBackClick={() => setPage(3)}
       />
     </VStack>
