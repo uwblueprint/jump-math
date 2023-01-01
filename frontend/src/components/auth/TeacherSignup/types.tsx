@@ -18,7 +18,7 @@ export interface TeacherSignupForm {
   firstName: string;
   lastName: string;
   email: string;
-  grades: number[];
+  grades: string[];
   currentlyTeachingJM: boolean | null;
   school: SchoolMetadata;
   password: string;
