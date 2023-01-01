@@ -16,6 +16,7 @@ import {
   InputGroup,
   InputRightElement,
   HStack,
+  Stack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
@@ -24,17 +25,13 @@ import SideBar from "../common/Sidebar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../user-management/AdminUserTable";
 import AddAdminModal from "../user-management/AddAdminModal";
-import {
-  SettingsOutlineIcon,
-  AlertIcon,
-  SearchOutlineIcon,
-} from "../../assets/icons";
+import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
 const pages: Page[] = [
-  { title: "Assessments", url: "/", icon: SettingsOutlineIcon },
-  { title: "Database", url: "/", icon: SettingsOutlineIcon },
+  { title: "Assessments", url: "/" },
+  { title: "Database", url: "/" },
 ];
 
 const LoadingState = (): React.ReactElement => (
@@ -122,9 +119,9 @@ const AdminPage = (): React.ReactElement => {
   }, [filteredAdmins, sortProperty, sortOrder]);
 
   return (
-    <Flex margin={0}>
+    <VStack flex="1" align="left">
       <SideBar pages={pages} />
-      <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
+      <Box padding="1.5em 2em 0em 2em">
         <Box>
           <Text
             textStyle="header4"
@@ -200,8 +197,8 @@ const AdminPage = (): React.ReactElement => {
             </Tabs>
           </Box>
         )}
-      </VStack>
-    </Flex>
+      </Box>
+    </VStack>
   );
 };
 

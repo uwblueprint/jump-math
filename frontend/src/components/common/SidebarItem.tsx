@@ -13,7 +13,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   page,
   isSubPage = false,
 }: SidebarItemProps) => {
-  const { title, url, subPages, icon } = page;
+  const { title, url, subPages } = page;
   const [showMore, setShowMore] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -42,7 +42,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             color: "black",
           }}
         >
-          <Box p={2}>{!isSubPage && <Icon as={icon} />}</Box>
           <Text fontSize="14px">{title}</Text>
           <Spacer />
           <Box m={2} onClick={handleClick}>

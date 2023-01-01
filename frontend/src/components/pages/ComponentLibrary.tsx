@@ -187,12 +187,9 @@ const pages: Page[] = [
       { title: "Also student", url: Routes.STUDENT_PAGE },
       { title: "Another one", url: Routes.STUDENT_PAGE },
     ],
-    icon: BookIcon,
   },
-  { title: "Teacher Page", url: Routes.TEACHER_PAGE, icon: BookIcon },
-  { title: "Admin Page", url: Routes.ADMIN_PAGE, icon: BookIcon },
-  { title: "Library", url: Routes.COMPONENT_LIBRARY, icon: BookIcon },
-  { title: "Assessments", url: "/", icon: BookIcon },
+  { title: "Teacher Page", url: Routes.TEACHER_PAGE },
+  { title: "Admin Page", url: Routes.ADMIN_PAGE },
 ];
 
 const ADMINUSERS = [

@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack } from "@chakra-ui/react";
+import { Flex, HStack, Spacer, Box } from "@chakra-ui/react";
 
 import HomeButton from "./HomeButton";
 import SidebarItem from "./SidebarItem";
@@ -12,14 +12,17 @@ interface SidebarProps {
 
 const Sidebar = ({ pages }: SidebarProps): React.ReactElement => {
   return (
-    <VStack minHeight="100vh" boxShadow="base">
-      <HomeButton />
-      <VStack alignItems="left" w="100%">
-        {pages.map((page, index) => (
-          <SidebarItem key={index} page={page} />
-        ))}
-      </VStack>
-    </VStack>
+    <Box borderBottom="2px" borderColor="grey.100">
+      <Flex margin="1em 2em 1em 2em">
+        <HomeButton />
+        <Spacer />
+        <HStack>
+          {pages.map((page, index) => (
+            <SidebarItem key={index} page={page} />
+          ))}
+        </HStack>
+      </Flex>
+    </Box>
   );
 };
 
