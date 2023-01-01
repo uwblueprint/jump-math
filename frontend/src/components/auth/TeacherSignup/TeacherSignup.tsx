@@ -6,11 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import TeacherSignupOne from "./TeacherSignUpOne";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
-import TeacherSignupFour from "./TeacherSignupFour";
-import TeacherSignupThree from "./TeacherSignupThree";
-import TeacherSignupTwo from "./TeacherSignupTwo";
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
@@ -23,6 +19,10 @@ import {
   SchoolRequest,
   SchoolResponse,
 } from "../../../APIClients/types/SchoolClientTypes";
+import TeacherSignupOne from "./steps/TeacherSignUpOne";
+import TeacherSignupTwo from "./steps/TeacherSignupTwo";
+import TeacherSignupThree from "./steps/TeacherSignupThree";
+import TeacherSignupFour from "./steps/TeacherSignupFour";
 
 const defaultValues = {
   firstName: "",

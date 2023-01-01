@@ -15,7 +15,7 @@ import {
   Box,
   Spacer,
 } from "@chakra-ui/react";
-import { FilterOptionsIcon } from "../icons";
+import { FilterOptionsIcon } from "../../assets/icons";
 
 type AdminUserProperty = "firstName" | "email";
 type SortOrder = "Ascending" | "Descending";

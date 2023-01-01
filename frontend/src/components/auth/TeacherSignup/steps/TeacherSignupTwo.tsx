@@ -2,12 +2,12 @@ import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { SchoolResponse } from "../../../APIClients/types/SchoolClientTypes";
-import SelectFormInput from "./SelectFormInput";
-import { TeacherSignupForm, TeacherSignupProps } from "./types";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import { GET_SCHOOLS } from "../../../APIClients/queries/SchoolQueries";
+import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
+import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
+import SelectFormInput from "../SelectFormInput";
+import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
 
 const TeacherSignupTwo = ({
   setPage,

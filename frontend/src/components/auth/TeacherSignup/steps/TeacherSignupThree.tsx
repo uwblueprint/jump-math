@@ -9,10 +9,10 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import SelectFormInput from "./SelectFormInput";
-import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "./types";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
+import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
 
 const TeacherSignupThree = ({
   setPage,

@@ -1,8 +1,8 @@
 import { Button, ModalFooter } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { ADMIN_PAGE } from "../../../constants/Routes";
-import ModalText from "./ModalText";
+import { ADMIN_PAGE } from "../../constants/Routes";
+import ModalText from "../common/ModalText";
 
 const RemoveUserErrorModal = (): React.ReactElement => {
   const history = useHistory();

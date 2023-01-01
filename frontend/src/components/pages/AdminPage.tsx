@@ -22,15 +22,15 @@ import { useQuery } from "@apollo/client";
 import { AdminUser } from "../../types/UserTypes";
 import SideBar from "../common/Sidebar";
 import Page from "../../types/PageTypes";
-import AdminUserTable from "../common/AdminUserTable";
-import AddAdminModal from "../common/AddAdminModal";
+import AdminUserTable from "../user-management/AdminUserTable";
+import AddAdminModal from "../user-management/AddAdminModal";
 import {
   SettingsOutlineIcon,
   AlertIcon,
   SearchOutlineIcon,
-} from "../common/icons";
+} from "../../assets/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
-import SortTablePopover from "../common/Admin/SortTablePopover";
+import SortTablePopover from "../common/SortTablePopover";
 
 const pages: Page[] = [
   { title: "Assessments", url: "/", icon: SettingsOutlineIcon },

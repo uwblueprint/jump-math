@@ -12,10 +12,10 @@ import { useFormContext } from "react-hook-form";
 import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
-} from "../../common/icons";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupForm, TeacherSignupProps } from "./types";
+} from "../../../../assets/icons";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import { TeacherSignupForm, TeacherSignupProps } from "../types";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;

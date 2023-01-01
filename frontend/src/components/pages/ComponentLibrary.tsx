@@ -11,14 +11,14 @@ import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
   BookIcon,
-} from "../common/icons";
-import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
-import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
+} from "../../assets/icons";
+import AdminConfirmationMessage from "../user-management/AdminConfirmationMessage";
+import RemoveUserPopover from "../user-management/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Sidebar from "../common/Sidebar";
-import AddAdminModal from "../common/AddAdminModal";
+import AddAdminModal from "../user-management/AddAdminModal";
 // eslint-disable-next-line import/no-named-as-default
-import AdminUserTable from "../common/AdminUserTable";
+import AdminUserTable from "../user-management/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";
 import Page from "../../types/PageTypes";

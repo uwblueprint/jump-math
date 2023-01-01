@@ -2,9 +2,9 @@ import { VStack, Text } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../constants/Routes";
-import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupForm, TeacherSignupProps } from "./types";
+import { LOGIN_PAGE } from "../../../../constants/Routes";
+import NavigationButtons from "../NavigationButtons";
+import { TeacherSignupForm, TeacherSignupProps } from "../types";
 
 const TeacherSignupOne = ({
   setPage,

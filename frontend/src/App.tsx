@@ -33,7 +33,7 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
+import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
 
 const App = (): React.ReactElement => {
