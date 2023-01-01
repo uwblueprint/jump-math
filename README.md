@@ -29,7 +29,7 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 ## Workflow Management 🛠
 - **Branching**: To begin any feature work or bug fixes, branch off of `staging`. Prefix your branch name with the contributor name and name your branch in a way that is relevant and meaningful. For example, `joyce/readme-update`. 
 - **Commits**: When working on your branch, commit early and often. Make your commit messages descriptive and meaningful. By default, the linter will run - you must fix all linting errors before merging.
-- **Pull Requests**: While working on a ticket, open a draft PR. Upon completing and testing your changes locally, click `Ready for Review` to publish your PR for review and tag a reviewer(s). At least one reviewer must approve your PR for you to merge your branch into `staging`. 
+- **Pull Requests**: While working on a ticket, open a draft PR. Upon completing and testing your changes locally, click `Ready for Review` to publish your PR for review. Please tag @carissa-tang, @joyce-shi and any other team members who are working on related tickets as reviewers. **Anyone else is also welcome to leave PR reviews!** At least one reviewer must approve your PR for you to merge your branch into `staging`.
 
 ## Helpful Commands ⛑
 
