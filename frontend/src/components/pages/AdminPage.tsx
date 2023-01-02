@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Flex,
   Text,
   Box,
   Center,
@@ -16,7 +15,6 @@ import {
   InputGroup,
   InputRightElement,
   HStack,
-  Stack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 

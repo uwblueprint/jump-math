@@ -190,6 +190,8 @@ const pages: Page[] = [
   },
   { title: "Teacher Page", url: Routes.TEACHER_PAGE },
   { title: "Admin Page", url: Routes.ADMIN_PAGE },
+  { title: "Library", url: Routes.COMPONENT_LIBRARY },
+  { title: "Assessments", url: "/" },
 ];
 
 const ADMINUSERS = [
