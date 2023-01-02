@@ -11,3 +11,6 @@ export const COMPONENT_LIBRARY = "/component-library";
 
 export const CREATE_QUESTION_PAGE = "/create-question";
 export const TEACHER_SIGNUP_PAGE = "/teacher-signup";
+
+export const TEACHER_LOGIN_PAGE = "/teacher-login";
+export const RESET_PASSWORD = "/reset-password";

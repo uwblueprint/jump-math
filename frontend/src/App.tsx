@@ -36,6 +36,8 @@ import Landing from "./components/pages/Landing";
 import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
+import TeacherLogin from "./components/auth/Login/TeacherLogin";
+import TeacherNewPassword from "./components/auth/PasswordReset/TeacherNewPassword";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -83,6 +85,16 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
+                <Route
+                  exact
+                  path={Routes.TEACHER_LOGIN_PAGE}
+                  component={TeacherLogin}
+                />
+                <Route
+                  exact
+                  path={Routes.RESET_PASSWORD}
+                  component={TeacherNewPassword}
+                />
                 <Route
                   exact
                   path={Routes.TEACHER_SIGNUP_PAGE}
