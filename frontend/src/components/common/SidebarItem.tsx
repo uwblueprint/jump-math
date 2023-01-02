@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Flex, Box, Text, Spacer, FlexProps } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Text,
+  Spacer,
+  FlexProps,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+} from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import RouterLink from "./RouterLink";
 import { ChevronUpIcon, ChevronDownIcon } from "../../assets/icons";
@@ -19,6 +29,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
   const location = useLocation();
   const isCurrentPage = location.pathname.includes(url);
+
   const activePage = {
     color: "blue.300",
     fontWeight: "bold",
@@ -26,33 +37,53 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
   const children = subPages
     ? subPages.map((subPage, index) => (
-        <SidebarItem key={index} page={subPage} isSubPage />
+        <Box key={index} m={2}>
+          <SidebarItem page={subPage} isSubPage />
+        </Box>
       ))
     : null;
 
   return (
-    <RouterLink
-      to={url}
-      onMouseEnter={() => setShowMore(true)}
-      onMouseLeave={() => setShowMore(false)}
-      style={{ textDecoration: "none" }}
-    >
-      <Flex
-        align="center"
-        mx="4"
-        role="group"
-        cursor="pointer"
-        _hover={activePage}
-      >
-        <Text fontSize="14px" sx={isCurrentPage ? activePage : undefined}>
-          {title}
-        </Text>
-        <Spacer />
-        <Box m={2}>
-          {children && (showMore ? <ChevronUpIcon /> : <ChevronDownIcon />)}
+    <Popover trigger="hover" placement="bottom-start">
+      <PopoverTrigger>
+        <Box>
+          <RouterLink
+            to={url}
+            style={{ textDecoration: "none" }}
+            onMouseEnter={() => setShowMore(true)}
+            onMouseLeave={() => setShowMore(false)}
+          >
+            <Flex
+              align="center"
+              mx="4"
+              role="group"
+              cursor="pointer"
+              _hover={activePage}
+            >
+              <Text fontSize="14px" sx={isCurrentPage ? activePage : undefined}>
+                {title}
+              </Text>
+              <Spacer />
+              <Box m={2}>
+                {children &&
+                  (showMore ? <ChevronDownIcon /> : <ChevronUpIcon />)}
+              </Box>
+            </Flex>
+          </RouterLink>
         </Box>
-      </Flex>
-    </RouterLink>
+      </PopoverTrigger>
+      {children && (
+        <PopoverContent
+          border="1px"
+          borderColor="grey.100"
+          borderRadius={0}
+          p={2}
+          width="auto"
+        >
+          {children}
+        </PopoverContent>
+      )}
+    </Popover>
   );
 };
 
