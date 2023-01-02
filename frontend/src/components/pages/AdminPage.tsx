@@ -134,12 +134,12 @@ const AdminPage = (): React.ReactElement => {
           </HStack>
         </Box>
         {loading && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <LoadingState />
           </Center>
         )}
         {error && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <ErrorState />
           </Center>
         )}
@@ -154,7 +154,7 @@ const AdminPage = (): React.ReactElement => {
                 <TabPanel>
                   <VStack pt={4} spacing={6}>
                     <HStack width="100%">
-                      <InputGroup width="90%">
+                      <InputGroup width="95%">
                         <Input
                           borderRadius="6px"
                           borderColor="grey.100"
