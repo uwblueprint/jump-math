@@ -30,8 +30,8 @@ import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
 const pages: Page[] = [
-  { title: "Assessments", url: "/" },
-  { title: "Database", url: "/" },
+  { title: "Assessments", url: "/assessments" },
+  { title: "Database", url: "/admin-dashboard" },
 ];
 
 const LoadingState = (): React.ReactElement => (
