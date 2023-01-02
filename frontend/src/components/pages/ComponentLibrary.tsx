@@ -10,12 +10,11 @@ import {
 import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
-  BookIcon,
 } from "../../assets/icons";
 import AdminConfirmationMessage from "../user-management/AdminConfirmationMessage";
 import RemoveUserPopover from "../user-management/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import Sidebar from "../common/Sidebar";
+import Navbar from "../common/Navbar";
 import AddAdminModal from "../user-management/AddAdminModal";
 // eslint-disable-next-line import/no-named-as-default
 import AdminUserTable from "../user-management/AdminUserTable";
@@ -221,7 +220,7 @@ const ADMINUSERS = [
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <Sidebar pages={pages} />
+      <Navbar pages={pages} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />

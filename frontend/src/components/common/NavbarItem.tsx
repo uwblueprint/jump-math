@@ -14,13 +14,11 @@ import RouterLink from "./RouterLink";
 import { ChevronUpIcon, ChevronDownIcon } from "../../assets/icons";
 import Page from "../../types/PageTypes";
 
-interface SidebarItemProps extends FlexProps {
+interface NavbarItemProps extends FlexProps {
   page: Page;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({
-  page,
-}: SidebarItemProps) => {
+const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
   const { title, url, subPages } = page;
   const [showMore, setShowMore] = useState(false);
 
@@ -35,7 +33,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const children = subPages
     ? subPages.map((subPage, index) => (
         <Box key={index} m={2}>
-          <SidebarItem page={subPage} />
+          <NavbarItem page={subPage} />
         </Box>
       ))
     : null;
@@ -79,4 +77,4 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   );
 };
 
-export default SidebarItem;
+export default NavbarItem;

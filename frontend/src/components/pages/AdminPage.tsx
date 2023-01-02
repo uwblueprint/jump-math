@@ -19,7 +19,7 @@ import {
 import { useQuery } from "@apollo/client";
 
 import { AdminUser } from "../../types/UserTypes";
-import SideBar from "../common/Sidebar";
+import Navbar from "../common/Navbar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../user-management/AdminUserTable";
 import AddAdminModal from "../user-management/AddAdminModal";
@@ -118,7 +118,7 @@ const AdminPage = (): React.ReactElement => {
 
   return (
     <VStack flex="1" align="left">
-      <SideBar pages={pages} />
+      <Navbar pages={pages} />
       <Box padding="1.5em 2em 0em 2em">
         <Box>
           <Text

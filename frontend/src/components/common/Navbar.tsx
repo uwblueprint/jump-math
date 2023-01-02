@@ -2,15 +2,15 @@ import React from "react";
 import { Flex, HStack, Spacer, Box } from "@chakra-ui/react";
 
 import HomeButton from "./HomeButton";
-import SidebarItem from "./SidebarItem";
+import NavbarItem from "./NavbarItem";
 
 import Page from "../../types/PageTypes";
 
-interface SidebarProps {
+interface NavbarProps {
   pages: Page[];
 }
 
-const Sidebar = ({ pages }: SidebarProps): React.ReactElement => {
+const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
   return (
     <Box borderBottom="2px" borderColor="grey.100">
       <Flex margin="1em 2em 1em 2em">
@@ -18,7 +18,7 @@ const Sidebar = ({ pages }: SidebarProps): React.ReactElement => {
         <Spacer />
         <HStack>
           {pages.map((page, index) => (
-            <SidebarItem key={index} page={page} />
+            <NavbarItem key={index} page={page} />
           ))}
         </HStack>
       </Flex>
@@ -26,4 +26,4 @@ const Sidebar = ({ pages }: SidebarProps): React.ReactElement => {
   );
 };
 
-export default Sidebar;
+export default Navbar;
