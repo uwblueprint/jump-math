@@ -51,9 +51,12 @@ const FirebaseAction = () => {
     },
   );
 
-  const handleVerifyEmail = async () => verifyEmail({ variables: { oobCode } });
-  const handleResetPassword = async () =>
-    verifyPasswordReset({ variables: { oobCode } });
+  const handleVerifyEmail = async () => {
+    await verifyEmail({ variables: { oobCode } });
+  };
+  const handleResetPassword = async () => {
+    await verifyPasswordReset({ variables: { oobCode } });
+  };
 
   switch (mode) {
     case "verifyEmail":
