@@ -5,7 +5,8 @@ import {
   VERIFY_EMAIL,
   VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
-import ResetPassword from "./ResetPassword";
+import NotFound from "../pages/NotFound";
+import ResetPassword from "./ResetPassword/ResetPassword";
 import SignupConfirmation from "./SignupConfirmation";
 
 const FirebaseAction = () => {
@@ -63,7 +64,7 @@ const FirebaseAction = () => {
         </Center>
       );
     default:
-      return <></>;
+      return <NotFound />;
   }
 };
 export default FirebaseAction;

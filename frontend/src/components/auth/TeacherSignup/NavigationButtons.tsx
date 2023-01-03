@@ -5,24 +5,26 @@ import { ArrowBackOutlineIcon } from "../../../assets/icons";
 interface NavigationButtonsProps {
   onContinueClick: () => void;
   onBackClick: () => void;
-  firstPage?: boolean;
+  continueButtonText: string;
+  backButtonText: string;
 }
 const NavigationButtons = ({
   onContinueClick,
   onBackClick,
-  firstPage,
+  continueButtonText,
+  backButtonText,
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
       <Button variant="primary" width="100%" onClick={onContinueClick}>
-        Continue
+        {continueButtonText}
       </Button>
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         variant="tertiary"
         onClick={onBackClick}
       >
-        Back{firstPage ? " to login page" : ""}
+        {backButtonText}
       </Button>
     </>
   );

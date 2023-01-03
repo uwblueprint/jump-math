@@ -1,5 +1,4 @@
 import {
-  Box,
   FormControl,
   FormLabel,
   HStack,
@@ -8,38 +7,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import {
-  CheckmarkCircleFillIcon,
-  CheckmarkCircleOutlineIcon,
-} from "../../../../assets/icons";
+import PasswordRequirement from "../../Password/PasswordRequirement";
 import ErrorMessage from "../ErrorMessage";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupProps } from "../types";
-
-type PasswordRequirementProps = {
-  isFulfilled: boolean;
-  requirement: string;
-};
-
-const PasswordRequirement = ({
-  isFulfilled,
-  requirement,
-}: PasswordRequirementProps): React.ReactElement => {
-  return (
-    <HStack>
-      {isFulfilled ? (
-        <Box color="green.300" fontSize="20px">
-          <CheckmarkCircleFillIcon />
-        </Box>
-      ) : (
-        <Box color="red.200" fontSize="20px">
-          <CheckmarkCircleOutlineIcon />
-        </Box>
-      )}
-      <Text textStyle="mobileParagraph">{requirement}</Text>
-    </HStack>
-  );
-};
 
 const TeacherSignupFour = ({
   setPage,
@@ -154,6 +125,8 @@ const TeacherSignupFour = ({
       <NavigationButtons
         onContinueClick={onSubmit}
         onBackClick={() => setPage(3)}
+        continueButtonText="Continue"
+        backButtonText="Back"
       />
     </VStack>
   );

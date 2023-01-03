@@ -29,7 +29,7 @@ import {
   AlertIcon,
   SearchOutlineIcon,
 } from "../../assets/icons";
-import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
+import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
 const pages: Page[] = [

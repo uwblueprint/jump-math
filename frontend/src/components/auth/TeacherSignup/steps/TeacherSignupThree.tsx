@@ -170,6 +170,8 @@ const TeacherSignupThree = ({
       <NavigationButtons
         onContinueClick={onContinueClick}
         onBackClick={() => setPage(2)}
+        continueButtonText="Continue"
+        backButtonText="Back"
       />
     </VStack>
   );

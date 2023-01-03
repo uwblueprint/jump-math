@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import AuthContext from "../../contexts/AuthContext";
 import { RESET_PASSWORD } from "../../APIClients/mutations/AuthMutations";
 
+// TODO: Implement FE
 const ForgotPassword = (): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
 

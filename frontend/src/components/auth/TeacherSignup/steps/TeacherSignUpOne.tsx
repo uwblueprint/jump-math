@@ -20,7 +20,8 @@ const TeacherSignupOne = ({
       <NavigationButtons
         onContinueClick={() => setPage(2)}
         onBackClick={() => history.push(LOGIN_PAGE)}
-        firstPage
+        continueButtonText="Continue"
+        backButtonText="Back to login page"
       />
     </VStack>
   );

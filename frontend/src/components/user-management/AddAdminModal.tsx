@@ -29,7 +29,7 @@ import { PlusOutlineIcon } from "../../assets/icons";
 import { ADMIN_PAGE } from "../../constants/Routes";
 import { UserRequest } from "../../APIClients/types/UserClientTypes";
 import { ADD_USER } from "../../APIClients/mutations/UserMutations";
-import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
+import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 
 const AddAdminModal = (): React.ReactElement => {
   const history = useHistory();

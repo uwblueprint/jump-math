@@ -11,6 +11,7 @@ import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
+import NotFound from "../../pages/NotFound";
 
 const defaultValues = {
   firstName: "",
@@ -43,7 +44,7 @@ const renderPageComponent = (
     case 4:
       return <TeacherSignupFour {...teacherSignupProps} />;
     default:
-      return <></>;
+      return <NotFound />;
   }
 };
 const TeacherSignup = (): React.ReactElement => {

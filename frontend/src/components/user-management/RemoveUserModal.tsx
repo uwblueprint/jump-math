@@ -13,7 +13,7 @@ import { CloseOutlineIcon } from "../../assets/icons";
 import ModalText from "../common/ModalText";
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
-import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
+import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
 
 interface RemoveUserModalProps {

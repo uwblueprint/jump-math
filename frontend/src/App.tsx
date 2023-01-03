@@ -37,7 +37,7 @@ import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
 import SignupConfirmation from "./components/auth/SignupConfirmation";
-import ResetPassword from "./components/auth/ResetPassword";
+import ResetPassword from "./components/auth/ResetPassword/ResetPassword";
 import FirebaseAction from "./components/auth/FirebaseAction";
 
 const App = (): React.ReactElement => {
