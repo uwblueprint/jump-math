@@ -107,7 +107,7 @@ const TeacherSignupOne = ({
       )}
 
       <Stack direction={["row"]} width="100%" alignItems="flex-end">
-        <FormControl pt={4} isInvalid={firstNameError} isRequired>
+        <FormControl isInvalid={firstNameError} isRequired>
           <FormLabel color="grey.400">Name</FormLabel>
           <Input
             type="text"
@@ -116,7 +116,7 @@ const TeacherSignupOne = ({
             onChange={(e) => handleChange(e, "firstName")}
           />
         </FormControl>
-        <FormControl pt={4} isInvalid={lastNameError}>
+        <FormControl isInvalid={lastNameError}>
           <Input
             type="text"
             value={watch("lastName")}

@@ -66,7 +66,7 @@ const TeacherSignup = (): React.ReactElement => {
         alt="Teacher-Signup"
         fit="cover"
         width="50%"
-        height="122vh"
+        height="120vh"
       />
       <VStack width="50%" padding={6}>
         <Image
