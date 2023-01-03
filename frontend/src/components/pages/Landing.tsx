@@ -11,8 +11,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import * as Routes from "../../constants/Routes";
-
-import JumpMathLogo from "../../assets/jump-math-logo.png";
+import { JUMP_MATH_LOGO } from "../../assets/images";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
@@ -66,7 +65,7 @@ const Landing = (): React.ReactElement => {
           borderRadius="12px"
         >
           <VStack gap={6}>
-            <Image src={JumpMathLogo} alt="Jump Math Logo" h={90} />
+            <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={90} />
             <Text textStyle="header4" textAlign="center">
               Welcome to the Online Assessment Platform
             </Text>
