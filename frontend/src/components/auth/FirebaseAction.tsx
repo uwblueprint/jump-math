@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import { Center, Spinner } from "@chakra-ui/react";
 import React from "react";
 import {
   VERIFY_EMAIL,
   VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
+import LoadingState from "../common/LoadingState";
 import NotFound from "../pages/NotFound";
 import ResetPassword from "./ResetPassword";
 import SignupConfirmation from "./SignupConfirmation";
@@ -69,20 +69,12 @@ const FirebaseAction = () => {
     case "verifyEmail":
       if (emailVerified) return <SignupConfirmation email={email} />;
       if (!executed) handleVerifyEmail();
-      return (
-        <Center height="100vh">
-          <Spinner />
-        </Center>
-      );
+      return <LoadingState fullPage />;
     case "resetPassword":
       if (passwordResetVerified)
         return <ResetPassword oobCode={oobCode ?? ""} email={email} />;
       if (!executed) handleResetPassword();
-      return (
-        <Center height="100vh">
-          <Spinner />
-        </Center>
-      );
+      return <LoadingState fullPage />;
     default:
       return <NotFound />;
   }

@@ -9,7 +9,6 @@ import {
   TabPanel,
   TabPanels,
   useColorModeValue,
-  Spinner,
   VStack,
   Input,
   InputGroup,
@@ -28,26 +27,12 @@ import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
 import * as Routes from "../../constants/Routes";
+import LoadingState from "../common/LoadingState";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
   { title: "Database", url: Routes.USER_DATABASE },
 ];
-
-const LoadingState = (): React.ReactElement => (
-  <VStack spacing={6} textAlign="center">
-    <Spinner
-      color="blue.300"
-      size="xl"
-      thickness="4px"
-      emptyColor="gray.200"
-      speed="0.65s"
-    />
-    <Text textStyle="paragraph" color="blue.300">
-      Please wait for the data to load. It will load momentarily.
-    </Text>
-  </VStack>
-);
 
 const ErrorState = (): React.ReactElement => (
   <VStack spacing={6} textAlign="center">

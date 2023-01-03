@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LoadingState from "../../common/LoadingState";
 import TeacherWrapper from "../../common/TeacherWrapper";
 import NotFound from "../../pages/NotFound";
 import PasswordResetSuccess from "./steps/PasswordResetSuccess";
@@ -12,6 +13,10 @@ const ResetPassword = ({
   email: string;
 }): React.ReactElement => {
   const [step, setStep] = useState(1);
+
+  if (!oobCode || !email) {
+    return <LoadingState fullPage />;
+  }
 
   switch (step) {
     case 1:
