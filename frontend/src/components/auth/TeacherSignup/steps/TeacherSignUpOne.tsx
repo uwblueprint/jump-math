@@ -1,7 +1,7 @@
 import { VStack, Text } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../../constants/Routes";
+import { TEACHER_LOGIN } from "../../../../constants/Routes";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupProps } from "../types";
 
@@ -19,7 +19,7 @@ const TeacherSignupOne = ({
 
       <NavigationButtons
         onContinueClick={() => setPage(2)}
-        onBackClick={() => history.push(LOGIN_PAGE)}
+        onBackClick={() => history.push(TEACHER_LOGIN)}
         firstPage
       />
     </VStack>

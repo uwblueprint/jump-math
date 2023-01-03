@@ -12,30 +12,31 @@ import {
 } from "@chakra-ui/react";
 import * as Routes from "../../constants/Routes";
 
-import JumpMathLogo from "../../assets/jump-math-logo.png";
+import { JUMP_MATH_LOGO } from "../../assets/Images";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(Routes.LOGIN_PAGE);
+  const navigateToAdminLogin = () => history.push(Routes.ADMIN_LOGIN);
+  const navigateToTeacherLogin = () => history.push(Routes.TEACHER_LOGIN);
 
   return (
     <VStack gap={1.5} mx={2}>
       <Button
-        onClick={navigateTo}
+        onClick={navigateToAdminLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
         Admin
       </Button>
       <Button
-        onClick={navigateTo}
+        onClick={navigateToTeacherLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
         Teacher
       </Button>
       <Button
-        onClick={navigateTo}
+        onClick={navigateToTeacherLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
@@ -66,7 +67,7 @@ const Landing = (): React.ReactElement => {
           borderRadius="12px"
         >
           <VStack gap={6}>
-            <Image src={JumpMathLogo} alt="Jump Math Logo" h={90} />
+            <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={90} />
             <Text textStyle="header4" textAlign="center">
               Welcome to the Online Assessment Platform
             </Text>

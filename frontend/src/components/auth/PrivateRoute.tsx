@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 import AuthContext from "../../contexts/AuthContext";
-import { LOGIN_PAGE } from "../../constants/Routes";
+import { HOME_PAGE } from "../../constants/Routes";
 import NotFound from "../pages/NotFound";
 import { Role } from "../../types/AuthTypes";
 
@@ -22,7 +22,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const { authenticatedUser } = useContext(AuthContext);
 
   if (!authenticatedUser) {
-    return <Redirect to={LOGIN_PAGE} />;
+    return <Redirect to={HOME_PAGE} />;
   }
   if (roles.includes(authenticatedUser.role)) {
     return <Route path={path} exact={exact} component={component} />;

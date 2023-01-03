@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
+import AuthTemplate from "../AuthTemplate";
+import { TEACHER_SIGNUP_IMAGE } from "../../../assets/Images";
 
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
@@ -59,34 +60,21 @@ const TeacherSignup = (): React.ReactElement => {
 
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
 
+  const fields = renderPageComponent(page, {
+    setPage,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    errors,
+  });
+
   return (
-    <HStack>
-      <Image
-        src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
-        alt="Teacher-Signup"
-        fit="cover"
-        width="50%"
-        height="100vh"
-      />
-      <VStack width="50%" height="100vh" padding={6}>
-        <Image
-          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
-          alt="Jump-Math-Logo"
-          py={5}
-        />
-        <Text textStyle="header4" textAlign="center" pb={4}>
-          Teacher Sign Up
-        </Text>
-        {renderPageComponent(page, {
-          setPage,
-          register,
-          handleSubmit,
-          watch,
-          setValue,
-          errors,
-        })}
-      </VStack>
-    </HStack>
+    <AuthTemplate
+      title="Teacher Sign Up"
+      image={TEACHER_SIGNUP_IMAGE}
+      fields={fields}
+    />
   );
 };
 
