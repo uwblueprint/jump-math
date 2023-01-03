@@ -12,6 +12,7 @@ import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
 import NotFound from "../../pages/NotFound";
+import TeacherWrapper from "../../common/TeacherWrapper";
 
 const defaultValues = {
   firstName: "",
@@ -61,33 +62,17 @@ const TeacherSignup = (): React.ReactElement => {
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
 
   return (
-    <HStack>
-      <Image
-        src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
-        alt="Teacher-Signup"
-        fit="cover"
-        width="50%"
-        height="120vh"
-      />
-      <VStack width="50%" padding={6}>
-        <Image
-          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
-          alt="Jump-Math-Logo"
-          py={5}
-        />
-        <Text textStyle="header4" textAlign="center" pb={4}>
-          Teacher Sign Up
-        </Text>
-        {renderPageComponent(page, {
-          setPage,
-          register,
-          handleSubmit,
-          watch,
-          setValue,
-          errors,
-        })}
-      </VStack>
-    </HStack>
+    <TeacherWrapper
+      header="Teacher Sign Up"
+      component={renderPageComponent(page, {
+        setPage,
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        errors,
+      })}
+    />
   );
 };
 
