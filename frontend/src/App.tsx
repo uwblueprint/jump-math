@@ -9,7 +9,6 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
@@ -85,7 +84,6 @@ const App = (): React.ReactElement => {
                 )}
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
-                <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
                 <Route
                   exact
                   path={Routes.FIREBASE_ACTION}

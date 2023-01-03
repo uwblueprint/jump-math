@@ -1,8 +1,16 @@
 import { gql } from "@apollo/client";
 
-export const GET_SCHOOL = gql`
-  query GetSchool($id: ID!) {
-    school(id: $id) {
+export const ADD_TEACHER_TO_SCHOOL = gql`
+  mutation Add_Teacher_To_School(
+    $school: SchoolRequestDTO!
+    $schoolId: String!
+    $teacherId: String!
+  ) {
+    addTeacherToSchool(
+      school: $school
+      schoolId: $schoolId
+      teacherId: $teacherId
+    ) {
       id
       name
       country
@@ -20,9 +28,9 @@ export const GET_SCHOOL = gql`
   }
 `;
 
-export const GET_SCHOOLS = gql`
-  query GetSchools {
-    schools {
+export const CREATE_SCHOOL = gql`
+  mutation Create_School($school: SchoolRequestDTO!) {
+    createSchool(school: $school) {
       id
       name
       country
