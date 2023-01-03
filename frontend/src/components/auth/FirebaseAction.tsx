@@ -6,7 +6,7 @@ import {
   VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
 import NotFound from "../pages/NotFound";
-import ResetPassword from "./ResetPassword/ResetPassword";
+import ResetPassword from "./ResetPassword";
 import SignupConfirmation from "./SignupConfirmation";
 
 const FirebaseAction = () => {
@@ -19,47 +19,67 @@ const FirebaseAction = () => {
     false,
   );
   const [email, setEmail] = React.useState("");
+  const [executed, setExecuted] = React.useState(false);
 
-  const [verifyEmail] = useMutation<{ verifyEmail: boolean }>(VERIFY_EMAIL);
+  const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
+    onCompleted(data) {
+      console.log(data);
+      setExecuted(true);
+      if (data.verifyEmail !== "") {
+        setEmail(data.verifyEmail);
+        setEmailVerified(true);
+      }
+    },
+    onError(error) {
+      console.log(error);
+      setExecuted(true);
+    },
+  });
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
+    {
+      onCompleted(data) {
+        setExecuted(true);
+        console.log(data);
+        if (data.verifyPasswordReset !== "") {
+          setEmail(data.verifyPasswordReset);
+          setPasswordResetVerified(true);
+        }
+      },
+      onError(error) {
+        console.log(error);
+        setExecuted(true);
+      },
+    },
   );
 
   const handleVerifyEmail = async () => {
-    const verifyEmailResponse = await verifyEmail({
+    await verifyEmail({
       variables: { oobCode: oobCode ?? "" },
     });
-    if (verifyEmailResponse) {
-      setEmailVerified(true);
-    }
   };
 
   const handleResetPassword = async () => {
-    const confirmPasswordResetResponse = await verifyPasswordReset({
+    await verifyPasswordReset({
       variables: { oobCode: oobCode ?? "" },
     });
-    if (confirmPasswordResetResponse) {
-      setEmail(confirmPasswordResetResponse.data?.verifyPasswordReset ?? "");
-      setPasswordResetVerified(true);
-    }
   };
 
   switch (mode) {
     case "verifyEmail":
-      handleVerifyEmail();
-      return emailVerified ? (
-        <SignupConfirmation />
-      ) : (
-        <Center>
+      if (emailVerified) return <SignupConfirmation email={email} />;
+      if (!executed) handleVerifyEmail();
+      return (
+        <Center height="100vh">
           <Spinner />
         </Center>
       );
     case "resetPassword":
-      handleResetPassword();
-      return passwordResetVerified ? (
-        <ResetPassword oobCode={oobCode ?? ""} email={email} />
-      ) : (
-        <Center>
+      if (passwordResetVerified)
+        return <ResetPassword oobCode={oobCode ?? ""} email={email} />;
+      if (!executed) handleResetPassword();
+      return (
+        <Center height="100vh">
           <Spinner />
         </Center>
       );

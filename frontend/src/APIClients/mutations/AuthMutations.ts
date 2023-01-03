@@ -64,9 +64,7 @@ export const VERIFY_EMAIL = gql`
 
 export const VERIFY_PASSWORD_RESET = gql`
   mutation VerifyPasswordReset($oobCode: String!) {
-    verifyPasswordReset(oobCode: $oobCode) {
-      email
-    }
+    verifyPasswordReset(oobCode: $oobCode)
   }
 `;
 

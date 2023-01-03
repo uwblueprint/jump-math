@@ -260,22 +260,25 @@ class AuthService implements IAuthService {
     }
   }
 
-  async verifyEmail(oobCode: string): Promise<boolean> {
+  async verifyEmail(oobCode: string): Promise<string> {
     try {
       const res = await FirebaseRestClient.confirmEmailVerification(oobCode);
       if (res.emailVerified) {
-        return true;
+        return res.email;
       }
-      return false;
+      return "";
     } catch (error) {
-      return false;
+      return "";
     }
   }
 
   async verifyPasswordReset(oobCode: string): Promise<string> {
     try {
       const res = await FirebaseRestClient.verifyPasswordResetCode(oobCode);
-      return res.email;
+      if (res.email) {
+        return res.email;
+      }
+      return "";
     } catch (error) {
       return "";
     }

@@ -23,7 +23,7 @@ const authType = gql`
     refresh: String!
     logout(userId: ID!): ID
     resetPassword(email: String!): Boolean!
-    verifyEmail(oobCode: String!): Boolean!
+    verifyEmail(oobCode: String!): String!
     verifyPasswordReset(oobCode: String!): String!
     confirmPasswordReset(newPassword: String!, oobCode: String!): Boolean!
   }

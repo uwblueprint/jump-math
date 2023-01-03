@@ -71,9 +71,9 @@ const authResolvers = {
     verifyEmail: async (
       _parent: undefined,
       { oobCode }: { oobCode: string },
-    ): Promise<boolean> => {
-      await authService.verifyEmail(oobCode);
-      return true;
+    ): Promise<string> => {
+      const email = await authService.verifyEmail(oobCode);
+      return email;
     },
     verifyPasswordReset: async (
       _parent: undefined,
