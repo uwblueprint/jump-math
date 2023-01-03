@@ -1,21 +1,38 @@
 import React, { useContext, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
+import { Text, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+
+import FormError from "./FormError";
+import RouterLink from "../common/RouterLink";
+import AuthTemplate from "./AuthTemplate";
+import * as Routes from "../../constants/Routes";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
 import { HOME_PAGE, SIGNUP_PAGE } from "../../constants/Routes";
+import { TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+  const history = useHistory();
+  const location = useLocation();
+
+  const isAdmin = location.pathname.includes(Routes.ADMIN_LOGIN);
+  const isTeacher = location.pathname.includes(Routes.TEACHER_LOGIN);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
+  const [loginError, setLoginError] = useState("");
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
   const onLogInClick = async () => {
+    if (!(email && password)) {
+      setLoginError("Please ensure fields are filled");
+      return;
+    }
     const user: AuthenticatedUser = await authAPIClient.login(
       email,
       password,
@@ -32,46 +49,61 @@ const Login = (): React.ReactElement => {
     return <Redirect to={HOME_PAGE} />;
   }
 
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Login</h1>
-      <form>
-        <div>
-          <input
+  const form = (): React.ReactElement => {
+    return (
+      <>
+        <Text textStyle="subtitle2" mb={loginError ? "12px" : "48px"}>
+          Enter your login credentials below to continue
+        </Text>
+        {loginError && <FormError message="Please ensure fields are filled" />}
+        <FormControl textStyle="subtitle2" isRequired>
+          <FormLabel color="grey.400">Email Address</FormLabel>
+          <Input
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="username@domain.com"
+            onChange={(e) => setEmail(e.target.value)}
+            mb="24px"
+            placeholder="Enter Email Address"
           />
-        </div>
-        <div>
-          <input
+          <FormLabel color="grey.400">Password</FormLabel>
+          <Input
             type="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            mb="32px"
+            placeholder="Enter Password"
           />
-        </div>
-        <div>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={onLogInClick}
-          >
-            Log In
-          </button>
-        </div>
-      </form>
-      <div>
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={onSignUpClick}
-        >
-          Sign Up
-        </button>
-      </div>
-    </div>
+        </FormControl>
+        <RouterLink color="blue.300" to="/">
+          Forgot Password?
+        </RouterLink>
+        <Button onClick={onLogInClick} variant="primary" w="full" mb="24px">
+          Login
+        </Button>
+
+        {isTeacher && (
+          <Text onClick={onSignUpClick}>
+            Don&apos;t have an account?{" "}
+            <Text
+              as="u"
+              onClick={onSignUpClick}
+              color="blue.300"
+              cursor="pointer"
+            >
+              Sign Up
+            </Text>
+          </Text>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <AuthTemplate
+      title="Admin Login"
+      image={TEACHER_SIGNUP_IMAGE}
+      form={form()}
+    />
   );
 };
 
