@@ -68,7 +68,7 @@ const TeacherSignupTwo = ({
       {(isCurrentlyTeachingJMError || isSchoolError) && (
         <ErrorMessage message="Please ensure fields are filled" />
       )}
-      <FormControl pt={4} isInvalid={isCurrentlyTeachingJMError} isRequired>
+      <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>

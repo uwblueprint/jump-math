@@ -149,9 +149,9 @@ const TeacherSignup = (): React.ReactElement => {
           alt="Teacher-Signup"
           fit="cover"
           width="50%"
-          height="122vh"
+          height="120vh"
         />
-        <VStack width="50%" height="100vh" padding={6}>
+        <VStack width="50%" padding={6}>
           <Image
             src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
             alt="Jump-Math-Logo"

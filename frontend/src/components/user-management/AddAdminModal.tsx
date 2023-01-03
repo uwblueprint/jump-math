@@ -26,7 +26,7 @@ import { useHistory } from "react-router-dom";
 import AdminConfirmationMessage from "./AdminConfirmationMessage";
 import ModalFooterButtons from "../common/ModalFooterButtons";
 import { PlusOutlineIcon } from "../../assets/icons";
-import { ADMIN_PAGE } from "../../constants/Routes";
+import { USER_DATABASE } from "../../constants/Routes";
 import {
   UserRequest,
   UserResponse,
@@ -138,7 +138,7 @@ const AddAdminModal = (): React.ReactElement => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() => history.push(ADMIN_PAGE)}
+                  onClick={() => history.push(USER_DATABASE)}
                   mt={10}
                   variant="primary"
                 >
