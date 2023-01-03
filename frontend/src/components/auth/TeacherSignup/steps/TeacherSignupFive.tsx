@@ -3,10 +3,7 @@ import React from "react";
 
 const TeacherSignupFive = (): React.ReactElement => {
   return (
-    <VStack pt={28}>
-      <Text textStyle="header4" textAlign="center" pb={4}>
-        Teacher Sign Up Confirmation
-      </Text>
+    <VStack>
       <Text textStyle="subtitle2" textAlign="center">
         Please check your inbox for a confirmation email so that you are able to
         login

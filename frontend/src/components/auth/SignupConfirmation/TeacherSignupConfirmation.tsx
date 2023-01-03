@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../constants/Routes";
 import TeacherWrapper from "../../common/TeacherWrapper";
 
-const TeacherSignupConfirmationComponent = (): React.ReactElement => {
+const TeacherSignupConfirmation = (): React.ReactElement => {
   const history = useHistory();
 
-  return (
+  const TeacherSignupConfirmationComponent = (
     <>
       <Text textStyle="subtitle2" textAlign="center" pb={8}>
         You have finalized your account credientials!
@@ -24,12 +24,11 @@ const TeacherSignupConfirmationComponent = (): React.ReactElement => {
       </Button>
     </>
   );
-};
 
-const TeacherSignupConfirmation = (): React.ReactElement => {
   return (
     <TeacherWrapper
       header="Teacher Sign Up Confirmation"
+      paddingTop
       component={TeacherSignupConfirmationComponent}
     />
   );

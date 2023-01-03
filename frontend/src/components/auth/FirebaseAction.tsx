@@ -1,9 +1,11 @@
-import { useMutation } from "@apollo/client";
-import React from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useContext } from "react";
 import {
   VERIFY_EMAIL,
   VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
+import IS_AUTHORIZED_BY_EMAIL from "../../APIClients/queries/AuthQueries";
+import AuthContext from "../../contexts/AuthContext";
 import LoadingState from "../common/LoadingState";
 import NotFound from "../pages/NotFound";
 import ResetPassword from "./ResetPassword";
@@ -14,12 +16,26 @@ const FirebaseAction = () => {
   const mode = urlParams.get("mode");
   const oobCode: string = urlParams.get("oobCode") ?? "";
 
+  const { authenticatedUser } = useContext(AuthContext);
   const [emailVerified, setEmailVerified] = React.useState(false);
   const [passwordResetVerified, setPasswordResetVerified] = React.useState(
     false,
   );
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState(authenticatedUser?.email ?? "");
   const [executed, setExecuted] = React.useState(false);
+
+  useQuery(IS_AUTHORIZED_BY_EMAIL, {
+    variables: {
+      accessToken: authenticatedUser?.accessToken,
+      requestedEmail: email,
+    },
+    onCompleted: (data: { isAuthorizedByEmail: boolean }) => {
+      if (data.isAuthorizedByEmail) {
+        setEmailVerified(true);
+      }
+    },
+    skip: emailVerified || !email,
+  });
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
     onCompleted(data) {

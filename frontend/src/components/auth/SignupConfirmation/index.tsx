@@ -15,7 +15,7 @@ const SignupConfirmation = ({
   useQuery(GET_USER_BY_EMAIL, {
     variables: { email },
     onCompleted: (data) => {
-      setRole(data.getUserByEmail.role);
+      setRole(data.userByEmail.role);
     },
   });
 

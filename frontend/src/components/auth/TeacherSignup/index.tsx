@@ -61,7 +61,7 @@ const renderPageComponent = (
 };
 
 const TeacherSignup = (): React.ReactElement => {
-  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+  const { setAuthenticatedUser } = useContext(AuthContext);
   const methods = useForm<TeacherSignupForm>({
     defaultValues,
     mode: "onChange",
@@ -152,7 +152,8 @@ const TeacherSignup = (): React.ReactElement => {
   return (
     <FormProvider {...methods}>
       <TeacherWrapper
-        header="Teacher Sign Up"
+        header={page === 5 ? "Teacher Sign Up Confirmation" : "Teacher Sign Up"}
+        paddingTop={page === 5}
         component={renderPageComponent(page, {
           setPage,
           handleSubmitCallback,
