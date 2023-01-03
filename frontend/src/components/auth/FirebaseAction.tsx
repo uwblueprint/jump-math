@@ -12,7 +12,7 @@ import SignupConfirmation from "./SignupConfirmation";
 const FirebaseAction = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const mode = urlParams.get("mode");
-  const oobCode = urlParams.get("oobCode");
+  const oobCode: string = urlParams.get("oobCode") ?? "";
 
   const [emailVerified, setEmailVerified] = React.useState(false);
   const [passwordResetVerified, setPasswordResetVerified] = React.useState(
@@ -23,7 +23,6 @@ const FirebaseAction = () => {
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
     onCompleted(data) {
-      console.log(data);
       setExecuted(true);
       if (data.verifyEmail !== "") {
         setEmail(data.verifyEmail);
@@ -40,7 +39,6 @@ const FirebaseAction = () => {
     {
       onCompleted(data) {
         setExecuted(true);
-        console.log(data);
         if (data.verifyPasswordReset !== "") {
           setEmail(data.verifyPasswordReset);
           setPasswordResetVerified(true);
@@ -53,17 +51,9 @@ const FirebaseAction = () => {
     },
   );
 
-  const handleVerifyEmail = async () => {
-    await verifyEmail({
-      variables: { oobCode: oobCode ?? "" },
-    });
-  };
-
-  const handleResetPassword = async () => {
-    await verifyPasswordReset({
-      variables: { oobCode: oobCode ?? "" },
-    });
-  };
+  const handleVerifyEmail = async () => verifyEmail({ variables: { oobCode } });
+  const handleResetPassword = async () =>
+    verifyPasswordReset({ variables: { oobCode } });
 
   switch (mode) {
     case "verifyEmail":
