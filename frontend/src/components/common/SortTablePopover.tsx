@@ -44,7 +44,7 @@ const SortTablePopover = ({
           <>
             <PopoverTrigger>
               <Button
-                minWidth="10%"
+                minWidth="5%"
                 leftIcon={<FilterOptionsIcon />}
                 variant="tertiary"
               >

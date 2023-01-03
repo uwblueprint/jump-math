@@ -73,7 +73,7 @@ const App = (): React.ReactElement => {
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.ADMIN_PAGE}
+                    to={Routes.USER_DATABASE}
                   />
                 )}
                 {authenticatedUser?.role === "Teacher" && (
@@ -120,7 +120,7 @@ const App = (): React.ReactElement => {
                 />
                 <PrivateRoute
                   exact
-                  path={Routes.ADMIN_PAGE}
+                  path={Routes.USER_DATABASE}
                   component={AdminPage}
                   roles={["Admin"]}
                 />
@@ -132,7 +132,7 @@ const App = (): React.ReactElement => {
                 />
                 <PrivateRoute
                   exact
-                  path={Routes.CREATE_QUESTION_PAGE}
+                  path={Routes.CREATE_QUESTION}
                   component={CreateQuestionPage}
                   roles={["Admin", "Teacher"]}
                 />

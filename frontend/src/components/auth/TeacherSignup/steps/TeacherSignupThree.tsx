@@ -112,7 +112,7 @@ const TeacherSignupThree = ({
         <ErrorMessage message="Please ensure fields are filled" />
       )}
 
-      <FormControl pt={4} isInvalid={schoolNameError} isRequired>
+      <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
           type="text"
@@ -147,7 +147,7 @@ const TeacherSignupThree = ({
       </Stack>
 
       <Stack direction={["row"]} width="100%" pb={8}>
-        <FormControl pt={4} isInvalid={districtError} isRequired>
+        <FormControl pt={2} isInvalid={districtError} isRequired>
           <FormLabel color="grey.400">District</FormLabel>
           <Input
             type="text"
@@ -156,7 +156,7 @@ const TeacherSignupThree = ({
             onChange={(e) => handleChange(e, "school.district")}
           />
         </FormControl>
-        <FormControl pt={4} isInvalid={addressError} isRequired>
+        <FormControl pt={2} isInvalid={addressError} isRequired>
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
             type="text"

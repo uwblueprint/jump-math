@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Flex,
   Text,
   Box,
   Center,
@@ -20,21 +19,19 @@ import {
 import { useQuery } from "@apollo/client";
 
 import { AdminUser } from "../../types/UserTypes";
-import SideBar from "../common/Sidebar";
+import Navbar from "../common/Navbar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../user-management/AdminUserTable";
 import AddAdminModal from "../user-management/AddAdminModal";
-import {
-  SettingsOutlineIcon,
-  AlertIcon,
-  SearchOutlineIcon,
-} from "../../assets/icons";
+import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
+import * as Routes from "../../constants/Routes";
+
 const pages: Page[] = [
-  { title: "Assessments", url: "/", icon: SettingsOutlineIcon },
-  { title: "Database", url: "/", icon: SettingsOutlineIcon },
+  { title: "Assessments", url: Routes.ASSESSMENTS },
+  { title: "Database", url: Routes.USER_DATABASE },
 ];
 
 const LoadingState = (): React.ReactElement => (
@@ -122,9 +119,9 @@ const AdminPage = (): React.ReactElement => {
   }, [filteredAdmins, sortProperty, sortOrder]);
 
   return (
-    <Flex margin={0}>
-      <SideBar pages={pages} />
-      <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
+    <VStack flex="1" align="left">
+      <Navbar pages={pages} />
+      <Box padding="1.5em 2em 0em 2em">
         <Box>
           <HStack justifyContent="space-between">
             <Text
@@ -139,12 +136,12 @@ const AdminPage = (): React.ReactElement => {
           </HStack>
         </Box>
         {loading && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <LoadingState />
           </Center>
         )}
         {error && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <ErrorState />
           </Center>
         )}
@@ -159,7 +156,7 @@ const AdminPage = (): React.ReactElement => {
                 <TabPanel>
                   <VStack pt={4} spacing={6}>
                     <HStack width="100%">
-                      <InputGroup width="90%">
+                      <InputGroup width="95%">
                         <Input
                           borderRadius="6px"
                           borderColor="grey.100"
@@ -188,8 +185,8 @@ const AdminPage = (): React.ReactElement => {
             </Tabs>
           </Box>
         )}
-      </VStack>
-    </Flex>
+      </Box>
+    </VStack>
   );
 };
 
