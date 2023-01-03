@@ -15,26 +15,28 @@ import { JUMP_MATH_LOGO } from "../../assets/images";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(Routes.LOGIN_PAGE);
+  const navigateToAdminLogin = () => history.push(Routes.ADMIN_LOGIN);
+  const navigateToTeacherLogin = () => history.push(Routes.TEACHER_LOGIN);
 
   return (
     <VStack gap={1.5} mx={2}>
       <Button
-        onClick={navigateTo}
+        onClick={navigateToAdminLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
         Admin
       </Button>
       <Button
-        onClick={navigateTo}
+        onClick={navigateToTeacherLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
         Teacher
       </Button>
+      {/* TODO: change to navigateToStudentPage */}
       <Button
-        onClick={navigateTo}
+        onClick={navigateToTeacherLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
