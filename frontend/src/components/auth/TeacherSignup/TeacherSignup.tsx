@@ -21,6 +21,7 @@ import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
 import { UserResponse } from "../../../APIClients/types/UserClientTypes";
+import TeacherSignupFive from "./steps/TeacherSignupFive";
 
 const defaultValues = {
   firstName: "",
@@ -52,6 +53,8 @@ const renderPageComponent = (
       return <TeacherSignupThree {...teacherSignupProps} />;
     case 4:
       return <TeacherSignupFour {...teacherSignupProps} />;
+    case 5:
+      return <TeacherSignupFive />;
     default:
       return <></>;
   }
@@ -66,6 +69,13 @@ const TeacherSignup = (): React.ReactElement => {
   const [page, setPage] = React.useState(1);
   const [user, setUser] = React.useState<AuthenticatedUser>();
 
+  const onSuccessfulSignup = () => {
+    if (user) {
+      setAuthenticatedUser(user);
+      setPage(5);
+    }
+  };
+
   const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
     REGISTER_TEACHER,
   );
@@ -73,7 +83,7 @@ const TeacherSignup = (): React.ReactElement => {
     addTeacherToSchool: SchoolResponse;
   }>(ADD_TEACHER_TO_SCHOOL, {
     onCompleted() {
-      if (user) setAuthenticatedUser(user);
+      onSuccessfulSignup();
     },
   });
   const [getSchool] = useLazyQuery<{ school: SchoolResponse }>(GET_SCHOOL, {
@@ -100,7 +110,7 @@ const TeacherSignup = (): React.ReactElement => {
     CREATE_SCHOOL,
     {
       onCompleted() {
-        if (user) setAuthenticatedUser(user);
+        onSuccessfulSignup();
       },
     },
   );
@@ -139,8 +149,6 @@ const TeacherSignup = (): React.ReactElement => {
     methods.handleSubmit(onSubmitSuccess)(e);
   };
 
-  if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
-
   return (
     <FormProvider {...methods}>
       <HStack>
@@ -151,15 +159,12 @@ const TeacherSignup = (): React.ReactElement => {
           width="50%"
           height="120vh"
         />
-        <VStack width="50%" padding={6}>
+        <VStack width="50%" height="120vh" padding={6}>
           <Image
             src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
             alt="Jump-Math-Logo"
             py={5}
           />
-          <Text textStyle="header4" textAlign="center" pb={4}>
-            Teacher Sign Up
-          </Text>
           {renderPageComponent(page, {
             setPage,
             handleSubmitCallback,
