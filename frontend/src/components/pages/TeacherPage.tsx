@@ -1,8 +1,8 @@
 import React from "react";
+import ForgotPassword from "../auth/ForgotPassword";
 
 import Logout from "../auth/Logout";
 import RefreshCredentials from "../auth/RefreshCredentials";
-import ResetPassword from "../auth/ResetPassword";
 
 const TeacherPage = (): React.ReactElement => {
   return (
@@ -11,7 +11,7 @@ const TeacherPage = (): React.ReactElement => {
       <div className="btn-group">
         <Logout />
         <RefreshCredentials />
-        <ResetPassword />
+        <ForgotPassword />
       </div>
     </div>
   );

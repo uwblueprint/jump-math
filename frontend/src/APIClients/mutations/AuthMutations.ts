@@ -55,3 +55,23 @@ export const RESET_PASSWORD = gql`
     resetPassword(email: $email)
   }
 `;
+
+export const VERIFY_EMAIL = gql`
+  mutation VerifyEmail($oobCode: String!) {
+    verifyEmail(oobCode: $oobCode)
+  }
+`;
+
+export const VERIFY_PASSWORD_RESET = gql`
+  mutation VerifyPasswordReset($oobCode: String!) {
+    verifyPasswordReset(oobCode: $oobCode) {
+      email
+    }
+  }
+`;
+
+export const CONFIRM_PASSWORD_RESET = gql`
+  mutation VerifyPasswordReset($newPassword: String!, $oobCode: String!) {
+    verifyPasswordReset(newPassword: $newpassword, oobCode: $oobCode)
+  }
+`;

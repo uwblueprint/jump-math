@@ -1,28 +1,25 @@
-import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
-import AuthContext from "../../contexts/AuthContext";
-import { RESET_PASSWORD } from "../../APIClients/mutations/AuthMutations";
+import React from "react";
+import { CONFIRM_PASSWORD_RESET } from "../../APIClients/mutations/AuthMutations";
 
-const ResetPassword = (): React.ReactElement => {
-  const { authenticatedUser } = useContext(AuthContext);
+const ResetPassword = ({
+  oobCode,
+  email,
+}: {
+  oobCode: string;
+  email: string;
+}): React.ReactElement => {
+  const [newPassword, setNewPassword] = React.useState("");
 
-  const [resetPassword] = useMutation<{ resetPassword: boolean }>(
-    RESET_PASSWORD,
+  const [confirmPasswordReset] = useMutation<{ confirmPasswordReset: boolean }>(
+    CONFIRM_PASSWORD_RESET,
   );
 
-  const onResetPasswordClick = async () => {
-    await resetPassword({ variables: { email: authenticatedUser?.email } });
+  const onResetPassword = async () => {
+    await confirmPasswordReset({ variables: { oobCode, newPassword } });
   };
 
-  return (
-    <button
-      type="button"
-      className="btn btn-primary"
-      onClick={onResetPasswordClick}
-    >
-      Reset Password
-    </button>
-  );
+  return <>Reset Password</>;
 };
 
 export default ResetPassword;

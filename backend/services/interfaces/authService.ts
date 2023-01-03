@@ -73,6 +73,28 @@ interface IAuthService {
     accessToken: string,
     requestedEmail: string,
   ): Promise<boolean>;
+
+  /**
+   * Confirm email verification code is valid and apply verification
+   * @param oobCode email action code sent to the user's email for email verification
+   * @returns true if the email verification is successful, false otherwise
+   */
+  verifyEmail(oobCode: string): Promise<boolean>;
+
+  /**
+   * Verify a password reset code is valid
+   * @param oobCode email action code sent to the user's email for resetting the password
+   * @returns the user's email if the password reset code is valid, empty string otherwise
+   */
+  verifyPasswordReset(oobCode: string): Promise<string>;
+
+  /**
+   * Apply a password reset change to the account of the user with the given oobCode
+   * @param newPassword user's new password
+   * @param oobCode email action code sent to the user's email for resetting the password
+   * @returns true if the password reset change is successful, false otherwise
+   */
+  confirmPasswordReset(newPassword: string, oobCode: string): Promise<boolean>;
 }
 
 export default IAuthService;

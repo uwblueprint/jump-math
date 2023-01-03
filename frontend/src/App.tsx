@@ -36,6 +36,9 @@ import Landing from "./components/pages/Landing";
 import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
+import SignupConfirmation from "./components/auth/SignupConfirmation";
+import ResetPassword from "./components/auth/ResetPassword";
+import FirebaseAction from "./components/auth/FirebaseAction";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -85,8 +88,23 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
                 <Route
                   exact
+                  path={Routes.FIREBASE_ACTION}
+                  component={FirebaseAction}
+                />
+                <Route
+                  exact
                   path={Routes.TEACHER_SIGNUP_PAGE}
                   component={TeacherSignup}
+                />
+                <Route
+                  exact
+                  path={Routes.SIGNUP_CONFIRMATION}
+                  component={SignupConfirmation}
+                />
+                <Route
+                  exact
+                  path={Routes.RESET_PASSWORD_PAGE}
+                  component={ResetPassword}
                 />
                 <PrivateRoute
                   exact

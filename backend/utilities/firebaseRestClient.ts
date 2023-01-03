@@ -9,6 +9,10 @@ const FIREBASE_SIGN_IN_URL =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword";
 const FIREBASE_REFRESH_TOKEN_URL =
   "https://securetoken.googleapis.com/v1/token";
+const FIREBASE_CONFIRM_EMAIL_VERIFICATION_URL =
+  "https://identitytoolkit.googleapis.com/v1/accounts:update";
+const FIREBASE_RESET_PASSWORD_URL =
+  "https://identitytoolkit.googleapis.com/v1/accounts:resetPassword";
 
 type PasswordSignInResponse = {
   idToken: string;
@@ -35,6 +39,20 @@ type RequestError = {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     errors: any;
   };
+};
+
+type ConfirmEmailVerificationResponse = {
+  email: string;
+  displayName: string;
+  photoUrl: string;
+  passwordHash: string;
+  providerUserInfo: JSON[];
+  emailVerified: boolean;
+};
+
+type ResetPasswordResponse = {
+  email: string;
+  requestType: string;
 };
 
 const FirebaseRestClient = {
@@ -113,6 +131,119 @@ const FirebaseRestClient = {
       accessToken: (responseJson as RefreshTokenResponse).id_token,
       refreshToken: (responseJson as RefreshTokenResponse).refresh_token,
     };
+  },
+
+  // Docs: https://firebase.google.com/docs/reference/rest/auth/#section-confirm-email-verification
+  confirmEmailVerification: async (
+    oobCode: string,
+  ): Promise<ConfirmEmailVerificationResponse> => {
+    const response: Response = await fetch(
+      `${FIREBASE_CONFIRM_EMAIL_VERIFICATION_URL}?key=${process.env.FIREBASE_WEB_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oobCode,
+        }),
+      },
+    );
+
+    const responseJson:
+      | ConfirmEmailVerificationResponse
+      | RequestError = await response.json();
+
+    if (!response.ok) {
+      const errorMessage = [
+        "Failed to confirm email verification, status =",
+        `${response.status},`,
+        "error message =",
+        (responseJson as RequestError).error.message,
+      ];
+      Logger.error(errorMessage.join(" "));
+
+      throw new Error(
+        "Failed to confirm email verification via Firebase REST API",
+      );
+    }
+    return responseJson as ConfirmEmailVerificationResponse;
+  },
+
+  // Docs: https://firebase.google.com/docs/reference/rest/auth/#section-verify-password-reset-code
+  verifyPasswordResetCode: async (
+    oobCode: string,
+  ): Promise<ResetPasswordResponse> => {
+    const response: Response = await fetch(
+      `${FIREBASE_RESET_PASSWORD_URL}?key=${process.env.FIREBASE_WEB_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oobCode,
+        }),
+      },
+    );
+
+    const responseJson:
+      | ResetPasswordResponse
+      | RequestError = await response.json();
+
+    if (!response.ok) {
+      const errorMessage = [
+        "Failed to verify password reset code, status =",
+        `${response.status},`,
+        "error message =",
+        (responseJson as RequestError).error.message,
+      ];
+      Logger.error(errorMessage.join(" "));
+
+      throw new Error(
+        "Failed to verify password reset code via Firebase REST API",
+      );
+    }
+    return responseJson as ResetPasswordResponse;
+  },
+
+  // Docs: https://firebase.google.com/docs/reference/rest/auth/#section-confirm-reset-password
+  confirmPasswordReset: async (
+    newPassword: string,
+    oobCode: string,
+  ): Promise<ResetPasswordResponse> => {
+    const response: Response = await fetch(
+      `${FIREBASE_RESET_PASSWORD_URL}?key=${process.env.FIREBASE_WEB_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oobCode,
+          newPassword,
+        }),
+      },
+    );
+
+    const responseJson:
+      | ResetPasswordResponse
+      | RequestError = await response.json();
+
+    if (!response.ok) {
+      const errorMessage = [
+        "Failed to apply a password reset change, status =",
+        `${response.status},`,
+        "error message =",
+        (responseJson as RequestError).error.message,
+      ];
+      Logger.error(errorMessage.join(" "));
+
+      throw new Error(
+        "Failed to apply a password reset change via Firebase REST API",
+      );
+    }
+    return responseJson as ResetPasswordResponse;
   },
 };
 
