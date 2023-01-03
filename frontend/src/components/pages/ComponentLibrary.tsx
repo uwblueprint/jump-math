@@ -188,9 +188,9 @@ const pages: Page[] = [
     ],
   },
   { title: "Teacher Page", url: Routes.TEACHER_PAGE },
-  { title: "Admin Page", url: Routes.ADMIN_PAGE },
+  { title: "Admin Page", url: Routes.USER_DATABASE },
   { title: "Library", url: Routes.COMPONENT_LIBRARY },
-  { title: "Assessments", url: "/" },
+  { title: "Assessments", url: Routes.ASSESSMENTS },
 ];
 
 const ADMINUSERS = [

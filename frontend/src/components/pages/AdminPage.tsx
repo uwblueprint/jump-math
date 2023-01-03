@@ -27,9 +27,11 @@ import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 
+import * as Routes from "../../constants/Routes";
+
 const pages: Page[] = [
-  { title: "Assessments", url: "/assessments" },
-  { title: "Database", url: "/admin-dashboard" },
+  { title: "Assessments", url: Routes.ASSESSMENTS },
+  { title: "Database", url: Routes.USER_DATABASE },
 ];
 
 const LoadingState = (): React.ReactElement => (
