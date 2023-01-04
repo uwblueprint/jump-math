@@ -29,9 +29,15 @@ const AuthTemplate = ({
         fit="cover"
         width="50%"
         height="100vh"
+        objectPosition="right"
       />
       <VStack width="50%" height="100vh" padding={6}>
-        <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} py={5} />
+        <Image
+          src={JUMP_MATH_LOGO.src}
+          alt={JUMP_MATH_LOGO.alt}
+          h={28}
+          mb={6}
+        />
         <Text textStyle="header4" textAlign="center" pb={4}>
           {title}
         </Text>
