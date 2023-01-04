@@ -17,10 +17,6 @@ const authType = gql`
     password: String!
   }
 
-  extend type Query {
-    isAuthorizedByEmail(accessToken: String!, requestedEmail: String!): Boolean!
-  }
-
   extend type Mutation {
     login(email: String!, password: String!): AuthDTO!
     register(user: RegisterUserDTO!, role: String!): AuthDTO!
