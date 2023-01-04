@@ -68,7 +68,7 @@ const FirebaseAction = (): React.ReactElement => {
       default:
         setNotFound(true);
     }
-  }, []);
+  }, [mode, oobCode]);
 
   return (
     <>
@@ -83,7 +83,7 @@ const FirebaseAction = (): React.ReactElement => {
           </Text>
         </Center>
       )}
-      {emailVerified && <SignupConfirmation email={email} />}
+      {emailVerified && <SignupConfirmation email={email} oobCode={oobCode} />}
       {passwordResetVerified && (
         <ResetPassword oobCode={oobCode} email={email} />
       )}

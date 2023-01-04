@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import LoadingState from "../../common/LoadingState";
 import TeacherWrapper from "../../common/TeacherWrapper";
-import NotFound from "../../pages/NotFound";
 import PasswordResetSuccess from "./steps/PasswordResetSuccess";
 import SetNewPassword from "./steps/SetNewPassword";
 
@@ -18,26 +17,23 @@ const ResetPassword = ({
     return <LoadingState fullPage />;
   }
 
-  switch (step) {
-    case 1:
-      return (
+  return (
+    <>
+      {step === 1 ? (
         <TeacherWrapper
           header="Set New Password"
           component={
             <SetNewPassword oobCode={oobCode} email={email} setStep={setStep} />
           }
         />
-      );
-    case 2:
-      return (
+      ) : (
         <TeacherWrapper
           header="Password Reset Successful"
           component={<PasswordResetSuccess />}
         />
-      );
-    default:
-      return <NotFound />;
-  }
+      )}
+    </>
+  );
 };
 
 export default ResetPassword;

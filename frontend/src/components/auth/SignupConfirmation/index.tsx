@@ -8,8 +8,10 @@ import TeacherSignupConfirmation from "./TeacherSignupConfirmation";
 
 const SignupConfirmation = ({
   email,
+  oobCode,
 }: {
   email: string;
+  oobCode: string;
 }): React.ReactElement => {
   const [role, setRole] = React.useState<Role | null>(null);
   useQuery(GET_USER_BY_EMAIL, {
@@ -21,7 +23,7 @@ const SignupConfirmation = ({
 
   switch (role) {
     case "Admin":
-      return <AdminSignupConfirmation email={email} />;
+      return <AdminSignupConfirmation email={email} oobCode={oobCode} />;
     case "Teacher":
       return <TeacherSignupConfirmation />;
     default:
