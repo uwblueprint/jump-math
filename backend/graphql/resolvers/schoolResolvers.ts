@@ -13,7 +13,7 @@ const schoolService: ISchoolService = new SchoolService(userService);
 const schoolResolvers = {
   Query: {
     school: async (
-      _req: undefined,
+      _parent: undefined,
       { id }: { id: string },
     ): Promise<SchoolResponseDTO> => {
       return schoolService.getSchoolById(id);
