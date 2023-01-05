@@ -27,11 +27,6 @@ const schoolType = gql`
 
   extend type Mutation {
     createSchool(school: SchoolRequestDTO!): SchoolResponseDTO!
-    addTeacherToSchool(
-      school: SchoolRequestDTO!
-      schoolId: String!
-      teacherId: String!
-    ): SchoolResponseDTO!
   }
 `;
 

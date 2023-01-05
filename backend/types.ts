@@ -19,6 +19,21 @@ export type UpdateUserDTO = Omit<UserDTO, "id">;
 
 export type RegisterUserDTO = Omit<CreateUserDTO, "role">;
 
+export interface SchoolMetadata {
+  name: string;
+  id: string;
+  country: string;
+  city: string;
+  district: string;
+  address: string;
+}
+
+export type RegisterTeacherDTO = RegisterUserDTO & {
+  grades: string[];
+  currentlyTeachingJM: boolean;
+  school: SchoolMetadata;
+};
+
 export type AuthDTO = Token & UserDTO;
 
 export type Letters = "A" | "B" | "C" | "D";

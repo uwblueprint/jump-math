@@ -3,6 +3,7 @@ import {
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
+import { SchoolMetadata } from "../components/auth/TeacherSignup/types";
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
 import { AuthenticatedUser } from "../types/AuthTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
@@ -53,17 +54,28 @@ type RegisterFunction = (
   >
 >;
 
-const register = async (
+const registerTeacher = async (
   firstName: string,
   lastName: string,
   email: string,
   password: string,
+  grades: string[],
+  currentlyTeachingJM: boolean,
+  school: SchoolMetadata,
   registerFunction: RegisterFunction,
 ): Promise<AuthenticatedUser | null> => {
   let user: AuthenticatedUser = null;
   try {
     const result = await registerFunction({
-      variables: { firstName, lastName, email, password },
+      variables: {
+        firstName,
+        lastName,
+        email,
+        password,
+        grades,
+        currentlyTeachingJM,
+        school,
+      },
     });
     user = result.data?.register ?? null;
     if (user) {
@@ -140,4 +152,4 @@ const refresh = async (refreshFunction: RefreshFunction): Promise<boolean> => {
   return success;
 };
 
-export default { login, logout, register, refresh };
+export default { login, logout, registerTeacher, refresh };

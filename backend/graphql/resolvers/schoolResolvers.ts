@@ -30,18 +30,6 @@ const schoolResolvers = {
       const newSchool = await schoolService.createSchool(school);
       return newSchool;
     },
-    addTeacherToSchool: async (
-      _parent: undefined,
-      {
-        school,
-        schoolId,
-        teacherId,
-      }: { school: SchoolRequestDTO; schoolId: string; teacherId: string },
-    ): Promise<SchoolResponseDTO> => {
-      school.teachers.push(teacherId);
-      const updatedSchool = await schoolService.updateSchool(schoolId, school);
-      return updatedSchool;
-    },
   },
 };
 
