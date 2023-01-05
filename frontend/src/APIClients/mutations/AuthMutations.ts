@@ -1,20 +1,25 @@
 import { gql } from "@apollo/client";
 
 export const REGISTER_TEACHER = gql`
-  mutation Signup_Register_Teacher(
+  mutation Register_Teacher(
     $firstName: String!
     $lastName: String!
     $email: String!
     $password: String!
+    $grades: [String!]!
+    $currentlyTeachingJM: Boolean!
+    $school: SchoolMetadataInput!
   ) {
-    register(
+    registerTeacher(
       user: {
         firstName: $firstName
         lastName: $lastName
         email: $email
         password: $password
+        grades: $grades
+        currentlyTeachingJM: $currentlyTeachingJM
+        school: $school
       }
-      role: "Teacher"
     ) {
       id
       firstName
