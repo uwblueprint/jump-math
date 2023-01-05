@@ -2,7 +2,7 @@ import ImageType from "../types/ImageTypes";
 
 export const JUMP_MATH_LOGO: ImageType = {
   src:
-    "https://storage.googleapis.com/jump-math-98edf.appspot.com/jump-math-logo-main.png",
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/jump-math-logo.png",
   alt: "jump-math-logo",
 };
 

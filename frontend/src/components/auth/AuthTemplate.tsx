@@ -27,18 +27,13 @@ const AuthTemplate = ({
         src={image.src}
         alt={image.alt}
         fit="cover"
-        width="50%"
+        width="50vw"
         height="100vh"
         objectPosition="right"
       />
-      <VStack width="50%" height="100vh" padding={6}>
-        <Image
-          src={JUMP_MATH_LOGO.src}
-          alt={JUMP_MATH_LOGO.alt}
-          h={28}
-          mb={6}
-        />
-        <Text textStyle="header4" textAlign="center" pb={4}>
+      <VStack width="50vw" maxHeight="100vh" spacing={6} overflow="scroll">
+        <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={28} />
+        <Text textStyle="header4" textAlign="center">
           {title}
         </Text>
         {form}

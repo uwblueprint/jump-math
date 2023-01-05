@@ -70,6 +70,7 @@ const Login = (): React.ReactElement => {
           placeholder="Enter Email Address"
         />
       </FormControl>
+
       <FormControl isRequired isInvalid={loginError && !password}>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
