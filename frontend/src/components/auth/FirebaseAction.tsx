@@ -31,7 +31,9 @@ const FirebaseAction = (): React.ReactElement => {
         setError(true);
       }
     },
-    onError: setError(true),
+    onError() {
+      setError(true);
+    },
   });
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
@@ -44,7 +46,9 @@ const FirebaseAction = (): React.ReactElement => {
           setError(true);
         }
       },
-      onError: setError(true),
+      onError() {
+        setError(true);
+      },
     },
   );
 
