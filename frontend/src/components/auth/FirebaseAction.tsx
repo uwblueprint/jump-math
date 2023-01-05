@@ -23,7 +23,7 @@ const FirebaseAction = (): React.ReactElement => {
   const [notFound, setNotFound] = useState(false);
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
-    onCompleted(data) {
+    onCompleted(data: { verifyEmail: string }) {
       if (data.verifyEmail !== "") {
         setEmail(data.verifyEmail);
         setEmailVerified(true);
@@ -38,7 +38,7 @@ const FirebaseAction = (): React.ReactElement => {
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
     {
-      onCompleted(data) {
+      onCompleted(data: { verifyPasswordReset: string }) {
         if (data.verifyPasswordReset !== "") {
           setEmail(data.verifyPasswordReset);
           setPasswordResetVerified(true);
