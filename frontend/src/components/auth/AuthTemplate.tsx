@@ -31,7 +31,7 @@ const AuthTemplate = ({
         height="100vh"
         objectPosition="right"
       />
-      <VStack width="50vw" maxHeight="100vh" spacing={6} overflow="scroll">
+      <VStack width="50vw" maxHeight="90vh" spacing={6} overflow="scroll">
         <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={28} />
         <Text textStyle="header4" textAlign="center">
           {title}

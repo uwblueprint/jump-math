@@ -55,7 +55,7 @@ const Login = (): React.ReactElement => {
   const title = isAdmin ? "Admin Login" : "Teacher Login";
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack width="70%" gap={4}>
+    <VStack width="50%" gap={4}>
       <Text textStyle="subtitle2" textAlign="center" pb={4}>
         Enter your login credentials below to continue
       </Text>
