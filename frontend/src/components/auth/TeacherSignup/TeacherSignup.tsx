@@ -94,9 +94,9 @@ const TeacherSignup = (): React.ReactElement => {
   return (
     <FormProvider {...methods}>
       <AuthWrapper
-      title="Teacher Sign Up"
-      image={TEACHER_SIGNUP_IMAGE}
-      form={form}
+        title="Teacher Sign Up"
+        image={TEACHER_SIGNUP_IMAGE}
+        form={form}
       />
     </FormProvider>
   );

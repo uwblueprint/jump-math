@@ -4,6 +4,7 @@ import React from "react";
 const TeacherSignupFive = (): React.ReactElement => {
   return (
     <VStack pt={28}>
+      {/* TODO: remove extra heading in refactor */}
       <Text textStyle="header4" textAlign="center" pb={4}>
         Teacher Sign Up Confirmation
       </Text>
