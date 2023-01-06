@@ -22,7 +22,7 @@ export type UserDTO = {
   lastName: string;
   email: string;
   role: Role;
-  grades?: [string];
+  grades?: Grade[];
   currentlyTeachingJM?: boolean;
 };
 
