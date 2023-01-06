@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../../constants/Routes";
+import { TEACHER_LOGIN } from "../../../../constants/Routes";
 import NavigationButtons from "../NavigationButtons";
 import {
   TeacherSignupForm,
@@ -157,7 +157,7 @@ const TeacherSignupOne = ({
 
       <NavigationButtons
         onContinueClick={onContinueClick}
-        onBackClick={() => history.push(LOGIN_PAGE)}
+        onBackClick={() => history.push(TEACHER_LOGIN)}
         firstPage
       />
     </>

@@ -47,7 +47,7 @@ const AuthWrapper = ({
           <Text textStyle="header4" textAlign="center">
             {title}
           </Text>
-          <Text textStyle="subtitle2" textAlign="center">
+          <Text textStyle="subtitle2" textAlign="center" pb={error ? "0" : "4"}>
             {subtitle}
           </Text>
           {error && <FormError message={error} />}
