@@ -86,13 +86,13 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
                 <Route
                   exact
-                  path={Routes.FIREBASE_ACTION}
-                  component={FirebaseAction}
+                  path={Routes.TEACHER_SIGNUP_PAGE}
+                  component={TeacherSignup}
                 />
                 <Route
                   exact
-                  path={Routes.TEACHER_SIGNUP_PAGE}
-                  component={TeacherSignup}
+                  path={Routes.FIREBASE_ACTION}
+                  component={FirebaseAction}
                 />
                 <Route
                   exact

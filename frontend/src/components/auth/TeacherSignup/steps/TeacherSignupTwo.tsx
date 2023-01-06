@@ -58,6 +58,9 @@ const TeacherSignupTwo = ({
 
   return (
     <VStack>
+      <Text textStyle="header4" textAlign="center" pb={4}>
+        Teacher Sign Up
+      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"

@@ -1,7 +1,6 @@
 import SchoolService from "../../services/implementations/schoolService";
 import {
   ISchoolService,
-  SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../../services/interfaces/schoolService";
 import UserService from "../../services/implementations/userService";
@@ -20,15 +19,6 @@ const schoolResolvers = {
     },
     schools: async (): Promise<SchoolResponseDTO[]> => {
       return schoolService.getAllSchools();
-    },
-  },
-  Mutation: {
-    createSchool: async (
-      _parent: undefined,
-      { school }: { school: SchoolRequestDTO },
-    ): Promise<SchoolResponseDTO> => {
-      const newSchool = await schoolService.createSchool(school);
-      return newSchool;
     },
   },
 };
