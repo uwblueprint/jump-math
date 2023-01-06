@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
-import AuthTemplate from "../AuthTemplate";
+import AuthWrapper from "../AuthWrapper";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
 
 import { AuthenticatedUser } from "../../../types/AuthTypes";
@@ -93,7 +93,7 @@ const TeacherSignup = (): React.ReactElement => {
 
   return (
     <FormProvider {...methods}>
-      <AuthTemplate
+      <AuthWrapper
       title="Teacher Sign Up"
       image={TEACHER_SIGNUP_IMAGE}
       form={form}

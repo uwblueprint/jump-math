@@ -13,7 +13,7 @@ import {
 
 import FormError from "./FormError";
 import RouterLink from "../common/RouterLink";
-import AuthTemplate from "./AuthTemplate";
+import AuthWrapper from "./AuthWrapper";
 import * as Routes from "../../constants/Routes";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
@@ -55,8 +55,12 @@ const Login = (): React.ReactElement => {
   const title = isAdmin ? "Admin Login" : "Teacher Login";
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack width="50%" gap={4}>
-      <Text textStyle="subtitle2" textAlign="center" pb={4}>
+    <VStack width="75%" gap={4}>
+      <Text
+        textStyle="subtitle2"
+        textAlign="center"
+        pb={loginError ? "0" : "4"}
+      >
         Enter your login credentials below to continue
       </Text>
       {loginError && <FormError message="Please ensure fields are filled" />}
@@ -107,7 +111,7 @@ const Login = (): React.ReactElement => {
     </VStack>
   );
 
-  return <AuthTemplate title={title} image={image} form={form} />;
+  return <AuthWrapper title={title} image={image} form={form} />;
 };
 
 export default Login;

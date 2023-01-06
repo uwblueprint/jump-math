@@ -7,17 +7,17 @@ import ImageType from "../../types/ImageTypes";
 import { HOME_PAGE } from "../../constants/Routes";
 import { JUMP_MATH_LOGO } from "../../assets/images";
 
-interface AuthTemplateInputProps {
+interface AuthWrapperInputProps {
   title: string;
   image: ImageType;
   form: React.ReactElement;
 }
 
-const AuthTemplate = ({
+const AuthWrapper = ({
   title,
   image,
   form,
-}: AuthTemplateInputProps): React.ReactElement => {
+}: AuthWrapperInputProps): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
 
@@ -42,4 +42,4 @@ const AuthTemplate = ({
   );
 };
 
-export default AuthTemplate;
+export default AuthWrapper;
