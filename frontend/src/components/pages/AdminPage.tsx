@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Flex,
   Text,
   Box,
   Center,
@@ -20,21 +19,19 @@ import {
 import { useQuery } from "@apollo/client";
 
 import { AdminUser } from "../../types/UserTypes";
-import SideBar from "../common/Sidebar";
+import Navbar from "../common/Navbar";
 import Page from "../../types/PageTypes";
-import AdminUserTable from "../common/AdminUserTable";
-import AddAdminModal from "../common/AddAdminModal";
-import {
-  SettingsOutlineIcon,
-  AlertIcon,
-  SearchOutlineIcon,
-} from "../common/icons";
+import AdminUserTable from "../user-management/AdminUserTable";
+import AddAdminModal from "../user-management/AddAdminModal";
+import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
-import SortTablePopover from "../common/Admin/SortTablePopover";
+import SortTablePopover from "../common/SortTablePopover";
+
+import * as Routes from "../../constants/Routes";
 
 const pages: Page[] = [
-  { title: "Assessments", url: "/", icon: SettingsOutlineIcon },
-  { title: "Database", url: "/", icon: SettingsOutlineIcon },
+  { title: "Assessments", url: Routes.ASSESSMENTS },
+  { title: "Database", url: Routes.USER_DATABASE },
 ];
 
 const LoadingState = (): React.ReactElement => (
@@ -122,44 +119,29 @@ const AdminPage = (): React.ReactElement => {
   }, [filteredAdmins, sortProperty, sortOrder]);
 
   return (
-    <Flex margin={0}>
-      <SideBar pages={pages} />
-      <VStack flex="1" align="left" margin="4.5em 2em 0em 2em">
+    <VStack flex="1" align="left">
+      <Navbar pages={pages} />
+      <Box padding="1.5em 2em 0em 2em">
         <Box>
-          <Text
-            textStyle="header4"
-            color="blue.300"
-            style={{ textAlign: "left" }}
-            marginBottom="0.5em"
-          >
-            Database
-          </Text>
           <HStack justifyContent="space-between">
-            <HStack>
-              <InputGroup maxWidth="280px">
-                <Input
-                  borderRadius="6px"
-                  backgroundColor="grey.100"
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search bar"
-                />
-                <InputRightElement pointerEvents="none" h="full">
-                  <SearchOutlineIcon />
-                </InputRightElement>
-              </InputGroup>
-              <SortTablePopover OrderingSets={OrderingSets} />
-            </HStack>
-
+            <Text
+              textStyle="header4"
+              color="blue.300"
+              style={{ textAlign: "left" }}
+              marginBottom="0.5em"
+            >
+              Database
+            </Text>
             <AddAdminModal />
           </HStack>
         </Box>
         {loading && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <LoadingState />
           </Center>
         )}
         {error && (
-          <Center flex="1">
+          <Center margin="15%" flex="1">
             <ErrorState />
           </Center>
         )}
@@ -173,18 +155,21 @@ const AdminPage = (): React.ReactElement => {
               <TabPanels>
                 <TabPanel>
                   <VStack pt={4} spacing={6}>
-                    <InputGroup>
-                      <Input
-                        borderRadius="6px"
-                        borderColor="grey.100"
-                        backgroundColor="grey.100"
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search bar"
-                      />
-                      <InputRightElement pointerEvents="none" h="full">
-                        <SearchOutlineIcon />
-                      </InputRightElement>
-                    </InputGroup>
+                    <HStack width="100%">
+                      <InputGroup width="95%">
+                        <Input
+                          borderRadius="6px"
+                          borderColor="grey.100"
+                          backgroundColor="grey.100"
+                          onChange={(e) => setSearch(e.target.value)}
+                          placeholder="Search bar"
+                        />
+                        <InputRightElement pointerEvents="none" h="full">
+                          <SearchOutlineIcon />
+                        </InputRightElement>
+                      </InputGroup>
+                      <SortTablePopover OrderingSets={OrderingSets} />
+                    </HStack>
                     {search && (
                       <Text fontSize="16px" color="grey.300" width="100%">
                         Showing {admins.length} results for &quot;{search}&quot;
@@ -200,8 +185,8 @@ const AdminPage = (): React.ReactElement => {
             </Tabs>
           </Box>
         )}
-      </VStack>
-    </Flex>
+      </Box>
+    </VStack>
   );
 };
 

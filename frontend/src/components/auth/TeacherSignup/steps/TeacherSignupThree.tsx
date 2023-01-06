@@ -7,18 +7,21 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import SelectFormInput from "./SelectFormInput";
-import { TeacherInput, TeacherSignupProps } from "./types";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
+import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
 
 const TeacherSignupThree = ({
   setPage,
-  setValue,
-  watch,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const [schoolNameError, setSchoolNameError] = React.useState(false);
   const [countryError, setCountryError] = React.useState(false);
   const [cityError, setCityError] = React.useState(false);
@@ -89,6 +92,9 @@ const TeacherSignupThree = ({
 
   return (
     <VStack>
+      <Text textStyle="header4" textAlign="center" pb={4}>
+        Teacher Sign Up
+      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -112,7 +118,7 @@ const TeacherSignupThree = ({
         <ErrorMessage message="Please ensure fields are filled" />
       )}
 
-      <FormControl pt={4} isInvalid={schoolNameError} isRequired>
+      <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
           type="text"
@@ -147,7 +153,7 @@ const TeacherSignupThree = ({
       </Stack>
 
       <Stack direction={["row"]} width="100%" pb={8}>
-        <FormControl pt={4} isInvalid={districtError} isRequired>
+        <FormControl pt={2} isInvalid={districtError} isRequired>
           <FormLabel color="grey.400">District</FormLabel>
           <Input
             type="text"
@@ -156,7 +162,7 @@ const TeacherSignupThree = ({
             onChange={(e) => handleChange(e, "school.district")}
           />
         </FormControl>
-        <FormControl pt={4} isInvalid={addressError} isRequired>
+        <FormControl pt={2} isInvalid={addressError} isRequired>
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
             type="text"

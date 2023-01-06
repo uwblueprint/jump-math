@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import {
   ButtonGroup,
@@ -10,15 +9,13 @@ import {
 import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
-  BookIcon,
-} from "../common/icons";
-import AdminConfirmationMessage from "../common/Admin/AdminConfirmationMessage";
-import RemoveUserPopover from "../common/Admin/RemoveUserPopover";
+} from "../../assets/icons";
+import AdminConfirmationMessage from "../user-management/AdminConfirmationMessage";
+import RemoveUserPopover from "../user-management/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
-import Sidebar from "../common/Sidebar";
-import AddAdminModal from "../common/AddAdminModal";
-// eslint-disable-next-line import/no-named-as-default
-import AdminUserTable from "../common/AdminUserTable";
+import Navbar from "../common/Navbar";
+import AddAdminModal from "../user-management/AddAdminModal";
+import AdminUserTable from "../user-management/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";
 import Page from "../../types/PageTypes";
@@ -187,12 +184,11 @@ const pages: Page[] = [
       { title: "Also student", url: Routes.STUDENT_PAGE },
       { title: "Another one", url: Routes.STUDENT_PAGE },
     ],
-    icon: BookIcon,
   },
-  { title: "Teacher Page", url: Routes.TEACHER_PAGE, icon: BookIcon },
-  { title: "Admin Page", url: Routes.ADMIN_PAGE, icon: BookIcon },
-  { title: "Library", url: Routes.COMPONENT_LIBRARY, icon: BookIcon },
-  { title: "Assessments", url: "/", icon: BookIcon },
+  { title: "Teacher Page", url: Routes.TEACHER_PAGE },
+  { title: "Admin Page", url: Routes.USER_DATABASE },
+  { title: "Library", url: Routes.COMPONENT_LIBRARY },
+  { title: "Assessments", url: Routes.ASSESSMENTS },
 ];
 
 const ADMINUSERS = [
@@ -222,7 +218,7 @@ const ADMINUSERS = [
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <Sidebar pages={pages} />
+      <Navbar pages={pages} />
       <ButtonExamples />
       <AdminConfirmationMessage />
       <RemoveUserPopover name="Sam Hutchinson" email="c234tang@uwaterloo.ca" />

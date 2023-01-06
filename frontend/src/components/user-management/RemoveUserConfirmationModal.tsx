@@ -1,12 +1,12 @@
 import { Button, Divider, ModalFooter } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { ADMIN_PAGE } from "../../../constants/Routes";
-import ModalText from "./ModalText";
+import { USER_DATABASE } from "../../constants/Routes";
+import ModalText from "../common/ModalText";
 
 const RemoveUserConfirmationModal = (): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(ADMIN_PAGE);
+  const navigateTo = () => history.push(USER_DATABASE);
 
   return (
     <>

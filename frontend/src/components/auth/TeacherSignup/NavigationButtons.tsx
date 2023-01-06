@@ -1,9 +1,11 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
-import { ArrowBackOutlineIcon } from "../../common/icons";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
 
 interface NavigationButtonsProps {
-  onContinueClick: () => void;
+  onContinueClick:
+    | (() => void)
+    | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   onBackClick: () => void;
   firstPage?: boolean;
 }

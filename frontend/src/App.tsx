@@ -9,7 +9,6 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
@@ -34,7 +33,7 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import CreateQuestionPage from "./components/common/QuestionCreation/CreateQuestionPage";
+import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
 
 const App = (): React.ReactElement => {
@@ -70,7 +69,7 @@ const App = (): React.ReactElement => {
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.ADMIN_PAGE}
+                    to={Routes.USER_DATABASE}
                   />
                 )}
                 {authenticatedUser?.role === "Teacher" && (
@@ -82,7 +81,6 @@ const App = (): React.ReactElement => {
                 )}
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.LOGIN_PAGE} component={Login} />
-                <Route exact path={Routes.SIGNUP_PAGE} component={Signup} />
                 <Route
                   exact
                   path={Routes.TEACHER_SIGNUP_PAGE}
@@ -102,7 +100,7 @@ const App = (): React.ReactElement => {
                 />
                 <PrivateRoute
                   exact
-                  path={Routes.ADMIN_PAGE}
+                  path={Routes.USER_DATABASE}
                   component={AdminPage}
                   roles={["Admin"]}
                 />
@@ -114,7 +112,7 @@ const App = (): React.ReactElement => {
                 />
                 <PrivateRoute
                   exact
-                  path={Routes.CREATE_QUESTION_PAGE}
+                  path={Routes.CREATE_QUESTION}
                   component={CreateQuestionPage}
                   roles={["Admin", "Teacher"]}
                 />

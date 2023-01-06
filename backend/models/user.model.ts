@@ -9,7 +9,7 @@ export interface User extends Document {
   authId: string;
   role: Role;
   email: string;
-  gradesTeaching?: Grade[];
+  grades?: Grade[];
   currentlyTeachingJM?: boolean;
 }
 
@@ -35,7 +35,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  gradesTeaching: {
+  grades: {
     type: [
       {
         type: String,

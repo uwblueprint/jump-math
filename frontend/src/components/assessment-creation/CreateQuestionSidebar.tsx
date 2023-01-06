@@ -25,7 +25,7 @@ import {
   QuestionIcon,
   ShortAnswerIcon,
   TextIcon,
-} from "../icons";
+} from "../../assets/icons";
 
 interface CreateQuestionSidebarProps {
   pageToNavigate: string;

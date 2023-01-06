@@ -22,7 +22,7 @@ export type UserDTO = {
   lastName: string;
   email: string;
   role: Role;
-  gradesTeaching?: Grade[];
+  grades?: [string];
   currentlyTeachingJM?: boolean;
 };
 
@@ -31,6 +31,19 @@ export type CreateUserDTO = Omit<UserDTO, "id"> & { password: string };
 export type UpdateUserDTO = Omit<UserDTO, "id">;
 
 export type RegisterUserDTO = Omit<CreateUserDTO, "role">;
+
+export interface SchoolMetadata {
+  name: string;
+  id: string;
+  country: string;
+  city: string;
+  district: string;
+  address: string;
+}
+
+export type RegisterTeacherDTO = RegisterUserDTO & {
+  school: SchoolMetadata;
+};
 
 export type AuthDTO = Token & UserDTO;
 

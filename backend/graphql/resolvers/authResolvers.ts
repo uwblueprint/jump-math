@@ -3,15 +3,18 @@ import { CookieOptions, Request, Response } from "express";
 import nodemailerConfig from "../../nodemailer.config";
 import AuthService from "../../services/implementations/authService";
 import EmailService from "../../services/implementations/emailService";
+import SchoolService from "../../services/implementations/schoolService";
 import UserService from "../../services/implementations/userService";
 import IAuthService from "../../services/interfaces/authService";
 import IEmailService from "../../services/interfaces/emailService";
+import { ISchoolService } from "../../services/interfaces/schoolService";
 import IUserService from "../../services/interfaces/userService";
-import { AuthDTO, RegisterUserDTO } from "../../types";
+import { AuthDTO, RegisterTeacherDTO } from "../../types";
 
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);
 const authService: IAuthService = new AuthService(userService, emailService);
+const schoolService: ISchoolService = new SchoolService(userService);
 
 const cookieOptions: CookieOptions = {
   httpOnly: true,
@@ -31,12 +34,38 @@ const authResolvers = {
       res.cookie("refreshToken", refreshToken, cookieOptions);
       return rest;
     },
-    register: async (
+    registerTeacher: async (
       _parent: undefined,
-      { user }: { user: RegisterUserDTO },
+      { user }: { user: RegisterTeacherDTO },
       { res }: { res: Response },
     ): Promise<Omit<AuthDTO, "refreshToken">> => {
-      await userService.createUser({ ...user, role: "Teacher" });
+      const createdUser = await userService.createUser({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: "Teacher",
+        password: user.password,
+      });
+
+      if (user.school.id) {
+        const school = await schoolService.getSchoolById(user.school.id);
+        const teacherIds = school.teachers.map((teacher) => teacher.id);
+        teacherIds.push(createdUser.id);
+        await schoolService.updateSchool(school.id, {
+          ...school,
+          teachers: teacherIds,
+        });
+      } else {
+        await schoolService.createSchool({
+          name: user.school.name,
+          country: user.school.country,
+          subRegion: user.school.district,
+          city: user.school.city,
+          address: user.school.address,
+          teachers: [createdUser.id],
+        });
+      }
+
       const authDTO = await authService.generateToken(
         user.email,
         user.password,

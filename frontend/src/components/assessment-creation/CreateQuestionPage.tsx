@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import CreateQuestionSidebar from "./CreateQuestionSidebar";
-import { HOME_PAGE } from "../../../constants/Routes";
+import { HOME_PAGE } from "../../constants/Routes";
 
 const CreateQuestionPage = (): React.ReactElement => {
   return (

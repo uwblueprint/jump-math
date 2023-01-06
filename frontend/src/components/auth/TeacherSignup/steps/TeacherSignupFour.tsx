@@ -8,13 +8,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
-} from "../../common/icons";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
-import { TeacherSignupProps } from "./types";
+} from "../../../../assets/icons";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
+import { TeacherSignupForm, TeacherSignupProps } from "../types";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;
@@ -43,9 +44,9 @@ const PasswordRequirement = ({
 
 const TeacherSignupFour = ({
   setPage,
-  handleSubmit,
-  setValue,
+  handleSubmitCallback,
 }: TeacherSignupProps): React.ReactElement => {
+  const { setValue } = useFormContext<TeacherSignupForm>();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [match, setMatch] = useState(true);
@@ -63,7 +64,7 @@ const TeacherSignupFour = ({
   };
 
   // TODO: handle submission of data to the backend
-  const onSubmit = () => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     setDisplayMatchError(false);
     setDisplayRequirementError(false);
 
@@ -81,7 +82,7 @@ const TeacherSignupFour = ({
       setDisplayRequirementError(true);
       return;
     }
-    handleSubmit((data) => console.log(data));
+    handleSubmitCallback(e);
   };
 
   useEffect(() => {
@@ -95,6 +96,9 @@ const TeacherSignupFour = ({
 
   return (
     <VStack>
+      <Text textStyle="header4" textAlign="center" pb={4}>
+        Teacher Sign Up
+      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -152,7 +156,9 @@ const TeacherSignupFour = ({
 
       {/* TODO: Back button can either go to page 2 or 3 depending on whether school exists or not */}
       <NavigationButtons
-        onContinueClick={onSubmit}
+        onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          onSubmit(e)
+        }
         onBackClick={() => setPage(3)}
       />
     </VStack>

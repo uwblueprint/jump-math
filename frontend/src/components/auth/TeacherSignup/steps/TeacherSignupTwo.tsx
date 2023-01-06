@@ -1,19 +1,22 @@
 import { useQuery } from "@apollo/client";
 import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
-import GET_SCHOOLS from "../../../APIClients/queries/SchoolQueries";
-import { SchoolResponse } from "../../../APIClients/types/SchoolClientTypes";
-import SelectFormInput from "./SelectFormInput";
-import { TeacherSignupProps } from "./types";
-import ErrorMessage from "./ErrorMessage";
-import NavigationButtons from "./NavigationButtons";
+import { useFormContext } from "react-hook-form";
+import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
+import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
+import SelectFormInput from "../SelectFormInput";
+import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import ErrorMessage from "../ErrorMessage";
+import NavigationButtons from "../NavigationButtons";
 
 const TeacherSignupTwo = ({
   setPage,
-  watch,
-  setValue,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
   const [
     isCurrentlyTeachingJMError,
@@ -55,6 +58,9 @@ const TeacherSignupTwo = ({
 
   return (
     <VStack>
+      <Text textStyle="header4" textAlign="center" pb={4}>
+        Teacher Sign Up
+      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -65,7 +71,7 @@ const TeacherSignupTwo = ({
       {(isCurrentlyTeachingJMError || isSchoolError) && (
         <ErrorMessage message="Please ensure fields are filled" />
       )}
-      <FormControl pt={4} isInvalid={isCurrentlyTeachingJMError} isRequired>
+      <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>

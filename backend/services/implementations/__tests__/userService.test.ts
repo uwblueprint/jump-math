@@ -12,7 +12,7 @@ const testUsers = [
     authId: "123",
     role: "Admin",
     email: "peter@gmail.com",
-    gradesTeaching: ["K", "Grade 1", "Grade 2", "Grade 3"],
+    grades: ["K", "Grade 1", "Grade 2", "Grade 3"],
     currentlyTeachingJM: true,
   },
   {
@@ -59,12 +59,10 @@ describe("mongo userService", (): void => {
       expect(user.firstName).toEqual(testUsers[i].firstName);
       expect(user.lastName).toEqual(testUsers[i].lastName);
       expect(user.role).toEqual(testUsers[i].role);
-      if (user.gradesTeaching) {
-        expect(Array.from(user.gradesTeaching)).toEqual(
-          testUsers[i].gradesTeaching,
-        );
+      if (user.grades) {
+        expect(Array.from(user.grades)).toEqual(testUsers[i].grades);
       } else {
-        expect(user.gradesTeaching).toEqual(testUsers[i].gradesTeaching);
+        expect(user.grades).toEqual(testUsers[i].grades);
       }
       expect(user.currentlyTeachingJM).toEqual(
         testUsers[i].currentlyTeachingJM,

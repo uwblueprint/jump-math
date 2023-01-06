@@ -5,7 +5,16 @@ This repository is a digital math assessment tool made to be used by the [JUMP M
 Made with React, GraphQL & Node.js.
 
 ## Getting Started 🎬
-1. Install Docker Desktop ([MacOS](https://docs.docker.com/docker-for-mac/install/) | [Windows (Home)](https://docs.docker.com/docker-for-windows/install-windows-home/) | [Windows (Pro, Enterprise, Education)](https://docs.docker.com/docker-for-windows/install/) | [Linux](https://docs.docker.com/engine/install/#server)). Ensure that it is running.
+1. Install Docker Desktop ([MacOS](https://docs.docker.com/docker-for-mac/install/) | [Windows (Home)](https://docs.docker.com/docker-for-windows/install-windows-home/) | [Windows (Pro, Enterprise, Education)](https://docs.docker.com/docker-for-windows/install/) | [Linux](https://docs.docker.com/engine/install/#server)). To test that it is running properly, check that these commands give you error-free output.
+```
+docker info
+docker-compose --version
+```
+2. Clone this repository and cd into the project folder
+```
+git clone https://github.com/uwblueprint/jump-math.git
+cd jump-math
+```
 2. Pull secrets from Vault: `vault kv get -format=json kv/jump-math | python update_secret_files.py`
 3. Run the application: `docker-compose up --build`
 
@@ -19,9 +28,8 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
 
 ## Workflow Management 🛠
 - **Branching**: To begin any feature work or bug fixes, branch off of `staging`. Prefix your branch name with the contributor name and name your branch in a way that is relevant and meaningful. For example, `joyce/readme-update`. 
-- **Commits**: When working on your branch, commit early and often. Make your commit messages descriptive and meaningful. 
-- **Pull Requests**: Upon completing and testing your changes locally, open a PR. At least one reviewer must approve your PR for you to merge your branch into `staging`. 
-- **Main**: After your PR has been approved and you have merged your change into `staging`, please test your changes accordingly. If all works as expected, please open a PR to merge into `main`. Do not merge directly to `main`.
+- **Commits**: When working on your branch, commit early and often. Make your commit messages descriptive and meaningful. By default, the linter will run - you must fix all linting errors before merging.
+- **Pull Requests**: While working on a ticket, open a draft PR. Upon completing and testing your changes locally, click `Ready for Review` to publish your PR for review. Please tag @carissa-tang, @joyce-shi and any other team members who are working on related tickets as reviewers. **Anyone else is also welcome to leave PR reviews!** At least one reviewer must approve your PR for you to merge your branch into `staging`.
 
 ## Helpful Commands ⛑
 
@@ -33,14 +41,10 @@ The backend runs at http://localhost:5000 and the frontend runs at http://localh
     # running backend tests
     $ docker exec -it ts-backend "yarn test"
 
-**Linting Locally**: 
+**Linting Manually**: 
 
     # linting & formatting warnings only
     $ docker exec -it jump_math_ts_backend /bin/bash -c "yarn lint"
 
     # linting with fix & formatting
     $ docker exec -it jump_math_ts_backend /bin/bash -c "yarn fix"
-
-**Updating Vault Secrets**:
-
-    vault kv get -format=json kv/jump-math | python update_secret_files.py

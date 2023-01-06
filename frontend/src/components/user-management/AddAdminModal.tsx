@@ -23,11 +23,14 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import AdminConfirmationMessage from "./Admin/AdminConfirmationMessage";
-import ModalFooterButtons from "./ModalFooterButtons";
-import { PlusOutlineIcon } from "./icons";
-import { ADMIN_PAGE } from "../../constants/Routes";
-import { UserRequest } from "../../APIClients/types/UserClientTypes";
+import AdminConfirmationMessage from "./AdminConfirmationMessage";
+import ModalFooterButtons from "../common/ModalFooterButtons";
+import { PlusOutlineIcon } from "../../assets/icons";
+import { USER_DATABASE } from "../../constants/Routes";
+import {
+  UserRequest,
+  UserResponse,
+} from "../../APIClients/types/UserClientTypes";
 import { ADD_USER } from "../../APIClients/mutations/UserMutations";
 import GET_USERS_BY_ROLE from "../../APIClients/queries/UserQueries";
 
@@ -46,7 +49,7 @@ const AddAdminModal = (): React.ReactElement => {
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
-  const [addAdmin] = useMutation<{ addAdmin: null }>(ADD_USER, {
+  const [addAdmin] = useMutation<{ addAdmin: UserResponse }>(ADD_USER, {
     refetchQueries: [
       { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
     ],
@@ -135,7 +138,7 @@ const AddAdminModal = (): React.ReactElement => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() => history.push(ADMIN_PAGE)}
+                  onClick={() => history.push(USER_DATABASE)}
                   mt={10}
                   variant="primary"
                 >

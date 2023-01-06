@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { AdminUser } from "../../types/UserTypes";
-import RemoveUserPopover from "./Admin/RemoveUserPopover";
+import RemoveUserPopover from "./RemoveUserPopover";
 
 interface AdminUserTableProps {
   adminUsers: AdminUser[];

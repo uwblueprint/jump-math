@@ -1,15 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { HOME_PAGE } from "../../../constants/Routes";
+import { Image, HStack, VStack } from "@chakra-ui/react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
-import TeacherSignupOne from "./TeacherSignUpOne";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
-import TeacherSignupFour from "./TeacherSignupFour";
-import TeacherSignupThree from "./TeacherSignupThree";
-import TeacherSignupTwo from "./TeacherSignupTwo";
+import { AuthenticatedUser } from "../../../types/AuthTypes";
+import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
+import authAPIClient from "../../../APIClients/AuthAPIClient";
+import TeacherSignupOne from "./steps/TeacherSignUpOne";
+import TeacherSignupTwo from "./steps/TeacherSignupTwo";
+import TeacherSignupThree from "./steps/TeacherSignupThree";
+import TeacherSignupFour from "./steps/TeacherSignupFour";
+import TeacherSignupFive from "./steps/TeacherSignupFive";
 
 const defaultValues = {
   firstName: "",
@@ -41,51 +44,68 @@ const renderPageComponent = (
       return <TeacherSignupThree {...teacherSignupProps} />;
     case 4:
       return <TeacherSignupFour {...teacherSignupProps} />;
+    case 5:
+      return <TeacherSignupFive />;
     default:
       return <></>;
   }
 };
-const TeacherSignup = (): React.ReactElement => {
-  const { authenticatedUser } = useContext(AuthContext);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<TeacherSignupForm>({ defaultValues, mode: "onChange" });
-  const [page, setPage] = React.useState(1);
 
-  if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
+const TeacherSignup = (): React.ReactElement => {
+  const { setAuthenticatedUser } = useContext(AuthContext);
+  const methods = useForm<TeacherSignupForm>({
+    defaultValues,
+    mode: "onChange",
+  });
+  const [page, setPage] = React.useState(1);
+  const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
+    REGISTER_TEACHER,
+    {
+      onCompleted(data: { register: AuthenticatedUser }) {
+        setAuthenticatedUser(data.register);
+        setPage(5);
+      },
+    },
+  );
+
+  const handleSubmitCallback = (e: React.MouseEvent<HTMLButtonElement>) => {
+    methods.handleSubmit(async (data: TeacherSignupForm) => {
+      await authAPIClient.registerTeacher(
+        data.firstName,
+        data.lastName,
+        data.email,
+        data.password,
+        data.grades,
+        data.currentlyTeachingJM ?? false,
+        data.school,
+        registerTeacher,
+      );
+    })(e);
+  };
 
   return (
-    <HStack>
-      <Image
-        src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
-        alt="Teacher-Signup"
-        fit="cover"
-        width="50%"
-        height="100vh"
-      />
-      <VStack width="50%" height="100vh" padding={6}>
+    <FormProvider {...methods}>
+      <HStack>
         <Image
-          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
-          alt="Jump-Math-Logo"
-          py={5}
+          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
+          alt="Teacher-Signup"
+          fit="cover"
+          width="50%"
+          height="120vh"
         />
-        <Text textStyle="header4" textAlign="center" pb={4}>
-          Teacher Sign Up
-        </Text>
-        {renderPageComponent(page, {
-          setPage,
-          register,
-          handleSubmit,
-          watch,
-          setValue,
-          errors,
-        })}
-      </VStack>
-    </HStack>
+        <VStack width="50%" height="120vh" padding={6}>
+          <Image
+            src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
+            alt="Jump-Math-Logo"
+            py={5}
+          />
+          {renderPageComponent(page, {
+            setPage,
+            handleSubmitCallback,
+          })}
+        </VStack>
+      </HStack>
+    </FormProvider>
   );
 };
 

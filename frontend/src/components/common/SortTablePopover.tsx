@@ -15,7 +15,7 @@ import {
   Box,
   Spacer,
 } from "@chakra-ui/react";
-import { FilterOptionsIcon } from "../icons";
+import { FilterOptionsIcon } from "../../assets/icons";
 
 type AdminUserProperty = "firstName" | "email";
 type SortOrder = "Ascending" | "Descending";
@@ -44,11 +44,9 @@ const SortTablePopover = ({
           <>
             <PopoverTrigger>
               <Button
-                size="sm"
-                pl="10%"
-                ml="0"
-                rightIcon={<FilterOptionsIcon />}
-                bg="#blue.300"
+                minWidth="5%"
+                leftIcon={<FilterOptionsIcon />}
+                variant="tertiary"
               >
                 Sort
               </Button>
@@ -58,6 +56,7 @@ const SortTablePopover = ({
                 <Box w="1200px">
                   <Stack direction="row" spacing={30} sx={{ pt: "2", pl: "5" }}>
                     <RadioGroup
+                      color="blue.300"
                       onChange={(e) => {
                         if (e === "firstName" || e === "email") {
                           setSortProperty(e);
@@ -66,12 +65,7 @@ const SortTablePopover = ({
                       value={sortProperty}
                     >
                       <Stack>
-                        <Text
-                          color="blue.800"
-                          as="b"
-                          pb="2"
-                          textStyle="subtitle3"
-                        >
+                        <Text pb="2" textStyle="link">
                           Property
                         </Text>
                         <Radio defaultChecked value="firstName">
@@ -84,6 +78,7 @@ const SortTablePopover = ({
                       <Divider orientation="vertical" />
                     </Center>
                     <RadioGroup
+                      color="blue.300"
                       onChange={(e) => {
                         if (e === "Ascending" || e === "Descending") {
                           setSortOrder(e);
@@ -92,19 +87,10 @@ const SortTablePopover = ({
                       value={sortOrder}
                     >
                       <Stack>
-                        <Text
-                          color="blue.800"
-                          as="b"
-                          pb="2"
-                          textStyle="subtitle3"
-                        >
+                        <Text pb="2" textStyle="link">
                           Order
                         </Text>
-                        <Radio
-                          color="blue.800"
-                          defaultChecked
-                          value="Ascending"
-                        >
+                        <Radio defaultChecked value="Ascending">
                           Ascending
                         </Radio>
                         <Radio value="Descending">Descending</Radio>
@@ -123,13 +109,7 @@ const SortTablePopover = ({
                 pr={8}
               >
                 <Spacer />
-                <Button
-                  onClick={onClose}
-                  color="blue.800"
-                  size="lg"
-                  bg="#DFDFDF"
-                  colorScheme="blue"
-                >
+                <Button minWidth="10%" onClick={onClose} variant="secondary">
                   Apply
                 </Button>
               </PopoverFooter>
