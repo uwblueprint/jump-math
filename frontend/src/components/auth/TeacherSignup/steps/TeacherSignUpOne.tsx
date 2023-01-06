@@ -14,7 +14,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../../constants/Routes";
-import ErrorMessage from "../ErrorMessage";
+import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
 
@@ -96,9 +96,6 @@ const TeacherSignupOne = ({
 
   return (
     <VStack>
-      <Text textStyle="header4" textAlign="center" pb={4}>
-        Teacher Sign Up
-      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -109,7 +106,7 @@ const TeacherSignupOne = ({
         Enter your credentials below to get access to your classes
       </Text>
       {(firstNameError || lastNameError || emailError || gradesError) && (
-        <ErrorMessage message="Please ensure fields are filled" />
+        <FormError message="Please ensure fields are filled" />
       )}
 
       <Stack direction={["row"]} width="100%" alignItems="flex-end">

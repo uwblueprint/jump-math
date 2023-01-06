@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
-import { Image, HStack, VStack } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
+import AuthWrapper from "../AuthWrapper";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
+
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
+import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
+
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
@@ -83,28 +86,18 @@ const TeacherSignup = (): React.ReactElement => {
     })(e);
   };
 
+  const form = renderPageComponent(page, {
+    setPage,
+    handleSubmitCallback,
+  });
+
   return (
     <FormProvider {...methods}>
-      <HStack>
-        <Image
-          src="https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png"
-          alt="Teacher-Signup"
-          fit="cover"
-          width="50%"
-          height="120vh"
-        />
-        <VStack width="50%" height="120vh" padding={6}>
-          <Image
-            src="https://storage.googleapis.com/jump-math-98edf.appspot.com/jump_math_logo_short_ver.png"
-            alt="Jump-Math-Logo"
-            py={5}
-          />
-          {renderPageComponent(page, {
-            setPage,
-            handleSubmitCallback,
-          })}
-        </VStack>
-      </HStack>
+      <AuthWrapper
+        title="Teacher Sign Up"
+        image={TEACHER_SIGNUP_IMAGE}
+        form={form}
+      />
     </FormProvider>
   );
 };

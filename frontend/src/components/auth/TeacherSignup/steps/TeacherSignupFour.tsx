@@ -13,7 +13,7 @@ import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../../../assets/icons";
-import ErrorMessage from "../ErrorMessage";
+import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
 
@@ -96,9 +96,6 @@ const TeacherSignupFour = ({
 
   return (
     <VStack>
-      <Text textStyle="header4" textAlign="center" pb={4}>
-        Teacher Sign Up
-      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -107,10 +104,10 @@ const TeacherSignupFour = ({
         Please set a secure password for your account
       </Text>
       {displayMatchError && (
-        <ErrorMessage message="Please ensure passwords match" />
+        <FormError message="Please ensure passwords match" />
       )}
       {displayRequirementError && (
-        <ErrorMessage message="Password does not meet all of the requirements" />
+        <FormError message="Password does not meet all of the requirements" />
       )}
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>

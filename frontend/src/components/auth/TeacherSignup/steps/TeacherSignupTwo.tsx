@@ -6,7 +6,7 @@ import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "../SelectFormInput";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
-import ErrorMessage from "../ErrorMessage";
+import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 
 const TeacherSignupTwo = ({
@@ -58,9 +58,6 @@ const TeacherSignupTwo = ({
 
   return (
     <VStack>
-      <Text textStyle="header4" textAlign="center" pb={4}>
-        Teacher Sign Up
-      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
@@ -69,7 +66,7 @@ const TeacherSignupTwo = ({
         Enter your credentials below to get access to your classes
       </Text>
       {(isCurrentlyTeachingJMError || isSchoolError) && (
-        <ErrorMessage message="Please ensure fields are filled" />
+        <FormError message="Please ensure fields are filled" />
       )}
       <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">

@@ -80,10 +80,11 @@ const App = (): React.ReactElement => {
                   />
                 )}
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
-                <Route exact path={Routes.LOGIN_PAGE} component={Login} />
+                <Route exact path={Routes.ADMIN_LOGIN} component={Login} />
+                <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
                 <Route
                   exact
-                  path={Routes.TEACHER_SIGNUP_PAGE}
+                  path={Routes.TEACHER_SIGNUP}
                   component={TeacherSignup}
                 />
                 <PrivateRoute
