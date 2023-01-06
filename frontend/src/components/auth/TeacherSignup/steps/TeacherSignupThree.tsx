@@ -1,11 +1,4 @@
-import {
-  VStack,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-} from "@chakra-ui/react";
+import { VStack, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
@@ -13,6 +6,8 @@ import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import SelectFormInput from "../SelectFormInput";
 import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupThree = ({
   setPage,
@@ -90,23 +85,11 @@ const TeacherSignupThree = ({
     if (validateFields()) setPage(4);
   };
 
-  return (
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
     <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={
-          schoolNameError ||
-          countryError ||
-          cityError ||
-          districtError ||
-          addressError
-            ? 0
-            : 14
-        }
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
       {(schoolNameError ||
         countryError ||
         cityError ||
@@ -114,7 +97,6 @@ const TeacherSignupThree = ({
         addressError) && (
         <FormError message="Please ensure fields are filled" />
       )}
-
       <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
@@ -175,6 +157,10 @@ const TeacherSignupThree = ({
         onBackClick={() => setPage(2)}
       />
     </VStack>
+  );
+
+  return (
+    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
   );
 };
 

@@ -16,6 +16,8 @@ import {
 import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;
@@ -94,15 +96,11 @@ const TeacherSignupFour = ({
     setHasNum(/[0-9]/.test(password));
   }, [password, confirmPassword]);
 
-  return (
+  const title = "Teacher Sign Up";
+  const subtitle = "Please set a secure password for your account";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
     <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={displayMatchError || displayRequirementError ? 0 : 14}
-      >
-        Please set a secure password for your account
-      </Text>
       {displayMatchError && (
         <FormError message="Please ensure passwords match" />
       )}
@@ -159,6 +157,10 @@ const TeacherSignupFour = ({
         onBackClick={() => setPage(3)}
       />
     </VStack>
+  );
+
+  return (
+    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
   );
 };
 

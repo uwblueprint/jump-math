@@ -3,13 +3,11 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
-import AuthWrapper from "../AuthWrapper";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
 
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
-import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
 
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
@@ -40,7 +38,7 @@ const renderPageComponent = (
 ) => {
   switch (page) {
     case 1:
-      return <TeacherSignupOne {...teacherSignupProps} />;
+      return <TeacherSignupFive />;
     case 2:
       return <TeacherSignupTwo {...teacherSignupProps} />;
     case 3:
@@ -48,7 +46,7 @@ const renderPageComponent = (
     case 4:
       return <TeacherSignupFour {...teacherSignupProps} />;
     case 5:
-      return <TeacherSignupFive />;
+      return <TeacherSignupOne {...teacherSignupProps} />;
     default:
       return <></>;
   }
@@ -86,18 +84,12 @@ const TeacherSignup = (): React.ReactElement => {
     })(e);
   };
 
-  const form = renderPageComponent(page, {
-    setPage,
-    handleSubmitCallback,
-  });
-
   return (
     <FormProvider {...methods}>
-      <AuthWrapper
-        title="Teacher Sign Up"
-        image={TEACHER_SIGNUP_IMAGE}
-        form={form}
-      />
+      {renderPageComponent(page, {
+        setPage,
+        handleSubmitCallback,
+      })}
     </FormProvider>
   );
 };

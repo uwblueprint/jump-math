@@ -1,6 +1,5 @@
 import {
   VStack,
-  Text,
   Stack,
   FormControl,
   FormLabel,
@@ -17,6 +16,8 @@ import { LOGIN_PAGE } from "../../../../constants/Routes";
 import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupOne = ({
   setPage,
@@ -94,17 +95,11 @@ const TeacherSignupOne = ({
     if (validateFields()) setPage(2);
   };
 
-  return (
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
     <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={
-          firstNameError || lastNameError || emailError || gradesError ? 0 : 14
-        }
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
       {(firstNameError || lastNameError || emailError || gradesError) && (
         <FormError message="Please ensure fields are filled" />
       )}
@@ -168,6 +163,10 @@ const TeacherSignupOne = ({
         firstPage
       />
     </VStack>
+  );
+
+  return (
+    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
   );
 };
 

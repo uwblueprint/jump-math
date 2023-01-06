@@ -9,12 +9,14 @@ import { JUMP_MATH_LOGO } from "../../assets/images";
 
 interface AuthWrapperInputProps {
   title: string;
+  subtitle: string;
   image: ImageType;
-  form: React.ReactElement;
+  form?: React.ReactElement;
 }
 
 const AuthWrapper = ({
   title,
+  subtitle,
   image,
   form,
 }: AuthWrapperInputProps): React.ReactElement => {
@@ -35,6 +37,9 @@ const AuthWrapper = ({
         <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={28} />
         <Text textStyle="header4" textAlign="center">
           {title}
+        </Text>
+        <Text textStyle="subtitle2" textAlign="center">
+          {subtitle}
         </Text>
         {form}
       </VStack>

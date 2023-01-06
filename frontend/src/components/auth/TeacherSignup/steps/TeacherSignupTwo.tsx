@@ -8,6 +8,8 @@ import SelectFormInput from "../SelectFormInput";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
 import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupTwo = ({
   setPage,
@@ -56,15 +58,11 @@ const TeacherSignupTwo = ({
     if (validateCurrentlyTeachingJM() && validSchool) setPage(4);
   };
 
-  return (
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
     <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={isCurrentlyTeachingJMError || isSchoolError ? 0 : 14}
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
       {(isCurrentlyTeachingJMError || isSchoolError) && (
         <FormError message="Please ensure fields are filled" />
       )}
@@ -125,6 +123,10 @@ const TeacherSignupTwo = ({
         onBackClick={() => setPage(1)}
       />
     </VStack>
+  );
+
+  return (
+    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
   );
 };
 
