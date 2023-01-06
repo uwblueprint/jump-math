@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Image, HStack, Text, VStack } from "@chakra-ui/react";
 
+import FormError from "./FormError";
 import AuthContext from "../../contexts/AuthContext";
 import ImageType from "../../types/ImageTypes";
 import { HOME_PAGE } from "../../constants/Routes";
@@ -12,6 +13,7 @@ interface AuthWrapperInputProps {
   subtitle: string;
   image: ImageType;
   form?: React.ReactElement;
+  error?: string;
 }
 
 const AuthWrapper = ({
@@ -19,6 +21,7 @@ const AuthWrapper = ({
   subtitle,
   image,
   form,
+  error,
 }: AuthWrapperInputProps): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
@@ -41,6 +44,7 @@ const AuthWrapper = ({
         <Text textStyle="subtitle2" textAlign="center">
           {subtitle}
         </Text>
+        {error && <FormError message={error} />}
         {form}
       </VStack>
     </HStack>

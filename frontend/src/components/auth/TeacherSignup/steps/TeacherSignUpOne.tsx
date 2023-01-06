@@ -13,7 +13,6 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../../constants/Routes";
-import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
 import AuthWrapper from "../../AuthWrapper";
@@ -100,10 +99,6 @@ const TeacherSignupOne = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <VStack>
-      {(firstNameError || lastNameError || emailError || gradesError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
-
       <Stack direction={["row"]} width="100%" alignItems="flex-end">
         <FormControl isInvalid={firstNameError} isRequired>
           <FormLabel color="grey.400">Name</FormLabel>
@@ -164,9 +159,19 @@ const TeacherSignupOne = ({
       />
     </VStack>
   );
+  const error =
+    firstNameError || lastNameError || emailError || gradesError
+      ? "Please ensure fields are filled"
+      : "";
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

@@ -6,7 +6,6 @@ import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "../SelectFormInput";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
-import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
@@ -63,9 +62,6 @@ const TeacherSignupTwo = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <VStack>
-      {(isCurrentlyTeachingJMError || isSchoolError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
       <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
@@ -124,9 +120,19 @@ const TeacherSignupTwo = ({
       />
     </VStack>
   );
+  const error =
+    isCurrentlyTeachingJMError || isSchoolError
+      ? "Please ensure fields are filled"
+      : "";
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

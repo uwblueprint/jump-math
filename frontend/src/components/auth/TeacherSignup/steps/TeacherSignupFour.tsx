@@ -13,7 +13,6 @@ import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../../../assets/icons";
-import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
 import { TeacherSignupForm, TeacherSignupProps } from "../types";
 import AuthWrapper from "../../AuthWrapper";
@@ -101,12 +100,6 @@ const TeacherSignupFour = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <VStack>
-      {displayMatchError && (
-        <FormError message="Please ensure passwords match" />
-      )}
-      {displayRequirementError && (
-        <FormError message="Password does not meet all of the requirements" />
-      )}
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
@@ -159,8 +152,24 @@ const TeacherSignupFour = ({
     </VStack>
   );
 
+  const error = () => {
+    if (displayMatchError) {
+      return "Please ensure passwords match";
+    }
+    if (displayRequirementError) {
+      return "Password does not meet all of the requirements";
+    }
+    return "";
+  };
+
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error()}
+    />
   );
 };
 

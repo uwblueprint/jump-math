@@ -11,7 +11,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import FormError from "./FormError";
 import RouterLink from "../common/RouterLink";
 import AuthWrapper from "./AuthWrapper";
 import * as Routes from "../../constants/Routes";
@@ -57,8 +56,6 @@ const Login = (): React.ReactElement => {
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <VStack width="75%" gap={4}>
-      {loginError && <FormError message="Please ensure fields are filled" />}
-
       <FormControl isRequired isInvalid={loginError && !email}>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
@@ -104,9 +101,16 @@ const Login = (): React.ReactElement => {
       )}
     </VStack>
   );
+  const error = loginError ? "Please ensure fields are filled" : "";
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

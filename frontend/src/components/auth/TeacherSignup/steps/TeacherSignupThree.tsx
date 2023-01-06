@@ -2,7 +2,7 @@ import { VStack, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
-import FormError from "../../FormError";
+
 import NavigationButtons from "../NavigationButtons";
 import SelectFormInput from "../SelectFormInput";
 import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
@@ -90,13 +90,6 @@ const TeacherSignupThree = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <VStack>
-      {(schoolNameError ||
-        countryError ||
-        cityError ||
-        districtError ||
-        addressError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
       <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
@@ -158,9 +151,23 @@ const TeacherSignupThree = ({
       />
     </VStack>
   );
+  const error =
+    schoolNameError ||
+    countryError ||
+    cityError ||
+    districtError ||
+    addressError
+      ? "Please ensure fields are filled"
+      : "";
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

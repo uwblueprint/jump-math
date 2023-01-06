@@ -38,7 +38,7 @@ const renderPageComponent = (
 ) => {
   switch (page) {
     case 1:
-      return <TeacherSignupFive />;
+      return <TeacherSignupOne {...teacherSignupProps} />;
     case 2:
       return <TeacherSignupTwo {...teacherSignupProps} />;
     case 3:
@@ -46,7 +46,7 @@ const renderPageComponent = (
     case 4:
       return <TeacherSignupFour {...teacherSignupProps} />;
     case 5:
-      return <TeacherSignupOne {...teacherSignupProps} />;
+      return <TeacherSignupFive />;
     default:
       return <></>;
   }
