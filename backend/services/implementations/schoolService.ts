@@ -18,6 +18,8 @@ class SchoolService implements ISchoolService {
     this.userService = userService;
   }
 
+  /* eslint-disable class-methods-use-this */
+
   /**
    * This method gets all schools from the database.
    */
@@ -174,7 +176,6 @@ class SchoolService implements ISchoolService {
     }
   }
 
-  /* eslint-disable class-methods-use-this */
   async deleteSchool(id: string): Promise<string> {
     try {
       const deletedSchool: School | null = await MgSchool.findByIdAndDelete(id);

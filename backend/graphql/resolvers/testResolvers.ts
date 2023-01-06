@@ -12,10 +12,15 @@ import {
   MultipleChoiceMetadata,
   NumericQuestionMetadata,
   Question,
+  QuestionMetadata,
 } from "../../models/test.model";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService(userService);
+
+type QuestionMetadataName =
+  | "MultipleChoiceMetadata"
+  | "NumericQuestionMetadata";
 
 const resolveQuestions = (questions: QuestionRequest[]): Question[] => {
   const resolvedQuestions: Question[] = [];
@@ -43,9 +48,9 @@ const resolveQuestions = (questions: QuestionRequest[]): Question[] => {
 const testResolvers = {
   QuestionMetadata: {
     // eslint-disable-next-line no-underscore-dangle
-    __resolveType(obj: any) {
-      if (obj.options) return "MultipleChoiceMetadata";
-      if (obj.answer) return "NumericQuestionMetadata";
+    __resolveType: (obj: QuestionMetadata): QuestionMetadataName | null => {
+      if ("options" in obj) return "MultipleChoiceMetadata";
+      if ("answer" in obj) return "NumericQuestionMetadata";
       return null;
     },
   },

@@ -25,7 +25,6 @@ import { UserDTO } from "../../types";
 const Logger = logger(__filename);
 
 class TestSessionService implements ITestSessionService {
-  /* eslint-disable class-methods-use-this */
   testService: ITestService;
 
   userService: IUserService;
@@ -42,6 +41,7 @@ class TestSessionService implements ITestSessionService {
     this.schoolService = schoolService;
   }
 
+  /* eslint-disable class-methods-use-this */
   async createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
@@ -371,6 +371,7 @@ class TestSessionService implements ITestSessionService {
       actualAnswer = questionMetadata.answer;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswer!;
   }
 }
