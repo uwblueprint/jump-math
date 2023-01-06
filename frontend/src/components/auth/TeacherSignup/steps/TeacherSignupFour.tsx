@@ -121,8 +121,8 @@ const TeacherSignupFour = ({
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <HStack alignItems="top">
-        <VStack alignItems="left" mr={4}>
+      <HStack alignItems="top" width="full">
+        <VStack alignItems="left" ml={2} mr={4}>
           <PasswordRequirement
             isFulfilled={minNineChars}
             requirement="minimum of 9 characters"
