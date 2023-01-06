@@ -75,9 +75,9 @@ interface IAuthService {
   ): Promise<boolean>;
 
   /**
-   * Confirm email verification code is valid and apply verification
+   * Verify a email verification code is valid and apply verification
    * @param oobCode email action code sent to the user's email for email verification
-   * @returns the user's email if the password reset code is valid, empty string otherwise
+   * @returns the user's email if the verification is successful, empty string otherwise
    */
   verifyEmail(oobCode: string): Promise<string>;
 
