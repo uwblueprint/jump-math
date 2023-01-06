@@ -1,5 +1,4 @@
 import {
-  VStack,
   Stack,
   FormControl,
   FormLabel,
@@ -102,7 +101,7 @@ const TeacherSignupOne = ({
   const subtitle = "Enter your credentials below to get access to your classes";
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack>
+    <>
       <Stack direction={["row"]} width="100%" alignItems="flex-end">
         <FormControl isInvalid={firstNameError} isRequired>
           <FormLabel color="grey.400">Name</FormLabel>
@@ -123,7 +122,7 @@ const TeacherSignupOne = ({
         </FormControl>
       </Stack>
 
-      <FormControl pt={4} isInvalid={emailError} isRequired>
+      <FormControl isInvalid={emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           type="email"
@@ -133,7 +132,7 @@ const TeacherSignupOne = ({
         />
       </FormControl>
 
-      <FormControl pt={4} isInvalid={gradesError} isRequired>
+      <FormControl isInvalid={gradesError} isRequired>
         <FormLabel color="grey.400">What grades do you teach?</FormLabel>
         <CheckboxGroup value={gradesValues} onChange={onChangeGrades}>
           <SimpleGrid columns={3}>
@@ -161,7 +160,7 @@ const TeacherSignupOne = ({
         onBackClick={() => history.push(LOGIN_PAGE)}
         firstPage
       />
-    </VStack>
+    </>
   );
   const error =
     firstNameError || lastNameError || emailError || gradesError

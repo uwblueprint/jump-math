@@ -1,15 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import {
-  Flex,
-  VStack,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+import { Text, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 
 import RouterLink from "../common/RouterLink";
 import AuthWrapper from "./AuthWrapper";
@@ -55,7 +47,7 @@ const Login = (): React.ReactElement => {
   const subtitle = "Enter your login credentials below to continue";
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack width="75%" gap={4}>
+    <>
       <FormControl isRequired isInvalid={loginError && !email}>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
@@ -77,11 +69,9 @@ const Login = (): React.ReactElement => {
       </FormControl>
 
       {/* TODO: add correct routing */}
-      <Flex align="left">
-        <RouterLink textAlign="left" color="blue.300" to="/">
-          Forgot Password?
-        </RouterLink>
-      </Flex>
+      <RouterLink textAlign="left" color="blue.300" to="/">
+        Forgot Password?
+      </RouterLink>
       <Button onClick={onLogInClick} variant="primary" width="100%">
         Login
       </Button>
@@ -99,7 +89,7 @@ const Login = (): React.ReactElement => {
           </RouterLink>
         </Text>
       )}
-    </VStack>
+    </>
   );
   const error = loginError ? "Please ensure fields are filled" : "";
 

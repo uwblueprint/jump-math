@@ -66,10 +66,6 @@ const SelectFormInput = ({
           ...provided,
           color: "grey.300",
         }),
-        container: (provided) => ({
-          ...provided,
-          marginBottom: "1em",
-        }),
       }}
       isSearchable={isSearchable}
       errorBorderColor="red.200"

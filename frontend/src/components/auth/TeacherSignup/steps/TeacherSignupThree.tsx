@@ -1,4 +1,4 @@
-import { VStack, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
@@ -93,7 +93,7 @@ const TeacherSignupThree = ({
   const subtitle = "Enter your credentials below to get access to your classes";
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack>
+    <>
       <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
@@ -105,7 +105,7 @@ const TeacherSignupThree = ({
       </FormControl>
 
       <Stack direction={["row"]} width="100%">
-        <FormControl pt={4} isInvalid={countryError} isRequired>
+        <FormControl isInvalid={countryError} isRequired>
           <FormLabel color="grey.400">Country</FormLabel>
           <SelectFormInput
             setValue={setValue}
@@ -117,7 +117,7 @@ const TeacherSignupThree = ({
             isSearchable
           />
         </FormControl>
-        <FormControl pt={4} isInvalid={cityError} isRequired>
+        <FormControl isInvalid={cityError} isRequired>
           <FormLabel color="grey.400">City</FormLabel>
           <Input
             type="text"
@@ -129,7 +129,7 @@ const TeacherSignupThree = ({
       </Stack>
 
       <Stack direction={["row"]} width="100%" pb={8}>
-        <FormControl pt={2} isInvalid={districtError} isRequired>
+        <FormControl isInvalid={districtError} isRequired>
           <FormLabel color="grey.400">District</FormLabel>
           <Input
             type="text"
@@ -138,7 +138,7 @@ const TeacherSignupThree = ({
             onChange={(e) => handleChange(e, "school.district")}
           />
         </FormControl>
-        <FormControl pt={2} isInvalid={addressError} isRequired>
+        <FormControl isInvalid={addressError} isRequired>
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
             type="text"
@@ -153,7 +153,7 @@ const TeacherSignupThree = ({
         onContinueClick={onContinueClick}
         onBackClick={() => setPage(2)}
       />
-    </VStack>
+    </>
   );
   const error =
     schoolNameError ||

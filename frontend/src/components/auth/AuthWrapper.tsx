@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack } from "@chakra-ui/react";
+import { Image, HStack, Text, VStack, Flex } from "@chakra-ui/react";
 
 import FormError from "./FormError";
 import AuthContext from "../../contexts/AuthContext";
@@ -36,17 +36,24 @@ const AuthWrapper = ({
         height="100vh"
         objectPosition="right"
       />
-      <VStack width="50vw" maxHeight="90vh" spacing={6} overflow="scroll">
-        <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={28} />
-        <Text textStyle="header4" textAlign="center">
-          {title}
-        </Text>
-        <Text textStyle="subtitle2" textAlign="center">
-          {subtitle}
-        </Text>
-        {error && <FormError message={error} />}
-        {form}
-      </VStack>
+      <Flex
+        width="50vw"
+        maxHeight="90vh"
+        overflow="scroll"
+        justifyContent="center"
+      >
+        <VStack width="75%" spacing={6}>
+          <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={24} />
+          <Text textStyle="header4" textAlign="center">
+            {title}
+          </Text>
+          <Text textStyle="subtitle2" textAlign="center">
+            {subtitle}
+          </Text>
+          {error && <FormError message={error} />}
+          {form}
+        </VStack>
+      </Flex>
     </HStack>
   );
 };

@@ -102,8 +102,8 @@ const TeacherSignupFour = ({
   const subtitle = "Please set a secure password for your account";
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack>
-      <FormControl isRequired pb={6}>
+    <>
+      <FormControl isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
           type="password"
@@ -112,7 +112,7 @@ const TeacherSignupFour = ({
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <FormControl isRequired pb={6}>
+      <FormControl isRequired>
         <FormLabel color="grey.400">Confirm Password</FormLabel>
         <Input
           type="password"
@@ -121,7 +121,7 @@ const TeacherSignupFour = ({
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <HStack alignItems="top" pb={6}>
+      <HStack alignItems="top">
         <VStack alignItems="left" mr={4}>
           <PasswordRequirement
             isFulfilled={minNineChars}
@@ -152,7 +152,7 @@ const TeacherSignupFour = ({
         }
         onBackClick={() => setPage(3)}
       />
-    </VStack>
+    </>
   );
 
   const error = () => {
