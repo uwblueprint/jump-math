@@ -14,7 +14,10 @@ import {
   CheckmarkCircleOutlineIcon,
 } from "../../../../assets/icons";
 import NavigationButtons from "../NavigationButtons";
-import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 

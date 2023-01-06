@@ -14,7 +14,11 @@ import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../../constants/Routes";
 import NavigationButtons from "../NavigationButtons";
-import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
+import {
+  TeacherSignupForm,
+  TeacherInput,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 

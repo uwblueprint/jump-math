@@ -5,7 +5,11 @@ import countryList from "react-select-country-list";
 
 import NavigationButtons from "../NavigationButtons";
 import SelectFormInput from "../SelectFormInput";
-import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
+import {
+  TeacherInput,
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 

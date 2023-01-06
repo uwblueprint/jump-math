@@ -3,7 +3,10 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
-import { TeacherSignupForm, TeacherSignupProps } from "./types";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../types/TeacherSignupTypes";
 
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";

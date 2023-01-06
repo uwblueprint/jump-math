@@ -5,7 +5,10 @@ import { useFormContext } from "react-hook-form";
 import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "../SelectFormInput";
-import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
 import NavigationButtons from "../NavigationButtons";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
