@@ -10,16 +10,28 @@ const authType = gql`
     accessToken: String!
   }
 
-  input RegisterUserDTO {
+  input SchoolMetadataInput {
+    name: String!
+    id: ID!
+    country: String!
+    city: String!
+    district: String!
+    address: String!
+  }
+
+  input RegisterTeacherDTO {
     firstName: String!
     lastName: String!
     email: String!
     password: String!
+    grades: [String!]!
+    currentlyTeachingJM: Boolean!
+    school: SchoolMetadataInput!
   }
 
   extend type Mutation {
     login(email: String!, password: String!): AuthDTO!
-    register(user: RegisterUserDTO!): AuthDTO!
+    registerTeacher(user: RegisterTeacherDTO!): AuthDTO!
     refresh: String!
     logout(userId: ID!): ID
     resetPassword(email: String!): Boolean!

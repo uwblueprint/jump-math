@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import {
   ButtonGroup,
@@ -16,7 +15,6 @@ import RemoveUserPopover from "../user-management/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
 import Navbar from "../common/Navbar";
 import AddAdminModal from "../user-management/AddAdminModal";
-// eslint-disable-next-line import/no-named-as-default
 import AdminUserTable from "../user-management/AdminUserTable";
 
 import * as Routes from "../../constants/Routes";

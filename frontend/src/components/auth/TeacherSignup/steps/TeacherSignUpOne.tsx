@@ -11,18 +11,21 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../../constants/Routes";
 import ErrorMessage from "../ErrorMessage";
 import NavigationButtons from "../NavigationButtons";
-import { TeacherInput, TeacherSignupProps } from "../types";
+import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
 
 const TeacherSignupOne = ({
   setPage,
-  watch,
-  setValue,
-  errors,
 }: TeacherSignupProps): React.ReactElement => {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TeacherSignupForm>();
   const [firstNameError, setFirstNameError] = React.useState(false);
   const [lastNameError, setLastNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
@@ -93,6 +96,9 @@ const TeacherSignupOne = ({
 
   return (
     <VStack>
+      <Text textStyle="header4" textAlign="center" pb={4}>
+        Teacher Sign Up
+      </Text>
       <Text
         textStyle="subtitle2"
         textAlign="center"
