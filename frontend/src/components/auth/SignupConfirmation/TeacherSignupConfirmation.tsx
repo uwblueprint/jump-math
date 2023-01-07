@@ -1,13 +1,14 @@
 import React from "react";
-import TeacherWrapper from "../../common/TeacherWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
+import AuthWrapper from "../AuthWrapper";
 import FinalSignupConfirmation from "./FinalSignupConfirmation";
 
 const TeacherSignupConfirmation = (): React.ReactElement => {
   return (
-    <TeacherWrapper
-      header="Teacher Sign Up Confirmation"
-      paddingTop
-      component={FinalSignupConfirmation}
+    <AuthWrapper
+      title="Teacher Sign Up Confirmation"
+      image={TEACHER_SIGNUP_IMAGE}
+      form={<FinalSignupConfirmation />}
     />
   );
 };

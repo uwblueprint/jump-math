@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
 import LoadingState from "../../common/LoadingState";
-import TeacherWrapper from "../../common/TeacherWrapper";
+import AuthWrapper from "../AuthWrapper";
 import PasswordResetSuccess from "./steps/PasswordResetSuccess";
 import SetNewPassword from "./steps/SetNewPassword";
 
@@ -20,16 +21,18 @@ const ResetPassword = ({
   return (
     <>
       {step === 1 ? (
-        <TeacherWrapper
-          header="Set New Password"
-          component={
+        <AuthWrapper
+          title="Set New Password"
+          image={TEACHER_SIGNUP_IMAGE}
+          form={
             <SetNewPassword oobCode={oobCode} email={email} setStep={setStep} />
           }
         />
       ) : (
-        <TeacherWrapper
-          header="Password Reset Successful"
-          component={<PasswordResetSuccess />}
+        <AuthWrapper
+          title="Password Reset Successful"
+          image={TEACHER_SIGNUP_IMAGE}
+          form={<PasswordResetSuccess />}
         />
       )}
     </>

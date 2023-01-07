@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import TeacherWrapper from "../../common/TeacherWrapper";
+import { ADMIN_SIGNUP_IMAGE } from "../../../assets/images";
+import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../Password/PasswordForm";
 import FinalSignupConfirmation from "./FinalSignupConfirmation";
 
@@ -23,9 +24,10 @@ const AdminSignupConfirmation = ({
   );
 
   return (
-    <TeacherWrapper
-      header="Admin Sign Up Confirmation"
-      component={step === 1 ? setPasswordComponent : FinalSignupConfirmation}
+    <AuthWrapper
+      title="Admin Sign Up Confirmation"
+      image={ADMIN_SIGNUP_IMAGE}
+      form={step === 1 ? setPasswordComponent : <FinalSignupConfirmation />}
     />
   );
 };
