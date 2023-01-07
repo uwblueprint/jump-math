@@ -16,7 +16,6 @@ import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
 import TeacherSignupFive from "./steps/TeacherSignupFive";
-import NotFound from "../../pages/NotFound";
 
 const defaultValues = {
   firstName: "",
@@ -51,7 +50,7 @@ const renderPageComponent = (
     case 5:
       return <TeacherSignupFive />;
     default:
-      return <NotFound />;
+      return <></>;
   }
 };
 

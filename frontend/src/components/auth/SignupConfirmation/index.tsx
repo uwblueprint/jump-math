@@ -2,7 +2,6 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
-import LoadingState from "../../common/LoadingState";
 import AdminSignupConfirmation from "./AdminSignupConfirmation";
 import TeacherSignupConfirmation from "./TeacherSignupConfirmation";
 
@@ -21,14 +20,9 @@ const SignupConfirmation = ({
     },
   });
 
-  switch (role) {
-    case "Admin":
-      return <AdminSignupConfirmation email={email} oobCode={oobCode} />;
-    case "Teacher":
-      return <TeacherSignupConfirmation />;
-    default:
-      return <LoadingState fullPage />;
-  }
+  if (role === "Admin")
+    return <AdminSignupConfirmation email={email} oobCode={oobCode} />;
+  return <TeacherSignupConfirmation />;
 };
 
 export default SignupConfirmation;

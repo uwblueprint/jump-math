@@ -14,9 +14,9 @@ import { UseFormSetValue } from "react-hook-form";
 import PasswordRequirement from "./PasswordRequirement";
 import { TeacherSignupForm } from "../TeacherSignup/types";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
-import { LOGIN_PAGE } from "../../../constants/Routes";
 import NavigationButtons from "../TeacherSignup/NavigationButtons";
 import FormError from "../FormError";
+import { TEACHER_LOGIN } from "../../../constants/Routes";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";
@@ -189,7 +189,7 @@ const PasswordForm = ({
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)
           }
-          onBackClick={() => history.push(LOGIN_PAGE)} // TODO: Update to teacher login page
+          onBackClick={() => history.push(TEACHER_LOGIN)}
           continueButtonText="Reset Password"
           backButtonText="Back to login page"
         />
