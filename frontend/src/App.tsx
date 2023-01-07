@@ -101,7 +101,7 @@ const App = (): React.ReactElement => {
                 />
                 <Route
                   exact
-                  path={Routes.RESET_PASSWORD_PAGE}
+                  path={Routes.RESET_PASSWORD}
                   component={ResetPassword}
                 />
                 <PrivateRoute

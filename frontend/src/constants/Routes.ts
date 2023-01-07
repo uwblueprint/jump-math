@@ -8,7 +8,7 @@ export const TEACHER_SIGNUP_PAGE = "/teacher-signup";
 
 export const FIREBASE_ACTION = "/firebase-action";
 export const SIGNUP_CONFIRMATION = "/signup-confirmation";
-export const RESET_PASSWORD_PAGE = "/reset-password";
+export const RESET_PASSWORD = "/reset-password";
 
 export const STUDENT_PAGE = "/student-dashboard";
 export const TEACHER_PAGE = "/teacher-dashboard";
