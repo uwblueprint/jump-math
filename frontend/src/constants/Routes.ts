@@ -1,8 +1,5 @@
 export const HOME_PAGE = "/";
 
-export const LOGIN_PAGE = "/login";
-export const SIGNUP_PAGE = "/signup";
-
 export const STUDENT_PAGE = "/student-dashboard";
 
 export const COMPONENT_LIBRARY = "/component-library";

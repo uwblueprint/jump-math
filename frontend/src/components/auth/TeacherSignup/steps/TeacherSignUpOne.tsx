@@ -1,6 +1,4 @@
 import {
-  VStack,
-  Text,
   Stack,
   FormControl,
   FormLabel,
@@ -13,10 +11,15 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../../constants/Routes";
-import FormError from "../../FormError";
+import { TEACHER_LOGIN } from "../../../../constants/Routes";
 import NavigationButtons from "../NavigationButtons";
-import { TeacherSignupForm, TeacherInput, TeacherSignupProps } from "../types";
+import {
+  TeacherSignupForm,
+  TeacherInput,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupOne = ({
   setPage,
@@ -94,21 +97,11 @@ const TeacherSignupOne = ({
     if (validateFields()) setPage(2);
   };
 
-  return (
-    <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={
-          firstNameError || lastNameError || emailError || gradesError ? 0 : 14
-        }
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
-      {(firstNameError || lastNameError || emailError || gradesError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
-
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
+    <>
       <Stack direction={["row"]} width="100%" alignItems="flex-end">
         <FormControl isInvalid={firstNameError} isRequired>
           <FormLabel color="grey.400">Name</FormLabel>
@@ -129,7 +122,7 @@ const TeacherSignupOne = ({
         </FormControl>
       </Stack>
 
-      <FormControl pt={4} isInvalid={emailError} isRequired>
+      <FormControl isInvalid={emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           type="email"
@@ -139,7 +132,7 @@ const TeacherSignupOne = ({
         />
       </FormControl>
 
-      <FormControl pt={4} isInvalid={gradesError} isRequired>
+      <FormControl isInvalid={gradesError} isRequired>
         <FormLabel color="grey.400">What grades do you teach?</FormLabel>
         <CheckboxGroup value={gradesValues} onChange={onChangeGrades}>
           <SimpleGrid columns={3}>
@@ -164,10 +157,24 @@ const TeacherSignupOne = ({
 
       <NavigationButtons
         onContinueClick={onContinueClick}
-        onBackClick={() => history.push(LOGIN_PAGE)}
+        onBackClick={() => history.push(TEACHER_LOGIN)}
         firstPage
       />
-    </VStack>
+    </>
+  );
+  const error =
+    firstNameError || lastNameError || emailError || gradesError
+      ? "Please ensure fields are filled"
+      : "";
+
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

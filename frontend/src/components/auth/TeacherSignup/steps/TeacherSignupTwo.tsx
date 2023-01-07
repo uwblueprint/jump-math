@@ -1,13 +1,17 @@
 import { useQuery } from "@apollo/client";
-import { Button, VStack, Text, FormControl, FormLabel } from "@chakra-ui/react";
+import { Button, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import SelectFormInput from "../SelectFormInput";
-import { TeacherSignupForm, TeacherSignupProps } from "../types";
-import FormError from "../../FormError";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
 import NavigationButtons from "../NavigationButtons";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupTwo = ({
   setPage,
@@ -56,18 +60,11 @@ const TeacherSignupTwo = ({
     if (validateCurrentlyTeachingJM() && validSchool) setPage(4);
   };
 
-  return (
-    <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={isCurrentlyTeachingJMError || isSchoolError ? 0 : 14}
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
-      {(isCurrentlyTeachingJMError || isSchoolError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
+    <>
       <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
@@ -108,7 +105,7 @@ const TeacherSignupTwo = ({
         />
       </FormControl>
 
-      <Text textStyle="subtitle2" color="grey.400" pb="2em">
+      <Text textStyle="subtitle2" color="grey.400" pb="1em">
         If your school is not listed,{" "}
         <Button
           onClick={onNewSchoolClick}
@@ -124,7 +121,21 @@ const TeacherSignupTwo = ({
         onContinueClick={onContinueClick}
         onBackClick={() => setPage(1)}
       />
-    </VStack>
+    </>
+  );
+  const error =
+    isCurrentlyTeachingJMError || isSchoolError
+      ? "Please ensure fields are filled"
+      : "";
+
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

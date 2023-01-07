@@ -1,18 +1,17 @@
-import {
-  VStack,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
-import FormError from "../../FormError";
+
 import NavigationButtons from "../NavigationButtons";
 import SelectFormInput from "../SelectFormInput";
-import { TeacherInput, TeacherSignupForm, TeacherSignupProps } from "../types";
+import {
+  TeacherInput,
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 const TeacherSignupThree = ({
   setPage,
@@ -90,31 +89,11 @@ const TeacherSignupThree = ({
     if (validateFields()) setPage(4);
   };
 
-  return (
-    <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={
-          schoolNameError ||
-          countryError ||
-          cityError ||
-          districtError ||
-          addressError
-            ? 0
-            : 14
-        }
-      >
-        Enter your credentials below to get access to your classes
-      </Text>
-      {(schoolNameError ||
-        countryError ||
-        cityError ||
-        districtError ||
-        addressError) && (
-        <FormError message="Please ensure fields are filled" />
-      )}
-
+  const title = "Teacher Sign Up";
+  const subtitle = "Enter your credentials below to get access to your classes";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
+    <>
       <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
@@ -126,7 +105,7 @@ const TeacherSignupThree = ({
       </FormControl>
 
       <Stack direction={["row"]} width="100%">
-        <FormControl pt={4} isInvalid={countryError} isRequired>
+        <FormControl isInvalid={countryError} isRequired>
           <FormLabel color="grey.400">Country</FormLabel>
           <SelectFormInput
             setValue={setValue}
@@ -138,7 +117,7 @@ const TeacherSignupThree = ({
             isSearchable
           />
         </FormControl>
-        <FormControl pt={4} isInvalid={cityError} isRequired>
+        <FormControl isInvalid={cityError} isRequired>
           <FormLabel color="grey.400">City</FormLabel>
           <Input
             type="text"
@@ -150,7 +129,7 @@ const TeacherSignupThree = ({
       </Stack>
 
       <Stack direction={["row"]} width="100%" pb={8}>
-        <FormControl pt={2} isInvalid={districtError} isRequired>
+        <FormControl isInvalid={districtError} isRequired>
           <FormLabel color="grey.400">District</FormLabel>
           <Input
             type="text"
@@ -159,7 +138,7 @@ const TeacherSignupThree = ({
             onChange={(e) => handleChange(e, "school.district")}
           />
         </FormControl>
-        <FormControl pt={2} isInvalid={addressError} isRequired>
+        <FormControl isInvalid={addressError} isRequired>
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
             type="text"
@@ -174,7 +153,25 @@ const TeacherSignupThree = ({
         onContinueClick={onContinueClick}
         onBackClick={() => setPage(2)}
       />
-    </VStack>
+    </>
+  );
+  const error =
+    schoolNameError ||
+    countryError ||
+    cityError ||
+    districtError ||
+    addressError
+      ? "Please ensure fields are filled"
+      : "";
+
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 

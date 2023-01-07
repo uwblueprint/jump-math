@@ -7,7 +7,10 @@ import {
 import React from "react";
 
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { TeacherInput, TeacherSignupForm } from "./types";
+import {
+  TeacherInput,
+  TeacherSignupForm,
+} from "../../../types/TeacherSignupTypes";
 
 interface Option extends OptionBase {
   label: string;
@@ -62,10 +65,6 @@ const SelectFormInput = ({
         placeholder: (provided) => ({
           ...provided,
           color: "grey.300",
-        }),
-        container: (provided) => ({
-          ...provided,
-          marginBottom: "1em",
         }),
       }}
       isSearchable={isSearchable}

@@ -13,9 +13,13 @@ import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,
 } from "../../../../assets/icons";
-import FormError from "../../FormError";
 import NavigationButtons from "../NavigationButtons";
-import { TeacherSignupForm, TeacherSignupProps } from "../types";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 
 type PasswordRequirementProps = {
   isFulfilled: boolean;
@@ -94,22 +98,12 @@ const TeacherSignupFour = ({
     setHasNum(/[0-9]/.test(password));
   }, [password, confirmPassword]);
 
-  return (
-    <VStack>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={displayMatchError || displayRequirementError ? 0 : 14}
-      >
-        Please set a secure password for your account
-      </Text>
-      {displayMatchError && (
-        <FormError message="Please ensure passwords match" />
-      )}
-      {displayRequirementError && (
-        <FormError message="Password does not meet all of the requirements" />
-      )}
-      <FormControl isRequired pb={6}>
+  const title = "Teacher Sign Up";
+  const subtitle = "Please set a secure password for your account";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
+    <>
+      <FormControl isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
           type="password"
@@ -118,7 +112,7 @@ const TeacherSignupFour = ({
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <FormControl isRequired pb={6}>
+      <FormControl isRequired>
         <FormLabel color="grey.400">Confirm Password</FormLabel>
         <Input
           type="password"
@@ -127,8 +121,8 @@ const TeacherSignupFour = ({
           isInvalid={displayMatchError || displayRequirementError}
         />
       </FormControl>
-      <HStack alignItems="top" pb={6}>
-        <VStack alignItems="left" mr={4}>
+      <HStack alignItems="top" width="full">
+        <VStack alignItems="left" ml={2} mr={4}>
           <PasswordRequirement
             isFulfilled={minNineChars}
             requirement="minimum of 9 characters"
@@ -158,7 +152,27 @@ const TeacherSignupFour = ({
         }
         onBackClick={() => setPage(3)}
       />
-    </VStack>
+    </>
+  );
+
+  const error = () => {
+    if (displayMatchError) {
+      return "Please ensure passwords match";
+    }
+    if (displayRequirementError) {
+      return "Password does not meet all of the requirements";
+    }
+    return "";
+  };
+
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error()}
+    />
   );
 };
 
