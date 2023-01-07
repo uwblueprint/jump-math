@@ -13,10 +13,10 @@ import { useHistory } from "react-router-dom";
 import { UseFormSetValue } from "react-hook-form";
 import PasswordRequirement from "./PasswordRequirement";
 import { TeacherSignupForm } from "../TeacherSignup/types";
-import ErrorMessage from "../TeacherSignup/ErrorMessage";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import { LOGIN_PAGE } from "../../../constants/Routes";
 import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import FormError from "../FormError";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";
@@ -118,13 +118,13 @@ const PasswordForm = ({
         {subtitle}
       </Text>
       {displayMatchError && (
-        <ErrorMessage message="Please ensure passwords match" />
+        <FormError message="Please ensure passwords match" />
       )}
       {displayRequirementError && (
-        <ErrorMessage message="Password does not meet all of the requirements" />
+        <FormError message="Password does not meet all of the requirements" />
       )}
       {displaySamePasswordError && (
-        <ErrorMessage message="Password is the same as before. Please choose a new one." />
+        <FormError message="Password is the same as before. Please choose a new one." />
       )}
       {version === "AdminSignup" && (
         <FormControl isRequired pb={6}>

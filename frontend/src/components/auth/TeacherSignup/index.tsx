@@ -3,10 +3,13 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
+import AuthWrapper from "../AuthWrapper";
 import { TeacherSignupForm, TeacherSignupProps } from "./types";
+
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
+import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
 
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
@@ -14,7 +17,6 @@ import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupFour from "./steps/TeacherSignupFour";
 import TeacherSignupFive from "./steps/TeacherSignupFive";
 import NotFound from "../../pages/NotFound";
-import TeacherWrapper from "../../common/TeacherWrapper";
 
 const defaultValues = {
   firstName: "",
@@ -85,15 +87,17 @@ const TeacherSignup = (): React.ReactElement => {
     })(e);
   };
 
+  const form = renderPageComponent(page, {
+    setPage,
+    handleSubmitCallback,
+  });
+
   return (
     <FormProvider {...methods}>
-      <TeacherWrapper
-        header={page === 5 ? "Teacher Sign Up Confirmation" : "Teacher Sign Up"}
-        paddingTop={page === 5}
-        component={renderPageComponent(page, {
-          setPage,
-          handleSubmitCallback,
-        })}
+      <AuthWrapper
+        title="Teacher Sign Up"
+        image={TEACHER_SIGNUP_IMAGE}
+        form={form}
       />
     </FormProvider>
   );

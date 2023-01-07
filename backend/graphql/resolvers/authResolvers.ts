@@ -45,6 +45,8 @@ const authResolvers = {
         email: user.email,
         role: "Teacher",
         password: user.password,
+        grades: user.grades,
+        currentlyTeachingJM: user.currentlyTeachingJM,
       });
 
       if (user.school.id) {

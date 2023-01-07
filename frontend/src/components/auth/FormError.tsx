@@ -1,10 +1,10 @@
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import React from "react";
 
-interface ErrorMessageProps {
+interface FormErrorProps {
   message: string;
 }
-const ErrorMessage = ({ message }: ErrorMessageProps): React.ReactElement => {
+const FormError = ({ message }: FormErrorProps): React.ReactElement => {
   return (
     <Alert status="error" variant="no-background" justifyContent="center">
       <AlertIcon color="red.200" />
@@ -13,4 +13,4 @@ const ErrorMessage = ({ message }: ErrorMessageProps): React.ReactElement => {
   );
 };
 
-export default ErrorMessage;
+export default FormError;
