@@ -9,8 +9,6 @@ import {
 } from "../../../assets/images";
 import { TEACHER_LOGIN } from "../../../constants/Routes";
 import { Role } from "../../../types/AuthTypes";
-import ImageType from "../../../types/ImageTypes";
-import LoadingState from "../../common/LoadingState";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../Password/PasswordForm";
 
@@ -24,7 +22,6 @@ const ResetPassword = ({
   const [step, setStep] = useState(1);
   const [role, setRole] = React.useState<Role | null>(null);
   const [password, setPassword] = React.useState<string>("");
-  const [image, setImage] = React.useState<ImageType | null>(null);
   const history = useHistory();
 
   useQuery(GET_USER_BY_EMAIL, {
@@ -35,9 +32,7 @@ const ResetPassword = ({
     },
   });
 
-  if (role === "Admin") setImage(ADMIN_SIGNUP_IMAGE);
-  else setImage(TEACHER_SIGNUP_IMAGE);
-
+  const image = role === "Admin" ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const passwordResetSuccess = (
     <VStack>
       <Text textStyle="subtitle2" textAlign="center">
@@ -55,16 +50,15 @@ const ResetPassword = ({
     </VStack>
   );
 
-  if (!image) return <LoadingState fullPage />;
   if (step === 1)
     return (
       <AuthWrapper
         title="Set New Password"
+        subtitle="Please ensure that your new password is different than your old one"
         image={image}
         form={
           <PasswordForm
             version="ResetPassword"
-            subtitle="Please ensure that your new password is different than your old one"
             email={email}
             oobCode={oobCode}
             oldPassword={password}
@@ -76,6 +70,7 @@ const ResetPassword = ({
   return (
     <AuthWrapper
       title="Password Reset Successful"
+      subtitle={`Your password has been successfully reset\nClick below to log in`}
       image={image}
       form={passwordResetSuccess}
     />

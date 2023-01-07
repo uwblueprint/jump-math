@@ -5,14 +5,13 @@ import {
   Input,
   VStack,
   HStack,
-  Text,
   Button,
 } from "@chakra-ui/react";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import { UseFormSetValue } from "react-hook-form";
 import PasswordRequirement from "./PasswordRequirement";
-import { TeacherSignupForm } from "../TeacherSignup/types";
+import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import NavigationButtons from "../TeacherSignup/NavigationButtons";
 import FormError from "../FormError";
@@ -20,7 +19,6 @@ import { TEACHER_LOGIN } from "../../../constants/Routes";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";
-  subtitle: string;
   email?: string;
   oobCode?: string;
   oldPassword?: string;
@@ -31,7 +29,6 @@ interface PasswordFormProps {
 
 const PasswordForm = ({
   version,
-  subtitle,
   email = undefined,
   oobCode = undefined,
   oldPassword = undefined,
@@ -114,9 +111,6 @@ const PasswordForm = ({
 
   return (
     <VStack>
-      <Text textStyle="subtitle2" textAlign="center" pb={hasError ? 0 : 14}>
-        {subtitle}
-      </Text>
       {displayMatchError && (
         <FormError message="Please ensure passwords match" />
       )}

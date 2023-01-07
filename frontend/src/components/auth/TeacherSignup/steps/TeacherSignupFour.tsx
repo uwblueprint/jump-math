@@ -1,7 +1,12 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../../types/TeacherSignupTypes";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import PasswordForm from "../../Password/PasswordForm";
-import { TeacherSignupForm, TeacherSignupProps } from "../types";
 
 const TeacherSignupFour = ({
   setPage,
@@ -9,14 +14,20 @@ const TeacherSignupFour = ({
 }: TeacherSignupProps): React.ReactElement => {
   const { setValue } = useFormContext<TeacherSignupForm>();
 
-  return (
+  const title = "Teacher Sign Up";
+  const subtitle = "Please set a secure password for your account";
+  const image = TEACHER_SIGNUP_IMAGE;
+  const form = (
     <PasswordForm
       version="TeacherSignup"
-      subtitle="Please set a secure password for your account"
       setValue={setValue}
       setStep={setPage}
       handleSubmitCallback={handleSubmitCallback}
     />
+  );
+
+  return (
+    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
   );
 };
 

@@ -3,13 +3,14 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import AuthContext from "../../../contexts/AuthContext";
-import AuthWrapper from "../AuthWrapper";
-import { TeacherSignupForm, TeacherSignupProps } from "./types";
+import {
+  TeacherSignupForm,
+  TeacherSignupProps,
+} from "../../../types/TeacherSignupTypes";
 
 import { AuthenticatedUser } from "../../../types/AuthTypes";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
-import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
 
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
@@ -86,18 +87,12 @@ const TeacherSignup = (): React.ReactElement => {
     })(e);
   };
 
-  const form = renderPageComponent(page, {
-    setPage,
-    handleSubmitCallback,
-  });
-
   return (
     <FormProvider {...methods}>
-      <AuthWrapper
-        title="Teacher Sign Up"
-        image={TEACHER_SIGNUP_IMAGE}
-        form={form}
-      />
+      {renderPageComponent(page, {
+        setPage,
+        handleSubmitCallback,
+      })}
     </FormProvider>
   );
 };

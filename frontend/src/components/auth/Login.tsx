@@ -1,17 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import {
-  Flex,
-  VStack,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+import { Text, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 
-import FormError from "./FormError";
 import RouterLink from "../common/RouterLink";
 import AuthWrapper from "./AuthWrapper";
 import * as Routes from "../../constants/Routes";
@@ -53,18 +44,10 @@ const Login = (): React.ReactElement => {
   }
 
   const title = isAdmin ? "Admin Login" : "Teacher Login";
+  const subtitle = "Enter your login credentials below to continue";
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
-    <VStack width="75%" gap={4}>
-      <Text
-        textStyle="subtitle2"
-        textAlign="center"
-        pb={loginError ? "0" : "4"}
-      >
-        Enter your login credentials below to continue
-      </Text>
-      {loginError && <FormError message="Please ensure fields are filled" />}
-
+    <>
       <FormControl isRequired isInvalid={loginError && !email}>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
@@ -86,11 +69,9 @@ const Login = (): React.ReactElement => {
       </FormControl>
 
       {/* TODO: add correct routing */}
-      <Flex align="left">
-        <RouterLink textAlign="left" color="blue.300" to="/">
-          Forgot Password?
-        </RouterLink>
-      </Flex>
+      <RouterLink textAlign="left" color="blue.300" to="/">
+        Forgot Password?
+      </RouterLink>
       <Button onClick={onLogInClick} variant="primary" width="100%">
         Login
       </Button>
@@ -108,10 +89,19 @@ const Login = (): React.ReactElement => {
           </RouterLink>
         </Text>
       )}
-    </VStack>
+    </>
   );
+  const error = loginError ? "Please ensure fields are filled" : "";
 
-  return <AuthWrapper title={title} image={image} form={form} />;
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
+  );
 };
 
 export default Login;
