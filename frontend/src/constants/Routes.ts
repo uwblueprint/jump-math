@@ -1,8 +1,6 @@
 export const HOME_PAGE = "/";
 
 export const FIREBASE_ACTION = "/firebase-action";
-export const SIGNUP_CONFIRMATION = "/signup-confirmation";
-export const RESET_PASSWORD = "/reset-password";
 
 export const STUDENT_PAGE = "/student-dashboard";
 

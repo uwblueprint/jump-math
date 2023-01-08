@@ -99,6 +99,13 @@ const authResolvers = {
       await authService.resetPassword(email);
       return true;
     },
+    resetPasswordCode: async (
+      _parent: undefined,
+      { email }: { email: string },
+    ): Promise<string> => {
+      const oobCode = await authService.resetPasswordCode(email);
+      return oobCode;
+    },
     verifyEmail: async (
       _parent: undefined,
       { oobCode }: { oobCode: string },

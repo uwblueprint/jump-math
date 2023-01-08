@@ -1,14 +1,17 @@
-import { useMutation } from "@apollo/client";
-import { Center, Text } from "@chakra-ui/react";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import {
   VERIFY_EMAIL,
   VERIFY_PASSWORD_RESET,
-} from "../../APIClients/mutations/AuthMutations";
-import LoadingState from "../common/LoadingState";
-import NotFound from "../pages/NotFound";
-import ResetPassword from "./ResetPassword";
-import SignupConfirmation from "./SignupConfirmation";
+} from "../../../APIClients/mutations/AuthMutations";
+import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
+import { Role } from "../../../types/AuthTypes";
+import LoadingState from "../../common/LoadingState";
+import NotFound from "../../pages/NotFound";
+import ResetPassword from "../ResetPassword";
+import AdminSignupConfirmation from "../SignupConfirmation/AdminSignupConfirmation";
+import TeacherSignupConfirmation from "../SignupConfirmation/TeacherSignupConfirmation";
+import FirebaseActionError from "./FirebaseActionError";
 
 const FirebaseAction = (): React.ReactElement => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -21,6 +24,15 @@ const FirebaseAction = (): React.ReactElement => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [role, setRole] = React.useState<Role | null>(null);
+
+  useQuery(GET_USER_BY_EMAIL, {
+    variables: { email },
+    onCompleted: (data) => {
+      setRole(data.userByEmail.role);
+    },
+    skip: !error || !mode || !oobCode,
+  });
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
     onCompleted(data: { verifyEmail: string }) {
@@ -78,27 +90,15 @@ const FirebaseAction = (): React.ReactElement => {
     <>
       {notFound && <NotFound />}
       {!notFound && loading && <LoadingState fullPage />}
-      {error && mode === "verifyEmail" && (
-        <Center height="100vh" flexDirection="column" textAlign="center">
-          <Text textStyle="header4">Try verifying your email again</Text>
-          <Text textStyle="subtitle2">
-            Your request to verify your email has expired or the link has
-            already been used.
-          </Text>
-        </Center>
+      {error && mode && <FirebaseActionError mode={mode} />}
+
+      {emailVerified && role === "Teacher" && <TeacherSignupConfirmation />}
+      {emailVerified && role === "Admin" && (
+        <AdminSignupConfirmation email={email} />
       )}
-      {error && mode === "resetPassword" && (
-        <Center height="100vh" flexDirection="column" textAlign="center">
-          <Text textStyle="header4">Try resetting your password again</Text>
-          <Text textStyle="subtitle2">
-            Your request to reset your password has expired or the link has
-            already been used.
-          </Text>
-        </Center>
-      )}
-      {emailVerified && <SignupConfirmation email={email} oobCode={oobCode} />}
-      {passwordResetVerified && (
-        <ResetPassword oobCode={oobCode} email={email} />
+
+      {passwordResetVerified && role && (
+        <ResetPassword role={role} oobCode={oobCode} email={email} />
       )}
     </>
   );
