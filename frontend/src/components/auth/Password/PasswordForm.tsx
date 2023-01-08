@@ -15,13 +15,14 @@ import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import NavigationButtons from "../TeacherSignup/NavigationButtons";
 import FormError from "../FormError";
-import { TEACHER_LOGIN } from "../../../constants/Routes";
+import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
+import { Role } from "../../../types/AuthTypes";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";
+  userRole: Role;
   email?: string;
   oobCode?: string;
-  oldPassword?: string;
   setValue?: UseFormSetValue<TeacherSignupForm>;
   setStep?: (step: number) => void;
   handleSubmitCallback?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -29,9 +30,9 @@ interface PasswordFormProps {
 
 const PasswordForm = ({
   version,
+  userRole,
   email = undefined,
   oobCode = undefined,
-  oldPassword = undefined,
   setValue = undefined,
   setStep = undefined,
   handleSubmitCallback = undefined,
@@ -41,9 +42,6 @@ const PasswordForm = ({
 
   const [displayMatchError, setDisplayMatchError] = useState(false);
   const [displayRequirementError, setDisplayRequirementError] = useState(false);
-  const [displaySamePasswordError, setDisplaySamePasswordError] = useState(
-    false,
-  );
 
   const [minNineChars, setMinNineChars] = useState(false);
   const [hasUppercase, setHasUppercase] = useState(false);
@@ -52,8 +50,7 @@ const PasswordForm = ({
   const [hasNum, setHasNum] = useState(false);
 
   const history = useHistory();
-  const hasError =
-    displayMatchError || displayRequirementError || displaySamePasswordError;
+  const hasError = displayMatchError || displayRequirementError;
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (setValue) setValue("password", e.target.value);
@@ -72,7 +69,6 @@ const PasswordForm = ({
   const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setDisplayMatchError(false);
     setDisplayRequirementError(false);
-    if (version === "ResetPassword") setDisplaySamePasswordError(false);
 
     if (password !== confirmPassword) {
       setDisplayMatchError(true);
@@ -86,11 +82,6 @@ const PasswordForm = ({
       !hasNum
     ) {
       setDisplayRequirementError(true);
-      return;
-    }
-
-    if (version === "ResetPassword" && password === oldPassword) {
-      setDisplaySamePasswordError(true);
       return;
     }
 
@@ -118,9 +109,6 @@ const PasswordForm = ({
       )}
       {displayRequirementError && (
         <FormError message="Password does not meet all of the requirements" />
-      )}
-      {displaySamePasswordError && (
-        <FormError message="Password is the same as before. Please choose a new one." />
       )}
       {version === "AdminSignup" && (
         <FormControl isRequired pb={6}>
@@ -185,7 +173,9 @@ const PasswordForm = ({
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)
           }
-          onBackClick={() => history.push(TEACHER_LOGIN)}
+          onBackClick={() =>
+            history.push(userRole === "Admin" ? ADMIN_LOGIN : TEACHER_LOGIN)
+          }
           continueButtonText="Reset Password"
           backButtonText="Back to login page"
         />

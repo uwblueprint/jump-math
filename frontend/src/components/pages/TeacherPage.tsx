@@ -1,5 +1,4 @@
 import React from "react";
-import ForgotPassword from "../auth/ForgotPassword";
 
 import Logout from "../auth/Logout";
 import RefreshCredentials from "../auth/RefreshCredentials";
@@ -11,7 +10,6 @@ const TeacherPage = (): React.ReactElement => {
       <div className="btn-group">
         <Logout />
         <RefreshCredentials />
-        <ForgotPassword />
       </div>
     </div>
   );

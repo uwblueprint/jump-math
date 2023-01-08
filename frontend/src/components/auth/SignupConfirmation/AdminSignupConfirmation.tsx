@@ -24,6 +24,7 @@ const AdminSignupConfirmation = ({
   const setPasswordComponent = (
     <PasswordForm
       version="AdminSignup"
+      userRole="Admin"
       email={email}
       oobCode={oobCode}
       setStep={setStep}

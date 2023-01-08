@@ -78,11 +78,20 @@ const FirebaseAction = (): React.ReactElement => {
     <>
       {notFound && <NotFound />}
       {!notFound && loading && <LoadingState fullPage />}
-      {error && (
+      {error && mode === "verifyEmail" && (
         <Center height="100vh" flexDirection="column" textAlign="center">
           <Text textStyle="header4">Try verifying your email again</Text>
           <Text textStyle="subtitle2">
             Your request to verify your email has expired or the link has
+            already been used.
+          </Text>
+        </Center>
+      )}
+      {error && mode === "resetPassword" && (
+        <Center height="100vh" flexDirection="column" textAlign="center">
+          <Text textStyle="header4">Try resetting your password again</Text>
+          <Text textStyle="subtitle2">
+            Your request to reset your password has expired or the link has
             already been used.
           </Text>
         </Center>

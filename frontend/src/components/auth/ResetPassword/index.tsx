@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { VStack, Text, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
@@ -7,8 +7,9 @@ import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
-import { TEACHER_LOGIN } from "../../../constants/Routes";
+import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
 import { Role } from "../../../types/AuthTypes";
+import LoadingState from "../../common/LoadingState";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../Password/PasswordForm";
 
@@ -33,23 +34,8 @@ const ResetPassword = ({
   });
 
   const image = role === "Admin" ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
-  const passwordResetSuccess = (
-    <VStack>
-      <Text textStyle="subtitle2" textAlign="center">
-        Your password has been successfully reset
-        <br />
-        Click below to log in
-      </Text>
-      <Button
-        variant="primary"
-        width="100%"
-        onClick={() => history.push(TEACHER_LOGIN)}
-      >
-        Login
-      </Button>
-    </VStack>
-  );
 
+  if (!role) return <LoadingState fullPage />;
   if (step === 1)
     return (
       <AuthWrapper
@@ -59,9 +45,9 @@ const ResetPassword = ({
         form={
           <PasswordForm
             version="ResetPassword"
+            userRole={role}
             email={email}
             oobCode={oobCode}
-            oldPassword={password}
             setStep={setStep}
           />
         }
@@ -72,7 +58,17 @@ const ResetPassword = ({
       title="Password Reset Successful"
       subtitle={`Your password has been successfully reset\nClick below to log in`}
       image={image}
-      form={passwordResetSuccess}
+      form={
+        <Button
+          variant="primary"
+          width="100%"
+          onClick={() =>
+            history.push(role === "Admin" ? ADMIN_LOGIN : TEACHER_LOGIN)
+          }
+        >
+          Login
+        </Button>
+      }
     />
   );
 };
