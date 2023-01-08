@@ -8,12 +8,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@apollo/client";
-import { RESET_PASSWORD } from "../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "./TeacherSignup/NavigationButtons";
-import { ArrowBackOutlineIcon } from "../../assets/icons";
-import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
-import { UserResponse } from "../../APIClients/types/UserClientTypes";
-import { Role } from "../../types/AuthTypes";
+import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
+import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import { UserResponse } from "../../../APIClients/types/UserClientTypes";
+import { Role } from "../../../types/AuthTypes";
 
 interface ForgotPasswordProps {
   role: Role;

@@ -8,7 +8,7 @@ import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../../pages/NotFound";
-import ResetPassword from "../ResetPassword";
+import SetNewPassword from "../ResetPassword/SetNewPassword";
 import AdminSignupConfirmation from "../SignupConfirmation/AdminSignupConfirmation";
 import TeacherSignupConfirmation from "../SignupConfirmation/TeacherSignupConfirmation";
 import FirebaseActionError from "./FirebaseActionError";
@@ -86,7 +86,7 @@ const FirebaseAction = (): React.ReactElement => {
       )}
 
       {passwordResetVerified && role && (
-        <ResetPassword role={role} oobCode={oobCode} email={email} />
+        <SetNewPassword role={role} oobCode={oobCode} email={email} />
       )}
 
       {!loading && !emailVerified && !passwordResetVerified && mode && (

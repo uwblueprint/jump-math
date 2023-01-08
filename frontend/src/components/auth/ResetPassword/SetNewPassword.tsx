@@ -10,7 +10,7 @@ import { Role } from "../../../types/AuthTypes";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../Password/PasswordForm";
 
-const ResetPassword = ({
+const SetNewPassword = ({
   role,
   oobCode,
   email,
@@ -60,4 +60,4 @@ const ResetPassword = ({
   );
 };
 
-export default ResetPassword;
+export default SetNewPassword;
