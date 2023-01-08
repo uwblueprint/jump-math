@@ -75,7 +75,7 @@ export const VERIFY_PASSWORD_RESET = gql`
 `;
 
 export const CONFIRM_PASSWORD_RESET = gql`
-  mutation VerifyPasswordReset($newPassword: String!, $oobCode: String!) {
-    verifyPasswordReset(newPassword: $newpassword, oobCode: $oobCode)
+  mutation ConfirmPasswordReset($newPassword: String!, $oobCode: String!) {
+    confirmPasswordReset(newPassword: $newPassword, oobCode: $oobCode)
   }
 `;

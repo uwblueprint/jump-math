@@ -97,7 +97,9 @@ const PasswordForm = ({
     if (handleSubmitCallback) {
       handleSubmitCallback(e);
     } else {
-      await confirmPasswordReset({ variables: { oobCode, password } });
+      await confirmPasswordReset({
+        variables: { oobCode, newPassword: password },
+      });
     }
   };
 

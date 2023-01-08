@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
+import LoadingState from "../../common/LoadingState";
 import AdminSignupConfirmation from "./AdminSignupConfirmation";
 import TeacherSignupConfirmation from "./TeacherSignupConfirmation";
 
@@ -22,7 +23,8 @@ const SignupConfirmation = ({
 
   if (role === "Admin")
     return <AdminSignupConfirmation email={email} oobCode={oobCode} />;
-  return <TeacherSignupConfirmation />;
+  if (role === "Teacher") return <TeacherSignupConfirmation />;
+  return <LoadingState fullPage />;
 };
 
 export default SignupConfirmation;

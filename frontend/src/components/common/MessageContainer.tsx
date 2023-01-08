@@ -18,15 +18,13 @@ const MessageContainer = ({
   return (
     <Container
       maxW="3xl"
-      pt={32}
-      pb={20}
-      px={24}
+      pt={12}
       mx="auto"
       my={10}
       borderRadius="3xl"
       centerContent
     >
-      <Box maxW="sm">
+      <Box maxW="sm" textAlign="center">
         <IllustrationWrapper Illustration={illustration} pb="1.5em" m="auto" />
         <Text textStyle="subtitle1" color={textColor} pb="0.5em">
           {subtitle}

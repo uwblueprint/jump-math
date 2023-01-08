@@ -21,12 +21,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import AdminConfirmationMessage from "./AdminConfirmationMessage";
 import ModalFooterButtons from "../common/ModalFooterButtons";
 import { PlusOutlineIcon } from "../../assets/icons";
-import { USER_DATABASE } from "../../constants/Routes";
 import {
   UserRequest,
   UserResponse,
@@ -35,7 +33,6 @@ import { ADD_USER } from "../../APIClients/mutations/UserMutations";
 import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 
 const AddAdminModal = (): React.ReactElement => {
-  const history = useHistory();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -128,9 +125,9 @@ const AddAdminModal = (): React.ReactElement => {
       >
         Add Admin
       </Button>
-      <Modal isOpen={isOpen} onClose={onModalClose} size="xl" isCentered>
+      <Modal isOpen={isOpen} onClose={onModalClose} size="3xl" isCentered>
         <ModalOverlay />
-        <ModalContent p={2} maxW="1297px">
+        <ModalContent p={2} maxW="80vw">
           {showRequestConfirmation ? (
             <>
               <ModalBody>
@@ -138,7 +135,7 @@ const AddAdminModal = (): React.ReactElement => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() => history.push(USER_DATABASE)}
+                  onClick={() => window.location.reload()}
                   mt={10}
                   variant="primary"
                 >
@@ -188,10 +185,9 @@ const AddAdminModal = (): React.ReactElement => {
                     onChange={(val) => setHasJumpMathEmail(val === "yes")}
                     mt={5}
                   >
-                    <HStack spacing="24px">
+                    <HStack spacing="24px" alignItems="flex-start">
                       <Radio
                         value="no"
-                        mt={2}
                         size="lg"
                         isInvalid={
                           requiredFieldEmpty && hasJumpMathEmail === null
