@@ -20,16 +20,17 @@ const AdminSignupConfirmation = ({
 }): React.ReactElement => {
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
   const [oobCode, setOobCode] = React.useState<string>("");
   const [verified, setVerified] = React.useState(false);
 
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
     {
-      onCompleted: (data) => {
+      onCompleted(data: { verifyPasswordReset: string }) {
         if (data.verifyPasswordReset !== "") {
           setVerified(true);
+          setLoading(false);
         }
       },
     },
@@ -39,7 +40,7 @@ const AdminSignupConfirmation = ({
     RESET_PASSWORD_CODE,
     {
       onCompleted: async (data) => {
-        if (data.resetPasswordCode) {
+        if (data.resetPasswordCode !== "") {
           await verifyPasswordReset({
             variables: { oobCode: data.resetPasswordCode },
           });
@@ -52,7 +53,6 @@ const AdminSignupConfirmation = ({
   useEffect(() => {
     const handleResetPassword = async () => {
       await resetPasswordCode({ variables: { email } });
-      setLoading(false);
     };
 
     handleResetPassword();
@@ -86,15 +86,16 @@ const AdminSignupConfirmation = ({
   return (
     <>
       {loading && <LoadingState fullPage />}
-      {verified && (
+      {verified ? (
         <AuthWrapper
           title="Admin Sign Up Confirmation"
           subtitle={subtitle}
           image={ADMIN_SIGNUP_IMAGE}
           form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
         />
+      ) : (
+        <FirebaseActionError mode="resetPassword" />
       )}
-      {!loading && !verified && <FirebaseActionError mode="resetPassword" />}
     </>
   );
 };

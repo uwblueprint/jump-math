@@ -22,7 +22,6 @@ const FirebaseAction = (): React.ReactElement => {
   const [passwordResetVerified, setPasswordResetVerified] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [role, setRole] = React.useState<Role | null>(null);
 
@@ -39,12 +38,8 @@ const FirebaseAction = (): React.ReactElement => {
       if (data.verifyEmail !== "") {
         setEmail(data.verifyEmail);
         setEmailVerified(true);
-      } else {
-        setError(true);
+        setLoading(false);
       }
-    },
-    onError() {
-      setError(true);
     },
   });
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
@@ -54,12 +49,8 @@ const FirebaseAction = (): React.ReactElement => {
         if (data.verifyPasswordReset !== "") {
           setEmail(data.verifyPasswordReset);
           setPasswordResetVerified(true);
-        } else {
-          setError(true);
+          setLoading(false);
         }
-      },
-      onError() {
-        setError(true);
       },
     },
   );
@@ -67,11 +58,9 @@ const FirebaseAction = (): React.ReactElement => {
   useEffect(() => {
     const handleVerifyEmail = async () => {
       await verifyEmail({ variables: { oobCode } });
-      setLoading(false);
     };
     const handleResetPassword = async () => {
       await verifyPasswordReset({ variables: { oobCode } });
-      setLoading(false);
     };
 
     switch (mode) {
@@ -90,7 +79,6 @@ const FirebaseAction = (): React.ReactElement => {
     <>
       {notFound && <NotFound />}
       {!notFound && loading && <LoadingState fullPage />}
-      {error && mode && <FirebaseActionError mode={mode} />}
 
       {emailVerified && role === "Teacher" && <TeacherSignupConfirmation />}
       {emailVerified && role === "Admin" && (
@@ -99,6 +87,10 @@ const FirebaseAction = (): React.ReactElement => {
 
       {passwordResetVerified && role && (
         <ResetPassword role={role} oobCode={oobCode} email={email} />
+      )}
+
+      {!loading && !emailVerified && !passwordResetVerified && mode && (
+        <FirebaseActionError mode={mode} />
       )}
     </>
   );

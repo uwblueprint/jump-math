@@ -7,7 +7,6 @@ import {
 } from "../../../assets/images";
 import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
 import { Role } from "../../../types/AuthTypes";
-import LoadingState from "../../common/LoadingState";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../Password/PasswordForm";
 
@@ -22,10 +21,8 @@ const ResetPassword = ({
 }): React.ReactElement => {
   const [step, setStep] = useState(1);
   const history = useHistory();
-
   const image = role === "Admin" ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
 
-  if (!role) return <LoadingState fullPage />;
   if (step === 1)
     return (
       <AuthWrapper
