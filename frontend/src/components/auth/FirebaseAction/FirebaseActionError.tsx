@@ -10,10 +10,9 @@ const FirebaseActionError = ({
     mode === "verifyEmail"
       ? "Try verifying your email again"
       : "Try resetting your password again";
-  const subtitle =
-    mode === "verifyEmail"
-      ? "Your request to verify your email has expired or the link has already been used."
-      : "Your request to reset your password has expired or the link has already been used.";
+  const subtitle = `Your request to ${
+    mode === "verifyEmail" ? "verify your email" : "reset your password"
+  } has expired or the link has already been used.`;
 
   return (
     <Center height="100vh" flexDirection="column" textAlign="center">

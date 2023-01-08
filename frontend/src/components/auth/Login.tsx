@@ -60,11 +60,8 @@ const Login = (): React.ReactElement => {
       title = "Check your email";
       subtitle = `We sent a password reset link to ${forgotPasswordEmail}`;
     }
-  } else if (isAdmin) {
-    title = "Admin Login";
-    subtitle = "Enter your login credentials below to continue";
   } else {
-    title = "Teacher Login";
+    title = isAdmin ? "Admin Login" : "Teacher Login";
     subtitle = "Enter your login credentials below to continue";
   }
 

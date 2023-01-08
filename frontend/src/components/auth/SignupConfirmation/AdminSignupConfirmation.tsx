@@ -85,11 +85,7 @@ const AdminSignupConfirmation = ({
 
   return (
     <>
-      {loading ? (
-        <LoadingState fullPage />
-      ) : (
-        <FirebaseActionError mode="resetPassword" />
-      )}
+      {loading && <LoadingState fullPage />}
       {verified && (
         <AuthWrapper
           title="Admin Sign Up Confirmation"
@@ -98,6 +94,7 @@ const AdminSignupConfirmation = ({
           form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
         />
       )}
+      {!loading && !verified && <FirebaseActionError mode="resetPassword" />}
     </>
   );
 };

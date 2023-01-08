@@ -31,7 +31,7 @@ const FirebaseAction = (): React.ReactElement => {
     onCompleted: (data) => {
       setRole(data.userByEmail.role);
     },
-    skip: !error || !mode || !oobCode,
+    skip: !!role || !email,
   });
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
