@@ -1,35 +1,63 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 /**
- * An enum containing the types of questions that can be asked
+ * An enum containing the types of components that can be added to a question
  */
-export enum QuestionType {
+export enum QuestionComponentType {
+  QUESTION_TEXT,
+  TEXT,
+  IMAGE,
   MULTIPLE_CHOICE,
-  NUMERIC_ANSWER,
+  MULTI_SELECT,
+  NUMERIC_QUESTION,
 }
 
-export type QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata;
+export type QuestionComponentMetadata =
+  | QuestionTextMetadata
+  | TextMetadata
+  | ImageMetadata
+  | MultipleChoiceMetadata
+  | MultiSelectMetadata
+  | NumericQuestionMetadata;
+
+export interface QuestionTextMetadata {
+  text: string;
+}
+
 /**
- * This interface represents a sub-document inside a Test document.
- * It contains information about a single question in a test.
+ * This interface contains information about a text component
  */
-export interface Question {
-  /** the type of question  */
-  questionType: QuestionType;
-  /** the prompt of the question */
-  questionPrompt: string;
-  /** additional metadata for the question */
-  questionMetadata: QuestionMetadata;
+export interface TextMetadata {
+  text: string;
 }
 
 /**
- * This interface contains additional information about a multiple-choice question
+ * This interface contains information about an image component
+ */
+export interface ImageMetadata {
+  src: string;
+}
+
+/**
+ * This interface contains information about a multiple-choice component
  */
 export interface MultipleChoiceMetadata {
   /** the options for the multiple choice question */
   options: string[];
   /** the index of the options array which contains the correct answer (0-indexed) */
   answerIndex: number;
+  points: number;
+}
+
+/**
+ * This interface contains information about a multiple-choice component
+ */
+export interface MultiSelectMetadata {
+  /** the options for the multiple choice question */
+  options: string[];
+  /** the index of the options array which contains the correct answer (0-indexed) */
+  answerIndices: number[];
+  points: number;
 }
 
 /**
@@ -41,21 +69,41 @@ export interface NumericQuestionMetadata {
   answer: number;
 }
 
-const questionSchema = new Schema({
-  questionType: {
+/**
+ * This interface contains information about a single question component in a question.
+ */
+export interface QuestionComponent {
+  /** the type of question component  */
+  type: QuestionComponentType;
+  /** additional metadata for the question */
+  metadata: QuestionComponentMetadata;
+}
+
+const QuestionComponentSchema = new Schema({
+  type: {
     type: String,
     required: true,
-    enum: Object.keys(QuestionType),
+    enum: Object.keys(QuestionComponentType),
   },
-  questionPrompt: {
-    type: String,
-    required: true,
-  },
-  questionMetadata: {
+  metadata: {
     type: Schema.Types.Mixed,
     required: true,
   },
 });
+
+export interface Question {
+  question: QuestionComponent[];
+}
+
+const QuestionSchema: Schema = new Schema(
+  {
+    question: {
+      type: [QuestionComponentSchema],
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
 
 /**
  * This document contains information about a single test
@@ -93,7 +141,7 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     questions: {
-      type: [questionSchema],
+      type: [QuestionSchema],
       required: true,
     },
     grade: {
