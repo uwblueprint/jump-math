@@ -46,7 +46,6 @@ export interface MultipleChoiceMetadata {
   options: string[];
   /** the index of the options array which contains the correct answer (0-indexed) */
   answerIndex: number;
-  points: number;
 }
 
 /**
@@ -57,7 +56,6 @@ export interface MultiSelectMetadata {
   options: string[];
   /** the index of the options array which contains the correct answer (0-indexed) */
   answerIndices: number[];
-  points: number;
 }
 
 /**
