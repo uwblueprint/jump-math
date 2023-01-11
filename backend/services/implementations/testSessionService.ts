@@ -12,10 +12,12 @@ import {
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import {
+  MultiSelectMetadata,
   MultipleChoiceMetadata,
   NumericQuestionMetadata,
   Question,
-  QuestionType,
+  QuestionComponent,
+  QuestionComponentType,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
@@ -314,9 +316,12 @@ class TestSessionService implements ITestSessionService {
   ): Promise<ResultResponseDTO> {
     let resultResponseDTO: ResultResponseDTO;
 
-    // the list of a student's answers with each field being either the
-    // numeric answer (for short answer) or index (for multiple choice)
-    const studentAnswers: (number | null)[] = result.answers;
+    // the list of a student's answers with each field being either the:
+    // - numeric answer (for short answer)
+    // - index (for multiple choice)
+    // - list of indices (for multiple select)
+    // - null (for no answer)
+    const studentAnswers: (number[] | number | null)[] = result.answers;
 
     let computedScore = 0.0;
     const computedBreakdown: boolean[] = [];
@@ -326,14 +331,39 @@ class TestSessionService implements ITestSessionService {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
 
       test.questions.forEach((question: Question, i) => {
-        const actualAnswer: number = this.getCorrectAnswer(question);
+        const questionComponents: QuestionComponent[] = question.question;
+        questionComponents.forEach((questionComponent: QuestionComponent) => {
+          const { type } = questionComponent;
+          if (
+            type === QuestionComponentType.MULTIPLE_CHOICE ||
+            type === QuestionComponentType.NUMERIC_QUESTION
+          ) {
+            const actualAnswer: number = this.getCorrectAnswer(
+              questionComponent,
+            );
 
-        if (studentAnswers[i] === actualAnswer) {
-          questionsCorrect += 1;
-          computedBreakdown[i] = true;
-        } else {
-          computedBreakdown[i] = false;
-        }
+            if (studentAnswers[i] === actualAnswer) {
+              questionsCorrect += 1;
+              computedBreakdown[i] = true;
+            } else {
+              computedBreakdown[i] = false;
+            }
+          } else if (type === QuestionComponentType.MULTI_SELECT) {
+            const actualAnswers: number[] = this.getCorrectAnswers(
+              questionComponent,
+            );
+            const studentAnswer: number[] = studentAnswers[i] as number[];
+            if (
+              [].sort.call(studentAnswer, (a, b) => a - b) ===
+              [].sort.call(actualAnswers, (a, b) => a - b)
+            ) {
+              questionsCorrect += 1;
+              computedBreakdown[i] = true;
+            } else {
+              computedBreakdown[i] = false;
+            }
+          }
+        });
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
@@ -360,19 +390,39 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private getCorrectAnswer(question: Question): number {
+  private isResponseType(questionComponent: QuestionComponent): boolean {
+    return (
+      questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE ||
+      questionComponent.type === QuestionComponentType.MULTI_SELECT ||
+      questionComponent.type === QuestionComponentType.NUMERIC_QUESTION
+    );
+  }
+
+  private getCorrectAnswer(questionComponent: QuestionComponent): number {
     let actualAnswer: number;
 
-    if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
-      const questionMetadata = question.questionMetadata as MultipleChoiceMetadata;
+    if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
+      const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
       actualAnswer = questionMetadata.answerIndex;
-    } else if (question.questionType === QuestionType.NUMERIC_ANSWER) {
-      const questionMetadata = question.questionMetadata as NumericQuestionMetadata;
+    } else if (
+      questionComponent.type === QuestionComponentType.NUMERIC_QUESTION
+    ) {
+      const questionMetadata = questionComponent.metadata as NumericQuestionMetadata;
       actualAnswer = questionMetadata.answer;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswer!;
+  }
+
+  private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
+    const actualAnswers: number[];
+
+    const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
+    actualAnswers = questionMetadata.answerIndices;
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return actualAnswers!;
   }
 }
 

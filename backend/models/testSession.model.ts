@@ -18,13 +18,14 @@ export interface Result {
   /** the score of the student - can be null if Result is ungraded */
   score: number | null;
   /**
-   * a list corresponding to the question list with each field indicating
+   * a list corresponding to the question list with each element indicating
    * the student's answer, either:
    *  - the numeric answer (for short answer)
    *  - the option's corresponding index (for multiple choice)
+   *  - a list of option indices (for multi select)
    *  - null (for no answer)
    */
-  answers: (number | null)[];
+  answers: (number[] | number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -43,7 +44,7 @@ const ResultSchema: Schema = new Schema({
     type: Number,
   },
   answers: {
-    type: [Number],
+    type: Schema.Types.Mixed,
     required: true,
   },
   breakdown: {

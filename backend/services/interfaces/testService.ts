@@ -1,6 +1,11 @@
 import {
+  QuestionTextMetadata,
+  TextMetadata,
+  ImageMetadata,
   MultipleChoiceMetadata,
+  MultiSelectMetadata,
   NumericQuestionMetadata,
+  QuestionComponent,
   Question,
 } from "../../models/test.model";
 import { UserDTO } from "../../types";
@@ -25,10 +30,19 @@ export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
   admin: string;
 };
 
-export type QuestionRequest = Omit<Question, "questionMetadata"> & {
-  questionMetadataMultipleChoice: MultipleChoiceMetadata;
-  questionMetadataNumericQuestion: NumericQuestionMetadata;
+export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
+  questionTextMetadata: QuestionTextMetadata;
+  textMetadata: TextMetadata;
+  imageMetadata: ImageMetadata;
+  multipleChoiceMetadata: MultipleChoiceMetadata;
+  multiSelectMetadata: MultiSelectMetadata;
+  numericQuestionMetadata: NumericQuestionMetadata;
 };
+
+export interface QuestionRequest {
+  /** the ordered list of question components */
+  question: QuestionComponentRequest[];
+}
 
 export type TestRequestDTO = {
   /** the name of the test */

@@ -20,26 +20,29 @@ export type QuestionComponentMetadata =
   | MultiSelectMetadata
   | NumericQuestionMetadata;
 
+/**
+ * This interface contains additional information about a question text component
+ */
 export interface QuestionTextMetadata {
   text: string;
 }
 
 /**
- * This interface contains information about a text component
+ * This interface contains additional information about a text component
  */
 export interface TextMetadata {
   text: string;
 }
 
 /**
- * This interface contains information about an image component
+ * This interface contains additional information about an image component
  */
 export interface ImageMetadata {
   src: string;
 }
 
 /**
- * This interface contains information about a multiple-choice component
+ * This interface contains additional information about a multiple choice component
  */
 export interface MultipleChoiceMetadata {
   /** the options for the multiple choice question */
@@ -49,12 +52,12 @@ export interface MultipleChoiceMetadata {
 }
 
 /**
- * This interface contains information about a multiple-choice component
+ * This interface contains additional information about a multiple-choice component
  */
 export interface MultiSelectMetadata {
   /** the options for the multiple choice question */
   options: string[];
-  /** the index of the options array which contains the correct answer (0-indexed) */
+  /** the index/indices of the options array which contains the correct answer(s) (0-indexed) */
   answerIndices: number[];
 }
 
@@ -77,31 +80,10 @@ export interface QuestionComponent {
   metadata: QuestionComponentMetadata;
 }
 
-const QuestionComponentSchema = new Schema({
-  type: {
-    type: String,
-    required: true,
-    enum: Object.keys(QuestionComponentType),
-  },
-  metadata: {
-    type: Schema.Types.Mixed,
-    required: true,
-  },
-});
-
 export interface Question {
+  /** the ordered list of question components */
   question: QuestionComponent[];
 }
-
-const QuestionSchema: Schema = new Schema(
-  {
-    question: {
-      type: [QuestionComponentSchema],
-      required: true,
-    },
-  },
-  { timestamps: true },
-);
 
 /**
  * This document contains information about a single test
@@ -122,6 +104,28 @@ export interface Test extends Document {
   /** The intended grade the test was made for */
   grade: number;
 }
+
+const QuestionComponentSchema = new Schema({
+  type: {
+    type: String,
+    required: true,
+    enum: Object.keys(QuestionComponentType),
+  },
+  metadata: {
+    type: Schema.Types.Mixed,
+    required: true,
+  },
+});
+
+const QuestionSchema: Schema = new Schema(
+  {
+    question: {
+      type: [QuestionComponentSchema],
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
 
 const TestSchema: Schema = new Schema(
   {

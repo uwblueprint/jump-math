@@ -66,7 +66,7 @@ export interface ResultRequestDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: (number | null)[];
+  answers: (number[] | number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -89,7 +89,7 @@ export interface ResultResponseDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: (number | null)[];
+  answers: (number[] | number | null)[];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
