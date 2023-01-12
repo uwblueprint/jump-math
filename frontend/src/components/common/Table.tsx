@@ -11,7 +11,7 @@ import {
 
 export interface TableRow {
   values: string[];
-  removeButton: React.ReactElement;
+  menu: React.ReactElement;
 }
 
 interface TableProps {
@@ -50,7 +50,7 @@ export const Table = ({
                   {value}
                 </Td>
               ))}
-              <Td width="5%">{row.removeButton}</Td>
+              <Td width="5%">{row.menu}</Td>
             </Tr>
           ))}
         </Tbody>
