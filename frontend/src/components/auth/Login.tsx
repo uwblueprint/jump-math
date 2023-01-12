@@ -26,10 +26,6 @@ const Login = (): React.ReactElement => {
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
-  const [forgotPasswordError, setForgotPasswordError] = useState(false);
-  const [emailNotFoundError, setEmailNotFoundError] = useState(false);
-  const [forgotPasswordStep, setForgotPasswordStep] = useState(1);
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
@@ -50,20 +46,8 @@ const Login = (): React.ReactElement => {
     return <Redirect to={HOME_PAGE} />;
   }
 
-  let title: string;
-  let subtitle: string;
-  if (forgotPassword) {
-    if (forgotPasswordStep === 1) {
-      title = "Forgot Password?";
-      subtitle = "Don’t worry about it, we will send you instructions!";
-    } else {
-      title = "Check your email";
-      subtitle = `We sent a password reset link to ${forgotPasswordEmail}`;
-    }
-  } else {
-    title = isAdmin ? "Admin Login" : "Teacher Login";
-    subtitle = "Enter your login credentials below to continue";
-  }
+  const title = isAdmin ? "Admin Login" : "Teacher Login";
+  const subtitle = "Enter your login credentials below to continue";
 
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const loginForm = (
@@ -115,36 +99,15 @@ const Login = (): React.ReactElement => {
     </>
   );
 
-  let error: string;
-  if (emailNotFoundError) {
-    error = "Email is not in our database. Please re-enter it.";
-  } else if (forgotPasswordError || loginError) {
-    error = "Please ensure fields are filled";
-  } else {
-    error = "";
-  }
+  const error = loginError ? "Please ensure fields are filled" : "";
 
+  if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   return (
     <AuthWrapper
       title={title}
       subtitle={subtitle}
       image={image}
-      form={
-        forgotPassword ? (
-          <ForgotPassword
-            role={isAdmin ? "Admin" : "Teacher"}
-            hasError={forgotPasswordError || emailNotFoundError}
-            email={forgotPasswordEmail}
-            step={forgotPasswordStep}
-            setEmail={setForgotPasswordEmail}
-            setEmailError={setForgotPasswordError}
-            setEmailNotFoundError={setEmailNotFoundError}
-            setStep={setForgotPasswordStep}
-          />
-        ) : (
-          loginForm
-        )
-      }
+      form={loginForm}
       error={error}
     />
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   FormControl,
@@ -13,32 +13,27 @@ import NavigationButtons from "../TeacherSignup/NavigationButtons";
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import { UserResponse } from "../../../APIClients/types/UserClientTypes";
-import { Role } from "../../../types/AuthTypes";
+import AuthWrapper from "../AuthWrapper";
+import {
+  ADMIN_SIGNUP_IMAGE,
+  TEACHER_SIGNUP_IMAGE,
+} from "../../../assets/images";
 
 interface ForgotPasswordProps {
-  role: Role;
-  hasError: boolean;
-  email: string;
-  step: number;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  setEmailError: React.Dispatch<React.SetStateAction<boolean>>;
-  setEmailNotFoundError: React.Dispatch<React.SetStateAction<boolean>>;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
+  isAdmin: boolean;
 }
 
 const ForgotPassword = ({
-  role,
-  hasError,
-  email,
-  step,
-  setEmail,
-  setEmailError,
-  setEmailNotFoundError,
-  setStep,
+  isAdmin,
 }: ForgotPasswordProps): React.ReactElement => {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [emailNotFoundError, setEmailNotFoundError] = useState(false);
+  const [step, setStep] = useState(1);
+
   const toast = useToast();
   const { data } = useQuery(GET_USERS_BY_ROLE, {
-    variables: { role },
+    variables: { role: isAdmin ? "Admin" : "Teacher" },
   });
 
   const [resetPassword] = useMutation<{ resetPassword: boolean }>(
@@ -75,11 +70,17 @@ const ForgotPassword = ({
     });
   };
 
-  return (
+  const title = step === 1 ? "Forgot Password?" : "Check your email";
+  const subtitle =
+    step === 1
+      ? "Don’t worry about it, we will send you instructions!"
+      : `We sent a password reset link to ${email}`;
+  const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
+  const form = (
     <>
       {step === 1 && (
         <>
-          <FormControl isInvalid={hasError} isRequired>
+          <FormControl isInvalid={emailError || emailNotFoundError} isRequired>
             <FormLabel color="grey.400">Email Address</FormLabel>
             <Input
               type="text"
@@ -123,6 +124,25 @@ const ForgotPassword = ({
         </>
       )}
     </>
+  );
+
+  let error: string;
+  if (emailNotFoundError) {
+    error = "Email is not in our database. Please re-enter it.";
+  } else if (emailError) {
+    error = "Please ensure fields are filled";
+  } else {
+    error = "";
+  }
+
+  return (
+    <AuthWrapper
+      title={title}
+      subtitle={subtitle}
+      image={image}
+      form={form}
+      error={error}
+    />
   );
 };
 
