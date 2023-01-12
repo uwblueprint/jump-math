@@ -50,7 +50,7 @@ const Login = (): React.ReactElement => {
   const subtitle = "Enter your login credentials below to continue";
 
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
-  const loginForm = (
+  const form = (
     <>
       <FormControl isRequired isInvalid={loginError && !email}>
         <FormLabel color="grey.400">Email Address</FormLabel>
@@ -98,7 +98,6 @@ const Login = (): React.ReactElement => {
       )}
     </>
   );
-
   const error = loginError ? "Please ensure fields are filled" : "";
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
@@ -107,7 +106,7 @@ const Login = (): React.ReactElement => {
       title={title}
       subtitle={subtitle}
       image={image}
-      form={loginForm}
+      form={form}
       error={error}
     />
   );
