@@ -10,7 +10,7 @@ interface AdminUserTableProps {
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
-  const tableRows: TableRow[] = adminUsers.map((user) => ({
+  const rows: TableRow[] = adminUsers.map((user) => ({
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu: (
       <RemoveUserPopover
@@ -20,6 +20,6 @@ const AdminUserTable = ({
     ),
   }));
 
-  return <Table tableHeaders={["Name", "Email"]} tableRows={tableRows} />;
+  return <Table headers={["Name", "Email"]} rows={rows} />;
 };
 export default AdminUserTable;

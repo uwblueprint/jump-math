@@ -15,14 +15,11 @@ export interface TableRow {
 }
 
 interface TableProps {
-  tableHeaders: string[];
-  tableRows: TableRow[];
+  headers: string[];
+  rows: TableRow[];
 }
 
-export const Table = ({
-  tableHeaders,
-  tableRows,
-}: TableProps): React.ReactElement => {
+export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   return (
     <TableContainer
       padding="0.5em"
@@ -34,13 +31,13 @@ export const Table = ({
       <T>
         <Thead>
           <Tr _hover={{ pointerEvents: "none" }}>
-            {tableHeaders.map((tableHeader, index) => (
-              <Th key={index}>{tableHeader}</Th>
+            {headers.map((header, index) => (
+              <Th key={index}>{header}</Th>
             ))}
           </Tr>
         </Thead>
         <Tbody>
-          {tableRows.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <Tr
               key={rowIndex}
               backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
