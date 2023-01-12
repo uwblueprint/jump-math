@@ -48,7 +48,6 @@ const Login = (): React.ReactElement => {
 
   const title = isAdmin ? "Admin Login" : "Teacher Login";
   const subtitle = "Enter your login credentials below to continue";
-
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
