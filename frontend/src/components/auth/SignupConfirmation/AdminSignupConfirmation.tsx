@@ -28,7 +28,7 @@ const AdminSignupConfirmation = ({
     VERIFY_PASSWORD_RESET,
     {
       onCompleted(data: { verifyPasswordReset: string }) {
-        if (data.verifyPasswordReset !== "") {
+        if (data.verifyPasswordReset.length) {
           setVerified(true);
           setLoading(false);
         }
@@ -40,7 +40,7 @@ const AdminSignupConfirmation = ({
     RESET_PASSWORD_CODE,
     {
       onCompleted: async (data) => {
-        if (data.resetPasswordCode !== "") {
+        if (data.resetPasswordCode.length) {
           await verifyPasswordReset({
             variables: { oobCode: data.resetPasswordCode },
           });
