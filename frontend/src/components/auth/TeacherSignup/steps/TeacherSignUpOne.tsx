@@ -158,7 +158,6 @@ const TeacherSignupOne = ({
       <NavigationButtons
         onContinueClick={onContinueClick}
         onBackClick={() => history.push(TEACHER_LOGIN)}
-        continueButtonText="Continue"
         backButtonText="Back to login page"
       />
     </>

@@ -17,8 +17,7 @@ const LoadingState = ({
           speed="0.65s"
         />
         <Text textStyle="paragraph" color="blue.300">
-          Please wait for the {fullPage ? "page" : "data"} to load. It will load
-          momentarily.
+          Please wait for the data to load. It will load momentarily.
         </Text>
       </VStack>
     </Center>

@@ -7,14 +7,14 @@ interface NavigationButtonsProps {
     | (() => void)
     | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   onBackClick: () => void;
-  continueButtonText: string;
-  backButtonText: string;
+  continueButtonText?: string;
+  backButtonText?: string;
 }
 const NavigationButtons = ({
   onContinueClick,
   onBackClick,
-  continueButtonText,
-  backButtonText,
+  continueButtonText = "Continue",
+  backButtonText = "Back",
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>

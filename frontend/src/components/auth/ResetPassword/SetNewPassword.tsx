@@ -32,7 +32,6 @@ const SetNewPassword = ({
         form={
           <PasswordForm
             version="ResetPassword"
-            userRole={role}
             email={email}
             oobCode={oobCode}
             setStep={setStep}

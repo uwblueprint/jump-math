@@ -15,12 +15,9 @@ import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import NavigationButtons from "../TeacherSignup/NavigationButtons";
 import FormError from "../FormError";
-import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
-import { Role } from "../../../types/AuthTypes";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";
-  userRole: Role;
   email?: string;
   oobCode?: string;
   setValue?: UseFormSetValue<TeacherSignupForm>;
@@ -30,7 +27,6 @@ interface PasswordFormProps {
 
 const PasswordForm = ({
   version,
-  userRole,
   email = undefined,
   oobCode = undefined,
   setValue = undefined,
@@ -173,9 +169,7 @@ const PasswordForm = ({
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)
           }
-          onBackClick={() =>
-            history.push(userRole === "Admin" ? ADMIN_LOGIN : TEACHER_LOGIN)
-          }
+          onBackClick={() => history.goBack()}
           continueButtonText="Reset Password"
           backButtonText="Back to login page"
         />
@@ -186,8 +180,6 @@ const PasswordForm = ({
             onClick(e)
           }
           onBackClick={() => setStep && setStep(3)} // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
-          continueButtonText="Continue"
-          backButtonText="Back"
         />
       )}
     </VStack>
