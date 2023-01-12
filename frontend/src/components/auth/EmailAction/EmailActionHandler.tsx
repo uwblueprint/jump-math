@@ -36,22 +36,18 @@ const EmailActionHandler = (): React.ReactElement => {
 
   const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
     onCompleted(data: { verifyEmail: string }) {
-      if (data.verifyEmail.length) {
-        setEmail(data.verifyEmail);
-        setEmailVerified(true);
-        setLoading(false);
-      }
+      setEmail(data.verifyEmail);
+      setEmailVerified(true);
+      setLoading(false);
     },
   });
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
     {
       onCompleted(data: { verifyPasswordReset: string }) {
-        if (data.verifyPasswordReset.length) {
-          setEmail(data.verifyPasswordReset);
-          setPasswordResetVerified(true);
-          setLoading(false);
-        }
+        setEmail(data.verifyPasswordReset);
+        setPasswordResetVerified(true);
+        setLoading(false);
       },
     },
   );

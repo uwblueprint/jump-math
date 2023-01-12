@@ -2,11 +2,7 @@ import { makeExecutableSchema, gql } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { merge } from "lodash";
 
-import {
-  isAuthorizedByEmail,
-  isAuthorizedByRole,
-  isAuthorizedByUserId,
-} from "../middlewares/auth";
+import { isAuthorizedByRole, isAuthorizedByUserId } from "../middlewares/auth";
 import authResolvers from "./resolvers/authResolvers";
 import authType from "./types/authType";
 import entityResolvers from "./resolvers/entityResolvers";

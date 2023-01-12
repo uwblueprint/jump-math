@@ -27,11 +27,9 @@ const AdminSignupConfirmation = ({
   const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
     VERIFY_PASSWORD_RESET,
     {
-      onCompleted(data: { verifyPasswordReset: string }) {
-        if (data.verifyPasswordReset.length) {
-          setVerified(true);
-          setLoading(false);
-        }
+      onCompleted() {
+        setVerified(true);
+        setLoading(false);
       },
     },
   );
@@ -40,12 +38,10 @@ const AdminSignupConfirmation = ({
     RESET_PASSWORD_CODE,
     {
       onCompleted: async (data) => {
-        if (data.resetPasswordCode.length) {
-          await verifyPasswordReset({
-            variables: { oobCode: data.resetPasswordCode },
-          });
-          setOobCode(data.resetPasswordCode);
-        }
+        await verifyPasswordReset({
+          variables: { oobCode: data.resetPasswordCode },
+        });
+        setOobCode(data.resetPasswordCode);
       },
     },
   );

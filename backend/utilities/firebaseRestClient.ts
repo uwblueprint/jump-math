@@ -41,7 +41,7 @@ type RequestError = {
   };
 };
 
-type ConfirmEmailVerificationResponse = {
+export type ConfirmEmailVerificationResponse = {
   email: string;
   displayName: string;
   photoUrl: string;
@@ -50,7 +50,7 @@ type ConfirmEmailVerificationResponse = {
   emailVerified: boolean;
 };
 
-type ResetPasswordResponse = {
+export type ResetPasswordResponse = {
   email: string;
   requestType: string;
 };
