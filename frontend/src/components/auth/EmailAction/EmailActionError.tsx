@@ -1,11 +1,7 @@
 import { Center, Text } from "@chakra-ui/react";
 import React from "react";
 
-const FirebaseActionError = ({
-  mode,
-}: {
-  mode: string;
-}): React.ReactElement => {
+const EmailActionError = ({ mode }: { mode: string }): React.ReactElement => {
   const header =
     mode === "verifyEmail"
       ? "Try verifying your email again"
@@ -22,4 +18,4 @@ const FirebaseActionError = ({
   );
 };
 
-export default FirebaseActionError;
+export default EmailActionError;

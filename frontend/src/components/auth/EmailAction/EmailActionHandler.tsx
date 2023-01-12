@@ -11,15 +11,16 @@ import NotFound from "../../pages/NotFound";
 import SetNewPassword from "../ResetPassword/SetNewPassword";
 import AdminSignupConfirmation from "../SignupConfirmation/AdminSignupConfirmation";
 import TeacherSignupConfirmation from "../SignupConfirmation/TeacherSignupConfirmation";
-import FirebaseActionError from "./FirebaseActionError";
+import EmailActionError from "./EmailActionError";
 
-const FirebaseAction = (): React.ReactElement => {
+const EmailActionHandler = (): React.ReactElement => {
   const urlParams = new URLSearchParams(window.location.search);
   const mode = urlParams.get("mode");
   const oobCode: string = urlParams.get("oobCode") ?? "";
 
   const [emailVerified, setEmailVerified] = useState(false);
   const [passwordResetVerified, setPasswordResetVerified] = useState(false);
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -90,9 +91,9 @@ const FirebaseAction = (): React.ReactElement => {
       )}
 
       {!loading && !emailVerified && !passwordResetVerified && mode && (
-        <FirebaseActionError mode={mode} />
+        <EmailActionError mode={mode} />
       )}
     </>
   );
 };
-export default FirebaseAction;
+export default EmailActionHandler;

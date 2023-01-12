@@ -1,6 +1,6 @@
 export const HOME_PAGE = "/";
 
-export const FIREBASE_ACTION = "/firebase-action";
+export const EMAIL_ACTION = "/email-action";
 
 export const STUDENT_PAGE = "/student-dashboard";
 

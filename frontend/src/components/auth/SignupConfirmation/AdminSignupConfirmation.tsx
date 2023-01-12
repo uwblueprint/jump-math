@@ -10,7 +10,7 @@ import { ADMIN_SIGNUP_IMAGE } from "../../../assets/images";
 import { ADMIN_LOGIN } from "../../../constants/Routes";
 import LoadingState from "../../common/LoadingState";
 import AuthWrapper from "../AuthWrapper";
-import FirebaseActionError from "../FirebaseAction/FirebaseActionError";
+import EmailActionError from "../EmailAction/EmailActionError";
 import PasswordForm from "../Password/PasswordForm";
 
 const AdminSignupConfirmation = ({
@@ -93,7 +93,7 @@ const AdminSignupConfirmation = ({
           form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
         />
       ) : (
-        <FirebaseActionError mode="resetPassword" />
+        <EmailActionError mode="resetPassword" />
       )}
     </>
   );

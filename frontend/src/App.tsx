@@ -35,7 +35,7 @@ import Landing from "./components/pages/Landing";
 import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup";
-import FirebaseAction from "./components/auth/FirebaseAction/FirebaseAction";
+import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -90,8 +90,8 @@ const App = (): React.ReactElement => {
                 />
                 <Route
                   exact
-                  path={Routes.FIREBASE_ACTION}
-                  component={FirebaseAction}
+                  path={Routes.EMAIL_ACTION}
+                  component={EmailActionHandler}
                 />
                 <PrivateRoute
                   exact
