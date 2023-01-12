@@ -115,6 +115,22 @@ const textStyles = {
     letterSpacing: "0.16em",
     textTransform: "uppercase",
   },
+  tableHeader: {
+    fontSize: "14px",
+    fontWeight: "700",
+    lineHeight: "18px",
+    letterSpacing: 0,
+    color: "blue.300",
+    textTransform: "none",
+  },
+  tableBody: {
+    fontSize: "14px",
+    fontWeight: "500",
+    lineHeight: "18px",
+    letterSpacing: 0,
+    noOfLines: 1,
+    style: { display: "block" },
+  },
 };
 
 export default textStyles;
