@@ -17,19 +17,11 @@ const AdminUserTable = ({
     <Tbody>
       {users.map((user, index) => (
         <Tr
-          _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
           key={user.email}
           backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
         >
-          <Td>
-            <Text
-              fontWeight="bold"
-              textStyle="tableBody"
-            >{`${user.firstName} ${user.lastName}`}</Text>
-          </Td>
-          <Td>
-            <Text textStyle="tableBody">{user.email}</Text>
-          </Td>
+          <Td fontWeight="bold">{`${user.firstName} ${user.lastName}`}</Td>
+          <Td>{user.email}</Td>
           <Td width="5%">
             <RemoveUserPopover
               name={`${user.firstName} ${user.lastName}`}
@@ -41,6 +33,6 @@ const AdminUserTable = ({
     </Tbody>
   );
 
-  return <Table columns={["Name", "Email"]} tableBody={tableBody} />;
+  return <Table tableHeaders={["Name", "Email"]} tableRows={tableBody} />;
 };
 export default AdminUserTable;

@@ -5,15 +5,14 @@ import {
   Thead,
   Tr,
   Th,
-  Text,
 } from "@chakra-ui/react";
 
 interface TableProps {
-  columns: string[];
-  tableBody: React.ReactElement;
+  tableHeaders: string[];
+  tableRows: React.ReactElement;
 }
 
-const Table = ({ columns, tableBody }: TableProps): React.ReactElement => {
+const Table = ({ tableHeaders, tableRows }: TableProps): React.ReactElement => {
   return (
     <TableContainer
       padding="0.5em"
@@ -22,17 +21,15 @@ const Table = ({ columns, tableBody }: TableProps): React.ReactElement => {
       borderRadius="12px"
       minWidth="100%"
     >
-      <ChakraTable sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
+      <ChakraTable>
         <Thead>
-          <Tr>
-            {columns.map((column, index) => (
-              <Th key={index}>
-                <Text textStyle="tableHeader">{column}</Text>
-              </Th>
+          <Tr _hover={{ pointerEvents: "none" }}>
+            {tableHeaders.map((tableHeader, index) => (
+              <Th key={index}>{tableHeader}</Th>
             ))}
           </Tr>
         </Thead>
-        {tableBody}
+        {tableRows}
       </ChakraTable>
     </TableContainer>
   );
