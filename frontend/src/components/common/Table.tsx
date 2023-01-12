@@ -1,18 +1,28 @@
 import React from "react";
 import {
   TableContainer,
-  Table as ChakraTable,
+  Table as T,
   Thead,
   Tr,
   Th,
+  Tbody,
+  Td,
 } from "@chakra-ui/react";
+
+export interface TableRow {
+  values: string[];
+  removeButton: React.ReactElement;
+}
 
 interface TableProps {
   tableHeaders: string[];
-  tableRows: React.ReactElement;
+  tableRows: TableRow[];
 }
 
-const Table = ({ tableHeaders, tableRows }: TableProps): React.ReactElement => {
+export const Table = ({
+  tableHeaders,
+  tableRows,
+}: TableProps): React.ReactElement => {
   return (
     <TableContainer
       padding="0.5em"
@@ -21,7 +31,7 @@ const Table = ({ tableHeaders, tableRows }: TableProps): React.ReactElement => {
       borderRadius="12px"
       minWidth="100%"
     >
-      <ChakraTable>
+      <T>
         <Thead>
           <Tr _hover={{ pointerEvents: "none" }}>
             {tableHeaders.map((tableHeader, index) => (
@@ -29,8 +39,22 @@ const Table = ({ tableHeaders, tableRows }: TableProps): React.ReactElement => {
             ))}
           </Tr>
         </Thead>
-        {tableRows}
-      </ChakraTable>
+        <Tbody>
+          {tableRows.map((row, rowIndex) => (
+            <Tr
+              key={rowIndex}
+              backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
+            >
+              {row.values.map((value, cellIndex) => (
+                <Td key={value} fontWeight={cellIndex === 0 ? "bold" : ""}>
+                  {value}
+                </Td>
+              ))}
+              <Td width="5%">{row.removeButton}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </T>
     </TableContainer>
   );
 };

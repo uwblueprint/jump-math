@@ -1,7 +1,7 @@
 import React from "react";
-import { Tbody, Tr, Td, Text } from "@chakra-ui/react";
+import { Tbody, Tr, Td } from "@chakra-ui/react";
 import { AdminUser } from "../../types/UserTypes";
-import Table from "../common/Table";
+import { TableRow, Table } from "../common/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
 
 interface AdminUserTableProps {
@@ -13,6 +13,9 @@ const AdminUserTable = ({
 }: AdminUserTableProps): React.ReactElement => {
   const users = adminUsers;
 
+  const removeButton = <RemoveUserPopover name="test" email="test" />;
+
+  const tableRow: TableRow[] = [{ values: ["test1", "test2"], removeButton }];
   const tableBody = (
     <Tbody>
       {users.map((user, index) => (
@@ -33,6 +36,6 @@ const AdminUserTable = ({
     </Tbody>
   );
 
-  return <Table tableHeaders={["Name", "Email"]} tableRows={tableBody} />;
+  return <Table tableHeaders={["Name", "Email"]} tableRows={tableRow} />;
 };
 export default AdminUserTable;
