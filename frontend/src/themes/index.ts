@@ -6,6 +6,7 @@ import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
 import Radio from "./components/radio";
+import Table from "./components/table";
 import textStyles from "./typography";
 import "@fontsource/dm-sans";
 
@@ -23,6 +24,7 @@ const theme = extendTheme({
     FormError,
     Input,
     Radio,
+    Table,
   },
 });
 

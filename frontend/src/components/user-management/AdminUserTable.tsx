@@ -1,15 +1,6 @@
 import React from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Text,
-} from "@chakra-ui/react";
 import { AdminUser } from "../../types/UserTypes";
+import { TableRow, Table } from "../common/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
 
 interface AdminUserTableProps {
@@ -19,76 +10,17 @@ interface AdminUserTableProps {
 const AdminUserTable = ({
   adminUsers,
 }: AdminUserTableProps): React.ReactElement => {
-  const users = adminUsers;
+  const headers = ["Name", "Email"];
+  const rows: TableRow[] = adminUsers.map((user) => ({
+    values: [`${user.firstName} ${user.lastName}`, user.email],
+    menu: (
+      <RemoveUserPopover
+        name={`${user.firstName} ${user.lastName}`}
+        email={user.email}
+      />
+    ),
+  }));
 
-  return (
-    <TableContainer
-      padding="10px"
-      border="1px solid"
-      borderColor="#E2E8F0"
-      borderRadius="12px"
-      minWidth="100%"
-    >
-      <Table sx={{ tableLayout: "auto" }} variant="unstyled" size="md">
-        <Thead>
-          <Tr>
-            <Th>
-              <Text
-                textStyle="mobileSubtitle2"
-                fontWeight="bold"
-                color="blue.300"
-                textTransform="none"
-              >
-                Name
-              </Text>
-            </Th>
-            <Th>
-              <Text
-                textStyle="mobileSubtitle2"
-                fontWeight="bold"
-                color="blue.300"
-                textTransform="none"
-              >
-                Email
-              </Text>
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {users.map((user, index) => (
-            <Tr
-              _hover={{ backgroundColor: "blue.300", color: "grey.50" }}
-              key={user.email}
-              backgroundColor={index % 2 === 0 ? "blue.50" : "grey.50"}
-            >
-              <Td>
-                <Text
-                  fontWeight="bold"
-                  textStyle="mobileSubtitle2"
-                  noOfLines={1}
-                  style={{ display: "block" }}
-                >{`${user.firstName} ${user.lastName}`}</Text>
-              </Td>
-              <Td>
-                <Text
-                  textStyle="mobileSubtitle2"
-                  noOfLines={1}
-                  style={{ display: "block" }}
-                >
-                  {user.email}
-                </Text>
-              </Td>
-              <Td width="5%">
-                <RemoveUserPopover
-                  name={`${user.firstName} ${user.lastName}`}
-                  email={user.email}
-                />
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
-  );
+  return <Table headers={headers} rows={rows} />;
 };
 export default AdminUserTable;
