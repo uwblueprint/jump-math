@@ -15,22 +15,13 @@ import {
 import { useQuery } from "@apollo/client";
 
 import { AdminUser } from "../../types/UserTypes";
-import Navbar from "../common/Navbar";
-import Page from "../../types/PageTypes";
 import AdminUserTable from "../user-management/AdminUserTable";
 import AddAdminModal from "../user-management/AddAdminModal";
 import { AlertIcon } from "../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
 import SearchBar from "../common/SearchBar";
-
-import * as Routes from "../../constants/Routes";
-import LoadingState from "../common/LoadingState";
-
-const pages: Page[] = [
-  { title: "Assessments", url: Routes.ASSESSMENTS },
-  { title: "Database", url: Routes.USER_DATABASE },
-];
+import AdminDashboard from "../common/admin/AdminDashboard";
 
 const ErrorState = (): React.ReactElement => (
   <VStack spacing={6} textAlign="center">
@@ -101,65 +92,64 @@ const AdminPage = (): React.ReactElement => {
     return sortedUsers;
   }, [filteredAdmins, sortProperty, sortOrder]);
 
-  return (
-    <VStack flex="1" align="left">
-      <Navbar pages={pages} />
-      <Box padding="1.5em 2em 0em 2em">
-        <Box>
-          <HStack justifyContent="space-between">
-            <Text
-              textStyle="header4"
-              color="blue.300"
-              style={{ textAlign: "left" }}
-              marginBottom="0.5em"
-            >
-              Database
-            </Text>
-            <AddAdminModal />
-          </HStack>
-        </Box>
-        {loading && (
-          <Center margin="15%" flex="1">
-            <LoadingState />
-          </Center>
-        )}
-        {error && (
-          <Center margin="15%" flex="1">
-            <ErrorState />
-          </Center>
-        )}
-        {data && !error && !loading && (
-          <Box flex="1">
-            <Tabs marginTop={3}>
-              <TabList>
-                <Tab color={unselectedColor}>Admin</Tab>
-                <Tab color={unselectedColor}>Teachers</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <VStack pt={4} spacing={6}>
-                    <HStack width="100%">
-                      <SearchBar onSearch={setSearch} />
-                      <SortTablePopover OrderingSets={OrderingSets} />
-                    </HStack>
-                    {search && (
-                      <Text fontSize="16px" color="grey.300" width="100%">
-                        Showing {admins.length} results for &quot;{search}&quot;
-                      </Text>
-                    )}
-                    <AdminUserTable adminUsers={admins} />
-                  </VStack>
-                </TabPanel>
-                <TabPanel>
-                  <AdminUserTable adminUsers={admins} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
-        )}
+  const page = (
+    <>
+      <Box>
+        <HStack justifyContent="space-between">
+          <Text
+            textStyle="header4"
+            color="blue.300"
+            style={{ textAlign: "left" }}
+            marginBottom="0.5em"
+          >
+            Database
+          </Text>
+          <AddAdminModal />
+        </HStack>
       </Box>
-    </VStack>
+      {loading && (
+        <Center margin="15%" flex="1">
+          <LoadingState />
+        </Center>
+      )}
+      {error && (
+        <Center margin="15%" flex="1">
+          <ErrorState />
+        </Center>
+      )}
+      {data && !error && !loading && (
+        <Box flex="1">
+          <Tabs marginTop={3}>
+            <TabList>
+              <Tab color={unselectedColor}>Admin</Tab>
+              <Tab color={unselectedColor}>Teachers</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <VStack pt={4} spacing={6}>
+                  <HStack width="100%">
+                    <SearchBar onSearch={setSearch} />
+                    <SortTablePopover OrderingSets={OrderingSets} />
+                  </HStack>
+                  {search && (
+                    <Text fontSize="16px" color="grey.300" width="100%">
+                      Showing {admins.length} results for &quot;{search}&quot;
+                    </Text>
+                  )}
+                  <AdminUserTable adminUsers={admins} />
+                </VStack>
+              </TabPanel>
+              <TabPanel>
+                <AdminUserTable adminUsers={admins} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
+      )}
+    </>
   );
+
+  return <AdminDashboard page={page} />;
 };
 
 export default AdminPage;
