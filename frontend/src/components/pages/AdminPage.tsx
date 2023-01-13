@@ -10,9 +10,6 @@ import {
   TabPanels,
   useColorModeValue,
   VStack,
-  Input,
-  InputGroup,
-  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
@@ -22,9 +19,10 @@ import Navbar from "../common/Navbar";
 import Page from "../../types/PageTypes";
 import AdminUserTable from "../user-management/AdminUserTable";
 import AddAdminModal from "../user-management/AddAdminModal";
-import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
+import { AlertIcon } from "../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
 import SortTablePopover from "../common/SortTablePopover";
+import SearchBar from "../common/SearchBar";
 
 import * as Routes from "../../constants/Routes";
 import LoadingState from "../common/LoadingState";
@@ -141,18 +139,7 @@ const AdminPage = (): React.ReactElement => {
                 <TabPanel>
                   <VStack pt={4} spacing={6}>
                     <HStack width="100%">
-                      <InputGroup width="95%">
-                        <Input
-                          borderRadius="6px"
-                          borderColor="grey.100"
-                          backgroundColor="grey.100"
-                          onChange={(e) => setSearch(e.target.value)}
-                          placeholder="Search bar"
-                        />
-                        <InputRightElement pointerEvents="none" h="full">
-                          <SearchOutlineIcon />
-                        </InputRightElement>
-                      </InputGroup>
+                      <SearchBar onSearch={setSearch} />
                       <SortTablePopover OrderingSets={OrderingSets} />
                     </HStack>
                     {search && (
