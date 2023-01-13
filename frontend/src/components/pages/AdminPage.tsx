@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
-import { AdminUser } from "../../types/UserTypes";
+import { AdminUser, TableData } from "../../types/UserTypes";
 import AddAdminModal from "../user-management/AddAdminModal";
 import { AlertIcon } from "../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
@@ -31,11 +31,10 @@ const ErrorState = (): React.ReactElement => (
   </VStack>
 );
 
-const getAdminUser = (user: AdminUser) => {
+const getAdminUser = (user: AdminUser): TableData => {
   return {
     email: user.email,
-    firstName: user.firstName,
-    lastName: user.lastName,
+    name: `${user.firstName} ${user.lastName}`,
   };
 };
 
@@ -86,10 +85,10 @@ const AdminPage = (): React.ReactElement => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AdminUsers admins={admins} />
+                <AdminUsers data={admins} />
               </TabPanel>
               <TabPanel>
-                <p>hi</p>
+                <AdminUsers data={admins} />
               </TabPanel>
             </TabPanels>
           </Tabs>

@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../assets/icons";
 
-type AdminUserProperty = "firstName" | "email";
-type SortOrder = "Ascending" | "Descending";
+type AdminUserProperty = "name" | "email";
+type SortOrder = "ascending" | "descending";
 type OrderingStates = {
   sortProperty: AdminUserProperty;
   sortOrder: SortOrder;
@@ -58,7 +58,7 @@ const SortTablePopover = ({
                     <RadioGroup
                       color="blue.300"
                       onChange={(e) => {
-                        if (e === "firstName" || e === "email") {
+                        if (e === "name" || e === "email") {
                           setSortProperty(e);
                         }
                       }}
@@ -68,7 +68,7 @@ const SortTablePopover = ({
                         <Text pb="2" textStyle="link">
                           Property
                         </Text>
-                        <Radio defaultChecked value="firstName">
+                        <Radio defaultChecked value="name">
                           Name
                         </Radio>
                         <Radio value="email">Email</Radio>
@@ -80,7 +80,7 @@ const SortTablePopover = ({
                     <RadioGroup
                       color="blue.300"
                       onChange={(e) => {
-                        if (e === "Ascending" || e === "Descending") {
+                        if (e === "ascending" || e === "descending") {
                           setSortOrder(e);
                         }
                       }}
@@ -90,10 +90,10 @@ const SortTablePopover = ({
                         <Text pb="2" textStyle="link">
                           Order
                         </Text>
-                        <Radio defaultChecked value="Ascending">
+                        <Radio defaultChecked value="ascending">
                           Ascending
                         </Radio>
-                        <Radio value="Descending">Descending</Radio>
+                        <Radio value="descending">Descending</Radio>
                       </Stack>
                     </RadioGroup>
                   </Stack>

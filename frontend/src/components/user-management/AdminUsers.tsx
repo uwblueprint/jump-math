@@ -5,21 +5,21 @@ import SearchBar from "../common/SearchBar";
 import SortTablePopover from "../common/SortTablePopover";
 import AdminUserTable from "./AdminUserTable";
 
-import { AdminUser } from "../../types/UserTypes";
+import { TableData } from "../../types/UserTypes";
 
 interface AdminUsersProps {
-  admins: AdminUser[];
+  data: TableData[];
 }
 
-type AdminUserProperty = "firstName" | "email";
-type SortOrder = "Ascending" | "Descending";
+type AdminUserProperty = "name" | "email";
+type SortOrder = "ascending" | "descending";
 
-const AdminUsers = ({ admins }: AdminUsersProps): React.ReactElement => {
+const AdminUsers = ({ data }: AdminUsersProps): React.ReactElement => {
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
-    "firstName",
+    "name",
   );
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
 
   const OrderingSets = {
     sortProperty,
@@ -28,33 +28,27 @@ const AdminUsers = ({ admins }: AdminUsersProps): React.ReactElement => {
     setSortOrder,
   };
 
-  const filteredAdmins = React.useMemo(() => {
-    let filteredUsers = admins;
+  const admins = React.useMemo(() => {
+    let users = data;
     if (search) {
-      filteredUsers = filteredUsers.filter(
-        (user: AdminUser) =>
-          `${user.firstName} ${user.lastName}`
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
+      users = users.filter(
+        (user: TableData) =>
+          user.name.toLowerCase().includes(search.toLowerCase()) ||
           user.email.toLowerCase().includes(search.toLowerCase()),
       );
     }
-    return filteredUsers;
-  }, [search, admins]);
-
-  const sortedAdmins = React.useMemo(() => {
-    let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
-    if (sortOrder === "Descending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
-      );
-    } else if (sortOrder === "Ascending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
+    if (sortOrder === "ascending") {
+      users = users?.sort((a, b) =>
         a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
       );
     }
-    return sortedUsers;
-  }, [filteredAdmins, sortProperty, sortOrder]);
+    if (sortOrder === "descending") {
+      users = users?.sort((a, b) =>
+        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+      );
+    }
+    return users;
+  }, [search, sortOrder, sortProperty, data]);
 
   return (
     <VStack pt={4} spacing={6}>
@@ -64,10 +58,10 @@ const AdminUsers = ({ admins }: AdminUsersProps): React.ReactElement => {
       </HStack>
       {search && (
         <Text fontSize="16px" color="grey.300" width="100%">
-          Showing {sortedAdmins.length} results for &quot;{search}&quot;
+          Showing {admins.length} results for &quot;{search}&quot;
         </Text>
       )}
-      <AdminUserTable adminUsers={sortedAdmins} />
+      <AdminUserTable adminUsers={admins} />
     </VStack>
   );
 };
