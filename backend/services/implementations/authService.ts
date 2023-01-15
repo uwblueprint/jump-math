@@ -5,7 +5,10 @@ import IEmailService from "../interfaces/emailService";
 import IUserService from "../interfaces/userService";
 import { AuthDTO, Role, Token } from "../../types";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import FirebaseRestClient from "../../utilities/firebaseRestClient";
+import FirebaseRestClient, {
+  ConfirmEmailVerificationResponse,
+  ResetPasswordResponse,
+} from "../../utilities/firebaseRestClient";
 import logger from "../../utilities/logger";
 
 const Logger = logger(__filename);
@@ -160,6 +163,24 @@ class AuthService implements IAuthService {
     }
   }
 
+  async resetPasswordCode(email: string): Promise<string> {
+    let oobCode: string;
+    try {
+      const resetLink = await firebaseAdmin
+        .auth()
+        .generatePasswordResetLink(email);
+      const regex = /(?<=&oobCode=)(.*)(?=&apiKey=)/gm;
+      [oobCode] = resetLink.match(regex)!;
+    } catch (error) {
+      Logger.error(
+        `Failed to generate password reset code for user with email ${email}`,
+      );
+      throw error;
+    }
+
+    return oobCode;
+  }
+
   async sendEmailVerificationLink(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
@@ -258,6 +279,51 @@ class AuthService implements IAuthService {
     } catch (error) {
       return false;
     }
+  }
+
+  async verifyEmail(oobCode: string): Promise<string> {
+    let res: ConfirmEmailVerificationResponse;
+    try {
+      res = await FirebaseRestClient.confirmEmailVerification(oobCode);
+      if (!res.emailVerified) throw new Error(`OobCode ${oobCode} is invalid`);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to verify email. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return res.email;
+  }
+
+  async verifyPasswordReset(oobCode: string): Promise<string> {
+    let res: ResetPasswordResponse;
+    try {
+      res = await FirebaseRestClient.verifyPasswordResetCode(oobCode);
+      if (!res.email) throw new Error(`OobCode ${oobCode} is invalid`);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to verify password reset. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return res.email;
+  }
+
+  async confirmPasswordReset(
+    newPassword: string,
+    oobCode: string,
+  ): Promise<boolean> {
+    let res: ResetPasswordResponse;
+    try {
+      res = await FirebaseRestClient.confirmPasswordReset(newPassword, oobCode);
+      if (!res.email) throw new Error(`OobCode ${oobCode} is invalid`);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to confirm password reset. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+    return !!res.email;
   }
 }
 

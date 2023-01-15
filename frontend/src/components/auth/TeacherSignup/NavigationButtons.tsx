@@ -7,24 +7,26 @@ interface NavigationButtonsProps {
     | (() => void)
     | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   onBackClick: () => void;
-  firstPage?: boolean;
+  continueButtonText?: string;
+  backButtonText?: string;
 }
 const NavigationButtons = ({
   onContinueClick,
   onBackClick,
-  firstPage,
+  continueButtonText = "Continue",
+  backButtonText = "Back",
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
       <Button variant="primary" width="100%" onClick={onContinueClick}>
-        Continue
+        {continueButtonText}
       </Button>
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         variant="tertiary"
         onClick={onBackClick}
       >
-        Back{firstPage ? " to login page" : ""}
+        {backButtonText}
       </Button>
     </>
   );

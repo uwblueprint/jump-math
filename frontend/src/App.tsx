@@ -34,7 +34,8 @@ import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
-import TeacherSignup from "./components/auth/TeacherSignup/TeacherSignup";
+import TeacherSignup from "./components/auth/TeacherSignup";
+import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -86,6 +87,11 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.TEACHER_SIGNUP}
                   component={TeacherSignup}
+                />
+                <Route
+                  exact
+                  path={Routes.EMAIL_ACTION}
+                  component={EmailActionHandler}
                 />
                 <PrivateRoute
                   exact

@@ -12,6 +12,7 @@ import { HOME_PAGE } from "../../constants/Routes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
+import ForgotPassword from "./ResetPassword/ForgotPassword";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -23,6 +24,8 @@ const Login = (): React.ReactElement => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
+
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
@@ -68,10 +71,13 @@ const Login = (): React.ReactElement => {
         />
       </FormControl>
 
-      {/* TODO: add correct routing */}
-      <RouterLink textAlign="left" color="blue.300" to="/">
+      <Button
+        onClick={() => setForgotPassword(true)}
+        textAlign="left"
+        color="blue.300"
+      >
         Forgot Password?
-      </RouterLink>
+      </Button>
       <Button onClick={onLogInClick} variant="primary" width="100%">
         Login
       </Button>
@@ -93,6 +99,7 @@ const Login = (): React.ReactElement => {
   );
   const error = loginError ? "Please ensure fields are filled" : "";
 
+  if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   return (
     <AuthWrapper
       title={title}

@@ -1,5 +1,7 @@
 export const HOME_PAGE = "/";
 
+export const EMAIL_ACTION = "/email-action";
+
 export const STUDENT_PAGE = "/student-dashboard";
 
 export const COMPONENT_LIBRARY = "/component-library";
