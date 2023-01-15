@@ -5,13 +5,13 @@ import { useHistory } from "react-router-dom";
 import {
   VERIFY_PASSWORD_RESET,
   RESET_PASSWORD_CODE,
-} from "../../../APIClients/mutations/AuthMutations";
-import { ADMIN_SIGNUP_IMAGE } from "../../../assets/images";
-import { ADMIN_LOGIN } from "../../../constants/Routes";
-import LoadingState from "../../common/LoadingState";
-import AuthWrapper from "../AuthWrapper";
-import EmailActionError from "../EmailAction/EmailActionError";
-import PasswordForm from "../Password/PasswordForm";
+} from "../../APIClients/mutations/AuthMutations";
+import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
+import { ADMIN_LOGIN } from "../../constants/Routes";
+import LoadingState from "../common/LoadingState";
+import AuthWrapper from "./AuthWrapper";
+import EmailActionError from "./EmailAction/EmailActionError";
+import PasswordForm from "./Password/PasswordForm";
 
 const AdminSignupConfirmation = ({
   email,

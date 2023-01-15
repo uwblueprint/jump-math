@@ -9,8 +9,8 @@ import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../../pages/NotFound";
 import SetNewPassword from "../ResetPassword/SetNewPassword";
-import AdminSignupConfirmation from "../SignupConfirmation/AdminSignupConfirmation";
-import TeacherSignupConfirmation from "../SignupConfirmation/TeacherSignupConfirmation";
+import AdminSignupConfirmation from "../AdminSignupConfirmation";
+import TeacherSignupConfirmation from "../TeacherSignup/steps/TeacherSignupConfirmation";
 import EmailActionError from "./EmailActionError";
 
 const EmailActionHandler = (): React.ReactElement => {

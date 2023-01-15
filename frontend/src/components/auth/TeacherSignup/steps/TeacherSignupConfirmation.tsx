@@ -1,9 +1,9 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import AuthWrapper from "../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../assets/images";
-import { TEACHER_LOGIN } from "../../../constants/Routes";
+import AuthWrapper from "../../AuthWrapper";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import { TEACHER_LOGIN } from "../../../../constants/Routes";
 
 const TeacherSignupConfirmation = (): React.ReactElement => {
   const history = useHistory();
