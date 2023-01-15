@@ -33,6 +33,9 @@ const ResetPasswordHandler = ({
         setPasswordResetVerified(true);
         setLoading(false);
       },
+      onError() {
+        setLoading(false);
+      },
     },
   );
 

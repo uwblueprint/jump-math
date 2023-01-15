@@ -31,6 +31,9 @@ const AdminSignupConfirmation = ({
         setVerified(true);
         setLoading(false);
       },
+      onError() {
+        setLoading(false);
+      },
     },
   );
 

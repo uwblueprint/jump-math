@@ -32,6 +32,9 @@ const VerifyEmailHandler = ({
       setEmailVerified(true);
       setLoading(false);
     },
+    onError() {
+      setLoading(false);
+    },
   });
 
   useEffect(() => {
