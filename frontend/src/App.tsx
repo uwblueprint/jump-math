@@ -16,8 +16,6 @@ import StudentPage from "./components/pages/StudentPage";
 import AdminPage from "./components/pages/AdminPage";
 import TeacherPage from "./components/pages/TeacherPage";
 
-import ComponentLibrary from "./components/pages/ComponentLibrary";
-
 import * as Routes from "./constants/Routes";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import AuthContext from "./contexts/AuthContext";
@@ -114,12 +112,6 @@ const App = (): React.ReactElement => {
                     roles={["Admin"]}
                   />
                 </AdminDashboard>
-                <PrivateRoute
-                  exact
-                  path={Routes.COMPONENT_LIBRARY}
-                  component={ComponentLibrary}
-                  roles={["Admin", "Teacher"]}
-                />
                 <PrivateRoute
                   exact
                   path={Routes.CREATE_QUESTION}
