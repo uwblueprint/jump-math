@@ -36,6 +36,7 @@ import theme from "./themes";
 import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup";
 import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
+import AdminDashboard from "./components/common/admin/AdminDashboard";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -105,12 +106,14 @@ const App = (): React.ReactElement => {
                   component={TeacherPage}
                   roles={["Teacher", "Admin"]}
                 />
-                <PrivateRoute
-                  exact
-                  path={Routes.USER_DATABASE}
-                  component={AdminPage}
-                  roles={["Admin"]}
-                />
+                <AdminDashboard>
+                  <PrivateRoute
+                    exact
+                    path={Routes.USER_DATABASE}
+                    component={AdminPage}
+                    roles={["Admin"]}
+                  />
+                </AdminDashboard>
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
