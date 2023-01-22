@@ -3,15 +3,15 @@ import { User } from "../../types/UserTypes";
 import { TableRow, Table } from "../common/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
 
-interface AdminUserTableProps {
-  adminUsers: User[];
+interface TeacherUserTableProps {
+  teacherUsers: User[];
 }
 
-const AdminUserTable = ({
-  adminUsers,
-}: AdminUserTableProps): React.ReactElement => {
+const TeacherUserTable = ({
+  teacherUsers,
+}: TeacherUserTableProps): React.ReactElement => {
   const headers = ["Name", "Email"];
-  const rows: TableRow[] = adminUsers.map((user) => ({
+  const rows: TableRow[] = teacherUsers.map((user) => ({
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu: (
       <RemoveUserPopover
@@ -23,4 +23,4 @@ const AdminUserTable = ({
 
   return <Table headers={headers} rows={rows} />;
 };
-export default AdminUserTable;
+export default TeacherUserTable;
