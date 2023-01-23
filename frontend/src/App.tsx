@@ -12,10 +12,6 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
-import StudentPage from "./components/pages/StudentPage";
-import AdminPage from "./components/pages/AdminPage";
-import TeacherPage from "./components/pages/TeacherPage";
-
 import * as Routes from "./constants/Routes";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import AuthContext from "./contexts/AuthContext";
@@ -31,10 +27,9 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup";
 import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
-import AdminDashboard from "./components/common/admin/AdminDashboard";
+import AdminDashboard from "./components/pages/admin/AdminDashboard";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(

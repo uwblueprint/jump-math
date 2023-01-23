@@ -17,14 +17,14 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
-import { AdminUser } from "../../types/UserTypes";
-import AdminUserTable from "../user-management/AdminUserTable";
-import AddAdminModal from "../user-management/AddAdminModal";
-import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
-import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
-import SortTablePopover from "../common/SortTablePopover";
+import { AdminUser } from "../../../types/UserTypes";
+import AdminUserTable from "../../user-management/AdminUserTable";
+import AddAdminModal from "../../user-management/AddAdminModal";
+import { AlertIcon, SearchOutlineIcon } from "../../../assets/icons";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import SortTablePopover from "../../common/SortTablePopover";
 
-import LoadingState from "../common/LoadingState";
+import LoadingState from "../../common/LoadingState";
 
 const ErrorState = (): React.ReactElement => (
   <VStack spacing={6} textAlign="center">
@@ -47,7 +47,7 @@ const getAdminUser = (user: AdminUser) => {
 type AdminUserProperty = "firstName" | "email";
 type SortOrder = "Ascending" | "Descending";
 
-const AdminPage = (): React.ReactElement => {
+const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
@@ -164,4 +164,4 @@ const AdminPage = (): React.ReactElement => {
   );
 };
 
-export default AdminPage;
+export default UsersPage;

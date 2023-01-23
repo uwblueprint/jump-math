@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, VStack } from "@chakra-ui/react";
+import { Redirect } from "react-router-dom";
 
-import Navbar from "../Navbar";
+import Navbar from "../../common/Navbar";
 import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
-import AdminPage from "../../pages/AdminPage";
+import UsersPage from "./UsersPage";
 import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
 import PrivateRoute from "../../auth/PrivateRoute";
 
@@ -21,7 +22,7 @@ const AdminDashboard = (): React.ReactElement => {
         <PrivateRoute
           exact
           path={Routes.USER_DATABASE}
-          component={AdminPage}
+          component={UsersPage}
           roles={["Admin"]}
         />
         <PrivateRoute
@@ -30,6 +31,7 @@ const AdminDashboard = (): React.ReactElement => {
           component={CreateQuestionPage}
           roles={["Admin"]}
         />
+        <Redirect from={Routes.ADMIN} to={Routes.USER_DATABASE} exact />
       </Box>
     </VStack>
   );
