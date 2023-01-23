@@ -12,3 +12,5 @@ export const CREATE_QUESTION = "/admin/create-question";
 export const TEACHER_LOGIN = "/teacher/login";
 export const TEACHER_SIGNUP = "/teacher/signup";
 export const TEACHER_PAGE = "/teacher/dashboard";
+
+export const ADMIN = "/admin";

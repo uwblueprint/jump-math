@@ -66,19 +66,13 @@ const App = (): React.ReactElement => {
             <Router>
               <Switch>
                 {authenticatedUser?.role === "Admin" && (
-                  <Redirect
-                    exact
-                    from={Routes.HOME_PAGE}
-                    to={Routes.USER_DATABASE}
-                  />
+                  <Redirect exact from={Routes.HOME_PAGE} to={Routes.ADMIN} />
                 )}
-                {authenticatedUser?.role === "Teacher" && (
-                  <Redirect
-                    exact
-                    from={Routes.HOME_PAGE}
-                    to={Routes.TEACHER_PAGE}
-                  />
-                )}
+                <PrivateRoute
+                  path={Routes.ADMIN}
+                  component={AdminDashboard}
+                  roles={["Admin"]}
+                />
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.ADMIN_LOGIN} component={Login} />
                 <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
@@ -91,32 +85,6 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.STUDENT_PAGE}
-                  component={StudentPage}
-                  roles={["Admin"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.TEACHER_PAGE}
-                  component={TeacherPage}
-                  roles={["Teacher", "Admin"]}
-                />
-                <AdminDashboard>
-                  <PrivateRoute
-                    exact
-                    path={Routes.USER_DATABASE}
-                    component={AdminPage}
-                    roles={["Admin"]}
-                  />
-                </AdminDashboard>
-                <PrivateRoute
-                  exact
-                  path={Routes.CREATE_QUESTION}
-                  component={CreateQuestionPage}
-                  roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
               </Switch>
