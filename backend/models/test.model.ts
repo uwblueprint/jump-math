@@ -9,7 +9,7 @@ export enum QuestionComponentType {
   IMAGE,
   MULTIPLE_CHOICE,
   MULTI_SELECT,
-  NUMERIC_QUESTION,
+  SHORT_ANSWER,
 }
 
 export type QuestionComponentMetadata =
@@ -18,7 +18,7 @@ export type QuestionComponentMetadata =
   | ImageMetadata
   | MultipleChoiceMetadata
   | MultiSelectMetadata
-  | NumericQuestionMetadata;
+  | ShortAnswerMetadata;
 
 /**
  * This interface contains additional information about a question text component
@@ -62,16 +62,15 @@ export interface MultiSelectMetadata {
 }
 
 /**
- * This interface contains additional information about a question with a
- * numeric answer
+ * This interface contains additional information about a short answer component
  */
-export interface NumericQuestionMetadata {
+export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
 }
 
 /**
- * This interface contains information about a single question component in a question.
+ * This interface contains information about a single component in a question.
  */
 export interface QuestionComponent {
   /** the type of question component  */

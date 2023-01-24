@@ -4,7 +4,7 @@ import {
   ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
-  NumericQuestionMetadata,
+  ShortAnswerMetadata,
   QuestionComponent,
   Question,
 } from "../../models/test.model";
@@ -36,7 +36,7 @@ export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
   imageMetadata: ImageMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
-  numericQuestionMetadata: NumericQuestionMetadata;
+  shortAnswerMetadata: ShortAnswerMetadata;
 };
 
 export interface QuestionRequest {

@@ -14,7 +14,7 @@ import logger from "../../utilities/logger";
 import {
   MultiSelectMetadata,
   MultipleChoiceMetadata,
-  NumericQuestionMetadata,
+  ShortAnswerMetadata,
   Question,
   QuestionComponent,
   QuestionComponentType,
@@ -336,7 +336,7 @@ class TestSessionService implements ITestSessionService {
           const { type } = questionComponent;
           if (
             type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.NUMERIC_QUESTION
+            type === QuestionComponentType.SHORT_ANSWER
           ) {
             const actualAnswer: number = this.getCorrectAnswer(
               questionComponent,
@@ -390,24 +390,14 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private isResponseType(questionComponent: QuestionComponent): boolean {
-    return (
-      questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE ||
-      questionComponent.type === QuestionComponentType.MULTI_SELECT ||
-      questionComponent.type === QuestionComponentType.NUMERIC_QUESTION
-    );
-  }
-
   private getCorrectAnswer(questionComponent: QuestionComponent): number {
     let actualAnswer: number;
 
     if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
       const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
       actualAnswer = questionMetadata.answerIndex;
-    } else if (
-      questionComponent.type === QuestionComponentType.NUMERIC_QUESTION
-    ) {
-      const questionMetadata = questionComponent.metadata as NumericQuestionMetadata;
+    } else if (questionComponent.type === QuestionComponentType.SHORT_ANSWER) {
+      const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
       actualAnswer = questionMetadata.answer;
     }
 
@@ -416,10 +406,8 @@ class TestSessionService implements ITestSessionService {
   }
 
   private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
-    const actualAnswers: number[];
-
     const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
-    actualAnswers = questionMetadata.answerIndices;
+    const actualAnswers: number[] = questionMetadata.answerIndices;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswers!;
