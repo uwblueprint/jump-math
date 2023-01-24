@@ -30,14 +30,17 @@ export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
   admin: string;
 };
 
-export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
+export interface QuestionComponentMetadataRequest {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
   imageMetadata: ImageMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
-};
+}
+
+export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
+  QuestionComponentMetadataRequest;
 
 export interface QuestionRequest {
   /** the ordered list of question components */

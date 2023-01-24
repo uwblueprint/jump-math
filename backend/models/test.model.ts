@@ -24,7 +24,7 @@ export type QuestionComponentMetadata =
  * This interface contains additional information about a question text component
  */
 export interface QuestionTextMetadata {
-  text: string;
+  questionText: string;
 }
 
 /**

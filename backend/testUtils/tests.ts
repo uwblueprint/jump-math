@@ -22,11 +22,11 @@ export const questions: Array<Question> = [
       {
         type: QuestionComponentType.QUESTION_TEXT,
         metadata: {
-          text: "How many apples does Thomas have left?",
+          questionText: "How many apples does Thomas have left?",
         },
       },
       {
-        type: QuestionComponentType.NUMERIC_QUESTION,
+        type: QuestionComponentType.SHORT_ANSWER,
         metadata: {
           answer: 3,
         },
@@ -34,7 +34,7 @@ export const questions: Array<Question> = [
       {
         type: QuestionComponentType.QUESTION_TEXT,
         metadata: {
-          text: "How many apples does Rick have left?",
+          questionText: "How many apples does Rick have left?",
         },
       },
       {
@@ -47,7 +47,7 @@ export const questions: Array<Question> = [
       {
         type: QuestionComponentType.QUESTION_TEXT,
         metadata: {
-          text: "How many apples does Mike have left?",
+          questionText: "How many apples does Mike have left?",
         },
       },
       {
@@ -64,7 +64,7 @@ export const questions: Array<Question> = [
       {
         type: QuestionComponentType.QUESTION_TEXT,
         metadata: {
-          text: "How many children are in the image below?",
+          questionText: "How many children are in the image below?",
         },
       },
       {
@@ -75,7 +75,7 @@ export const questions: Array<Question> = [
         },
       },
       {
-        type: QuestionComponentType.NUMERIC_QUESTION,
+        type: QuestionComponentType.SHORT_ANSWER,
         metadata: {
           answer: 7,
         },
