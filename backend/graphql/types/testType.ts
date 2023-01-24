@@ -1,9 +1,37 @@
 import { gql } from "apollo-server-express";
 
 const testType = gql`
-  enum QuestionTypeEnum {
+  enum QuestionComponentTypeEnum {
+    QUESTION_TEXT
+    TEXT
+    IMAGE
     MULTIPLE_CHOICE
-    NUMERIC_ANSWER
+    MULTI_SELECT
+    SHORT_ANSWER
+  }
+
+  input QuestionTextMetadataInput {
+    questionText: string;
+  }
+
+  type QuestionTextMetadata {
+    questionText: string;
+  }
+
+  input TextMetadataInput {
+    text: string;
+  }
+
+  type TextMetadata {
+    text: string;
+  }
+
+  input ImageMetadataInput {
+    src: string;
+  }
+
+  type ImageMetadata {
+    src: string;
   }
 
   input MultipleChoiceMetadataInput {
@@ -16,27 +44,47 @@ const testType = gql`
     answerIndex: Float!
   }
 
-  input NumericQuestionMetadataInput {
+  input MultiSelectMetadataInput {
+    options: [String!]!
+    answerIndices: [Float!]!
+  }
+
+  type MultiSelectMetadata {
+    options: [String!]!
+    answerIndices: [Float!]!
+  }
+
+  input ShortAnswerMetadataInput {
     answer: Float!
   }
 
-  type NumericQuestionMetadata {
+  type ShortAnswerMetadata {
     answer: Float!
   }
 
-  union QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata
+  union QuestionMetadata = QuestionTextMetadata | TextMetadata | ImageMetadata | MultipleChoiceMetadata | MultiSelectMetadata | ShortAnswerMetadata
+
+  type QuestionComponent {
+    type: QuestionComponentTypeEnum!
+    metadata: QuestionComponentMetadata!
+  }
 
   type Question {
-    questionType: QuestionTypeEnum!
-    questionPrompt: String!
-    questionMetadata: QuestionMetadata!
+    question: QuestionComponent[];
+  }
+
+  input QuestionComponentInput {
+    type: QuestionComponentTypeEnum!
+    questionTextMetadata: QuestionTextMetadataInput;
+    textMetadata: TextMetadataInput;
+    imageMetadata: ImageMetadataInput;
+    multipleChoiceMetadata: MultipleChoiceMetadataInput;
+    multiSelectMetadata: MultiSelectMetadataInput;
+    shortAnswerMetadata: ShortAnswerMetadataInput;
   }
 
   input QuestionInput {
-    questionType: QuestionTypeEnum!
-    questionPrompt: String!
-    questionMetadataMultipleChoice: MultipleChoiceMetadataInput
-    questionMetadataNumericQuestion: NumericQuestionMetadataInput
+    question: QuestionComponentInput[];
   }
 
   type TestResponseDTO {
