@@ -30,6 +30,7 @@ import theme from "./themes";
 import TeacherSignup from "./components/auth/TeacherSignup";
 import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
+import TeacherPage from "./components/pages/TeacherPage";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -61,12 +62,29 @@ const App = (): React.ReactElement => {
             <Router>
               <Switch>
                 {authenticatedUser?.role === "Admin" && (
-                  <Redirect exact from={Routes.HOME_PAGE} to={Routes.ADMIN} />
+                  <Redirect
+                    exact
+                    from={Routes.HOME_PAGE}
+                    to={Routes.ADMIN_LANDING}
+                  />
                 )}
                 <PrivateRoute
-                  path={Routes.ADMIN}
+                  path={Routes.ADMIN_LANDING}
                   component={AdminDashboard}
                   roles={["Admin"]}
+                />
+                {authenticatedUser?.role === "Teacher" && (
+                  <Redirect
+                    exact
+                    from={Routes.HOME_PAGE}
+                    to={Routes.TEACHER_LANDING}
+                  />
+                )}
+                <PrivateRoute
+                  exact
+                  path={Routes.TEACHER_LANDING}
+                  component={TeacherPage}
+                  roles={["Teacher"]}
                 />
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.ADMIN_LOGIN} component={Login} />

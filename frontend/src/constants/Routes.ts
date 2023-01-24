@@ -1,16 +1,18 @@
+// Public Routes
 export const HOME_PAGE = "/";
-
+export const ADMIN_LOGIN = "/admin-login";
+export const TEACHER_LOGIN = "/teacher-login";
+export const TEACHER_SIGNUP = "/teacher-signup";
 export const EMAIL_ACTION = "/email-action";
 
-export const STUDENT_PAGE = "/student-dashboard";
-
-export const ADMIN_LOGIN = "/admin/login";
+// Private Admin Routes
+export const ADMIN_LANDING = "/admin";
 export const USER_DATABASE = "/admin/user-database";
 export const ASSESSMENTS = "/admin/assessments";
 export const CREATE_QUESTION = "/admin/create-question";
 
-export const TEACHER_LOGIN = "/teacher/login";
-export const TEACHER_SIGNUP = "/teacher/signup";
-export const TEACHER_PAGE = "/teacher/dashboard";
+// Private Teacher Routes
+export const TEACHER_LANDING = "/teacher";
 
-export const ADMIN = "/admin";
+// Private Student Routes
+export const STUDENT_LANDING = "/student";

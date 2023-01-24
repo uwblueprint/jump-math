@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, VStack } from "@chakra-ui/react";
-import { Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import Navbar from "../../common/Navbar";
 import Page from "../../../types/PageTypes";
@@ -8,6 +8,7 @@ import * as Routes from "../../../constants/Routes";
 import UsersPage from "./UsersPage";
 import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
 import PrivateRoute from "../../auth/PrivateRoute";
+import NotFound from "../NotFound";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
@@ -19,19 +20,26 @@ const AdminDashboard = (): React.ReactElement => {
     <VStack flex="1" align="left">
       <Navbar pages={pages} />
       <Box padding="1.5em 2em 0em 2em">
-        <PrivateRoute
-          exact
-          path={Routes.USER_DATABASE}
-          component={UsersPage}
-          roles={["Admin"]}
-        />
-        <PrivateRoute
-          exact
-          path={Routes.CREATE_QUESTION}
-          component={CreateQuestionPage}
-          roles={["Admin"]}
-        />
-        <Redirect from={Routes.ADMIN} to={Routes.USER_DATABASE} exact />
+        <Switch>
+          <PrivateRoute
+            exact
+            path={Routes.USER_DATABASE}
+            component={UsersPage}
+            roles={["Admin"]}
+          />
+          <PrivateRoute
+            exact
+            path={Routes.CREATE_QUESTION}
+            component={CreateQuestionPage}
+            roles={["Admin"]}
+          />
+          <Redirect
+            exact
+            from={Routes.ADMIN_LANDING}
+            to={Routes.USER_DATABASE}
+          />
+          <Route exact path="*" component={NotFound} />
+        </Switch>
       </Box>
     </VStack>
   );
