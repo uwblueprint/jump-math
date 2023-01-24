@@ -9,12 +9,12 @@ import { Role } from "../../types/AuthTypes";
 type PrivateRouteProps = {
   component: React.FC;
   path: string;
-  exact: boolean;
+  exact?: boolean;
   roles: Role[];
 };
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  exact,
+  exact = false,
   path,
   component,
   roles,
