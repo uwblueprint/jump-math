@@ -1,8 +1,9 @@
 import React from "react";
 import {
+  Flex,
   Button,
   Radio,
-  Stack,
+  VStack,
   Text,
   RadioGroup,
   Popover,
@@ -10,10 +11,8 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverFooter,
-  Center,
   Divider,
-  Box,
-  Spacer,
+  HStack,
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../assets/icons";
 
@@ -51,10 +50,15 @@ const SortTablePopover = ({
                 Sort
               </Button>
             </PopoverTrigger>
-            <PopoverContent color="black" bg="white" borderColor="white">
+            <PopoverContent
+              borderColor="white"
+              boxShadow="8px 8px 30px 0px #0000000D"
+              borderRadius="16px"
+              py="4"
+            >
               <PopoverBody>
-                <Box w="1200px">
-                  <Stack direction="row" spacing={30} sx={{ pt: "2", pl: "5" }}>
+                <Flex justifyContent="center">
+                  <HStack alignItems="flex-start" gap={4}>
                     <RadioGroup
                       color="blue.300"
                       onChange={(e) => {
@@ -64,7 +68,7 @@ const SortTablePopover = ({
                       }}
                       value={sortProperty}
                     >
-                      <Stack>
+                      <VStack alignItems="left" gap={1}>
                         <Text pb="2" textStyle="link">
                           Property
                         </Text>
@@ -72,11 +76,11 @@ const SortTablePopover = ({
                           Name
                         </Radio>
                         <Radio value="email">Email</Radio>
-                      </Stack>
+                      </VStack>
                     </RadioGroup>
-                    <Center height="95px">
-                      <Divider orientation="vertical" />
-                    </Center>
+
+                    <Divider orientation="vertical" />
+
                     <RadioGroup
                       color="blue.300"
                       onChange={(e) => {
@@ -86,29 +90,20 @@ const SortTablePopover = ({
                       }}
                       value={sortOrder}
                     >
-                      <Stack>
-                        <Text pb="2" textStyle="link">
+                      <VStack alignItems="left" gap={1}>
+                        <Text pb={2} textStyle="link">
                           Order
                         </Text>
                         <Radio defaultChecked value="Ascending">
                           Ascending
                         </Radio>
                         <Radio value="Descending">Descending</Radio>
-                      </Stack>
+                      </VStack>
                     </RadioGroup>
-                  </Stack>
-                </Box>
+                  </HStack>
+                </Flex>
               </PopoverBody>
-              <PopoverFooter
-                border="0"
-                display="flex"
-                alignItems="end"
-                justifyContent="space-between"
-                pb={6}
-                pt={4}
-                pr={8}
-              >
-                <Spacer />
+              <PopoverFooter border="0" alignSelf="end" px="8">
                 <Button minWidth="10%" onClick={onClose} variant="secondary">
                   Apply
                 </Button>
