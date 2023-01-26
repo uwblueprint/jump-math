@@ -66,12 +66,12 @@ export interface ResultRequestDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: (number[] | number | null)[];
+  answers: (number[] | number | null)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
-  breakdown: boolean[];
+  breakdown: boolean[][];
   /** the grading status of a result - either graded or ungraded (default) */
   gradingStatus: GradingStatus;
 }
@@ -89,12 +89,12 @@ export interface ResultResponseDTO {
    * a list corresponding to the question list with each field indicating
    * the student's answer
    */
-  answers: (number[] | number | null)[];
+  answers: (number[] | number | null)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
-  breakdown: boolean[];
+  breakdown: boolean[][];
   /** the grading status of a result - either graded or ungraded (default) */
   gradingStatus: GradingStatus;
 }

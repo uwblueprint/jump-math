@@ -6,7 +6,6 @@ import {
   MultiSelectMetadata,
   ShortAnswerMetadata,
   QuestionComponent,
-  Question,
 } from "../../models/test.model";
 import { UserDTO } from "../../types";
 
@@ -20,7 +19,7 @@ export type TestResponseDTO = {
   /** the UserDTO for the admin */
   admin: UserDTO;
   /** an array of questions on the test */
-  questions: Question[];
+  questions: QuestionComponent[][];
   /** the grade of the student */
   grade: number;
 };
@@ -42,11 +41,6 @@ export interface QuestionComponentMetadataRequest {
 export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
   QuestionComponentMetadataRequest;
 
-export interface QuestionRequest {
-  /** the ordered list of question components */
-  question: QuestionComponentRequest[];
-}
-
 export type TestRequestDTO = {
   /** the name of the test */
   name: string;
@@ -54,8 +48,8 @@ export type TestRequestDTO = {
   duration: number;
   /** the UserDTO for the admin */
   admin: string;
-  /** an array of questions on the test */
-  questions: QuestionRequest[];
+  /** an ordered array of questions on the test */
+  questions: QuestionComponentRequest[][];
   /** the grade of the student */
   grade: number;
 };

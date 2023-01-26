@@ -4,14 +4,12 @@ import {
   ITestService,
   TestRequestDTO,
   TestResponseDTO,
-  QuestionRequest,
   QuestionComponentRequest,
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
 import IUserService from "../../services/interfaces/userService";
 
 import {
-  Question,
   QuestionComponentMetadata,
   QuestionComponent,
 } from "../../models/test.model";
@@ -27,13 +25,13 @@ type QuestionMetadataName =
   | "MultiSelectMetadata"
   | "ShortAnswerMetadata";
 
-const resolveQuestions = (questions: QuestionRequest[]): Question[] => {
-  const resolvedQuestions: Question[] = [];
+const resolveQuestions = (
+  questions: QuestionComponentRequest[][],
+): QuestionComponent[][] => {
+  const resolvedQuestions: QuestionComponent[][] = [];
 
-  questions.forEach((question: QuestionRequest) => {
+  questions.forEach((questionComponents: QuestionComponentRequest[]) => {
     const resolvedQuestionComponents: QuestionComponent[] = [];
-
-    const questionComponents: QuestionComponentRequest[] = question.question;
     questionComponents.forEach(
       (questionComponent: QuestionComponentRequest) => {
         const {
@@ -78,9 +76,7 @@ const resolveQuestions = (questions: QuestionRequest[]): Question[] => {
       },
     );
 
-    resolvedQuestions.push({
-      question: resolvedQuestionComponents,
-    });
+    resolvedQuestions.push(resolvedQuestionComponents);
   });
 
   return resolvedQuestions;
@@ -112,14 +108,18 @@ const testResolvers = {
       _req: undefined,
       { test }: { test: TestRequestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: Question[] = resolveQuestions(test.questions);
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+        test.questions,
+      );
       return testService.createTest({ ...test, questions: resolvedQuestions });
     },
     updateTest: async (
       _req: undefined,
       { id, test }: { id: string; test: TestRequestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: Question[] = resolveQuestions(test.questions);
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+        test.questions,
+      );
       return testService.updateTest(id, {
         ...test,
         questions: resolvedQuestions,

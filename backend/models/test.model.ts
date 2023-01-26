@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { questionsValidator } from "../middlewares/validators/testValidators";
 
 /**
  * An enum containing the types of components that can be added to a question
@@ -79,11 +80,6 @@ export interface QuestionComponent {
   metadata: QuestionComponentMetadata;
 }
 
-export interface Question {
-  /** the ordered list of question components */
-  question: QuestionComponent[];
-}
-
 /**
  * This document contains information about a single test
  */
@@ -98,33 +94,11 @@ export interface Test extends Document {
    * an ID in the User collection
    */
   admin: string;
-  /** A list of questions to be asked when students take the test */
-  questions: Question[];
+  /** An ordered list of questions to be asked when students take the test */
+  questions: QuestionComponent[][];
   /** The intended grade the test was made for */
   grade: number;
 }
-
-const QuestionComponentSchema = new Schema({
-  type: {
-    type: String,
-    required: true,
-    enum: Object.keys(QuestionComponentType),
-  },
-  metadata: {
-    type: Schema.Types.Mixed,
-    required: true,
-  },
-});
-
-const QuestionSchema: Schema = new Schema(
-  {
-    question: {
-      type: [QuestionComponentSchema],
-      required: true,
-    },
-  },
-  { timestamps: true },
-);
 
 const TestSchema: Schema = new Schema(
   {
@@ -142,7 +116,7 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     questions: {
-      type: [QuestionSchema],
+      type: [Schema.Types.Mixed],
       required: true,
     },
     grade: {
@@ -151,6 +125,10 @@ const TestSchema: Schema = new Schema(
     },
   },
   { timestamps: true },
+);
+TestSchema.path("questions").validate(
+  questionsValidator,
+  "validation of `{PATH}` failed with value `{VALUE}`",
 );
 
 export default mongoose.model<Test>("Test", TestSchema);

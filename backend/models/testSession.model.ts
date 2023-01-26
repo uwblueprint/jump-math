@@ -25,12 +25,12 @@ export interface Result {
    *  - a list of option indices (for multi select)
    *  - null (for no answer)
    */
-  answers: (number[] | number | null)[];
+  answers: (number[] | number | null)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
-  breakdown: boolean[];
+  breakdown: boolean[][];
   /** the grading status of the result */
   gradingStatus: GradingStatus;
 }
@@ -44,11 +44,11 @@ const ResultSchema: Schema = new Schema({
     type: Number,
   },
   answers: {
-    type: Schema.Types.Mixed,
+    type: [Schema.Types.Mixed],
     required: true,
   },
   breakdown: {
-    type: [Boolean],
+    type: [Schema.Types.Mixed],
     required: true,
   },
   gradingStatus: {

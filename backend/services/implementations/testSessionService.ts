@@ -15,7 +15,6 @@ import {
   MultiSelectMetadata,
   MultipleChoiceMetadata,
   ShortAnswerMetadata,
-  Question,
   QuestionComponent,
   QuestionComponentType,
 } from "../../models/test.model";
@@ -321,54 +320,58 @@ class TestSessionService implements ITestSessionService {
     // - index (for multiple choice)
     // - list of indices (for multiple select)
     // - null (for no answer)
-    const studentAnswers: (number[] | number | null)[] = result.answers;
+    const studentAnswers: (number[] | number | null)[][] = result.answers;
 
     let computedScore = 0.0;
-    const computedBreakdown: boolean[] = [];
+    const computedBreakdown: boolean[][] = [];
     let questionsCorrect = 0;
+    let questionsCount = 0;
 
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
-
-      test.questions.forEach((question: Question, i) => {
-        const questionComponents: QuestionComponent[] = question.question;
-        questionComponents.forEach((questionComponent: QuestionComponent) => {
-          const { type } = questionComponent;
-          if (
-            type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.SHORT_ANSWER
-          ) {
-            const actualAnswer: number = this.getCorrectAnswer(
-              questionComponent,
-            );
-
-            if (studentAnswers[i] === actualAnswer) {
-              questionsCorrect += 1;
-              computedBreakdown[i] = true;
-            } else {
-              computedBreakdown[i] = false;
-            }
-          } else if (type === QuestionComponentType.MULTI_SELECT) {
-            const actualAnswers: number[] = this.getCorrectAnswers(
-              questionComponent,
-            );
-            const studentAnswer: number[] = studentAnswers[i] as number[];
+      test.questions.forEach((questionComponents: QuestionComponent[], i) => {
+        const computedBreakdownByQuestion: boolean[] = [];
+        questionComponents.forEach(
+          (questionComponent: QuestionComponent, j) => {
+            console.log("questionComponent: ", questionComponent);
+            console.log("student answer: ", studentAnswers[i][j]);
+            const { type } = questionComponent;
             if (
-              [].sort.call(studentAnswer, (a, b) => a - b) ===
-              [].sort.call(actualAnswers, (a, b) => a - b)
+              type === QuestionComponentType.MULTIPLE_CHOICE ||
+              type === QuestionComponentType.SHORT_ANSWER
             ) {
-              questionsCorrect += 1;
-              computedBreakdown[i] = true;
-            } else {
-              computedBreakdown[i] = false;
+              const actualAnswer: number = this.getCorrectAnswer(
+                questionComponent,
+              );
+
+              if (studentAnswers[i][j] === actualAnswer) {
+                questionsCorrect += 1;
+                computedBreakdownByQuestion.push(true);
+              } else {
+                computedBreakdownByQuestion.push(false);
+              }
+              questionsCount += 1;
+            } else if (type === QuestionComponentType.MULTI_SELECT) {
+              const actualAnswers: number[] = this.getCorrectAnswers(
+                questionComponent,
+              );
+              const studentAnswer: number[] = studentAnswers[i][j] as number[];
+              if (studentAnswer === actualAnswers) {
+                questionsCorrect += 1;
+                computedBreakdownByQuestion.push(true);
+              } else {
+                computedBreakdownByQuestion.push(false);
+              }
+              questionsCount += 1;
             }
-          }
-        });
+          },
+        );
+        computedBreakdown.push(computedBreakdownByQuestion);
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
       computedScore = parseFloat(
-        ((questionsCorrect * 100) / studentAnswers.length).toFixed(2),
+        ((questionsCorrect * 100) / questionsCount).toFixed(2),
       );
 
       resultResponseDTO = {

@@ -69,10 +69,6 @@ const testType = gql`
     metadata: QuestionComponentMetadata!
   }
 
-  type Question {
-    question: QuestionComponent[];
-  }
-
   input QuestionComponentInput {
     type: QuestionComponentTypeEnum!
     questionTextMetadata: QuestionTextMetadataInput;
@@ -83,16 +79,12 @@ const testType = gql`
     shortAnswerMetadata: ShortAnswerMetadataInput;
   }
 
-  input QuestionInput {
-    question: QuestionComponentInput[];
-  }
-
   type TestResponseDTO {
     id: ID!
     name: String!
     duration: Int!
     admin: UserDTO!
-    questions: [Question]!
+    questions: [[QuestionComponent]]!
     grade: Int!
   }
 
@@ -100,7 +92,7 @@ const testType = gql`
     name: String!
     duration: Int!
     admin: ID!
-    questions: [QuestionInput]!
+    questions: [[QuestionComponentInput]]!
     grade: Int!
   }
 

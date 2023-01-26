@@ -15,40 +15,40 @@ import { mockTeacher } from "./users";
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
   score: null,
-  answers: [10.5, 11, 1, null],
+  answers: [[3, 0, [1, 2]], [null]],
   breakdown: [],
   gradingStatus: GradingStatus.UNGRADED,
 };
 
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
-  score: 50.0,
-  answers: [10.5, 11, 1, null],
-  breakdown: [true, false, true, false],
+  score: 75.0,
+  answers: [[3, 0, [1, 2]], [null]],
+  breakdown: [[true, true, true], [false]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult2: ResultResponseDTO = {
   student: "some-student-name-2",
-  score: 75.0,
-  answers: [10.5, 0, 2, 14],
-  breakdown: [true, true, false, true],
+  score: 50.0,
+  answers: [[0, 3, [1, 2]], [7]],
+  breakdown: [[false, false, true], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult3: ResultResponseDTO = {
   student: "some-student-name-3",
   score: 100.0,
-  answers: [10.5, 0, 1, 14],
-  breakdown: [true, true, true, true],
+  answers: [[3, 0, [1, 2]], [7]],
+  breakdown: [[true, true, true], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult4: ResultResponseDTO = {
   student: "some-student-name-3",
-  score: 50.0,
-  answers: [10.5, 1, 1, 13],
-  breakdown: [true, false, true, false],
+  score: 25.0,
+  answers: [[1.5, 1, [3]], [7]],
+  breakdown: [[false, false, false], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
