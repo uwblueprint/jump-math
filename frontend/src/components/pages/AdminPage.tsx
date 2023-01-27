@@ -218,7 +218,8 @@ const AdminPage = (): React.ReactElement => {
                     </HStack>
                     {search && (
                       <Text fontSize="16px" color="grey.300" width="100%">
-                        Showing {teachers.length} results for &quot;{search}&quot;
+                        Showing {teachers.length} results for &quot;{search}
+                        &quot;
                       </Text>
                     )}
                     <TeacherUserTable teacherUsers={teachers} />

@@ -2,7 +2,14 @@ import * as firebaseAdmin from "firebase-admin";
 
 import IUserService from "../interfaces/userService";
 import MgUser, { User } from "../../models/user.model";
-import { CreateUserDTO, Role, UpdateUserDTO, UserDTO } from "../../types";
+import MgSchool, { School } from "../../models/school.model";
+import {
+  CreateUserDTO,
+  Role,
+  UpdateUserDTO,
+  UserDTO,
+  TeacherDTO,
+} from "../../types";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 
@@ -436,6 +443,74 @@ class UserService implements IUserService {
     );
 
     return userDtos;
+  }
+
+  async getAllTeachers(): Promise<TeacherDTO[]> {
+    const pipeline = [
+      // look up teachers
+      {
+        $lookup: {
+          from: "users",
+          localField: "teachers",
+          foreignField: "_id",
+          as: "teachers",
+        },
+      },
+      // add school field
+
+      {
+        $addFields: {
+          teachers: {
+            $map: {
+              input: "$teachers",
+              as: "teacher",
+              in: {
+                $mergeObjects: [{ school: "$name" }, "$$teacher"],
+              },
+            },
+          },
+        },
+      },
+      // get list of list of teachers
+      {
+        $group: {
+          _id: null,
+          teachers: {
+            $push: "$teachers",
+          },
+        },
+      },
+
+      // concatenate - now looks like {teachers: [...]}
+      {
+        $project: {
+          _id: 0,
+          teachers: {
+            $reduce: {
+              input: "$teachers",
+              initialValue: [],
+              in: {
+                $concatArrays: ["$$this", "$$value"],
+              },
+            },
+          },
+        },
+      },
+      // unwind - now looks like [{teachers: {...}}, ..., {teachers: {...}}]
+      {
+        $unwind: {
+          path: "$teachers",
+        },
+      },
+      // replace root to get desired result
+      {
+        $replaceRoot: {
+          newRoot: "$teachers",
+        },
+      },
+    ];
+
+    return MgSchool.aggregate(pipeline);
   }
 }
 

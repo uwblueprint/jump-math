@@ -1,6 +1,6 @@
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
-
+import SchoolModel from "../../../models/school.model";
 import { UserDTO } from "../../../types";
 
 import db from "../../../testUtils/testDb";
@@ -89,5 +89,38 @@ describe("mongo userService", (): void => {
     const emptyRes = await userService.getUsersByRole("nonexisting_role");
 
     expect(emptyRes.length).toEqual(0);
+  });
+
+  it("getAllTeachers", async () => {
+    const createRes = await UserModel.insertMany(testUsers);
+
+    const testSchools = [
+      {
+        name: "school1",
+        country: "some-country",
+        subRegion: "some-region1",
+        city: "some-city",
+        address: "some-address",
+        teachers: [createRes[0].id],
+      },
+      {
+        name: "school2",
+        country: "some-country",
+        subRegion: "some-region2",
+        city: "some-city",
+        address: "some-address",
+        teachers: [createRes[1].id],
+      },
+    ];
+
+    await SchoolModel.insertMany(testSchools);
+    const res = await userService.getAllTeachers();
+
+    expect(res[0].school).toEqual("school2");
+    expect(res[0].firstName).toEqual("Wendy");
+    expect(res[1].school).toEqual("school1");
+    expect(res[1].firstName).toEqual("Peter");
+    console.log("---------------------------------------");
+    console.log(res);
   });
 });

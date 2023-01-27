@@ -26,6 +26,8 @@ export type UserDTO = {
   currentlyTeachingJM?: boolean;
 };
 
+export type TeacherDTO = Omit<UserDTO, "role"> & { school: string };
+
 export type CreateUserDTO = Omit<UserDTO, "id"> & { password: string };
 
 export type UpdateUserDTO = Omit<UserDTO, "id">;

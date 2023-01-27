@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 
-import { AdminUser } from "../../../types/UserTypes";
+import { User } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
 import { AlertIcon, SearchOutlineIcon } from "../../../assets/icons";
@@ -36,7 +36,7 @@ const ErrorState = (): React.ReactElement => (
   </VStack>
 );
 
-const getAdminUser = (user: AdminUser) => {
+const getAdminUser = (user: User) => {
   return {
     email: user.email,
     firstName: user.firstName,
@@ -71,7 +71,7 @@ const UsersPage = (): React.ReactElement => {
     let filteredUsers = data?.usersByRole;
     if (search) {
       filteredUsers = filteredUsers.filter(
-        (user: AdminUser) =>
+        (user: User) =>
           `${user.firstName} ${user.lastName}`
             .toLowerCase()
             .includes(search.toLowerCase()) ||
@@ -82,7 +82,7 @@ const UsersPage = (): React.ReactElement => {
   }, [search, data]);
 
   const admins = React.useMemo(() => {
-    let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
+    let sortedUsers: User[] = filteredAdmins as User[];
     if (sortOrder === "Descending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
         a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,

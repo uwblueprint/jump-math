@@ -1,4 +1,10 @@
-import { CreateUserDTO, Role, UpdateUserDTO, UserDTO } from "../../types";
+import {
+  CreateUserDTO,
+  Role,
+  UpdateUserDTO,
+  UserDTO,
+  TeacherDTO,
+} from "../../types";
 
 interface IUserService {
   /**
@@ -93,6 +99,8 @@ interface IUserService {
    * @param ids the unique identifiers of the users to fetch
    */
   findAllUsersByIds(ids: string[]): Promise<Array<UserDTO>>;
+
+  getAllTeachers(): Promise<TeacherDTO[]>;
 }
 
 export default IUserService;
