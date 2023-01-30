@@ -13,6 +13,7 @@ import {
 import AdminConfirmationMessage from "../user-management/AdminConfirmationMessage";
 import RemoveUserPopover from "../user-management/RemoveUserPopover";
 import QuestionCard from "../common/QuestionCard";
+import { QuestionType } from "../common/QuestionTag";
 import Navbar from "../common/Navbar";
 import AddAdminModal from "../user-management/AddAdminModal";
 import AdminUserTable from "../user-management/AdminUserTable";
@@ -225,9 +226,18 @@ const ComponentLibrary = (): React.ReactElement => {
       <QuestionCard
         date={new Date()}
         title="Question Title"
-        image=""
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam, luctus id elementum, pellentesque ornare consectetur ac pharetra. Lorem ipsum dolor sit amet,"
-        tags={["Grade 2", "Unit #", "Lesson #"]}
+        tags={[
+          { type: QuestionType.MULTIPLE_CHOICE, frequency: 2 },
+          { type: QuestionType.SHORT_ANSWER, frequency: 1 },
+          { type: QuestionType.MULTI_SELECT, frequency: 1 },
+        ]}
+        questionNum={1}
+        points={5}
+        questions={[
+          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
+          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
+          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
+        ]}
       />
       <AdminUserTable adminUsers={ADMINUSERS} />
       <AddAdminModal />

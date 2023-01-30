@@ -6,6 +6,8 @@ import mongoose, { Schema, Document } from "mongoose";
 export enum QuestionType {
   MULTIPLE_CHOICE,
   NUMERIC_ANSWER,
+  SHORT_ANSWER,
+  MULTI_SELECT,
 }
 
 export type QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata;
