@@ -42,23 +42,11 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
-type AdminUserProperty = "firstName" | "email";
-type SortOrder = "Ascending" | "Descending";
-
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
-    "firstName",
-  );
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
-
-  const OrderingSets = {
-    sortProperty,
-    sortOrder,
-    setSortProperty,
-    setSortOrder,
-  };
+  const [sortProperty, setSortProperty] = React.useState("firstName");
+  const [sortOrder, setSortOrder] = React.useState("ascending");
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
@@ -81,13 +69,19 @@ const UsersPage = (): React.ReactElement => {
 
   const admins = React.useMemo(() => {
     let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
-    if (sortOrder === "Descending") {
+    if (sortOrder === "descending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AdminUser].toLowerCase() <
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
       );
-    } else if (sortOrder === "Ascending") {
+    } else if (sortOrder === "ascending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AdminUser].toLowerCase() >
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
       );
     }
     return sortedUsers;
@@ -130,7 +124,10 @@ const UsersPage = (): React.ReactElement => {
                 <VStack pt={4} spacing={6}>
                   <HStack width="100%">
                     <SearchBar onSearch={setSearch} />
-                    <SortTablePopover OrderingSets={OrderingSets} />
+                    <SortTablePopover
+                      onSortProperty={setSortProperty}
+                      onSortOrder={setSortOrder}
+                    />
                   </HStack>
                   {search && (
                     <Text fontSize="16px" color="grey.300" width="100%">

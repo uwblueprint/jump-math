@@ -16,26 +16,18 @@ import {
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../assets/icons";
 
-type AdminUserProperty = "firstName" | "email";
-type SortOrder = "Ascending" | "Descending";
-type OrderingStates = {
-  sortProperty: AdminUserProperty;
-  sortOrder: SortOrder;
-  setSortProperty: React.Dispatch<React.SetStateAction<AdminUserProperty>>;
-  setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
-};
+interface TableSortProps {
+  onSortProperty: React.Dispatch<React.SetStateAction<string>>;
+  onSortOrder: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const SortTablePopover = ({
-  OrderingSets,
-}: {
-  OrderingSets: OrderingStates;
-}): React.ReactElement => {
-  const {
-    sortProperty,
-    sortOrder,
-    setSortProperty,
-    setSortOrder,
-  } = OrderingSets;
+  onSortProperty,
+  onSortOrder,
+}: TableSortProps): React.ReactElement => {
+  const [sortProperty, setSortProperty] = React.useState("firstName");
+  const [sortOrder, setSortOrder] = React.useState("ascending");
+
   return (
     <>
       <Popover placement="bottom-end">
@@ -61,11 +53,7 @@ const SortTablePopover = ({
                   <HStack alignItems="flex-start" gap={4}>
                     <RadioGroup
                       color="blue.300"
-                      onChange={(e) => {
-                        if (e === "firstName" || e === "email") {
-                          setSortProperty(e);
-                        }
-                      }}
+                      onChange={(e) => setSortProperty(e)}
                       value={sortProperty}
                     >
                       <VStack alignItems="left" gap={1}>
@@ -83,28 +71,32 @@ const SortTablePopover = ({
 
                     <RadioGroup
                       color="blue.300"
-                      onChange={(e) => {
-                        if (e === "Ascending" || e === "Descending") {
-                          setSortOrder(e);
-                        }
-                      }}
+                      onChange={(e) => setSortOrder(e)}
                       value={sortOrder}
                     >
                       <VStack alignItems="left" gap={1}>
                         <Text pb={2} textStyle="link">
                           Order
                         </Text>
-                        <Radio defaultChecked value="Ascending">
+                        <Radio defaultChecked value="ascending">
                           Ascending
                         </Radio>
-                        <Radio value="Descending">Descending</Radio>
+                        <Radio value="descending">Descending</Radio>
                       </VStack>
                     </RadioGroup>
                   </HStack>
                 </Flex>
               </PopoverBody>
-              <PopoverFooter border="0" alignSelf="end" px="8">
-                <Button minWidth="10%" onClick={onClose} variant="secondary">
+              <PopoverFooter border="0" alignSelf="end" px="10">
+                <Button
+                  minWidth="10%"
+                  onClick={() => {
+                    onSortProperty(sortProperty);
+                    onSortOrder(sortOrder);
+                    onClose();
+                  }}
+                  variant="secondary"
+                >
                   Apply
                 </Button>
               </PopoverFooter>
