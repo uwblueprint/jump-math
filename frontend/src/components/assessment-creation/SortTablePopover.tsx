@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Radio,
@@ -37,12 +37,15 @@ const SortTablePopover = ({
 }: {
   OrderingSets: OrderingStates;
 }): React.ReactElement => {
-  const {
-    sortProperty,
-    sortOrder,
-    setSortProperty,
-    setSortOrder,
-  } = OrderingSets;
+  const { setSortProperty, setSortOrder } = OrderingSets;
+  const [property, setProperty] = useState<AssessmentProperty>("name");
+  const [order, setOrder] = useState<SortOrder>("Ascending");
+
+  function settingStates() {
+    setSortOrder(order);
+    setSortProperty(property);
+  }
+
   return (
     <>
       <Popover placement="bottom-end">
@@ -72,10 +75,10 @@ const SortTablePopover = ({
                           e === "country" ||
                           e === "region"
                         ) {
-                          setSortProperty(e);
+                          setProperty(e);
                         }
                       }}
-                      value={sortProperty}
+                      value={property}
                     >
                       <Stack>
                         <Text pb="2" textStyle="link">
@@ -98,10 +101,10 @@ const SortTablePopover = ({
                       color="blue.300"
                       onChange={(e) => {
                         if (e === "Ascending" || e === "Descending") {
-                          setSortOrder(e);
+                          setOrder(e);
                         }
                       }}
-                      value={sortOrder}
+                      value={order}
                     >
                       <Stack>
                         <Text pb="2" textStyle="link">
@@ -126,7 +129,14 @@ const SortTablePopover = ({
                 pr={8}
               >
                 <Spacer />
-                <Button minWidth="10%" onClick={onClose} variant="secondary">
+                <Button
+                  minWidth="10%"
+                  onClick={() => {
+                    settingStates();
+                    onClose();
+                  }}
+                  variant="secondary"
+                >
                   Apply
                 </Button>
               </PopoverFooter>
