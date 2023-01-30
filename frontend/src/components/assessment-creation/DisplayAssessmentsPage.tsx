@@ -2,7 +2,6 @@ import React from "react";
 import {
   Text,
   Box,
-  Center,
   Tabs,
   TabList,
   Tab,
@@ -15,16 +14,10 @@ import {
   InputRightElement,
   HStack,
 } from "@chakra-ui/react";
-import { useQuery } from "@apollo/client";
 import * as Routes from "../../constants/Routes";
-import { AdminUser } from "../../types/UserTypes";
-import AdminUserTable from "../user-management/AdminUserTable";
-import AddAdminModal from "../user-management/AddAdminModal";
 import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
-import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
-import SortTablePopover from "../common/SortTablePopover";
+import SortTablePopover from "./SortTablePopover";
 import CreateAssessementModel from "./CreateAssessementModal";
-import LoadingState from "../common/LoadingState";
 import Page from "../../types/PageTypes";
 import Navbar from "../common/Navbar";
 import AssessmentTable from "./AssessmentTable";
@@ -145,14 +138,20 @@ const data3: AssessmentType[] = [
   },
 ];
 
-type AdminUserProperty = "firstName" | "email";
+type AssessmentProperty =
+  | "status"
+  | "name"
+  | "grade"
+  | "type"
+  | "country"
+  | "region";
 type SortOrder = "Ascending" | "Descending";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
-    "firstName",
+  const [sortProperty, setSortProperty] = React.useState<AssessmentProperty>(
+    "name",
   );
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
 
@@ -172,7 +171,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   //   let filteredUsers = data3;
   //   if (search) {
   //     filteredUsers = filteredUsers.filter(
-  //       (user: AdminUser) =>
+  //       (user: AssessmentType) =>
   //         `${user.firstName} ${user.lastName}`
   //           .toLowerCase()
   //           .includes(search.toLowerCase()) ||
@@ -182,19 +181,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   //   return filteredUsers?.map(getAdminUser);
   // }, [search, data3]);
 
-  // const admins = React.useMemo(() => {
-  //   let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
-  //   if (sortOrder === "Descending") {
-  //     sortedUsers = sortedUsers?.sort((a, b) =>
-  //       a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
-  //     );
-  //   } else if (sortOrder === "Ascending") {
-  //     sortedUsers = sortedUsers?.sort((a, b) =>
-  //       a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
-  //     );
-  //   }
-  //   return sortedUsers;
-  // }, [filteredAdmins, sortProperty, sortOrder]);
+  const assessments = React.useMemo(() => {
+    let sortedAssessments: AssessmentType[] = data3 as AssessmentType[];
+    if (sortOrder === "Descending") {
+      sortedAssessments = sortedAssessments?.sort((a, b) =>
+        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+      );
+    } else if (sortOrder === "Ascending") {
+      sortedAssessments = sortedAssessments?.sort((a, b) =>
+        a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
+      );
+    }
+    return sortedAssessments;
+  }, [data3, sortProperty, sortOrder]);
 
   return (
     <>
@@ -257,11 +256,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                         Showing {data3.length} results for &quot;{search}&quot;
                       </Text>
                     )}
-                    <AssessmentTable assessments={data3} />
+                    <AssessmentTable assessments={assessments} />
                   </VStack>
                 </TabPanel>
                 <TabPanel>
-                  <AssessmentTable assessments={data3} />
+                  <AssessmentTable assessments={assessments} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
