@@ -19,7 +19,7 @@ import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
 import { AlertIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
-import SortTablePopover from "../../common/SortTablePopover";
+import SortMenu from "../../common/SortMenu";
 import SearchBar from "../../common/SearchBar";
 
 import LoadingState from "../../common/LoadingState";
@@ -124,8 +124,8 @@ const UsersPage = (): React.ReactElement => {
                 <VStack pt={4} spacing={6}>
                   <HStack width="100%">
                     <SearchBar onSearch={setSearch} />
-                    <SortTablePopover
-                      properties={["firstName", "email"]}
+                    <SortMenu
+                      tableProperties={["firstName", "email"]}
                       onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
                     />

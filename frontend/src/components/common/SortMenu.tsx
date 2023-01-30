@@ -16,19 +16,56 @@ import {
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../assets/icons";
 
-interface TableSortProps {
-  properties: string[];
+interface SortMenuProps {
+  tableProperties: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SortTablePopover = ({
-  properties,
+const SortMenu = ({
+  tableProperties,
   onSortProperty,
   onSortOrder,
-}: TableSortProps): React.ReactElement => {
+}: SortMenuProps): React.ReactElement => {
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
+
+  const propertyList = (
+    <RadioGroup
+      color="blue.300"
+      onChange={(e) => setSortProperty(e)}
+      value={sortProperty}
+    >
+      <VStack alignItems="left" gap={1}>
+        <Text pb="2" textStyle="link">
+          Property
+        </Text>
+        {tableProperties.map((property, index) => (
+          <Radio defaultChecked={index === 1} key={index} value={property}>
+            {property.charAt(0).toUpperCase() + property.slice(1)}
+          </Radio>
+        ))}
+      </VStack>
+    </RadioGroup>
+  );
+
+  const orderList = (
+    <RadioGroup
+      color="blue.300"
+      onChange={(e) => setSortOrder(e)}
+      value={sortOrder}
+    >
+      <VStack alignItems="left" gap={1}>
+        <Text pb={2} textStyle="link">
+          Order
+        </Text>
+        <Radio defaultChecked value="ascending">
+          Ascending
+        </Radio>
+        <Radio value="descending">Descending</Radio>
+      </VStack>
+    </RadioGroup>
+  );
 
   return (
     <>
@@ -53,45 +90,9 @@ const SortTablePopover = ({
               <PopoverBody>
                 <Flex justifyContent="center">
                   <HStack alignItems="flex-start" gap={4}>
-                    <RadioGroup
-                      color="blue.300"
-                      onChange={(e) => setSortProperty(e)}
-                      value={sortProperty}
-                    >
-                      <VStack alignItems="left" gap={1}>
-                        <Text pb="2" textStyle="link">
-                          Property
-                        </Text>
-                        {properties.map((property, index) => (
-                          <Radio
-                            defaultChecked={index === 1}
-                            key={index}
-                            value={property}
-                          >
-                            {property.charAt(0).toUpperCase() +
-                              property.slice(1)}
-                          </Radio>
-                        ))}
-                      </VStack>
-                    </RadioGroup>
-
+                    {propertyList}
                     <Divider orientation="vertical" />
-
-                    <RadioGroup
-                      color="blue.300"
-                      onChange={(e) => setSortOrder(e)}
-                      value={sortOrder}
-                    >
-                      <VStack alignItems="left" gap={1}>
-                        <Text pb={2} textStyle="link">
-                          Order
-                        </Text>
-                        <Radio defaultChecked value="ascending">
-                          Ascending
-                        </Radio>
-                        <Radio value="descending">Descending</Radio>
-                      </VStack>
-                    </RadioGroup>
+                    {orderList}
                   </HStack>
                 </Flex>
               </PopoverBody>
@@ -116,4 +117,4 @@ const SortTablePopover = ({
   );
 };
 
-export default SortTablePopover;
+export default SortMenu;
