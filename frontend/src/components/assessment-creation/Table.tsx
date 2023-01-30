@@ -7,8 +7,8 @@ import {
   Th,
   Tbody,
   Td,
-  Tag,
 } from "@chakra-ui/react";
+import StatusTag from "./StatusTag";
 
 export interface TableRow {
   values: string[];
@@ -19,6 +19,8 @@ interface TableProps {
   headers: string[];
   rows: TableRow[];
 }
+
+type StatusProperty = "Draft" | "Published" | "Archived" | "Deleted";
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   return (
@@ -46,14 +48,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
               {row.values.map((value, cellIndex) => (
                 <Td key={value} fontWeight={cellIndex === 1 ? "bold" : ""}>
                   {cellIndex === 0 ? (
-                    <Tag
-                      size="lg"
-                      backgroundColor="#FEFCE8"
-                      color="#766C0D"
-                      borderRadius="full"
-                    >
-                      {value}
-                    </Tag>
+                    <StatusTag status={value as StatusProperty} />
                   ) : (
                     value
                   )}
