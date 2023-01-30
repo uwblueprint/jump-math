@@ -85,6 +85,7 @@ const UsersPage = (): React.ReactElement => {
     fetchPolicy: "cache-and-network",
     variables: { role: "Teacher" },
   });
+
   const filterUsers = (users: any) => {
     let filteredUsers = users;
     if (search) {
@@ -103,7 +104,7 @@ const UsersPage = (): React.ReactElement => {
   const sortUsers = (users: User[]) => {
     let sortedUsers: User[] = users;
     // Check to make sure we're not sorting admin users by school
-    if (!users[0][sortProperty]) {
+    if (users && !users[0][sortProperty]) {
       return users;
     }
     if (sortOrder === "Descending") {
