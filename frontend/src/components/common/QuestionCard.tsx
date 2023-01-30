@@ -57,6 +57,7 @@ const QuestionCard = ({
             <MenuButton
               justifyContent="left"
               alignItems="top"
+              mt={1}
               as={IconButton}
               fontSize="24px"
               aria-label="Options"
@@ -88,17 +89,17 @@ const QuestionCard = ({
             styleType="lower-alpha"
             stylePosition="inside"
             maxWidth={["250px", "800px"]}
+            fontWeight="700"
           >
             {questions.map((question, key) => (
               <ListItem
                 key={key}
-                fontWeight="800"
                 color="grey.400"
                 whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow="ellipsis"
               >
-                <Text as="span" fontWeight="bolder">
+                <Text as="span" fontWeight="400">
                   {question}
                 </Text>
               </ListItem>
