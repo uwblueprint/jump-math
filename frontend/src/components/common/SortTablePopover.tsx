@@ -17,11 +17,13 @@ import {
 import { FilterOptionsIcon } from "../../assets/icons";
 
 interface TableSortProps {
+  properties: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SortTablePopover = ({
+  properties,
   onSortProperty,
   onSortOrder,
 }: TableSortProps): React.ReactElement => {
@@ -60,10 +62,16 @@ const SortTablePopover = ({
                         <Text pb="2" textStyle="link">
                           Property
                         </Text>
-                        <Radio defaultChecked value="firstName">
-                          Name
-                        </Radio>
-                        <Radio value="email">Email</Radio>
+                        {properties.map((property, index) => (
+                          <Radio
+                            defaultChecked={index === 1}
+                            key={index}
+                            value={property}
+                          >
+                            {property.charAt(0).toUpperCase() +
+                              property.slice(1)}
+                          </Radio>
+                        ))}
                       </VStack>
                     </RadioGroup>
 

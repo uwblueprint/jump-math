@@ -125,6 +125,7 @@ const UsersPage = (): React.ReactElement => {
                   <HStack width="100%">
                     <SearchBar onSearch={setSearch} />
                     <SortTablePopover
+                      properties={["firstName", "email"]}
                       onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
                     />
