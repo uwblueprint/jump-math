@@ -508,6 +508,21 @@ class UserService implements IUserService {
           newRoot: "$teachers",
         },
       },
+
+      // replace _id field with id
+      {
+        $project: {
+          _id: 0,
+          id: "$_id",
+          firstName: 1,
+          lastName: 1,
+          authId: 1,
+          role: 1,
+          email: 1,
+          school: 1,
+          __v: 1,
+        },
+      },
     ];
 
     return MgSchool.aggregate(pipeline);

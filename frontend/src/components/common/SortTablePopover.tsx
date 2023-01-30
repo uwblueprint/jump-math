@@ -17,19 +17,22 @@ import {
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../assets/icons";
 
-type AdminUserProperty = "firstName" | "email";
+type UserProperty = "firstName" | "email" | "school";
 type SortOrder = "Ascending" | "Descending";
 type OrderingStates = {
-  sortProperty: AdminUserProperty;
+  sortProperty: UserProperty;
   sortOrder: SortOrder;
-  setSortProperty: React.Dispatch<React.SetStateAction<AdminUserProperty>>;
+  setSortProperty: React.Dispatch<React.SetStateAction<UserProperty>>;
   setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
 };
 
+type Role = "admin" | "teacher";
 const SortTablePopover = ({
   OrderingSets,
+  role,
 }: {
   OrderingSets: OrderingStates;
+  role: Role;
 }): React.ReactElement => {
   const {
     sortProperty,
@@ -58,7 +61,11 @@ const SortTablePopover = ({
                     <RadioGroup
                       color="blue.300"
                       onChange={(e) => {
-                        if (e === "firstName" || e === "email") {
+                        if (
+                          e === "firstName" ||
+                          e === "email" ||
+                          e === "school"
+                        ) {
                           setSortProperty(e);
                         }
                       }}
@@ -72,6 +79,9 @@ const SortTablePopover = ({
                           Name
                         </Radio>
                         <Radio value="email">Email</Radio>
+                        {role === "teacher" && (
+                          <Radio value="school">School</Radio>
+                        )}
                       </Stack>
                     </RadioGroup>
                     <Center height="95px">

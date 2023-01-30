@@ -40,7 +40,7 @@ const userResolvers = {
       const csv = await generateCSV<UserDTO>({ data: users });
       return csv;
     },
-    teachers: async (): Promise<any> => {
+    teachers: async (): Promise<TeacherDTO[]> => {
       return userService.getAllTeachers();
     },
   },

@@ -2,16 +2,11 @@ import React from "react";
 import { User } from "../../types/UserTypes";
 import { TableRow, Table } from "../common/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
+import { UserTableProps } from "./AdminTab";
 
-interface AdminUserTableProps {
-  adminUsers: User[];
-}
-
-const AdminUserTable = ({
-  adminUsers,
-}: AdminUserTableProps): React.ReactElement => {
+const AdminUserTable = ({ users }: UserTableProps): React.ReactElement => {
   const headers = ["Name", "Email"];
-  const rows: TableRow[] = adminUsers.map((user) => ({
+  const rows: TableRow[] = users.map((user) => ({
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu: (
       <RemoveUserPopover
