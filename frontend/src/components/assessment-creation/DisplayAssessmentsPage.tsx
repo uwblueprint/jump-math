@@ -39,6 +39,17 @@ const ErrorState = (): React.ReactElement => (
   </VStack>
 );
 
+const getAssessments = (assessment: AssessmentType) => {
+  return {
+    status: assessment.status,
+    name: assessment.name,
+    grade: assessment.grade,
+    type: assessment.type,
+    country: assessment.country,
+    region: assessment.region,
+  };
+};
+
 const data3: AssessmentType[] = [
   {
     status: "Draft",
@@ -167,22 +178,23 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   //   variables: { role: "Admin" },
   // });
 
-  // const filteredAdmins = React.useMemo(() => {
-  //   let filteredUsers = data3;
-  //   if (search) {
-  //     filteredUsers = filteredUsers.filter(
-  //       (user: AssessmentType) =>
-  //         `${user.firstName} ${user.lastName}`
-  //           .toLowerCase()
-  //           .includes(search.toLowerCase()) ||
-  //         user.email.toLowerCase().includes(search.toLowerCase()),
-  //     );
-  //   }
-  //   return filteredUsers?.map(getAdminUser);
-  // }, [search, data3]);
+  const filteredAssessements = React.useMemo(() => {
+    let filteredTests = data3;
+    if (search) {
+      filteredTests = filteredTests.filter(
+        (assessment: AssessmentType) =>
+          assessment.name.toLowerCase().includes(search.toLowerCase()) ||
+          assessment.country.toLowerCase().includes(search.toLowerCase()) ||
+          assessment.region.toLowerCase().includes(search.toLowerCase()) ||
+          assessment.status.toLowerCase().includes(search.toLowerCase()) ||
+          assessment.type.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+    return filteredTests?.map(getAssessments);
+  }, [search, data3]);
 
   const assessments = React.useMemo(() => {
-    let sortedAssessments: AssessmentType[] = data3 as AssessmentType[];
+    let sortedAssessments: AssessmentType[] = filteredAssessements as AssessmentType[];
     if (sortOrder === "Descending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
         a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
@@ -193,7 +205,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       );
     }
     return sortedAssessments;
-  }, [data3, sortProperty, sortOrder]);
+  }, [filteredAssessements, sortProperty, sortOrder]);
 
   return (
     <>
