@@ -100,7 +100,12 @@ interface IUserService {
    */
   findAllUsersByIds(ids: string[]): Promise<Array<UserDTO>>;
 
-  getAllTeachers(): Promise<TeacherDTO[]>;
+  /**
+   * This method gets all teachers with a 'school' field
+   * @returns an array of TeacherDTO
+   *
+   */
+  getAllTeachers(): Promise<Array<TeacherDTO>>;
 }
 
 export default IUserService;

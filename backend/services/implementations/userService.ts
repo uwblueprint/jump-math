@@ -2,7 +2,7 @@ import * as firebaseAdmin from "firebase-admin";
 
 import IUserService from "../interfaces/userService";
 import MgUser, { User } from "../../models/user.model";
-import MgSchool, { School } from "../../models/school.model";
+import MgSchool from "../../models/school.model";
 import {
   CreateUserDTO,
   Role,
@@ -490,7 +490,7 @@ class UserService implements IUserService {
               input: "$teachers",
               initialValue: [],
               in: {
-                $concatArrays: ["$$this", "$$value"],
+                $concatArrays: ["$$value", "$$this"],
               },
             },
           },

@@ -1,7 +1,7 @@
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
 import SchoolModel from "../../../models/school.model";
-import { UserDTO } from "../../../types";
+import { UserDTO, TeacherDTO } from "../../../types";
 
 import db from "../../../testUtils/testDb";
 
@@ -116,11 +116,12 @@ describe("mongo userService", (): void => {
     await SchoolModel.insertMany(testSchools);
     const res = await userService.getAllTeachers();
 
-    expect(res[0].school).toEqual("school2");
-    expect(res[0].firstName).toEqual("Wendy");
-    expect(res[1].school).toEqual("school1");
-    expect(res[1].firstName).toEqual("Peter");
-    console.log("---------------------------------------");
-    console.log(res);
+    res.forEach((teacher: TeacherDTO, i) => {
+      expect(teacher.firstName).toEqual(testUsers[i].firstName);
+      expect(teacher.lastName).toEqual(testUsers[i].lastName);
+      expect(teacher.role).toEqual(testUsers[i].role);
+      expect(teacher.email).toEqual(testUsers[i].email);
+      expect(teacher.school).toEqual(testSchools[i].name);
+    });
   });
 });
