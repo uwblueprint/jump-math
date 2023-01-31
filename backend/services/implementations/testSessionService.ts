@@ -337,14 +337,9 @@ class TestSessionService implements ITestSessionService {
             type === QuestionComponentType.MULTIPLE_CHOICE ||
             type === QuestionComponentType.SHORT_ANSWER
           ) {
-            console.log("questionComponent: ", questionComponent);
-            console.log("student answer: ", studentAnswers[i][questionsCount]);
-
             const actualAnswer: number = this.getCorrectAnswer(
               questionComponent,
             );
-            console.log("actual answer: ", actualAnswer);
-
             const studentAnswer = studentAnswers[i][questionsCount] as
               | number
               | null;
@@ -357,14 +352,9 @@ class TestSessionService implements ITestSessionService {
             }
             questionsCount += 1;
           } else if (type === QuestionComponentType.MULTI_SELECT) {
-            console.log("questionComponent: ", questionComponent);
-            console.log("student answers: ", studentAnswers[i][questionsCount]);
-
             const actualAnswers: number[] = this.getCorrectAnswers(
               questionComponent,
             );
-            console.log("actual answers: ", actualAnswers);
-
             const studentAnswer = studentAnswers[i][questionsCount] as
               | number[]
               | null;

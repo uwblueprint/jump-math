@@ -72,9 +72,11 @@ describe("mongo statisticService", (): void => {
         {
           averageScore: 50,
           averageQuestionScores: [
-            {
-              averageScore: 50,
-            },
+            [
+              {
+                averageScore: 50,
+              },
+            ],
           ],
         },
       ],

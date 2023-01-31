@@ -154,7 +154,7 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: "62c248c0f79d6c3c9ebbea94",
+    test: "62c248c0f79d6c3c9ebbea94", // invalid test (will not be created)
     teacher: mockTeacher.id,
     school: mockSchoolWithId.id,
     gradeLevel: 4,

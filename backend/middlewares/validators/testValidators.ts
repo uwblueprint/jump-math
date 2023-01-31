@@ -90,7 +90,9 @@ export const questionsValidator = (questions: QuestionComponent[][]) => {
             "Multiple Choice component is missing an answerIndices field",
           );
         }
-        if (!validateArray(questionComponent.metadata.options, "number")) {
+        if (
+          !validateArray(questionComponent.metadata.answerIndices, "number")
+        ) {
           throw new Error("The answerIndices field is not of type number[]");
         }
       } else if (
