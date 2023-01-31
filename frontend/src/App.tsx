@@ -12,12 +12,6 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
-import StudentPage from "./components/pages/StudentPage";
-import AdminPage from "./components/pages/AdminPage";
-import TeacherPage from "./components/pages/TeacherPage";
-
-import ComponentLibrary from "./components/pages/ComponentLibrary";
-
 import * as Routes from "./constants/Routes";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import AuthContext from "./contexts/AuthContext";
@@ -33,9 +27,10 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import CreateQuestionPage from "./components/assessment-creation/CreateQuestionPage";
 import TeacherSignup from "./components/auth/TeacherSignup";
 import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
+import AdminDashboard from "./components/pages/admin/AdminDashboard";
+import TeacherPage from "./components/pages/TeacherPage";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -70,16 +65,27 @@ const App = (): React.ReactElement => {
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.USER_DATABASE}
+                    to={Routes.ADMIN_LANDING}
                   />
                 )}
+                <PrivateRoute
+                  path={Routes.ADMIN_LANDING}
+                  component={AdminDashboard}
+                  roles={["Admin"]}
+                />
                 {authenticatedUser?.role === "Teacher" && (
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.TEACHER_PAGE}
+                    to={Routes.TEACHER_LANDING}
                   />
                 )}
+                <PrivateRoute
+                  exact
+                  path={Routes.TEACHER_LANDING}
+                  component={TeacherPage}
+                  roles={["Teacher"]}
+                />
                 <Route exact path={Routes.HOME_PAGE} component={Landing} />
                 <Route exact path={Routes.ADMIN_LOGIN} component={Login} />
                 <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
@@ -92,36 +98,6 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.STUDENT_PAGE}
-                  component={StudentPage}
-                  roles={["Admin"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.TEACHER_PAGE}
-                  component={TeacherPage}
-                  roles={["Teacher", "Admin"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.USER_DATABASE}
-                  component={AdminPage}
-                  roles={["Admin"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.COMPONENT_LIBRARY}
-                  component={ComponentLibrary}
-                  roles={["Admin", "Teacher"]}
-                />
-                <PrivateRoute
-                  exact
-                  path={Routes.CREATE_QUESTION}
-                  component={CreateQuestionPage}
-                  roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
               </Switch>
