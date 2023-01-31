@@ -1,5 +1,3 @@
-import { getByPlaceholderText } from "@testing-library/react";
-
 const textStyles = {
   header1: {
     fontSize: "60px",

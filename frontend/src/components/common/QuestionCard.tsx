@@ -8,11 +8,11 @@ import {
   Menu,
   MenuButton,
   IconButton,
-  Button,
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { QuestionType, QuestionTag } from "./QuestionTag";
+import QuestionTag from "./QuestionTag";
+import QuestionType from "../../types/QuestionTypes";
 import {
   EditOutlineIcon,
   DeleteOutlineIcon,
@@ -20,27 +20,18 @@ import {
 } from "../../assets/icons";
 
 type QuestionCardProps = {
-  date: Date;
-  title: string;
-  tags: { type: QuestionType; frequency: number }[];
+  tags: { type: QuestionType; count: number }[];
   questionNum: number;
   points: number;
   questions: string[];
 };
 
 const QuestionCard = ({
-  date,
-  title,
   tags,
   questionNum,
   points,
   questions,
 }: QuestionCardProps): React.ReactElement => {
-  const formatDate = (d: Date) =>
-    `${String(d.getDate()).padStart(2, "0")} / ${String(
-      d.getMonth() + 1,
-    ).padStart(2, "0")} / ${String(d.getFullYear()).substring(2, 4)}`;
-
   return (
     <Container
       borderRadius="22px"
@@ -61,6 +52,7 @@ const QuestionCard = ({
               as={IconButton}
               fontSize="24px"
               aria-label="Options"
+              cursor="pointer"
               p={0}
               icon={<HamburgerMenuIcon />}
             />
@@ -77,10 +69,10 @@ const QuestionCard = ({
             >
               Question {questionNum}
             </Text>
-            <Box color="blue.300" fontSize="24px" mr="4">
+            <Box color="blue.300" fontSize="24px" mr="4" cursor="pointer">
               <EditOutlineIcon />
             </Box>
-            <Box color="blue.300" fontSize="24px">
+            <Box color="blue.300" fontSize="24px" cursor="pointer">
               <DeleteOutlineIcon />
             </Box>
           </Flex>
@@ -110,11 +102,7 @@ const QuestionCard = ({
           </Text>
           <Stack overflow="hidden" direction="row">
             {tags.map((tag, key) => (
-              <QuestionTag
-                key={key}
-                type={tag.type}
-                frequency={tag.frequency}
-              />
+              <QuestionTag key={key} type={tag.type} count={tag.count} />
             ))}
           </Stack>
         </Box>

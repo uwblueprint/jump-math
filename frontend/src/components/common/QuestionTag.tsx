@@ -1,25 +1,20 @@
 import * as React from "react";
-import { Tag, Text, TagLeftIcon, Box } from "@chakra-ui/react";
+import { Tag, Text, TagLeftIcon } from "@chakra-ui/react";
 import {
   MultiSelectTagIcon,
   MultipleChoiceTagIcon,
   ShortAnswerTagIcon,
-} from "../../assets/icons"; // icons might be duplicated
-
-export enum QuestionType {
-  MULTIPLE_CHOICE = "Multiple Choice",
-  SHORT_ANSWER = "Short Answer",
-  MULTI_SELECT = "Multi-select",
-}
+} from "../../assets/icons";
+import QuestionType from "../../types/QuestionTypes";
 
 type QuestionTypeProps = {
   type: QuestionType;
-  frequency: number;
+  count: number;
 };
 
-export const QuestionTag = ({
+const QuestionTag = ({
   type,
-  frequency,
+  count,
 }: QuestionTypeProps): React.ReactElement => {
   let color: string;
   let bgColor: string;
@@ -57,10 +52,12 @@ export const QuestionTag = ({
       borderRadius="full"
       fontSize="16px"
     >
-      <TagLeftIcon boxSize="16px" as={icon} />
+      <TagLeftIcon boxSize="20px" as={icon} />
       <Text ml={2} textStyle="caption">
-        {type.valueOf()} x {frequency}
+        {type.valueOf()} x {count}
       </Text>
     </Tag>
   );
 };
+
+export default QuestionTag;
