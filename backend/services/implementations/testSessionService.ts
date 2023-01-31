@@ -331,41 +331,56 @@ class TestSessionService implements ITestSessionService {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
       test.questions.forEach((questionComponents: QuestionComponent[], i) => {
         const computedBreakdownByQuestion: boolean[] = [];
-        questionComponents.forEach(
-          (questionComponent: QuestionComponent, j) => {
+        questionComponents.forEach((questionComponent: QuestionComponent) => {
+          const { type } = questionComponent;
+          if (
+            type === QuestionComponentType.MULTIPLE_CHOICE ||
+            type === QuestionComponentType.SHORT_ANSWER
+          ) {
             console.log("questionComponent: ", questionComponent);
-            console.log("student answer: ", studentAnswers[i][j]);
-            const { type } = questionComponent;
-            if (
-              type === QuestionComponentType.MULTIPLE_CHOICE ||
-              type === QuestionComponentType.SHORT_ANSWER
-            ) {
-              const actualAnswer: number = this.getCorrectAnswer(
-                questionComponent,
-              );
+            console.log("student answer: ", studentAnswers[i][questionsCount]);
 
-              if (studentAnswers[i][j] === actualAnswer) {
-                questionsCorrect += 1;
-                computedBreakdownByQuestion.push(true);
-              } else {
-                computedBreakdownByQuestion.push(false);
-              }
-              questionsCount += 1;
-            } else if (type === QuestionComponentType.MULTI_SELECT) {
-              const actualAnswers: number[] = this.getCorrectAnswers(
-                questionComponent,
-              );
-              const studentAnswer: number[] = studentAnswers[i][j] as number[];
-              if (studentAnswer === actualAnswers) {
-                questionsCorrect += 1;
-                computedBreakdownByQuestion.push(true);
-              } else {
-                computedBreakdownByQuestion.push(false);
-              }
-              questionsCount += 1;
+            const actualAnswer: number = this.getCorrectAnswer(
+              questionComponent,
+            );
+            console.log("actual answer: ", actualAnswer);
+
+            const studentAnswer = studentAnswers[i][questionsCount] as
+              | number
+              | null;
+
+            if (studentAnswer === actualAnswer) {
+              questionsCorrect += 1;
+              computedBreakdownByQuestion.push(true);
+            } else {
+              computedBreakdownByQuestion.push(false);
             }
-          },
-        );
+            questionsCount += 1;
+          } else if (type === QuestionComponentType.MULTI_SELECT) {
+            console.log("questionComponent: ", questionComponent);
+            console.log("student answers: ", studentAnswers[i][questionsCount]);
+
+            const actualAnswers: number[] = this.getCorrectAnswers(
+              questionComponent,
+            );
+            console.log("actual answers: ", actualAnswers);
+
+            const studentAnswer = studentAnswers[i][questionsCount] as
+              | number[]
+              | null;
+
+            if (
+              studentAnswer?.length === actualAnswers.length &&
+              studentAnswer.every((val, idx) => val === actualAnswers[idx])
+            ) {
+              questionsCorrect += 1;
+              computedBreakdownByQuestion.push(true);
+            } else {
+              computedBreakdownByQuestion.push(false);
+            }
+            questionsCount += 1;
+          }
+        });
         computedBreakdown.push(computedBreakdownByQuestion);
       });
 
