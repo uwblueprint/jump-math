@@ -242,3 +242,119 @@ export const CheckmarkCircleFillIcon = (): React.ReactElement => (
     />
   </Icon>
 );
+
+export const EditOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path fill="currentColor" d="M19 20H5a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2z" />
+    <path
+      fill="currentColor"
+      d="M5 18h.09l4.17-.38a2 2 0 0 0 1.21-.57l9-9a1.92 1.92 0 0 0-.07-2.71L16.66 2.6A2 2 0 0 0 14 2.53l-9 9a2 2 0 0 0-.57 1.21L4 16.91a1 1 0 0 0 .29.8A1 1 0 0 0 5 18zM15.27 4L18 6.73l-2 1.95L13.32 6zm-8.9 8.91L12 7.32l2.7 2.7-5.6 5.6-3 .28z"
+    />
+  </Icon>
+);
+
+export const DeleteOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M21 6h-5V4.33A2.42 2.42 0 0 0 13.5 2h-3A2.42 2.42 0 0 0 8 4.33V6H3a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2zM10 4.33c0-.16.21-.33.5-.33h3c.29 0 .5.17.5.33V6h-4zM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8h12z"
+    />
+    <path
+      fill="currentColor"
+      d="M9 17a1 1 0 0 0 1-1v-4a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1z"
+    />
+    <path
+      fill="currentColor"
+      d="M15 17a1 1 0 0 0 1-1v-4a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1z"
+    />
+  </Icon>
+);
+
+export const HamburgerMenuIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <rect
+      fill="currentColor"
+      x="3"
+      y="11"
+      width="18"
+      height="2"
+      rx=".95"
+      ry=".95"
+    />
+    <rect
+      fill="currentColor"
+      x="3"
+      y="16"
+      width="18"
+      height="2"
+      rx=".95"
+      ry=".95"
+    />
+    <rect
+      fill="currentColor"
+      x="3"
+      y="6"
+      width="18"
+      height="2"
+      rx=".95"
+      ry=".95"
+    />
+  </Icon>
+);
+
+export const MultipleChoiceTagIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <circle fill="currentColor" cx="4" cy="7" r="1" />
+    <circle fill="currentColor" cx="4" cy="12" r="1" />
+    <circle fill="currentColor" cx="4" cy="17" r="1" />
+    <rect
+      fill="currentColor"
+      x="7"
+      y="11"
+      width="14"
+      height="2"
+      rx=".94"
+      ry=".94"
+    />
+    <rect
+      fill="currentColor"
+      x="7"
+      y="16"
+      width="14"
+      height="2"
+      rx=".94"
+      ry=".94"
+    />
+    <rect
+      fill="currentColor"
+      x="7"
+      y="6"
+      width="14"
+      height="2"
+      rx=".94"
+      ry=".94"
+    />
+  </Icon>
+);
+
+export const ShortAnswerTagIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M20 4H4a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0V6h6v13H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2h-2V6h6v2a1 1 0 0 0 2 0V5a1 1 0 0 0-1-1z"
+    />
+  </Icon>
+);
+
+export const MultiSelectTagIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M18 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm1 15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"
+    />
+    <path
+      fill="currentColor"
+      d="M14.7 8.39l-3.78 5-1.63-2.11a1 1 0 0 0-1.58 1.23l2.43 3.11a1 1 0 0 0 .79.38 1 1 0 0 0 .79-.39l4.57-6a1 1 0 1 0-1.6-1.22z"
+    />
+  </Icon>
+);

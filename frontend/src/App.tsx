@@ -31,6 +31,7 @@ import TeacherSignup from "./components/auth/TeacherSignup";
 import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import TeacherPage from "./components/pages/TeacherPage";
+import ComponentLibrary from "./components/pages/ComponentLibrary";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -98,6 +99,13 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
+                />
+// TODO: Remove route for production
+                <PrivateRoute
+                  exact
+                  path={Routes.COMPONENT_LIBRARY}
+                  component={ComponentLibrary}
+                  roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
               </Switch>
