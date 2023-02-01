@@ -17,13 +17,13 @@ import {
 import { FilterOptionsIcon } from "../../assets/icons";
 
 interface SortMenuProps {
-  tableProperties: string[];
+  properties: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SortMenu = ({
-  tableProperties,
+  properties,
   onSortProperty,
   onSortOrder,
 }: SortMenuProps): React.ReactElement => {
@@ -40,7 +40,7 @@ const SortMenu = ({
         <Text pb={2} textStyle="link">
           Property
         </Text>
-        {tableProperties.map((property, index) => (
+        {properties.map((property, index) => (
           <Radio key={index} value={property}>
             {property.charAt(0).toUpperCase() + property.slice(1)}
           </Radio>

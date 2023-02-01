@@ -125,7 +125,7 @@ const UsersPage = (): React.ReactElement => {
                   <HStack width="100%">
                     <SearchBar onSearch={setSearch} />
                     <SortMenu
-                      tableProperties={["firstName", "email"]}
+                      properties={["firstName", "email"]}
                       onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
                     />
