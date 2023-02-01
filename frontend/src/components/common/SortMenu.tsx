@@ -37,11 +37,11 @@ const SortMenu = ({
       value={sortProperty}
     >
       <VStack alignItems="left" gap={1}>
-        <Text pb="2" textStyle="link">
+        <Text pb={2} textStyle="link">
           Property
         </Text>
         {tableProperties.map((property, index) => (
-          <Radio defaultChecked={index === 1} key={index} value={property}>
+          <Radio key={index} value={property}>
             {property.charAt(0).toUpperCase() + property.slice(1)}
           </Radio>
         ))}
@@ -59,9 +59,7 @@ const SortMenu = ({
         <Text pb={2} textStyle="link">
           Order
         </Text>
-        <Radio defaultChecked value="ascending">
-          Ascending
-        </Radio>
+        <Radio value="ascending">Ascending</Radio>
         <Radio value="descending">Descending</Radio>
       </VStack>
     </RadioGroup>
