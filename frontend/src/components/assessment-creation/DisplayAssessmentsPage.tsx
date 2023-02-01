@@ -76,7 +76,7 @@ const data3: AssessmentType[] = [
     region: "Ottawa",
   },
   {
-    status: "Deleted",
+    status: "Published",
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
     type: "Beginning",
@@ -239,10 +239,24 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <Box flex="1">
             <Tabs marginTop={3}>
               <TabList>
-                <Tab color={unselectedColor}>All</Tab>
-                <Tab color={unselectedColor}>Drafts</Tab>
-                <Tab color={unselectedColor}>Published</Tab>
-                <Tab color={unselectedColor}>Archived</Tab>
+                <Tab onClick={() => setSearch("")} color={unselectedColor}>
+                  All
+                </Tab>
+                <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
+                  Drafts
+                </Tab>
+                <Tab
+                  onClick={() => setSearch("Published")}
+                  color={unselectedColor}
+                >
+                  Published
+                </Tab>
+                <Tab
+                  onClick={() => setSearch("Archived")}
+                  color={unselectedColor}
+                >
+                  Archived
+                </Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -270,6 +284,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                     )}
                     <AssessmentTable assessments={assessments} />
                   </VStack>
+                </TabPanel>
+                <TabPanel>
+                  <AssessmentTable assessments={assessments} />
+                </TabPanel>
+                <TabPanel>
+                  <AssessmentTable assessments={assessments} />
                 </TabPanel>
                 <TabPanel>
                   <AssessmentTable assessments={assessments} />

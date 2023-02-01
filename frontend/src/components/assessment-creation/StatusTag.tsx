@@ -17,13 +17,13 @@ const StatusTag = ({ status }: Status): React.ReactElement => {
       break;
     }
     case "Published": {
-      color = "white";
-      backgroundColor = "green";
+      color = "#467826";
+      backgroundColor = "#F0F5ED";
       break;
     }
     case "Archived": {
-      color = "black";
-      backgroundColor = "orange";
+      color = "#636363";
+      backgroundColor = "#F4F4F4";
       break;
     }
     case "Deleted": {

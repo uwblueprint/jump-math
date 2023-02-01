@@ -30,47 +30,54 @@ const EditAssessmentPopover = (): React.ReactElement => {
           size="sm"
         />
       </PopoverTrigger>
-      <PopoverContent width="6rem" borderColor="grey.300" borderRadius="12px">
-        <PopoverBody width="6rem">
+      <PopoverContent
+        backgroundColor="#F4F4F4"
+        height="220px"
+        width="104px"
+        borderRadius="20px"
+      >
+        <PopoverBody>
           <VStack spacing="0em">
             <Button
+              fontSize="18px"
               minWidth="120px"
               fontWeight="0"
-              pt="1"
-              pb="1"
+              py="1"
               color="black"
               size="md"
             >
               Publish
             </Button>
-            <Divider px="3" color="#BEBEBE" />
+            <Divider px="3" borderColor="#BEBEBE" />
             <Button
+              fontSize="18px"
+              textAlign="left"
               minWidth="120px"
               fontWeight="0"
-              pt="1"
-              pb="1"
+              py="1.6rem"
               color="black"
               size="md"
+              pl="1"
             >
               Edit
             </Button>
-            <Divider />
+            <Divider px="3" borderColor="#BEBEBE" />
             <Button
+              fontSize="18px"
               minWidth="120px"
               fontWeight="0"
-              pt="1"
-              pb="1"
+              py="1.6rem"
               color="black"
               size="md"
             >
               Archive
             </Button>
-            <Divider />
+            <Divider px="3" borderColor="#BEBEBE" />
             <Button
+              fontSize="18px"
               minWidth="120px"
               fontWeight="0"
-              pt="1"
-              pb="1"
+              py="1"
               color="black"
               size="md"
             >
