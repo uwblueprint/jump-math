@@ -10,6 +10,7 @@ export const ADMIN_LANDING = "/admin";
 export const USER_DATABASE = "/admin/user-database";
 export const ASSESSMENTS = "/admin/assessments";
 export const CREATE_QUESTION = "/admin/create-question";
+export const COMPONENT_LIBRARY = "/component-library";
 
 // Private Teacher Routes
 export const TEACHER_LANDING = "/teacher";

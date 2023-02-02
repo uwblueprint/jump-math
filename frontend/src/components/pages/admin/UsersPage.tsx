@@ -18,11 +18,17 @@ import { User } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
 import { AlertIcon } from "../../../assets/icons";
+<<<<<<< HEAD
 import {
   GET_USERS_BY_ROLE,
   GET_ALL_TEACHERS,
 } from "../../../APIClients/queries/UserQueries";
 import TeacherUserTable from "../../user-management/TeacherUserTable";
+=======
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import SortMenu from "../../common/SortMenu";
+import SearchBar from "../../common/SearchBar";
+>>>>>>> staging
 
 import LoadingState from "../../common/LoadingState";
 
@@ -46,7 +52,7 @@ const getUser = (user: User) => {
 };
 
 type UserProperty = "firstName" | "email" | "school";
-type SortOrder = "Ascending" | "Descending";
+type SortOrder = "ascending" | "descending";
 
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
@@ -54,7 +60,7 @@ const UsersPage = (): React.ReactElement => {
   const [sortProperty, setSortProperty] = React.useState<UserProperty>(
     "firstName",
   );
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
 
   const OrderingSets = {
     sortProperty,
@@ -107,15 +113,16 @@ const UsersPage = (): React.ReactElement => {
     if (users && !users[0][sortProperty]) {
       return users;
     }
-    if (sortOrder === "Descending") {
+    if (sortOrder === "descending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
         a[sortProperty]!.toLowerCase() < b[sortProperty]!.toLowerCase()
           ? 1
           : -1,
       );
-    } else if (sortOrder === "Ascending") {
+    } else if (sortOrder === "ascending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty]!.toLowerCase() > b[sortProperty]!.toLowerCase()
+        a[sortProperty as keyof AdminUser].toLowerCase() >
+        b[sortProperty as keyof AdminUser].toLowerCase()
           ? 1
           : -1,
       );
@@ -146,7 +153,7 @@ const UsersPage = (): React.ReactElement => {
   const clearSearchAndSort = () => {
     setSearch("");
     setSortProperty("firstName");
-    setSortOrder("Ascending");
+    setSortOrder("ascending");
   };
 
   type Role = "teacher" | "admin";
