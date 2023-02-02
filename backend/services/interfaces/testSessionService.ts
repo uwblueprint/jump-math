@@ -90,8 +90,12 @@ export interface ResultResponseDTO {
   /** the score of the student */
   score: number | null;
   /**
-   * a list corresponding to the question list with each field indicating
-   * the student's answer
+   * a list corresponding to the question list with each element indicating
+   * the student's answer, either:
+   *  - number: the numeric answer (for short answer)
+   *  - number: the option's corresponding index (for multiple choice)
+   *  - number[]: a list of option indices (for multi select)
+   *  - null: for no answer
    */
   answers: (number[] | number | null)[][];
   /**
