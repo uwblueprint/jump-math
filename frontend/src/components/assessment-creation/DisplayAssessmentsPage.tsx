@@ -15,29 +15,29 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import * as Routes from "../../constants/Routes";
-import { AlertIcon, SearchOutlineIcon } from "../../assets/icons";
-import SortTablePopover from "./SortTablePopover";
+import { SearchOutlineIcon } from "../../assets/icons";
 import CreateAssessementModel from "./CreateAssessementModal";
 import Page from "../../types/PageTypes";
 import Navbar from "../common/Navbar";
 import AssessmentTable from "./AssessmentTable";
 import { AssessmentType } from "../../types/AssessmentType";
 import FilterTablePopover from "./FilterTablePopover";
+import SortMenu from "../common/SortMenu";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
   { title: "Database", url: Routes.USER_DATABASE },
 ];
 
-const ErrorState = (): React.ReactElement => (
-  <VStack spacing={6} textAlign="center">
-    <AlertIcon />
-    <Text textStyle="paragraph" color="blue.300">
-      The data has not loaded properly. Please reload the page or contact Jump
-      Math.
-    </Text>
-  </VStack>
-);
+// const ErrorState = (): React.ReactElement => (
+//   <VStack spacing={6} textAlign="center">
+//     <AlertIcon />
+//     <Text textStyle="paragraph" color="blue.300">
+//       The data has not loaded properly. Please reload the page or contact Jump
+//       Math.
+//     </Text>
+//   </VStack>
+// );
 
 const getAssessments = (assessment: AssessmentType) => {
   return {
@@ -149,29 +149,11 @@ const data3: AssessmentType[] = [
   },
 ];
 
-type AssessmentProperty =
-  | "status"
-  | "name"
-  | "grade"
-  | "type"
-  | "country"
-  | "region";
-type SortOrder = "Ascending" | "Descending";
-
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState<AssessmentProperty>(
-    "name",
-  );
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
-
-  const OrderingSets = {
-    sortProperty,
-    sortOrder,
-    setSortProperty,
-    setSortOrder,
-  };
+  const [sortProperty, setSortProperty] = React.useState("name");
+  const [sortOrder, setSortOrder] = React.useState("Ascending");
 
   // const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
   //   fetchPolicy: "cache-and-network",
@@ -191,17 +173,23 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       );
     }
     return filteredTests?.map(getAssessments);
-  }, [search, data3]);
+  }, [search]);
 
   const assessments = React.useMemo(() => {
     let sortedAssessments: AssessmentType[] = filteredAssessements as AssessmentType[];
-    if (sortOrder === "Descending") {
+    if (sortOrder === "descending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AssessmentType].toLowerCase() <
+        b[sortProperty as keyof AssessmentType].toLowerCase()
+          ? 1
+          : -1,
       );
-    } else if (sortOrder === "Ascending") {
+    } else if (sortOrder === "ascending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AssessmentType].toLowerCase() >
+        b[sortProperty as keyof AssessmentType].toLowerCase()
+          ? 1
+          : -1,
       );
     }
     return sortedAssessments;
@@ -274,7 +262,18 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                           <SearchOutlineIcon />
                         </InputRightElement>
                       </InputGroup>
-                      <SortTablePopover OrderingSets={OrderingSets} />
+                      <SortMenu
+                        properties={[
+                          "status",
+                          "name",
+                          "grade",
+                          "type",
+                          "country",
+                          "region",
+                        ]}
+                        onSortOrder={setSortOrder}
+                        onSortProperty={setSortProperty}
+                      />
                       <FilterTablePopover />
                     </HStack>
                     {search && (

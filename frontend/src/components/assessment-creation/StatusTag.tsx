@@ -26,11 +26,6 @@ const StatusTag = ({ status }: Status): React.ReactElement => {
       backgroundColor = "#F4F4F4";
       break;
     }
-    case "Deleted": {
-      color = "white";
-      backgroundColor = "purple";
-      break;
-    }
 
     default: {
       color = "#766C0D";
