@@ -10,9 +10,6 @@ import {
   TabPanels,
   useColorModeValue,
   VStack,
-  Input,
-  InputGroup,
-  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
@@ -20,9 +17,10 @@ import { useQuery } from "@apollo/client";
 import { AdminUser } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
-import { AlertIcon, SearchOutlineIcon } from "../../../assets/icons";
+import { AlertIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
-import SortTablePopover from "../../common/SortTablePopover";
+import SortMenu from "../../common/SortMenu";
+import SearchBar from "../../common/SearchBar";
 
 import LoadingState from "../../common/LoadingState";
 
@@ -44,23 +42,11 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
-type AdminUserProperty = "firstName" | "email";
-type SortOrder = "Ascending" | "Descending";
-
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState<AdminUserProperty>(
-    "firstName",
-  );
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("Ascending");
-
-  const OrderingSets = {
-    sortProperty,
-    sortOrder,
-    setSortProperty,
-    setSortOrder,
-  };
+  const [sortProperty, setSortProperty] = React.useState("firstName");
+  const [sortOrder, setSortOrder] = React.useState("ascending");
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
@@ -83,13 +69,19 @@ const UsersPage = (): React.ReactElement => {
 
   const admins = React.useMemo(() => {
     let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
-    if (sortOrder === "Descending") {
+    if (sortOrder === "descending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AdminUser].toLowerCase() <
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
       );
-    } else if (sortOrder === "Ascending") {
+    } else if (sortOrder === "ascending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
+        a[sortProperty as keyof AdminUser].toLowerCase() >
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
       );
     }
     return sortedUsers;
@@ -131,19 +123,12 @@ const UsersPage = (): React.ReactElement => {
               <TabPanel>
                 <VStack pt={4} spacing={6}>
                   <HStack width="100%">
-                    <InputGroup width="95%">
-                      <Input
-                        borderRadius="6px"
-                        borderColor="grey.100"
-                        backgroundColor="grey.100"
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search bar"
-                      />
-                      <InputRightElement pointerEvents="none" h="full">
-                        <SearchOutlineIcon />
-                      </InputRightElement>
-                    </InputGroup>
-                    <SortTablePopover OrderingSets={OrderingSets} />
+                    <SearchBar onSearch={setSearch} />
+                    <SortMenu
+                      properties={["firstName", "email"]}
+                      onSortProperty={setSortProperty}
+                      onSortOrder={setSortOrder}
+                    />
                   </HStack>
                   {search && (
                     <Text fontSize="16px" color="grey.300" width="100%">
