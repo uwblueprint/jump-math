@@ -27,7 +27,7 @@ const SortMenu = ({
   onSortProperty,
   onSortOrder,
 }: SortMenuProps): React.ReactElement => {
-  const [sortProperty, setSortProperty] = React.useState("firstName");
+  const [sortProperty, setSortProperty] = React.useState(properties[0]);
   const [sortOrder, setSortOrder] = React.useState("ascending");
 
   const propertyList = (
