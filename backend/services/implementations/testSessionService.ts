@@ -320,7 +320,7 @@ class TestSessionService implements ITestSessionService {
     // - index (for multiple choice)
     // - list of indices (for multiple select)
     // - null (for no answer)
-    const studentAnswers: (number[] | number | null)[][] = result.answers;
+    const studentTestAnswers: (number[] | number | null)[][] = result.answers;
 
     let computedScore = 0.0;
     const computedBreakdown: boolean[][] = [];
@@ -333,36 +333,35 @@ class TestSessionService implements ITestSessionService {
         const computedBreakdownByQuestion: boolean[] = [];
         questionComponents.forEach((questionComponent: QuestionComponent) => {
           const { type } = questionComponent;
-          if (
+          const singleResponse =
             type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.SHORT_ANSWER
-          ) {
+            type === QuestionComponentType.SHORT_ANSWER;
+          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
+          let isCorrect = false;
+
+          if (singleResponse) {
             const actualAnswer: number = this.getCorrectAnswer(
               questionComponent,
             );
-            const studentAnswer = studentAnswers[i][questionsCount] as
+            const studentAnswer = studentTestAnswers[i][questionsCount] as
               | number
               | null;
 
-            if (studentAnswer === actualAnswer) {
-              questionsCorrect += 1;
-              computedBreakdownByQuestion.push(true);
-            } else {
-              computedBreakdownByQuestion.push(false);
-            }
-            questionsCount += 1;
-          } else if (type === QuestionComponentType.MULTI_SELECT) {
+            isCorrect = studentAnswer === actualAnswer;
+          } else if (multiResponse) {
             const actualAnswers: number[] = this.getCorrectAnswers(
               questionComponent,
             );
-            const studentAnswer = studentAnswers[i][questionsCount] as
+            const studentAnswers = studentTestAnswers[i][questionsCount] as
               | number[]
               | null;
+            isCorrect =
+              studentAnswers?.length === actualAnswers.length &&
+              studentAnswers.every((val, idx) => val === actualAnswers[idx]);
+          }
 
-            if (
-              studentAnswer?.length === actualAnswers.length &&
-              studentAnswer.every((val, idx) => val === actualAnswers[idx])
-            ) {
+          if (singleResponse || multiResponse) {
+            if (isCorrect) {
               questionsCorrect += 1;
               computedBreakdownByQuestion.push(true);
             } else {

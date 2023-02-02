@@ -10,7 +10,9 @@ export enum QuestionComponentType {
   SHORT_ANSWER,
 }
 
-export const questionsValidator = (questions: QuestionComponent[][]) => {
+export const questionsValidator = (
+  questions: QuestionComponent[][],
+): boolean => {
   questions?.forEach((questionComponents: QuestionComponent[]) => {
     questionComponents?.forEach((questionComponent: QuestionComponent) => {
       if (!("type" in questionComponent)) {
@@ -106,7 +108,7 @@ export const questionsValidator = (questions: QuestionComponent[][]) => {
         }
       }
     });
-
-    return true;
   });
+
+  return true;
 };
