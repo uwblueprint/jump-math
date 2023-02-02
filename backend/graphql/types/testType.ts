@@ -11,27 +11,27 @@ const testType = gql`
   }
 
   input QuestionTextMetadataInput {
-    questionText: string;
+    questionText: String!
   }
 
   type QuestionTextMetadata {
-    questionText: string;
+    questionText: String!
   }
 
   input TextMetadataInput {
-    text: string;
+    text: String!
   }
 
   type TextMetadata {
-    text: string;
+    text: String!
   }
 
   input ImageMetadataInput {
-    src: string;
+    src: String!
   }
 
   type ImageMetadata {
-    src: string;
+    src: String!
   }
 
   input MultipleChoiceMetadataInput {
@@ -62,7 +62,13 @@ const testType = gql`
     answer: Float!
   }
 
-  union QuestionMetadata = QuestionTextMetadata | TextMetadata | ImageMetadata | MultipleChoiceMetadata | MultiSelectMetadata | ShortAnswerMetadata
+  union QuestionComponentMetadata =
+      QuestionTextMetadata
+    | TextMetadata
+    | ImageMetadata
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata
 
   type QuestionComponent {
     type: QuestionComponentTypeEnum!
@@ -71,12 +77,12 @@ const testType = gql`
 
   input QuestionComponentInput {
     type: QuestionComponentTypeEnum!
-    questionTextMetadata: QuestionTextMetadataInput;
-    textMetadata: TextMetadataInput;
-    imageMetadata: ImageMetadataInput;
-    multipleChoiceMetadata: MultipleChoiceMetadataInput;
-    multiSelectMetadata: MultiSelectMetadataInput;
-    shortAnswerMetadata: ShortAnswerMetadataInput;
+    questionTextMetadata: QuestionTextMetadataInput
+    textMetadata: TextMetadataInput
+    imageMetadata: ImageMetadataInput
+    multipleChoiceMetadata: MultipleChoiceMetadataInput
+    multiSelectMetadata: MultiSelectMetadataInput
+    shortAnswerMetadata: ShortAnswerMetadataInput
   }
 
   type TestResponseDTO {
