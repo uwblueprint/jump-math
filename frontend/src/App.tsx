@@ -106,12 +106,6 @@ const App = (): React.ReactElement => {
                   component={ComponentLibrary}
                   roles={["Admin", "Teacher"]}
                 />
-                <PrivateRoute
-                  exact
-                  path={Routes.COMPONENT_LIBRARY}
-                  component={ComponentLibrary}
-                  roles={["Admin", "Teacher"]}
-                />
                 <Route exact path="*" component={NotFound} />
               </Switch>
             </Router>
