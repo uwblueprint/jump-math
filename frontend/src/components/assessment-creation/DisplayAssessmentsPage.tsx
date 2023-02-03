@@ -188,7 +188,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   }, [filteredAssessements, sortProperty, sortOrder]);
 
   return (
-    <Box padding="1.5em 2em 0em 2em">
+    <>
       <Box>
         <HStack justifyContent="space-between">
           <Text
@@ -280,7 +280,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         </Tabs>
       </Box>
       {/* )} */}
-    </Box>
+    </>
   );
 };
 
