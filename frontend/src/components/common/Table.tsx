@@ -10,7 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 export interface TableRow {
-  values: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  values: any[];
   menu: React.ReactElement;
 }
 
@@ -42,10 +43,8 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
               key={rowIndex}
               backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
             >
-              {row.values.map((value, cellIndex) => (
-                <Td key={value} fontWeight={cellIndex === 0 ? "bold" : ""}>
-                  {value}
-                </Td>
+              {row.values.map((value) => (
+                <Td key={rowIndex}>{value}</Td>
               ))}
               <Td width="5%">{row.menu}</Td>
             </Tr>
