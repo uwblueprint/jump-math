@@ -14,20 +14,12 @@ import {
   InputRightElement,
   HStack,
 } from "@chakra-ui/react";
-import * as Routes from "../../constants/Routes";
 import { SearchOutlineIcon } from "../../assets/icons";
 import CreateAssessementModel from "./CreateAssessementModal";
-import Page from "../../types/PageTypes";
-import Navbar from "../common/Navbar";
 import AssessmentTable from "./AssessmentTable";
 import { AssessmentType } from "../../types/AssessmentType";
 import FilterTablePopover from "./FilterTablePopover";
 import SortMenu from "../common/SortMenu";
-
-const pages: Page[] = [
-  { title: "Assessments", url: Routes.ASSESSMENTS },
-  { title: "Database", url: Routes.USER_DATABASE },
-];
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -196,24 +188,21 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   }, [filteredAssessements, sortProperty, sortOrder]);
 
   return (
-    <>
-      <VStack flex="1" align="left">
-        <Navbar pages={pages} />
-        <Box padding="1.5em 2em 0em 2em">
-          <Box>
-            <HStack justifyContent="space-between">
-              <Text
-                textStyle="header4"
-                color="blue.300"
-                style={{ textAlign: "left" }}
-                marginBottom="0.5em"
-              >
-                Assessments
-              </Text>
-              <CreateAssessementModel />
-            </HStack>
-          </Box>
-          {/* {loading && (
+    <Box padding="1.5em 2em 0em 2em">
+      <Box>
+        <HStack justifyContent="space-between">
+          <Text
+            textStyle="header4"
+            color="blue.300"
+            style={{ textAlign: "left" }}
+            marginBottom="0.5em"
+          >
+            Assessments
+          </Text>
+          <CreateAssessementModel />
+        </HStack>
+      </Box>
+      {/* {loading && (
         <Center margin="15%" flex="1">
           <LoadingState />
         </Center>
@@ -223,83 +212,75 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <ErrorState />
         </Center>
       )} */}
-          {/* {data3 && !error && !loading && ( */}
-          <Box flex="1">
-            <Tabs marginTop={3}>
-              <TabList>
-                <Tab onClick={() => setSearch("")} color={unselectedColor}>
-                  All
-                </Tab>
-                <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
-                  Drafts
-                </Tab>
-                <Tab
-                  onClick={() => setSearch("Published")}
-                  color={unselectedColor}
-                >
-                  Published
-                </Tab>
-                <Tab
-                  onClick={() => setSearch("Archived")}
-                  color={unselectedColor}
-                >
-                  Archived
-                </Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <VStack pt={4} spacing={6}>
-                    <HStack width="100%">
-                      <InputGroup width="95%">
-                        <Input
-                          borderRadius="6px"
-                          borderColor="grey.100"
-                          backgroundColor="grey.100"
-                          onChange={(e) => setSearch(e.target.value)}
-                          placeholder="Search bar"
-                        />
-                        <InputRightElement pointerEvents="none" h="full">
-                          <SearchOutlineIcon />
-                        </InputRightElement>
-                      </InputGroup>
-                      <SortMenu
-                        properties={[
-                          "status",
-                          "name",
-                          "grade",
-                          "type",
-                          "country",
-                          "region",
-                        ]}
-                        onSortOrder={setSortOrder}
-                        onSortProperty={setSortProperty}
-                      />
-                      <FilterTablePopover />
-                    </HStack>
-                    {search && (
-                      <Text fontSize="16px" color="grey.300" width="100%">
-                        Showing {data3.length} results for &quot;{search}&quot;
-                      </Text>
-                    )}
-                    <AssessmentTable assessments={assessments} />
-                  </VStack>
-                </TabPanel>
-                <TabPanel>
-                  <AssessmentTable assessments={assessments} />
-                </TabPanel>
-                <TabPanel>
-                  <AssessmentTable assessments={assessments} />
-                </TabPanel>
-                <TabPanel>
-                  <AssessmentTable assessments={assessments} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
-          {/* )} */}
-        </Box>
-      </VStack>
-    </>
+      {/* {data3 && !error && !loading && ( */}
+      <Box flex="1">
+        <Tabs marginTop={3}>
+          <TabList>
+            <Tab onClick={() => setSearch("")} color={unselectedColor}>
+              All
+            </Tab>
+            <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
+              Drafts
+            </Tab>
+            <Tab onClick={() => setSearch("Published")} color={unselectedColor}>
+              Published
+            </Tab>
+            <Tab onClick={() => setSearch("Archived")} color={unselectedColor}>
+              Archived
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <VStack pt={4} spacing={6}>
+                <HStack width="100%">
+                  <InputGroup width="95%">
+                    <Input
+                      borderRadius="6px"
+                      borderColor="grey.100"
+                      backgroundColor="grey.100"
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Search bar"
+                    />
+                    <InputRightElement pointerEvents="none" h="full">
+                      <SearchOutlineIcon />
+                    </InputRightElement>
+                  </InputGroup>
+                  <SortMenu
+                    properties={[
+                      "status",
+                      "name",
+                      "grade",
+                      "type",
+                      "country",
+                      "region",
+                    ]}
+                    onSortOrder={setSortOrder}
+                    onSortProperty={setSortProperty}
+                  />
+                  <FilterTablePopover />
+                </HStack>
+                {search && (
+                  <Text fontSize="16px" color="grey.300" width="100%">
+                    Showing {data3.length} results for &quot;{search}&quot;
+                  </Text>
+                )}
+                <AssessmentTable assessments={assessments} />
+              </VStack>
+            </TabPanel>
+            <TabPanel>
+              <AssessmentTable assessments={assessments} />
+            </TabPanel>
+            <TabPanel>
+              <AssessmentTable assessments={assessments} />
+            </TabPanel>
+            <TabPanel>
+              <AssessmentTable assessments={assessments} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
+      {/* )} */}
+    </Box>
   );
 };
 
