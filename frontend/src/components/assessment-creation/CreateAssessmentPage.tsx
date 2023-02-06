@@ -1,4 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from "react";
+import { useForm } from "react-hook-form";
 import {
   FormControl,
   FormLabel,
@@ -9,15 +12,31 @@ import {
   Stack,
   Radio,
   Box,
+  Text,
+  Button,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-// import SelectFormInput from "../auth/TeacherSignup/SelectFormInput";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
   return (
-    <VStack>
-      <FormControl isRequired>
+    <VStack align="left">
+      <Text marginBottom={5}>BASIC INFORMATION</Text>
+
+      <FormControl isRequired isInvalid={Boolean(errors.assessmentName)}>
         <FormLabel> Assessment Name </FormLabel>
-        <Input placeholder="e.g. Ontario Grade 5 Pre-Term Assessment" />
+        <Input
+          placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
+          {...register("assessmentName", {
+            required: "Please enter a name for the assessment",
+          })}
+        />
+        <FormErrorMessage> {errors.assessmentName?.message} </FormErrorMessage>
       </FormControl>
 
       <FormControl isRequired>
@@ -39,18 +58,30 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
       <FormControl>
         <FormLabel> Curriculum </FormLabel>
-        <Stack direction="row" width="100%" alignItems="flex-end">
+        <Stack direction="row" width="100%">
           <FormControl isRequired>
             <FormLabel> Country </FormLabel>
             <Select variant="filled" />
           </FormControl>
 
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={Boolean(errors.region)}>
             <FormLabel> Region </FormLabel>
-            <Select variant="filled" />
+            <Input
+              {...register("region", { required: "Please enter a region" })}
+            />
+            <FormErrorMessage> {errors.region?.message} </FormErrorMessage>
           </FormControl>
         </Stack>
       </FormControl>
+
+      <Button
+        onClick={handleSubmit((data) => {
+          console.log(data);
+          console.log(errors);
+        })}
+      >
+        Submit
+      </Button>
     </VStack>
   );
 };
