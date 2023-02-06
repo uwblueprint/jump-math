@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import AdminTab from "../../user-management/AdminTab";
-import { User } from "../../../types/UserTypes";
+import { AdminUser, TeacherUser } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
 import { AlertIcon } from "../../../assets/icons";
@@ -38,23 +38,31 @@ const ErrorState = (): React.ReactElement => (
   </VStack>
 );
 
-const getUser = (user: User) => {
+const getTeacherUser = (user: TeacherUser) => {
   return {
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
-    school: user.school ? user.school : null,
+    school: user.school,
   };
 };
 
-type UserProperty = "firstName" | "email" | "school";
-type SortOrder = "ascending" | "descending";
+const getAdminUser = (user: AdminUser) => {
+  return {
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  };
+};
+
+type TabType = "admin" | "teacher";
 
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [curTab, setCurTab] = React.useState<TabType>("admin");
 
   const {
     loading: adminLoading,
@@ -74,38 +82,68 @@ const UsersPage = (): React.ReactElement => {
     variables: { role: "Teacher" },
   });
 
-  const filterUsers = (users: any) => {
+  const filterTeacherUsers = (users: any) => {
     let filteredUsers = users;
     if (search) {
       filteredUsers = filteredUsers.filter(
-        (user: User) =>
+        (user: TeacherUser) =>
           `${user.firstName} ${user.lastName}`
             .toLowerCase()
             .includes(search.toLowerCase()) ||
           user.email.toLowerCase().includes(search.toLowerCase()) ||
-          user.school?.toLowerCase().includes(search.toLowerCase()),
+          user.school.toLowerCase().includes(search.toLowerCase()),
       );
     }
-    return filteredUsers?.map(getUser);
+    return filteredUsers?.map(getTeacherUser);
   };
 
-  const sortUsers = (users: User[]) => {
-    let sortedUsers: User[] = users;
-    // Check to make sure we're not sorting admin users by school
-    if (!users || !users.length || !users[0][sortProperty as keyof User]) {
-      return users;
+  const filterAdminUsers = (users: any) => {
+    let filteredUsers = users;
+    if (search) {
+      filteredUsers = filteredUsers.filter(
+        (user: AdminUser) =>
+          `${user.firstName} ${user.lastName}`
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()),
+      );
     }
+    return filteredUsers?.map(getAdminUser);
+  };
+
+  const sortTeacherUsers = (users: TeacherUser[]) => {
+    let sortedUsers: TeacherUser[] = users;
     if (sortOrder === "descending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof User]!.toLowerCase() <
-        b[sortProperty as keyof User]!.toLowerCase()
+        a[sortProperty as keyof TeacherUser]!.toLowerCase() <
+        b[sortProperty as keyof TeacherUser]!.toLowerCase()
           ? 1
           : -1,
       );
     } else if (sortOrder === "ascending") {
       sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof User]!.toLowerCase() >
-        b[sortProperty as keyof User]!.toLowerCase()
+        a[sortProperty as keyof TeacherUser]!.toLowerCase() >
+        b[sortProperty as keyof TeacherUser]!.toLowerCase()
+          ? 1
+          : -1,
+      );
+    }
+    return sortedUsers;
+  };
+
+  const sortAdminUsers = (users: AdminUser[]) => {
+    let sortedUsers: AdminUser[] = users;
+    if (sortOrder === "descending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty as keyof AdminUser]!.toLowerCase() <
+        b[sortProperty as keyof AdminUser]!.toLowerCase()
+          ? 1
+          : -1,
+      );
+    } else if (sortOrder === "ascending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty as keyof AdminUser]!.toLowerCase() >
+        b[sortProperty as keyof AdminUser]!.toLowerCase()
           ? 1
           : -1,
       );
@@ -114,29 +152,46 @@ const UsersPage = (): React.ReactElement => {
   };
 
   const filteredAdmins = React.useMemo(() => {
-    return filterUsers(adminData?.usersByRole);
-  }, [search, adminData]);
+    if (curTab === "teacher") {
+      return [];
+    }
+    return filterAdminUsers(adminData?.usersByRole);
+  }, [search, adminData, curTab]);
 
   const filteredTeachers = React.useMemo(() => {
-    return filterUsers(teacherData?.teachers);
-  }, [search, teacherData]);
+    if (curTab === "admin") {
+      return [];
+    }
+    return filterTeacherUsers(teacherData?.teachers);
+  }, [search, teacherData, curTab]);
 
   const admins = React.useMemo(() => {
-    return sortUsers(filteredAdmins as User[]);
-  }, [filteredAdmins, sortProperty, sortOrder]);
+    if (curTab === "teacher") {
+      return [];
+    }
+    return sortAdminUsers(filteredAdmins as AdminUser[]);
+  }, [filteredAdmins, sortProperty, sortOrder, curTab]);
 
   const teachers = React.useMemo(() => {
-    return sortUsers(filteredTeachers as User[]);
-  }, [filteredTeachers, sortProperty, sortOrder]);
+    if (curTab === "admin") {
+      return [];
+    }
+    return sortTeacherUsers(filteredTeachers as TeacherUser[]);
+  }, [filteredTeachers, sortProperty, sortOrder, curTab]);
 
   const loading = adminLoading || teacherLoading;
   const error = adminError || teacherError;
   const data = adminData || teacherData;
 
-  const clearSearchAndSort = () => {
+  const handleTabChange = () => {
     setSearch("");
     setSortProperty("firstName");
     setSortOrder("ascending");
+    if (curTab === "teacher") {
+      setCurTab("admin");
+    } else {
+      setCurTab("teacher");
+    }
   };
 
   type Role = "teacher" | "admin";
@@ -167,7 +222,7 @@ const UsersPage = (): React.ReactElement => {
       )}
       {data && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3} onChange={clearSearchAndSort}>
+          <Tabs marginTop={3} onChange={handleTabChange}>
             <TabList>
               <Tab color={unselectedColor}>Admin</Tab>
               <Tab color={unselectedColor}>Teachers</Tab>

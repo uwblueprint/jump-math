@@ -8,7 +8,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-import { User } from "../../types/UserTypes";
+import { AdminUser, TeacherUser } from "../../types/UserTypes";
 
 import { SearchOutlineIcon } from "../../assets/icons";
 
@@ -29,15 +29,18 @@ interface SearchBarProps {
 interface AdminTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
   searchBarComponent: React.ReactElement<SearchBarProps>;
-  UserTable: React.ReactElement<UserTableProps>;
+  UserTable: React.ReactElement<AdminUser[] | TeacherUser[]>;
   search: string;
   searchLength: number;
 }
 
-export interface UserTableProps {
-  users: User[];
+export interface AdminTableProps {
+  users: AdminUser[];
 }
 
+export interface TeacherTableProps {
+  users: TeacherUser[];
+}
 const AdminTab = ({
   sortMenuComponent,
   searchBarComponent,

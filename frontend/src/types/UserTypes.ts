@@ -1,6 +1,12 @@
-export type User = {
+export type AdminUser = {
   firstName: string;
   lastName: string;
   email: string;
-  school?: string;
+};
+
+export type TeacherUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  school: string;
 };
