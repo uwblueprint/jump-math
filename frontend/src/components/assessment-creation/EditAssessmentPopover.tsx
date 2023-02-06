@@ -31,7 +31,7 @@ const EditAssessmentPopover = (): React.ReactElement => {
         />
       </PopoverTrigger>
       <PopoverContent
-        backgroundColor="#F4F4F4"
+        backgroundColor="grey.100"
         height="220px"
         width="104px"
         borderRadius="20px"

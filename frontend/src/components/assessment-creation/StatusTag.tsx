@@ -1,7 +1,7 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
+import { StatusProperty } from "../../types/AssessmentTypes";
 
-type StatusProperty = "Draft" | "Published" | "Archived" | "Deleted";
 interface Status {
   status: StatusProperty;
 }
@@ -12,24 +12,24 @@ const StatusTag = ({ status }: Status): React.ReactElement => {
 
   switch (status) {
     case "Draft": {
-      color = "#766C0D";
-      backgroundColor = "#FEFCE8";
+      color = "yellow.300";
+      backgroundColor = "yellow.50";
       break;
     }
     case "Published": {
-      color = "#467826";
-      backgroundColor = "#F0F5ED";
+      color = "green.400";
+      backgroundColor = "green.50";
       break;
     }
     case "Archived": {
-      color = "#636363";
-      backgroundColor = "#F4F4F4";
+      color = "grey.300";
+      backgroundColor = "grey.100";
       break;
     }
 
     default: {
-      color = "#766C0D";
-      backgroundColor = "#FEFCE8";
+      color = "grey.300";
+      backgroundColor = "grey.300";
       break;
     }
   }

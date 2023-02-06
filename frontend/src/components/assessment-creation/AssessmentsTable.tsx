@@ -1,15 +1,13 @@
 import React from "react";
 import { Text } from "@chakra-ui/react";
-import { AssessmentType } from "../../types/AssessmentType";
+import { AssessmentTypes, StatusProperty } from "../../types/AssessmentTypes";
 import EditAssessmentPopover from "./EditAssessmentPopover";
 import StatusTag from "./StatusTag";
 import { TableRow, Table } from "../common/Table";
 
 interface AssessmentTableProps {
-  assessments: AssessmentType[];
+  assessments: AssessmentTypes[];
 }
-
-type StatusProperty = "Draft" | "Published" | "Archived" | "Deleted";
 
 const AssessmentTable = ({
   assessments,
@@ -17,7 +15,8 @@ const AssessmentTable = ({
   const headers = ["Status", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment) => ({
     values: [
-      <StatusTag key={1} status={assessment.status as StatusProperty} />,
+      // eslint-disable-next-line react/jsx-key
+      <StatusTag status={assessment.status as StatusProperty} />,
       <Text key={2} fontWeight="bold">
         {assessment.name}
       </Text>,

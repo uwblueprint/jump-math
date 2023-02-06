@@ -9,17 +9,14 @@ import {
   TabPanels,
   useColorModeValue,
   VStack,
-  Input,
-  InputGroup,
-  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
-import { SearchOutlineIcon } from "../../../assets/icons";
 import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
 import AssessmentTable from "../../assessment-creation/AssessmentsTable";
-import { AssessmentType } from "../../../types/AssessmentType";
+import { AssessmentTypes } from "../../../types/AssessmentTypes";
 import SortMenu from "../../common/SortMenu";
 import FilterMenu from "../../assessment-creation/FilterMenu";
+import SearchBar from "../../common/SearchBar";
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -31,7 +28,7 @@ import FilterMenu from "../../assessment-creation/FilterMenu";
 //   </VStack>
 // );
 
-const getAssessments = (assessment: AssessmentType) => {
+const getAssessments = (assessment: AssessmentTypes) => {
   return {
     status: assessment.status,
     name: assessment.name,
@@ -42,7 +39,7 @@ const getAssessments = (assessment: AssessmentType) => {
   };
 };
 
-const sampleAssessments: AssessmentType[] = [
+const sampleAssessments: AssessmentTypes[] = [
   {
     status: "Draft",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
@@ -152,15 +149,14 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   //   variables: { role: "Admin" },
   // });
 
-  const filteredAssessements = React.useMemo(() => {
+  const searchedAssessements = React.useMemo(() => {
     let filteredTests = sampleAssessments;
     if (search) {
       filteredTests = filteredTests.filter(
-        (assessment: AssessmentType) =>
-          assessment.name.toLowerCase().includes(search.toLowerCase()) ||
+        (assessment: AssessmentTypes) =>
+          assessment.grade.toLowerCase().includes(search.toLowerCase()) ||
           assessment.country.toLowerCase().includes(search.toLowerCase()) ||
           assessment.region.toLowerCase().includes(search.toLowerCase()) ||
-          assessment.status.toLowerCase().includes(search.toLowerCase()) ||
           assessment.type.toLowerCase().includes(search.toLowerCase()),
       );
     }
@@ -168,24 +164,24 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   }, [search]);
 
   const assessments = React.useMemo(() => {
-    let sortedAssessments: AssessmentType[] = filteredAssessements as AssessmentType[];
+    let sortedAssessments: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
     if (sortOrder === "descending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentType].toLowerCase() <
-        b[sortProperty as keyof AssessmentType].toLowerCase()
+        a[sortProperty as keyof AssessmentTypes].toLowerCase() <
+        b[sortProperty as keyof AssessmentTypes].toLowerCase()
           ? 1
           : -1,
       );
     } else if (sortOrder === "ascending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentType].toLowerCase() >
-        b[sortProperty as keyof AssessmentType].toLowerCase()
+        a[sortProperty as keyof AssessmentTypes].toLowerCase() >
+        b[sortProperty as keyof AssessmentTypes].toLowerCase()
           ? 1
           : -1,
       );
     }
     return sortedAssessments;
-  }, [filteredAssessements, sortProperty, sortOrder]);
+  }, [searchedAssessements, sortProperty, sortOrder]);
 
   return (
     <>
@@ -233,18 +229,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             <TabPanel>
               <VStack pt={4} spacing={6}>
                 <HStack width="100%">
-                  <InputGroup width="95%">
-                    <Input
-                      borderRadius="6px"
-                      borderColor="grey.100"
-                      backgroundColor="grey.100"
-                      onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Search bar"
-                    />
-                    <InputRightElement pointerEvents="none" h="full">
-                      <SearchOutlineIcon />
-                    </InputRightElement>
-                  </InputGroup>
+                  <SearchBar onSearch={setSearch} />
                   <SortMenu
                     properties={[
                       "status",
