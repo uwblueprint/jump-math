@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "@chakra-ui/react";
 import { AssessmentTypes, StatusProperty } from "../../types/AssessmentTypes";
-import EditAssessmentPopover from "./EditAssessmentPopover";
+import EditStatusPopover from "./EditStatusPopover";
 import StatusTag from "./StatusTag";
 import { TableRow, Table } from "../common/Table";
 
@@ -25,7 +25,7 @@ const AssessmentTable = ({
       assessment.country,
       assessment.region,
     ],
-    menu: <EditAssessmentPopover />,
+    menu: <EditStatusPopover />,
   }));
 
   return <Table headers={headers} rows={rows} />;
