@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { PlusOutlineIcon } from "../../assets/icons";
 
-const CreateAssessementModel = (): React.ReactElement => {
+const CreateAssessementButton = (): React.ReactElement => {
   return (
     <>
       <Button rightIcon={<PlusOutlineIcon />} variant="primary" my={2}>
@@ -12,4 +12,4 @@ const CreateAssessementModel = (): React.ReactElement => {
   );
 };
 
-export default CreateAssessementModel;
+export default CreateAssessementButton;

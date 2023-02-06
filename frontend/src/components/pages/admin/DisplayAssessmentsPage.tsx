@@ -14,12 +14,12 @@ import {
   InputRightElement,
   HStack,
 } from "@chakra-ui/react";
-import { SearchOutlineIcon } from "../../assets/icons";
-import CreateAssessementModel from "./CreateAssessementModal";
-import AssessmentTable from "./AssessmentTable";
-import { AssessmentType } from "../../types/AssessmentType";
-import FilterTablePopover from "./FilterTablePopover";
-import SortMenu from "../common/SortMenu";
+import { SearchOutlineIcon } from "../../../assets/icons";
+import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
+import AssessmentTable from "../../assessment-creation/AssessmentsTable";
+import { AssessmentType } from "../../../types/AssessmentType";
+import SortMenu from "../../common/SortMenu";
+import FilterMenu from "../../assessment-creation/FilterMenu";
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -42,7 +42,7 @@ const getAssessments = (assessment: AssessmentType) => {
   };
 };
 
-const data3: AssessmentType[] = [
+const sampleAssessments: AssessmentType[] = [
   {
     status: "Draft",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
@@ -145,7 +145,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("name");
-  const [sortOrder, setSortOrder] = React.useState("Ascending");
+  const [sortOrder, setSortOrder] = React.useState("ascending");
 
   // const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
   //   fetchPolicy: "cache-and-network",
@@ -153,7 +153,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   // });
 
   const filteredAssessements = React.useMemo(() => {
-    let filteredTests = data3;
+    let filteredTests = sampleAssessments;
     if (search) {
       filteredTests = filteredTests.filter(
         (assessment: AssessmentType) =>
@@ -199,7 +199,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          <CreateAssessementModel />
+          <CreateAssessementButton />
         </HStack>
       </Box>
       {/* {loading && (
@@ -212,7 +212,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <ErrorState />
         </Center>
       )} */}
-      {/* {data3 && !error && !loading && ( */}
+      {/* {sampleAssessments && !error && !loading && ( */}
       <Box flex="1">
         <Tabs marginTop={3}>
           <TabList>
@@ -257,11 +257,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                     onSortOrder={setSortOrder}
                     onSortProperty={setSortProperty}
                   />
-                  <FilterTablePopover />
+                  <FilterMenu />
                 </HStack>
                 {search && (
                   <Text fontSize="16px" color="grey.300" width="100%">
-                    Showing {data3.length} results for &quot;{search}&quot;
+                    Showing {sampleAssessments.length} results for &quot;
+                    {search}&quot;
                   </Text>
                 )}
                 <AssessmentTable assessments={assessments} />

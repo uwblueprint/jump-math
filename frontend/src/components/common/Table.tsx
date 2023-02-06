@@ -43,8 +43,10 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
               key={rowIndex}
               backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
             >
-              {row.values.map((value) => (
-                <Td key={rowIndex}>{value}</Td>
+              {row.values.map((value, cellIndex) => (
+                <Td key={value} fontWeight={cellIndex === 0 ? "bold" : ""}>
+                  {value}
+                </Td>
               ))}
               <Td width="5%">{row.menu}</Td>
             </Tr>
