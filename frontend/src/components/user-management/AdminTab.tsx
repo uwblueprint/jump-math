@@ -2,19 +2,10 @@ import React from "react";
 import {
   Text,
   VStack,
-  Input,
-  InputGroup,
-  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
 
 import { AdminUser, TeacherUser } from "../../types/UserTypes";
-
-import { SearchOutlineIcon } from "../../assets/icons";
-
-type UserProperty = "firstName" | "email" | "school";
-type SortOrder = "ascending" | "descending";
-type Role = "teacher" | "admin";
 
 interface SortMenuProps {
   properties: string[];
