@@ -100,7 +100,6 @@ const App = (): React.ReactElement => {
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
                 />
-                {/* TODO: Remove route for production */}
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
