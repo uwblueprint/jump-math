@@ -15,7 +15,7 @@ export interface TestStatistic {
    * The ordering of elements in the list corresponds with the ordering
    * of questions in the `Test` collection.
    */
-  averageQuestionScores: QuestionStatistic[];
+  averageQuestionScores: QuestionStatistic[][];
 }
 
 export interface IStatisticService {

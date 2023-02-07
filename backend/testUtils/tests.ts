@@ -1,41 +1,79 @@
-import { Question, QuestionType } from "../models/test.model";
+import { QuestionComponent, QuestionComponentType } from "../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { mockAdmin } from "./users";
 
-export const questions: Array<Question> = [
-  {
-    questionType: QuestionType.NUMERIC_ANSWER,
-    questionPrompt: "Numeric answer question",
-    questionMetadata: {
-      answer: 10.5,
+export const questions: Array<Array<QuestionComponent>> = [
+  [
+    {
+      type: QuestionComponentType.TEXT,
+      metadata: {
+        text:
+          "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+      },
     },
-  },
-  {
-    questionType: QuestionType.MULTIPLE_CHOICE,
-    questionPrompt: "Multiple Choice question",
-    questionMetadata: {
-      options: ["11", "12", "13", "14"],
-      answerIndex: 0,
+    {
+      type: QuestionComponentType.QUESTION_TEXT,
+      metadata: {
+        questionText: "How many apples does Thomas have left?",
+      },
     },
-  },
-  {
-    questionType: QuestionType.MULTIPLE_CHOICE,
-    questionPrompt: "Multiple Choice question",
-    questionMetadata: {
-      options: ["11", "12", "13", "14"],
-      answerIndex: 1,
+    {
+      type: QuestionComponentType.SHORT_ANSWER,
+      metadata: {
+        answer: 3,
+      },
     },
-  },
-  {
-    questionType: QuestionType.NUMERIC_ANSWER,
-    questionPrompt: "Numeric answer question",
-    questionMetadata: {
-      answer: 14,
+    {
+      type: QuestionComponentType.QUESTION_TEXT,
+      metadata: {
+        questionText: "How many apples does Rick have left?",
+      },
     },
-  },
+    {
+      type: QuestionComponentType.MULTIPLE_CHOICE,
+      metadata: {
+        options: ["3", "4", "5", "6"],
+        answerIndex: 0,
+      },
+    },
+    {
+      type: QuestionComponentType.QUESTION_TEXT,
+      metadata: {
+        questionText: "How many apples does Mike have left?",
+      },
+    },
+    {
+      type: QuestionComponentType.MULTI_SELECT,
+      metadata: {
+        options: ["3", "6", "3 + 3", "0"],
+        answerIndices: [1, 2],
+      },
+    },
+  ],
+  [
+    {
+      type: QuestionComponentType.QUESTION_TEXT,
+      metadata: {
+        questionText: "How many children are in the image below?",
+      },
+    },
+    {
+      type: QuestionComponentType.IMAGE,
+      metadata: {
+        src:
+          "https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png",
+      },
+    },
+    {
+      type: QuestionComponentType.SHORT_ANSWER,
+      metadata: {
+        answer: 7,
+      },
+    },
+  ],
 ];
 
 export const mockTest: CreateTestRequestDTO = {
@@ -91,15 +129,11 @@ export const assertResponseMatchesExpected = (
   expect(result.duration).toEqual(expected.duration);
   expect(result.admin).toEqual(mockAdmin);
 
-  result.questions.forEach((question: Question, i) => {
-    expect(Number(question.questionType)).toEqual(
-      expected.questions[i].questionType,
-    );
-    expect(question.questionPrompt).toEqual(
-      expected.questions[i].questionPrompt,
-    );
-    expect(question.questionMetadata).toEqual(
-      expected.questions[i].questionMetadata,
-    );
+  result.questions.forEach((questionComponents: QuestionComponent[], i) => {
+    const expectedQuestion: QuestionComponent[] = expected.questions[i];
+    questionComponents.forEach((questionComponent: QuestionComponent, j) => {
+      expect(Number(questionComponent.type)).toEqual(expectedQuestion[j].type);
+      expect(questionComponent.metadata).toEqual(expectedQuestion[j].metadata);
+    });
   });
 };

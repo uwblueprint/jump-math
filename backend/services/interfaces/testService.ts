@@ -1,7 +1,11 @@
 import {
+  QuestionTextMetadata,
+  TextMetadata,
+  ImageMetadata,
   MultipleChoiceMetadata,
-  NumericQuestionMetadata,
-  Question,
+  MultiSelectMetadata,
+  ShortAnswerMetadata,
+  QuestionComponent,
 } from "../../models/test.model";
 import { UserDTO } from "../../types";
 
@@ -15,7 +19,7 @@ export type TestResponseDTO = {
   /** the UserDTO for the admin */
   admin: UserDTO;
   /** an array of questions on the test */
-  questions: Question[];
+  questions: QuestionComponent[][];
   /** the grade of the student */
   grade: number;
 };
@@ -25,10 +29,17 @@ export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
   admin: string;
 };
 
-export type QuestionRequest = Omit<Question, "questionMetadata"> & {
-  questionMetadataMultipleChoice: MultipleChoiceMetadata;
-  questionMetadataNumericQuestion: NumericQuestionMetadata;
-};
+export interface QuestionComponentMetadataRequest {
+  questionTextMetadata: QuestionTextMetadata;
+  textMetadata: TextMetadata;
+  imageMetadata: ImageMetadata;
+  multipleChoiceMetadata: MultipleChoiceMetadata;
+  multiSelectMetadata: MultiSelectMetadata;
+  shortAnswerMetadata: ShortAnswerMetadata;
+}
+
+export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
+  QuestionComponentMetadataRequest;
 
 export type TestRequestDTO = {
   /** the name of the test */
@@ -37,8 +48,8 @@ export type TestRequestDTO = {
   duration: number;
   /** the UserDTO for the admin */
   admin: string;
-  /** an array of questions on the test */
-  questions: QuestionRequest[];
+  /** an ordered array of questions on the test */
+  questions: QuestionComponentRequest[][];
   /** the grade of the student */
   grade: number;
 };
