@@ -1,13 +1,12 @@
 import React from "react";
-import { AdminUser } from "../../types/UserTypes";
 import { TableRow, Table } from "../common/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
-import { AdminTableProps } from "./AdminTab";
+import { TeacherTableProps } from "./AdminTab";
 
-const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
-  const headers = ["Name", "Email"];
+const TeacherUserTable = ({ users }: TeacherTableProps): React.ReactElement => {
+  const headers = ["Name", "School", "Email"];
   const rows: TableRow[] = users.map((user) => ({
-    values: [`${user.firstName} ${user.lastName}`, user.email],
+    values: [`${user.firstName} ${user.lastName}`, user.school!, user.email],
     menu: (
       <RemoveUserPopover
         name={`${user.firstName} ${user.lastName}`}
@@ -18,4 +17,4 @@ const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
 
   return <Table headers={headers} rows={rows} />;
 };
-export default AdminUserTable;
+export default TeacherUserTable;
