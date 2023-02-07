@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from "react";
+import countryList from "react-select-country-list";
 import { useForm } from "react-hook-form";
+import { Select } from "chakra-react-select";
 import {
   FormControl,
   FormLabel,
   Input,
   VStack,
-  Select,
   RadioGroup,
   Stack,
   Radio,
@@ -23,6 +24,47 @@ const CreateAssessmentPage = (): React.ReactElement => {
     register,
     formState: { errors },
   } = useForm();
+
+  const countryOptions = React.useMemo(() => countryList().getData(), []);
+
+  const gradeOptions = [
+    {
+      label: "K",
+      value: "k",
+    },
+    {
+      label: "Grade 1",
+      value: "1",
+    },
+    {
+      label: "Grade 2",
+      value: "2",
+    },
+    {
+      label: "Grade 3",
+      value: "3",
+    },
+    {
+      label: "Grade 4",
+      value: "4",
+    },
+    {
+      label: "Grade 5",
+      value: "5",
+    },
+    {
+      label: "Grade 6",
+      value: "6",
+    },
+    {
+      label: "Grade 7",
+      value: "7",
+    },
+    {
+      label: "Grade 8",
+      value: "8",
+    },
+  ];
 
   return (
     <VStack align="left">
@@ -41,7 +83,25 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
       <FormControl isRequired>
         <FormLabel> Grade Level </FormLabel>
-        <Select variant="filled" />
+        <Select
+          options={gradeOptions}
+          chakraStyles={{
+            dropdownIndicator: (provided) => ({
+              ...provided,
+              bg: "transparent",
+              px: 2,
+              cursor: "inherit",
+            }),
+            indicatorSeparator: (provided) => ({
+              ...provided,
+              display: "none",
+            }),
+            placeholder: (provided) => ({
+              ...provided,
+              color: "grey.300",
+            }),
+          }}
+        />
       </FormControl>
 
       <FormControl isRequired>
@@ -61,7 +121,25 @@ const CreateAssessmentPage = (): React.ReactElement => {
         <Stack direction="row" width="100%">
           <FormControl isRequired>
             <FormLabel> Country </FormLabel>
-            <Select variant="filled" />
+            <Select
+              options={countryOptions}
+              chakraStyles={{
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  bg: "transparent",
+                  px: 2,
+                  cursor: "inherit",
+                }),
+                indicatorSeparator: (provided) => ({
+                  ...provided,
+                  display: "none",
+                }),
+                placeholder: (provided) => ({
+                  ...provided,
+                  color: "grey.300",
+                }),
+              }}
+            />
           </FormControl>
 
           <FormControl isRequired isInvalid={Boolean(errors.region)}>
