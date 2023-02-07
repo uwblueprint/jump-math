@@ -2,7 +2,7 @@
 
 import React from "react";
 import countryList from "react-select-country-list";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Select } from "chakra-react-select";
 import {
   FormControl,
@@ -23,6 +23,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     handleSubmit,
     register,
     formState: { errors },
+    control,
   } = useForm();
 
   const countryOptions = React.useMemo(() => countryList().getData(), []);
@@ -81,48 +82,24 @@ const CreateAssessmentPage = (): React.ReactElement => {
         <FormErrorMessage> {errors.assessmentName?.message} </FormErrorMessage>
       </FormControl>
 
-      <FormControl isRequired>
-        <FormLabel> Grade Level </FormLabel>
-        <Select
-          options={gradeOptions}
-          chakraStyles={{
-            dropdownIndicator: (provided) => ({
-              ...provided,
-              bg: "transparent",
-              px: 2,
-              cursor: "inherit",
-            }),
-            indicatorSeparator: (provided) => ({
-              ...provided,
-              display: "none",
-            }),
-            placeholder: (provided) => ({
-              ...provided,
-              color: "grey.300",
-            }),
-          }}
-        />
-      </FormControl>
-
-      <FormControl isRequired>
-        <FormLabel> Type of Assessment </FormLabel>
-        <RadioGroup>
-          <Box borderRadius="md" border="2px" borderColor="gray.200">
-            <Radio value="1">Beginning of Grade</Radio>
-          </Box>
-          <Box borderRadius="md" border="2px" borderColor="gray.200">
-            <Radio value="2">End of Grade</Radio>
-          </Box>
-        </RadioGroup>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel> Curriculum </FormLabel>
-        <Stack direction="row" width="100%">
-          <FormControl isRequired>
-            <FormLabel> Country </FormLabel>
+      <Controller
+        control={control}
+        name="grade"
+        rules={{ required: "Please select a grade" }}
+        render={({
+          field: { onChange, onBlur, value, name, ref },
+          fieldState: { error },
+        }) => (
+          <FormControl isRequired isInvalid={Boolean(error)}>
+            <FormLabel> Grade Level </FormLabel>
             <Select
-              options={countryOptions}
+              name={name}
+              ref={ref}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              options={gradeOptions}
+              placeholder=""
               chakraStyles={{
                 dropdownIndicator: (provided) => ({
                   ...provided,
@@ -140,7 +117,76 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 }),
               }}
             />
+            <FormErrorMessage>{error?.message}</FormErrorMessage>
           </FormControl>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="assessmentType"
+        rules={{ required: "Please select a type of assessment" }}
+        render={({
+          field: { onChange, value, name, ref },
+          fieldState: { error },
+        }) => (
+          <FormControl isRequired isInvalid={Boolean(error)}>
+            <FormLabel> Type of Assessment </FormLabel>
+            <RadioGroup name={name} ref={ref} onChange={onChange} value={value}>
+              <Box borderRadius="md" border="2px" borderColor="gray.200">
+                <Radio value="beginning">Beginning of Grade</Radio>
+              </Box>
+              <Box borderRadius="md" border="2px" borderColor="gray.200">
+                <Radio value="end">End of Grade</Radio>
+              </Box>
+            </RadioGroup>
+            <FormErrorMessage>{error?.message}</FormErrorMessage>
+          </FormControl>
+        )}
+      />
+
+      <FormControl>
+        <FormLabel> Curriculum </FormLabel>
+        <Stack direction="row" width="100%">
+          <Controller
+            control={control}
+            name="country"
+            rules={{ required: "Please select a country" }}
+            render={({
+              field: { onChange, onBlur, value, name, ref },
+              fieldState: { error },
+            }) => (
+              <FormControl isRequired isInvalid={Boolean(error)}>
+                <FormLabel> Country </FormLabel>
+                <Select
+                  name={name}
+                  ref={ref}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  options={countryOptions}
+                  placeholder=""
+                  chakraStyles={{
+                    dropdownIndicator: (provided) => ({
+                      ...provided,
+                      bg: "transparent",
+                      px: 2,
+                      cursor: "inherit",
+                    }),
+                    indicatorSeparator: (provided) => ({
+                      ...provided,
+                      display: "none",
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      color: "grey.300",
+                    }),
+                  }}
+                />
+                <FormErrorMessage>{error?.message}</FormErrorMessage>
+              </FormControl>
+            )}
+          />
 
           <FormControl isRequired isInvalid={Boolean(errors.region)}>
             <FormLabel> Region </FormLabel>
@@ -155,7 +201,6 @@ const CreateAssessmentPage = (): React.ReactElement => {
       <Button
         onClick={handleSubmit((data) => {
           console.log(data);
-          console.log(errors);
         })}
       >
         Submit
