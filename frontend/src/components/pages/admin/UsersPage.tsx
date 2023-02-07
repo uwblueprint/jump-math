@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
+
 import {
   Text,
   Box,
@@ -11,18 +12,17 @@ import {
   useColorModeValue,
   VStack,
   HStack,
+  ChakraProvider,
 } from "@chakra-ui/react";
+
 import { useQuery } from "@apollo/client";
-import AdminTab from "../../user-management/AdminTab";
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import Pagination from "./Pagination";
+
+import { AdminUser } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
 import AddAdminModal from "../../user-management/AddAdminModal";
 import { AlertIcon } from "../../../assets/icons";
-import {
-  GET_USERS_BY_ROLE,
-  GET_ALL_TEACHERS,
-} from "../../../APIClients/queries/UserQueries";
-import TeacherUserTable from "../../user-management/TeacherUserTable";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import SortMenu from "../../common/SortMenu";
 import SearchBar from "../../common/SearchBar";
 
@@ -38,15 +38,6 @@ const ErrorState = (): React.ReactElement => (
   </VStack>
 );
 
-const getTeacherUser = (user: TeacherUser) => {
-  return {
-    email: user.email,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    school: user.school,
-  };
-};
-
 const getAdminUser = (user: AdminUser) => {
   return {
     email: user.email,
@@ -55,50 +46,19 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
-type TabType = "admin" | "teacher";
-
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
-  const [curTab, setCurTab] = React.useState<TabType>("admin");
 
-  const {
-    loading: adminLoading,
-    error: adminError,
-    data: adminData,
-  } = useQuery(GET_USERS_BY_ROLE, {
+  const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
     fetchPolicy: "cache-and-network",
     variables: { role: "Admin" },
   });
 
-  const {
-    loading: teacherLoading,
-    error: teacherError,
-    data: teacherData,
-  } = useQuery(GET_ALL_TEACHERS, {
-    fetchPolicy: "cache-and-network",
-    variables: { role: "Teacher" },
-  });
-
-  const filterTeacherUsers = (users: any) => {
-    let filteredUsers = users;
-    if (search) {
-      filteredUsers = filteredUsers.filter(
-        (user: TeacherUser) =>
-          `${user.firstName} ${user.lastName}`
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          user.email.toLowerCase().includes(search.toLowerCase()) ||
-          user.school.toLowerCase().includes(search.toLowerCase()),
-      );
-    }
-    return filteredUsers?.map(getTeacherUser);
-  };
-
-  const filterAdminUsers = (users: any) => {
-    let filteredUsers = users;
+  const filteredAdmins = React.useMemo(() => {
+    let filteredUsers = data?.usersByRole;
     if (search) {
       filteredUsers = filteredUsers.filter(
         (user: AdminUser) =>
@@ -109,92 +69,40 @@ const UsersPage = (): React.ReactElement => {
       );
     }
     return filteredUsers?.map(getAdminUser);
-  };
-
-  const sortTeacherUsers = (users: TeacherUser[]) => {
-    let sortedUsers: TeacherUser[] = users;
-    if (sortOrder === "descending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof TeacherUser]!.toLowerCase() <
-        b[sortProperty as keyof TeacherUser]!.toLowerCase()
-          ? 1
-          : -1,
-      );
-    } else if (sortOrder === "ascending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof TeacherUser]!.toLowerCase() >
-        b[sortProperty as keyof TeacherUser]!.toLowerCase()
-          ? 1
-          : -1,
-      );
-    }
-    return sortedUsers;
-  };
-
-  const sortAdminUsers = (users: AdminUser[]) => {
-    let sortedUsers: AdminUser[] = users;
-    if (sortOrder === "descending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof AdminUser]!.toLowerCase() <
-        b[sortProperty as keyof AdminUser]!.toLowerCase()
-          ? 1
-          : -1,
-      );
-    } else if (sortOrder === "ascending") {
-      sortedUsers = sortedUsers?.sort((a, b) =>
-        a[sortProperty as keyof AdminUser]!.toLowerCase() >
-        b[sortProperty as keyof AdminUser]!.toLowerCase()
-          ? 1
-          : -1,
-      );
-    }
-    return sortedUsers;
-  };
-
-  const filteredAdmins = React.useMemo(() => {
-    if (curTab === "teacher") {
-      return [];
-    }
-    return filterAdminUsers(adminData?.usersByRole);
-  }, [search, adminData, curTab]);
-
-  const filteredTeachers = React.useMemo(() => {
-    if (curTab === "admin") {
-      return [];
-    }
-    return filterTeacherUsers(teacherData?.teachers);
-  }, [search, teacherData, curTab]);
+  }, [search, data]);
 
   const admins = React.useMemo(() => {
-    if (curTab === "teacher") {
-      return [];
+    let sortedUsers: AdminUser[] = filteredAdmins as AdminUser[];
+    if (sortOrder === "descending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty as keyof AdminUser].toLowerCase() <
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
+      );
+    } else if (sortOrder === "ascending") {
+      sortedUsers = sortedUsers?.sort((a, b) =>
+        a[sortProperty as keyof AdminUser].toLowerCase() >
+        b[sortProperty as keyof AdminUser].toLowerCase()
+          ? 1
+          : -1,
+      );
     }
-    return sortAdminUsers(filteredAdmins as AdminUser[]);
-  }, [filteredAdmins, sortProperty, sortOrder, curTab]);
+    return sortedUsers;
+  }, [filteredAdmins, sortProperty, sortOrder]);
 
-  const teachers = React.useMemo(() => {
-    if (curTab === "admin") {
-      return [];
-    }
-    return sortTeacherUsers(filteredTeachers as TeacherUser[]);
-  }, [filteredTeachers, sortProperty, sortOrder, curTab]);
+  const maxLength = 10; // can change based on how many names we want to show per page!
 
-  const loading = adminLoading || teacherLoading;
-  const error = adminError || teacherError;
-  const data = adminData || teacherData;
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const lastPage = Math.ceil(filteredAdmins.length / maxLength);
 
-  const handleTabChange = () => {
-    setSearch("");
-    setSortProperty("firstName");
-    setSortOrder("ascending");
-    if (curTab === "teacher") {
-      setCurTab("admin");
-    } else {
-      setCurTab("teacher");
-    }
-  };
+  const paginatedAdmins = React.useMemo(() => {
+    return filteredAdmins.slice(
+      (currentPage - 1) * maxLength,
+      currentPage * maxLength,
+    );
+  }, [filteredAdmins, currentPage]);
 
-  type Role = "teacher" | "admin";
   return (
     <>
       <Box>
@@ -222,41 +130,38 @@ const UsersPage = (): React.ReactElement => {
       )}
       {data && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3} onChange={handleTabChange}>
+          <Tabs marginTop={3}>
             <TabList>
               <Tab color={unselectedColor}>Admin</Tab>
               <Tab color={unselectedColor}>Teachers</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AdminTab
-                  sortMenuComponent={
+                <VStack pt={4} spacing={6}>
+                  <HStack width="100%">
+                    <SearchBar onSearch={setSearch} />
                     <SortMenu
                       properties={["firstName", "email"]}
                       onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
                     />
-                  }
-                  searchBarComponent={<SearchBar onSearch={setSearch} />}
-                  UserTable={<AdminUserTable users={admins} />}
-                  searchLength={admins.length}
-                  search={search}
-                />
+                  </HStack>
+                  {search && (
+                    <Text fontSize="16px" color="grey.300" width="100%">
+                      Showing {admins.length} results for &quot;{search}&quot;
+                    </Text>
+                  )}
+                  <AdminUserTable users={paginatedAdmins} />
+                  <Pagination
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    lastPage={lastPage}
+                    maxLength={maxLength}
+                  />
+                </VStack>
               </TabPanel>
               <TabPanel>
-                <AdminTab
-                  sortMenuComponent={
-                    <SortMenu
-                      properties={["firstName", "email", "school"]}
-                      onSortProperty={setSortProperty}
-                      onSortOrder={setSortOrder}
-                    />
-                  }
-                  searchBarComponent={<SearchBar onSearch={setSearch} />}
-                  UserTable={<TeacherUserTable users={teachers} />}
-                  searchLength={teachers.length}
-                  search={search}
-                />
+                <AdminUserTable users={admins} />
               </TabPanel>
             </TabPanels>
           </Tabs>
