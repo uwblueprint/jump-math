@@ -51,7 +51,7 @@ const Button = {
       WhiteIcon,
     },
     secondary: {
-      bg: "blue.50",
+      bg: "#154472",
       color: "blue.300",
       _active: {
         bg: "blue.100",
