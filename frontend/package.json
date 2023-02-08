@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ajna/pagination": "^1.4.19",
     "@apollo/client": "^3.3.16",
     "@chakra-ui/react": "^2.2.1",
     "@chakra-ui/utils": "^2.0.3",

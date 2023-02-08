@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
-import Pagination from "./Pagination";
 
 import { AdminUser } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
@@ -91,18 +90,6 @@ const UsersPage = (): React.ReactElement => {
     return sortedUsers;
   }, [filteredAdmins, sortProperty, sortOrder]);
 
-  const maxLength = 10; // can change based on how many names we want to show per page!
-
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const lastPage = Math.ceil(filteredAdmins.length / maxLength);
-
-  const paginatedAdmins = React.useMemo(() => {
-    return filteredAdmins.slice(
-      (currentPage - 1) * maxLength,
-      currentPage * maxLength,
-    );
-  }, [filteredAdmins, currentPage]);
-
   return (
     <>
       <Box>
@@ -151,13 +138,7 @@ const UsersPage = (): React.ReactElement => {
                       Showing {admins.length} results for &quot;{search}&quot;
                     </Text>
                   )}
-                  <AdminUserTable users={paginatedAdmins} />
-                  <Pagination
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    lastPage={lastPage}
-                    maxLength={maxLength}
-                  />
+                  <AdminUserTable users={admins} />
                 </VStack>
               </TabPanel>
               <TabPanel>
