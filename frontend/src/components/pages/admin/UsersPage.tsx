@@ -55,14 +55,17 @@ const getAdminUser = (user: AdminUser) => {
   };
 };
 
-type TabType = "admin" | "teacher";
+enum TabEnum {
+  ADMIN,
+  TEACHER,
+}
 
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
-  const [curTab, setCurTab] = React.useState<TabType>("admin");
+  const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ADMIN);
 
   const {
     loading: adminLoading,
@@ -152,49 +155,47 @@ const UsersPage = (): React.ReactElement => {
   };
 
   const filteredAdmins = React.useMemo(() => {
-    if (curTab === "teacher") {
+    if (tabIndex === TabEnum.TEACHER) {
       return [];
     }
     return filterAdminUsers(adminData?.usersByRole);
-  }, [search, adminData, curTab]);
+  }, [search, adminData, tabIndex]);
 
   const filteredTeachers = React.useMemo(() => {
-    if (curTab === "admin") {
+    if (tabIndex === TabEnum.ADMIN) {
       return [];
     }
     return filterTeacherUsers(teacherData?.teachers);
-  }, [search, teacherData, curTab]);
+  }, [search, teacherData, tabIndex]);
 
   const admins = React.useMemo(() => {
-    if (curTab === "teacher") {
+    if (tabIndex === TabEnum.TEACHER) {
       return [];
     }
     return sortAdminUsers(filteredAdmins as AdminUser[]);
-  }, [filteredAdmins, sortProperty, sortOrder, curTab]);
+  }, [filteredAdmins, sortProperty, sortOrder, tabIndex]);
 
   const teachers = React.useMemo(() => {
-    if (curTab === "admin") {
+    if (tabIndex === TabEnum.ADMIN) {
       return [];
     }
     return sortTeacherUsers(filteredTeachers as TeacherUser[]);
-  }, [filteredTeachers, sortProperty, sortOrder, curTab]);
-
+  }, [filteredTeachers, sortProperty, sortOrder, tabIndex]);
+  console.log("h---------------------");
+  console.log(admins);
+  console.log(teachers);
+  console.log(tabIndex);
   const loading = adminLoading || teacherLoading;
   const error = adminError || teacherError;
   const data = adminData || teacherData;
 
-  const handleTabChange = () => {
+  const handleTabChange = (index: TabEnum) => {
     setSearch("");
     setSortProperty("firstName");
     setSortOrder("ascending");
-    if (curTab === "teacher") {
-      setCurTab("admin");
-    } else {
-      setCurTab("teacher");
-    }
+    setTabIndex(index);
   };
 
-  type Role = "teacher" | "admin";
   return (
     <>
       <Box>
@@ -222,7 +223,7 @@ const UsersPage = (): React.ReactElement => {
       )}
       {data && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3} onChange={handleTabChange}>
+          <Tabs marginTop={3} onChange={handleTabChange} index={tabIndex}>
             <TabList>
               <Tab color={unselectedColor}>Admin</Tab>
               <Tab color={unselectedColor}>Teachers</Tab>
