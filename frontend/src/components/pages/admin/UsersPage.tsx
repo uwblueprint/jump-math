@@ -181,10 +181,6 @@ const UsersPage = (): React.ReactElement => {
     }
     return sortTeacherUsers(filteredTeachers as TeacherUser[]);
   }, [filteredTeachers, sortProperty, sortOrder, tabIndex]);
-  console.log("h---------------------");
-  console.log(admins);
-  console.log(teachers);
-  console.log(tabIndex);
   const loading = adminLoading || teacherLoading;
   const error = adminError || teacherError;
   const data = adminData || teacherData;
