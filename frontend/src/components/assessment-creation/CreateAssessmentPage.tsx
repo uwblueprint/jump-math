@@ -36,7 +36,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const fromErrorMsg = "Please resolve all issues before publishing or saving";
   const [validSubmit, setValidSubmit] = useState(true);
 
-  // const onSubmit = (data: FormInputs) => {};
+  const onSubmit = (data: any, e: any) => {
+    setValidSubmit(true);
+    console.log(data, e);
+  };
+  const onError = (errs: any, e: any) => {
+    setValidSubmit(false);
+  };
 
   const gradeOptions = [
     {
@@ -222,7 +228,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
         </Stack>
       </FormControl>
 
-      <Button onClick={handleSubmit((onSubmit) => {})}>Submit</Button>
+      <Button onClick={handleSubmit(onSubmit, onError)}>Submit</Button>
     </VStack>
   );
 };
