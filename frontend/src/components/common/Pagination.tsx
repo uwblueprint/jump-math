@@ -17,23 +17,25 @@ const Pagination = (): React.ReactElement => {
   });
 
   return (
-    <ChakraProvider>
-      <P
-        pagesCount={pagesCount}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      >
-        <PaginationContainer>
-          <PaginationPrevious>Previous</PaginationPrevious>
-          <PaginationPageGroup>
-            {pages.map((page: number) => (
-              <PaginationPage key={`pagination_page_${page}`} page={page} />
-            ))}
-          </PaginationPageGroup>
-          <PaginationNext>Next</PaginationNext>
-        </PaginationContainer>
-      </P>
-    </ChakraProvider>
+    <P
+      pagesCount={pagesCount}
+      currentPage={currentPage}
+      onPageChange={setCurrentPage}
+    >
+      <PaginationContainer align="center" w="full">
+        <PaginationPrevious>Previous</PaginationPrevious>
+        <PaginationPageGroup>
+          {pages.map((page: number) => (
+            <PaginationPage
+              key={`pagination_page_${page}`}
+              page={page}
+              minWidth={0}
+            />
+          ))}
+        </PaginationPageGroup>
+        <PaginationNext>Next</PaginationNext>
+      </PaginationContainer>
+    </P>
   );
 };
 
