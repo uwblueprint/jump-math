@@ -1,5 +1,10 @@
 export type Role = "Admin" | "Teacher";
 
+export enum TabEnum {
+  ADMIN,
+  TEACHER,
+}
+
 export type AuthenticatedUser = {
   id: string;
   firstName: string;
