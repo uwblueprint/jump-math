@@ -27,6 +27,7 @@ import SortMenu from "../../common/SortMenu";
 import SearchBar from "../../common/SearchBar";
 
 import LoadingState from "../../common/LoadingState";
+import { TabEnum } from "../../../types/AuthTypes";
 
 const ErrorState = (): React.ReactElement => (
   <VStack spacing={6} textAlign="center">
@@ -37,7 +38,6 @@ const ErrorState = (): React.ReactElement => (
     </Text>
   </VStack>
 );
-
 const getTeacherUser = (user: TeacherUser) => {
   return {
     email: user.email,
@@ -54,11 +54,6 @@ const getAdminUser = (user: AdminUser) => {
     lastName: user.lastName,
   };
 };
-
-enum TabEnum {
-  ADMIN,
-  TEACHER,
-}
 
 const UsersPage = (): React.ReactElement => {
   const unselectedColor = useColorModeValue("#727278", "#727278");
