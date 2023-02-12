@@ -165,9 +165,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 value={value}
               >
                 <Stack direction="column">
-                  <Radio value="beginning" _checked={{ iconColor: "green" }}>
-                    Beginning of Grade
-                  </Radio>
+                  <Radio value="beginning">Beginning of Grade</Radio>
                   <Radio value="end">End of Grade</Radio>
                 </Stack>
               </RadioGroup>
