@@ -24,7 +24,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     control,
   } = useForm();
 
@@ -32,7 +32,6 @@ const CreateAssessmentPage = (): React.ReactElement => {
     assessmentName: string;
   };
 
-  const countryOptions = React.useMemo(() => countryList().getData(), []);
   const fromErrorMsg = "Please resolve all issues before publishing or saving";
   const [validSubmit, setValidSubmit] = useState(true);
 
@@ -44,6 +43,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     setValidSubmit(false);
   };
 
+  const countryOptions = React.useMemo(() => countryList().getData(), []);
   const gradeOptions = [
     {
       label: "K",
@@ -85,7 +85,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   return (
     <VStack align="left" width="75%" spacing={8}>
-      <Text>BASIC INFORMATION</Text>
+      <Text textStyle="eyebrow">BASIC INFORMATION</Text>
 
       {!validSubmit && (
         <Alert status="error">
@@ -95,7 +95,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
       )}
 
       <FormControl isRequired isInvalid={Boolean(errors.assessmentName)}>
-        <FormLabel> Assessment Name </FormLabel>
+        <FormLabel color="grey.400"> Assessment Name </FormLabel>
         <Input
           placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
           {...register("assessmentName", {
@@ -115,7 +115,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
             fieldState: { error },
           }) => (
             <FormControl isRequired isInvalid={Boolean(error)}>
-              <FormLabel> Grade Level </FormLabel>
+              <FormLabel color="grey.400"> Grade Level </FormLabel>
               <Select
                 name={name}
                 ref={ref}
@@ -157,7 +157,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
             fieldState: { error },
           }) => (
             <FormControl isRequired isInvalid={Boolean(error)}>
-              <FormLabel> Type of Assessment </FormLabel>
+              <FormLabel color="grey.400"> Type of Assessment </FormLabel>
               <RadioGroup
                 name={name}
                 ref={ref}
@@ -165,7 +165,9 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 value={value}
               >
                 <Stack direction="column">
-                  <Radio value="beginning">Beginning of Grade</Radio>
+                  <Radio value="beginning" _checked={{ iconColor: "green" }}>
+                    Beginning of Grade
+                  </Radio>
                   <Radio value="end">End of Grade</Radio>
                 </Stack>
               </RadioGroup>
@@ -176,7 +178,10 @@ const CreateAssessmentPage = (): React.ReactElement => {
       </Box>
 
       <FormControl>
-        <FormLabel> Curriculum </FormLabel>
+        <Text textStyle="subtitle2" mb="2">
+          {" "}
+          Curriculum{" "}
+        </Text>
         <Stack direction="row" width="100%">
           <Controller
             control={control}
@@ -187,7 +192,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
               fieldState: { error },
             }) => (
               <FormControl isRequired isInvalid={Boolean(error)} mr={2}>
-                <FormLabel> Country </FormLabel>
+                <FormLabel color="grey.400"> Country </FormLabel>
                 <Select
                   name={name}
                   ref={ref}
@@ -219,7 +224,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
           />
 
           <FormControl isRequired isInvalid={Boolean(errors.region)}>
-            <FormLabel> Region </FormLabel>
+            <FormLabel color="grey.400"> Region </FormLabel>
             <Input
               {...register("region", { required: "Please enter a region" })}
             />
