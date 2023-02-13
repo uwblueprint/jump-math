@@ -18,7 +18,6 @@ import {
 import { useHistory } from "react-router-dom";
 import {
   ArrowBackOutlineIcon,
-  ColumnIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -103,10 +102,6 @@ const CreateQuestionSidebar = ({
         </Text>
         <Accordion defaultIndex={[0]} paddingTop="1em" allowMultiple>
           {renderAccordionItem([
-            {
-              title: "Layout",
-              panels: [{ icon: ColumnIcon, caption: "Column" }],
-            },
             {
               title: "Question",
               panels: [
