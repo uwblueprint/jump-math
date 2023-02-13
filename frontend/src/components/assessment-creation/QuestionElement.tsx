@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
-import { ItemTypes } from "./tmp/ItemTypes";
+import { ItemTypes } from "./ItemTypes";
 
 interface QuestionElementProps {
   key: number;
