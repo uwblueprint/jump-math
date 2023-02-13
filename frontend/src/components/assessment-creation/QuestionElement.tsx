@@ -10,6 +10,10 @@ interface QuestionElementProps {
   caption: string;
 }
 
+interface DropResult {
+  name: string;
+}
+
 const QuestionElement = ({
   key,
   icon,
@@ -17,10 +21,11 @@ const QuestionElement = ({
 }: QuestionElementProps): React.ReactElement => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.SQUARE,
-    item: caption,
-    end: (item) => {
-      if (item) {
-        console.log(`You dropped this!`);
+    item: { caption },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<DropResult>();
+      if (item && dropResult) {
+        alert(`You dropped ${item.caption} into ${dropResult.name}!`);
       }
     },
     collect: (monitor) => ({
