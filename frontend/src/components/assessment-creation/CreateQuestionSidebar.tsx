@@ -11,8 +11,6 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  Icon,
-  WrapItem,
   Wrap,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
@@ -25,32 +23,32 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import QuestionElement from "./QuestionElement";
 
 interface CreateQuestionSidebarProps {
   pageToNavigate: string;
 }
 interface AccordionItemProps {
   title: string;
-  panels: AccordianPanelProps[];
+  panels: AccordionPanelProps[];
 }
 
-interface AccordianPanelProps {
+interface AccordionPanelProps {
   icon: () => React.ReactElement;
   caption: string;
 }
 
-const renderAccordianPanel = (panels: AccordianPanelProps[]) => {
+const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
   return (
     <AccordionPanel pb={4}>
       <Wrap spacing="0.5em">
-        {panels.map((panel: AccordianPanelProps, i) => {
+        {panels.map((panel: AccordionPanelProps, i) => {
           return (
-            <WrapItem key={i}>
-              <VStack>
-                <Icon as={panel.icon} />
-                <Text textStyle="caption">{panel.caption}</Text>
-              </VStack>
-            </WrapItem>
+            <QuestionElement
+              key={i}
+              icon={panel.icon}
+              caption={panel.caption}
+            />
           );
         })}
       </Wrap>
@@ -68,7 +66,7 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        {renderAccordianPanel(item.panels)}
+        {renderAccordionPanel(item.panels)}
       </AccordionItem>
     );
   });
