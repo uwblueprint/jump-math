@@ -7,12 +7,15 @@ import { ApolloServer } from "apollo-server-express";
 import { mongo } from "./models";
 import schema from "./graphql";
 
-const CORS_ALLOW_LIST = [
-  "http://localhost:3000",
-  "https://uw-blueprint-starter-code.firebaseapp.com",
-  "https://uw-blueprint-starter-code.web.app",
-  /^https:\/\/uw-blueprint-starter-code--pr.*\.web\.app$/,
-];
+const CORS_ALLOW_LIST: (string | RegExp)[] = ["http://localhost:3000"];
+if (process.env.NODE_ENV === "production") {
+  CORS_ALLOW_LIST.push("https://jump-math-98edf.web.app");
+} else if (process.env.NODE_ENV === "staging") {
+  const clientHost = new RegExp(
+    "https://jump-math-staging(--([A-Za-z0-9-])+-[A-Za-z0-9]+)?.web.app",
+  );
+  CORS_ALLOW_LIST.push(clientHost);
+}
 
 const CORS_OPTIONS: cors.CorsOptions = {
   origin: CORS_ALLOW_LIST,
