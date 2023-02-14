@@ -57,7 +57,7 @@ const innerLimit = 1;
 
 const Pagination = (): React.ReactElement => {
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
-    pagesCount: 6,
+    pagesCount: 10, // can change how many pages we want
     initialState: { currentPage: 1 },
     limits: {
       outer: outerLimit,
