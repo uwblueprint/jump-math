@@ -24,6 +24,7 @@ const StudentLogin = (): React.ReactElement => {
     <>
       <HStack>
         <PinInput
+          autoFocus
           focusBorderColor="blue.100"
           placeholder=""
           size="lg"
