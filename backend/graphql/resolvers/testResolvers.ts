@@ -4,53 +4,97 @@ import {
   ITestService,
   TestRequestDTO,
   TestResponseDTO,
-  QuestionRequest,
+  QuestionComponentRequest,
+  QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
 import IUserService from "../../services/interfaces/userService";
 
 import {
-  MultipleChoiceMetadata,
-  NumericQuestionMetadata,
-  Question,
-  QuestionMetadata,
+  QuestionComponentMetadata,
+  QuestionComponent,
 } from "../../models/test.model";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService(userService);
 
 type QuestionMetadataName =
+  | "QuestionTextMetadata"
+  | "TextMetadata"
+  | "ImageMetadata"
   | "MultipleChoiceMetadata"
-  | "NumericQuestionMetadata";
+  | "MultiSelectMetadata"
+  | "ShortAnswerMetadata";
 
-const resolveQuestions = (questions: QuestionRequest[]): Question[] => {
-  const resolvedQuestions: Question[] = [];
+const resolveQuestions = (
+  questions: QuestionComponentRequest[][],
+): QuestionComponent[][] => {
+  const resolvedQuestions: QuestionComponent[][] = [];
 
-  questions.forEach((question: QuestionRequest) => {
-    const multipleChoiceMetadata: MultipleChoiceMetadata =
-      question.questionMetadataMultipleChoice;
-    const numericQuestionMetadata: NumericQuestionMetadata =
-      question.questionMetadataNumericQuestion;
-    const questionMetadata =
-      question.questionType.toString() === "MULTIPLE_CHOICE"
-        ? multipleChoiceMetadata
-        : numericQuestionMetadata;
+  questions.forEach((questionComponents: QuestionComponentRequest[]) => {
+    const resolvedQuestionComponents: QuestionComponent[] = [];
+    questionComponents.forEach(
+      (questionComponent: QuestionComponentRequest) => {
+        const {
+          questionTextMetadata,
+          textMetadata,
+          imageMetadata,
+          multipleChoiceMetadata,
+          multiSelectMetadata,
+          shortAnswerMetadata,
+        }: QuestionComponentMetadataRequest = questionComponent;
 
-    resolvedQuestions.push({
-      questionType: question.questionType,
-      questionPrompt: question.questionPrompt,
-      questionMetadata,
-    });
+        let metadata: QuestionComponentMetadata;
+
+        switch (questionComponent.type.toString()) {
+          case "QUESTION_TEXT":
+            metadata = questionTextMetadata;
+            break;
+          case "TEXT":
+            metadata = textMetadata;
+            break;
+          case "IMAGE":
+            metadata = imageMetadata;
+            break;
+          case "MULTIPLE_CHOICE":
+            metadata = multipleChoiceMetadata;
+            break;
+          case "MULTI_SELECT":
+            metadata = multiSelectMetadata;
+            break;
+          case "SHORT_ANSWER":
+            metadata = shortAnswerMetadata;
+            break;
+          default:
+            metadata = questionTextMetadata; // placeholder
+            break;
+        }
+
+        resolvedQuestionComponents.push({
+          type: questionComponent.type,
+          metadata,
+        });
+      },
+    );
+
+    resolvedQuestions.push(resolvedQuestionComponents);
   });
 
   return resolvedQuestions;
 };
 
 const testResolvers = {
-  QuestionMetadata: {
+  QuestionComponentMetadata: {
     // eslint-disable-next-line no-underscore-dangle
-    __resolveType: (obj: QuestionMetadata): QuestionMetadataName | null => {
-      if ("options" in obj) return "MultipleChoiceMetadata";
-      if ("answer" in obj) return "NumericQuestionMetadata";
+    __resolveType: (
+      obj: QuestionComponentMetadata,
+    ): QuestionMetadataName | null => {
+      if ("questionText" in obj) return "QuestionTextMetadata";
+      if ("text" in obj) return "TextMetadata";
+      if ("src" in obj) return "ImageMetadata";
+      if ("answerIndex" in obj) return "MultipleChoiceMetadata";
+      if ("answerIndices" in obj) return "MultiSelectMetadata";
+      if ("answer" in obj) return "ShortAnswerMetadata";
+
       return null;
     },
   },
@@ -64,14 +108,18 @@ const testResolvers = {
       _req: undefined,
       { test }: { test: TestRequestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: Question[] = resolveQuestions(test.questions);
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+        test.questions,
+      );
       return testService.createTest({ ...test, questions: resolvedQuestions });
     },
     updateTest: async (
       _req: undefined,
       { id, test }: { id: string; test: TestRequestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: Question[] = resolveQuestions(test.questions);
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+        test.questions,
+      );
       return testService.updateTest(id, {
         ...test,
         questions: resolvedQuestions,

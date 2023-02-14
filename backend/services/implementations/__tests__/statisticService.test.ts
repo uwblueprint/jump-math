@@ -43,15 +43,15 @@ describe("mongo statisticService", (): void => {
       {
         student: "student-1",
         score: 0,
-        answers: [10.5],
-        breakdown: [false],
+        answers: [[10.5]],
+        breakdown: [[false]],
         gradingStatus: GradingStatus.GRADED,
       },
       {
         student: "some-student-name",
         score: 100,
-        answers: [11.5],
-        breakdown: [true],
+        answers: [[11.5]],
+        breakdown: [[true]],
         gradingStatus: GradingStatus.GRADED,
       },
       // ungraded results get filtered out
@@ -72,9 +72,11 @@ describe("mongo statisticService", (): void => {
         {
           averageScore: 50,
           averageQuestionScores: [
-            {
-              averageScore: 50,
-            },
+            [
+              {
+                averageScore: 50,
+              },
+            ],
           ],
         },
       ],

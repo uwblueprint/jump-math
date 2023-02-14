@@ -16,6 +16,16 @@ const userType = gql`
     currentlyTeachingJM: Boolean
   }
 
+  type TeacherDTO {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    grades: [String]
+    currentlyTeachingJM: Boolean
+    school: String!
+  }
+
   input CreateUserDTO {
     firstName: String!
     lastName: String!
@@ -41,6 +51,7 @@ const userType = gql`
     users: [UserDTO!]!
     usersByRole(role: String!): [UserDTO!]!
     usersCSV: String!
+    teachers: [TeacherDTO]
   }
 
   extend type Mutation {

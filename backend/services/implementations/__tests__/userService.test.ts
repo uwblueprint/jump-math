@@ -1,7 +1,7 @@
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
-
-import { UserDTO } from "../../../types";
+import SchoolModel from "../../../models/school.model";
+import { UserDTO, TeacherDTO } from "../../../types";
 
 import db from "../../../testUtils/testDb";
 
@@ -89,5 +89,39 @@ describe("mongo userService", (): void => {
     const emptyRes = await userService.getUsersByRole("nonexisting_role");
 
     expect(emptyRes.length).toEqual(0);
+  });
+
+  it("getAllTeachers", async () => {
+    const createRes = await UserModel.insertMany(testUsers);
+
+    const testSchools = [
+      {
+        name: "school1",
+        country: "some-country",
+        subRegion: "some-region1",
+        city: "some-city",
+        address: "some-address",
+        teachers: [createRes[0].id],
+      },
+      {
+        name: "school2",
+        country: "some-country",
+        subRegion: "some-region2",
+        city: "some-city",
+        address: "some-address",
+        teachers: [createRes[1].id],
+      },
+    ];
+
+    await SchoolModel.insertMany(testSchools);
+    const res = await userService.getAllTeachers();
+
+    res.forEach((teacher: TeacherDTO, i) => {
+      expect(teacher.firstName).toEqual(testUsers[i].firstName);
+      expect(teacher.lastName).toEqual(testUsers[i].lastName);
+      expect(teacher.role).toEqual(testUsers[i].role);
+      expect(teacher.email).toEqual(testUsers[i].email);
+      expect(teacher.school).toEqual(testSchools[i].name);
+    });
   });
 });

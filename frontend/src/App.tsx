@@ -9,6 +9,7 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
+import StudentLogin from "./components/auth/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
@@ -92,6 +93,11 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
                 <Route
                   exact
+                  path={Routes.STUDENT_LOGIN}
+                  component={StudentLogin}
+                />
+                <Route
+                  exact
                   path={Routes.TEACHER_SIGNUP}
                   component={TeacherSignup}
                 />
@@ -100,7 +106,6 @@ const App = (): React.ReactElement => {
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
                 />
-// TODO: Remove route for production
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
