@@ -187,6 +187,7 @@ const UsersPage = (): React.ReactElement => {
     setTabIndex(index);
   };
 
+  type Role = "teacher" | "admin";
   return (
     <>
       <Box>
