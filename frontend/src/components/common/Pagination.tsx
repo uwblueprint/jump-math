@@ -1,5 +1,5 @@
-import React from "react";
-import { chakra, ChakraProvider } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { extendTheme, chakra, ChakraProvider } from "@chakra-ui/react";
 import {
   Pagination as P,
   usePagination,
@@ -8,6 +8,7 @@ import {
   PaginationPrevious,
   PaginationContainer,
   PaginationPageGroup,
+  PaginationSeparator,
 } from "@ajna/pagination";
 
 const customTheme = {
@@ -22,14 +23,47 @@ const customTheme = {
       900: "#154472",
     },
   },
+  components: {
+    PaginationSeparator: {
+      baseStyle: {
+        height: "2.25rem",
+        width: "2.25rem",
+        borderRadius: "50%",
+        textAlign: "center",
+        lineHeight: "2rem",
+        display: "inline-block",
+        margin: "0 2px",
+        position: "relative",
+        "&::before": {
+          content: `"..."`,
+          fontSize: "0px",
+          position: "absolute",
+          top: "36%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        },
+      },
+      defaultProps: {
+        isDisabled: true,
+        bg: "#E8EDF1",
+        color: "#636363",
+      },
+    },
+  },
 };
+
+const outerLimit = 2;
+const innerLimit = 1;
 
 const Pagination = (): React.ReactElement => {
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
     pagesCount: 6,
     initialState: { currentPage: 1 },
+    limits: {
+      outer: outerLimit,
+      inner: innerLimit,
+    },
   });
-
   return (
     <ChakraProvider theme={customTheme}>
       <P
@@ -54,8 +88,38 @@ const Pagination = (): React.ReactElement => {
               &lt; Previous
             </PaginationPrevious>
           )}
-
-          <PaginationPageGroup>
+          <PaginationPageGroup
+            isInline
+            align="center"
+            separator={
+              <PaginationSeparator
+                isDisabled
+                onClick={() => console.warn("I'm clicking the separator")}
+                bg="#E8EDF1"
+                sx={{
+                  height: "2.25rem",
+                  width: "2.25rem",
+                  borderRadius: "50%",
+                  textAlign: "center",
+                  lineHeight: "2rem",
+                  display: "inline-block",
+                  margin: "0 2px",
+                  position: "relative",
+                  bg: "#E8EDF1",
+                  color: "#E8EDF1",
+                  "&::before": {
+                    content: `"..."`,
+                    fontSize: "20px",
+                    position: "absolute",
+                    top: "37%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "#636363",
+                  },
+                }}
+              />
+            }
+          >
             {pages.map((page: number) => (
               <PaginationPage
                 bg="#E8EDF1"

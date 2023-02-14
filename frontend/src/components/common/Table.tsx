@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   TableContainer,
   Table as T,
@@ -21,6 +21,16 @@ interface TableProps {
 }
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [currentRows, setCurrentRows] = useState<TableRow[]>([]);
+
+  useEffect(() => {
+    const firstItemIndex = (currentPage - 1) * itemsPerPage;
+    const lastItemIndex = firstItemIndex + itemsPerPage;
+    setCurrentRows(rows.slice(firstItemIndex, lastItemIndex));
+  }, [currentPage, rows, itemsPerPage]);
+
   return (
     <>
       <TableContainer

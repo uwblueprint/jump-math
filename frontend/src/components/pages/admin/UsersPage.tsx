@@ -144,6 +144,7 @@ const UsersPage = (): React.ReactElement => {
               </TabPanel>
               <TabPanel>
                 <AdminUserTable users={admins} />
+                <Pagination />
               </TabPanel>
             </TabPanels>
           </Tabs>
