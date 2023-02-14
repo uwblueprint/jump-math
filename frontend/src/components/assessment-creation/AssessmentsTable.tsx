@@ -13,11 +13,10 @@ const AssessmentTable = ({
   assessments,
 }: AssessmentTableProps): React.ReactElement => {
   const headers = ["Status", "Name", "Grade", "Type", "Country", "Region"];
-  const rows: TableRow[] = assessments.map((assessment) => ({
+  const rows: TableRow[] = assessments.map((assessment, i) => ({
     values: [
-      // eslint-disable-next-line react/jsx-key
-      <StatusTag status={assessment.status as StatusProperty} />,
-      <Text key={2} fontWeight="bold">
+      <StatusTag key={i} status={assessment.status as StatusProperty} />,
+      <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
       assessment.grade,

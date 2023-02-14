@@ -43,7 +43,7 @@ const getAdminUser = (user: AdminUser) => {
 };
 
 const UsersPage = (): React.ReactElement => {
-  const unselectedColor = useColorModeValue("#727278", "#727278");
+  const unselectedColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
