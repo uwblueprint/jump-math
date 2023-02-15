@@ -10,7 +10,7 @@ import Playground from "./Playground";
 const CreateQuestionPage = (): React.ReactElement => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Flex margin={0}>
+      <Flex margin="0 !important">
         <CreateQuestionSidebar pageToNavigate={HOME_PAGE} />
         <Playground />
       </Flex>

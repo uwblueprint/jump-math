@@ -80,9 +80,9 @@ const CreateQuestionSidebar = ({
 
   return (
     <VStack
-      minHeight="100vh"
-      boxShadow="8px 4px 4px rgba(193, 186, 186, 0.25)"
-      padding={{ base: "0.5em", md: "2em" }}
+      minHeight="89vh"
+      boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
+      padding={{ base: "0.5em", md: "1em 2em 3em 2em" }}
       justifyContent="space-between"
     >
       <Stack w="22vw">
@@ -98,7 +98,7 @@ const CreateQuestionSidebar = ({
         <Text textStyle="header4" color="blue.300">
           Create Question
         </Text>
-        <Accordion defaultIndex={[0]} paddingTop="1em" allowMultiple>
+        <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
           {renderAccordionItem([
             {
               title: "Question",

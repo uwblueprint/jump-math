@@ -19,6 +19,13 @@ const pages: Page[] = [
 
 const AdminDashboard = (): React.ReactElement => {
   return (
+    <Switch>
+    <PrivateRoute
+      exact
+      path={Routes.CREATE_QUESTION}
+      component={CreateQuestionPage}
+      roles={["Admin"]}
+    />
     <VStack flex="1" align="left">
       <Navbar pages={pages} />
       <Box padding="1.5em 2em 0em 2em">
@@ -27,12 +34,6 @@ const AdminDashboard = (): React.ReactElement => {
             exact
             path={Routes.USER_DATABASE}
             component={UsersPage}
-            roles={["Admin"]}
-          />
-          <PrivateRoute
-            exact
-            path={Routes.CREATE_QUESTION}
-            component={CreateQuestionPage}
             roles={["Admin"]}
           />
           <PrivateRoute
@@ -56,6 +57,7 @@ const AdminDashboard = (): React.ReactElement => {
         </Switch>
       </Box>
     </VStack>
+    </Switch>
   );
 };
 
