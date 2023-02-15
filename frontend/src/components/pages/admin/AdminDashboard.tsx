@@ -7,7 +7,7 @@ import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
 import UsersPage from "./UsersPage";
 import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
-import CreateAssessmentPage from "../../assessment-creation/CreateAssessmentPage";
+import CreateAssessmentPage from "./CreateAssessmentPage";
 import PrivateRoute from "../../auth/PrivateRoute";
 import NotFound from "../NotFound";
 
