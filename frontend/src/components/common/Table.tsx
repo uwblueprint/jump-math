@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TableContainer,
   Table as T,
@@ -15,21 +15,26 @@ export interface TableRow {
   menu: React.ReactElement;
 }
 
-interface TableProps {
+export interface TableProps {
   headers: string[];
   rows: TableRow[];
 }
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
-  const [currentRows, setCurrentRows] = useState<TableRow[]>([]);
+  const itemsPerPage = 3; // can edit this to show how many itemsperpage we want
+  const totalItems = rows.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  useEffect(() => {
-    const firstItemIndex = (currentPage - 1) * itemsPerPage;
-    const lastItemIndex = firstItemIndex + itemsPerPage;
-    setCurrentRows(rows.slice(firstItemIndex, lastItemIndex));
-  }, [currentPage, rows, itemsPerPage]);
+  // Calculate the index range of items to display on the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  const itemsToShow = rows.slice(startIndex, endIndex);
+
+  // Define the onPageChange function to update the currentPage state
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -49,7 +54,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
             </Tr>
           </Thead>
           <Tbody>
-            {rows.map((row, rowIndex) => (
+            {itemsToShow.map((row, rowIndex) => (
               <Tr
                 key={rowIndex}
                 backgroundColor={rowIndex % 2 === 0 ? "#E8EDF1" : "#FFFFFF"}
@@ -65,7 +70,12 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
           </Tbody>
         </T>
       </TableContainer>
-      <Pagination />
+      <Pagination
+        pagesCount={totalPages}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+        itemsToShow={10}
+      />
     </>
   );
 };

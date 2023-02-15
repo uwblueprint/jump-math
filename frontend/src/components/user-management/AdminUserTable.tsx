@@ -1,6 +1,7 @@
 import React from "react";
 import { AdminUser } from "../../types/UserTypes";
 import { TableRow, Table } from "../common/Table";
+
 import RemoveUserPopover from "./RemoveUserPopover";
 import { AdminTableProps } from "./AdminTab";
 

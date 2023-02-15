@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { extendTheme, chakra, ChakraProvider } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { extendTheme, chakra, ChakraProvider, Box } from "@chakra-ui/react";
 import {
   Pagination as P,
   usePagination,
@@ -55,9 +55,21 @@ const customTheme = {
 const outerLimit = 2;
 const innerLimit = 1;
 
-const Pagination = (): React.ReactElement => {
-  const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
-    pagesCount: 10, // can change how many pages we want
+interface PaginationProps {
+  pagesCount: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  itemsToShow: 10;
+}
+
+const Pagination = ({
+  pagesCount,
+  currentPage,
+  onPageChange,
+  itemsToShow,
+}: PaginationProps): React.ReactElement => {
+  const { setCurrentPage, pages } = usePagination({
+    pagesCount,
     initialState: { currentPage: 1 },
     limits: {
       outer: outerLimit,
@@ -69,7 +81,7 @@ const Pagination = (): React.ReactElement => {
       <P
         pagesCount={pagesCount}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={onPageChange}
       >
         <PaginationContainer>
           {currentPage !== 1 && (

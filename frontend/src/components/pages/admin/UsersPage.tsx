@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 
 import {
   Text,
@@ -144,7 +144,6 @@ const UsersPage = (): React.ReactElement => {
               </TabPanel>
               <TabPanel>
                 <AdminUserTable users={admins} />
-                <Pagination />
               </TabPanel>
             </TabPanels>
           </Tabs>
