@@ -22,7 +22,7 @@ export interface TableProps {
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; // can edit this to show how many itemsperpage we want
+  const itemsPerPage = 2; // can edit this to show how many itemsperpage we want
   const totalItems = rows.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -32,9 +32,6 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const itemsToShow = rows.slice(startIndex, endIndex);
 
   // Define the onPageChange function to update the currentPage state
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   return (
     <>
@@ -73,7 +70,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
       <Pagination
         pagesCount={totalPages}
         currentPage={currentPage}
-        onPageChange={onPageChange}
+        onPageChange={setCurrentPage}
         itemsToShow={10}
       />
     </>
