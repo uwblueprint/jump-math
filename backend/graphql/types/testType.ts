@@ -1,9 +1,37 @@
 import { gql } from "apollo-server-express";
 
 const testType = gql`
-  enum QuestionTypeEnum {
+  enum QuestionComponentTypeEnum {
+    QUESTION_TEXT
+    TEXT
+    IMAGE
     MULTIPLE_CHOICE
-    NUMERIC_ANSWER
+    MULTI_SELECT
+    SHORT_ANSWER
+  }
+
+  input QuestionTextMetadataInput {
+    questionText: String!
+  }
+
+  type QuestionTextMetadata {
+    questionText: String!
+  }
+
+  input TextMetadataInput {
+    text: String!
+  }
+
+  type TextMetadata {
+    text: String!
+  }
+
+  input ImageMetadataInput {
+    src: String!
+  }
+
+  type ImageMetadata {
+    src: String!
   }
 
   input MultipleChoiceMetadataInput {
@@ -16,27 +44,45 @@ const testType = gql`
     answerIndex: Float!
   }
 
-  input NumericQuestionMetadataInput {
+  input MultiSelectMetadataInput {
+    options: [String!]!
+    answerIndices: [Float!]!
+  }
+
+  type MultiSelectMetadata {
+    options: [String!]!
+    answerIndices: [Float!]!
+  }
+
+  input ShortAnswerMetadataInput {
     answer: Float!
   }
 
-  type NumericQuestionMetadata {
+  type ShortAnswerMetadata {
     answer: Float!
   }
 
-  union QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata
+  union QuestionComponentMetadata =
+      QuestionTextMetadata
+    | TextMetadata
+    | ImageMetadata
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata
 
-  type Question {
-    questionType: QuestionTypeEnum!
-    questionPrompt: String!
-    questionMetadata: QuestionMetadata!
+  type QuestionComponent {
+    type: QuestionComponentTypeEnum!
+    metadata: QuestionComponentMetadata!
   }
 
-  input QuestionInput {
-    questionType: QuestionTypeEnum!
-    questionPrompt: String!
-    questionMetadataMultipleChoice: MultipleChoiceMetadataInput
-    questionMetadataNumericQuestion: NumericQuestionMetadataInput
+  input QuestionComponentInput {
+    type: QuestionComponentTypeEnum!
+    questionTextMetadata: QuestionTextMetadataInput
+    textMetadata: TextMetadataInput
+    imageMetadata: ImageMetadataInput
+    multipleChoiceMetadata: MultipleChoiceMetadataInput
+    multiSelectMetadata: MultiSelectMetadataInput
+    shortAnswerMetadata: ShortAnswerMetadataInput
   }
 
   type TestResponseDTO {
@@ -44,7 +90,7 @@ const testType = gql`
     name: String!
     duration: Int!
     admin: UserDTO!
-    questions: [Question]!
+    questions: [[QuestionComponent]]!
     grade: Int!
   }
 
@@ -52,7 +98,7 @@ const testType = gql`
     name: String!
     duration: Int!
     admin: ID!
-    questions: [QuestionInput]!
+    questions: [[QuestionComponentInput]]!
     grade: Int!
   }
 

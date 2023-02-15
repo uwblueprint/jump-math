@@ -113,21 +113,27 @@ class StatisticService implements IStatisticService {
   }
 
   private getAverageScorePerQuestion(
-    resultBreakdowns: boolean[][],
-  ): QuestionStatistic[] {
-    const averageScorePerQuestion: QuestionStatistic[] = [];
-    const numQuestions = resultBreakdowns[0].length;
+    resultBreakdowns: boolean[][][],
+  ): QuestionStatistic[][] {
+    const averageScorePerQuestion: QuestionStatistic[][] = [];
+    const numQuestionGroups = resultBreakdowns[0].length;
     const numResults = resultBreakdowns.length;
 
-    for (let i = 0; i < numQuestions; i += 1) {
-      let numCorrect = 0;
+    for (let i = 0; i < numQuestionGroups; i += 1) {
+      const numSubQuestions = resultBreakdowns[0][i].length;
+      const averageScorePerSubQuestion: QuestionStatistic[] = [];
 
-      resultBreakdowns.forEach((result: boolean[]) => {
-        numCorrect += result[i] ? 1 : 0;
-      });
+      for (let j = 0; j < numSubQuestions; j += 1) {
+        let numCorrect = 0;
+        resultBreakdowns.forEach((result: boolean[][]) => {
+          numCorrect += result[i][j] ? 1 : 0;
+        });
 
-      const averageScore = (numCorrect * 100) / numResults;
-      averageScorePerQuestion.push({ averageScore });
+        const averageScore = (numCorrect * 100) / numResults;
+        averageScorePerSubQuestion.push({ averageScore });
+      }
+
+      averageScorePerQuestion.push(averageScorePerSubQuestion);
     }
 
     return averageScorePerQuestion;

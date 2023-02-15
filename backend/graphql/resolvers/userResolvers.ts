@@ -5,7 +5,7 @@ import UserService from "../../services/implementations/userService";
 import IAuthService from "../../services/interfaces/authService";
 import IEmailService from "../../services/interfaces/emailService";
 import IUserService from "../../services/interfaces/userService";
-import { CreateUserDTO, UpdateUserDTO, UserDTO } from "../../types";
+import { CreateUserDTO, UpdateUserDTO, UserDTO, TeacherDTO } from "../../types";
 import { generateCSV } from "../../utilities/CSVUtils";
 
 const userService: IUserService = new UserService();
@@ -39,6 +39,9 @@ const userResolvers = {
       const users = await userService.getUsers();
       const csv = await generateCSV<UserDTO>({ data: users });
       return csv;
+    },
+    teachers: async (): Promise<TeacherDTO[]> => {
+      return userService.getAllTeachers();
     },
   },
   Mutation: {
