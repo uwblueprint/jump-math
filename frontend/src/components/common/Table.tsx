@@ -15,7 +15,7 @@ export interface TableRow {
   menu: React.ReactElement;
 }
 
-export interface TableProps {
+interface TableProps {
   headers: string[];
   rows: TableRow[];
 }

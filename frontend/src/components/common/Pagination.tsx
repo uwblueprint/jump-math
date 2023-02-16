@@ -10,7 +10,7 @@ import {
   PaginationPageGroup,
   PaginationSeparator,
 } from "@ajna/pagination";
-import pagination from "../../themes/components/pagination";
+import paginationStyle from "../../themes/components/pagination";
 
 const customTheme = {
   ...chakra,
@@ -25,7 +25,7 @@ const customTheme = {
     },
   },
   components: {
-    pagination,
+    paginationStyle,
   },
 };
 
