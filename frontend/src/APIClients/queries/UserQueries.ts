@@ -22,3 +22,15 @@ export const GET_USER_BY_EMAIL = gql`
     }
   }
 `;
+
+export const GET_ALL_TEACHERS = gql`
+  query GetAllTeachers {
+    teachers {
+      id
+      firstName
+      lastName
+      email
+      school
+    }
+  }
+`;

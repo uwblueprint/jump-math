@@ -1,29 +1,49 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { questionsValidator } from "../middlewares/validators/testValidators";
 
 /**
- * An enum containing the types of questions that can be asked
+ * An enum containing the types of components that can be added to a question
  */
-export enum QuestionType {
+export enum QuestionComponentType {
+  QUESTION_TEXT,
+  TEXT,
+  IMAGE,
   MULTIPLE_CHOICE,
-  NUMERIC_ANSWER,
+  MULTI_SELECT,
+  SHORT_ANSWER,
 }
 
-export type QuestionMetadata = MultipleChoiceMetadata | NumericQuestionMetadata;
+export type QuestionComponentMetadata =
+  | QuestionTextMetadata
+  | TextMetadata
+  | ImageMetadata
+  | MultipleChoiceMetadata
+  | MultiSelectMetadata
+  | ShortAnswerMetadata;
+
 /**
- * This interface represents a sub-document inside a Test document.
- * It contains information about a single question in a test.
+ * This interface contains additional information about a question text component
  */
-export interface Question {
-  /** the type of question  */
-  questionType: QuestionType;
-  /** the prompt of the question */
-  questionPrompt: string;
-  /** additional metadata for the question */
-  questionMetadata: QuestionMetadata;
+export interface QuestionTextMetadata {
+  questionText: string;
 }
 
 /**
- * This interface contains additional information about a multiple-choice question
+ * This interface contains additional information about a text component
+ */
+export interface TextMetadata {
+  text: string;
+}
+
+/**
+ * This interface contains additional information about an image component
+ */
+export interface ImageMetadata {
+  src: string;
+}
+
+/**
+ * This interface contains additional information about a multiple choice component
  */
 export interface MultipleChoiceMetadata {
   /** the options for the multiple choice question */
@@ -33,29 +53,32 @@ export interface MultipleChoiceMetadata {
 }
 
 /**
- * This interface contains additional information about a question with a
- * numeric answer
+ * This interface contains additional information about a multiple-choice component
  */
-export interface NumericQuestionMetadata {
+export interface MultiSelectMetadata {
+  /** the options for the multiple choice question */
+  options: string[];
+  /** the index/indices of the options array which contains the correct answer(s) (0-indexed) */
+  answerIndices: number[];
+}
+
+/**
+ * This interface contains additional information about a short answer component
+ */
+export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
 }
 
-const questionSchema = new Schema({
-  questionType: {
-    type: String,
-    required: true,
-    enum: Object.keys(QuestionType),
-  },
-  questionPrompt: {
-    type: String,
-    required: true,
-  },
-  questionMetadata: {
-    type: Schema.Types.Mixed,
-    required: true,
-  },
-});
+/**
+ * This interface contains information about a single component in a question.
+ */
+export interface QuestionComponent {
+  /** the type of question component  */
+  type: QuestionComponentType;
+  /** additional metadata for the question */
+  metadata: QuestionComponentMetadata;
+}
 
 /**
  * This document contains information about a single test
@@ -71,8 +94,8 @@ export interface Test extends Document {
    * an ID in the User collection
    */
   admin: string;
-  /** A list of questions to be asked when students take the test */
-  questions: Question[];
+  /** An ordered list of questions to be asked when students take the test */
+  questions: QuestionComponent[][];
   /** The intended grade the test was made for */
   grade: number;
 }
@@ -93,7 +116,7 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     questions: {
-      type: [questionSchema],
+      type: [Schema.Types.Mixed],
       required: true,
     },
     grade: {
@@ -102,6 +125,10 @@ const TestSchema: Schema = new Schema(
     },
   },
   { timestamps: true },
+);
+TestSchema.path("questions").validate(
+  questionsValidator,
+  "validation of `{PATH}` failed with value `{VALUE}`",
 );
 
 export default mongoose.model<Test>("Test", TestSchema);
