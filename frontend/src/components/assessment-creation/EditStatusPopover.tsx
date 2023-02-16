@@ -18,7 +18,7 @@ const EditStatusPopover = (): React.ReactElement => {
   const buttons = names.map((name, i) => (
     <>
       <EditStatusButton name={name} />
-      <Divider key={i} px="17%" borderColor="grey.200" />
+      {name !== "Delete" && <Divider key={i} px="17%" borderColor="grey.200" />}
     </>
   ));
   return (
