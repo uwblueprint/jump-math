@@ -10,11 +10,15 @@ import QuestionEditor from "./QuestionEditor";
 import QuestionElement from "./types/QuestionTypes";
 
 const QuestionPage = (): React.ReactElement => {
+  const [questionElements, setQuestionElements] = React.useState<
+    QuestionElement[]
+  >([]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Flex margin="0 !important">
         <QuestionSidebar backPage={HOME_PAGE} />
-        <QuestionEditor elements={[]} />
+        <QuestionEditor questionElements={questionElements} />
       </Flex>
     </DndProvider>
   );

@@ -10,11 +10,14 @@ import QuestionElement from "./types/QuestionTypes";
 import { DragTypes } from "./types/DragTypes";
 
 interface QuestionEditorProps {
-  elements: QuestionElement[];
+  questionElements: QuestionElement[];
 }
 
-const renderElement = (element: QuestionElement, index: number) => {
-  switch (element) {
+const renderQuestionElement = (
+  questionElement: QuestionElement,
+  index: number,
+) => {
+  switch (questionElement) {
     case QuestionElement.QUESTION:
       return <Text key={index}>this is a question element.</Text>;
     case QuestionElement.TEXT:
@@ -33,7 +36,7 @@ const renderElement = (element: QuestionElement, index: number) => {
 };
 
 const QuestionEditor = ({
-  elements,
+  questionElements,
 }: QuestionEditorProps): React.ReactElement => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragTypes.QUESTION_ELEMENT,
@@ -51,10 +54,12 @@ const QuestionEditor = ({
       <Box flex="1">
         <VStack margin="3em 5em" align="left" color="grey.400">
           {isHovering && <HoverMessage />}
-          {!isHovering && !elements.length && <WelcomeMessage />}
+          {!isHovering && !questionElements.length && <WelcomeMessage />}
           {!isHovering &&
-            elements.length &&
-            elements.map((element, index) => renderElement(element, index))}
+            questionElements.length &&
+            questionElements.map((questionElement, index) =>
+              renderQuestionElement(questionElement, index),
+            )}
         </VStack>
       </Box>
     </div>
