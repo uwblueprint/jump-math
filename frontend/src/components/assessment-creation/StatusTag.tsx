@@ -2,11 +2,11 @@ import React from "react";
 import { Tag } from "@chakra-ui/react";
 import { StatusProperty } from "../../types/AssessmentTypes";
 
-interface StatusProps {
+interface StatusTagProps {
   status: StatusProperty;
 }
 
-const StatusTag = ({ status }: StatusProps): React.ReactElement => {
+const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
   let color;
   let backgroundColor;
 

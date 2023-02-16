@@ -2,9 +2,9 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 
 interface ButtonName {
-  buttonName: string;
+  name: string;
 }
-const EditStatusButton = ({ buttonName }: ButtonName): React.ReactElement => {
+const EditStatusButton = ({ name }: ButtonName): React.ReactElement => {
   return (
     <Button
       fontSize="18px"
@@ -14,7 +14,7 @@ const EditStatusButton = ({ buttonName }: ButtonName): React.ReactElement => {
       color="black"
       size="md"
     >
-      {buttonName}
+      {name}
     </Button>
   );
 };

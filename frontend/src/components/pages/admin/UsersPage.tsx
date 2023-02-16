@@ -8,7 +8,6 @@ import {
   Tab,
   TabPanel,
   TabPanels,
-  useColorModeValue,
   VStack,
   HStack,
 } from "@chakra-ui/react";

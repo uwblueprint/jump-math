@@ -7,16 +7,15 @@ import {
   Tab,
   TabPanel,
   TabPanels,
-  useColorModeValue,
   VStack,
   HStack,
 } from "@chakra-ui/react";
 import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
-import AssessmentTable from "../../assessment-creation/AssessmentsTable";
 import { AssessmentTypes } from "../../../types/AssessmentTypes";
 import SortMenu from "../../common/SortMenu";
 import FilterMenu from "../../assessment-creation/FilterMenu";
 import SearchBar from "../../common/SearchBar";
+import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -250,17 +249,17 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                     {search}&quot;
                   </Text>
                 )}
-                <AssessmentTable assessments={assessments} />
+                <AssessmentsTable assessments={assessments} />
               </VStack>
             </TabPanel>
             <TabPanel>
-              <AssessmentTable assessments={assessments} />
+              <AssessmentsTable assessments={assessments} />
             </TabPanel>
             <TabPanel>
-              <AssessmentTable assessments={assessments} />
+              <AssessmentsTable assessments={assessments} />
             </TabPanel>
             <TabPanel>
-              <AssessmentTable assessments={assessments} />
+              <AssessmentsTable assessments={assessments} />
             </TabPanel>
           </TabPanels>
         </Tabs>

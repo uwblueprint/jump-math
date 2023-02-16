@@ -5,13 +5,13 @@ import EditStatusPopover from "./EditStatusPopover";
 import StatusTag from "./StatusTag";
 import { TableRow, Table } from "../common/Table";
 
-interface AssessmentTableProps {
+interface AssessmentsTableProps {
   assessments: AssessmentTypes[];
 }
 
-const AssessmentTable = ({
+const AssessmentsTable = ({
   assessments,
-}: AssessmentTableProps): React.ReactElement => {
+}: AssessmentsTableProps): React.ReactElement => {
   const headers = ["Status", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment, i) => ({
     values: [
@@ -29,4 +29,4 @@ const AssessmentTable = ({
 
   return <Table headers={headers} rows={rows} />;
 };
-export default AssessmentTable;
+export default AssessmentsTable;

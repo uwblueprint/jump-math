@@ -14,7 +14,13 @@ import EditStatusButton from "./EditStatusButton";
 
 const EditStatusPopover = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-
+  const names = ["Publish", "Edit", "Archive", "Delete"];
+  const buttons = names.map((name, i) => (
+    <>
+      <EditStatusButton name={name} />
+      <Divider key={i} px="17%" borderColor="grey.200" />
+    </>
+  ));
   return (
     <Popover
       isOpen={isOpen}
@@ -37,15 +43,7 @@ const EditStatusPopover = (): React.ReactElement => {
         borderRadius="15%"
       >
         <PopoverBody>
-          <VStack spacing="0em">
-            <EditStatusButton buttonName="Publish" />
-            <Divider px="17%" borderColor="grey.200" />
-            <EditStatusButton buttonName="Edit" />
-            <Divider px="17%" borderColor="grey.200" />
-            <EditStatusButton buttonName="Archive" />
-            <Divider px="17%" borderColor="grey.200" />
-            <EditStatusButton buttonName="Delete" />
-          </VStack>
+          <VStack spacing="0em">{buttons}</VStack>
         </PopoverBody>
       </PopoverContent>
     </Popover>
