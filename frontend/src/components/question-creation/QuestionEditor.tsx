@@ -1,10 +1,40 @@
 import React from "react";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Text, Box, VStack } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
 
+import WelcomeMessage from "./WelcomeMessage";
+import HoverMessage from "./HoverMessage";
+import TextElement from "./question-elements/TextElement";
+
+import QuestionElement from "./types/QuestionTypes";
 import { DragTypes } from "./types/DragTypes";
 
-const QuestionEditor = (): React.ReactElement => {
+interface QuestionEditorProps {
+  elements: QuestionElement[];
+}
+
+const renderElement = (element: QuestionElement, index: number) => {
+  switch (element) {
+    case QuestionElement.QUESTION:
+      return <Text key={index}>this is a question element.</Text>;
+    case QuestionElement.TEXT:
+      return <TextElement key={index} />;
+    case QuestionElement.IMAGE:
+      return <Text key={index}>this is an image element.</Text>;
+    case QuestionElement.MULTIPLE_CHOICE:
+      return <Text key={index}>this is a multiple choice element.</Text>;
+    case QuestionElement.SHORT_ANSWER:
+      return <Text key={index}>this is a short answer element.</Text>;
+    case QuestionElement.MULTI_SELECT:
+      return <Text key={index}>this is a multi select element.</Text>;
+    default:
+      return null;
+  }
+};
+
+const QuestionEditor = ({
+  elements,
+}: QuestionEditorProps): React.ReactElement => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragTypes.QUESTION_ELEMENT,
     drop: () => ({ name: "Question Editor" }),
@@ -14,23 +44,17 @@ const QuestionEditor = (): React.ReactElement => {
     }),
   }));
 
-  const isActive = canDrop && isOver;
+  const isHovering = canDrop && isOver;
 
   return (
     <div ref={drop}>
       <Box flex="1">
         <VStack margin="3em 5em" align="left" color="grey.400">
-          <Text textStyle="subtitle1" marginBottom={5}>
-            Welcome to the question creation module.
-          </Text>
-          <Text textStyle="paragraph" marginBottom={3}>
-            Click on any of the elements in the left-side and drag them into the
-            creation area.
-          </Text>
-          <Text textStyle="paragraph">
-            Select any of the blocks to reorder them. Hover over a block to
-            delete it.
-          </Text>
+          {isHovering && <HoverMessage />}
+          {!isHovering && !elements.length && <WelcomeMessage />}
+          {!isHovering &&
+            elements.length &&
+            elements.map((element, index) => renderElement(element, index))}
         </VStack>
       </Box>
     </div>

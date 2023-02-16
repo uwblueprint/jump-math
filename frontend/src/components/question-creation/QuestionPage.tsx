@@ -7,12 +7,14 @@ import QuestionSidebar from "./QuestionSidebar";
 import { HOME_PAGE } from "../../constants/Routes";
 import QuestionEditor from "./QuestionEditor";
 
+import QuestionElement from "./types/QuestionTypes";
+
 const QuestionPage = (): React.ReactElement => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Flex margin="0 !important">
         <QuestionSidebar backPage={HOME_PAGE} />
-        <QuestionEditor />
+        <QuestionEditor elements={[]} />
       </Flex>
     </DndProvider>
   );
