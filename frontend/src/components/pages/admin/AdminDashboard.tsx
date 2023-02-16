@@ -7,8 +7,10 @@ import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
 import UsersPage from "./UsersPage";
 import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
+import CreateAssessmentPage from "./CreateAssessmentPage";
 import PrivateRoute from "../../auth/PrivateRoute";
 import NotFound from "../NotFound";
+import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
@@ -31,6 +33,18 @@ const AdminDashboard = (): React.ReactElement => {
             exact
             path={Routes.CREATE_QUESTION}
             component={CreateQuestionPage}
+            roles={["Admin"]}
+          />
+          <PrivateRoute
+            exact
+            path={Routes.ASSESSMENTS}
+            component={DisplayAssessmentsPage}
+            roles={["Admin"]}
+          />
+          <PrivateRoute
+            exact
+            path={Routes.CREATE_ASSESSMENT}
+            component={CreateAssessmentPage}
             roles={["Admin"]}
           />
           <Redirect

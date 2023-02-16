@@ -11,7 +11,7 @@ import {
 import Pagination from "./Pagination";
 
 export interface TableRow {
-  values: string[];
+  values: any[];
   menu: React.ReactElement;
 }
 
