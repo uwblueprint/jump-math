@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
-import Pagination from "../../common/Pagination";
 
 import { AdminUser } from "../../../types/UserTypes";
 import AdminUserTable from "../../user-management/AdminUserTable";
