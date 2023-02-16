@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { HStack, Input } from "@chakra-ui/react";
-import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
+import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../../assets/icons";
 
-const TextInput = (): React.ReactElement => {
+const Text = (): React.ReactElement => {
   const [text, setText] = useState("");
 
   return (
@@ -18,4 +18,4 @@ const TextInput = (): React.ReactElement => {
   );
 };
 
-export default TextInput;
+export default Text;

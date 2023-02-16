@@ -5,12 +5,13 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "../../common/Navbar";
 import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
-import UsersPage from "./UsersPage";
-import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
-import CreateAssessmentPage from "./CreateAssessmentPage";
 import PrivateRoute from "../../auth/PrivateRoute";
-import NotFound from "../NotFound";
+
+import UsersPage from "./UsersPage";
+import CreateAssessmentPage from "./CreateAssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
+import QuestionPage from "../../question-creation/QuestionPage";
+import NotFound from "../NotFound";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
@@ -23,7 +24,7 @@ const AdminDashboard = (): React.ReactElement => {
     <PrivateRoute
       exact
       path={Routes.CREATE_QUESTION}
-      component={CreateQuestionPage}
+      component={QuestionPage}
       roles={["Admin"]}
     />
     <VStack flex="1" align="left">

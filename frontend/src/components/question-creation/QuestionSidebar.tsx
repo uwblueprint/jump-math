@@ -25,8 +25,8 @@ import {
 } from "../../assets/icons";
 import QuestionElement from "./QuestionElement";
 
-interface CreateQuestionSidebarProps {
-  pageToNavigate: string;
+interface QuestionSidebarProps {
+  backPage: string;
 }
 interface AccordionItemProps {
   title: string;
@@ -72,11 +72,11 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const CreateQuestionSidebar = ({
-  pageToNavigate,
-}: CreateQuestionSidebarProps): React.ReactElement => {
+const QuestionSidebar = ({
+  backPage,
+}: QuestionSidebarProps): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(pageToNavigate);
+  const navigateTo = () => history.push(backPage);
 
   return (
     <VStack
@@ -131,4 +131,4 @@ const CreateQuestionSidebar = ({
   );
 };
 
-export default CreateQuestionSidebar;
+export default QuestionSidebar;

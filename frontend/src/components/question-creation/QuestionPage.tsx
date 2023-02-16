@@ -3,19 +3,19 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { Flex } from "@chakra-ui/react";
-import CreateQuestionSidebar from "./CreateQuestionSidebar";
+import QuestionSidebar from "./QuestionSidebar";
 import { HOME_PAGE } from "../../constants/Routes";
-import Playground from "./Playground";
+import QuestionEditor from "./QuestionEditor";
 
-const CreateQuestionPage = (): React.ReactElement => {
+const QuestionPage = (): React.ReactElement => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Flex margin="0 !important">
-        <CreateQuestionSidebar pageToNavigate={HOME_PAGE} />
-        <Playground />
+        <QuestionSidebar backPage={HOME_PAGE} />
+        <QuestionEditor />
       </Flex>
     </DndProvider>
   );
 };
 
-export default CreateQuestionPage;
+export default QuestionPage;

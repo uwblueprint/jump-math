@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
-import { ItemTypes } from "./ItemTypes";
+import { DragTypes } from "./types/DragTypes";
 
 interface QuestionElementProps {
   key: number;
@@ -20,7 +20,7 @@ const QuestionElement = ({
   caption,
 }: QuestionElementProps): React.ReactElement => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.SQUARE,
+    type: DragTypes.QUESTION_ELEMENT,
     item: { caption },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
