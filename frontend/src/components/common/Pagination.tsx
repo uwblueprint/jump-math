@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { extendTheme, chakra, ChakraProvider, Box } from "@chakra-ui/react";
 import {
   Pagination as P,
@@ -36,9 +36,9 @@ const customTheme = {
         position: "relative",
         "&::before": {
           content: `"..."`,
-          fontSize: "0px",
+          fontSize: "1.5rem",
           position: "absolute",
-          top: "36%",
+          top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
         },
@@ -52,14 +52,14 @@ const customTheme = {
   },
 };
 
-const outerLimit = 1; // 2
-const innerLimit = 1; // 1
+const outerLimit = 1;
+const innerLimit = 1;
 
 interface PaginationProps {
   pagesCount: number;
   currentPage: number;
+  itemsToShow: number;
   onPageChange: (page: number) => void;
-  itemsToShow: 10;
 }
 
 const Pagination = ({
@@ -68,19 +68,10 @@ const Pagination = ({
   onPageChange,
   itemsToShow,
 }: PaginationProps): React.ReactElement => {
-  const { setCurrentPage, pages } = usePagination({
+  const { pages } = usePagination({
     pagesCount,
-    initialState: { currentPage: 1 },
-    limits: {
-      outer: outerLimit,
-      inner: innerLimit,
-    },
+    initialState: { currentPage },
   });
-
-  const start = Math.max(1, currentPage - Math.floor(itemsToShow / 2));
-  const end = Math.min(pagesCount, start + itemsToShow - 1);
-
-  const visiblePages = pages.filter((page) => page >= start && page <= end);
 
   return (
     <ChakraProvider theme={customTheme}>
@@ -107,65 +98,79 @@ const Pagination = ({
                 &lt; Previous
               </PaginationPrevious>
             )}
-            <PaginationPageGroup
-              isInline
-              align="center"
-              separator={
-                <PaginationSeparator
-                  isDisabled
-                  onClick={() => console.warn("I'm clicking the separator")}
-                  bg="#E8EDF1"
-                  sx={{
-                    height: "2.25rem",
-                    width: "2.25rem",
-                    borderRadius: "50%",
-                    textAlign: "center",
-                    lineHeight: "2rem",
-                    display: "inline-block",
-                    margin: "0 2px",
-                    position: "relative",
-                    bg: "#E8EDF1",
-                    color: "#E8EDF1",
-                    "&::before": {
-                      content: `"..."`,
-                      fontSize: "20px",
-                      position: "absolute",
-                      top: "37%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      color: "#636363",
-                    },
-                  }}
-                />
-              }
-            >
-              {pages.map((page: number) => (
-                <PaginationPage
-                  bg="#E8EDF1"
-                  key={`pagination_page_${page}`}
-                  page={page}
-                  onClick={() => console.warn("Im clicking the page")}
-                  color="#636363"
-                  _hover={{
-                    bg: "#A1B4C7",
-                  }}
-                  _current={{
-                    bg: "#A1B4C7",
-                    fontFamily: "DM Sans",
-                    borderRadius: "50%",
-                    color: "#F4F4F4",
-                  }}
-                  style={{
-                    height: "2.25rem",
-                    width: "2.25rem",
-                    borderRadius: "50%",
-                    textAlign: "center",
-                    lineHeight: "2rem",
-                    display: "inline-block",
-                    margin: "0 2px",
-                  }}
-                />
-              ))}
+            <PaginationPageGroup isInline align="center">
+              {pages.map((page: number, index: number) => {
+                if (
+                  index === 0 ||
+                  index === pages.length - 1 ||
+                  (index >= currentPage - innerLimit - 1 &&
+                    index <= currentPage + innerLimit - 1)
+                ) {
+                  return (
+                    <PaginationPage
+                      bg="#E8EDF1"
+                      key={`pagination_page_${page}`}
+                      page={page}
+                      onClick={() => console.warn("Im clicking the page")}
+                      color="#636363"
+                      _hover={{
+                        bg: "#A1B4C7",
+                      }}
+                      _current={{
+                        bg: "#A1B4C7",
+                        fontFamily: "DM Sans",
+                        borderRadius: "50%",
+                        color: "#F4F4F4",
+                      }}
+                      style={{
+                        height: "2.25rem",
+                        width: "2.25rem",
+                        borderRadius: "50%",
+                        textAlign: "center",
+                        lineHeight: "2rem",
+                        display: "inline-block",
+                        margin: "0 2px",
+                      }}
+                    />
+                  );
+                }
+                if (
+                  (index === currentPage - innerLimit - 2 &&
+                    currentPage > outerLimit + innerLimit + 1) ||
+                  (index === currentPage + innerLimit &&
+                    currentPage < pagesCount - outerLimit - innerLimit)
+                ) {
+                  return (
+                    <PaginationSeparator
+                      key={`pagination_ellipsis_${index}`}
+                      onClick={() => console.warn("I'm clicking the separator")}
+                      bg="#E8EDF1"
+                      sx={{
+                        height: "2.25rem",
+                        width: "2.25rem",
+                        borderRadius: "50%",
+                        textAlign: "center",
+                        lineHeight: "2rem",
+                        display: "inline-block",
+                        margin: "0 2px",
+                        position: "relative",
+                        bg: "#E8EDF1",
+                        color: "#E8EDF1",
+                        "&::before": {
+                          content: `"..."`,
+                          fontSize: "20px",
+                          position: "absolute",
+                          top: "37%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          color: "#636363",
+                        },
+                      }}
+                    />
+                  );
+                }
+                return null;
+              })}
             </PaginationPageGroup>
             {currentPage !== pagesCount && (
               <PaginationNext
