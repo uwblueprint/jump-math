@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 export interface TableRow {
-  values: string[];
+  values: any[];
   menu: React.ReactElement;
 }
 
