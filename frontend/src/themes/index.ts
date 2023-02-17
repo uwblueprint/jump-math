@@ -8,6 +8,7 @@ import Input from "./components/input";
 import Radio from "./components/radio";
 import Table from "./components/table";
 import textStyles from "./typography";
+import PaginationStyle from "./components/pagination";
 import "@fontsource/dm-sans";
 
 const theme = extendTheme({
@@ -25,6 +26,7 @@ const theme = extendTheme({
     Input,
     Radio,
     Table,
+    PaginationStyle,
   },
 });
 
