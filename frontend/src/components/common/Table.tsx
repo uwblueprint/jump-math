@@ -22,7 +22,7 @@ interface TableProps {
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // can edit this to show how many itemsperpage we want
+  const itemsPerPage = 8; // can edit this to show how many itemsperpage we want
   const totalItems = rows.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
