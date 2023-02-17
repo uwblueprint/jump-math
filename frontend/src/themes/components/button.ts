@@ -1,3 +1,5 @@
+import { PaginationPrevious } from "@ajna/pagination";
+
 const WhiteIcon = {
   "& > span > svg": {
     color: "#FFFFFF",
@@ -40,9 +42,45 @@ const Button = {
       display: "inline-block",
       margin: "0 2px",
     },
+
+    paginationNext: {
+      fontWeight: "normal",
+      border: "none",
+      textDecoration: "underline",
+      outline: "none",
+      _hover: { textDecoration: "underline", fontWeight: "600" },
+      marginLeft: "10px",
+      style: {
+        height: "75px",
+        margin: "0 10px",
+      },
+    },
+
+    paginationPrevious: {
+      fontWeight: "normal",
+      border: "none",
+      textDecoration: "underline",
+      outline: "none",
+      _hover: { textDecoration: "underline", fontWeight: "600" },
+      marginRight: "10px",
+      style: {
+        height: "75px",
+        margin: "0 10px",
+      },
+    },
   },
 
   variants: {
+    paginationNext: {
+      bg: "transparent",
+      color: "grey.300",
+    },
+
+    paginationPrevious: {
+      bg: "transparent",
+      color: "grey.300",
+    },
+
     PaginationStyle: {
       _hover: {
         bg: "blue.100",

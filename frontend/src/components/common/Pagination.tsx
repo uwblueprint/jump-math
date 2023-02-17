@@ -49,18 +49,8 @@ const Pagination = ({
         <PaginationContainer>
           {currentPage !== 1 && (
             <PaginationPrevious
-              bg="transparent"
-              color="grey.300"
-              fontWeight="normal"
-              border="none"
-              textDecoration="underline"
-              _hover={{ textDecoration: "underline", fontWeight: "600" }}
-              style={{
-                margin: "0 10px",
-                height: "75px",
-                marginRight: "-39px",
-              }}
-              outline="none"
+              size="paginationPrevious"
+              variant="paginationPrevious"
             >
               &lt; Previous
             </PaginationPrevious>
@@ -113,19 +103,7 @@ const Pagination = ({
           </PaginationPageGroup>
 
           {currentPage !== pagesCount && (
-            <PaginationNext
-              bg="transparent"
-              color="grey.300"
-              fontWeight="normal"
-              border="none"
-              textDecoration="underline"
-              _hover={{ textDecoration: "underline", fontWeight: "600" }}
-              style={{
-                margin: "0 10px",
-                height: "75px",
-                marginLeft: "-50px",
-              }}
-            >
+            <PaginationNext size="paginationNext" variant="paginationNext">
               Next &gt;
             </PaginationNext>
           )}
