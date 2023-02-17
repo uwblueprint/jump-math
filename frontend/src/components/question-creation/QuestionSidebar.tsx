@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Text,
@@ -13,7 +14,6 @@ import {
   AccordionPanel,
   Wrap,
 } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
 import {
   ArrowBackOutlineIcon,
   ImageIcon,
@@ -23,9 +23,12 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import QuestionElement from "./QuestionElement";
+import QuestionSidebarItem from "./QuestionSidebarItem";
+
+import QuestionElement from "./types/QuestionTypes";
 
 interface QuestionSidebarProps {
+  addQuestionElement: (newQuestionElement: QuestionElement) => void;
   backPage: string;
 }
 interface AccordionItemProps {
@@ -34,20 +37,24 @@ interface AccordionItemProps {
 }
 
 interface AccordionPanelProps {
+  element: QuestionElement;
   icon: () => React.ReactElement;
-  caption: string;
 }
 
-const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
+const renderAccordionPanel = (
+  addQuestionElement: (newQuestionElement: QuestionElement) => void,
+  panels: AccordionPanelProps[],
+) => {
   return (
     <AccordionPanel pb={4}>
       <Wrap spacing="0.5em">
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
-            <QuestionElement
+            <QuestionSidebarItem
+              element={panel.element}
               key={i}
+              addItem={addQuestionElement}
               icon={panel.icon}
-              caption={panel.caption}
             />
           );
         })}
@@ -56,7 +63,10 @@ const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
   );
 };
 
-const renderAccordionItem = (items: AccordionItemProps[]) => {
+const renderAccordionItem = (
+  addQuestionElement: (newQuestionElement: QuestionElement) => void,
+  items: AccordionItemProps[],
+) => {
   return items.map((item: AccordionItemProps, i) => {
     return (
       <AccordionItem key={i}>
@@ -66,13 +76,14 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        {renderAccordionPanel(item.panels)}
+        {renderAccordionPanel(addQuestionElement, item.panels)}
       </AccordionItem>
     );
   });
 };
 
 const QuestionSidebar = ({
+  addQuestionElement,
   backPage,
 }: QuestionSidebarProps): React.ReactElement => {
   const history = useHistory();
@@ -99,21 +110,30 @@ const QuestionSidebar = ({
           Create Question
         </Text>
         <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
-          {renderAccordionItem([
+          {renderAccordionItem(addQuestionElement, [
             {
               title: "Question",
               panels: [
-                { icon: QuestionIcon, caption: "Question" },
-                { icon: TextIcon, caption: "Text" },
-                { icon: ImageIcon, caption: "Image" },
+                { element: QuestionElement.QUESTION, icon: QuestionIcon },
+                { element: QuestionElement.TEXT, icon: TextIcon },
+                { element: QuestionElement.IMAGE, icon: ImageIcon },
               ],
             },
             {
               title: "Response Type",
               panels: [
-                { icon: MultipleChoiceIcon, caption: "Multiple Choice" },
-                { icon: MultiSelectIcon, caption: "Multi-select" },
-                { icon: ShortAnswerIcon, caption: "Short answer" },
+                {
+                  element: QuestionElement.MULTIPLE_CHOICE,
+                  icon: MultipleChoiceIcon,
+                },
+                {
+                  element: QuestionElement.MULTI_SELECT,
+                  icon: MultiSelectIcon,
+                },
+                {
+                  element: QuestionElement.SHORT_ANSWER,
+                  icon: ShortAnswerIcon,
+                },
               ],
             },
           ])}

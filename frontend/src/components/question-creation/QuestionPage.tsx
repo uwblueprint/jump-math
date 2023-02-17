@@ -14,10 +14,20 @@ const QuestionPage = (): React.ReactElement => {
     QuestionElement[]
   >([]);
 
+  const addQuestionElement = (newQuestionElement: QuestionElement) => {
+    setQuestionElements((prevQuestionElements) => [
+      ...prevQuestionElements,
+      newQuestionElement,
+    ]);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Flex margin="0 !important">
-        <QuestionSidebar backPage={HOME_PAGE} />
+        <QuestionSidebar
+          addQuestionElement={addQuestionElement}
+          backPage={HOME_PAGE}
+        />
         <QuestionEditor questionElements={questionElements} />
       </Flex>
     </DndProvider>

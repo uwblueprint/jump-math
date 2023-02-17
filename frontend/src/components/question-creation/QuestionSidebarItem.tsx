@@ -2,30 +2,31 @@ import React from "react";
 import { Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
+import QuestionElement from "./types/QuestionTypes";
 import { DragTypes } from "./types/DragTypes";
 
-interface QuestionElementProps {
-  key: number;
+interface QuestionSidebarItemProps {
+  element: QuestionElement;
+  addItem: (newQuestionElement: QuestionElement) => void;
   icon: () => React.ReactElement;
-  caption: string;
 }
 
 interface DropResult {
   name: string;
 }
 
-const QuestionElement = ({
-  key,
+const QuestionSidebarItem = ({
+  element,
+  addItem,
   icon,
-  caption,
-}: QuestionElementProps): React.ReactElement => {
+}: QuestionSidebarItemProps): React.ReactElement => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DragTypes.QUESTION_ELEMENT,
-    item: { caption },
+    item: { element },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        alert(`You dropped ${item.caption} into ${dropResult.name}!`);
+        addItem(element);
       }
     },
     collect: (monitor) => ({
@@ -37,14 +38,14 @@ const QuestionElement = ({
   const opacity = isDragging ? 0.4 : 1;
   return (
     <div ref={drag} style={{ opacity }}>
-      <WrapItem key={key}>
+      <WrapItem>
         <VStack>
           <Icon as={icon} />
-          <Text textStyle="caption">{caption}</Text>
+          <Text textStyle="caption">{element.valueOf()}</Text>
         </VStack>
       </WrapItem>
     </div>
   );
 };
 
-export default QuestionElement;
+export default QuestionSidebarItem;
