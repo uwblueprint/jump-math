@@ -27,8 +27,34 @@ const Button = {
       borderRadius: "16px",
       fontWeight: "700",
     },
+
+    PaginationStyle: {
+      _active: {
+        borderRadius: "50%",
+      },
+      height: "2.25rem",
+      width: "2.25rem",
+      borderRadius: "50%",
+      textAlign: "center",
+      lineHeight: "2rem",
+      display: "inline-block",
+      margin: "0 2px",
+    },
   },
+
   variants: {
+    PaginationStyle: {
+      _hover: {
+        bg: "blue.100",
+      },
+      _active: {
+        bg: "blue.100",
+        color: "grey.100",
+      },
+      color: "grey.300",
+      bg: "blue.50",
+    },
+
     primary: {
       bg: "blue.300",
       color: "#FFFFFF",
@@ -90,6 +116,7 @@ const Button = {
       DarkBlueIcon,
     },
   },
+
   defaultProps: {
     size: "md",
     variant: "default",

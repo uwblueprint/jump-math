@@ -1,4 +1,4 @@
-const paginationStyle = {
+const PaginationStyle = {
   baseStyle: {
     height: "2.25rem",
     width: "2.25rem",
@@ -24,4 +24,4 @@ const paginationStyle = {
   },
 };
 
-export default paginationStyle;
+export default PaginationStyle;
