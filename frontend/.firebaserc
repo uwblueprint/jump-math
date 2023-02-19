@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "jump-math-98edf"
-  }
+  },
+  "targets": {
+    "jump-math-98edf": {
+      "hosting": {
+        "prod": [
+          "jump-math-98edf"
+        ],
+        "staging": [
+          "jump-math-staging"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
