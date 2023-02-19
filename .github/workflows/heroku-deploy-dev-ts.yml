@@ -3,6 +3,7 @@ name: Deploy backend to Heroku dev environment
 on:
   push:
     branches:
+      - staging
       - main
     paths:
       - "backend/**"
