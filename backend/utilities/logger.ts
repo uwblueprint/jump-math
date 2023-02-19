@@ -21,7 +21,10 @@ const WinstonLogger: winston.Logger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== "production") {
+if (
+  process.env.NODE_ENV !== "production" ||
+  process.env.NODE_ENV !== "staging"
+) {
   WinstonLogger.add(new winston.transports.Console());
 }
 
