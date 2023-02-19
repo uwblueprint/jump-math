@@ -22,6 +22,7 @@ jobs:
       - run: rm -rf node_modules && yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          node-version: '16'
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JUMP_MATH_98EDF }}"
           projectId: "${{ secrets.DEV_PROJECT_ID }}"
