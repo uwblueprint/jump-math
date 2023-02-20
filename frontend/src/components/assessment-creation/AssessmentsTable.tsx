@@ -29,5 +29,4 @@ const AssessmentsTable = ({
 
   return <Table headers={headers} rows={rows} />;
 };
-
 export default AssessmentsTable;
