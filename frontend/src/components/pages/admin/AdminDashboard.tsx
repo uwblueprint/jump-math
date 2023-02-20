@@ -10,7 +10,7 @@ import PrivateRoute from "../../auth/PrivateRoute";
 import UsersPage from "./UsersPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
-import QuestionPage from "../../question-creation/QuestionPage";
+import QuestionPage from "./QuestionPage";
 import NotFound from "../NotFound";
 
 const pages: Page[] = [
