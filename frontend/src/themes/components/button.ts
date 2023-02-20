@@ -27,8 +27,42 @@ const Button = {
       borderRadius: "16px",
       fontWeight: "700",
     },
+    paginationStyle: {
+      height: "2rem",
+      width: "2rem",
+      borderRadius: "50%",
+      margin: "0 2px",
+      fontWeight: "700",
+      fontSize: "12px",
+    },
+    paginationNavigate: {
+      fontWeight: "400",
+      fontSize: "12px",
+      lineHeight: "16px",
+      textDecoration: "underline",
+      _hover: {
+        fontWeight: "600",
+      },
+      margin: "0 10px",
+    },
   },
+
   variants: {
+    paginationNavigate: {
+      bg: "transparent",
+      color: "grey.300",
+    },
+    paginationStyle: {
+      _hover: {
+        bg: "blue.100",
+      },
+      _active: {
+        bg: "blue.100",
+        color: "grey.100",
+      },
+      color: "grey.300",
+      bg: "blue.50",
+    },
     primary: {
       bg: "blue.300",
       color: "#FFFFFF",
@@ -90,6 +124,7 @@ const Button = {
       DarkBlueIcon,
     },
   },
+
   defaultProps: {
     size: "md",
     variant: "default",
