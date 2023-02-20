@@ -7,9 +7,7 @@ on:
     paths:
       - "backend/**"
   push:
-    branches:
-      - staging
-      - main
+    branches: [ main, staging ]
     paths:
       - "backend/**"
 
