@@ -1,7 +1,7 @@
 name: Deploy backend to Heroku dev environment
 
 on:
-  pull_request:
+  pull_request: # TODO: remove action on pull request
     branches:
       - staging
     paths:
