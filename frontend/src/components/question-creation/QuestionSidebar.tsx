@@ -91,10 +91,11 @@ const QuestionSidebar = ({
 
   return (
     <VStack
-      minHeight="100vh"
+      height="100vh"
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
       padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
+      sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
         <Button

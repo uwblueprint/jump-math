@@ -50,19 +50,17 @@ const QuestionEditor = ({
   const isHovering = canDrop && isOver;
 
   return (
-    <div ref={drop}>
-      <Box flex="1">
-        <VStack margin="3em 5em" align="left" color="grey.400">
-          {isHovering && <HoverMessage />}
-          {!isHovering && !questionElements.length && <WelcomeMessage />}
-          {!isHovering &&
-            questionElements.length &&
-            questionElements.map((questionElement, index) =>
-              renderQuestionElement(questionElement, index),
-            )}
-        </VStack>
-      </Box>
-    </div>
+    <Box flex="1" ref={drop} overflow="auto">
+      <VStack margin="3em 5em" align="left" color="grey.400">
+        {isHovering && <HoverMessage />}
+        {!isHovering && !questionElements.length && <WelcomeMessage />}
+        {!isHovering &&
+          questionElements.length &&
+          questionElements.map((questionElement, index) =>
+            renderQuestionElement(questionElement, index),
+          )}
+      </VStack>
+    </Box>
   );
 };
 
