@@ -8,10 +8,15 @@ import { mongo } from "./models";
 import schema from "./graphql";
 
 const CORS_ALLOW_LIST = [
+  // Local
   "http://localhost:3000",
-  "https://uw-blueprint-starter-code.firebaseapp.com",
-  "https://uw-blueprint-starter-code.web.app",
-  /^https:\/\/uw-blueprint-starter-code--pr.*\.web\.app$/,
+  // Staging
+  /^https:\/\/jump-math-staging--pr.*\.web\.app$/,
+  "https://jump-math-staging.web.app",
+  "https://jump-math-staging.firebaseapp.com",
+  // Production
+  "https://jumpmath.web.app",
+  "https://jumpmath.firebaseapp.com",
 ];
 
 const CORS_OPTIONS: cors.CorsOptions = {

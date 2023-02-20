@@ -2,14 +2,12 @@ name: Lint codebase
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, staging ]
     paths:
       - "frontend/**"
       - "backend/**"
   pull_request:
-    branches:
-      - main
+    branches: [ main, staging ]
     paths:
       - "frontend/**"
       - "backend/**"
