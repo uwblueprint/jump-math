@@ -28,20 +28,16 @@ const Button = {
       fontWeight: "700",
     },
     paginationStyle: {
-      _active: {
-        borderRadius: "50%",
-      },
-      height: "2.25rem",
-      width: "2.25rem",
+      height: "2rem",
+      width: "2rem",
       borderRadius: "50%",
-      textAlign: "center",
-      lineHeight: "2rem",
-      display: "inline-block",
       margin: "0 2px",
+      fontWeight: "700",
+      fontSize: "12px",
     },
     paginationNavigate: {
       fontWeight: "400",
-      fontSize: "16px",
+      fontSize: "12px",
       lineHeight: "16px",
       textDecoration: "underline",
       _hover: {

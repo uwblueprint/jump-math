@@ -22,23 +22,20 @@ interface TableProps {
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8; // can edit this to show how many itemsperpage we want
+  const itemsPerPage = 8;
   const totalItems = rows.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // Calculate the index range of items to display on the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const itemsToShow = rows.slice(startIndex, endIndex);
-
-  // Define the onPageChange function to update the currentPage state
 
   return (
     <>
       <TableContainer
         padding="0.5em"
         border="1px solid"
-        borderColor="#E8EDF1"
+        borderColor="blue.50"
         borderRadius="12px"
         minWidth="100%"
       >
@@ -54,10 +51,10 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
             {itemsToShow.map((row, rowIndex) => (
               <Tr
                 key={rowIndex}
-                backgroundColor={rowIndex % 2 === 0 ? "#E8EDF1" : "#FFFFFF"}
+                backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
               >
                 {row.values.map((value, cellIndex) => (
-                  <Td key={value} fontWeight={cellIndex === 0 ? "500" : ""}>
+                  <Td key={value} fontWeight={cellIndex === 0 ? "bold" : ""}>
                     {value}
                   </Td>
                 ))}
