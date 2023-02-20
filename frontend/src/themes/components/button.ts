@@ -1,5 +1,3 @@
-import { PaginationPrevious } from "@ajna/pagination";
-
 const WhiteIcon = {
   "& > span > svg": {
     color: "#FFFFFF",
@@ -29,8 +27,7 @@ const Button = {
       borderRadius: "16px",
       fontWeight: "700",
     },
-
-    PaginationStyle: {
+    paginationStyle: {
       _active: {
         borderRadius: "50%",
       },
@@ -42,45 +39,33 @@ const Button = {
       display: "inline-block",
       margin: "0 2px",
     },
-
     paginationNext: {
-      fontWeight: "normal",
-      border: "none",
+      fontWeight: "400",
+      fontSize: "16px",
+      lineHeight: "16px",
       textDecoration: "underline",
-      outline: "none",
-      _hover: { textDecoration: "underline", fontWeight: "600" },
-      marginLeft: "10px",
-      style: {
-        height: "75px",
-        margin: "0 10px",
+      _hover: {
+        fontWeight: "600",
       },
+      margin: "0 10px",
     },
-
     paginationPrevious: {
-      fontWeight: "normal",
-      border: "none",
+      fontWeight: "400",
+      fontSize: "16px",
+      lineHeight: "16px",
       textDecoration: "underline",
-      outline: "none",
-      _hover: { textDecoration: "underline", fontWeight: "600" },
-      marginRight: "10px",
-      style: {
-        height: "75px",
-        margin: "0 10px",
+      _hover: {
+        fontWeight: "600",
       },
+      margin: "0 10px",
     },
   },
 
   variants: {
-    paginationNext: {
+    paginationNavigate: {
       bg: "transparent",
       color: "grey.300",
     },
-
-    paginationPrevious: {
-      bg: "transparent",
-      color: "grey.300",
-    },
-
     PaginationStyle: {
       _hover: {
         bg: "blue.100",
@@ -92,7 +77,6 @@ const Button = {
       color: "grey.300",
       bg: "blue.50",
     },
-
     primary: {
       bg: "blue.300",
       color: "#FFFFFF",

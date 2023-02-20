@@ -71,7 +71,6 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
         pagesCount={totalPages}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        itemsToShow={10}
       />
     </>
   );

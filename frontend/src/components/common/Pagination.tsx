@@ -17,7 +17,6 @@ const innerLimit = 1;
 interface PaginationProps {
   pagesCount: number;
   currentPage: number;
-  itemsToShow: number;
   onPageChange: (page: number) => void;
 }
 
@@ -25,7 +24,6 @@ const Pagination = ({
   pagesCount,
   currentPage,
   onPageChange,
-  itemsToShow,
 }: PaginationProps): React.ReactElement => {
   const { pages } = usePagination({
     pagesCount,
@@ -33,83 +31,72 @@ const Pagination = ({
   });
 
   return (
-    <Box
-      bottom="0"
-      left="0"
-      right="0"
-      display="flex"
-      justifyContent="center"
-      style={{ height: "75px" }}
+    <P
+      pagesCount={pagesCount}
+      currentPage={currentPage}
+      onPageChange={onPageChange}
     >
-      <P
-        pagesCount={pagesCount}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      >
-        <PaginationContainer>
-          {currentPage !== 1 && (
-            <PaginationPrevious
-              size="paginationPrevious"
-              variant="paginationPrevious"
-            >
-              &lt; Previous
-            </PaginationPrevious>
-          )}
-          <PaginationPageGroup isInline align="center">
-            {pages.map((page: number, index: number) => {
-              if (
-                index === 0 ||
-                index === pages.length - 1 ||
-                (index >= currentPage - innerLimit - 1 &&
-                  index <= currentPage + innerLimit - 1)
-              ) {
-                return (
-                  <PaginationPage
-                    size="PaginationStyle"
-                    variant="PaginationStyle"
-                    key={`pagination_page_${page}`}
-                    page={page}
-                    _current={{
-                      bg: "blue.100",
-                      fontFamily: "DM Sans",
-                      borderRadius: "50%",
-                      color: "grey.100",
-                    }}
-                  />
-                );
-              }
-              if (
-                (index === currentPage - innerLimit - 2 &&
-                  currentPage > outerLimit + innerLimit + 1) ||
-                (index === currentPage + innerLimit &&
-                  currentPage < pagesCount - outerLimit - innerLimit)
-              ) {
-                return (
-                  <PaginationSeparator
-                    size="PaginationStyle"
-                    key={`pagination_ellipsis_${index}`}
-                    sx={{
-                      bg: "blue.50",
-                      color: "grey.300",
-                      height: "2.25rem",
-                      width: "2.25rem",
-                      borderRadius: "50%",
-                    }}
-                  />
-                );
-              }
-              return null;
-            })}
-          </PaginationPageGroup>
+      <PaginationContainer>
+        {currentPage !== 1 && (
+          <PaginationPrevious
+            size="paginationPrevious"
+            variant="paginationNavigate"
+          >
+            &lt; Previous
+          </PaginationPrevious>
+        )}
+        <PaginationPageGroup isInline align="center">
+          {pages.map((page: number, index: number) => {
+            if (
+              index === 0 ||
+              index === pages.length - 1 ||
+              (index >= currentPage - innerLimit - 1 &&
+                index <= currentPage + innerLimit - 1)
+            ) {
+              return (
+                <PaginationPage
+                  size="paginationStyle"
+                  variant="PaginationStyle"
+                  key={`pagination_page_${page}`}
+                  page={page}
+                  _current={{
+                    bg: "blue.100",
+                    fontFamily: "DM Sans",
+                    borderRadius: "50%",
+                    color: "grey.100",
+                  }}
+                />
+              );
+            }
+            if (
+              (index === currentPage - innerLimit - 2 &&
+                currentPage > outerLimit + innerLimit + 1) ||
+              (index === currentPage + innerLimit &&
+                currentPage < pagesCount - outerLimit - innerLimit)
+            ) {
+              return (
+                <PaginationSeparator
+                  size="paginationStyle"
+                  key={`pagination_ellipsis_${index}`}
+                  sx={{
+                    opacity: "1 !important",
+                    bg: "blue.50",
+                    color: "grey.300",
+                  }}
+                />
+              );
+            }
+            return null;
+          })}
+        </PaginationPageGroup>
 
-          {currentPage !== pagesCount && (
-            <PaginationNext size="paginationNext" variant="paginationNext">
-              Next &gt;
-            </PaginationNext>
-          )}
-        </PaginationContainer>
-      </P>
-    </Box>
+        {currentPage !== pagesCount && (
+          <PaginationNext size="paginationNext" variant="paginationNavigate">
+            Next &gt;
+          </PaginationNext>
+        )}
+      </PaginationContainer>
+    </P>
   );
 };
 
