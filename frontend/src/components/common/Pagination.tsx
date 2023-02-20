@@ -56,13 +56,11 @@ const Pagination = ({
               return (
                 <PaginationPage
                   size="paginationStyle"
-                  variant="PaginationStyle"
+                  variant="paginationStyle"
                   key={`pagination_page_${page}`}
                   page={page}
                   _current={{
                     bg: "blue.100",
-                    fontFamily: "DM Sans",
-                    borderRadius: "50%",
                     color: "grey.100",
                   }}
                 />

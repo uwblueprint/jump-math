@@ -52,7 +52,7 @@ const Button = {
       bg: "transparent",
       color: "grey.300",
     },
-    PaginationStyle: {
+    paginationStyle: {
       _hover: {
         bg: "blue.100",
       },
