@@ -18,7 +18,6 @@ export const getAccessToken = (req: Request): string | null => {
   ) {
     return authHeaderParts[1];
   }
-
   return null;
 };
 
