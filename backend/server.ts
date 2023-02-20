@@ -35,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 const server = new ApolloServer({
   schema,
   context: ({ req, res }) => ({ req, res }),
+  introspection: true,
   playground: {
     settings: {
       "request.credentials": "include",
