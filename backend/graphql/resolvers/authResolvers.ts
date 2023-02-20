@@ -19,8 +19,7 @@ const schoolService: ISchoolService = new SchoolService(userService);
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   sameSite: process.env.PREVIEW_DEPLOY ? "none" : "strict",
-  secure:
-    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging",
+  secure: process.env.NODE_ENV === "production",
 };
 
 const authResolvers = {

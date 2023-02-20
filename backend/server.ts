@@ -7,7 +7,6 @@ import { ApolloServer } from "apollo-server-express";
 import { mongo } from "./models";
 import schema from "./graphql";
 
-console.log("NODE_ENV: ", process.env.NODE_ENV);
 const CORS_ALLOW_LIST = [
   // Local
   "http://localhost:3000",
