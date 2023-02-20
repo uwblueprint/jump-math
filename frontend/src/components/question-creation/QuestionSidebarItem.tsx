@@ -2,8 +2,8 @@ import React from "react";
 import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
-import QuestionElement from "./types/QuestionTypes";
-import { DragTypes } from "./types/DragTypes";
+import { QuestionElement } from "../../types/QuestionTypes";
+import { DragTypes } from "../../types/DragTypes";
 
 interface QuestionSidebarItemProps {
   element: QuestionElement;

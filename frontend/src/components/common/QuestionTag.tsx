@@ -5,7 +5,7 @@ import {
   MultipleChoiceTagIcon,
   ShortAnswerTagIcon,
 } from "../../assets/icons";
-import QuestionType from "../../types/QuestionTypes";
+import { QuestionType } from "../../types/QuestionTypes";
 
 type QuestionTypeProps = {
   type: QuestionType;

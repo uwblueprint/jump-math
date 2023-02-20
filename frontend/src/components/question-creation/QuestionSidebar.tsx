@@ -25,7 +25,7 @@ import {
 } from "../../assets/icons";
 import QuestionSidebarItem from "./QuestionSidebarItem";
 
-import QuestionElement from "./types/QuestionTypes";
+import { QuestionElement } from "../../types/QuestionTypes";
 
 interface QuestionSidebarProps {
   addQuestionElement: (newQuestionElement: QuestionElement) => void;

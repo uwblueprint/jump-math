@@ -6,8 +6,8 @@ import WelcomeMessage from "./WelcomeMessage";
 import HoverMessage from "./HoverMessage";
 import TextElement from "./question-elements/TextElement";
 
-import QuestionElement from "./types/QuestionTypes";
-import { DragTypes } from "./types/DragTypes";
+import { QuestionElement } from "../../types/QuestionTypes";
+import { DragTypes } from "../../types/DragTypes";
 
 interface QuestionEditorProps {
   questionElements: QuestionElement[];
