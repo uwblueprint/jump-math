@@ -91,9 +91,9 @@ const QuestionSidebar = ({
 
   return (
     <VStack
-      minHeight="89vh"
+      minHeight="100vh"
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
-      padding={{ base: "0.5em", md: "1em 2em 3em 2em" }}
+      padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
     >
       <Stack w="22vw">
