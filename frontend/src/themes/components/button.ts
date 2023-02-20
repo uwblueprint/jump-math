@@ -39,17 +39,7 @@ const Button = {
       display: "inline-block",
       margin: "0 2px",
     },
-    paginationNext: {
-      fontWeight: "400",
-      fontSize: "16px",
-      lineHeight: "16px",
-      textDecoration: "underline",
-      _hover: {
-        fontWeight: "600",
-      },
-      margin: "0 10px",
-    },
-    paginationPrevious: {
+    paginationNavigate: {
       fontWeight: "400",
       fontSize: "16px",
       lineHeight: "16px",

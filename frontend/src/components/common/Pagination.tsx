@@ -39,7 +39,7 @@ const Pagination = ({
       <PaginationContainer>
         {currentPage !== 1 && (
           <PaginationPrevious
-            size="paginationPrevious"
+            size="paginationNavigate"
             variant="paginationNavigate"
           >
             &lt; Previous
@@ -91,7 +91,10 @@ const Pagination = ({
         </PaginationPageGroup>
 
         {currentPage !== pagesCount && (
-          <PaginationNext size="paginationNext" variant="paginationNavigate">
+          <PaginationNext
+            size="paginationNavigate"
+            variant="paginationNavigate"
+          >
             Next &gt;
           </PaginationNext>
         )}
