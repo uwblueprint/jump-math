@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
+import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
 import QuestionElement from "./types/QuestionTypes";
@@ -37,14 +37,14 @@ const QuestionSidebarItem = ({
 
   const opacity = isDragging ? 0.4 : 1;
   return (
-    <div ref={drag} style={{ opacity }}>
-      <WrapItem>
+    <Box ref={drag} style={{ opacity }}>
+      <WrapItem cursor="grab">
         <VStack>
           <Icon as={icon} />
           <Text textStyle="caption">{element.valueOf()}</Text>
         </VStack>
       </WrapItem>
-    </div>
+    </Box>
   );
 };
 
