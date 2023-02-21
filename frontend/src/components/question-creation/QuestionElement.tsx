@@ -10,12 +10,12 @@ const QuestionElement = ({
   children,
 }: QuestionElementProps): React.ReactElement => {
   return (
-    <HStack spacing="6">
+    <HStack spacing="6" fontSize="24px">
       <Box color="grey.300">
         <HamburgerMenuIcon />
       </Box>
       {children}
-      <Box color="grey.300">
+      <Box color="grey.300" fontSize="24px">
         <DeleteOutlineIcon />
       </Box>
     </HStack>
