@@ -10,7 +10,6 @@ const defaultValues = {
   className: "",
   schoolYear: "",
   gradeLevel: "",
-  subject: "",
 } as ClassroomForm;
 
 const TeacherPage = (): React.ReactElement => {
