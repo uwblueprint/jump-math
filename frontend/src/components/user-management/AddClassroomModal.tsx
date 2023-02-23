@@ -102,7 +102,10 @@ const AddClassroomModal = (): React.ReactElement => {
 
   const onSubmit = async () => {
     if (validateFields()) {
-      console.log("yert");
+      console.log(`Classname: ${watch("className")}`);
+      console.log(`School Year: ${watch("schoolYear")}`);
+      console.log(`Grade Level: ${watch("gradeLevel")}`);
+      console.log(`Subject: ${watch("subject")}`);
     } else {
       setShowRequestError(true);
       setRequestErrorMessage(
