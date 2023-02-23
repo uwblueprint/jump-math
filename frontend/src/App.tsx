@@ -5,6 +5,7 @@ import {
   Redirect,
   Route,
   Switch,
+  Link,
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -32,6 +33,7 @@ import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import TeacherPage from "./components/pages/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
+import NameSelection from "./components/pages/NameSelection";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -107,6 +109,13 @@ const App = (): React.ReactElement => {
                   roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
+                <Route
+                  exact
+                  path={Routes.NAME_SELECTION}
+                  component={NameSelection}
+                />
+
+                <Link to={Routes.NAME_SELECTION}>Name Selection</Link>
               </Switch>
             </Router>
           </AuthContext.Provider>

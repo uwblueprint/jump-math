@@ -18,3 +18,4 @@ export const TEACHER_LANDING = "/teacher";
 
 // Private Student Routes
 export const STUDENT_LANDING = "/student";
+export const NAME_SELECTION = "/name-selection";
