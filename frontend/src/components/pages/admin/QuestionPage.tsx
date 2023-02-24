@@ -23,7 +23,7 @@ const QuestionPage = (): React.ReactElement => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Flex margin="0 !important">
+      <Flex minHeight="100vh">
         <QuestionSidebar
           addQuestionElement={addQuestionElement}
           backPage={HOME_PAGE}
