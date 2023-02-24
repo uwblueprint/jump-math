@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Text, HStack, Box } from "@chakra-ui/react";
+import React, { useState, useContext } from "react";
+import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
 import TextElement from "./question-elements/TextElement";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 
 export interface QuestionElementItemProps {
   content: QuestionElement;
@@ -39,6 +40,13 @@ const QuestionElementItem = ({
 }: QuestionElementItemProps): React.ReactElement => {
   const { id, type, data } = content;
   const [error, setError] = useState("");
+  const { setQuestionElements } = useContext(QuestionEditorContext);
+
+  const removeQuestionElement = () => {
+    setQuestionElements((prevElements) =>
+      prevElements.filter((item) => item.id !== id),
+    );
+  };
 
   return (
     <>
@@ -47,9 +55,13 @@ const QuestionElementItem = ({
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content, setError)}
-        <Box color="grey.300" fontSize="24px">
-          <DeleteOutlineIcon />
-        </Box>
+        <Button
+          onClick={removeQuestionElement}
+          as={IconButton}
+          icon={<DeleteOutlineIcon />}
+          color="grey.300"
+          fontSize="24px"
+        />
       </HStack>
       {error && <Text color="red.200">{error}</Text>}
     </>
