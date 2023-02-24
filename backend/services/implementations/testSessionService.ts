@@ -91,38 +91,6 @@ class TestSessionService implements ITestSessionService {
     return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
   }
 
-  async getTestSessionByAccessCode(
-    accessCode: string,
-  ): Promise<TestSessionResponseDTO> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
-    try {
-      const testSessions: Array<TestSession> = await MgTestSession.find({
-        accessCode: { $eq: accessCode },
-      });
-
-      if (!testSessions.length) {
-        throw new Error(
-          `Test Session with access code ${accessCode} not found`,
-        );
-      } else if (testSessions.length > 1) {
-        throw new Error(
-          `More than one Test Session uses the access code ${accessCode}`,
-        );
-      }
-
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get Test Session. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
-    return testSessionDtos[0];
-  }
-
   async deleteTestSession(id: string): Promise<string> {
     try {
       const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
