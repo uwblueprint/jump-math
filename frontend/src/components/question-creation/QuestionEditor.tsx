@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, Box, VStack } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
 
@@ -6,38 +6,36 @@ import WelcomeMessage from "./WelcomeMessage";
 import HoverMessage from "./HoverMessage";
 import TextElement from "./question-elements/TextElement";
 
-import { QuestionElement } from "../../types/QuestionTypes";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import { DragTypes } from "../../types/DragTypes";
 
-interface QuestionEditorProps {
-  questionElements: QuestionElement[];
-}
-
 const renderQuestionElement = (
-  questionElement: QuestionElement,
+  questionElement: QuestionElementType,
   index: number,
 ) => {
   switch (questionElement) {
-    case QuestionElement.QUESTION:
+    case QuestionElementType.QUESTION:
       return <Text key={index}>this is a question element.</Text>;
-    case QuestionElement.TEXT:
+    case QuestionElementType.TEXT:
       return <TextElement key={index} />;
-    case QuestionElement.IMAGE:
+    case QuestionElementType.IMAGE:
       return <Text key={index}>this is an image element.</Text>;
-    case QuestionElement.MULTIPLE_CHOICE:
+    case QuestionElementType.MULTIPLE_CHOICE:
       return <Text key={index}>this is a multiple choice element.</Text>;
-    case QuestionElement.SHORT_ANSWER:
+    case QuestionElementType.SHORT_ANSWER:
       return <Text key={index}>this is a short answer element.</Text>;
-    case QuestionElement.MULTI_SELECT:
+    case QuestionElementType.MULTI_SELECT:
       return <Text key={index}>this is a multi select element.</Text>;
     default:
       return null;
   }
 };
 
-const QuestionEditor = ({
-  questionElements,
-}: QuestionEditorProps): React.ReactElement => {
+const QuestionEditor = (): React.ReactElement => {
+  const { questionElements, setQuestionElements } = useContext(
+    QuestionEditorContext,
+  );
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragTypes.QUESTION_ELEMENT,
     drop: () => ({ name: "Question Editor" }),
@@ -57,7 +55,7 @@ const QuestionEditor = ({
         {!isHovering &&
           questionElements.length &&
           questionElements.map((questionElement, index) =>
-            renderQuestionElement(questionElement, index),
+            renderQuestionElement(questionElement.type, index),
           )}
       </VStack>
     </Box>

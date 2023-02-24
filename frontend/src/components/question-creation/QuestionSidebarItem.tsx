@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
 
-import { QuestionElement } from "../../types/QuestionTypes";
+import {
+  QuestionElement,
+  QuestionElementType,
+} from "../../types/QuestionTypes";
 import { DragTypes } from "../../types/DragTypes";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 
 interface QuestionSidebarItemProps {
-  element: QuestionElement;
-  addItem: (newQuestionElement: QuestionElement) => void;
+  element: QuestionElementType;
   icon: () => React.ReactElement;
 }
 
@@ -17,16 +20,23 @@ interface DropResult {
 
 const QuestionSidebarItem = ({
   element,
-  addItem,
   icon,
 }: QuestionSidebarItemProps): React.ReactElement => {
+  const { questionElements, setQuestionElements } = useContext(
+    QuestionEditorContext,
+  );
+
+  const handleAddElement = (newElement: QuestionElement) => {
+    setQuestionElements((prevElements) => [...prevElements, newElement]);
+  };
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DragTypes.QUESTION_ELEMENT,
     item: { element },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        addItem(element);
+        handleAddElement({ type: item.element, data: "" });
       }
     },
     collect: (monitor) => ({

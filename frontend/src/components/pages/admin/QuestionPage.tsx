@@ -7,6 +7,7 @@ import { HOME_PAGE } from "../../../constants/Routes";
 import QuestionSidebar from "../../question-creation/QuestionSidebar";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
+import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 
 const QuestionPage = (): React.ReactElement => {
@@ -14,22 +15,16 @@ const QuestionPage = (): React.ReactElement => {
     QuestionElement[]
   >([]);
 
-  const addQuestionElement = (newQuestionElement: QuestionElement) => {
-    setQuestionElements((prevQuestionElements) => [
-      ...prevQuestionElements,
-      newQuestionElement,
-    ]);
-  };
-
   return (
     <DndProvider backend={HTML5Backend}>
-      <Flex minHeight="100vh">
-        <QuestionSidebar
-          addQuestionElement={addQuestionElement}
-          backPage={HOME_PAGE}
-        />
-        <QuestionEditor questionElements={questionElements} />
-      </Flex>
+      <QuestionEditorContext.Provider
+        value={{ questionElements, setQuestionElements }}
+      >
+        <Flex minHeight="100vh">
+          <QuestionSidebar backPage={HOME_PAGE} />
+          <QuestionEditor />
+        </Flex>
+      </QuestionEditorContext.Provider>
     </DndProvider>
   );
 };
