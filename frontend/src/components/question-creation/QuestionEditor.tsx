@@ -13,23 +13,26 @@ import {
 } from "../../types/QuestionTypes";
 import { DragTypes } from "../../types/DragTypes";
 
-const renderQuestionElement = (
-  questionElement: QuestionElement,
-  index: number,
-) => {
+const renderQuestionElement = (questionElement: QuestionElement) => {
   switch (questionElement.type) {
     case QuestionElementType.QUESTION:
-      return <Text key={index}>this is a question element.</Text>;
+      return <Text key={questionElement.id}>this is a question element.</Text>;
     case QuestionElementType.TEXT:
-      return <TextElement key={index} />;
+      return <TextElement key={questionElement.id} />;
     case QuestionElementType.IMAGE:
-      return <Text key={index}>this is an image element.</Text>;
+      return <Text key={questionElement.id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
-      return <Text key={index}>this is a multiple choice element.</Text>;
+      return (
+        <Text key={questionElement.id}>this is a multiple choice element.</Text>
+      );
     case QuestionElementType.SHORT_ANSWER:
-      return <Text key={index}>this is a short answer element.</Text>;
+      return (
+        <Text key={questionElement.id}>this is a short answer element.</Text>
+      );
     case QuestionElementType.MULTI_SELECT:
-      return <Text key={index}>this is a multi select element.</Text>;
+      return (
+        <Text key={questionElement.id}>this is a multi select element.</Text>
+      );
     default:
       return null;
   }
@@ -55,8 +58,8 @@ const QuestionEditor = (): React.ReactElement => {
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&
           questionElements.length &&
-          questionElements.map((questionElement, index) =>
-            renderQuestionElement(questionElement, index),
+          questionElements.map((questionElement) =>
+            renderQuestionElement(questionElement),
           )}
       </VStack>
     </Box>

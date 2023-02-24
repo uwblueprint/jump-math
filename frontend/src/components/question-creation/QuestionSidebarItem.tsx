@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   QuestionElement,
@@ -37,7 +38,7 @@ const QuestionSidebarItem = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        addQuestionElement({ type: item.elementType, data: "" });
+        addQuestionElement({ id: uuidv4(), type: item.elementType, data: "" });
       }
     },
     collect: (monitor) => ({

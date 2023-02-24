@@ -14,6 +14,7 @@ export enum QuestionElementType {
 }
 
 export type QuestionElement = {
+  id: string;
   type: QuestionElementType;
   data: string;
 };
