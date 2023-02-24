@@ -102,6 +102,11 @@ const App = (): React.ReactElement => {
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
                 />
+                <Route
+                  exact
+                  path={Routes.NAME_SELECTION}
+                  component={NameSelection}
+                />
                 <PrivateRoute
                   exact
                   path={Routes.COMPONENT_LIBRARY}
@@ -109,13 +114,6 @@ const App = (): React.ReactElement => {
                   roles={["Admin", "Teacher"]}
                 />
                 <Route exact path="*" component={NotFound} />
-                <Route
-                  exact
-                  path={Routes.NAME_SELECTION}
-                  component={NameSelection}
-                />
-
-                <Link to={Routes.NAME_SELECTION}>Name Selection</Link>
               </Switch>
             </Router>
           </AuthContext.Provider>
