@@ -125,6 +125,16 @@ export interface ITestSessionService {
    * @throws Error if retrieval fails
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
+
+  /**
+   * get a TestSession with the given access code
+   * @param accessCode TestSession access code
+   * @returns requested TestSession
+   * @throws Error if retrieval fails
+   */
+  getTestSessionByAccessCode(
+    accessCode: string,
+  ): Promise<TestSessionResponseDTO>;
   /*
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete

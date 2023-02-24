@@ -6,20 +6,13 @@ import { STUDENT_SIGNUP_IMAGE } from "../../assets/images";
 import { LeftArrowIcon } from "../../assets/icons";
 
 const StudentLogin = (): React.ReactElement => {
-  // For back button
   const history = useHistory();
-
-  // Some CS
-  const pinWidth = "60px";
-  const pinHeight = "100px";
-  const margin = "10px 10px 90px 10px !important";
-  const fontSize = "30px";
-  const fontColor = "grey.300";
-
-  // Fields for AuthWrapper component
   const title = "Student Login";
   const subtitle = "Please enter your classroom's access code";
   const image = STUDENT_SIGNUP_IMAGE;
+
+  const handleComplete = (code: string) => {};
+
   const form = (
     <>
       <HStack>
@@ -29,61 +22,22 @@ const StudentLogin = (): React.ReactElement => {
           placeholder=""
           size="lg"
           variant="filled"
+          onComplete={handleComplete}
         >
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
-          <PinInputField
-            textStyle="header1"
-            m={margin}
-            fontSize={fontSize}
-            color={fontColor}
-            height={pinHeight}
-            style={{ width: pinWidth }}
-            _invalid={{ backgroundColor: "red.50", borderColor: "red.200" }}
-          />
+          {[...Array(6)].map((i) => (
+            <PinInputField
+              key={i}
+              textStyle="header1"
+              m="3rem 0.6rem 7rem 0.6rem !important"
+              fontSize="2.5rem"
+              color="grey.300"
+              height="50%"
+              style={{ width: "15%" }}
+              _focus={{ backgroundColor: "blue.50" }}
+              _valid={{ backgroundColor: "green.200" }}
+              _invalid={{ borderColor: "red.200" }}
+            />
+          ))}
         </PinInput>
       </HStack>
       <Button
@@ -91,16 +45,13 @@ const StudentLogin = (): React.ReactElement => {
         onClick={() => {
           history.goBack();
         }}
-        textStyle="paragraph"
-        fontWeight="500"
-        variant="link"
-        _hover={{ color: "blue.200", textDecoration: "none" }}
-        color="blue.300"
+        variant="tertiary"
       >
         Back to Home
       </Button>
     </>
   );
+
   const [loginError, setLoginError] = useState(false);
   const error = loginError ? "Please ensure input is correct" : "";
 
