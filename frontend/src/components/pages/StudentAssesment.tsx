@@ -4,7 +4,7 @@ import { JUMP_MATH_LOGO } from "../../assets/images";
 import colors from "../../themes/colors";
 import theme from "../../themes";
 
-function NameSelection() {
+function StudentAssesment() {
   return (
     <ChakraProvider theme={theme}>
       <div
@@ -436,7 +436,7 @@ function NameSelection() {
             style={{
               width: "200px",
               height: "auto",
-              marginTop: "-555px",
+              marginTop: "-600px",
               marginLeft: "-275px",
             }}
           />
@@ -465,7 +465,7 @@ function NameSelection() {
               outline: "none",
               width: "225px",
               height: "40px",
-              marginTop: "550px",
+              marginTop: "600px",
               marginLeft: "765px",
               fontWeight: "bold",
             }}
@@ -478,4 +478,4 @@ function NameSelection() {
   );
 }
 
-export default NameSelection;
+export default StudentAssesment;
