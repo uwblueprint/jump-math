@@ -75,33 +75,6 @@ export const PlusOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const ColumnIcon = (): React.ReactElement => (
-  <Icon viewBox="0 0 88 88" boxSize="5em">
-    <rect opacity="0.2" width="88" height="88" fill="#A1B4C7" />
-    <rect
-      x="45.5"
-      y="79.5"
-      width="67"
-      height="19"
-      transform="rotate(-90 45.5 79.5)"
-      fill="#C4C4C4"
-      fillOpacity="0.2"
-      stroke="black"
-      strokeDasharray="2 2"
-    />
-    <rect
-      x="21.5"
-      y="79.5"
-      width="67"
-      height="19"
-      transform="rotate(-90 21.5 79.5)"
-      fill="#C4C4C4"
-      stroke="black"
-      strokeDasharray="2 2"
-    />
-  </Icon>
-);
-
 export const QuestionIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 88 88" boxSize="5em">
     <rect opacity="0.2" width="88" height="88" fill="#A1B4C7" />

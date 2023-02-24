@@ -1,6 +1,6 @@
 import React from "react";
 import QuestionCard from "../common/QuestionCard";
-import QuestionType from "../../types/QuestionTypes";
+import { QuestionType } from "../../types/QuestionTypes";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
