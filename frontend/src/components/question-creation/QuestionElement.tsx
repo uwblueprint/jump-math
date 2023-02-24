@@ -13,7 +13,7 @@ const QuestionElement = ({
 }: QuestionElementProps): React.ReactElement => {
   return (
     <>
-      <HStack spacing="6" fontSize="24px">
+      <HStack spacing="6" fontSize="24px" alignItems="flex-start">
         <Box color="grey.300">
           <HamburgerMenuIcon />
         </Box>
