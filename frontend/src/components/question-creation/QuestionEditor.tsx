@@ -7,14 +7,17 @@ import HoverMessage from "./HoverMessage";
 import TextElement from "./question-elements/TextElement";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { QuestionElementType } from "../../types/QuestionTypes";
+import {
+  QuestionElement,
+  QuestionElementType,
+} from "../../types/QuestionTypes";
 import { DragTypes } from "../../types/DragTypes";
 
 const renderQuestionElement = (
-  questionElement: QuestionElementType,
+  questionElement: QuestionElement,
   index: number,
 ) => {
-  switch (questionElement) {
+  switch (questionElement.type) {
     case QuestionElementType.QUESTION:
       return <Text key={index}>this is a question element.</Text>;
     case QuestionElementType.TEXT:
@@ -33,9 +36,7 @@ const renderQuestionElement = (
 };
 
 const QuestionEditor = (): React.ReactElement => {
-  const { questionElements, setQuestionElements } = useContext(
-    QuestionEditorContext,
-  );
+  const { questionElements } = useContext(QuestionEditorContext);
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragTypes.QUESTION_ELEMENT,
     drop: () => ({ name: "Question Editor" }),
@@ -55,7 +56,7 @@ const QuestionEditor = (): React.ReactElement => {
         {!isHovering &&
           questionElements.length &&
           questionElements.map((questionElement, index) =>
-            renderQuestionElement(questionElement.type, index),
+            renderQuestionElement(questionElement, index),
           )}
       </VStack>
     </Box>

@@ -10,7 +10,7 @@ import { DragTypes } from "../../types/DragTypes";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 
 interface QuestionSidebarItemProps {
-  element: QuestionElementType;
+  elementType: QuestionElementType;
   icon: () => React.ReactElement;
 }
 
@@ -19,24 +19,25 @@ interface DropResult {
 }
 
 const QuestionSidebarItem = ({
-  element,
+  elementType,
   icon,
 }: QuestionSidebarItemProps): React.ReactElement => {
-  const { questionElements, setQuestionElements } = useContext(
-    QuestionEditorContext,
-  );
+  const { setQuestionElements } = useContext(QuestionEditorContext);
 
-  const handleAddElement = (newElement: QuestionElement) => {
-    setQuestionElements((prevElements) => [...prevElements, newElement]);
+  const addQuestionElement = (newQuestionElement: QuestionElement) => {
+    setQuestionElements((prevElements) => [
+      ...prevElements,
+      newQuestionElement,
+    ]);
   };
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DragTypes.QUESTION_ELEMENT,
-    item: { element },
+    item: { elementType },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        handleAddElement({ type: item.element, data: "" });
+        addQuestionElement({ type: item.elementType, data: "" });
       }
     },
     collect: (monitor) => ({
@@ -51,7 +52,7 @@ const QuestionSidebarItem = ({
       <WrapItem cursor="grab">
         <VStack>
           <Icon as={icon} />
-          <Text textStyle="caption">{element.valueOf()}</Text>
+          <Text textStyle="caption">{elementType.valueOf()}</Text>
         </VStack>
       </WrapItem>
     </Box>
