@@ -67,7 +67,8 @@ const QuestionElementItem = ({
     );
   };
 
-  const ref = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
@@ -80,7 +81,7 @@ const QuestionElementItem = ({
       };
     },
     hover(item: DragItem, monitor) {
-      if (!ref.current) {
+      if (!previewRef.current) {
         return;
       }
       const dragIndex = item.index;
@@ -88,7 +89,7 @@ const QuestionElementItem = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
@@ -106,7 +107,7 @@ const QuestionElementItem = ({
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     type: DragTypes.QUESTION_ELEMENT_ITEM,
     item: () => {
       return { id, index };
@@ -116,12 +117,13 @@ const QuestionElementItem = ({
     }),
   });
 
-  drag(drop(ref));
+  drag(dragRef);
+  drop(preview(previewRef));
 
   return (
-    <Box ref={ref} data-handler-id={handlerId}>
+    <Box ref={previewRef} data-handler-id={handlerId}>
       <HStack spacing="6" fontSize="24px" alignItems="flex-start">
-        <Box color="grey.300" cursor="grab">
+        <Box ref={dragRef} color="grey.300" cursor="grab">
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
