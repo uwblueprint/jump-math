@@ -11,19 +11,18 @@ interface TextElementProps {
 
 const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
-
   const updateQuestionElement = (updatedText: string) => {
     setQuestionElements((prevElements) =>
       prevElements.map((element) => {
         if (element.id === id) {
-          if (updatedText.length > 800) {
-            return {
-              ...element,
-              data: updatedText,
-              error: "There is a limit of 800 characters in the text block.",
-            };
-          }
-          return { ...element, data: updatedText };
+          return {
+            ...element,
+            data: updatedText,
+            error:
+              updatedText.length > 800
+                ? "There is a limit of 800 characters in the text block."
+                : "",
+          };
         }
         return element;
       }),

@@ -51,13 +51,16 @@ const QuestionElementItem = ({
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
-        <Button
-          onClick={removeQuestionElement}
-          as={IconButton}
-          icon={<DeleteOutlineIcon />}
-          color="grey.300"
-          fontSize="24px"
-        />
+        {/* NOTE TO JOYCE: verify hover behaviour with design */}
+        <Box color="grey.300" _hover={{ color: "red.200" }}>
+          <Button
+            onClick={removeQuestionElement}
+            as={IconButton}
+            icon={<DeleteOutlineIcon />}
+            color="currentColor"
+            fontSize="24px"
+          />
+        </Box>
       </HStack>
       {error && <Text color="red.200">{error}</Text>}
     </>
