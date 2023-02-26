@@ -63,7 +63,7 @@ const QuestionElementItem = ({
 
   const removeQuestionElement = () => {
     setQuestionElements((prevElements) =>
-      prevElements.filter((item) => item.id !== id),
+      prevElements.filter((element) => element.id !== id),
     );
   };
 
@@ -101,7 +101,6 @@ const QuestionElementItem = ({
         return;
       }
       reorderQuestionElements(dragIndex, hoverIndex);
-
       /* eslint-disable no-param-reassign */
       item.index = hoverIndex;
     },
@@ -120,14 +119,14 @@ const QuestionElementItem = ({
   drag(dragRef);
   drop(preview(previewRef));
 
+  const opacity = isDragging ? 0 : 1;
   return (
-    <Box ref={previewRef} data-handler-id={handlerId}>
+    <Box ref={previewRef} data-handler-id={handlerId} style={{ opacity }}>
       <HStack spacing="6" fontSize="24px" alignItems="flex-start">
         <Box ref={dragRef} color="grey.300" cursor="grab">
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
-        {/* NOTE TO JOYCE: verify hover behaviour with design */}
         <Box color="grey.300" _hover={{ color: "blue.100" }}>
           <Button
             onClick={removeQuestionElement}

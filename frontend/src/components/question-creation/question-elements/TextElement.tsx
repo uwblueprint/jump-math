@@ -14,9 +14,11 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateQuestionElement = (updatedText: string) => {
     setQuestionElements((prevElements) => {
-      const index = prevElements.findIndex((element) => element.id === id);
+      const indexToUpdate = prevElements.findIndex(
+        (element) => element.id === id,
+      );
       return update(prevElements, {
-        [index]: {
+        [indexToUpdate]: {
           $merge: {
             data: updatedText,
             error:

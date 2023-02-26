@@ -47,7 +47,7 @@ const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
-              elementType={panel.element}
+              type={panel.element}
               key={i}
               icon={panel.icon}
             />
