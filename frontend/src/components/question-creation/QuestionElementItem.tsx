@@ -21,7 +21,7 @@ const renderQuestionContent = (
     case QuestionElementType.QUESTION:
       return <Text key={id}>this is a question element.</Text>;
     case QuestionElementType.TEXT:
-      return <TextElement key={id} setError={setError} />;
+      return <TextElement key={id} id={id} data={data} setError={setError} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
