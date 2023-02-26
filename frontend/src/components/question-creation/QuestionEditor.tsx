@@ -12,7 +12,7 @@ import QuestionElementItem from "./QuestionElementItem";
 const QuestionEditor = (): React.ReactElement => {
   const { questionElements } = useContext(QuestionEditorContext);
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: DragTypes.QUESTION_ELEMENT,
+    accept: DragTypes.QUESTION_SIDEBAR_ITEM,
     drop: () => ({ name: "Question Editor" }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -29,10 +29,11 @@ const QuestionEditor = (): React.ReactElement => {
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&
           questionElements.length &&
-          questionElements.map((questionElement) => (
+          questionElements.map((questionElement, index) => (
             <QuestionElementItem
               key={questionElement.id}
               content={questionElement}
+              index={index}
             />
           ))}
       </VStack>

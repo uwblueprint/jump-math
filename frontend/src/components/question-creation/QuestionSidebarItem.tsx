@@ -33,7 +33,7 @@ const QuestionSidebarItem = ({
   };
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: DragTypes.QUESTION_ELEMENT,
+    type: DragTypes.QUESTION_SIDEBAR_ITEM,
     item: { elementType },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();

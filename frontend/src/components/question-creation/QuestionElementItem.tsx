@@ -1,5 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
+import { useDrag, useDrop } from "react-dnd";
+import type { Identifier, XYCoord } from "dnd-core";
+import update from "immutability-helper";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
@@ -7,9 +10,17 @@ import {
 } from "../../types/QuestionTypes";
 import TextElement from "./question-elements/TextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
+import { DragTypes } from "../../types/DragTypes";
 
 export interface QuestionElementItemProps {
   content: QuestionElement;
+  index: number;
+}
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
 }
 
 const renderQuestionContent = (content: QuestionElement) => {
@@ -34,9 +45,70 @@ const renderQuestionContent = (content: QuestionElement) => {
 
 const QuestionElementItem = ({
   content,
+  index,
 }: QuestionElementItemProps): React.ReactElement => {
   const { id, error } = content;
   const { setQuestionElements } = useContext(QuestionEditorContext);
+
+  const moveCard = (hoverIndex: number, dragIndex: number) => {
+    setQuestionElements((prevElements) =>
+      update(prevElements, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevElements[dragIndex]],
+        ],
+      }),
+    );
+  };
+
+  const ref = useRef<HTMLDivElement>(null);
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
+    accept: DragTypes.QUESTION_ELEMENT_ITEM,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item: DragItem, monitor) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+      moveCard(dragIndex, hoverIndex);
+
+      /* eslint-disable no-param-reassign */
+      item.index = hoverIndex;
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: DragTypes.QUESTION_ELEMENT_ITEM,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const removeQuestionElement = () => {
     setQuestionElements((prevElements) =>
@@ -44,8 +116,9 @@ const QuestionElementItem = ({
     );
   };
 
+  drag(drop(ref));
   return (
-    <>
+    <Box ref={ref} data-handler-id={handlerId}>
       <HStack spacing="6" fontSize="24px" alignItems="flex-start">
         <Box color="grey.300">
           <HamburgerMenuIcon />
@@ -63,7 +136,7 @@ const QuestionElementItem = ({
         </Box>
       </HStack>
       {error && <Text color="red.200">{error}</Text>}
-    </>
+    </Box>
   );
 };
 
