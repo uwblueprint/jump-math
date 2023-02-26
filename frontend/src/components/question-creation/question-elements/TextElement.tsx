@@ -7,32 +7,28 @@ import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 interface TextElementProps {
   id: string;
   data: string;
-  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TextElement = ({
-  id,
-  data,
-  setError,
-}: TextElementProps): React.ReactElement => {
+const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
 
   const updateQuestionElement = (updatedText: string) => {
     setQuestionElements((prevElements) =>
       prevElements.map((element) => {
         if (element.id === id) {
+          if (updatedText.length > 800) {
+            return {
+              ...element,
+              data: updatedText,
+              error: "There is a limit of 800 characters in the text block.",
+            };
+          }
           return { ...element, data: updatedText };
         }
         return element;
       }),
     );
   };
-
-  if (data.length > 800) {
-    setError("There is a limit of 800 characters in the text block.");
-  } else {
-    setError("");
-  }
 
   return (
     <Textarea

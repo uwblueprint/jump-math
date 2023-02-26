@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
@@ -12,16 +12,13 @@ export interface QuestionElementItemProps {
   content: QuestionElement;
 }
 
-const renderQuestionContent = (
-  content: QuestionElement,
-  setError: React.Dispatch<React.SetStateAction<string>>,
-) => {
+const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
     case QuestionElementType.QUESTION:
       return <Text key={id}>this is a question element.</Text>;
     case QuestionElementType.TEXT:
-      return <TextElement key={id} id={id} data={data} setError={setError} />;
+      return <TextElement key={id} id={id} data={data} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
@@ -38,8 +35,7 @@ const renderQuestionContent = (
 const QuestionElementItem = ({
   content,
 }: QuestionElementItemProps): React.ReactElement => {
-  const { id, type, data } = content;
-  const [error, setError] = useState("");
+  const { id, error } = content;
   const { setQuestionElements } = useContext(QuestionEditorContext);
 
   const removeQuestionElement = () => {
@@ -54,7 +50,7 @@ const QuestionElementItem = ({
         <Box color="grey.300">
           <HamburgerMenuIcon />
         </Box>
-        {renderQuestionContent(content, setError)}
+        {renderQuestionContent(content)}
         <Button
           onClick={removeQuestionElement}
           as={IconButton}

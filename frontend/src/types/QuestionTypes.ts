@@ -17,4 +17,5 @@ export type QuestionElement = {
   id: string;
   type: QuestionElementType;
   data: string;
+  error?: string;
 };
