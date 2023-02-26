@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import update from "immutability-helper";
 import { Textarea } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 
@@ -12,21 +13,20 @@ interface TextElementProps {
 const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateQuestionElement = (updatedText: string) => {
-    setQuestionElements((prevElements) =>
-      prevElements.map((element) => {
-        if (element.id === id) {
-          return {
-            ...element,
+    setQuestionElements((prevElements) => {
+      const index = prevElements.findIndex((element) => element.id === id);
+      return update(prevElements, {
+        [index]: {
+          $merge: {
             data: updatedText,
             error:
               updatedText.length > 800
                 ? "There is a limit of 800 characters in the text block."
                 : "",
-          };
-        }
-        return element;
-      }),
-    );
+          },
+        },
+      });
+    });
   };
 
   return (

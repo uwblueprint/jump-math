@@ -1,8 +1,8 @@
 import React, { useContext, useRef } from "react";
+import update from "immutability-helper";
 import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
-import update from "immutability-helper";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
@@ -50,7 +50,7 @@ const QuestionElementItem = ({
   const { id, error } = content;
   const { setQuestionElements } = useContext(QuestionEditorContext);
 
-  const moveCard = (hoverIndex: number, dragIndex: number) => {
+  const reorderQuestionElements = (hoverIndex: number, dragIndex: number) => {
     setQuestionElements((prevElements) =>
       update(prevElements, {
         $splice: [
@@ -58,6 +58,12 @@ const QuestionElementItem = ({
           [hoverIndex, 0, prevElements[dragIndex]],
         ],
       }),
+    );
+  };
+
+  const removeQuestionElement = () => {
+    setQuestionElements((prevElements) =>
+      prevElements.filter((item) => item.id !== id),
     );
   };
 
@@ -93,7 +99,7 @@ const QuestionElementItem = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveCard(dragIndex, hoverIndex);
+      reorderQuestionElements(dragIndex, hoverIndex);
 
       /* eslint-disable no-param-reassign */
       item.index = hoverIndex;
@@ -110,22 +116,17 @@ const QuestionElementItem = ({
     }),
   });
 
-  const removeQuestionElement = () => {
-    setQuestionElements((prevElements) =>
-      prevElements.filter((item) => item.id !== id),
-    );
-  };
-
   drag(drop(ref));
+
   return (
     <Box ref={ref} data-handler-id={handlerId}>
       <HStack spacing="6" fontSize="24px" alignItems="flex-start">
-        <Box color="grey.300">
+        <Box color="grey.300" cursor="grab">
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
         {/* NOTE TO JOYCE: verify hover behaviour with design */}
-        <Box color="grey.300" _hover={{ color: "red.200" }}>
+        <Box color="grey.300" _hover={{ color: "blue.100" }}>
           <Button
             onClick={removeQuestionElement}
             as={IconButton}
