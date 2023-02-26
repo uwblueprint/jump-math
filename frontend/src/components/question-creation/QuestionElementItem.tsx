@@ -86,6 +86,23 @@ const QuestionElementItem = ({
         /* eslint-disable no-param-reassign */
         item.index = hoverIndex;
       }
+<<<<<<< HEAD
+=======
+      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+      reorderQuestionElements(dragIndex, hoverIndex);
+      /* eslint-disable no-param-reassign */
+      item.index = hoverIndex;
+>>>>>>> f3d78e2 (cleanup)
     },
   });
 
