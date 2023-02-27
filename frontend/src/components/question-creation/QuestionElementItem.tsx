@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 import update from "immutability-helper";
-import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
+import { IconButton, Button, Text, HStack, Box } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier } from "dnd-core";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
@@ -117,6 +117,7 @@ const QuestionElementItem = ({
             icon={<DeleteOutlineIcon />}
             color="currentColor"
             fontSize="24px"
+            size="icon"
           />
         </Box>
       </HStack>

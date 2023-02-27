@@ -45,6 +45,10 @@ const Button = {
       },
       margin: "0 10px",
     },
+    icon: {
+      minWidth: "100%",
+      padding: "0px",
+    },
   },
 
   variants: {
