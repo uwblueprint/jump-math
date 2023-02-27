@@ -5,14 +5,17 @@ import ResizeTextarea from "react-textarea-autosize";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 
-interface TextElementProps {
+interface QuestionTextElementProps {
   id: string;
   data: string;
 }
 
-const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
+const QuestionTextElement = ({
+  id,
+  data,
+}: QuestionTextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateQuestionElement = (updatedText: string) => {
+  const updateQuestionElement = (updatedQuestion: string) => {
     setQuestionElements((prevElements) => {
       const indexToUpdate = prevElements.findIndex(
         (element) => element.id === id,
@@ -20,10 +23,10 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
       return update(prevElements, {
         [indexToUpdate]: {
           $merge: {
-            data: updatedText,
+            data: updatedQuestion,
             error:
-              updatedText.length > 800
-                ? "There is a limit of 800 characters in the text block."
+              updatedQuestion.length > 800
+                ? "There is a limit of 800 characters in the question block."
                 : "",
           },
         },
@@ -33,10 +36,10 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
 
   return (
     <Textarea
-      sx={{ fontSize: "18px", fontWeight: "400", lineHeight: "23px" }}
+      sx={{ fontSize: "20px", fontWeight: "500", lineHeight: "26px" }}
       value={data}
       onChange={(e) => updateQuestionElement(e.target.value)}
-      placeholder="This is a text component which can be added for any additional information."
+      placeholder="This is a question component."
       maxLength={801}
       variant="unstyled"
       minH="unset"
@@ -48,4 +51,4 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   );
 };
 
-export default TextElement;
+export default QuestionTextElement;
