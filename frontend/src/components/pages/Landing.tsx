@@ -17,6 +17,7 @@ const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
   const navigateToAdminLogin = () => history.push(Routes.ADMIN_LOGIN);
   const navigateToTeacherLogin = () => history.push(Routes.TEACHER_LOGIN);
+  const navigateToStudentLogin = () => history.push(Routes.STUDENT_LOGIN);
 
   return (
     <VStack gap={1.5} mx={2}>
@@ -34,9 +35,8 @@ const DashboardLinks = (): React.ReactElement => {
       >
         Teacher
       </Button>
-      {/* TODO: change to navigateToStudentPage */}
       <Button
-        onClick={navigateToTeacherLogin}
+        onClick={navigateToStudentLogin}
         width={{ base: "10em", md: "20em" }}
         variant="primary"
       >
