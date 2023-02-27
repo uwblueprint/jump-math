@@ -19,11 +19,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
-
+import SelectFormInput from "../common/SelectFormInput";
 import ModalFooterButtons from "../common/ModalFooterButtons";
 import { PlusOutlineIcon } from "../../assets/icons";
 import { ClassroomForm, ClassroomInput } from "../../types/ClassroomTypes";
-import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 const AddClassroomModal = (): React.ReactElement => {
   const {
@@ -153,7 +152,7 @@ const AddClassroomModal = (): React.ReactElement => {
               <HStack direction="row" mt={6}>
                 <VStack direction="column" align="left" width="320px">
                   <FormLabel color="blue.300">Grade Level</FormLabel>
-                  <SelectFormInputClassroom
+                  <SelectFormInput<ClassroomForm>
                     setValue={setValue}
                     watch={watch}
                     field="gradeLevel"

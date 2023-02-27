@@ -7,35 +7,40 @@ import {
 import React from "react";
 
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { ClassroomInput, ClassroomForm } from "../../types/ClassroomTypes";
+import { ClassroomForm, ClassroomInput } from "../../types/ClassroomTypes";
+import {
+  TeacherInput,
+  TeacherSignupForm,
+} from "../../types/TeacherSignupTypes";
 
 interface Option extends OptionBase {
   label: string;
-  value: string;
+  value: string | boolean;
 }
-interface SelectFormInputClassroomProps {
-  setValue: UseFormSetValue<ClassroomForm>;
-  watch: UseFormWatch<ClassroomForm>;
+
+interface SelectFormProps<T> {
+  setValue: UseFormSetValue<T>;
+  watch: UseFormWatch<T>;
   field: ClassroomInput;
   options: Option[];
   placeholder: string;
-  // resetError: React.Dispatch<React.SetStateAction<boolean>>;
+  resetError?: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchable: boolean;
 }
 
-const SelectFormInputClassroom = ({
+const SelectFormInput = <T,>({
   setValue,
   watch,
   field,
   options,
   placeholder,
-  // resetError,
+  resetError,
   isSearchable,
-}: SelectFormInputClassroomProps): React.ReactElement => {
+}: SelectFormProps<T>): React.ReactElement => {
   const handleChange = (option: SingleValue<Option>) => {
     if (option) {
       setValue(field, option.value);
-      // resetError(false);
+      resetError(false);
     }
   };
   return (
@@ -55,4 +60,4 @@ const SelectFormInputClassroom = ({
   );
 };
 
-export default SelectFormInputClassroom;
+export default SelectFormInput;
