@@ -11,7 +11,10 @@ import {
 } from "../../../testUtils/tests";
 
 import UserService from "../userService";
-import { TestResponseDTO } from "../../interfaces/testService";
+import {
+  TestResponseDTO,
+  CreateTestRequestDTO,
+} from "../../interfaces/testService";
 import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
@@ -69,12 +72,15 @@ describe("mongo testService", (): void => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
 
     // create DTO object to update to
-    const testUpdate = {
+    const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
-      duration: 400,
       admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
+      assessmentType: "End",
+      curriculumCountry: "country",
+      curriculumRegion: "region",
+      status: "Draft",
     };
 
     // update test and assert
@@ -90,12 +96,15 @@ describe("mongo testService", (): void => {
     userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
 
     // create DTO object to update to
-    const testUpdate = {
+    const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
-      duration: 400,
       admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
+      assessmentType: "End",
+      curriculumCountry: "country",
+      curriculumRegion: "region",
+      status: "Draft",
     };
 
     const notFoundId = "62c248c0f79d6c3c9ebbea95";

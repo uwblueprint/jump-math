@@ -10,6 +10,18 @@ const testType = gql`
     SHORT_ANSWER
   }
 
+  enum AssessmentType {
+    Beginning
+    End
+  }
+
+  enum Status {
+    Draft
+    Published
+    Archived
+    Deleted
+  }
+
   input QuestionTextMetadataInput {
     questionText: String!
   }
@@ -88,18 +100,24 @@ const testType = gql`
   type TestResponseDTO {
     id: ID!
     name: String!
-    duration: Int!
     admin: UserDTO!
     questions: [[QuestionComponent]]!
     grade: Int!
+    assessmentType: AssessmentType!
+    curriculumCountry: String!
+    curriculumRegion: String!
+    Status: Status!
   }
 
   input TestRequestDTO {
     name: String!
-    duration: Int!
     admin: ID!
     questions: [[QuestionComponentInput]]!
     grade: Int!
+    assessmentType: AssessmentType!
+    curriculumCountry: String!
+    curriculumRegion: String!
+    status: Status!
   }
 
   extend type Query {
@@ -109,7 +127,7 @@ const testType = gql`
   extend type Mutation {
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
-    deleteTestById(id: ID!): ID
+    deleteTestById(id: ID!): ID!
   }
 `;
 
