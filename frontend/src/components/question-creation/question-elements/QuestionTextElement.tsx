@@ -47,7 +47,7 @@ const QuestionTextElement = ({
 
   return (
     <Flex width="100%">
-      <Text paddingTop="2" paddingRight="1" textStyle="subtitle2">
+      <Text paddingTop="2" paddingRight="2" textStyle="subtitle2">
         {questionLetter}.
       </Text>
       <Textarea

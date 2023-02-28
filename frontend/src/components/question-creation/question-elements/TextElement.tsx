@@ -44,6 +44,7 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
       resize="none"
       minRows={1}
       as={ResizeTextarea}
+      paddingLeft="6"
     />
   );
 };
