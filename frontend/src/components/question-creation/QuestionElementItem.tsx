@@ -11,16 +11,11 @@ import {
 import TextElement from "./question-elements/TextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
+import { compute, DragItem } from "../../utils/QuestionUtils";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
   index: number;
-}
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
 }
 
 const renderQuestionContent = (content: QuestionElement) => {
@@ -86,23 +81,13 @@ const QuestionElementItem = ({
       }
       const dragIndex = item.index;
       const hoverIndex = index;
-      if (dragIndex === hoverIndex) {
-        return;
+      const isReorder = compute(dragIndex, hoverIndex, previewRef, monitor);
+
+      if (isReorder) {
+        reorderQuestionElements(dragIndex, hoverIndex);
+        /* eslint-disable no-param-reassign */
+        item.index = hoverIndex;
       }
-      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-      reorderQuestionElements(dragIndex, hoverIndex);
-      /* eslint-disable no-param-reassign */
-      item.index = hoverIndex;
     },
   });
 
