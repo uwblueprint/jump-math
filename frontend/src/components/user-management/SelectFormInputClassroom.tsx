@@ -19,7 +19,6 @@ interface SelectFormInputClassroomProps {
   field: ClassroomInput;
   options: Option[];
   placeholder: string;
-  // resetError: React.Dispatch<React.SetStateAction<boolean>>;
   isSearchable: boolean;
 }
 
@@ -29,7 +28,6 @@ const SelectFormInputClassroom = ({
   field,
   options,
   placeholder,
-  // resetError,
   isSearchable,
 }: SelectFormInputClassroomProps): React.ReactElement => {
   const handleChange = (option: SingleValue<Option>) => {
@@ -48,22 +46,7 @@ const SelectFormInputClassroom = ({
       placeholder={placeholder}
       selectedOptionStyle="check"
       onChange={handleChange}
-      chakraStyles={{
-        dropdownIndicator: (provided) => ({
-          ...provided,
-          bg: "transparent",
-          px: 2,
-          cursor: "inherit",
-        }),
-        indicatorSeparator: (provided) => ({
-          ...provided,
-          display: "none",
-        }),
-        placeholder: (provided) => ({
-          ...provided,
-          color: "grey.300",
-        }),
-      }}
+      useBasicStyles
       isSearchable={isSearchable}
       errorBorderColor="red.200"
     />
