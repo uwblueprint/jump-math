@@ -18,6 +18,10 @@ const QuestionTextElement = ({
   const { questionElements, setQuestionElements } = useContext(
     QuestionEditorContext,
   );
+
+  const questionCount = questionElements.filter(
+    (element) => element.type === QuestionElementType.QUESTION,
+  ).length;
   const questionLetter = String.fromCharCode(
     "a".charCodeAt(0) +
       (questionElements
@@ -47,9 +51,11 @@ const QuestionTextElement = ({
 
   return (
     <Flex width="100%">
-      <Text paddingTop="2" paddingRight="2" textStyle="subtitle2">
-        {questionLetter}.
-      </Text>
+      {questionCount !== 1 && (
+        <Text paddingTop="2" paddingRight="2" textStyle="subtitle2">
+          {questionLetter}.
+        </Text>
+      )}
       <Textarea
         sx={{ fontSize: "20px", fontWeight: "500", lineHeight: "26px" }}
         value={data}
