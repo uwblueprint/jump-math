@@ -33,6 +33,7 @@ const AddClassroomModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [classNameError, setClassNameError] = React.useState(false);
   const [schoolYearError, setSchoolYearError] = React.useState(false);
+  const [subjectError, setSubjectError] = React.useState(false);
   const [gradeLevelError, setGradeLevelError] = React.useState(false);
   const [showRequestError, setShowRequestError] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
@@ -56,6 +57,9 @@ const AddClassroomModal = (): React.ReactElement => {
       case "gradeLevel":
         setGradeLevelError(false);
         break;
+      case "subject":
+        setSubjectError(false);
+        break;
       default:
         break;
     }
@@ -77,6 +81,11 @@ const AddClassroomModal = (): React.ReactElement => {
       return false;
     }
 
+    if (!watch("subject") || !!errors.subject) {
+      setSubjectError(true);
+      return false;
+    }
+
     return true;
   };
 
@@ -84,6 +93,7 @@ const AddClassroomModal = (): React.ReactElement => {
     setValue("className", "");
     setValue("schoolYear", "");
     setValue("gradeLevel", "");
+    setValue("subject", "");
     setShowRequestError(false);
     setRequestErrorMessage("");
     onClose();
@@ -94,6 +104,7 @@ const AddClassroomModal = (): React.ReactElement => {
       console.log(`Classname: ${watch("className")}`);
       console.log(`School Year: ${watch("schoolYear")}`);
       console.log(`Grade Level: ${watch("gradeLevel")}`);
+      console.log(`Subject: ${watch("subject")}`);
     } else {
       setShowRequestError(true);
       setRequestErrorMessage(
@@ -164,6 +175,27 @@ const AddClassroomModal = (): React.ReactElement => {
                       {
                         value: "grade 2",
                         label: "grade 2",
+                      },
+                    ]}
+                    placeholder="Select Response"
+                    // resetError={setIsCurrentlyTeachingJMError}
+                    isSearchable={false}
+                  />
+                </VStack>
+                <VStack direction="column" align="left" width="320px">
+                  <FormLabel color="blue.300">Subject</FormLabel>
+                  <SelectFormInputClassroom
+                    setValue={setValue}
+                    watch={watch}
+                    field="subject"
+                    options={[
+                      {
+                        value: "math",
+                        label: "math",
+                      },
+                      {
+                        value: "science",
+                        label: "science",
                       },
                     ]}
                     placeholder="Select Response"
