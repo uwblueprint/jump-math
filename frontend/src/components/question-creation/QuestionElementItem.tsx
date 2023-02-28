@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 import update from "immutability-helper";
 import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
-import type { Identifier, XYCoord } from "dnd-core";
+import type { Identifier } from "dnd-core";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
@@ -11,7 +11,7 @@ import {
 import TextElement from "./question-elements/TextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
-import { compute, DragItem } from "../../utils/QuestionUtils";
+import { shouldReorder, DragItem } from "../../utils/QuestionUtils";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
@@ -81,9 +81,7 @@ const QuestionElementItem = ({
       }
       const dragIndex = item.index;
       const hoverIndex = index;
-      const isReorder = compute(dragIndex, hoverIndex, previewRef, monitor);
-
-      if (isReorder) {
+      if (shouldReorder(dragIndex, hoverIndex, previewRef, monitor)) {
         reorderQuestionElements(dragIndex, hoverIndex);
         /* eslint-disable no-param-reassign */
         item.index = hoverIndex;
