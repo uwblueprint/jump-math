@@ -11,17 +11,17 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
   let backgroundColor;
 
   switch (status) {
-    case "Draft": {
+    case "DRAFT": {
       color = "yellow.300";
       backgroundColor = "yellow.50";
       break;
     }
-    case "Published": {
+    case "PUBLISHED": {
       color = "green.400";
       backgroundColor = "green.50";
       break;
     }
-    case "Archived": {
+    case "ARCHIVED": {
       color = "grey.300";
       backgroundColor = "grey.100";
       break;
