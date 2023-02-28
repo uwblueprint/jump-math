@@ -6,8 +6,10 @@ import {
   MultiSelectMetadata,
   ShortAnswerMetadata,
   QuestionComponent,
+  AssessmentType,
+  AssessmentStatus,
 } from "../../models/test.model";
-import { UserDTO, AssessmentStatus, AssessmentType } from "../../types";
+import { UserDTO } from "../../types";
 
 export type TestResponseDTO = {
   /** the unique identifier of the response */
@@ -24,9 +26,9 @@ export type TestResponseDTO = {
   assessmentType: AssessmentType;
   /** the status of the assessment * */
   status: AssessmentStatus;
-  /**the country that the test is to be administered in * */
+  /** the country that the test is to be administered in * */
   curriculumCountry: string;
-  /** the region that the test is to be administered in*/
+  /** the region that the test is to be administered in */
   curriculumRegion: string;
 };
 

@@ -2,7 +2,10 @@ import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
 
-import MgTest from "../../../models/test.model";
+import MgTest, {
+  AssessmentStatus,
+  AssessmentType,
+} from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
   mockTest,
@@ -77,10 +80,10 @@ describe("mongo testService", (): void => {
       admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
-      assessmentType: "End",
+      assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
-      status: "Draft",
+      status: AssessmentStatus.DRAFT,
     };
 
     // update test and assert
@@ -101,10 +104,10 @@ describe("mongo testService", (): void => {
       admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
-      assessmentType: "End",
+      assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
-      status: "Draft",
+      status: AssessmentStatus.DRAFT,
     };
 
     const notFoundId = "62c248c0f79d6c3c9ebbea95";

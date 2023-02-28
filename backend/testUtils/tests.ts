@@ -1,4 +1,9 @@
-import { QuestionComponent, QuestionComponentType } from "../models/test.model";
+import {
+  QuestionComponent,
+  QuestionComponentType,
+  AssessmentStatus,
+  AssessmentType,
+} from "../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
@@ -81,10 +86,10 @@ export const mockTest: CreateTestRequestDTO = {
   admin: "62c248c0f79d6c3c9ebbea94",
   questions,
   grade: 11,
-  assessmentType: "BEGINNING",
+  assessmentType: AssessmentType.BEGINNING,
   curriculumCountry: "country",
   curriculumRegion: "region",
-  status: "DRAFT",
+  status: AssessmentStatus.DRAFT,
 };
 
 export const mockTestArray: Array<CreateTestRequestDTO> = [
@@ -93,30 +98,30 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
     admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
-    assessmentType: "END",
+    assessmentType: AssessmentType.END,
     curriculumCountry: "country1",
     curriculumRegion: "region1",
-    status: "DRAFT",
+    status: AssessmentStatus.DRAFT,
   },
   {
     name: "test2",
     admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
-    assessmentType: "END",
+    assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
     curriculumRegion: "region1",
-    status: "DRAFT",
+    status: AssessmentStatus.DRAFT,
   },
   {
     name: "test3",
     admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
-    assessmentType: "BEGINNING",
+    assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
     curriculumRegion: "region2",
-    status: "DRAFT",
+    status: AssessmentStatus.DRAFT,
   },
 ];
 
@@ -139,10 +144,10 @@ export const assertResponseMatchesExpected = (
   expect(result.id).not.toBeNull();
   expect(result.name).toEqual(expected.name);
   expect(result.admin).toEqual(mockAdmin);
-  expect(result.assessmentType).toEqual(expected.assessmentType);
+  expect(result.assessmentType).toEqual(expected.assessmentType.toString());
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
-  expect(result.status).toEqual(expected.status);
+  expect(result.status).toEqual(expected.status.toString());
 
   result.questions.forEach((questionComponents: QuestionComponent[], i) => {
     const expectedQuestion: QuestionComponent[] = expected.questions[i];

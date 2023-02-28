@@ -10,12 +10,12 @@ const testType = gql`
     SHORT_ANSWER
   }
 
-  enum AssessmentType {
+  enum AssessmentTypeEnum {
     BEGINNING
     END
   }
 
-  enum Status {
+  enum StatusEnum {
     DRAFT
     PUBLISHED
     ARCHIVED
@@ -103,10 +103,10 @@ const testType = gql`
     admin: UserDTO!
     questions: [[QuestionComponent]]!
     grade: Int!
-    assessmentType: AssessmentType!
+    assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!
-    Status: Status!
+    status: StatusEnum!
   }
 
   input TestRequestDTO {
@@ -114,10 +114,10 @@ const testType = gql`
     admin: ID!
     questions: [[QuestionComponentInput]]!
     grade: Int!
-    assessmentType: AssessmentType!
+    assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!
-    status: Status!
+    status: StatusEnum!
   }
 
   extend type Query {
