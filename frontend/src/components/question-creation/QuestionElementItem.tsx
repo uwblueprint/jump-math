@@ -12,7 +12,7 @@ import TextElement from "./question-elements/TextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
 
-export interface QuestionElementItemProps {
+interface QuestionElementItemProps {
   content: QuestionElement;
   index: number;
 }
