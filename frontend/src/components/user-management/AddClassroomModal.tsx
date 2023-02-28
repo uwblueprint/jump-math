@@ -111,7 +111,7 @@ const AddClassroomModal = (): React.ReactElement => {
         my={2}
         onClick={onOpen}
       >
-        Add Classroom
+        Add New Classroom
       </Button>
       <Modal isOpen={isOpen} onClose={onModalClose} size="3xl" isCentered>
         <ModalOverlay />
@@ -136,7 +136,7 @@ const AddClassroomModal = (): React.ReactElement => {
                   <Input
                     type="text"
                     value={watch("className")}
-                    placeholder="Class Name"
+                    placeholder="Type in Class Name"
                     onChange={(e) => handleChange(e, "className")}
                   />
                 </VStack>
@@ -145,7 +145,7 @@ const AddClassroomModal = (): React.ReactElement => {
                   <Input
                     type="text"
                     value={watch("schoolYear")}
-                    placeholder="School Year"
+                    placeholder="Type in School Year"
                     onChange={(e) => handleChange(e, "schoolYear")}
                   />
                 </VStack>
@@ -167,7 +167,7 @@ const AddClassroomModal = (): React.ReactElement => {
                         label: "grade 2",
                       },
                     ]}
-                    placeholder="Select Response"
+                    placeholder="Choose a Grade Level"
                     isSearchable={false}
                   />
                 </VStack>
