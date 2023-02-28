@@ -6,7 +6,6 @@ export interface Class extends Document {
   grade_level: string;
   teacher: string;
   test_sessions: [string];
-  students: [string];
 }
 
 const ClassSchema: Schema = new Schema({
@@ -28,11 +27,6 @@ const ClassSchema: Schema = new Schema({
   },
   test_sessions: {
     type: [String],
-    required: true,
-  },
-  students: {
-    type: [String],
-    required: true,
   },
 });
 
