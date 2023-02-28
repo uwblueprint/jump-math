@@ -8,7 +8,7 @@ export interface DragItem {
   type: string;
 }
 
-export const compute = (
+export const shouldReorder = (
   dragIndex: number,
   hoverIndex: number,
   previewRef: React.RefObject<HTMLDivElement>,
@@ -22,16 +22,13 @@ export const compute = (
     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
     const clientOffset = monitor.getClientOffset();
     const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
     if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
       return false;
     }
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
       return false;
     }
-
     return true;
   }
-
   return false;
 };
