@@ -168,7 +168,6 @@ const AddClassroomModal = (): React.ReactElement => {
                       },
                     ]}
                     placeholder="Select Response"
-                    // resetError={setIsCurrentlyTeachingJMError}
                     isSearchable={false}
                   />
                 </VStack>

@@ -33,7 +33,6 @@ const SelectFormInputClassroom = ({
   const handleChange = (option: SingleValue<Option>) => {
     if (option) {
       setValue(field, option.value);
-      // resetError(false);
     }
   };
   return (
