@@ -51,10 +51,6 @@ export type AuthDTO = Token & UserDTO;
 
 export type Letters = "A" | "B" | "C" | "D";
 
-export type AssessmentType = "Beginning" | "End";
-
-export type AssessmentStatus = "Draft" | "Published" | "Archived" | "Deleted";
-
 export type NodemailerConfig = {
   service: "gmail";
   auth: {

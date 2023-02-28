@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { questionsValidator } from "../middlewares/validators/testValidators";
-import { AssessmentStatus, AssessmentType } from "../types";
 /**
  * An enum containing the types of components that can be added to a question
  */
@@ -13,6 +12,17 @@ export enum QuestionComponentType {
   SHORT_ANSWER,
 }
 
+export enum AssessmentType {
+  BEGINNING,
+  END,
+}
+
+export enum AssessmentStatus {
+  DRAFT,
+  PUBLISHED,
+  ARCHIVED,
+  DELETED,
+}
 export type QuestionComponentMetadata =
   | QuestionTextMetadata
   | TextMetadata
@@ -136,12 +146,12 @@ const TestSchema: Schema = new Schema(
     assessmentType: {
       type: String,
       required: true,
-      enum: ["Beginning", "End"],
+      enum: ["BEGINNING", "END"],
     },
     status: {
       type: String,
       required: true,
-      enum: ["Draft", "Published", "Archived", "Deleted"],
+      enum: ["DRAFT", "PUBLISHED", "ARCHIVED", "DELETED"],
     },
   },
   { timestamps: { createdAt: false, updatedAt: true } },

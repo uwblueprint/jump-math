@@ -11,15 +11,15 @@ const testType = gql`
   }
 
   enum AssessmentType {
-    Beginning
-    End
+    BEGINNING
+    END
   }
 
   enum Status {
-    Draft
-    Published
-    Archived
-    Deleted
+    DRAFT
+    PUBLISHED
+    ARCHIVED
+    DELETED
   }
 
   input QuestionTextMetadataInput {
