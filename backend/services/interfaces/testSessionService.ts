@@ -125,7 +125,6 @@ export interface ITestSessionService {
    * @throws Error if retrieval fails
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
-
   /*
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
