@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormControl,
   Input,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -43,10 +44,16 @@ const ShortAnswerElementModal = (): React.ReactElement => {
   };
 
   const [answer, setAnswer] = useState("");
+  const [error, setError] = useState(false);
 
   const handleSubmit = () => {
-    addShortAnswerElement(answer);
-    closeModal();
+    if (answer) {
+      setError(false);
+      addShortAnswerElement(answer);
+      closeModal();
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -59,7 +66,7 @@ const ShortAnswerElementModal = (): React.ReactElement => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={error}>
               <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
                 Enter correct answer
               </FormLabel>
@@ -69,6 +76,9 @@ const ShortAnswerElementModal = (): React.ReactElement => {
                 type="number"
                 width="50%"
               />
+              <FormErrorMessage>
+                Enter a value before confirming.
+              </FormErrorMessage>
             </FormControl>
           </ModalBody>
           <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
