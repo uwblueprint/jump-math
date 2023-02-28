@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import update from "immutability-helper";
 import { Textarea } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
 interface TextElementProps {
   id: string;
@@ -12,22 +12,10 @@ interface TextElementProps {
 
 const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateQuestionElement = (updatedText: string) => {
+  const error = "There is a limit of 800 characters in the text block.";
+  const updateQuestionTextElement = (updatedText: string) => {
     setQuestionElements((prevElements) => {
-      const indexToUpdate = prevElements.findIndex(
-        (element) => element.id === id,
-      );
-      return update(prevElements, {
-        [indexToUpdate]: {
-          $merge: {
-            data: updatedText,
-            error:
-              updatedText.length > 800
-                ? "There is a limit of 800 characters in the text block."
-                : "",
-          },
-        },
-      });
+      return updatedQuestionElement(id, updatedText, error, prevElements);
     });
   };
 
@@ -35,7 +23,7 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
     <Textarea
       sx={{ fontSize: "18px", fontWeight: "400", lineHeight: "23px" }}
       value={data}
-      onChange={(e) => updateQuestionElement(e.target.value)}
+      onChange={(e) => updateQuestionTextElement(e.target.value)}
       placeholder="This is a text component which can be added for any additional information."
       maxLength={801}
       variant="unstyled"

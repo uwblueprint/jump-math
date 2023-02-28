@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import update from "immutability-helper";
 import { Flex, Text, Textarea } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElementType } from "../../../types/QuestionTypes";
+import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
 interface QuestionTextElementProps {
   id: string;
@@ -30,22 +30,10 @@ const QuestionTextElement = ({
         26),
   );
 
+  const error = "There is a limit of 800 characters in the question block.";
   const updateQuestionElement = (updatedQuestion: string) => {
     setQuestionElements((prevElements) => {
-      const indexToUpdate = prevElements.findIndex(
-        (element) => element.id === id,
-      );
-      return update(prevElements, {
-        [indexToUpdate]: {
-          $merge: {
-            data: updatedQuestion,
-            error:
-              updatedQuestion.length > 800
-                ? "There is a limit of 800 characters in the question block."
-                : "",
-          },
-        },
-      });
+      return updatedQuestionElement(id, updatedQuestion, error, prevElements);
     });
   };
 
