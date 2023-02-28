@@ -13,6 +13,7 @@ import QuestionTextElement from "./question-elements/QuestionTextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes, DragQuestionItem } from "../../types/DragTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
+import ShortAnswerElement from "./question-elements/ShortAnswerElement";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
@@ -31,7 +32,7 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.MULTIPLE_CHOICE:
       return <Text key={id}>this is a multiple choice element.</Text>;
     case QuestionElementType.SHORT_ANSWER:
-      return <Text key={id}>this is a short answer element.</Text>;
+      return <ShortAnswerElement key={id} id={id} data={data} />;
     case QuestionElementType.MULTI_SELECT:
       return <Text key={id}>this is a multi select element.</Text>;
     default:
