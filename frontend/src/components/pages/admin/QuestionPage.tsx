@@ -18,10 +18,7 @@ const QuestionPage = (): React.ReactElement => {
   return (
     <DndProvider backend={HTML5Backend}>
       <QuestionEditorContext.Provider
-        value={{
-          questionElements,
-          setQuestionElements,
-        }}
+        value={{ questionElements, setQuestionElements }}
       >
         <Flex minHeight="100vh">
           <QuestionSidebar backPage={HOME_PAGE} />
