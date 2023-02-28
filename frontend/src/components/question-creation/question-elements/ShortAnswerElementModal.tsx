@@ -17,9 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import ModalText from "../../common/ModalText";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import QuestionEditor from "../QuestionEditor";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 
 const ShortAnswerElementModal = (): React.ReactElement => {
@@ -55,26 +53,35 @@ const ShortAnswerElementModal = (): React.ReactElement => {
     <>
       <Modal isOpen={showShortAnswerModal} onClose={closeModal} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent minWidth="42vw">
           <ModalHeader>
             <Text textStyle="subtitle2">Create multi-select question</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel color="grey.300">Enter correct answer</FormLabel>
+              <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
+                Enter correct answer
+              </FormLabel>
               <Input
                 placeholder="Input Field"
                 onChange={(e) => setAnswer(e.target.value)}
+                type="number"
+                width="50%"
               />
             </FormControl>
           </ModalBody>
           <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
           <ModalFooter>
-            <Button variant="secondary" onClick={closeModal}>
+            <Button
+              variant="secondary"
+              onClick={closeModal}
+              minWidth="10%"
+              mr={2}
+            >
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button variant="primary" onClick={handleSubmit} minWidth="10%">
               Confirm
             </Button>
           </ModalFooter>
