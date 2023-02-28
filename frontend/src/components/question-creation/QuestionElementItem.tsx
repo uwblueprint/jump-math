@@ -122,7 +122,7 @@ const QuestionElementItem = ({
           />
         </Box>
       </HStack>
-      {error && <Text color="blue.200">{error}</Text>}
+      {error && <Text color="red.200">{error}</Text>}
     </Box>
   );
 };
