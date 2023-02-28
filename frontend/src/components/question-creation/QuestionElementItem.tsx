@@ -12,6 +12,7 @@ import TextElement from "./question-elements/TextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
 import { shouldReorder, DragItem } from "../../utils/QuestionUtils";
+import ShortAnswerElement from "./question-elements/ShortAnswerElement";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
@@ -121,7 +122,7 @@ const QuestionElementItem = ({
           />
         </Box>
       </HStack>
-      {error && <Text color="red.200">{error}</Text>}
+      {error && <Text color="blue.200">{error}</Text>}
     </Box>
   );
 };
