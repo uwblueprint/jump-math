@@ -26,7 +26,7 @@ export type TestResponseDTO = {
   status: AssessmentStatus;
   /** the country of the test* */
   curriculumCountry: string;
-  /** the region of the test */
+  /** the region that the test is to be administered in*/
   curriculumRegion: string;
 };
 
