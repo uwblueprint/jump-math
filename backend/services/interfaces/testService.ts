@@ -24,9 +24,9 @@ export type TestResponseDTO = {
   grade: number;
   /** the type of assessment */
   assessmentType: AssessmentType;
-  /** the status of the assessment * */
+  /** the status of the assessment */
   status: AssessmentStatus;
-  /** the country that the test is to be administered in * */
+  /** the country that the test is to be administered in */
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
@@ -60,11 +60,11 @@ export type TestRequestDTO = {
   grade: number;
   /** the type of assessment */
   assessmentType: AssessmentType;
-  /** the status of the assessment * */
+  /** the status of the assessment */
   status: AssessmentStatus;
-  /** the country of the test* */
+  /** the country that the test is to be administered in */
   curriculumCountry: string;
-  /** the region of the test */
+  /** the region that the test is to be administered in */
   curriculumRegion: string;
 };
 

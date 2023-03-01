@@ -127,7 +127,7 @@ const testType = gql`
   extend type Mutation {
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
-    deleteTestById(id: ID!): ID!
+    deleteTestById(id: ID!): ID
   }
 `;
 

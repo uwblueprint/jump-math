@@ -108,11 +108,11 @@ export interface Test extends Document {
   grade: number;
   /** the type of assessment */
   assessmentType: AssessmentType;
-  /** the status of the assessment * */
+  /** the status of the assessment */
   status: AssessmentStatus;
-  /** the country of the test* */
+  /** the country that the test is to be administered in */
   curriculumCountry: string;
-  /** the region of the test */
+  /** the region that the test is to be administered in */
   curriculumRegion: string;
 }
 
