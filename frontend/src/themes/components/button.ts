@@ -66,16 +66,6 @@ const Button = {
   },
 
   variants: {
-    startTest: {
-      backgroundColor: "blue.300",
-      color: "grey.50",
-    },
-
-    backHome: {
-      backgroundColor: "blue.50",
-      color: "blue.300",
-    },
-
     paginationNavigate: {
       bg: "transparent",
       color: "grey.300",

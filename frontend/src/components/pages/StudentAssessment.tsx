@@ -47,29 +47,59 @@ const OutterBox: React.FC<BoxProps> = ({ children, top, left }) => (
   </Box>
 );
 
-type AssessmentSummaryProps = {
-  numOfQuestions: number;
-  totalPoints: string;
-  questionTypes: string[];
-  rules: string;
-  questionText: string;
-  totalPointsText: string;
-  questionTypesText: string;
-  startTime: string;
-  test: string;
+const assessmentMetadata = {
+  numOfQuestions: 12,
+  totalPoints: "50 + 1 (Bonus)",
+  questionTypes: ["Multiple choice", "Multi-Select", "Short Answer"],
+  rules:
+    "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
+  questionText: "Number of Questions",
+  totalPointsText: "Total Points",
+  questionTypesText: "Question Types",
+  startTime: "Start Time: September 15, 2022 at 2:00pm",
+  test: "Unit 0 Review Test",
 };
 
-const AssessmentSummary = ({
-  numOfQuestions = 12,
-  totalPoints = "50 + 1 (Bonus)",
-  questionTypes = ["Multiple choice", "Multi-Select", "Short Answer"],
-  rules = "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
-  questionText = "Number of Questions",
-  totalPointsText = "Total Points",
-  questionTypesText = "Question Types",
-  startTime = "Start Time: September 15, 2022 at 2:00pm",
-  test = "Unit 0 Review Test",
-}: AssessmentSummaryProps): React.ReactElement => {
+const questionTypeImages = assessmentMetadata.questionTypes.map(
+  (type, index) => {
+    switch (type) {
+      case "Multiple choice":
+        return (
+          <InnerBox key={index} top="190px" left={`${35 + index * 147}px`}>
+            <img
+              src={MULTI_CHOICE.src}
+              alt="multi-choice"
+              style={{ width: "65px", marginTop: "17px", marginLeft: "15px" }}
+            />
+          </InnerBox>
+        );
+      case "Multi-Select":
+        return (
+          <InnerBox key={index} top="190px" left={`${35 + index * 140}px`}>
+            <img
+              src={MULTI_SELECT.src}
+              alt="multi-select"
+              style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
+            />
+          </InnerBox>
+        );
+      case "Short Answer":
+        return (
+          <InnerBox key={index} top="190px" left={`${35 + index * 144}px`}>
+            <img
+              src={SHORT_ANSWER.src}
+              alt="short-answer"
+              style={{ width: "60px", marginTop: "20px", marginLeft: "18px" }}
+            />
+          </InnerBox>
+        );
+      default:
+        return null;
+    }
+  },
+);
+
+const AssessmentSummary = (): React.ReactElement => {
   return (
     <ChakraProvider theme={theme}>
       <img
@@ -85,11 +115,11 @@ const AssessmentSummary = ({
           color: "#154472",
         }}
       >
-        {test}
+        {assessmentMetadata.test}
         <Text
           style={{ fontSize: "18px", color: "#154472", fontWeight: "normal" }}
         >
-          {startTime}
+          {assessmentMetadata.startTime}
         </Text>
       </Text>
       <OutterBox top="140px" left="300px">
@@ -105,15 +135,19 @@ const AssessmentSummary = ({
         </Text>
         <Text>
           <Stack direction="row" pos="absolute" top="75px" fontSize="14px">
-            <Text>{questionText}</Text>
-            <Text style={{ marginLeft: "260px" }}>{numOfQuestions}</Text>
+            <Text>{assessmentMetadata.questionText}</Text>
+            <Text style={{ marginLeft: "260px" }}>
+              {assessmentMetadata.numOfQuestions}
+            </Text>
           </Stack>
           <Stack direction="row" pos="absolute" top="100px" fontSize="14px">
-            <Text>{totalPointsText}</Text>
-            <Text style={{ marginLeft: "250px" }}>{totalPoints} </Text>
+            <Text>{assessmentMetadata.totalPointsText}</Text>
+            <Text style={{ marginLeft: "250px" }}>
+              {assessmentMetadata.totalPoints}{" "}
+            </Text>
           </Stack>
           <Stack pos="absolute" top="150px" fontSize="14px">
-            <Text>{questionTypesText}:</Text>
+            <Text>{assessmentMetadata.questionTypesText}:</Text>
           </Stack>
           <Stack
             direction="row"
@@ -122,32 +156,16 @@ const AssessmentSummary = ({
             left="42px"
             fontSize="14px"
           >
-            <Text>{questionTypes[0]}</Text>
-            <Text style={{ marginLeft: "59px" }}>{questionTypes[1]} </Text>
-            <Text style={{ marginLeft: "66px" }}>{questionTypes[2]} </Text>
+            <Text>{assessmentMetadata.questionTypes[0]}</Text>
+            <Text style={{ marginLeft: "59px" }}>
+              {assessmentMetadata.questionTypes[1]}{" "}
+            </Text>
+            <Text style={{ marginLeft: "66px" }}>
+              {assessmentMetadata.questionTypes[2]}{" "}
+            </Text>
           </Stack>
         </Text>
-        <InnerBox top="190px" left="35px">
-          <img
-            src={MULTI_CHOICE.src}
-            alt="multi-choice"
-            style={{ width: "65px", marginTop: "17px", marginLeft: "15px" }}
-          />
-        </InnerBox>
-        <InnerBox top="190px" left="182px">
-          <img
-            src={MULTI_SELECT.src}
-            alt="multi-select"
-            style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
-          />
-        </InnerBox>
-        <InnerBox top="190px" left="330px">
-          <img
-            src={SHORT_ANSWER.src}
-            alt="short-answer"
-            style={{ width: "60px", marginTop: "20px", marginLeft: "18px" }}
-          />
-        </InnerBox>
+        <Stack direction="row">{questionTypeImages}</Stack>
       </OutterBox>
       <OutterBox top="140px" left="825px">
         <Stack pos="absolute" fontSize="14px">
@@ -162,7 +180,7 @@ const AssessmentSummary = ({
             Rules
           </Text>
           <Stack>
-            {rules.split("\n").map((line, index) => (
+            {assessmentMetadata.rules.split("\n").map((line, index) => (
               <Text key={index} style={{ marginBottom: "10px" }}>
                 {line}
               </Text>
@@ -170,13 +188,14 @@ const AssessmentSummary = ({
           </Stack>
         </Stack>
       </OutterBox>
-      <Button type="button" size="startTest" variant="startTest">
+      <Button type="button" size="startTest" variant="primary">
         Start Test
       </Button>
-      <Button type="button" size="backHome" variant="backHome">
+      <Button type="button" size="backHome" variant="secondary">
         Back to Home
       </Button>
     </ChakraProvider>
   );
 };
+
 export default AssessmentSummary;

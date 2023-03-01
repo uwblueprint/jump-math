@@ -5,7 +5,6 @@ import {
   Redirect,
   Route,
   Switch,
-  Link,
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
