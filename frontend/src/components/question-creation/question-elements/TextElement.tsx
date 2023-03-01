@@ -1,29 +1,49 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import update from "immutability-helper";
 import { Textarea } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
-import QuestionElement from "../QuestionElement";
 
-const TextElement = (): React.ReactElement => {
-  const [text, setText] = useState("");
-  const error = "There is a limit of 800 characters in the text block.";
+import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+
+interface TextElementProps {
+  id: string;
+  data: string;
+}
+
+const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
+  const { setQuestionElements } = useContext(QuestionEditorContext);
+  const updateQuestionElement = (updatedText: string) => {
+    setQuestionElements((prevElements) => {
+      const indexToUpdate = prevElements.findIndex(
+        (element) => element.id === id,
+      );
+      return update(prevElements, {
+        [indexToUpdate]: {
+          $merge: {
+            data: updatedText,
+            error:
+              updatedText.length > 800
+                ? "There is a limit of 800 characters in the text block."
+                : "",
+          },
+        },
+      });
+    });
+  };
 
   return (
-    <>
-      <QuestionElement error={text.length > 800 ? error : ""}>
-        <Textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="This is a text component which can be added for any additional information."
-          maxLength={801}
-          variant="unstyled"
-          minH="unset"
-          overflow="hidden"
-          resize="none"
-          minRows={1}
-          as={ResizeTextarea}
-        />
-      </QuestionElement>
-    </>
+    <Textarea
+      value={data}
+      onChange={(e) => updateQuestionElement(e.target.value)}
+      placeholder="This is a text component which can be added for any additional information."
+      maxLength={801}
+      variant="unstyled"
+      minH="unset"
+      overflow="hidden"
+      resize="none"
+      minRows={1}
+      as={ResizeTextarea}
+    />
   );
 };
 

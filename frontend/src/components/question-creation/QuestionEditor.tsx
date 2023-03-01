@@ -1,45 +1,18 @@
-import React from "react";
-import { Text, Box, VStack } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
 
 import WelcomeMessage from "./WelcomeMessage";
 import HoverMessage from "./HoverMessage";
-import TextElement from "./question-elements/TextElement";
 
-import { QuestionElement } from "../../types/QuestionTypes";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
+import QuestionElementItem from "./QuestionElementItem";
 
-interface QuestionEditorProps {
-  questionElements: QuestionElement[];
-}
-
-const renderQuestionElement = (
-  questionElement: QuestionElement,
-  index: number,
-) => {
-  switch (questionElement) {
-    case QuestionElement.QUESTION:
-      return <Text key={index}>this is a question element.</Text>;
-    case QuestionElement.TEXT:
-      return <TextElement key={index} />;
-    case QuestionElement.IMAGE:
-      return <Text key={index}>this is an image element.</Text>;
-    case QuestionElement.MULTIPLE_CHOICE:
-      return <Text key={index}>this is a multiple choice element.</Text>;
-    case QuestionElement.SHORT_ANSWER:
-      return <Text key={index}>this is a short answer element.</Text>;
-    case QuestionElement.MULTI_SELECT:
-      return <Text key={index}>this is a multi select element.</Text>;
-    default:
-      return null;
-  }
-};
-
-const QuestionEditor = ({
-  questionElements,
-}: QuestionEditorProps): React.ReactElement => {
+const QuestionEditor = (): React.ReactElement => {
+  const { questionElements } = useContext(QuestionEditorContext);
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: DragTypes.QUESTION_ELEMENT,
+    accept: DragTypes.QUESTION_SIDEBAR_ITEM,
     drop: () => ({ name: "Question Editor" }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -56,9 +29,13 @@ const QuestionEditor = ({
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&
           questionElements.length &&
-          questionElements.map((questionElement, index) =>
-            renderQuestionElement(questionElement, index),
-          )}
+          questionElements.map((questionElement, index) => (
+            <QuestionElementItem
+              key={questionElement.id}
+              content={questionElement}
+              index={index}
+            />
+          ))}
       </VStack>
     </Box>
   );
