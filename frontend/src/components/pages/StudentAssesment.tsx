@@ -97,9 +97,9 @@ const AssessmentSummary = ({
           </Stack>
 
           <Stack direction="row" pos="absolute" top="100px" fontSize="14px">
-            <div>{questionTypes[0]}</div>
-            <div style={{ marginLeft: "15px" }}>{questionTypes[1]} </div>
-            <div style={{ marginLeft: "15px" }}>{questionTypes[2]} </div>
+            <div>{questionTypes}</div>
+            <div style={{ marginLeft: "15px" }}>{questionTypes} </div>
+            <div style={{ marginLeft: "15px" }}>{questionTypes} </div>
           </Stack>
         </div>
 
