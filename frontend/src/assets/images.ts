@@ -17,3 +17,9 @@ export const TEACHER_SIGNUP_IMAGE: ImageType = {
     "https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png",
   alt: "teacher-signup",
 };
+
+export const STUDENT_SIGNUP_IMAGE: ImageType = {
+  src:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/student-signup.png",
+  alt: "student-signup",
+};

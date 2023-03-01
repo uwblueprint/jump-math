@@ -75,33 +75,6 @@ export const PlusOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const ColumnIcon = (): React.ReactElement => (
-  <Icon viewBox="0 0 88 88" boxSize="5em">
-    <rect opacity="0.2" width="88" height="88" fill="#A1B4C7" />
-    <rect
-      x="45.5"
-      y="79.5"
-      width="67"
-      height="19"
-      transform="rotate(-90 45.5 79.5)"
-      fill="#C4C4C4"
-      fillOpacity="0.2"
-      stroke="black"
-      strokeDasharray="2 2"
-    />
-    <rect
-      x="21.5"
-      y="79.5"
-      width="67"
-      height="19"
-      transform="rotate(-90 21.5 79.5)"
-      fill="#C4C4C4"
-      stroke="black"
-      strokeDasharray="2 2"
-    />
-  </Icon>
-);
-
 export const QuestionIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 88 88" boxSize="5em">
     <rect opacity="0.2" width="88" height="88" fill="#A1B4C7" />
@@ -364,6 +337,15 @@ export const MultiSelectTagIcon = (): React.ReactElement => (
     <path
       fill="currentColor"
       d="M14.7 8.39l-3.78 5-1.63-2.11a1 1 0 0 0-1.58 1.23l2.43 3.11a1 1 0 0 0 .79.38 1 1 0 0 0 .79-.39l4.57-6a1 1 0 1 0-1.6-1.22z"
+    />
+  </Icon>
+);
+
+export const LeftArrowIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M19 11H7.14l3.63-4.36a1 1 0 1 0-1.54-1.28l-5 6a1.19 1.19 0 0 0-.09.15c0 .05 0 .08-.07.13A1 1 0 0 0 4 12a1 1 0 0 0 .07.36c0 .05 0 .08.07.13a1.19 1.19 0 0 0 .09.15l5 6A1 1 0 0 0 10 19a1 1 0 0 0 .64-.23 1 1 0 0 0 .13-1.41L7.14 13H19a1 1 0 0 0 0-2z"
     />
   </Icon>
 );

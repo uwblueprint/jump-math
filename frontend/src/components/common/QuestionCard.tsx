@@ -12,7 +12,7 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import QuestionTag from "./QuestionTag";
-import QuestionType from "../../types/QuestionTypes";
+import { QuestionType } from "../../types/QuestionTypes";
 import {
   EditOutlineIcon,
   DeleteOutlineIcon,
