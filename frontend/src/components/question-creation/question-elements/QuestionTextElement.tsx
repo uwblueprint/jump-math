@@ -30,7 +30,7 @@ const QuestionTextElement = ({
         26),
   );
 
-  const updateQuestionElement = (updatedQuestion: string) => {
+  const updateQuestionTextElement = (updatedQuestion: string) => {
     const error =
       updatedQuestion.length > 800
         ? "There is a limit of 800 characters in the question block."
@@ -50,7 +50,7 @@ const QuestionTextElement = ({
       <Textarea
         size="question"
         value={data}
-        onChange={(e) => updateQuestionElement(e.target.value)}
+        onChange={(e) => updateQuestionTextElement(e.target.value)}
         placeholder="This is a question component."
         maxLength={801}
         variant="unstyled"
