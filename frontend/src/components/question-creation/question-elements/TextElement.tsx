@@ -13,7 +13,7 @@ interface TextElementProps {
 const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const error = "There is a limit of 800 characters in the text block.";
-  const updateQuestionTextElement = (updatedText: string) => {
+  const updateTextElement = (updatedText: string) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedText, error, prevElements);
     });
@@ -23,7 +23,7 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
     <Textarea
       sx={{ fontSize: "18px", fontWeight: "400", lineHeight: "23px" }}
       value={data}
-      onChange={(e) => updateQuestionTextElement(e.target.value)}
+      onChange={(e) => updateTextElement(e.target.value)}
       placeholder="This is a text component which can be added for any additional information."
       maxLength={801}
       variant="unstyled"
