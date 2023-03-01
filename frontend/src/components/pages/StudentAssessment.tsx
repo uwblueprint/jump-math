@@ -9,13 +9,19 @@ import {
 } from "../../assets/images";
 import theme from "../../themes";
 
-type CustomBoxProps = {
+type InnerBoxProps = {
   children: React.ReactNode;
   marginTop?: string;
   marginLeft?: string;
 };
 
-const CustomBox: React.FC<CustomBoxProps> = ({
+type OutterBoxProps = {
+  children: React.ReactNode;
+  top?: string;
+  left?: string;
+};
+
+const InnerBox: React.FC<InnerBoxProps> = ({
   children,
   marginTop,
   marginLeft,
@@ -30,6 +36,22 @@ const CustomBox: React.FC<CustomBoxProps> = ({
     height="115px"
     marginTop={marginTop}
     marginLeft={marginLeft}
+  >
+    {children}
+  </Box>
+);
+
+const OutterBox: React.FC<OutterBoxProps> = ({ children, top, left }) => (
+  <Box
+    backgroundColor="rgba(232, 237, 241, 0.3)"
+    borderRadius="10px"
+    position="absolute"
+    padding="32px"
+    gap="40px"
+    width="480px"
+    height="376px"
+    top={top}
+    left={left}
   >
     {children}
   </Box>
@@ -81,17 +103,7 @@ const AssessmentSummary = ({
           {startTime}
         </Text>
       </Text>
-      <Box
-        backgroundColor="rgba(232, 237, 241, 0.3)"
-        borderRadius="10px"
-        position="absolute"
-        padding="32px"
-        gap="40px"
-        width="480px"
-        height="376px"
-        left="300px"
-        top="140px"
-      >
+      <OutterBox top="140px" left="300px">
         <Text
           style={{
             marginBottom: "14px",
@@ -126,39 +138,29 @@ const AssessmentSummary = ({
             <Text style={{ marginLeft: "60px" }}>{questionTypes[2]} </Text>
           </Stack>
         </Text>
-        <CustomBox marginTop="120px" marginLeft="10px">
+        <InnerBox marginTop="120px" marginLeft="10px">
           <img
             src={MULTI_CHOICE.src}
             alt="multi-choice"
-            style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
+            style={{ width: "65px", marginTop: "17px", marginLeft: "15px" }}
           />
-        </CustomBox>
-        <CustomBox marginTop="120px" marginLeft="150px">
+        </InnerBox>
+        <InnerBox marginTop="120px" marginLeft="150px">
           <img
             src={MULTI_SELECT.src}
             alt="multi-select"
             style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
           />
-        </CustomBox>
-        <CustomBox marginTop="120px" marginLeft="290px">
+        </InnerBox>
+        <InnerBox marginTop="120px" marginLeft="290px">
           <img
             src={SHORT_ANSWER.src}
             alt="short-answer"
             style={{ width: "60px", marginTop: "20px", marginLeft: "18px" }}
           />
-        </CustomBox>
-      </Box>
-      <Box
-        backgroundColor="rgba(232, 237, 241, 0.3)"
-        borderRadius="10px"
-        position="absolute"
-        padding="32px"
-        gap="40px"
-        width="480px"
-        height="376px"
-        left="825px"
-        top="140px"
-      >
+        </InnerBox>
+      </OutterBox>
+      <OutterBox top="140px" left="825px">
         <Stack pos="absolute" fontSize="14px">
           <Text
             style={{
@@ -178,7 +180,7 @@ const AssessmentSummary = ({
             ))}
           </Stack>
         </Stack>
-      </Box>
+      </OutterBox>
       <Button type="button" size="startTest" variant="startTest">
         Start Test
       </Button>
@@ -188,5 +190,4 @@ const AssessmentSummary = ({
     </ChakraProvider>
   );
 };
-
 export default AssessmentSummary;
