@@ -188,10 +188,26 @@ const AssessmentSummary = (): React.ReactElement => {
           </Stack>
         </Stack>
       </OutterBox>
-      <Button type="button" size="startTest" variant="primary">
+      <Button
+        type="button"
+        width="14%"
+        height="10%"
+        marginTop="520px"
+        marginLeft="1100px"
+        size="md"
+        variant="primary"
+      >
         Start Test
       </Button>
-      <Button type="button" size="backHome" variant="secondary">
+      <Button
+        type="button"
+        width="14%"
+        height="10%"
+        marginTop="-67px"
+        marginLeft="875px"
+        size="md"
+        variant="secondary"
+      >
         Back to Home
       </Button>
     </ChakraProvider>

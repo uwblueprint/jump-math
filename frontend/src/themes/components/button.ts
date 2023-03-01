@@ -45,24 +45,6 @@ const Button = {
       },
       margin: "0 10px",
     },
-
-    startTest: {
-      borderRadius: "10px",
-      width: "225px",
-      height: "40px",
-      marginTop: "550px",
-      marginLeft: "1075px",
-      fontWeight: "bold",
-    },
-
-    backHome: {
-      borderRadius: "10px",
-      width: "225px",
-      height: "40px",
-      marginTop: "550px",
-      marginLeft: "-475px",
-      fontWeight: "bold",
-    },
   },
 
   variants: {
