@@ -25,16 +25,12 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
 
   return (
     <Textarea
-      sx={{ fontSize: "18px", fontWeight: "400", lineHeight: "23px" }}
+      size="text"
       value={data}
       onChange={(e) => updateTextElement(e.target.value)}
       placeholder="This is a text component which can be added for any additional information."
       maxLength={801}
       variant="unstyled"
-      minH="unset"
-      overflow="hidden"
-      resize="none"
-      minRows={1}
       as={ResizeTextarea}
       paddingLeft="6"
     />

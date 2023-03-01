@@ -48,16 +48,12 @@ const QuestionTextElement = ({
         </Text>
       )}
       <Textarea
-        sx={{ fontSize: "20px", fontWeight: "500", lineHeight: "26px" }}
+        size="question"
         value={data}
         onChange={(e) => updateQuestionElement(e.target.value)}
         placeholder="This is a question component."
         maxLength={801}
         variant="unstyled"
-        minH="unset"
-        overflow="hidden"
-        resize="none"
-        minRows={1}
         as={ResizeTextarea}
       />
     </Flex>
