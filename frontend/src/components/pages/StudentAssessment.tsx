@@ -90,9 +90,8 @@ const AssessmentSummary = ({
       <Text
         style={{
           marginLeft: "300px",
-          marginTop: "-70px",
+          marginTop: "-73px",
           fontSize: "30px",
-          fontWeight: "bold",
           color: "#154472",
         }}
       >
