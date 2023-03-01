@@ -23,3 +23,21 @@ export const STUDENT_SIGNUP_IMAGE: ImageType = {
     "https://storage.googleapis.com/jump-math-98edf.appspot.com/student-signup.png",
   alt: "student-signup",
 };
+
+export const MULTI_SELECT: ImageType = {
+  src:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/Multi-Select.png",
+  alt: "multi-select",
+};
+
+export const MULTI_CHOICE: ImageType = {
+  src:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/Multi-Choice.png",
+  alt: "multi-choice",
+};
+
+export const SHORT_ANSWER: ImageType = {
+  src:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/short-answer.png",
+  alt: "short-answer",
+};

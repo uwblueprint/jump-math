@@ -19,4 +19,4 @@ export const TEACHER_LANDING = "/teacher";
 
 // Private Student Routes
 export const STUDENT_LANDING = "/student";
-export const STUDENT_ASSESMENT = "/student/assessment";
+export const STUDENT_ASSESMENT = "/student/assesment";

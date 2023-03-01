@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import { ChakraProvider, Box, Text, Stack, Button } from "@chakra-ui/react";
 import {
-  ChakraProvider,
-  Box,
-  Text,
-  Stack,
-  Flex,
-  BoxProps,
-} from "@chakra-ui/react";
-import { JUMP_MATH_LOGO } from "../../assets/images";
+  JUMP_MATH_LOGO,
+  MULTI_SELECT,
+  MULTI_CHOICE,
+  SHORT_ANSWER,
+} from "../../assets/images";
 import theme from "../../themes";
 
 type CustomBoxProps = {
@@ -23,7 +21,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   marginLeft,
 }) => (
   <Box
-    backgroundColor="#E8EDF1"
+    backgroundColor="blue.50"
     borderRadius="10px"
     position="absolute"
     padding="10px"
@@ -45,19 +43,44 @@ type AssessmentSummaryProps = {
   questionText: string;
   totalPointsText: string;
   questionTypesText: string;
+  startTime: string;
+  test: string;
 };
 
 const AssessmentSummary = ({
-  numOfQuestions,
-  totalPoints,
-  questionTypes,
-  rules,
-  questionText,
-  totalPointsText,
-  questionTypesText,
+  numOfQuestions = 12,
+  totalPoints = "50 + 1 (Bonus)",
+  questionTypes = ["Multiple choice", "Multi-Select", "Short Answer"],
+  rules = "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
+  questionText = "Number of Questions",
+  totalPointsText = "Total Points",
+  questionTypesText = "Question Types",
+  startTime = "Start Time: September 15, 2022 at 2:00pm",
+  test = "Unit 0 Review Test",
 }: AssessmentSummaryProps): React.ReactElement => {
   return (
     <ChakraProvider theme={theme}>
+      <img
+        src={JUMP_MATH_LOGO.src}
+        alt="Jump Math Logo"
+        style={{ width: "200px", marginTop: "100px", marginLeft: "75px" }}
+      />
+      <Text
+        style={{
+          marginLeft: "300px",
+          marginTop: "-70px",
+          fontSize: "30px",
+          fontWeight: "bold",
+          color: "#154472",
+        }}
+      >
+        {test}
+        <Text
+          style={{ fontSize: "18px", color: "#154472", fontWeight: "normal" }}
+        >
+          {startTime}
+        </Text>
+      </Text>
       <Box
         backgroundColor="rgba(232, 237, 241, 0.3)"
         borderRadius="10px"
@@ -67,55 +90,64 @@ const AssessmentSummary = ({
         width="480px"
         height="376px"
         left="300px"
-        top="240px"
+        top="140px"
       >
-        <AssessmentSummary
-          numOfQuestions={12}
-          totalPoints="50 + 1 (Bonus)"
-          questionTypes={["Multiple choice", "Multi-Select", "Short Answer"]}
-          rules="The test WILL be monitored so please close any windows before
-    starting the test \n You will have 1 hour to complete this test. No aids are permitted. \n  If you need clarification or assistance, please raise your hand
-    quietly and I will come to you. \n Good Luck! \n - Mr.Roberts"
-          questionText="Number of Questions"
-          totalPointsText="Total Number of Points"
-          questionTypesText="Question Types:"
-        />
-
-        <div>
+        <Text
+          style={{
+            marginBottom: "14px",
+            fontSize: "18px",
+            fontWeight: 700,
+            color: "#154472",
+          }}
+        >
+          Assesment Question Summary
+        </Text>
+        <Text>
           <Stack direction="row" pos="absolute" top="75px" fontSize="14px">
-            <div>{questionText}</div>
-            <div style={{ marginLeft: "260px" }}>{numOfQuestions}</div>
+            <Text>{questionText}</Text>
+            <Text style={{ marginLeft: "260px" }}>{numOfQuestions}</Text>
           </Stack>
-
           <Stack direction="row" pos="absolute" top="100px" fontSize="14px">
-            <div>{totalPointsText}</div>
-            <div style={{ marginLeft: "175px" }}>{totalPoints} </div>
+            <Text>{totalPointsText}</Text>
+            <Text style={{ marginLeft: "250px" }}>{totalPoints} </Text>
           </Stack>
-
           <Stack pos="absolute" top="150px" fontSize="14px">
-            <div>{questionTypesText}:</div>
+            <Text>{questionTypesText}:</Text>
           </Stack>
-
-          <Stack direction="row" pos="absolute" top="100px" fontSize="14px">
-            <div>{questionTypes}</div>
-            <div style={{ marginLeft: "15px" }}>{questionTypes} </div>
-            <div style={{ marginLeft: "15px" }}>{questionTypes} </div>
+          <Stack
+            direction="row"
+            pos="absolute"
+            top="325px"
+            left="48px"
+            fontSize="14px"
+          >
+            <Text>{questionTypes[0]}</Text>
+            <Text style={{ marginLeft: "53px" }}>{questionTypes[1]} </Text>
+            <Text style={{ marginLeft: "60px" }}>{questionTypes[2]} </Text>
           </Stack>
-        </div>
-
-        <CustomBox marginTop="160px" marginLeft="10px">
-          <div>Custom box content</div>
+        </Text>
+        <CustomBox marginTop="120px" marginLeft="10px">
+          <img
+            src={MULTI_CHOICE.src}
+            alt="multi-choice"
+            style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
+          />
         </CustomBox>
-
-        <CustomBox marginTop="160px" marginLeft="150px">
-          <div>Custom box content</div>
+        <CustomBox marginTop="120px" marginLeft="150px">
+          <img
+            src={MULTI_SELECT.src}
+            alt="multi-select"
+            style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
+          />
         </CustomBox>
-
-        <CustomBox marginTop="160px" marginLeft="290px">
-          <div>Custom box content</div>
+        <CustomBox marginTop="120px" marginLeft="290px">
+          <img
+            src={SHORT_ANSWER.src}
+            alt="short-answer"
+            style={{ width: "60px", marginTop: "20px", marginLeft: "18px" }}
+          />
         </CustomBox>
       </Box>
-
       <Box
         backgroundColor="rgba(232, 237, 241, 0.3)"
         borderRadius="10px"
@@ -125,7 +157,7 @@ const AssessmentSummary = ({
         width="480px"
         height="376px"
         left="825px"
-        top="240px"
+        top="140px"
       >
         <Stack pos="absolute" fontSize="14px">
           <Text
@@ -136,43 +168,23 @@ const AssessmentSummary = ({
               color: "#154472",
             }}
           >
-            {" "}
             Rules
           </Text>
-
-          <Stack marginBottom="18px" fontSize="14px">
-            <div>{rules}:</div>
+          <Stack>
+            {rules.split("\n").map((line, index) => (
+              <Text key={index} style={{ marginBottom: "10px" }}>
+                {line}
+              </Text>
+            ))}
           </Stack>
         </Stack>
       </Box>
-
-      <img
-        src={JUMP_MATH_LOGO.src}
-        alt="Jump Math Logo"
-        style={{
-          width: "200px",
-          height: "auto",
-          marginTop: "-600px",
-          marginLeft: "-275px",
-        }}
-      />
-
-      <button
-        type="button"
-        style={{
-          backgroundColor: "#154472",
-          color: "#fff",
-          borderRadius: "10px",
-          outline: "none",
-          width: "225px",
-          height: "40px",
-          marginTop: "600px",
-          marginLeft: "765px",
-          fontWeight: "bold",
-        }}
-      >
+      <Button type="button" size="startTest" variant="startTest">
         Start Test
-      </button>
+      </Button>
+      <Button type="button" size="backHome" variant="backHome">
+        Back to Home
+      </Button>
     </ChakraProvider>
   );
 };

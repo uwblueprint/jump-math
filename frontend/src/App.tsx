@@ -34,7 +34,7 @@ import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import TeacherPage from "./components/pages/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
-import StudentAssesment from "./components/pages/StudentAssesment";
+import StudentAssessment from "./components/pages/StudentAssesment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -111,7 +111,7 @@ const App = (): React.ReactElement => {
                 <Route
                   exact
                   path={Routes.STUDENT_ASSESMENT}
-                  component={StudentAssesment}
+                  component={StudentAssessment}
                 />
                 <PrivateRoute
                   exact
