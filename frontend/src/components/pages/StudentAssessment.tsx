@@ -9,23 +9,13 @@ import {
 } from "../../assets/images";
 import theme from "../../themes";
 
-type InnerBoxProps = {
-  children: React.ReactNode;
-  marginTop?: string;
-  marginLeft?: string;
-};
-
-type OutterBoxProps = {
+type BoxProps = {
   children: React.ReactNode;
   top?: string;
   left?: string;
 };
 
-const InnerBox: React.FC<InnerBoxProps> = ({
-  children,
-  marginTop,
-  marginLeft,
-}) => (
+const InnerBox: React.FC<BoxProps> = ({ children, top, left }) => (
   <Box
     backgroundColor="blue.50"
     borderRadius="10px"
@@ -34,14 +24,14 @@ const InnerBox: React.FC<InnerBoxProps> = ({
     gap="40px"
     width="115px"
     height="115px"
-    marginTop={marginTop}
-    marginLeft={marginLeft}
+    top={top}
+    left={left}
   >
     {children}
   </Box>
 );
 
-const OutterBox: React.FC<OutterBoxProps> = ({ children, top, left }) => (
+const OutterBox: React.FC<BoxProps> = ({ children, top, left }) => (
   <Box
     backgroundColor="rgba(232, 237, 241, 0.3)"
     borderRadius="10px"
@@ -129,29 +119,29 @@ const AssessmentSummary = ({
             direction="row"
             pos="absolute"
             top="325px"
-            left="48px"
+            left="42px"
             fontSize="14px"
           >
             <Text>{questionTypes[0]}</Text>
-            <Text style={{ marginLeft: "53px" }}>{questionTypes[1]} </Text>
-            <Text style={{ marginLeft: "60px" }}>{questionTypes[2]} </Text>
+            <Text style={{ marginLeft: "59px" }}>{questionTypes[1]} </Text>
+            <Text style={{ marginLeft: "66px" }}>{questionTypes[2]} </Text>
           </Stack>
         </Text>
-        <InnerBox marginTop="120px" marginLeft="10px">
+        <InnerBox top="190px" left="35px">
           <img
             src={MULTI_CHOICE.src}
             alt="multi-choice"
             style={{ width: "65px", marginTop: "17px", marginLeft: "15px" }}
           />
         </InnerBox>
-        <InnerBox marginTop="120px" marginLeft="150px">
+        <InnerBox top="190px" left="182px">
           <img
             src={MULTI_SELECT.src}
             alt="multi-select"
             style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
           />
         </InnerBox>
-        <InnerBox marginTop="120px" marginLeft="290px">
+        <InnerBox top="190px" left="330px">
           <img
             src={SHORT_ANSWER.src}
             alt="short-answer"
