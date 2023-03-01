@@ -35,13 +35,13 @@ export const updatedQuestionElement = (
   updatedData: string,
   error: string,
   prevElements: QuestionElement[],
-) => {
+): QuestionElement[] => {
   const indexToUpdate = prevElements.findIndex((element) => element.id === id);
   return update(prevElements, {
     [indexToUpdate]: {
       $merge: {
         data: updatedData,
-        error: updatedData.length > 800 ? error : "",
+        error,
       },
     },
   });

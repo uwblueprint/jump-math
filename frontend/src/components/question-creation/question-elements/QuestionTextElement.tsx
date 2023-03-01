@@ -30,8 +30,11 @@ const QuestionTextElement = ({
         26),
   );
 
-  const error = "There is a limit of 800 characters in the question block.";
   const updateQuestionElement = (updatedQuestion: string) => {
+    const error =
+      updatedQuestion.length > 800
+        ? "There is a limit of 800 characters in the question block."
+        : "";
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedQuestion, error, prevElements);
     });
