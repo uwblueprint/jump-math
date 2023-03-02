@@ -10,7 +10,7 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 
-import ShortAnswerElementModal from "../../question-creation/question-elements/ShortAnswerElementModal";
+import ShortAnswerElementModal from "../../question-creation/question-elements/modals/ShortAnswerElementModal";
 
 const QuestionPage = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<

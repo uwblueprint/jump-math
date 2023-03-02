@@ -18,8 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import QuestionEditorContext from "../../../../contexts/QuestionEditorContext";
+import { QuestionElementType } from "../../../../types/QuestionTypes";
 
 const ShortAnswerElementModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();

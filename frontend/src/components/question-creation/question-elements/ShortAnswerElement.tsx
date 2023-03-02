@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, Box } from "@chakra-ui/react";
+import { Button, IconButton, Input, Flex, Box, Spacer } from "@chakra-ui/react";
+import { EditOutlineIcon } from "../../../assets/icons";
 
 interface ShortAnswerElementProps {
   id: string;
@@ -11,7 +12,7 @@ const ShortAnswerElement = ({
   data,
 }: ShortAnswerElementProps): React.ReactElement => {
   return (
-    <Box width="100%" paddingLeft="6">
+    <Flex width="100%" paddingLeft="6">
       <Input
         value={data}
         readOnly
@@ -21,7 +22,17 @@ const ShortAnswerElement = ({
         focusBorderColor="grey.300"
         width="34%"
       />
-    </Box>
+      <Spacer />
+      <Box color="grey.300" _hover={{ color: "blue.100" }}>
+        <Button
+          as={IconButton}
+          icon={<EditOutlineIcon />}
+          color="currentColor"
+          fontSize="24px"
+          size="icon"
+        />
+      </Box>
+    </Flex>
   );
 };
 
