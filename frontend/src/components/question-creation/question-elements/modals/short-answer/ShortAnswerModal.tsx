@@ -15,6 +15,7 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import ResponseTypeModal from "../ResponseTypeModal";
 
 interface ShortAnswerModalProps {
   isOpen: boolean;
