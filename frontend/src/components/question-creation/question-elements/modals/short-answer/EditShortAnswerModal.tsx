@@ -6,17 +6,17 @@ import ShortAnswerModal from "./ShortAnswerModal";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
 interface EditShortAnswerModalProps {
-  isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
   data: string;
+  isOpen: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditShortAnswerModal = ({
-  isOpen,
-  setOpen,
   id,
   data,
+  isOpen,
+  setOpen,
 }: EditShortAnswerModalProps): React.ReactElement => {
   const { onClose } = useDisclosure();
 

@@ -16,7 +16,9 @@ const QuestionPage = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
   >([]);
-  const [showShortAnswerModal, setShowShortAnswerModal] = React.useState(false);
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
+    false,
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -24,8 +26,8 @@ const QuestionPage = (): React.ReactElement => {
         value={{
           questionElements,
           setQuestionElements,
-          showShortAnswerModal,
-          setShowShortAnswerModal,
+          showAddShortAnswerModal,
+          setShowAddShortAnswerModal,
         }}
       >
         <Flex minHeight="100vh">

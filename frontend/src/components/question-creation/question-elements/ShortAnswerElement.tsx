@@ -12,7 +12,10 @@ const ShortAnswerElement = ({
   id,
   data,
 }: ShortAnswerElementProps): React.ReactElement => {
-  const [showEditModal, setShowEditModal] = React.useState(false);
+  const [
+    showEditShortAnswerModal,
+    setShowEditShortAnswerModal,
+  ] = React.useState(false);
   return (
     <Flex width="100%" paddingLeft="6">
       <Input
@@ -27,7 +30,7 @@ const ShortAnswerElement = ({
       <Spacer />
       <Box color="grey.300" _hover={{ color: "blue.100" }}>
         <Button
-          onClick={() => setShowEditModal(true)}
+          onClick={() => setShowEditShortAnswerModal(true)}
           as={IconButton}
           icon={<EditOutlineIcon />}
           color="currentColor"
@@ -36,8 +39,8 @@ const ShortAnswerElement = ({
         />
       </Box>
       <EditShortAnswerModal
-        isOpen={showEditModal}
-        setOpen={setShowEditModal}
+        isOpen={showEditShortAnswerModal}
+        setOpen={setShowEditShortAnswerModal}
         id={id}
         data={data}
       />

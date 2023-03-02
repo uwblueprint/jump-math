@@ -6,8 +6,8 @@ type QuestionEditorContextType = {
   setQuestionElements: (
     _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
   ) => void;
-  showShortAnswerModal: boolean;
-  setShowShortAnswerModal: (_showShortAnswerModal: boolean) => void;
+  showAddShortAnswerModal: boolean;
+  setShowAddShortAnswerModal: (_showShortAnswerModal: boolean) => void;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
@@ -16,8 +16,8 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   setQuestionElements: (
     _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
   ): void => {},
-  showShortAnswerModal: false,
-  setShowShortAnswerModal: (_showShortAnswerModal: boolean): void => {},
+  showAddShortAnswerModal: false,
+  setShowAddShortAnswerModal: (_showAddShortAnswerModal: boolean): void => {},
 });
 
 export default QuestionEditorContext;

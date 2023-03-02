@@ -8,12 +8,12 @@ import { QuestionElementType } from "../../../../../types/QuestionTypes";
 
 const AddShortAnswerModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
-  const { setShowShortAnswerModal, showShortAnswerModal } = useContext(
+  const { showAddShortAnswerModal, setShowAddShortAnswerModal } = useContext(
     QuestionEditorContext,
   );
 
   const closeModal = () => {
-    setShowShortAnswerModal(false);
+    setShowAddShortAnswerModal(false);
     onClose();
   };
 
@@ -31,7 +31,7 @@ const AddShortAnswerModal = (): React.ReactElement => {
 
   return (
     <ShortAnswerModal
-      isOpen={showShortAnswerModal}
+      isOpen={showAddShortAnswerModal}
       onClose={closeModal}
       onConfirm={addShortAnswerElement}
     />
