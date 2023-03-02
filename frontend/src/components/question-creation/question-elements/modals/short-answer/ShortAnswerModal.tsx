@@ -48,7 +48,7 @@ const ShortAnswerModal = ({
         <ModalOverlay />
         <ModalContent minWidth="42vw">
           <ModalHeader>
-            <Text textStyle="subtitle2">Create multi-select question</Text>
+            <Text textStyle="subtitle2">Create short answer question</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
