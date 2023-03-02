@@ -10,7 +10,7 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 
-import ShortAnswerElementModal from "../../question-creation/question-elements/modals/ShortAnswerElementModal";
+import AddShortAnswerModal from "../../question-creation/question-elements/modals/short-answer/AddShortAnswerModal";
 
 const QuestionPage = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
@@ -32,7 +32,7 @@ const QuestionPage = (): React.ReactElement => {
           <QuestionSidebar backPage={HOME_PAGE} />
           <QuestionEditor />
         </Flex>
-        <ShortAnswerElementModal />
+        <AddShortAnswerModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );

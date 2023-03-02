@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalFooter,
-  useDisclosure,
   ModalHeader,
   ModalCloseButton,
   Text,
@@ -16,41 +15,28 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { v4 as uuidv4 } from "uuid";
 
-import QuestionEditorContext from "../../../../contexts/QuestionEditorContext";
-import { QuestionElementType } from "../../../../types/QuestionTypes";
+interface ShortAnswerModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (data: string) => void;
+  data?: string;
+}
 
-const ShortAnswerElementModal = (): React.ReactElement => {
-  const { onClose } = useDisclosure();
-  const { setShowShortAnswerModal, showShortAnswerModal } = useContext(
-    QuestionEditorContext,
-  );
-  const closeModal = () => {
-    setShowShortAnswerModal(false);
-    onClose();
-  };
-
-  const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addShortAnswerElement = (data: string) => {
-    setQuestionElements((prevElements) => [
-      ...prevElements,
-      {
-        id: uuidv4(),
-        type: QuestionElementType.SHORT_ANSWER,
-        data,
-      },
-    ]);
-  };
-
-  const [answer, setAnswer] = useState("");
+const ShortAnswerModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  data,
+}: ShortAnswerModalProps): React.ReactElement => {
+  const [answer, setAnswer] = useState(data);
   const [error, setError] = useState(false);
 
-  const handleSubmit = () => {
+  const handleConfirm = () => {
     if (answer) {
       setError(false);
-      addShortAnswerElement(answer);
-      closeModal();
+      onConfirm(answer);
+      onClose();
     } else {
       setError(true);
     }
@@ -58,7 +44,7 @@ const ShortAnswerElementModal = (): React.ReactElement => {
 
   return (
     <>
-      <Modal isOpen={showShortAnswerModal} onClose={closeModal} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent minWidth="42vw">
           <ModalHeader>
@@ -71,6 +57,7 @@ const ShortAnswerElementModal = (): React.ReactElement => {
                 Enter correct answer
               </FormLabel>
               <Input
+                value={answer}
                 placeholder="Input Field"
                 onChange={(e) => setAnswer(e.target.value)}
                 type="number"
@@ -83,15 +70,10 @@ const ShortAnswerElementModal = (): React.ReactElement => {
           </ModalBody>
           <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
           <ModalFooter>
-            <Button
-              variant="secondary"
-              onClick={closeModal}
-              minWidth="10%"
-              mr={2}
-            >
+            <Button variant="secondary" onClick={onClose} minWidth="10%" mr={2}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit} minWidth="10%">
+            <Button variant="primary" onClick={handleConfirm} minWidth="10%">
               Confirm
             </Button>
           </ModalFooter>
@@ -101,4 +83,4 @@ const ShortAnswerElementModal = (): React.ReactElement => {
   );
 };
 
-export default ShortAnswerElementModal;
+export default ShortAnswerModal;
