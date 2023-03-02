@@ -14,9 +14,16 @@ import {
   SaveOutlinedIcon,
   EyeOutlinedIcon,
   MoreVerticalOutlineIcon,
+  ArrowBackOutlineIcon,
 } from "../../assets/icons";
 
-const CreateAssessementHeader = (): React.ReactElement => {
+type CreateAssessementHeaderProps = {
+  assessmentName: string;
+};
+
+const CreateAssessementHeader = ({
+  assessmentName,
+}: CreateAssessementHeaderProps): React.ReactElement => {
   return (
     <Box
       margin="-1.5em -2em 2em -2em"
@@ -25,10 +32,24 @@ const CreateAssessementHeader = (): React.ReactElement => {
       borderBottomColor="grey.200"
     >
       <Flex minWidth="max-content">
-        <VStack align="left">
-          <Text textStyle="subtitle1">Untitled Assessment</Text>
-          <Text textStyle="smallerParagraph">Created January 1st, 2022</Text>
-        </VStack>
+        <HStack spacing={6} alignItems="start">
+          <Button
+            size="sm"
+            color="blue.700"
+            leftIcon={<ArrowBackOutlineIcon />}
+          >
+            Back
+          </Button>
+          <VStack align="left">
+            <Text textStyle="subtitle1">
+              {" "}
+              {assessmentName.length > 0
+                ? assessmentName
+                : "Untitled Assessment"}{" "}
+            </Text>
+            <Text textStyle="smallerParagraph">Created January 1st, 2022</Text>
+          </VStack>
+        </HStack>
         <Spacer />
         <HStack spacing={2}>
           <HStack mr="2">

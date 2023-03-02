@@ -29,6 +29,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   } = useForm();
 
   const [validSubmit, setValidSubmit] = useState(true);
+  const [assessmentName, setAssessmentName] = useState("");
 
   const onSubmit = (data: any, e: any) => {
     setValidSubmit(true);
@@ -42,7 +43,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   return (
     <Box>
-      <CreateAssessementHeader />
+      <CreateAssessementHeader assessmentName={assessmentName} />
       <VStack align="left" width="75%" spacing={8}>
         <Text textStyle="eyebrow">Basic Information</Text>
 
@@ -55,6 +56,9 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <Input
             placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
             {...register("assessmentName", {
+              onChange: (e) => {
+                setAssessmentName(e.target.value);
+              },
               required: "Please enter a name for the assessment",
             })}
           />
