@@ -65,10 +65,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
               required: "Please enter a name for the assessment",
             })}
           />
-          <FormErrorMessage>
-            {" "}
-            {errors.assessmentName?.message}{" "}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors.assessmentName?.message}</FormErrorMessage>
         </FormControl>
 
         <Box width="50%">
