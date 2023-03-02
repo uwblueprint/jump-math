@@ -11,7 +11,6 @@ const AddShortAnswerModal = (): React.ReactElement => {
   const { showAddShortAnswerModal, setShowAddShortAnswerModal } = useContext(
     QuestionEditorContext,
   );
-
   const closeModal = () => {
     setShowAddShortAnswerModal(false);
     onClose();

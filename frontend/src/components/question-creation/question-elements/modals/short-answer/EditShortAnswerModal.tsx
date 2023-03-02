@@ -19,7 +19,6 @@ const EditShortAnswerModal = ({
   setOpen,
 }: EditShortAnswerModalProps): React.ReactElement => {
   const { onClose } = useDisclosure();
-
   const closeModal = () => {
     setOpen(false);
     onClose();
