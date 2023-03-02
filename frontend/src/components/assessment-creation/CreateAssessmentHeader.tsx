@@ -17,12 +17,14 @@ import {
   ArrowBackOutlineIcon,
 } from "../../assets/icons";
 
-type CreateAssessementHeaderProps = {
+interface CreateAssessementHeaderProps {
   assessmentName: string;
-};
+  date: string;
+}
 
 const CreateAssessementHeader = ({
   assessmentName,
+  date,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   return (
     <Box
@@ -42,12 +44,11 @@ const CreateAssessementHeader = ({
           </Button>
           <VStack align="left">
             <Text textStyle="subtitle1">
-              {" "}
               {assessmentName.length > 0
                 ? assessmentName
-                : "Untitled Assessment"}{" "}
+                : "Untitled Assessment"}
             </Text>
-            <Text textStyle="smallerParagraph">Created January 1st, 2022</Text>
+            <Text textStyle="smallerParagraph"> Created {date}</Text>
           </VStack>
         </HStack>
         <Spacer />

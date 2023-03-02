@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import countryList from "react-select-country-list";
 import { useForm, Controller } from "react-hook-form";
 import { Select } from "chakra-react-select";
@@ -28,6 +29,8 @@ const CreateAssessmentPage = (): React.ReactElement => {
     control,
   } = useForm();
 
+  const location = useLocation();
+  const { date } = location.state as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
 
@@ -43,7 +46,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   return (
     <Box>
-      <CreateAssessementHeader assessmentName={assessmentName} />
+      <CreateAssessementHeader assessmentName={assessmentName} date={date} />
       <VStack align="left" width="75%" spacing={8}>
         <Text textStyle="eyebrow">Basic Information</Text>
 
