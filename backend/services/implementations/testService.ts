@@ -34,10 +34,13 @@ class TestService implements ITestService {
     return {
       id: newTest.id,
       name: newTest.name,
-      duration: newTest.duration,
       admin: adminDto,
       questions: newTest.questions,
       grade: newTest.grade,
+      curriculumCountry: newTest.curriculumCountry,
+      curriculumRegion: newTest.curriculumRegion,
+      assessmentType: newTest.assessmentType,
+      status: newTest.status,
     };
   }
 
@@ -79,10 +82,13 @@ class TestService implements ITestService {
     return {
       id: updatedTest.id,
       name: updatedTest.name,
-      duration: updatedTest.duration,
       admin: adminDto,
       questions: updatedTest.questions,
       grade: updatedTest.grade,
+      curriculumCountry: updatedTest.curriculumCountry,
+      curriculumRegion: updatedTest.curriculumRegion,
+      assessmentType: updatedTest.assessmentType,
+      status: updatedTest.status,
     };
   }
 
@@ -105,10 +111,13 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      duration: test.duration,
       admin: adminDto,
       questions: test.questions,
       grade: test.grade,
+      curriculumCountry: test.curriculumCountry,
+      curriculumRegion: test.curriculumRegion,
+      assessmentType: test.assessmentType,
+      status: test.status,
     };
   }
 
@@ -131,10 +140,13 @@ class TestService implements ITestService {
         return {
           id: test.id,
           name: test.name,
-          duration: test.duration,
           admin: adminDTO,
           questions: test.questions,
           grade: test.grade,
+          curriculumCountry: test.curriculumCountry,
+          curriculumRegion: test.curriculumRegion,
+          assessmentType: test.assessmentType,
+          status: test.status,
         };
       }),
     );
