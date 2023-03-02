@@ -27,9 +27,8 @@ const EditShortAnswerModal = ({
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateShortAnswerElement = (updatedAnswer: string) => {
-    const error = "";
     setQuestionElements((prevElements) => {
-      return updatedQuestionElement(id, updatedAnswer, error, prevElements);
+      return updatedQuestionElement(id, updatedAnswer, prevElements);
     });
   };
 

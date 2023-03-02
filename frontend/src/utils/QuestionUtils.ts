@@ -33,8 +33,8 @@ export const shouldReorder = (
 export const updatedQuestionElement = (
   id: string,
   updatedData: string,
-  error: string,
   prevElements: QuestionElement[],
+  error?: string,
 ): QuestionElement[] => {
   const indexToUpdate = prevElements.findIndex((element) => element.id === id);
   return update(prevElements, {
