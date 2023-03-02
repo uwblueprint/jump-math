@@ -86,6 +86,27 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
   },
 ];
 
+export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = [
+  {
+    test: "62c248c0f79d6c3c9ebbea39",
+    teacher: "62c248c0f79d6c3c9ebbea95",
+    school: "62c248c0f79d6c3c9ebbea97",
+    gradeLevel: 7,
+    results: [mockGradedTestResult],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+  {
+    test: "62c248c0f79d6c3c9ebbea95",
+    teacher: "62c248c0f79d6c3c9ebbea94",
+    school: "62c248c0f79d6c3c9ebbea93",
+    gradeLevel: 4,
+    results: [mockGradedTestResult],
+    accessCode: "1234",
+    startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+];
+
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
   test: mockTestWithId,
