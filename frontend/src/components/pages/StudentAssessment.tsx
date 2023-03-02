@@ -19,7 +19,7 @@ const InnerBox: React.FC<BoxProps> = ({ children, top, left }) => (
   <Box
     backgroundColor="blue.50"
     borderRadius="10px"
-    position="absolute"
+    position="relative"
     padding="10px"
     gap="40px"
     width="115px"
@@ -65,7 +65,7 @@ const questionTypeImages = assessmentMetadata.questionTypes.map(
     switch (type) {
       case "Multiple choice":
         return (
-          <InnerBox key={index} top="190px" left={`${35 + index * 147}px`}>
+          <InnerBox key={index} top="130px">
             <img
               src={MULTI_CHOICE.src}
               alt="multi-choice"
@@ -75,7 +75,7 @@ const questionTypeImages = assessmentMetadata.questionTypes.map(
         );
       case "Multi-Select":
         return (
-          <InnerBox key={index} top="190px" left={`${35 + index * 140}px`}>
+          <InnerBox key={index} top="130px" left={`${25 + index * 2}px`}>
             <img
               src={MULTI_SELECT.src}
               alt="multi-select"
@@ -85,7 +85,7 @@ const questionTypeImages = assessmentMetadata.questionTypes.map(
         );
       case "Short Answer":
         return (
-          <InnerBox key={index} top="190px" left={`${35 + index * 144}px`}>
+          <InnerBox key={index} top="130px" left={`${48 + index * 2}px`}>
             <img
               src={SHORT_ANSWER.src}
               alt="short-answer"
@@ -101,7 +101,7 @@ const questionTypeImages = assessmentMetadata.questionTypes.map(
 
 const AssessmentSummary = (): React.ReactElement => {
   return (
-    <ChakraProvider theme={theme}>
+    <>
       <img
         src={JUMP_MATH_LOGO.src}
         alt="Jump Math Logo"
@@ -210,7 +210,7 @@ const AssessmentSummary = (): React.ReactElement => {
       >
         Back to Home
       </Button>
-    </ChakraProvider>
+    </>
   );
 };
 
