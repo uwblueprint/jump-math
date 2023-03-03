@@ -77,7 +77,7 @@ const ShortAnswerModal = ({
           </ModalBody>
           <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
           <ModalFooter>
-            <Button variant="secondary" onClick={onClose} minWidth="10%" mr={2}>
+            <Button variant="secondary" onClick={handleClose} minWidth="10%" mr={2}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleConfirm} minWidth="10%">
