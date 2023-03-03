@@ -1,17 +1,18 @@
 import React, { useContext, useRef } from "react";
-import { Button, IconButton, Text, HStack, Box } from "@chakra-ui/react";
+import update from "immutability-helper";
+import { IconButton, Button, Text, HStack, Box } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier } from "dnd-core";
-import update from "immutability-helper";
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
 import TextElement from "./question-elements/TextElement";
+import QuestionTextElement from "./question-elements/QuestionTextElement";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { DragTypes } from "../../types/DragTypes";
-import { shouldReorder, DragItem } from "../../utils/QuestionUtils";
+import { DragTypes, DragQuestionItem } from "../../types/DragTypes";
+import { shouldReorder } from "../../utils/QuestionUtils";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
@@ -22,7 +23,7 @@ const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
     case QuestionElementType.QUESTION:
-      return <Text key={id}>this is a question element.</Text>;
+      return <QuestionTextElement key={id} id={id} data={data} />;
     case QuestionElementType.TEXT:
       return <TextElement key={id} id={id} data={data} />;
     case QuestionElementType.IMAGE:
@@ -65,7 +66,7 @@ const QuestionElementItem = ({
   const dragRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
-    DragItem,
+    DragQuestionItem,
     void,
     { handlerId: Identifier | null }
   >({
@@ -75,7 +76,7 @@ const QuestionElementItem = ({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: DragQuestionItem, monitor) {
       if (!previewRef.current) {
         return;
       }
@@ -117,6 +118,7 @@ const QuestionElementItem = ({
             icon={<DeleteOutlineIcon />}
             color="currentColor"
             fontSize="24px"
+            size="icon"
           />
         </Box>
       </HStack>

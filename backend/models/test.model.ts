@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { questionsValidator } from "../middlewares/validators/testValidators";
-
 /**
  * An enum containing the types of components that can be added to a question
  */
@@ -13,6 +12,17 @@ export enum QuestionComponentType {
   SHORT_ANSWER,
 }
 
+export enum AssessmentType {
+  BEGINNING,
+  END,
+}
+
+export enum AssessmentStatus {
+  DRAFT,
+  PUBLISHED,
+  ARCHIVED,
+  DELETED,
+}
 export type QuestionComponentMetadata =
   | QuestionTextMetadata
   | TextMetadata
@@ -88,8 +98,6 @@ export interface Test extends Document {
   id: string;
   /** The name of the test */
   name: string;
-  /** The duration of the test */
-  duration: number;
   /** The administrator to which the test belongs to - this is a reference to
    * an ID in the User collection
    */
@@ -98,16 +106,20 @@ export interface Test extends Document {
   questions: QuestionComponent[][];
   /** The intended grade the test was made for */
   grade: number;
+  /** the type of assessment */
+  assessmentType: AssessmentType;
+  /** the status of the assessment */
+  status: AssessmentStatus;
+  /** the country that the test is to be administered in */
+  curriculumCountry: string;
+  /** the region that the test is to be administered in */
+  curriculumRegion: string;
 }
 
 const TestSchema: Schema = new Schema(
   {
     name: {
       type: String,
-      required: true,
-    },
-    duration: {
-      type: Number,
       required: true,
     },
     admin: {
@@ -123,8 +135,26 @@ const TestSchema: Schema = new Schema(
       type: Number,
       required: true,
     },
+    curriculumCountry: {
+      type: String,
+      required: true,
+    },
+    curriculumRegion: {
+      type: String,
+      required: true,
+    },
+    assessmentType: {
+      type: String,
+      required: true,
+      enum: Object.keys(AssessmentType),
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: Object.keys(AssessmentStatus),
+    },
   },
-  { timestamps: true },
+  { timestamps: { createdAt: false, updatedAt: true } },
 );
 TestSchema.path("questions").validate(
   questionsValidator,
