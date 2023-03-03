@@ -34,17 +34,24 @@ const ShortAnswerModal = ({
 
   const handleConfirm = () => {
     if (answer) {
-      setError(false);
       onConfirm(answer);
+      setAnswer("");
+      setError(false);
       onClose();
     } else {
       setError(true);
     }
   };
 
+  const handleClose = () => {
+    setAnswer("");
+    setError(false);
+    onClose();
+  };
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
         <ModalContent minWidth="42vw">
           <ModalHeader>
