@@ -1,4 +1,3 @@
-import React from "react";
 import { MULTI_SELECT, MULTI_CHOICE, SHORT_ANSWER } from "../assets/images";
 import { QuestionType } from "../types/QuestionTypes";
 
