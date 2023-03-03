@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 import colors from "./colors";
 import Alert from "./components/alert";
 import Button from "./components/button";
+import Checkbox from "./components/checkbox";
 import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
@@ -22,6 +23,7 @@ const theme = extendTheme({
   components: {
     Alert,
     Button,
+    Checkbox,
     Form,
     FormError,
     Input,
