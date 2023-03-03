@@ -56,7 +56,7 @@ const MultipleChoiceModal = ({
       handleConfirm={handleConfirm}
       title="Create multiple choice question"
     >
-      <VStack width="100%">
+      <VStack width="100%" spacing="10">
         <FormControl isRequired isInvalid={error}>
           <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
             How many options would you like?
@@ -73,7 +73,11 @@ const MultipleChoiceModal = ({
           </Select>
           <FormErrorMessage>Select a value before confirming.</FormErrorMessage>
         </FormControl>
-        <MultipleChoiceOption />
+        <VStack width="100%" spacing="6">
+          {[...Array(optionCount)].map((i) => (
+            <MultipleChoiceOption key={i} />
+          ))}
+        </VStack>
       </VStack>
     </ResponseTypeModal>
   );
