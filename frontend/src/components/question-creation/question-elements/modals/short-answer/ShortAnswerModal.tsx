@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalCloseButton,
-  Text,
-  Divider,
-  ModalBody,
   FormLabel,
   FormControl,
   Input,
@@ -59,15 +49,13 @@ const ShortAnswerModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} isCentered>
-      <ModalOverlay />
-      <ModalContent minWidth="42vw">
-        <ModalHeader>
-          <Text textStyle="subtitle2">Create short answer question</Text>
-        </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <FormControl isRequired isInvalid={error}>
+    <ResponseTypeModal
+      isOpen={isOpen}
+      onClose={handleClose}
+      handleConfirm={handleConfirm}
+      title="Create short answer question"
+    >
+      <FormControl isRequired isInvalid={error}>
             <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
               Enter correct answer
             </FormLabel>
@@ -82,23 +70,7 @@ const ShortAnswerModal = ({
               Enter a value before confirming.
             </FormErrorMessage>
           </FormControl>
-        </ModalBody>
-        <Divider color="grey.200" mt="1.5em" />
-        <ModalFooter>
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            minWidth="10%"
-            mr={2}
-          >
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleConfirm} minWidth="10%">
-            Confirm
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    </ResponseTypeModal>
   );
 };
 

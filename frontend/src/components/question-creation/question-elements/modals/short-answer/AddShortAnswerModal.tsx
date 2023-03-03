@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import ShortAnswerModal from "./ShortAnswerModal";
 import { QuestionElementType } from "../../../../../types/QuestionTypes";
+import MultipleChoiceModal from "../multiple-choice/MultipleChoiceModal";
 
 const AddShortAnswerModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
@@ -29,7 +30,7 @@ const AddShortAnswerModal = (): React.ReactElement => {
   };
 
   return (
-    <ShortAnswerModal
+    <MultipleChoiceModal
       isOpen={showAddShortAnswerModal}
       onClose={closeModal}
       onConfirm={addShortAnswerElement}

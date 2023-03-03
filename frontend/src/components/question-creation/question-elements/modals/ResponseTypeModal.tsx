@@ -13,18 +13,18 @@ import {
 } from "@chakra-ui/react";
 
 interface ResponseTypeModalProps {
-  title: string;
   isOpen: boolean;
   onClose: () => void;
   handleConfirm: () => void;
+  title: string;
   children: React.ReactChild;
 }
 
 const ResponseTypeModal = ({
-  title,
   isOpen,
   onClose,
   handleConfirm,
+  title,
   children,
 }: ResponseTypeModalProps): React.ReactElement => {
   return (
@@ -36,7 +36,7 @@ const ResponseTypeModal = ({
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
-        <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
+        <Divider color="grey.200" mt="1.5em" />
         <ModalFooter>
           <Button variant="secondary" onClick={onClose} minWidth="10%" mr={2}>
             Cancel
