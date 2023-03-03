@@ -138,66 +138,76 @@ const AssessmentSummary = (): React.ReactElement => {
 
   return (
     <>
-      <HStack marginTop="10%" marginLeft="10%">
-        <Image src={JUMP_MATH_LOGO.src} alt="Jump Math Logo" width="15%" />
-        <Text textStyle="header4" color="blue.300">
-          {assessmentMetadata.test}
-          <Text fontSize="18px" color="blue.300">
-            {assessmentMetadata.startTime}
-          </Text>
-        </Text>
-      </HStack>
-      <HStack spacing="37%" marginTop="17%" marginLeft="24%">
-        <OuterBox>
-          <Text textStyle="subtitle2" color="blue.300">
-            Assesment Question Summary
-          </Text>
-          <Stack pos="relative" direction="row" fontSize="14px" marginTop="4%">
-            <Text marginRight="56%">{assessmentMetadata.questionText}</Text>
-            <Text>{assessmentMetadata.numOfQuestions}</Text>
-          </Stack>
-          <Stack direction="row" pos="relative" fontSize="14px">
-            <Text marginRight="53%">{assessmentMetadata.totalPointsText}</Text>
-            <Text>{assessmentMetadata.totalPoints}</Text>
-          </Stack>
-          <Stack pos="relative" marginTop="3%" fontSize="14px">
-            <Text>{assessmentMetadata.questionTypesText}:</Text>
-          </Stack>
-          {questionTypeImages}
-        </OuterBox>
-        <OuterBox>
-          <Stack pos="relative" fontSize="14px">
-            <Text color="blue.300" textStyle="subtitle2" marginBottom="14px">
-              Rules
+      <HStack marginTop="8%" marginLeft="10%">
+        <HStack marginLeft="-7%" marginBottom="15%" spacing="3%">
+          <Image src={JUMP_MATH_LOGO.src} alt="Jump Math Logo" width="25%" />
+          <Text textStyle="header4" color="blue.300">
+            {assessmentMetadata.test}
+            <Text fontSize="18px" color="blue.300">
+              {assessmentMetadata.startTime}
             </Text>
-            <Stack gap={3}>
-              {assessmentMetadata.rules.split("\n").map((line, index) => (
-                <Text key={index}>{line}</Text>
-              ))}
-            </Stack>
-          </Stack>
-        </OuterBox>
-      </HStack>
-      <HStack gap={4} marginTop="33%" marginLeft="62%">
-        <Button
-          type="button"
-          width="40%"
-          height="10%"
-          size="md"
-          variant="secondary"
-          onClick={handleBackToHome}
-        >
-          Back to Home
-        </Button>
-        <Button
-          type="button"
-          width="40%"
-          height="10%"
-          size="md"
-          variant="primary"
-        >
-          Start Test
-        </Button>
+          </Text>
+        </HStack>
+        <HStack gap={525}>
+          <VStack marginLeft="-75%">
+            <OuterBox>
+              <Text textStyle="subtitle2" color="blue.300">
+                Assesment Question Summary
+              </Text>
+              <Stack
+                pos="relative"
+                direction="row"
+                fontSize="14px"
+                marginTop="4%"
+              >
+                <Text marginRight="56%">{assessmentMetadata.questionText}</Text>
+                <Text>{assessmentMetadata.numOfQuestions}</Text>
+              </Stack>
+              <Stack direction="row" pos="relative" fontSize="14px">
+                <Text marginRight="53%">
+                  {assessmentMetadata.totalPointsText}
+                </Text>
+                <Text>{assessmentMetadata.totalPoints}</Text>
+              </Stack>
+              <Stack pos="relative" marginTop="3%" fontSize="14px">
+                <Text>{assessmentMetadata.questionTypesText}:</Text>
+              </Stack>
+              {questionTypeImages}
+            </OuterBox>
+          </VStack>
+          <VStack>
+            <OuterBox>
+              <Stack pos="relative" fontSize="14px">
+                <Text
+                  color="blue.300"
+                  textStyle="subtitle2"
+                  marginBottom="14px"
+                >
+                  Rules
+                </Text>
+                <Stack gap={3}>
+                  {assessmentMetadata.rules.split("\n").map((line, index) => (
+                    <Text key={index}>{line}</Text>
+                  ))}
+                </Stack>
+              </Stack>
+              <HStack gap={4} marginTop="35%" marginLeft="15%">
+                <Button
+                  type="button"
+                  height="10%"
+                  size="md"
+                  variant="secondary"
+                  onClick={handleBackToHome}
+                >
+                  Back to Home
+                </Button>
+                <Button type="button" height="10%" size="md" variant="primary">
+                  Start Test
+                </Button>
+              </HStack>
+            </OuterBox>
+          </VStack>
+        </HStack>
       </HStack>
     </>
   );
