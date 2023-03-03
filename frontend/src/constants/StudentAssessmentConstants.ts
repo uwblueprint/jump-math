@@ -3,7 +3,7 @@ import { QuestionType } from "../types/QuestionTypes";
 
 export const assessmentMetadata = {
   numOfQuestions: 12,
-  totalPoints: "50",
+  totalPoints: 50,
   questionTypes: [
     QuestionType.MULTIPLE_CHOICE,
     QuestionType.MULTI_SELECT,
