@@ -1,47 +1,55 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { ChakraProvider, Box, Text, Stack, Button } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+import {
+  Box,
+  Text,
+  Stack,
+  Button,
+  Image,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
 import {
   JUMP_MATH_LOGO,
   MULTI_SELECT,
   MULTI_CHOICE,
   SHORT_ANSWER,
 } from "../../assets/images";
-import theme from "../../themes";
+import { STUDENT_LANDING } from "../../constants/Routes";
 
 type BoxProps = {
   children: React.ReactNode;
-  top?: string;
-  left?: string;
+  marginTop?: string;
+  marginLeft?: string;
 };
 
-const InnerBox: React.FC<BoxProps> = ({ children, top, left }) => (
+const InnerBox: React.FC<BoxProps> = ({ children, marginTop, marginLeft }) => (
   <Box
     backgroundColor="blue.50"
     borderRadius="10px"
-    position="relative"
+    position="absolute"
     padding="10px"
     gap="40px"
     width="115px"
     height="115px"
-    top={top}
-    left={left}
+    marginTop={marginTop}
+    marginLeft={marginLeft}
   >
     {children}
   </Box>
 );
 
-const OutterBox: React.FC<BoxProps> = ({ children, top, left }) => (
+const OuterBox: React.FC<BoxProps> = ({ children, marginTop, marginLeft }) => (
   <Box
-    backgroundColor="rgba(232, 237, 241, 0.3)"
+    backgroundColor="rgba(232, 237, 241, 0.2)"
     borderRadius="10px"
     position="absolute"
     padding="32px"
-    gap="40px"
     width="480px"
     height="376px"
-    top={top}
-    left={left}
+    marginTop={marginTop}
+    marginLeft={marginLeft}
   >
     {children}
   </Box>
@@ -60,156 +68,137 @@ const assessmentMetadata = {
   test: "Unit 0 Review Test",
 };
 
-const questionTypeImages = assessmentMetadata.questionTypes.map(
-  (type, index) => {
-    switch (type) {
-      case "Multiple choice":
-        return (
-          <InnerBox key={index} top="130px">
-            <img
-              src={MULTI_CHOICE.src}
-              alt="multi-choice"
-              style={{ width: "65px", marginTop: "17px", marginLeft: "15px" }}
-            />
-          </InnerBox>
-        );
-      case "Multi-Select":
-        return (
-          <InnerBox key={index} top="130px" left={`${25 + index * 2}px`}>
-            <img
-              src={MULTI_SELECT.src}
-              alt="multi-select"
-              style={{ width: "60px", marginTop: "20px", marginLeft: "20px" }}
-            />
-          </InnerBox>
-        );
-      case "Short Answer":
-        return (
-          <InnerBox key={index} top="130px" left={`${48 + index * 2}px`}>
-            <img
-              src={SHORT_ANSWER.src}
-              alt="short-answer"
-              style={{ width: "60px", marginTop: "20px", marginLeft: "18px" }}
-            />
-          </InnerBox>
-        );
-      default:
-        return null;
-    }
-  },
+const questionTypeImages = (
+  <HStack marginLeft="2%" marginTop="6%" spacing="15%">
+    {assessmentMetadata.questionTypes.map((type, index) => {
+      switch (type) {
+        case "Multiple choice":
+          return (
+            <VStack>
+              <Text fontSize="14px" marginTop="140%">
+                {type}
+              </Text>
+              <InnerBox key={index}>
+                <Image
+                  src={MULTI_CHOICE.src}
+                  alt="multi-choice"
+                  width="70%"
+                  marginTop="15%"
+                  marginLeft="15%"
+                />
+              </InnerBox>
+            </VStack>
+          );
+        case "Multi-Select":
+          return (
+            <VStack marginBottom="4%">
+              <Text fontSize="14px" marginTop="175%">
+                {type}
+              </Text>
+              <InnerBox key={index}>
+                <Image
+                  src={MULTI_SELECT.src}
+                  alt="multi-select"
+                  width="65%"
+                  marginTop="18%"
+                  marginLeft="18%"
+                />
+              </InnerBox>
+            </VStack>
+          );
+        case "Short Answer":
+          return (
+            <VStack>
+              <Text fontSize="14px" marginTop="160%">
+                {type}
+              </Text>
+              <InnerBox key={index}>
+                <Image
+                  src={SHORT_ANSWER.src}
+                  alt="short-answer"
+                  width="65%"
+                  marginTop="20%"
+                  marginLeft="18%"
+                />
+              </InnerBox>
+            </VStack>
+          );
+        default:
+          return null;
+      }
+    })}
+  </HStack>
 );
 
 const AssessmentSummary = (): React.ReactElement => {
+  const history = useHistory();
+  const handleBackToHome = () => {
+    history.push(STUDENT_LANDING);
+  };
+
   return (
     <>
-      <img
-        src={JUMP_MATH_LOGO.src}
-        alt="Jump Math Logo"
-        style={{ width: "200px", marginTop: "100px", marginLeft: "75px" }}
-      />
-      <Text
-        style={{
-          marginLeft: "300px",
-          marginTop: "-73px",
-          fontSize: "30px",
-          color: "#154472",
-        }}
-      >
-        {assessmentMetadata.test}
-        <Text
-          style={{ fontSize: "18px", color: "#154472", fontWeight: "normal" }}
-        >
-          {assessmentMetadata.startTime}
+      <HStack marginTop="10%" marginLeft="10%">
+        <Image src={JUMP_MATH_LOGO.src} alt="Jump Math Logo" width="15%" />
+        <Text textStyle="header4" color="blue.300">
+          {assessmentMetadata.test}
+          <Text fontSize="18px" color="blue.300">
+            {assessmentMetadata.startTime}
+          </Text>
         </Text>
-      </Text>
-      <OutterBox top="140px" left="300px">
-        <Text
-          style={{
-            marginBottom: "14px",
-            fontSize: "18px",
-            fontWeight: 700,
-            color: "#154472",
-          }}
-        >
-          Assesment Question Summary
-        </Text>
-        <Text>
-          <Stack direction="row" pos="absolute" top="75px" fontSize="14px">
-            <Text>{assessmentMetadata.questionText}</Text>
-            <Text style={{ marginLeft: "260px" }}>
-              {assessmentMetadata.numOfQuestions}
-            </Text>
+      </HStack>
+      <HStack spacing="37%" marginTop="17%" marginLeft="24%">
+        <OuterBox>
+          <Text textStyle="subtitle2" color="blue.300">
+            Assesment Question Summary
+          </Text>
+          <Stack pos="relative" direction="row" fontSize="14px" marginTop="4%">
+            <Text marginRight="56%">{assessmentMetadata.questionText}</Text>
+            <Text>{assessmentMetadata.numOfQuestions}</Text>
           </Stack>
-          <Stack direction="row" pos="absolute" top="100px" fontSize="14px">
-            <Text>{assessmentMetadata.totalPointsText}</Text>
-            <Text style={{ marginLeft: "250px" }}>
-              {assessmentMetadata.totalPoints}{" "}
-            </Text>
+          <Stack direction="row" pos="relative" fontSize="14px">
+            <Text marginRight="53%">{assessmentMetadata.totalPointsText}</Text>
+            <Text>{assessmentMetadata.totalPoints}</Text>
           </Stack>
-          <Stack pos="absolute" top="150px" fontSize="14px">
+          <Stack pos="relative" marginTop="3%" fontSize="14px">
             <Text>{assessmentMetadata.questionTypesText}:</Text>
           </Stack>
-          <Stack
-            direction="row"
-            pos="absolute"
-            top="325px"
-            left="42px"
-            fontSize="14px"
-          >
-            <Text>{assessmentMetadata.questionTypes[0]}</Text>
-            <Text style={{ marginLeft: "59px" }}>
-              {assessmentMetadata.questionTypes[1]}{" "}
+          {questionTypeImages}
+        </OuterBox>
+        <OuterBox>
+          <Stack pos="relative" fontSize="14px">
+            <Text color="blue.300" textStyle="subtitle2" marginBottom="14px">
+              Rules
             </Text>
-            <Text style={{ marginLeft: "66px" }}>
-              {assessmentMetadata.questionTypes[2]}{" "}
-            </Text>
+            <Stack gap={3}>
+              {assessmentMetadata.rules.split("\n").map((line, index) => (
+                <Text key={index}>{line}</Text>
+              ))}
+            </Stack>
           </Stack>
-        </Text>
-        <Stack direction="row">{questionTypeImages}</Stack>
-      </OutterBox>
-      <OutterBox top="140px" left="825px">
-        <Stack pos="absolute" fontSize="14px">
-          <Text
-            style={{
-              marginBottom: "14px",
-              fontSize: "18px",
-              fontWeight: 700,
-              color: "#154472",
-            }}
-          >
-            Rules
-          </Text>
-          <Stack>
-            {assessmentMetadata.rules.split("\n").map((line, index) => (
-              <Text key={index} style={{ marginBottom: "10px" }}>
-                {line}
-              </Text>
-            ))}
-          </Stack>
-        </Stack>
-      </OutterBox>
-      <Button
-        type="button"
-        width="14%"
-        height="10%"
-        marginTop="520px"
-        marginLeft="1100px"
-        size="md"
-        variant="primary"
-      >
-        Start Test
-      </Button>
-      <Button
-        type="button"
-        width="14%"
-        height="10%"
-        marginTop="-67px"
-        marginLeft="875px"
-        size="md"
-        variant="secondary"
-      >
-        Back to Home
-      </Button>
+        </OuterBox>
+      </HStack>
+      <HStack gap={4} marginTop="33%" marginLeft="62%">
+        <Button
+          type="button"
+          width="40%"
+          height="10%"
+          size="md"
+          variant="secondary"
+          onClick={handleBackToHome}
+        >
+          Back to Home
+        </Button>
+        <Button
+          type="button"
+          width="40%"
+          height="10%"
+          size="md"
+          variant="primary"
+        >
+          Start Test
+        </Button>
+      </HStack>
     </>
   );
 };
