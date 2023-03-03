@@ -6,6 +6,7 @@ import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
 import Radio from "./components/radio";
+import Select from "./components/select";
 import Table from "./components/table";
 import Textarea from "./components/textarea";
 import textStyles from "./typography";
@@ -25,6 +26,7 @@ const theme = extendTheme({
     FormError,
     Input,
     Radio,
+    Select,
     Table,
     Textarea,
   },

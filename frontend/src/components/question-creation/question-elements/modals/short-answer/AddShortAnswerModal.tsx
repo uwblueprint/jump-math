@@ -30,7 +30,7 @@ const AddShortAnswerModal = (): React.ReactElement => {
   };
 
   return (
-    <MultipleChoiceModal
+    <ShortAnswerModal
       isOpen={showAddShortAnswerModal}
       onClose={closeModal}
       onConfirm={addShortAnswerElement}
