@@ -57,15 +57,13 @@ const OuterBox: React.FC<BoxProps> = ({ children, marginTop, marginLeft }) => (
 
 const assessmentMetadata = {
   numOfQuestions: 12,
-  totalPoints: "50 + 1 (Bonus)",
+  totalPoints: "50",
   questionTypes: ["Multiple choice", "Multi-Select", "Short Answer"],
   rules:
     "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
-  questionText: "Number of Questions",
-  totalPointsText: "Total Points",
-  questionTypesText: "Question Types",
-  startTime: "Start Time: September 15, 2022 at 2:00pm",
-  test: "Unit 0 Review Test",
+  startTime: "2:00pm",
+  startDate: "September 15, 2022",
+  testName: "Unit 0 Review Test",
 };
 
 const questionTypeImages = (
@@ -142,8 +140,9 @@ const AssessmentSummary = (): React.ReactElement => {
         <HStack marginLeft="-7%" marginBottom="15%" spacing="3%">
           <Image src={JUMP_MATH_LOGO.src} alt="Jump Math Logo" width="25%" />
           <Text textStyle="header4" color="blue.300">
-            {assessmentMetadata.test}
+            {assessmentMetadata.testName}
             <Text fontSize="18px" color="blue.300">
+              Start Time: {assessmentMetadata.startDate} at{" "}
               {assessmentMetadata.startTime}
             </Text>
           </Text>
@@ -160,17 +159,15 @@ const AssessmentSummary = (): React.ReactElement => {
                 fontSize="14px"
                 marginTop="4%"
               >
-                <Text marginRight="56%">{assessmentMetadata.questionText}</Text>
+                <Text marginRight="56%">Number of Questions</Text>
                 <Text>{assessmentMetadata.numOfQuestions}</Text>
               </Stack>
               <Stack direction="row" pos="relative" fontSize="14px">
-                <Text marginRight="53%">
-                  {assessmentMetadata.totalPointsText}
-                </Text>
+                <Text marginRight="70%">Total Points</Text>
                 <Text>{assessmentMetadata.totalPoints}</Text>
               </Stack>
               <Stack pos="relative" marginTop="3%" fontSize="14px">
-                <Text>{assessmentMetadata.questionTypesText}:</Text>
+                <Text>Question Types:</Text>
               </Stack>
               {questionTypeImages}
             </OuterBox>
