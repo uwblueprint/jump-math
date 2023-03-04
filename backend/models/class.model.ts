@@ -1,11 +1,11 @@
-import { Schema, Document, model } from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
 export interface Class extends Document {
   class_name: string;
   school_year: number;
   grade_level: string;
   teacher: string;
-  test_sessions: [string];
+  test_sessions: string[];
 }
 
 const ClassSchema: Schema = new Schema({
@@ -22,11 +22,13 @@ const ClassSchema: Schema = new Schema({
     required: true,
   },
   teacher: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   test_sessions: {
-    type: [String],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
+    required: true,
   },
 });
 
