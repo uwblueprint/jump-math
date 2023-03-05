@@ -31,7 +31,10 @@ jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
     getUser: jest.fn().mockReturnValue({ email: "test@test.com" }),
     deleteUser: jest.fn().mockReturnValue({}),
-    getUserByEmail: jest.fn().mockReturnValue({ uid: "321" }),
+    getUserByEmail: jest
+      .fn()
+      .mockReturnValueOnce({ uid: "321" })
+      .mockReturnValue({ uid: "invalid-id" }),
   });
   return { auth };
 });
@@ -153,24 +156,32 @@ describe("mongo userService", (): void => {
       await TestSessionModel.insertMany(updatedTestSessions);
     });
 
-    afterEach(async () => {
-      const associatedSchool = await SchoolModel.findById(schools[1].id);
-      const associatedTestSession = await TestSessionModel.find({
-        teacher: teacher.id,
+    describe("on success", () => {
+      afterEach(async () => {
+        const associatedSchool = await SchoolModel.findById(schools[1].id);
+        const associatedTestSession = await TestSessionModel.find({
+          teacher: teacher.id,
+        });
+        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+        expect(associatedSchool!.teachers.map(String)).toEqual(
+          testSchools[1].teachers,
+        );
+        expect(associatedTestSession).toEqual([]);
       });
-      /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-      expect(associatedSchool!.teachers.map(String)).toEqual(
-        testSchools[1].teachers,
-      );
-      expect(associatedTestSession).toEqual([]);
+
+      it("deleteUserById", async () => {
+        await userService.deleteUserById(teacher.id);
+      });
+
+      it("deleteUserByEmail", async () => {
+        await userService.deleteUserByEmail(teacher.email);
+      });
     });
 
-    it("deleteUserById", async () => {
-      await userService.deleteUserById(teacher.id);
-    });
-
-    it("deleteUserByEmail", async () => {
-      await userService.deleteUserByEmail(teacher.email);
+    it("on failure", async () => {
+      await expect(async () => {
+        await userService.deleteUserByEmail(teacher.email);
+      }).rejects.toThrowError();
     });
   });
 });
