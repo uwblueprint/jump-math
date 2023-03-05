@@ -4,6 +4,7 @@ import SchoolModel from "../../../models/school.model";
 import { UserDTO, TeacherDTO } from "../../../types";
 
 import db from "../../../testUtils/testDb";
+import { testSchools } from "../../../testUtils/school";
 
 const testUsers = [
   {
@@ -12,8 +13,6 @@ const testUsers = [
     authId: "123",
     role: "Admin",
     email: "peter@gmail.com",
-    grades: ["K", "Grade 1", "Grade 2", "Grade 3"],
-    currentlyTeachingJM: true,
   },
   {
     firstName: "Wendy",
@@ -21,12 +20,15 @@ const testUsers = [
     authId: "321",
     role: "Teacher",
     email: "wendy@gmail.com",
+    grades: ["K", "Grade 1", "Grade 2", "Grade 3"],
+    currentlyTeachingJM: true,
   },
 ];
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
     getUser: jest.fn().mockReturnValue({ email: "test@test.com" }),
+    deleteUser: jest.fn().mockReturnValue({}),
   });
   return { auth };
 });
@@ -94,26 +96,16 @@ describe("mongo userService", (): void => {
   it("getAllTeachers", async () => {
     const createRes = await UserModel.insertMany(testUsers);
 
-    const testSchools = [
+    await SchoolModel.insertMany([
       {
-        name: "school1",
-        country: "some-country",
-        subRegion: "some-region1",
-        city: "some-city",
-        address: "some-address",
+        ...testSchools[0],
         teachers: [createRes[0].id],
       },
       {
-        name: "school2",
-        country: "some-country",
-        subRegion: "some-region2",
-        city: "some-city",
-        address: "some-address",
+        ...testSchools[1],
         teachers: [createRes[1].id],
       },
-    ];
-
-    await SchoolModel.insertMany(testSchools);
+    ]);
     const res = await userService.getAllTeachers();
 
     res.forEach((teacher: TeacherDTO, i) => {
@@ -123,5 +115,23 @@ describe("mongo userService", (): void => {
       expect(teacher.email).toEqual(testUsers[i].email);
       expect(teacher.school).toEqual(testSchools[i].name);
     });
+  });
+
+  it("deleteUserById - teacher", async () => {
+    const teacher = await UserModel.create(testUsers[1]);
+    const updatedTestSchools = [
+      testSchools[0],
+      {
+        ...testSchools[1],
+        teachers: testSchools[1].teachers.concat(teacher.id),
+      },
+    ];
+    const schools = await SchoolModel.insertMany(updatedTestSchools);
+
+    await userService.deleteUserById(teacher.id);
+    const associatedSchool = await SchoolModel.findById(schools[1].id);
+    expect(associatedSchool!.teachers.map(String)).toEqual(
+      testSchools[1].teachers,
+    );
   });
 });
