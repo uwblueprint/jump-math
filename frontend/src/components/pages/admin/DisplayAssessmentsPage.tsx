@@ -22,8 +22,8 @@ import {
   gradeOptions,
   countryOptions,
   regionOptions,
-  typeOptions,
-  Type,
+  testTypeOptions,
+  TestTypes,
 } from "../../../types/AssessmentTypes";
 
 // const ErrorState = (): React.ReactElement => (
@@ -52,7 +52,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -60,7 +60,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "PUBLISHED",
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "USA",
     region: "California",
   },
@@ -68,7 +68,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "ARCHIVED",
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Ottawa",
   },
@@ -76,7 +76,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "PUBLISHED",
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "USA",
     region: "Texas",
   },
@@ -84,7 +84,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 4 Quebec Post-Term Assessment 2020",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Quebec",
   },
@@ -92,7 +92,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "USA",
     region: "California",
   },
@@ -100,7 +100,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -108,7 +108,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "USA",
     region: "California",
   },
@@ -116,7 +116,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -124,7 +124,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.End,
     country: "USA",
     region: "California",
   },
@@ -132,7 +132,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: Type.Beginning,
+    type: TestTypes.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -140,7 +140,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: Type.Beginning,
+    type: TestTypes.End,
     country: "USA",
     region: "California",
   },
@@ -152,14 +152,14 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [sortProperty, setSortProperty] = React.useState("name");
   const [sortOrder, setSortOrder] = React.useState("ascending");
   const [grades, setGrades] = React.useState<Array<string>>([]);
-  const [types, setTypes] = React.useState<Array<string>>([]);
+  const [testTypes, setTestTypes] = React.useState<Array<string>>([]);
   const [countries, setCountries] = React.useState<Array<string>>([]);
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
 
   const setFilterProps: FilterMenuProp[] = [
     { label: "Grade", setState: setGrades, options: gradeOptions },
-    { label: "Type", setState: setTypes, options: typeOptions },
+    { label: "Type", setState: setTestTypes, options: testTypeOptions },
     { label: "Country", setState: setCountries, options: countryOptions },
     { label: "Region", setState: setRegions, options: regionOptions },
   ];
@@ -192,9 +192,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       );
     }
 
-    if (types.length !== 0) {
+    if (testTypes.length !== 0) {
       filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        types.includes(assessment.type),
+        testTypes.includes(assessment.type),
       );
     }
 
@@ -217,7 +217,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     }
 
     return filteredTests;
-  }, [searchedAssessements, countries, regions, types, status]);
+  }, [searchedAssessements, grades, testTypes, countries, regions, status]);
 
   const assessments = React.useMemo(() => {
     let sortedAssessments: AssessmentTypes[] = filteredAssessements as AssessmentTypes[];
