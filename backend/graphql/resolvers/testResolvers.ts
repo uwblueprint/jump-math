@@ -131,19 +131,15 @@ const testResolvers = {
     ): Promise<string> => {
       return testService.deleteTest(id);
     },
-
     publishTest: async (
       _req: undefined,
-      { test_id }: { test_id: string },
+      { testId }: { testId: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(test_id);
-      if (!testToUpdate) {
-        throw new Error(`Test with id ${test_id} does not exist.`);
-      }
+      const testToUpdate = await testService.getTestById(testId);
       if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${test_id} cannot be published.`);
+        throw new Error(`Test with id ${testId} cannot be published.`);
       }
-      const updatedTest = await testService.updateTest(test_id, {
+      const updatedTest = await testService.updateTest(testId, {
         ...testToUpdate,
         status: AssessmentStatus.PUBLISHED,
         admin: testToUpdate.admin.id,
