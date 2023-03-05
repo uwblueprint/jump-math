@@ -1,5 +1,4 @@
 import TestService from "../../services/implementations/testService";
-import UserService from "../../services/implementations/userService";
 import {
   ITestService,
   TestRequestDTO,
@@ -7,15 +6,13 @@ import {
   QuestionComponentRequest,
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
-import IUserService from "../../services/interfaces/userService";
 
 import {
   QuestionComponentMetadata,
   QuestionComponent,
 } from "../../models/test.model";
 
-const userService: IUserService = new UserService();
-const testService: ITestService = new TestService(userService);
+const testService: ITestService = new TestService();
 
 type QuestionMetadataName =
   | "QuestionTextMetadata"

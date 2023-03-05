@@ -8,7 +8,6 @@ import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
-import { mockAdmin } from "./users";
 
 export const questions: Array<Array<QuestionComponent>> = [
   [
@@ -83,7 +82,6 @@ export const questions: Array<Array<QuestionComponent>> = [
 
 export const mockTest: CreateTestRequestDTO = {
   name: "test",
-  admin: "62c248c0f79d6c3c9ebbea94",
   questions,
   grade: 11,
   assessmentType: AssessmentType.BEGINNING,
@@ -95,7 +93,6 @@ export const mockTest: CreateTestRequestDTO = {
 export const mockTestArray: Array<CreateTestRequestDTO> = [
   {
     name: "test1",
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
     assessmentType: AssessmentType.END,
@@ -105,7 +102,6 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
   },
   {
     name: "test2",
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
     assessmentType: AssessmentType.END,
@@ -115,7 +111,6 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
   },
   {
     name: "test3",
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
     assessmentType: AssessmentType.END,
@@ -128,13 +123,11 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,
-  admin: mockAdmin,
 };
 
 export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
   ...mockTest,
-  admin: mockAdmin,
 };
 
 export const assertResponseMatchesExpected = (
@@ -143,7 +136,6 @@ export const assertResponseMatchesExpected = (
 ): void => {
   expect(result.id).not.toBeNull();
   expect(result.name).toEqual(expected.name);
-  expect(result.admin).toEqual(mockAdmin);
   expect(result.assessmentType).toEqual(expected.assessmentType.toString());
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
