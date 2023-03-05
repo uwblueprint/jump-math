@@ -1,10 +1,12 @@
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
 import SchoolModel from "../../../models/school.model";
+import TestSessionModel from "../../../models/testSession.model";
 import { UserDTO, TeacherDTO } from "../../../types";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
+import { mockTestSessions } from "../../../testUtils/testSession";
 
 const testUsers = [
   {
@@ -128,11 +130,27 @@ describe("mongo userService", (): void => {
     ];
     const schools = await SchoolModel.insertMany(updatedTestSchools);
 
+    const updatedTestSessions = [
+      {
+        ...mockTestSessions[0],
+        teacher: teacher.id,
+      },
+      {
+        ...mockTestSessions[1],
+        teacher: teacher.id,
+      },
+    ];
+    await TestSessionModel.insertMany(updatedTestSessions);
+
     await userService.deleteUserById(teacher.id);
     const associatedSchool = await SchoolModel.findById(schools[1].id);
+    const associatedTestSession = await TestSessionModel.find({
+      teacher: teacher.id,
+    });
     /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     expect(associatedSchool!.teachers.map(String)).toEqual(
       testSchools[1].teachers,
     );
+    expect(associatedTestSession).toEqual([]);
   });
 });

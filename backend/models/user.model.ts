@@ -1,4 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
+import MgTestSession from "./testSession.model";
+import MgSchool from "./school.model";
 
 import { Grade, Role } from "../types";
 
@@ -60,6 +62,18 @@ const UserSchema: Schema = new Schema({
     type: Boolean,
     required: false,
   },
+});
+
+UserSchema.post("findOneAndDelete", async (doc) => {
+  if (doc.role !== "Teacher") return;
+
+  /* eslint-disable no-underscore-dangle */
+  await MgTestSession.deleteMany({ teacher: doc._id });
+  await MgSchool.findOneAndUpdate(
+    { teachers: doc._id },
+    { $pull: { teachers: doc._id } },
+    { new: true },
+  );
 });
 
 export default mongoose.model<User>("User", UserSchema);

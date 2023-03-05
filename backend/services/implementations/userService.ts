@@ -2,7 +2,7 @@ import * as firebaseAdmin from "firebase-admin";
 
 import IUserService from "../interfaces/userService";
 import MgUser, { User } from "../../models/user.model";
-import MgSchool, { School } from "../../models/school.model";
+import MgSchool from "../../models/school.model";
 import {
   CreateUserDTO,
   Role,
@@ -320,10 +320,6 @@ class UserService implements IUserService {
         throw new Error(`userId ${userId} not found.`);
       }
 
-      if (deletedUser.role === "Teacher") {
-        await this.deleteTeacherFromSchool(userId);
-      }
-
       try {
         await firebaseAdmin.auth().deleteUser(deletedUser.authId);
       } catch (error) {
@@ -366,10 +362,6 @@ class UserService implements IUserService {
 
       if (!deletedUser) {
         throw new Error(`authId (Firebase uid) ${firebaseUser.uid} not found.`);
-      }
-
-      if (deletedUser.role === "Teacher") {
-        await this.deleteTeacherFromSchool(deletedUser.id);
       }
 
       try {
@@ -534,28 +526,6 @@ class UserService implements IUserService {
     ];
 
     return MgSchool.aggregate(pipeline);
-  }
-
-  private async deleteTeacherFromSchool(teacherId: string): Promise<string> {
-    try {
-      const updatedSchool: School | null = await MgSchool.findOneAndUpdate(
-        { teachers: teacherId },
-        { $pull: { teachers: teacherId } },
-        { new: true },
-      );
-      if (!updatedSchool) {
-        throw new Error(`School with teacher id ${teacherId} not found`);
-      }
-
-      return teacherId;
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to delete teacher from school. Reason = ${getErrorMessage(
-          error,
-        )}`,
-      );
-      throw error;
-    }
   }
 }
 

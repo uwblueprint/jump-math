@@ -170,6 +170,7 @@ class AuthService implements IAuthService {
         .auth()
         .generatePasswordResetLink(email);
       const regex = /(?<=&oobCode=)(.*)(?=&apiKey=)/gm;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       [oobCode] = resetLink.match(regex)!;
     } catch (error) {
       Logger.error(
