@@ -1,10 +1,10 @@
-export type StatusProperty = "Draft" | "Published" | "Archived" | "Deleted";
+export type StatusProperty = "DRAFT" | "PUBLISHED" | "ARCHIVED" | "DELETED";
 
 export type AssessmentTypes = {
   status: StatusProperty;
   name: string;
   grade: string;
-  type: "Beginning" | "End";
+  type: "BEGINNING" | "END";
   country: string;
   region: string;
 };

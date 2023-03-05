@@ -43,99 +43,99 @@ const getAssessments = (assessment: AssessmentTypes) => {
 
 const sampleAssessments: AssessmentTypes[] = [
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "Published",
+    status: "PUBLISHED",
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "End",
+    type: "BEGINNING",
     country: "USA",
     region: "California",
   },
   {
-    status: "Archived",
+    status: "ARCHIVED",
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "Canada",
     region: "Ottawa",
   },
   {
-    status: "Published",
+    status: "PUBLISHED",
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: "End",
+    type: "BEGINNING",
     country: "USA",
     region: "Texas",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 4 Quebec Post-Term Assessment 2020",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "Canada",
     region: "Quebec",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "End",
+    type: "BEGINNING",
     country: "USA",
     region: "California",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "End",
+    type: "BEGINNING",
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "USA",
     region: "California",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "USA",
     region: "California",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "BEGINNING",
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "Draft",
+    status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "End",
-    country: "Canada",
+    type: "BEGINNING",
+    country: "USA",
     region: "California",
   },
 ];
@@ -302,13 +302,13 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             <Tab onClick={() => setStatus("")} color={unselectedColor}>
               All
             </Tab>
-            <Tab onClick={() => setStatus("Draft")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("DRAFT")} color={unselectedColor}>
               Drafts
             </Tab>
-            <Tab onClick={() => setStatus("Published")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("PUBLISHED")} color={unselectedColor}>
               Published
             </Tab>
-            <Tab onClick={() => setStatus("Archived")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("ARCHIVED")} color={unselectedColor}>
               Archived
             </Tab>
           </TabList>

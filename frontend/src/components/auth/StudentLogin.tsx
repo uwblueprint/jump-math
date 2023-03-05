@@ -18,7 +18,7 @@ const StudentLogin = (): React.ReactElement => {
       <HStack>
         <PinInput
           autoFocus
-          focusBorderColor="blue.100"
+          focusBorderColor="grey.200"
           placeholder=""
           size="lg"
           variant="filled"
@@ -31,9 +31,11 @@ const StudentLogin = (): React.ReactElement => {
               m="3rem 0.6rem 7rem 0.6rem !important"
               fontSize="2.5rem"
               color="grey.300"
+              backgroundColor="grey.100"
               height="50%"
               style={{ width: "15%" }}
-              _focus={{ backgroundColor: "blue.50" }}
+              _hover={{ backgroundColor: "grey.100" }}
+              _focus={{ backgroundColor: "grey.100" }}
               _valid={{ backgroundColor: "green.200" }}
               _invalid={{ borderColor: "red.200" }}
             />

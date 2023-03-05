@@ -4,7 +4,7 @@ export enum QuestionType {
   MULTI_SELECT = "Multi-select",
 }
 
-export enum QuestionElement {
+export enum QuestionElementType {
   QUESTION = "Question",
   TEXT = "Text",
   IMAGE = "Image",
@@ -12,3 +12,10 @@ export enum QuestionElement {
   SHORT_ANSWER = "Short Answer",
   MULTI_SELECT = "Multi-select",
 }
+
+export type QuestionElement = {
+  id: string;
+  type: QuestionElementType;
+  data: string;
+  error?: string;
+};

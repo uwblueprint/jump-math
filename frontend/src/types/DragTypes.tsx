@@ -1,5 +1,12 @@
 export const DragTypes = {
-  QUESTION_ELEMENT: "Question Element",
+  QUESTION_SIDEBAR_ITEM: "Question Sidebar Item",
+  QUESTION_ELEMENT_ITEM: "Question Element Item",
 };
+
+export interface DragQuestionItem {
+  index: number;
+  id: string;
+  type: string;
+}
 
 export default DragTypes;

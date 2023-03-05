@@ -6,6 +6,8 @@ import {
   MultiSelectMetadata,
   ShortAnswerMetadata,
   QuestionComponent,
+  AssessmentType,
+  AssessmentStatus,
 } from "../../models/test.model";
 import { UserDTO } from "../../types";
 
@@ -14,14 +16,20 @@ export type TestResponseDTO = {
   id: string;
   /** the name of the test */
   name: string;
-  /** the duration of the test */
-  duration: number;
   /** the UserDTO for the admin */
   admin: UserDTO;
   /** an array of questions on the test */
   questions: QuestionComponent[][];
   /** the grade of the student */
   grade: number;
+  /** the type of assessment */
+  assessmentType: AssessmentType;
+  /** the status of the assessment */
+  status: AssessmentStatus;
+  /** the country that the test is to be administered in */
+  curriculumCountry: string;
+  /** the region that the test is to be administered in */
+  curriculumRegion: string;
 };
 
 /** the request input expects an admin userId string rather than a UserDTO */
@@ -44,14 +52,20 @@ export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
 export type TestRequestDTO = {
   /** the name of the test */
   name: string;
-  /** the duration of the test */
-  duration: number;
   /** the UserDTO for the admin */
   admin: string;
   /** an ordered array of questions on the test */
   questions: QuestionComponentRequest[][];
   /** the grade of the student */
   grade: number;
+  /** the type of assessment */
+  assessmentType: AssessmentType;
+  /** the status of the assessment */
+  status: AssessmentStatus;
+  /** the country that the test is to be administered in */
+  curriculumCountry: string;
+  /** the region that the test is to be administered in */
+  curriculumRegion: string;
 };
 
 export interface ITestService {
