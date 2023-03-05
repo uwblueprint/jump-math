@@ -1,4 +1,9 @@
 import TestService from "../../services/implementations/testService";
+import {
+  AssessmentStatus,
+  QuestionComponentMetadata,
+  QuestionComponent,
+} from "../../models/test.model";
 import UserService from "../../services/implementations/userService";
 import {
   ITestService,
@@ -8,11 +13,6 @@ import {
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
 import IUserService from "../../services/interfaces/userService";
-
-import {
-  QuestionComponentMetadata,
-  QuestionComponent,
-} from "../../models/test.model";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService(userService);
@@ -130,6 +130,25 @@ const testResolvers = {
       { id }: { id: string },
     ): Promise<string> => {
       return testService.deleteTest(id);
+    },
+
+    publishTest: async (
+      _req: undefined,
+      { test_id }: { test_id: string },
+    ): Promise<TestResponseDTO | null> => {
+      const testToUpdate = await testService.getTestById(test_id);
+      if (!testToUpdate) {
+        throw new Error(`Test with id ${test_id} does not exist.`);
+      }
+      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
+        throw new Error(`Test with id ${test_id} cannot be published.`);
+      }
+      const updatedTest = await testService.updateTest(test_id, {
+        ...testToUpdate,
+        status: AssessmentStatus.PUBLISHED,
+        admin: testToUpdate.admin.id,
+      });
+      return updatedTest;
     },
   },
 };
