@@ -130,6 +130,7 @@ describe("mongo userService", (): void => {
 
     await userService.deleteUserById(teacher.id);
     const associatedSchool = await SchoolModel.findById(schools[1].id);
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     expect(associatedSchool!.teachers.map(String)).toEqual(
       testSchools[1].teachers,
     );
