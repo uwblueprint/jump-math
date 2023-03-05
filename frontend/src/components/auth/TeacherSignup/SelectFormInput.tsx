@@ -1,9 +1,4 @@
-import {
-  GroupBase,
-  OptionBase,
-  Select,
-  SingleValue,
-} from "chakra-react-select";
+import { GroupBase, Select, SingleValue } from "chakra-react-select";
 import React from "react";
 
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
@@ -12,10 +7,8 @@ import {
   TeacherSignupForm,
 } from "../../../types/TeacherSignupTypes";
 
-interface Option extends OptionBase {
-  label: string;
-  value: string | boolean;
-}
+import { Option } from "../../../types/SelectInputTypes";
+
 interface SelectFormInputProps {
   setValue: UseFormSetValue<TeacherSignupForm>;
   watch: UseFormWatch<TeacherSignupForm>;

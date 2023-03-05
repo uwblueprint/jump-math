@@ -11,14 +11,20 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
-import { AssessmentTypes } from "../../../types/AssessmentTypes";
 import SortMenu from "../../common/SortMenu";
 import FilterMenu, {
   FilterMenuProp,
-  Option,
 } from "../../assessment-creation/FilterMenu";
 import SearchBar from "../../common/SearchBar";
 import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
+import {
+  AssessmentTypes,
+  gradeOptions,
+  countryOptions,
+  regionOptions,
+  typeOptions,
+  Type,
+} from "../../../types/AssessmentTypes";
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -46,7 +52,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -54,7 +60,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "PUBLISHED",
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "California",
   },
@@ -62,7 +68,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "ARCHIVED",
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Ottawa",
   },
@@ -70,7 +76,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "PUBLISHED",
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "Texas",
   },
@@ -78,7 +84,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 4 Quebec Post-Term Assessment 2020",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Quebec",
   },
@@ -86,7 +92,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "California",
   },
@@ -94,7 +100,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -102,7 +108,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "California",
   },
@@ -110,7 +116,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -118,7 +124,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "California",
   },
@@ -126,7 +132,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "Canada",
     region: "Ontario",
   },
@@ -134,7 +140,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "DRAFT",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: Type.Beginning,
     country: "USA",
     region: "California",
   },
@@ -145,29 +151,14 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("name");
   const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [grades, setGrades] = React.useState<Array<string>>([]);
   const [types, setTypes] = React.useState<Array<string>>([]);
   const [countries, setCountries] = React.useState<Array<string>>([]);
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
 
-  const typeOptions = [
-    { value: "Beginning", label: "Beginning" },
-    { value: "End", label: "End" },
-  ];
-
-  const countryOptions = [
-    { value: "Canada", label: "Canada" },
-    { value: "USA", label: "USA" },
-  ] as Option[];
-
-  const regionOptions = [
-    { value: "Ottawa", label: "Ottawa" },
-    { value: "California", label: "California" },
-    { value: "Ontario", label: "Ontario" },
-    { value: "Texas", label: "Texas" },
-  ];
-
-  const setCountryProps: FilterMenuProp[] = [
+  const setFilterProps: FilterMenuProp[] = [
+    { label: "Grade", setState: setGrades, options: gradeOptions },
     { label: "Type", setState: setTypes, options: typeOptions },
     { label: "Country", setState: setCountries, options: countryOptions },
     { label: "Region", setState: setRegions, options: regionOptions },
@@ -194,6 +185,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const filteredAssessements = React.useMemo(() => {
     let filteredTests: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
+
+    if (grades.length !== 0) {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
+        grades.includes(assessment.grade),
+      );
+    }
 
     if (types.length !== 0) {
       filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
@@ -258,7 +255,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             onSortOrder={setSortOrder}
             onSortProperty={setSortProperty}
           />
-          <FilterMenu filterProps={setCountryProps} />
+          <FilterMenu filterProps={setFilterProps} />
         </HStack>
         {search && (
           <Text fontSize="16px" color="grey.300" width="100%">

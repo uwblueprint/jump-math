@@ -12,32 +12,25 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { FunnelIcon } from "../../assets/icons";
-
-export type Option = {
-  value: string;
-  label: string;
-};
+import { MultiOption } from "../../types/SelectInputTypes";
 
 export type FilterMenuProp = {
   label: string;
   setState: React.Dispatch<SetStateAction<Array<string>>>;
-  options: Option[];
+  options: MultiOption[];
 };
 
 interface FilterMenuProps {
   filterProps: FilterMenuProp[];
 }
 
-function AddFilter(
-  optionsSelected: { [key: string]: string[] },
+function addFilter(
+  optionsSelected: Map<string, string[]>,
   filterProps: FilterMenuProp[],
 ): void {
   filterProps.forEach((prop: FilterMenuProp) => {
-    if (
-      optionsSelected[prop.label] &&
-      optionsSelected[prop.label].length !== 0
-    ) {
-      prop.setState(optionsSelected[prop.label]);
+    if (optionsSelected.has(prop.label) && optionsSelected.get(prop.label)) {
+      prop.setState(optionsSelected.get(prop.label) as string[]);
     } else {
       prop.setState([]);
     }
@@ -45,7 +38,10 @@ function AddFilter(
 }
 
 const FilterMenu = ({ filterProps }: FilterMenuProps): React.ReactElement => {
-  const optionsSelected = {} as { [key: string]: string[] };
+  const [optionsSelected, setOptionsSelected] = React.useState<
+    Map<string, string[]>
+  >(new Map());
+
   const attributeList = filterProps.map((filterProp, i) => (
     <>
       <Flex pt="2%" px={3} pb={4} justifyContent="space-around">
@@ -73,8 +69,10 @@ const FilterMenu = ({ filterProps }: FilterMenuProps): React.ReactElement => {
             }}
             focusBorderColor="blue.300"
             onChange={(choices) => {
-              optionsSelected[filterProp.label] = choices.map(
-                (choice) => choice.value,
+              const choices2 = choices as MultiOption[];
+              const values = choices2.map((choice) => choice.value);
+              setOptionsSelected(
+                new Map(optionsSelected.set(filterProp.label, values)),
               );
             }}
             isMulti
@@ -114,7 +112,7 @@ const FilterMenu = ({ filterProps }: FilterMenuProps): React.ReactElement => {
                 <Button
                   minWidth="10%"
                   onClick={() => {
-                    AddFilter(optionsSelected, filterProps);
+                    addFilter(optionsSelected, filterProps);
                     onClose();
                   }}
                   variant="secondary"
