@@ -13,7 +13,10 @@ import {
 import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
 import { AssessmentTypes } from "../../../types/AssessmentTypes";
 import SortMenu from "../../common/SortMenu";
-import FilterMenu from "../../assessment-creation/FilterMenu";
+import FilterMenu, {
+  FilterMenuProp,
+  Option,
+} from "../../assessment-creation/FilterMenu";
 import SearchBar from "../../common/SearchBar";
 import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
 
@@ -51,7 +54,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "Published",
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "Beginning",
+    type: "End",
     country: "USA",
     region: "California",
   },
@@ -67,7 +70,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "Published",
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: "Beginning",
+    type: "End",
     country: "USA",
     region: "Texas",
   },
@@ -83,7 +86,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "Draft",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "Beginning",
+    type: "End",
     country: "USA",
     region: "California",
   },
@@ -91,7 +94,7 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "Draft",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "Beginning",
+    type: "End",
     country: "Canada",
     region: "Ontario",
   },
@@ -131,8 +134,8 @@ const sampleAssessments: AssessmentTypes[] = [
     status: "Draft",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "Beginning",
-    country: "USA",
+    type: "End",
+    country: "Canada",
     region: "California",
   },
 ];
@@ -142,6 +145,33 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("name");
   const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [types, setTypes] = React.useState<Array<string>>([]);
+  const [countries, setCountries] = React.useState<Array<string>>([]);
+  const [regions, setRegions] = React.useState<Array<string>>([]);
+  const [status, setStatus] = React.useState("");
+
+  const typeOptions = [
+    { value: "Beginning", label: "Beginning" },
+    { value: "End", label: "End" },
+  ];
+
+  const countryOptions = [
+    { value: "Canada", label: "Canada" },
+    { value: "USA", label: "USA" },
+  ] as Option[];
+
+  const regionOptions = [
+    { value: "Ottawa", label: "Ottawa" },
+    { value: "California", label: "California" },
+    { value: "Ontario", label: "Ontario" },
+    { value: "Texas", label: "Texas" },
+  ];
+
+  const setCountryProps: FilterMenuProp[] = [
+    { label: "Type", setState: setTypes, options: typeOptions },
+    { label: "Country", setState: setCountries, options: countryOptions },
+    { label: "Region", setState: setRegions, options: regionOptions },
+  ];
 
   // const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
   //   fetchPolicy: "cache-and-network",
@@ -162,8 +192,38 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return filteredTests?.map(getAssessments);
   }, [search]);
 
+  const filteredAssessements = React.useMemo(() => {
+    let filteredTests: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
+
+    if (types.length !== 0) {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
+        types.includes(assessment.type),
+      );
+    }
+
+    if (countries.length !== 0) {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
+        countries.includes(assessment.country),
+      );
+    }
+
+    if (regions.length !== 0) {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
+        regions.includes(assessment.region),
+      );
+    }
+
+    if (status) {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
+        status.includes(assessment.status),
+      );
+    }
+
+    return filteredTests;
+  }, [searchedAssessements, countries, regions, types, status]);
+
   const assessments = React.useMemo(() => {
-    let sortedAssessments: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
+    let sortedAssessments: AssessmentTypes[] = filteredAssessements as AssessmentTypes[];
     if (sortOrder === "descending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
         a[sortProperty as keyof AssessmentTypes].toLowerCase() <
@@ -180,8 +240,36 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       );
     }
     return sortedAssessments;
-  }, [searchedAssessements, sortProperty, sortOrder]);
-
+  }, [filteredAssessements, sortOrder, sortProperty]);
+  const FullTabPanel = (
+    <TabPanel>
+      <VStack pt={4} spacing={6}>
+        <HStack width="100%">
+          <SearchBar onSearch={setSearch} />
+          <SortMenu
+            properties={[
+              "status",
+              "name",
+              "grade",
+              "type",
+              "country",
+              "region",
+            ]}
+            onSortOrder={setSortOrder}
+            onSortProperty={setSortProperty}
+          />
+          <FilterMenu filterProps={setCountryProps} />
+        </HStack>
+        {search && (
+          <Text fontSize="16px" color="grey.300" width="100%">
+            Showing {sampleAssessments.length} results for &quot;
+            {search}&quot;
+          </Text>
+        )}
+        <AssessmentsTable assessments={assessments} />
+      </VStack>
+    </TabPanel>
+  );
   return (
     <>
       <Box>
@@ -211,56 +299,24 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <Box flex="1">
         <Tabs marginTop={3}>
           <TabList>
-            <Tab onClick={() => setSearch("")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("")} color={unselectedColor}>
               All
             </Tab>
-            <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("Draft")} color={unselectedColor}>
               Drafts
             </Tab>
-            <Tab onClick={() => setSearch("Published")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("Published")} color={unselectedColor}>
               Published
             </Tab>
-            <Tab onClick={() => setSearch("Archived")} color={unselectedColor}>
+            <Tab onClick={() => setStatus("Archived")} color={unselectedColor}>
               Archived
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
-              <VStack pt={4} spacing={6}>
-                <HStack width="100%">
-                  <SearchBar onSearch={setSearch} />
-                  <SortMenu
-                    properties={[
-                      "status",
-                      "name",
-                      "grade",
-                      "type",
-                      "country",
-                      "region",
-                    ]}
-                    onSortOrder={setSortOrder}
-                    onSortProperty={setSortProperty}
-                  />
-                  <FilterMenu />
-                </HStack>
-                {search && (
-                  <Text fontSize="16px" color="grey.300" width="100%">
-                    Showing {sampleAssessments.length} results for &quot;
-                    {search}&quot;
-                  </Text>
-                )}
-                <AssessmentsTable assessments={assessments} />
-              </VStack>
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
+            {FullTabPanel}
+            {FullTabPanel}
+            {FullTabPanel}
+            {FullTabPanel}
           </TabPanels>
         </Tabs>
       </Box>
