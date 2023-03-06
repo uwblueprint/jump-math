@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, model } from "mongoose";
 
 export interface Class extends Document {
+  id: string;
   class_name: string;
   school_year: number;
   grade_level: string;
