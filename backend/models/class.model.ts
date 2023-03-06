@@ -1,12 +1,21 @@
 import mongoose, { Schema, Document, model } from "mongoose";
 import { Grade } from "../types";
 
+/**
+ * This document contains information about a single class.
+ */
 export interface Class extends Document {
+  /** the unique identifier for the class */
   id: string;
+  /** the name of the class */
   className: string;
+  /** the school year of the class */
   schoolYear: number;
+  /** the grade level of the glass */
   gradeLevel: Grade[];
+  /** the id of the teacher that teaches the class  */
   teacher: string;
+  /** the ids of the test sessions assigned to the class */
   testSessions: string[];
 }
 
