@@ -17,7 +17,7 @@ const AddShortAnswerModal = (): React.ReactElement => {
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addShortAnswerElement = (data: string) => {
+  const addShortAnswerElement = (data: number) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {

@@ -7,7 +7,7 @@ import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
 interface EditShortAnswerModalProps {
   id: string;
-  data: string;
+  data: number;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -25,7 +25,7 @@ const EditShortAnswerModal = ({
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateShortAnswerElement = (updatedAnswer: string) => {
+  const updateShortAnswerElement = (updatedAnswer: number) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedAnswer, prevElements);
     });

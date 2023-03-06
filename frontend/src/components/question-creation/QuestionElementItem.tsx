@@ -24,15 +24,15 @@ const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
     case QuestionElementType.QUESTION:
-      return <QuestionTextElement key={id} id={id} data={data} />;
+      return <QuestionTextElement key={id} id={id} data={data as string} />;
     case QuestionElementType.TEXT:
-      return <TextElement key={id} id={id} data={data} />;
+      return <TextElement key={id} id={id} data={data as string} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
       return <Text key={id}>this is a multiple choice element.</Text>;
     case QuestionElementType.SHORT_ANSWER:
-      return <ShortAnswerElement key={id} id={id} data={data} />;
+      return <ShortAnswerElement key={id} id={id} data={data as number} />;
     case QuestionElementType.MULTI_SELECT:
       return <Text key={id}>this is a multi select element.</Text>;
     default:

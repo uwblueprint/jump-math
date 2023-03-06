@@ -32,7 +32,7 @@ export const shouldReorder = (
 
 export const updatedQuestionElement = (
   id: string,
-  updatedData: string,
+  updatedData: string | number,
   prevElements: QuestionElement[],
   error?: string,
 ): QuestionElement[] => {

@@ -5,7 +5,7 @@ import EditShortAnswerModal from "./modals/short-answer/EditShortAnswerModal";
 
 interface ShortAnswerElementProps {
   id: string;
-  data: string;
+  data: number;
 }
 
 const ShortAnswerElement = ({
