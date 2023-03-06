@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -29,17 +29,27 @@ const ShortAnswerModal = ({
   onConfirm,
   data,
 }: ShortAnswerModalProps): React.ReactElement => {
-  const [answer, setAnswer] = useState(data);
+  const [answer, setAnswer] = useState<number>();
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+    setAnswer(data);
+  }, [data]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = parseInt(event.target.value, 10);
+    const updatedAnswer = Number.isNaN(input) ? undefined : input;
+    setAnswer(updatedAnswer);
+  };
+
   const handleClose = () => {
-    setAnswer(undefined);
+    setAnswer(data);
     setError(false);
     onClose();
   };
 
   const handleConfirm = () => {
-    if (answer) {
+    if (typeof answer !== "undefined") {
       onConfirm(answer);
       handleClose();
     } else {
@@ -63,7 +73,7 @@ const ShortAnswerModal = ({
             <Input
               value={answer}
               placeholder="Input Field"
-              onChange={(e) => setAnswer(parseInt(e.target.value, 10))}
+              onChange={handleInputChange}
               type="number"
               width="50%"
             />
