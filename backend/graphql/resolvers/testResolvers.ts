@@ -4,7 +4,6 @@ import {
   QuestionComponentMetadata,
   QuestionComponent,
 } from "../../models/test.model";
-import UserService from "../../services/implementations/userService";
 import {
   ITestService,
   TestRequestDTO,
@@ -12,10 +11,8 @@ import {
   QuestionComponentRequest,
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
-import IUserService from "../../services/interfaces/userService";
 
-const userService: IUserService = new UserService();
-const testService: ITestService = new TestService(userService);
+const testService: ITestService = new TestService();
 
 type QuestionMetadataName =
   | "QuestionTextMetadata"
@@ -142,7 +139,6 @@ const testResolvers = {
       const updatedTest = await testService.updateTest(testId, {
         ...testToUpdate,
         status: AssessmentStatus.PUBLISHED,
-        admin: testToUpdate.admin.id,
       });
       return updatedTest;
     },

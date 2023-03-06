@@ -9,15 +9,12 @@ import {
   AssessmentType,
   AssessmentStatus,
 } from "../../models/test.model";
-import { UserDTO } from "../../types";
 
 export type TestResponseDTO = {
   /** the unique identifier of the response */
   id: string;
   /** the name of the test */
   name: string;
-  /** the UserDTO for the admin */
-  admin: UserDTO;
   /** an array of questions on the test */
   questions: QuestionComponent[][];
   /** the grade of the student */
@@ -32,10 +29,7 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-/** the request input expects an admin userId string rather than a UserDTO */
-export type CreateTestRequestDTO = Omit<TestResponseDTO, "id" | "admin"> & {
-  admin: string;
-};
+export type CreateTestRequestDTO = Omit<TestResponseDTO, "id">;
 
 export interface QuestionComponentMetadataRequest {
   questionTextMetadata: QuestionTextMetadata;
@@ -52,8 +46,6 @@ export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
 export type TestRequestDTO = {
   /** the name of the test */
   name: string;
-  /** the UserDTO for the admin */
-  admin: string;
   /** an ordered array of questions on the test */
   questions: QuestionComponentRequest[][];
   /** the grade of the student */

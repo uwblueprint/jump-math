@@ -12,17 +12,13 @@ import {
   mockTestArray,
   questions,
 } from "../../../testUtils/tests";
-
-import UserService from "../userService";
 import {
   TestResponseDTO,
   CreateTestRequestDTO,
 } from "../../interfaces/testService";
-import { mockAdmin } from "../../../testUtils/users";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
-  let userService: UserService;
 
   beforeAll(async () => {
     await db.connect();
@@ -33,8 +29,7 @@ describe("mongo testService", (): void => {
   });
 
   beforeEach(async () => {
-    userService = new UserService();
-    testService = new TestService(userService);
+    testService = new TestService();
   });
 
   afterEach(async () => {
@@ -42,16 +37,9 @@ describe("mongo testService", (): void => {
   });
 
   it("createTest", async () => {
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     const res = await testService.createTest(mockTest);
 
     assertResponseMatchesExpected(mockTest, res);
-  });
-
-  it("createTest invalid admin userId", async () => {
-    await expect(async () => {
-      await testService.createTest(mockTest);
-    }).rejects.toThrowError(`userId ${mockTest.admin} not found`);
   });
 
   it("deleteTest", async () => {
@@ -71,13 +59,9 @@ describe("mongo testService", (): void => {
     // insert test into database
     const createdTest = await MgTest.create(mockTest);
 
-    // mock response of user service
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
-
     // create DTO object to update to
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
-      admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
       assessmentType: AssessmentType.END,
@@ -95,13 +79,9 @@ describe("mongo testService", (): void => {
     // insert test into database
     await MgTest.create(mockTest);
 
-    // mock response of user service
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
-
     // create DTO object to update to
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
-      admin: "62c248c0f79d6c3c9ebbea94",
       questions,
       grade: 10,
       assessmentType: AssessmentType.END,
@@ -119,7 +99,6 @@ describe("mongo testService", (): void => {
   });
 
   it("getTestById", async () => {
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     const test = await MgTest.create(mockTest);
     const res = await testService.getTestById(test.id);
 
@@ -135,7 +114,6 @@ describe("mongo testService", (): void => {
   });
 
   it("getAllTests", async () => {
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     await MgTest.insertMany(mockTestArray);
     const res = await testService.getAllTests();
 
