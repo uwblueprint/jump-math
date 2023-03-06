@@ -143,4 +143,17 @@ describe("mongo testService", (): void => {
       assertResponseMatchesExpected(mockTestArray[i], test);
     });
   });
+
+  it("duplicateTest", async () => {
+    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
+    const test = await MgTest.create(mockTest);
+
+    const duplicateTest = await testService.duplicateTest(test.id);
+    assertResponseMatchesExpected(test, duplicateTest);
+    expect(test.id).not.toEqual(duplicateTest.id);
+
+    const originalTest = await testService.getTestById(test.id);
+    assertResponseMatchesExpected(test, originalTest);
+    expect(test.id).toEqual(originalTest.id);
+  });
 });

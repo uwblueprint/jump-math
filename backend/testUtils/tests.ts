@@ -148,6 +148,7 @@ export const assertResponseMatchesExpected = (
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
   expect(result.status).toEqual(expected.status.toString());
+  expect(result.grade).toEqual(expected.grade);
 
   result.questions.forEach((questionComponents: QuestionComponent[], i) => {
     const expectedQuestion: QuestionComponent[] = expected.questions[i];
