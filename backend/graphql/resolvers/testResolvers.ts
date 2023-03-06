@@ -11,10 +11,6 @@ import {
   QuestionComponentRequest,
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
-import {
-  QuestionComponentMetadata,
-  QuestionComponent,
-} from "../../models/test.model";
 
 const testService: ITestService = new TestService();
 
@@ -143,7 +139,6 @@ const testResolvers = {
       const updatedTest = await testService.updateTest(testId, {
         ...testToUpdate,
         status: AssessmentStatus.PUBLISHED,
-        admin: testToUpdate.admin.id,
       });
       return updatedTest;
     },
