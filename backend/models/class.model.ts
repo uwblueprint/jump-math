@@ -1,25 +1,42 @@
 import mongoose, { Schema, Document, model } from "mongoose";
+import { Grade } from "../types";
 
 export interface Class extends Document {
   id: string;
-  class_name: string;
-  school_year: number;
-  grade_level: string;
+  className: string;
+  schoolYear: number;
+  gradeLevel: Grade[];
   teacher: string;
-  test_sessions: string[];
+  testSessions: string[];
 }
 
 const ClassSchema: Schema = new Schema({
-  class_name: {
+  className: {
     type: String,
     required: true,
   },
-  school_year: {
+  schoolYear: {
     type: Number,
     required: true,
   },
-  grade_level: {
-    type: String,
+  gradeLevel: {
+    type: [
+      {
+        type: String,
+        required: false,
+        enum: [
+          "K",
+          "Grade 1",
+          "Grade 2",
+          "Grade 3",
+          "Grade 4",
+          "Grade 5",
+          "Grade 6",
+          "Grade 7",
+          "Grade 8",
+        ],
+      },
+    ],
     required: true,
   },
   teacher: {
@@ -27,7 +44,7 @@ const ClassSchema: Schema = new Schema({
     ref: "User",
     required: true,
   },
-  test_sessions: {
+  testSessions: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
     required: true,
   },
