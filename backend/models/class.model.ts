@@ -11,7 +11,7 @@ export interface Class extends Document {
   className: string;
   /** the school year of the class */
   schoolYear: number;
-  /** the grade level of the glass */
+  /** the grade level of the class */
   gradeLevel: Grade[];
   /** the id of the teacher that teaches the class  */
   teacher: string;
