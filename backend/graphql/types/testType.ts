@@ -100,7 +100,6 @@ const testType = gql`
   type TestResponseDTO {
     id: ID!
     name: String!
-    admin: UserDTO!
     questions: [[QuestionComponent]]!
     grade: Int!
     assessmentType: AssessmentTypeEnum!
@@ -111,7 +110,6 @@ const testType = gql`
 
   input TestRequestDTO {
     name: String!
-    admin: ID!
     questions: [[QuestionComponentInput]]!
     grade: Int!
     assessmentType: AssessmentTypeEnum!

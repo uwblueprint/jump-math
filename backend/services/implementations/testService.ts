@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import MgTest, { Test } from "../../models/test.model";
 import {
   CreateTestRequestDTO,
@@ -6,25 +7,15 @@ import {
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import { UserDTO } from "../../types";
-import IUserService from "../interfaces/userService";
 
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
-  userService: IUserService;
-
-  constructor(userService: IUserService) {
-    this.userService = userService;
-  }
-
   /* eslint-disable class-methods-use-this */
   async createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
-    let adminDto: UserDTO | null;
 
     try {
-      adminDto = await this.userService.getUserById(test.admin);
       newTest = await MgTest.create(test);
     } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
@@ -34,7 +25,6 @@ class TestService implements ITestService {
     return {
       id: newTest.id,
       name: newTest.name,
-      admin: adminDto,
       questions: newTest.questions,
       grade: newTest.grade,
       curriculumCountry: newTest.curriculumCountry,
@@ -62,7 +52,6 @@ class TestService implements ITestService {
     test: CreateTestRequestDTO,
   ): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
-    let adminDto: UserDTO | null;
 
     try {
       updatedTest = await MgTest.findByIdAndUpdate(id, test, {
@@ -72,8 +61,6 @@ class TestService implements ITestService {
       if (!updatedTest) {
         throw new Error(`Test with id ${id} not found`);
       }
-
-      adminDto = await this.userService.getUserById(test.admin);
     } catch (error: unknown) {
       Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -82,7 +69,6 @@ class TestService implements ITestService {
     return {
       id: updatedTest.id,
       name: updatedTest.name,
-      admin: adminDto,
       questions: updatedTest.questions,
       grade: updatedTest.grade,
       curriculumCountry: updatedTest.curriculumCountry,
@@ -94,14 +80,12 @@ class TestService implements ITestService {
 
   async getTestById(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let adminDto: UserDTO | null;
 
     try {
       test = await MgTest.findById(id);
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
-      adminDto = await this.userService.getUserById(test.admin);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
@@ -111,7 +95,6 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      admin: adminDto,
       questions: test.questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
@@ -131,16 +114,46 @@ class TestService implements ITestService {
     }
   }
 
+  async duplicateTest(id: string): Promise<TestResponseDTO> {
+    let test: Test | null;
+
+    try {
+      test = await MgTest.findById(id);
+      if (!test) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+      // eslint-disable-next-line no-underscore-dangle
+      test._id = mongoose.Types.ObjectId();
+      test.isNew = true;
+      test.save();
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return {
+      id: test.id,
+      name: test.name,
+      questions: test.questions,
+      grade: test.grade,
+      curriculumCountry: test.curriculumCountry,
+      curriculumRegion: test.curriculumRegion,
+      assessmentType: test.assessmentType,
+      status: test.status,
+    };
+  }
+
   async mapTestsToTestResponseDTOs(
     tests: Array<Test>,
   ): Promise<TestResponseDTO[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const adminDTO = await this.userService.getUserById(test.admin);
         return {
           id: test.id,
           name: test.name,
-          admin: adminDTO,
           questions: test.questions,
           grade: test.grade,
           curriculumCountry: test.curriculumCountry,
