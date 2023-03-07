@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Text,
@@ -11,14 +12,10 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  Icon,
-  WrapItem,
   Wrap,
 } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
 import {
   ArrowBackOutlineIcon,
-  ColumnIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -26,32 +23,34 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import QuestionSidebarItem from "./QuestionSidebarItem";
 
-interface CreateQuestionSidebarProps {
-  pageToNavigate: string;
+import { QuestionElementType } from "../../types/QuestionTypes";
+
+interface QuestionSidebarProps {
+  backPage: string;
 }
 interface AccordionItemProps {
   title: string;
-  panels: AccordianPanelProps[];
+  panels: AccordionPanelProps[];
 }
 
-interface AccordianPanelProps {
+interface AccordionPanelProps {
+  element: QuestionElementType;
   icon: () => React.ReactElement;
-  caption: string;
 }
 
-const renderAccordianPanel = (panels: AccordianPanelProps[]) => {
+const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
   return (
     <AccordionPanel pb={4}>
       <Wrap spacing="0.5em">
-        {panels.map((panel: AccordianPanelProps, i) => {
+        {panels.map((panel: AccordionPanelProps, i) => {
           return (
-            <WrapItem key={i}>
-              <VStack>
-                <Icon as={panel.icon} />
-                <Text textStyle="caption">{panel.caption}</Text>
-              </VStack>
-            </WrapItem>
+            <QuestionSidebarItem
+              type={panel.element}
+              key={i}
+              icon={panel.icon}
+            />
           );
         })}
       </Wrap>
@@ -69,24 +68,24 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        {renderAccordianPanel(item.panels)}
+        {renderAccordionPanel(item.panels)}
       </AccordionItem>
     );
   });
 };
 
-const CreateQuestionSidebar = ({
-  pageToNavigate,
-}: CreateQuestionSidebarProps): React.ReactElement => {
+const QuestionSidebar = ({
+  backPage,
+}: QuestionSidebarProps): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(pageToNavigate);
+  const navigateTo = () => history.push(backPage);
 
   return (
     <VStack
-      minHeight="100vh"
-      boxShadow="8px 4px 4px rgba(193, 186, 186, 0.25)"
+      boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
       padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
+      sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
         <Button
@@ -101,26 +100,31 @@ const CreateQuestionSidebar = ({
         <Text textStyle="header4" color="blue.300">
           Create Question
         </Text>
-        <Accordion defaultIndex={[0]} paddingTop="1em" allowMultiple>
+        <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
           {renderAccordionItem([
-            {
-              title: "Layout",
-              panels: [{ icon: ColumnIcon, caption: "Column" }],
-            },
             {
               title: "Question",
               panels: [
-                { icon: QuestionIcon, caption: "Question" },
-                { icon: TextIcon, caption: "Text" },
-                { icon: ImageIcon, caption: "Image" },
+                { element: QuestionElementType.QUESTION, icon: QuestionIcon },
+                { element: QuestionElementType.TEXT, icon: TextIcon },
+                { element: QuestionElementType.IMAGE, icon: ImageIcon },
               ],
             },
             {
               title: "Response Type",
               panels: [
-                { icon: MultipleChoiceIcon, caption: "Multiple Choice" },
-                { icon: MultiSelectIcon, caption: "Multi-select" },
-                { icon: ShortAnswerIcon, caption: "Short answer" },
+                {
+                  element: QuestionElementType.MULTIPLE_CHOICE,
+                  icon: MultipleChoiceIcon,
+                },
+                {
+                  element: QuestionElementType.MULTI_SELECT,
+                  icon: MultiSelectIcon,
+                },
+                {
+                  element: QuestionElementType.SHORT_ANSWER,
+                  icon: ShortAnswerIcon,
+                },
               ],
             },
           ])}
@@ -138,4 +142,4 @@ const CreateQuestionSidebar = ({
   );
 };
 
-export default CreateQuestionSidebar;
+export default QuestionSidebar;

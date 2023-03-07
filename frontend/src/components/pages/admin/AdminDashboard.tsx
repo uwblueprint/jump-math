@@ -5,9 +5,12 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "../../common/Navbar";
 import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
-import UsersPage from "./UsersPage";
-import CreateQuestionPage from "../../assessment-creation/CreateQuestionPage";
 import PrivateRoute from "../../auth/PrivateRoute";
+
+import UsersPage from "./UsersPage";
+import CreateAssessmentPage from "./CreateAssessmentPage";
+import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
+import QuestionPage from "./QuestionPage";
 import NotFound from "../NotFound";
 
 const pages: Page[] = [
@@ -17,31 +20,45 @@ const pages: Page[] = [
 
 const AdminDashboard = (): React.ReactElement => {
   return (
-    <VStack flex="1" align="left">
-      <Navbar pages={pages} />
-      <Box padding="1.5em 2em 0em 2em">
-        <Switch>
-          <PrivateRoute
-            exact
-            path={Routes.USER_DATABASE}
-            component={UsersPage}
-            roles={["Admin"]}
-          />
-          <PrivateRoute
-            exact
-            path={Routes.CREATE_QUESTION}
-            component={CreateQuestionPage}
-            roles={["Admin"]}
-          />
-          <Redirect
-            exact
-            from={Routes.ADMIN_LANDING}
-            to={Routes.USER_DATABASE}
-          />
-          <Route exact path="*" component={NotFound} />
-        </Switch>
-      </Box>
-    </VStack>
+    <Switch>
+      <PrivateRoute
+        exact
+        path={Routes.CREATE_QUESTION}
+        component={QuestionPage}
+        roles={["Admin"]}
+      />
+      <VStack flex="1" align="left">
+        <Navbar pages={pages} />
+        <Box padding="1.5em 2em 0em 2em">
+          <Switch>
+            <PrivateRoute
+              exact
+              path={Routes.USER_DATABASE}
+              component={UsersPage}
+              roles={["Admin"]}
+            />
+            <PrivateRoute
+              exact
+              path={Routes.ASSESSMENTS}
+              component={DisplayAssessmentsPage}
+              roles={["Admin"]}
+            />
+            <PrivateRoute
+              exact
+              path={Routes.CREATE_ASSESSMENT}
+              component={CreateAssessmentPage}
+              roles={["Admin"]}
+            />
+            <Redirect
+              exact
+              from={Routes.ADMIN_LANDING}
+              to={Routes.USER_DATABASE}
+            />
+            <Route exact path="*" component={NotFound} />
+          </Switch>
+        </Box>
+      </VStack>
+    </Switch>
   );
 };
 

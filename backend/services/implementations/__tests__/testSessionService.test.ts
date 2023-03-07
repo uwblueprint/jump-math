@@ -11,6 +11,7 @@ import {
   mockUngradedTestResult,
   mockGradedTestResult,
   mockTestSessionWithId,
+  mockTestSessionsWithSameAccessCode,
 } from "../../../testUtils/testSession";
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
@@ -37,7 +38,7 @@ describe("mongo testSessionService", (): void => {
   beforeEach(async () => {
     userService = new UserService();
     schoolService = new SchoolService(userService);
-    testService = new TestService(userService);
+    testService = new TestService();
     testSessionService = new TestSessionService(
       testService,
       userService,
@@ -77,6 +78,37 @@ describe("mongo testSessionService", (): void => {
     );
     assertResponseMatchesExpected(mockTestSession, res);
     assertResultsResponseMatchesExpected(mockTestSession, res);
+  });
+
+  it("get test sessions by access code for valid code", async () => {
+    await MgTestSession.create(mockTestSession);
+    const res = await testSessionService.getTestSessionByAccessCode(
+      mockTestSession.accessCode,
+    );
+    assertResultsResponseMatchesExpected(mockTestSession, res);
+  });
+
+  it("get test sessions by access code for invalid code", async () => {
+    await MgTestSession.create(mockTestSession);
+    // school id that's different than the created test session
+    const accessCode = "123456";
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(accessCode);
+    }).rejects.toThrowError(
+      `Test Session with access code ${accessCode} not found`,
+    );
+  });
+
+  it("get test sessions by access code for repeated code", async () => {
+    await MgTestSession.create(mockTestSessionsWithSameAccessCode);
+    // school id that's different than the created test session
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(
+        mockTestSession.accessCode,
+      );
+    }).rejects.toThrowError(
+      `More than one Test Session uses the access code ${mockTestSession.accessCode}`,
+    );
   });
 
   it("get test sessions by school id for valid id", async () => {

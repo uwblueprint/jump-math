@@ -1,9 +1,13 @@
-import { QuestionComponent, QuestionComponentType } from "../models/test.model";
+import {
+  QuestionComponent,
+  QuestionComponentType,
+  AssessmentStatus,
+  AssessmentType,
+} from "../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
-import { mockAdmin } from "./users";
 
 export const questions: Array<Array<QuestionComponent>> = [
   [
@@ -78,46 +82,52 @@ export const questions: Array<Array<QuestionComponent>> = [
 
 export const mockTest: CreateTestRequestDTO = {
   name: "test",
-  duration: 300,
-  admin: "62c248c0f79d6c3c9ebbea94",
   questions,
   grade: 11,
+  assessmentType: AssessmentType.BEGINNING,
+  curriculumCountry: "country",
+  curriculumRegion: "region",
+  status: AssessmentStatus.DRAFT,
 };
 
-export const mockTestArray = [
+export const mockTestArray: Array<CreateTestRequestDTO> = [
   {
     name: "test1",
-    duration: 300,
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
+    assessmentType: AssessmentType.END,
+    curriculumCountry: "country1",
+    curriculumRegion: "region1",
+    status: AssessmentStatus.DRAFT,
   },
   {
     name: "test2",
-    duration: 301,
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
+    assessmentType: AssessmentType.END,
+    curriculumCountry: "country2",
+    curriculumRegion: "region1",
+    status: AssessmentStatus.DRAFT,
   },
   {
     name: "test3",
-    duration: 302,
-    admin: "62c248c0f79d6c3c9ebbea94",
     questions,
     grade: 11,
+    assessmentType: AssessmentType.END,
+    curriculumCountry: "country2",
+    curriculumRegion: "region2",
+    status: AssessmentStatus.DRAFT,
   },
 ];
 
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,
-  admin: mockAdmin,
 };
 
 export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
   ...mockTest,
-  admin: mockAdmin,
 };
 
 export const assertResponseMatchesExpected = (
@@ -126,8 +136,11 @@ export const assertResponseMatchesExpected = (
 ): void => {
   expect(result.id).not.toBeNull();
   expect(result.name).toEqual(expected.name);
-  expect(result.duration).toEqual(expected.duration);
-  expect(result.admin).toEqual(mockAdmin);
+  expect(result.assessmentType).toEqual(expected.assessmentType.toString());
+  expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
+  expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
+  expect(result.status).toEqual(expected.status.toString());
+  expect(result.grade).toEqual(expected.grade);
 
   result.questions.forEach((questionComponents: QuestionComponent[], i) => {
     const expectedQuestion: QuestionComponent[] = expected.questions[i];

@@ -9,6 +9,7 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
+import StudentLogin from "./components/auth/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
@@ -32,6 +33,7 @@ import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import TeacherPage from "./components/pages/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
+import StudentAssessment from "./components/pages/StudentAssessment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -92,6 +94,11 @@ const App = (): React.ReactElement => {
                 <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
                 <Route
                   exact
+                  path={Routes.STUDENT_LOGIN}
+                  component={StudentLogin}
+                />
+                <Route
+                  exact
                   path={Routes.TEACHER_SIGNUP}
                   component={TeacherSignup}
                 />
@@ -99,6 +106,11 @@ const App = (): React.ReactElement => {
                   exact
                   path={Routes.EMAIL_ACTION}
                   component={EmailActionHandler}
+                />
+                <Route
+                  exact
+                  path={Routes.STUDENT_ASSESMENT}
+                  component={StudentAssessment}
                 />
                 <PrivateRoute
                   exact
