@@ -38,7 +38,7 @@ describe("mongo testSessionService", (): void => {
   beforeEach(async () => {
     userService = new UserService();
     schoolService = new SchoolService(userService);
-    testService = new TestService(userService);
+    testService = new TestService();
     testSessionService = new TestSessionService(
       testService,
       userService,

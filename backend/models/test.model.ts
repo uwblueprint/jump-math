@@ -98,10 +98,6 @@ export interface Test extends Document {
   id: string;
   /** The name of the test */
   name: string;
-  /** The administrator to which the test belongs to - this is a reference to
-   * an ID in the User collection
-   */
-  admin: string;
   /** An ordered list of questions to be asked when students take the test */
   questions: QuestionComponent[][];
   /** The intended grade the test was made for */
@@ -120,11 +116,6 @@ const TestSchema: Schema = new Schema(
   {
     name: {
       type: String,
-      required: true,
-    },
-    admin: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
       required: true,
     },
     questions: {
