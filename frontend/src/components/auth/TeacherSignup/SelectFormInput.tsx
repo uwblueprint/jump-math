@@ -51,22 +51,7 @@ const SelectFormInput = ({
       placeholder={placeholder}
       selectedOptionStyle="check"
       onChange={handleChange}
-      chakraStyles={{
-        dropdownIndicator: (provided) => ({
-          ...provided,
-          bg: "transparent",
-          px: 2,
-          cursor: "inherit",
-        }),
-        indicatorSeparator: (provided) => ({
-          ...provided,
-          display: "none",
-        }),
-        placeholder: (provided) => ({
-          ...provided,
-          color: "grey.300",
-        }),
-      }}
+      useBasicStyles
       isSearchable={isSearchable}
       errorBorderColor="red.200"
     />

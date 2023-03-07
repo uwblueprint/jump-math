@@ -12,7 +12,7 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import QuestionTag from "./QuestionTag";
-import QuestionType from "../../types/QuestionTypes";
+import { QuestionType } from "../../types/QuestionTypes";
 import {
   EditOutlineIcon,
   DeleteOutlineIcon,
@@ -78,7 +78,7 @@ const QuestionCard = ({
           </Flex>
           <List
             spacing={3}
-            styleType="lower-alpha"
+            styleType={questions.length > 1 ? "lower-alpha" : "none"}
             stylePosition="inside"
             maxWidth={["250px", "800px"]}
             fontWeight="700"

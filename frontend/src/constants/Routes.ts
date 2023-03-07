@@ -2,6 +2,7 @@
 export const HOME_PAGE = "/";
 export const ADMIN_LOGIN = "/admin-login";
 export const TEACHER_LOGIN = "/teacher-login";
+export const STUDENT_LOGIN = "/student-login";
 export const TEACHER_SIGNUP = "/teacher-signup";
 export const EMAIL_ACTION = "/email-action";
 
@@ -18,3 +19,4 @@ export const TEACHER_LANDING = "/teacher";
 
 // Private Student Routes
 export const STUDENT_LANDING = "/student";
+export const STUDENT_ASSESMENT = "/student/assessment";
