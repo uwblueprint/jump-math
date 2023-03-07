@@ -12,19 +12,15 @@ import {
 } from "@chakra-ui/react";
 import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
 import SortMenu from "../../common/SortMenu";
-import FilterMenu, {
-  FilterMenuProp,
-} from "../../assessment-creation/FilterMenu";
+import FilterMenu from "../../assessment-creation/FilterMenu";
 import SearchBar from "../../common/SearchBar";
 import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
 import {
   AssessmentTypes,
   gradeOptions,
-  countryOptions,
-  regionOptions,
-  testTypeOptions,
   TestTypes,
 } from "../../../types/AssessmentTypes";
+import type { FilterProp } from "../../assessment-creation/FilterMenu";
 
 // const ErrorState = (): React.ReactElement => (
 //   <VStack spacing={6} textAlign="center">
@@ -113,7 +109,7 @@ const sampleAssessments: AssessmentTypes[] = [
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: "ARCHIVED",
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
     type: TestTypes.Beginning,
@@ -121,7 +117,7 @@ const sampleAssessments: AssessmentTypes[] = [
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: "PUBLISHED",
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
     type: TestTypes.End,
@@ -157,7 +153,24 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
 
-  const setFilterProps: FilterMenuProp[] = [
+  const countryOptions = [
+    { value: "Canada", label: "Canada" },
+    { value: "USA", label: "USA" },
+  ];
+
+  const regionOptions = [
+    "Ottawa",
+    "Calfornia",
+    "Ontario",
+    "Texas",
+  ].map((value) => ({ value, label: value }));
+
+  const testTypeOptions = [
+    { value: TestTypes.Beginning, label: "Beginning" },
+    { value: TestTypes.End, label: "End" },
+  ];
+
+  const setFilterProps: FilterProp[] = [
     { label: "Grade", setState: setGrades, options: gradeOptions },
     { label: "Type", setState: setTestTypes, options: testTypeOptions },
     { label: "Country", setState: setCountries, options: countryOptions },
@@ -185,36 +198,23 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const filteredAssessements = React.useMemo(() => {
     let filteredTests: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
+    const filterProps = [grades, testTypes, countries, regions, status];
 
-    if (grades.length !== 0) {
-      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        grades.includes(assessment.grade),
-      );
-    }
-
-    if (testTypes.length !== 0) {
-      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        testTypes.includes(assessment.type),
-      );
-    }
-
-    if (countries.length !== 0) {
-      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        countries.includes(assessment.country),
-      );
-    }
-
-    if (regions.length !== 0) {
-      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        regions.includes(assessment.region),
-      );
-    }
-
-    if (status) {
-      filteredTests = filteredTests.filter((assessment: AssessmentTypes) =>
-        status.includes(assessment.status),
-      );
-    }
+    filterProps.forEach((property, i) => {
+      filteredTests = filteredTests.filter((assessment: AssessmentTypes) => {
+        const assessmentProperties = [
+          assessment.grade,
+          assessment.type,
+          assessment.country,
+          assessment.region,
+          assessment.status,
+        ];
+        if (property.length === 0) {
+          return true;
+        }
+        return property.includes(assessmentProperties[i]);
+      });
+    });
 
     return filteredTests;
   }, [searchedAssessements, grades, testTypes, countries, regions, status]);
@@ -238,35 +238,38 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     }
     return sortedAssessments;
   }, [filteredAssessements, sortOrder, sortProperty]);
-  const FullTabPanel = (
-    <TabPanel>
-      <VStack pt={4} spacing={6}>
-        <HStack width="100%">
-          <SearchBar onSearch={setSearch} />
-          <SortMenu
-            properties={[
-              "status",
-              "name",
-              "grade",
-              "type",
-              "country",
-              "region",
-            ]}
-            onSortOrder={setSortOrder}
-            onSortProperty={setSortProperty}
-          />
-          <FilterMenu filterProps={setFilterProps} />
-        </HStack>
-        {search && (
-          <Text fontSize="16px" color="grey.300" width="100%">
-            Showing {sampleAssessments.length} results for &quot;
-            {search}&quot;
-          </Text>
-        )}
-        <AssessmentsTable assessments={assessments} />
-      </VStack>
-    </TabPanel>
-  );
+
+  const TabPanelRows = [...Array(4)].map((i) => {
+    return (
+      <TabPanel key={i}>
+        <VStack pt={4} spacing={6}>
+          <HStack width="100%">
+            <SearchBar onSearch={setSearch} />
+            <SortMenu
+              properties={[
+                "status",
+                "name",
+                "grade",
+                "type",
+                "country",
+                "region",
+              ]}
+              onSortOrder={setSortOrder}
+              onSortProperty={setSortProperty}
+            />
+            <FilterMenu filterProps={setFilterProps} />
+          </HStack>
+          {search && (
+            <Text fontSize="16px" color="grey.300" width="100%">
+              Showing {sampleAssessments.length} results for &quot;
+              {search}&quot;
+            </Text>
+          )}
+          <AssessmentsTable assessments={assessments} />
+        </VStack>
+      </TabPanel>
+    );
+  });
   return (
     <>
       <Box>
@@ -309,12 +312,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               Archived
             </Tab>
           </TabList>
-          <TabPanels>
-            {FullTabPanel}
-            {FullTabPanel}
-            {FullTabPanel}
-            {FullTabPanel}
-          </TabPanels>
+          <TabPanels>{TabPanelRows}</TabPanels>
         </Tabs>
       </Box>
       {/* )} */}

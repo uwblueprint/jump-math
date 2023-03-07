@@ -17,7 +17,7 @@ export type AssessmentTypes = {
 };
 
 export const gradeOptions = [
-  "Kindergarten",
+  "K",
   "Grade 1",
   "Grade 2",
   "Grade 3",
@@ -26,21 +26,4 @@ export const gradeOptions = [
   "Grade 6",
   "Grade 7",
   "Grade 8",
-].map((value) => ({ value, label: value }));
-
-export const testTypeOptions = [
-  { value: "BEGINNING", label: "Beginning" },
-  { value: "END", label: "End" },
-];
-
-export const regionOptions = [
-  { value: "Ottawa", label: "Ottawa" },
-  { value: "California", label: "California" },
-  { value: "Ontario", label: "Ontario" },
-  { value: "Texas", label: "Texas" },
-];
-
-export const countryOptions = [
-  { value: "Canada", label: "Canada" },
-  { value: "USA", label: "USA" },
-];
+].map((value) => ({ value, label: value === "K" ? "Kindergarten" : value }));

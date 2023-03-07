@@ -1,89 +1,56 @@
 import React, { SetStateAction } from "react";
 import {
   Button,
-  Text,
   Popover,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
   PopoverTrigger,
-  Divider,
-  Flex,
 } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
 import { FunnelIcon } from "../../assets/icons";
+import FilterRow from "./FilterRow";
 import { MultiOption } from "../../types/SelectInputTypes";
 
-export type FilterMenuProp = {
+export type FilterProp = {
   label: string;
   setState: React.Dispatch<SetStateAction<Array<string>>>;
   options: MultiOption[];
 };
 
-interface FilterMenuProps {
-  filterProps: FilterMenuProp[];
+interface FilterProps {
+  filterProps: FilterProp[];
 }
 
-function addFilter(
+const addFilter = (
   optionsSelected: Map<string, string[]>,
-  filterProps: FilterMenuProp[],
-): void {
-  filterProps.forEach((prop: FilterMenuProp) => {
+  filterProps: FilterProp[],
+) => {
+  filterProps.forEach((prop: FilterProp) => {
     if (optionsSelected.has(prop.label) && optionsSelected.get(prop.label)) {
       prop.setState(optionsSelected.get(prop.label) as string[]);
     } else {
       prop.setState([]);
     }
   });
-}
+};
 
-const FilterMenu = ({ filterProps }: FilterMenuProps): React.ReactElement => {
+const FilterMenu = ({ filterProps }: FilterProps): React.ReactElement => {
   const [optionsSelected, setOptionsSelected] = React.useState<
     Map<string, string[]>
   >(new Map());
 
-  const attributeList = filterProps.map((filterProp, i) => (
-    <>
-      <Flex pt="2%" px={3} pb={4} justifyContent="space-around">
-        <div style={{ width: "7rem" }}>
-          <Text color="blue.300" textStyle="link">
-            {filterProp.label}
-          </Text>
-        </div>
-
-        <div style={{ width: "23rem" }}>
-          <Select
-            chakraStyles={{
-              dropdownIndicator: (provided) => ({
-                ...provided,
-                background: "white",
-              }),
-              downChevron: (provided) => ({
-                ...provided,
-                boxSize: "1.5rem",
-              }),
-              crossIcon: (provided) => ({
-                ...provided,
-                boxSize: "0.8rem",
-              }),
-            }}
-            focusBorderColor="blue.300"
-            onChange={(choices) => {
-              const choices2 = choices as MultiOption[];
-              const values = choices2.map((choice) => choice.value);
-              setOptionsSelected(
-                new Map(optionsSelected.set(filterProp.label, values)),
-              );
-            }}
-            isMulti
-            name="colors"
-            options={filterProp.options}
-          />
-        </div>
-      </Flex>
-      {i !== filterProps.length - 1 && <Divider ml={2} mb={2} maxWidth="95%" />}
-    </>
-  ));
+  const attributeList = filterProps.map((filterProp, i) => {
+    const lastItem = i !== filterProps.length - 1;
+    return (
+      <FilterRow
+        key={i}
+        filterProp={filterProp}
+        lastItem={lastItem}
+        optionsSelected={optionsSelected}
+        setOptionsSelected={setOptionsSelected}
+      />
+    );
+  });
   return (
     <>
       <Popover preventOverflow flip placement="bottom-start">
