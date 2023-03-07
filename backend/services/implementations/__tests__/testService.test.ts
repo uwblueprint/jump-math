@@ -123,7 +123,6 @@ describe("mongo testService", (): void => {
   });
 
   it("duplicateTest", async () => {
-    userService.getUserById = jest.fn().mockReturnValue(mockAdmin);
     const test = await MgTest.create(mockTest);
 
     const duplicateTest = await testService.duplicateTest(test.id);
