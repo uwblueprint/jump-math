@@ -116,15 +116,12 @@ class TestService implements ITestService {
 
   async duplicateTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let adminDto: UserDTO | null;
 
     try {
       test = await MgTest.findById(id);
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
-      adminDto = await this.userService.getUserById(test.admin);
-
       // eslint-disable-next-line no-underscore-dangle
       test._id = mongoose.Types.ObjectId();
       test.isNew = true;
@@ -140,7 +137,6 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      admin: adminDto,
       questions: test.questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
