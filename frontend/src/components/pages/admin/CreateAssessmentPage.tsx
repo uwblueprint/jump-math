@@ -42,105 +42,57 @@ const CreateAssessmentPage = (): React.ReactElement => {
     setValidSubmit(false);
   };
 
+  const handleSave = handleSubmit(onSubmit, onError);
+
   const countryOptions = React.useMemo(() => countryList().getData(), []);
 
   return (
     <Box>
-      <CreateAssessementHeader assessmentName={assessmentName} date={date} />
-      <VStack align="left" width="75%" spacing={8}>
-        <Text textStyle="eyebrow">Basic Information</Text>
+      <CreateAssessementHeader
+        assessmentName={assessmentName}
+        date={date}
+        save={handleSave}
+      />
+      <Box padding="1.5em 2em 0em 2em">
+        <VStack align="left" width="75%" spacing={8}>
+          <Text textStyle="eyebrow">Basic Information</Text>
 
-        {!validSubmit && (
-          <ErrorToast errorMessage="Please resolve all issues before publishing or saving" />
-        )}
+          {!validSubmit && (
+            <ErrorToast errorMessage="Please resolve all issues before publishing or saving" />
+          )}
 
-        <FormControl isRequired isInvalid={Boolean(errors.assessmentName)}>
-          <FormLabel color="grey.400">Assessment Name</FormLabel>
-          <Input
-            placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
-            {...register("assessmentName", {
-              onChange: (e) => {
-                setAssessmentName(e.target.value);
-              },
-              required: "Please enter a name for the assessment",
-            })}
-          />
-          <FormErrorMessage>{errors.assessmentName?.message}</FormErrorMessage>
-        </FormControl>
+          <FormControl isRequired isInvalid={Boolean(errors.assessmentName)}>
+            <FormLabel color="grey.400">Assessment Name</FormLabel>
+            <Input
+              placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
+              {...register("assessmentName", {
+                onChange: (e) => {
+                  setAssessmentName(e.target.value);
+                },
+                required: "Please enter a name for the assessment",
+              })}
+            />
+            <FormErrorMessage>
+              {errors.assessmentName?.message}
+            </FormErrorMessage>
+          </FormControl>
 
-        <Box width="50%">
-          <Controller
-            control={control}
-            name="grade"
-            rules={{ required: "Please select a grade" }}
-            render={({
-              field: { onChange, value, name },
-              fieldState: { error },
-            }) => (
-              <FormControl isRequired isInvalid={Boolean(error)}>
-                <FormLabel color="grey.400">Grade Level</FormLabel>
-                <Select
-                  name={name}
-                  onChange={onChange}
-                  value={value}
-                  options={gradeOptions}
-                  placeholder=""
-                  useBasicStyles
-                />
-                <FormErrorMessage>{error?.message}</FormErrorMessage>
-              </FormControl>
-            )}
-          />
-        </Box>
-
-        <Box width="50%">
-          <Controller
-            control={control}
-            name="assessmentType"
-            rules={{ required: "Please select a type of assessment" }}
-            render={({
-              field: { onChange, value, name, ref },
-              fieldState: { error },
-            }) => (
-              <FormControl isRequired isInvalid={Boolean(error)}>
-                <FormLabel color="grey.400">Type of Assessment</FormLabel>
-                <RadioGroup
-                  name={name}
-                  ref={ref}
-                  onChange={onChange}
-                  value={value}
-                >
-                  <VStack align="left" spacing={0.5}>
-                    <Radio value="beginning">Beginning of Grade</Radio>
-                    <Radio value="end">End of Grade</Radio>
-                  </VStack>
-                </RadioGroup>
-                <FormErrorMessage>{error?.message}</FormErrorMessage>
-              </FormControl>
-            )}
-          />
-        </Box>
-
-        <FormControl>
-          <Text textStyle="subtitle2" mb="2">
-            Curriculum
-          </Text>
-          <HStack width="100%">
+          <Box width="50%">
             <Controller
               control={control}
-              name="country"
-              rules={{ required: "Please select a country" }}
+              name="grade"
+              rules={{ required: "Please select a grade" }}
               render={({
                 field: { onChange, value, name },
                 fieldState: { error },
               }) => (
-                <FormControl isRequired isInvalid={Boolean(error)} mr={2}>
-                  <FormLabel color="grey.400">Country</FormLabel>
+                <FormControl isRequired isInvalid={Boolean(error)}>
+                  <FormLabel color="grey.400">Grade Level</FormLabel>
                   <Select
                     name={name}
                     onChange={onChange}
                     value={value}
-                    options={countryOptions}
+                    options={gradeOptions}
                     placeholder=""
                     useBasicStyles
                   />
@@ -148,19 +100,77 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 </FormControl>
               )}
             />
+          </Box>
 
-            <FormControl isRequired isInvalid={Boolean(errors.region)}>
-              <FormLabel color="grey.400">Region</FormLabel>
-              <Input
-                {...register("region", { required: "Please enter a region" })}
+          <Box width="50%">
+            <Controller
+              control={control}
+              name="assessmentType"
+              rules={{ required: "Please select a type of assessment" }}
+              render={({
+                field: { onChange, value, name, ref },
+                fieldState: { error },
+              }) => (
+                <FormControl isRequired isInvalid={Boolean(error)}>
+                  <FormLabel color="grey.400">Type of Assessment</FormLabel>
+                  <RadioGroup
+                    name={name}
+                    ref={ref}
+                    onChange={onChange}
+                    value={value}
+                  >
+                    <VStack align="left" spacing={0.5}>
+                      <Radio value="beginning">Beginning of Grade</Radio>
+                      <Radio value="end">End of Grade</Radio>
+                    </VStack>
+                  </RadioGroup>
+                  <FormErrorMessage>{error?.message}</FormErrorMessage>
+                </FormControl>
+              )}
+            />
+          </Box>
+
+          <FormControl>
+            <Text textStyle="subtitle2" mb="2">
+              Curriculum
+            </Text>
+            <HStack width="100%">
+              <Controller
+                control={control}
+                name="country"
+                rules={{ required: "Please select a country" }}
+                render={({
+                  field: { onChange, value, name },
+                  fieldState: { error },
+                }) => (
+                  <FormControl isRequired isInvalid={Boolean(error)} mr={2}>
+                    <FormLabel color="grey.400" textStyle="paragraph">
+                      Country
+                    </FormLabel>
+                    <Select
+                      name={name}
+                      onChange={onChange}
+                      value={value}
+                      options={countryOptions}
+                      placeholder=""
+                      useBasicStyles
+                    />
+                    <FormErrorMessage>{error?.message}</FormErrorMessage>
+                  </FormControl>
+                )}
               />
-              <FormErrorMessage> {errors.region?.message} </FormErrorMessage>
-            </FormControl>
-          </HStack>
-        </FormControl>
 
-        <Button onClick={handleSubmit(onSubmit, onError)}>Submit</Button>
-      </VStack>
+              <FormControl isRequired isInvalid={Boolean(errors.region)}>
+                <FormLabel color="grey.400">Region</FormLabel>
+                <Input
+                  {...register("region", { required: "Please enter a region" })}
+                />
+                <FormErrorMessage> {errors.region?.message} </FormErrorMessage>
+              </FormControl>
+            </HStack>
+          </FormControl>
+        </VStack>
+      </Box>
     </Box>
   );
 };

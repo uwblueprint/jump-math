@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Flex,
   VStack,
@@ -10,25 +11,28 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import {
-  TextOutlinedIcon,
-  SaveOutlinedIcon,
-  EyeOutlinedIcon,
+  TextOutlineIcon,
+  SaveOutlineIcon,
+  EyeOutlineIcon,
   MoreVerticalOutlineIcon,
   ArrowBackOutlineIcon,
 } from "../../assets/icons";
+import { ASSESSMENTS } from "../../constants/Routes";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
   date: string;
+  save: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CreateAssessementHeader = ({
   assessmentName,
   date,
+  save,
 }: CreateAssessementHeaderProps): React.ReactElement => {
+  const history = useHistory();
   return (
     <Box
-      margin="-1.5em -2em 2em -2em"
       padding="1.5em 2em 1.5em 2em"
       borderBottom="1px"
       borderBottomColor="grey.200"
@@ -37,39 +41,44 @@ const CreateAssessementHeader = ({
         <HStack spacing={6} alignItems="start">
           <Button
             size="sm"
-            color="blue.700"
+            variant="tertiary"
             leftIcon={<ArrowBackOutlineIcon />}
+            onClick={() => history.push(ASSESSMENTS)}
           >
             Back
           </Button>
           <VStack align="left">
             <Text textStyle="subtitle1">
-              {assessmentName.length > 0
-                ? assessmentName
-                : "Untitled Assessment"}
+              {assessmentName || "Untitled Assessment"}
             </Text>
             <Text textStyle="smallerParagraph"> Created {date}</Text>
           </VStack>
         </HStack>
         <Spacer />
         <HStack spacing={2}>
-          <HStack mr="2">
-            <EyeOutlinedIcon />
-            <Text color="blue.300" textStyle="link">
-              Preview
-            </Text>
-          </HStack>
-          <Button size="sm" variant="secondary" leftIcon={<SaveOutlinedIcon />}>
+          <Button size="sm" variant="tertiary" leftIcon={<EyeOutlineIcon />}>
+            Preview
+          </Button>
+          <Button
+            minWidth="10"
+            variant="secondary"
+            leftIcon={<SaveOutlineIcon />}
+            onClick={save}
+          >
             Save
           </Button>
-          <Button size="sm" variant="primary" leftIcon={<TextOutlinedIcon />}>
+          <Button
+            minWidth="10"
+            variant="primary"
+            leftIcon={<TextOutlineIcon />}
+          >
             Publish
           </Button>
           <IconButton
             color="blue.700"
             icon={<MoreVerticalOutlineIcon />}
             aria-label="more-vertical-outline"
-            size="sm"
+            minWidth="10"
           />
         </HStack>
       </Flex>

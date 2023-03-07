@@ -19,10 +19,16 @@ const pages: Page[] = [
 
 const AdminDashboard = (): React.ReactElement => {
   return (
-    <VStack flex="1" align="left">
-      <Navbar pages={pages} />
-      <Box padding="1.5em 2em 0em 2em">
-        <Switch>
+    <Switch>
+      <PrivateRoute
+        exact
+        path={Routes.CREATE_ASSESSMENT}
+        component={CreateAssessmentPage}
+        roles={["Admin"]}
+      />
+      <VStack flex="1" align="left">
+        <Navbar pages={pages} />
+        <Box padding="1.5em 2em 0em 2em">
           <PrivateRoute
             exact
             path={Routes.USER_DATABASE}
@@ -41,21 +47,15 @@ const AdminDashboard = (): React.ReactElement => {
             component={DisplayAssessmentsPage}
             roles={["Admin"]}
           />
-          <PrivateRoute
-            exact
-            path={Routes.CREATE_ASSESSMENT}
-            component={CreateAssessmentPage}
-            roles={["Admin"]}
-          />
           <Redirect
             exact
             from={Routes.ADMIN_LANDING}
             to={Routes.USER_DATABASE}
           />
           <Route exact path="*" component={NotFound} />
-        </Switch>
-      </Box>
-    </VStack>
+        </Box>
+      </VStack>
+    </Switch>
   );
 };
 

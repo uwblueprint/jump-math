@@ -18,14 +18,6 @@ const DarkBlueIcon = {
 
 const Button = {
   sizes: {
-    sm: {
-      fontSize: "16px",
-      h: "10",
-      minW: "10",
-      px: "4",
-      borderRadius: "16px",
-      fontWeight: "700",
-    },
     md: {
       fontSize: "16px",
       minWidth: "180px",

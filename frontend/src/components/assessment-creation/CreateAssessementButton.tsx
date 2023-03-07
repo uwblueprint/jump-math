@@ -7,7 +7,11 @@ import { PlusOutlineIcon } from "../../assets/icons";
 const CreateAssessementButton = (): React.ReactElement => {
   const history = useHistory();
   const date = new Date();
-  const options = { month: "long", day: "numeric", year: "numeric" };
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
   const formattedDate = date.toLocaleDateString("en-US", options);
   const navigateToCreateAssessmentPage = () =>
     history.push(CREATE_ASSESSMENT, { date: formattedDate });

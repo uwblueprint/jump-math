@@ -368,7 +368,7 @@ export const MultiSelectTagIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const TextOutlinedIcon = (): React.ReactElement => (
+export const TextOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <rect width="24" height="24" opacity="0" />
     <path fill="currentColor" d="M15 16H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z" />
@@ -380,7 +380,7 @@ export const TextOutlinedIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const SaveOutlinedIcon = (): React.ReactElement => (
+export const SaveOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <rect width="24" height="24" opacity="0" />
     <path
@@ -390,7 +390,7 @@ export const SaveOutlinedIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const EyeOutlinedIcon = (): React.ReactElement => (
+export const EyeOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24" color="blue.300">
     <rect width="24" height="24" opacity="0" />
     <path
