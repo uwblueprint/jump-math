@@ -15,6 +15,8 @@ import userResolvers from "./resolvers/userResolvers";
 import userType from "./types/userType";
 import testResolvers from "./resolvers/testResolvers";
 import testType from "./types/testType";
+import testSessionResolvers from "./resolvers/testSessionResolvers";
+import testSessionType from "./types/testSessionType";
 
 const query = gql`
   type Query {
@@ -38,6 +40,7 @@ const executableSchema = makeExecutableSchema({
     simpleEntityType,
     userType,
     testType,
+    testSessionType,
   ],
   resolvers: merge(
     authResolvers,
@@ -46,6 +49,7 @@ const executableSchema = makeExecutableSchema({
     simpleEntityResolvers,
     userResolvers,
     testResolvers,
+    testSessionResolvers,
   ),
 });
 
@@ -62,6 +66,8 @@ const graphQLMiddlewares = {
     userById: authorizedByAdmin(),
     users: authorizedByAdmin(),
     tests: authorizedByAllRoles(),
+    // allTestSessions: authorizedByAllRoles(),
+    // testSessionByAccessCode: authorizedByAllRoles(),
   },
   Mutation: {
     createEntity: authorizedByAllRoles(),
