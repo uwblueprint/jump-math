@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import MgTest, { Test } from "../../models/test.model";
+import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
@@ -125,6 +125,7 @@ class TestService implements ITestService {
       // eslint-disable-next-line no-underscore-dangle
       test._id = mongoose.Types.ObjectId();
       test.isNew = true;
+      test.status = AssessmentStatus.DRAFT;
       test.save();
     } catch (error: unknown) {
       Logger.error(
