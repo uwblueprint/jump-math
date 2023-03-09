@@ -27,6 +27,12 @@ const AdminDashboard = (): React.ReactElement => {
         component={QuestionPage}
         roles={["Admin"]}
       />
+      <PrivateRoute
+        exact
+        path={Routes.CREATE_ASSESSMENT}
+        component={CreateAssessmentPage}
+        roles={["Admin"]}
+      />
       <VStack flex="1" align="left">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
@@ -41,12 +47,6 @@ const AdminDashboard = (): React.ReactElement => {
               exact
               path={Routes.ASSESSMENTS}
               component={DisplayAssessmentsPage}
-              roles={["Admin"]}
-            />
-            <PrivateRoute
-              exact
-              path={Routes.CREATE_ASSESSMENT}
-              component={CreateAssessmentPage}
               roles={["Admin"]}
             />
             <Redirect
