@@ -100,6 +100,7 @@ const testResolvers = {
       return testService.getAllTests();
     },
   },
+
   Mutation: {
     createTest: async (
       _req: undefined,
