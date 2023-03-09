@@ -23,7 +23,9 @@ const QuestionSidebarItem = ({
   type,
   icon,
 }: QuestionSidebarItemProps): React.ReactElement => {
-  const { setQuestionElements } = useContext(QuestionEditorContext);
+  const { setQuestionElements, setShowAddShortAnswerModal } = useContext(
+    QuestionEditorContext,
+  );
 
   const addQuestionElement = (newQuestionElement: QuestionElement) => {
     setQuestionElements((prevElements) => [
@@ -38,7 +40,13 @@ const QuestionSidebarItem = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
+        switch (item.type) {
+          case QuestionElementType.SHORT_ANSWER:
+            setShowAddShortAnswerModal(true);
+            break;
+          default:
+            addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
+        }
       }
     },
     collect: (monitor) => ({

@@ -19,7 +19,7 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
         ? "There is a limit of 800 characters in the text block."
         : "";
     setQuestionElements((prevElements) => {
-      return updatedQuestionElement(id, updatedText, error, prevElements);
+      return updatedQuestionElement(id, updatedText, prevElements, error);
     });
   };
 

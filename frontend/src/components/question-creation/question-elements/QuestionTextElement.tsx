@@ -36,7 +36,7 @@ const QuestionTextElement = ({
         ? "There is a limit of 800 characters in the question block."
         : "";
     setQuestionElements((prevElements) => {
-      return updatedQuestionElement(id, updatedQuestion, error, prevElements);
+      return updatedQuestionElement(id, updatedQuestion, prevElements, error);
     });
   };
 
