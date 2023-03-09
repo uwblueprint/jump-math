@@ -17,7 +17,6 @@ import {
   MoreVerticalOutlineIcon,
   ArrowBackOutlineIcon,
 } from "../../assets/icons";
-import { ASSESSMENTS } from "../../constants/Routes";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
@@ -43,7 +42,7 @@ const CreateAssessementHeader = ({
             size="sm"
             variant="tertiary"
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={() => history.push(ASSESSMENTS)}
+            onClick={() => history.goBack()}
           >
             Back
           </Button>

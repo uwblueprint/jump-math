@@ -142,10 +142,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
                   field: { onChange, value, name },
                   fieldState: { error },
                 }) => (
-                  <FormControl isRequired isInvalid={Boolean(error)} mr={2}>
-                    <FormLabel color="grey.400" textStyle="paragraph">
-                      Country
-                    </FormLabel>
+                  <FormControl
+                    isRequired
+                    isInvalid={Boolean(error)}
+                    mr={2}
+                    variant="paragraph"
+                  >
+                    <FormLabel color="grey.400">Country</FormLabel>
                     <Select
                       name={name}
                       onChange={onChange}
@@ -159,7 +162,11 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 )}
               />
 
-              <FormControl isRequired isInvalid={Boolean(errors.region)}>
+              <FormControl
+                isRequired
+                isInvalid={Boolean(errors.region)}
+                variant="paragraph"
+              >
                 <FormLabel color="grey.400">Region</FormLabel>
                 <Input
                   {...register("region", { required: "Please enter a region" })}
