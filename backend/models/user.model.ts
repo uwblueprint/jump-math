@@ -64,16 +64,19 @@ const UserSchema: Schema = new Schema({
   },
 });
 
-UserSchema.post("findOneAndDelete", async (doc) => {
+UserSchema.pre("findOneAndDelete", async function (next) {
+  const doc = await this.findOne(this.getQuery());
   if (doc.role !== "Teacher") return;
 
   /* eslint-disable no-underscore-dangle */
-  await MgTestSession.deleteMany({ teacher: doc._id });
   await MgSchool.findOneAndUpdate(
     { teachers: doc._id },
     { $pull: { teachers: doc._id } },
     { new: true },
   );
+  await MgTestSession.deleteMany({ teacher: doc._id });
+
+  next();
 });
 
 export default mongoose.model<User>("User", UserSchema);
