@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import MgTest, { Test } from "../../models/test.model";
+import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
@@ -143,6 +143,51 @@ class TestService implements ITestService {
       curriculumRegion: test.curriculumRegion,
       assessmentType: test.assessmentType,
       status: test.status,
+    };
+  }
+
+  async unarchiveTest(id: string): Promise<TestResponseDTO> {
+    let unarchivedTest: Test | null;
+
+    try {
+      const test = await MgTest.findById(id);
+      if (!test) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+      if (test.status !== AssessmentStatus.ARCHIVED) {
+        throw new Error(`Test ID ${id} is not in archived status`);
+      }
+
+      unarchivedTest = test;
+      // eslint-disable-next-line no-underscore-dangle
+      unarchivedTest._id = mongoose.Types.ObjectId();
+      unarchivedTest.isNew = true;
+      unarchivedTest.status = AssessmentStatus.DRAFT;
+      unarchivedTest.save();
+
+      try {
+        await this.deleteTest(id);
+      } catch (error: unknown) {
+        // rollback test creation
+        await this.deleteTest(unarchivedTest.id);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to unarchive test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return {
+      id: unarchivedTest.id,
+      name: unarchivedTest.name,
+      questions: unarchivedTest.questions,
+      grade: unarchivedTest.grade,
+      curriculumCountry: unarchivedTest.curriculumCountry,
+      curriculumRegion: unarchivedTest.curriculumRegion,
+      assessmentType: unarchivedTest.assessmentType,
+      status: unarchivedTest.status,
     };
   }
 

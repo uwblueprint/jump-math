@@ -64,6 +64,7 @@ const UserSchema: Schema = new Schema({
   },
 });
 
+/* eslint-disable func-names */
 UserSchema.pre("findOneAndDelete", async function (next) {
   const doc = await this.findOne(this.getQuery());
   if (doc.role !== "Teacher") return;
