@@ -82,7 +82,7 @@ const ShortAnswerModal = ({
             </FormErrorMessage>
           </FormControl>
         </ModalBody>
-        <Divider color="grey.200" style={{ marginTop: "1.5em" }} />
+        <Divider color="grey.200" mt="1.5em" />
         <ModalFooter>
           <Button
             variant="secondary"
