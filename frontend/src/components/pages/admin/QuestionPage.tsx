@@ -11,6 +11,7 @@ import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 
 import AddShortAnswerModal from "../../question-creation/question-elements/modals/short-answer/AddShortAnswerModal";
+import AddMultipleChoiceModal from "../../question-creation/question-elements/modals/multiple-choice/AddMultipleChoiceModal";
 
 const QuestionPage = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
@@ -19,6 +20,10 @@ const QuestionPage = (): React.ReactElement => {
   const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
     false,
   );
+  const [
+    showAddMultipleChoiceModal,
+    setShowAddMultipleChoiceModal,
+  ] = React.useState(false);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -28,6 +33,8 @@ const QuestionPage = (): React.ReactElement => {
           setQuestionElements,
           showAddShortAnswerModal,
           setShowAddShortAnswerModal,
+          showAddMultipleChoiceModal,
+          setShowAddMultipleChoiceModal,
         }}
       >
         <Flex minHeight="100vh">
@@ -35,6 +42,7 @@ const QuestionPage = (): React.ReactElement => {
           <QuestionEditor />
         </Flex>
         <AddShortAnswerModal />
+        <AddMultipleChoiceModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );

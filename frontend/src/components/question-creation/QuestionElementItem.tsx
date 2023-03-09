@@ -14,6 +14,7 @@ import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes, DragQuestionItem } from "../../types/DragTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
+import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
 
 interface QuestionElementItemProps {
   content: QuestionElement;
@@ -30,7 +31,7 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
-      return <Text key={id}>this is a multiple choice element.</Text>;
+      return <MultipleChoiceElement key={id} id={id} data={data as string} />;
     case QuestionElementType.SHORT_ANSWER:
       return <ShortAnswerElement key={id} id={id} data={data as number} />;
     case QuestionElementType.MULTI_SELECT:

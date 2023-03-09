@@ -3,38 +3,39 @@ import { useDisclosure } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import ShortAnswerModal from "./ShortAnswerModal";
+import MultipleChoiceModal from "./MultipleChoiceModal";
 import { QuestionElementType } from "../../../../../types/QuestionTypes";
 
-const AddShortAnswerModal = (): React.ReactElement => {
+const AddMultipleChoiceModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
-  const { showAddShortAnswerModal, setShowAddShortAnswerModal } = useContext(
-    QuestionEditorContext,
-  );
+  const {
+    showAddMultipleChoiceModal,
+    setShowAddMultipleChoiceModal,
+  } = useContext(QuestionEditorContext);
   const closeModal = () => {
-    setShowAddShortAnswerModal(false);
+    setShowAddMultipleChoiceModal(false);
     onClose();
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addShortAnswerElement = (data: number) => {
+  const addMultipleChoiceElement = (data: string) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {
         id: uuidv4(),
-        type: QuestionElementType.SHORT_ANSWER,
+        type: QuestionElementType.MULTIPLE_CHOICE,
         data,
       },
     ]);
   };
 
   return (
-    <ShortAnswerModal
-      isOpen={showAddShortAnswerModal}
+    <MultipleChoiceModal
+      isOpen={showAddMultipleChoiceModal}
       onClose={closeModal}
-      onConfirm={addShortAnswerElement}
+      onConfirm={addMultipleChoiceElement}
     />
   );
 };
 
-export default AddShortAnswerModal;
+export default AddMultipleChoiceModal;

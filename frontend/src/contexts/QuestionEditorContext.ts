@@ -8,6 +8,8 @@ type QuestionEditorContextType = {
   ) => void;
   showAddShortAnswerModal: boolean;
   setShowAddShortAnswerModal: (_showShortAnswerModal: boolean) => void;
+  showAddMultipleChoiceModal: boolean;
+  setShowAddMultipleChoiceModal: (_showAddMultipleChoiceModal: boolean) => void;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
@@ -18,6 +20,10 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   ): void => {},
   showAddShortAnswerModal: false,
   setShowAddShortAnswerModal: (_showAddShortAnswerModal: boolean): void => {},
+  showAddMultipleChoiceModal: false,
+  setShowAddMultipleChoiceModal: (
+    showAddMultipleChoiceModal: boolean,
+  ): void => {},
 });
 
 export default QuestionEditorContext;
