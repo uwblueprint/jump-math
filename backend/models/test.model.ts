@@ -13,8 +13,8 @@ export enum QuestionComponentType {
 }
 
 export enum AssessmentType {
-  BEGINNING,
-  END,
+  BEGINNING = "BEGINNING",
+  END = "END",
 }
 
 export enum AssessmentStatus {
@@ -23,6 +23,7 @@ export enum AssessmentStatus {
   ARCHIVED = "ARCHIVED",
   DELETED = "DELETED",
 }
+
 export type QuestionComponentMetadata =
   | QuestionTextMetadata
   | TextMetadata
@@ -137,12 +138,12 @@ const TestSchema: Schema = new Schema(
     assessmentType: {
       type: String,
       required: true,
-      enum: Object.keys(AssessmentType),
+      enum: ["BEGINNING", "END"],
     },
     status: {
       type: String,
       required: true,
-      enum: Object.keys(AssessmentStatus),
+      enum: ["DRAFT", "PUBLISHED", "ARCHIVED", "DELETED"],
     },
   },
   { timestamps: { createdAt: false, updatedAt: true } },

@@ -148,6 +148,21 @@ const testResolvers = {
     ): Promise<TestResponseDTO | null> => {
       return testService.duplicateTest(id);
     },
+    deleteAssessment: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<string> => {
+      const testToDelete = await testService.getTestById(id);
+      if (testToDelete.status === AssessmentStatus.DRAFT) {
+        return testService.deleteTest(id);
+      }
+      testService.updateTest(id, {
+        ...testToDelete,
+        questions: testToDelete.questions,
+        status: AssessmentStatus.DELETED,
+      });
+      return id;
+    },
   },
 };
 

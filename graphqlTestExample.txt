@@ -1,0 +1,11 @@
+updateTest(id:"63fc1b3774319e02fbe49775" test:{
+    name:"Test",
+    questions: [[]],
+    grade: 1,
+    assessmentType: BEGINNING,
+    status:PUBLISHED,
+    curriculumCountry:"A",
+    curriculumRegion:"B"
+  }){
+    id
+  }
