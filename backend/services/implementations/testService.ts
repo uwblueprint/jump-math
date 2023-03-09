@@ -125,6 +125,7 @@ class TestService implements ITestService {
       // eslint-disable-next-line no-underscore-dangle
       test._id = mongoose.Types.ObjectId();
       test.isNew = true;
+      test.status = AssessmentStatus.DRAFT;
       test.save();
     } catch (error: unknown) {
       Logger.error(
@@ -147,7 +148,7 @@ class TestService implements ITestService {
   }
 
   async unarchiveTest(id: string): Promise<TestResponseDTO> {
-    let unarchivedTest: Test | null;
+    let unarchivedTest: TestResponseDTO;
 
     try {
       const test = await MgTest.findById(id);
@@ -158,12 +159,7 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} is not in archived status`);
       }
 
-      unarchivedTest = test;
-      // eslint-disable-next-line no-underscore-dangle
-      unarchivedTest._id = mongoose.Types.ObjectId();
-      unarchivedTest.isNew = true;
-      unarchivedTest.status = AssessmentStatus.DRAFT;
-      unarchivedTest.save();
+      unarchivedTest = await this.duplicateTest(id);
 
       try {
         await this.deleteTest(id);

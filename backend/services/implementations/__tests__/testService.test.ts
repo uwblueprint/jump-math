@@ -123,10 +123,13 @@ describe("mongo testService", (): void => {
   });
 
   it("duplicateTest", async () => {
-    const test = await MgTest.create(mockTest);
+    const test = await MgTest.create({
+      ...mockTest,
+      status: AssessmentStatus.PUBLISHED,
+    });
 
     const duplicateTest = await testService.duplicateTest(test.id);
-    assertResponseMatchesExpected(test, duplicateTest);
+    assertResponseMatchesExpected(mockTest, duplicateTest);
     expect(test.id).not.toEqual(duplicateTest.id);
 
     const originalTest = await testService.getTestById(test.id);
