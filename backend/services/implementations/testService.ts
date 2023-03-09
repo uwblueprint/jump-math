@@ -147,6 +147,45 @@ class TestService implements ITestService {
     };
   }
 
+  async unarchiveTest(id: string): Promise<TestResponseDTO> {
+    let unarchivedTest: TestResponseDTO;
+
+    try {
+      const test = await MgTest.findById(id);
+      if (!test) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+      if (test.status !== AssessmentStatus.ARCHIVED) {
+        throw new Error(`Test ID ${id} is not in archived status`);
+      }
+      unarchivedTest = await this.duplicateTest(id);
+
+      try {
+        await this.deleteTest(id);
+      } catch (error: unknown) {
+        // rollback test creation
+        await this.deleteTest(unarchivedTest.id);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to unarchive test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return {
+      id: unarchivedTest.id,
+      name: unarchivedTest.name,
+      questions: unarchivedTest.questions,
+      grade: unarchivedTest.grade,
+      curriculumCountry: unarchivedTest.curriculumCountry,
+      curriculumRegion: unarchivedTest.curriculumRegion,
+      assessmentType: unarchivedTest.assessmentType,
+      status: unarchivedTest.status,
+    };
+  }
+
   async mapTestsToTestResponseDTOs(
     tests: Array<Test>,
   ): Promise<TestResponseDTO[]> {
