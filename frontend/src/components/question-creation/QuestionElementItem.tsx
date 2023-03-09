@@ -7,6 +7,7 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import {
   QuestionElement,
   QuestionElementType,
+  MultipleChoiceData,
 } from "../../types/QuestionTypes";
 import TextElement from "./question-elements/TextElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
@@ -31,7 +32,13 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
-      return <MultipleChoiceElement key={id} id={id} data={data as string} />;
+      return (
+        <MultipleChoiceElement
+          key={id}
+          id={id}
+          data={data as MultipleChoiceData}
+        />
+      );
     case QuestionElementType.SHORT_ANSWER:
       return <ShortAnswerElement key={id} id={id} data={data as number} />;
     case QuestionElementType.MULTI_SELECT:

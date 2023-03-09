@@ -59,7 +59,10 @@ const MultipleChoiceModal = ({
     onClose();
   };
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    onConfirm({ optionCount, options });
+    handleClose();
+  };
 
   return (
     <ResponseTypeModal
