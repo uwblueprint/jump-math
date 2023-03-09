@@ -148,6 +148,22 @@ const testResolvers = {
     ): Promise<TestResponseDTO | null> => {
       return testService.duplicateTest(id);
     },
+    editTest: async (
+      _req: undefined,
+      { id, test }: { id: string; test: TestRequestDTO },
+    ): Promise<TestResponseDTO | null> => {
+      const testToUpdate = await testService.getTestById(id);
+      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
+        throw new Error(`Test with id ${id} cannot be edited`);
+      }
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+        test.questions,
+      );
+      return testService.updateTest(id, {
+        ...test,
+        questions: resolvedQuestions,
+      });
+    },
   },
 };
 
