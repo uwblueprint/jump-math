@@ -37,7 +37,7 @@ const ShortAnswerModal = ({
   }, [data]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = parseInt(event.target.value, 10);
+    const input = parseFloat(event.target.value);
     const updatedAnswer = Number.isNaN(input) ? undefined : input;
     setAnswer(updatedAnswer);
   };
