@@ -10,8 +10,15 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
+import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
 
-const MultipleChoiceOption = (): React.ReactElement => {
+interface MultipleChoiceOptionProps {
+  data: MultipleChoiceOptionData;
+}
+
+const MultipleChoiceOption = ({
+  data,
+}: MultipleChoiceOptionProps): React.ReactElement => {
   return (
     <VStack alignItems="left" width="100%" spacing="3">
       <HStack>

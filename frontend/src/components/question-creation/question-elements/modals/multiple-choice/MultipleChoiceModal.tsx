@@ -6,13 +6,18 @@ import {
   FormErrorMessage,
   VStack,
 } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 import ResponseTypeModal from "../ResponseTypeModal";
 import MultipleChoiceOption from "./MultipleChoiceOption";
+import {
+  MultipleChoiceOptionData,
+  MultipleChoiceData,
+} from "../../../../../types/QuestionTypes";
 
 interface MultipleChoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (data: string) => void;
+  onConfirm: (data: MultipleChoiceData) => void;
 }
 
 const MultipleChoiceModal = ({
@@ -20,34 +25,41 @@ const MultipleChoiceModal = ({
   onClose,
   onConfirm,
 }: MultipleChoiceModalProps): React.ReactElement => {
-  const [answer, setAnswer] = useState("");
   const [optionCount, setOptionCount] = useState(0);
-  const [error, setError] = useState(false);
+  const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
+
+  const addOption = (newOption: MultipleChoiceOptionData) => {
+    setOptions((prevOptions) => [...prevOptions, newOption]);
+  };
+
+  const removeOption = () => {
+    setOptions((prevOptions) => {
+      prevOptions.pop();
+      return prevOptions;
+    });
+  };
 
   const handleSelectCount = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setOptionCount(parseInt(event.target.value, 10));
-  };
-
-  const resetState = () => {
-    setAnswer("");
-    setOptionCount(0);
-    setError(false);
-  };
-
-  const handleConfirm = () => {
-    if (answer) {
-      onConfirm(answer);
-      resetState();
-      onClose();
-    } else {
-      setError(true);
+    const count = parseInt(event.target.value, 10);
+    if (count > optionCount) {
+      const elementsToAdd = count - optionCount;
+      [...Array(elementsToAdd)].forEach(() =>
+        addOption({ id: uuidv4(), data: "", isCorrect: false }),
+      );
     }
+    if (count < optionCount) {
+      const elementsToRemove = optionCount - count;
+      [...Array(elementsToRemove)].forEach(() => removeOption());
+    }
+    setOptionCount(count);
   };
 
   const handleClose = () => {
-    resetState();
+    setOptionCount(0);
     onClose();
   };
+
+  const handleConfirm = () => {};
 
   return (
     <ResponseTypeModal
@@ -57,7 +69,7 @@ const MultipleChoiceModal = ({
       title="Create multiple choice question"
     >
       <VStack width="100%" spacing="10">
-        <FormControl isRequired isInvalid={error}>
+        <FormControl isRequired>
           <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
             How many options would you like?
           </FormLabel>
@@ -71,11 +83,10 @@ const MultipleChoiceModal = ({
               </option>
             ))}
           </Select>
-          <FormErrorMessage>Select a value before confirming.</FormErrorMessage>
         </FormControl>
         <VStack width="100%" spacing="6">
-          {[...Array(optionCount)].map((i) => (
-            <MultipleChoiceOption key={i} />
+          {options.map((option) => (
+            <MultipleChoiceOption key={option.id} data={option} />
           ))}
         </VStack>
       </VStack>

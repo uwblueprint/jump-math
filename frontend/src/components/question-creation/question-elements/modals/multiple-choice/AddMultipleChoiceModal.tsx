@@ -4,7 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import MultipleChoiceModal from "./MultipleChoiceModal";
-import { QuestionElementType } from "../../../../../types/QuestionTypes";
+import {
+  QuestionElementType,
+  MultipleChoiceData,
+} from "../../../../../types/QuestionTypes";
 
 const AddMultipleChoiceModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
@@ -18,7 +21,7 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addMultipleChoiceElement = (data: string) => {
+  const addMultipleChoiceElement = (data: MultipleChoiceData) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {
