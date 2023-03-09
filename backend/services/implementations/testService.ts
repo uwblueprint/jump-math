@@ -158,7 +158,6 @@ class TestService implements ITestService {
       if (test.status !== AssessmentStatus.ARCHIVED) {
         throw new Error(`Test ID ${id} is not in archived status`);
       }
-
       unarchivedTest = await this.duplicateTest(id);
 
       try {
