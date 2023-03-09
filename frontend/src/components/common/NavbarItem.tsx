@@ -18,17 +18,17 @@ interface NavbarItemProps extends FlexProps {
   page: Page;
 }
 
+export const activePage = {
+  color: "blue.300",
+  fontWeight: "bold",
+};
+
 const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
   const { title, url, subPages } = page;
   const [showMore, setShowMore] = useState(false);
 
   const location = useLocation();
   const isCurrentPage = location.pathname.includes(url);
-
-  const activePage = {
-    color: "blue.300",
-    fontWeight: "bold",
-  };
 
   const children = subPages
     ? subPages.map((subPage, index) => (
