@@ -56,20 +56,18 @@ const ShortAnswerModal = ({
       title="Create short answer question"
     >
       <FormControl isRequired isInvalid={error}>
-            <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
-              Enter correct answer
-            </FormLabel>
-            <Input
-              value={answer}
-              placeholder="Input Field"
-              onChange={handleInputChange}
-              type="number"
-              width="50%"
-            />
-            <FormErrorMessage>
-              Enter a value before confirming.
-            </FormErrorMessage>
-          </FormControl>
+        <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
+          Enter correct answer
+        </FormLabel>
+        <Input
+          value={answer}
+          placeholder="Input Field"
+          onChange={handleInputChange}
+          type="number"
+          width="50%"
+        />
+        <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
+      </FormControl>
     </ResponseTypeModal>
   );
 };

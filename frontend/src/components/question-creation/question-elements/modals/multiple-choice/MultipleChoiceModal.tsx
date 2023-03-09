@@ -32,7 +32,7 @@ const MultipleChoiceModal = ({
     setOptions((prevOptions) => [...prevOptions, newOption]);
   };
 
-  const removeOption = () => {
+  const removeLastOption = () => {
     setOptions((prevOptions) => {
       prevOptions.pop();
       return prevOptions;
@@ -49,7 +49,7 @@ const MultipleChoiceModal = ({
     }
     if (count < optionCount) {
       const elementsToRemove = optionCount - count;
-      [...Array(elementsToRemove)].forEach(() => removeOption());
+      [...Array(elementsToRemove)].forEach(() => removeLastOption());
     }
     setOptionCount(count);
   };
@@ -73,8 +73,12 @@ const MultipleChoiceModal = ({
           <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
             How many options would you like?
           </FormLabel>
-          <Select onChange={(e) => handleSelectCount(e)} width="50%">
-            <option selected hidden disabled>
+          <Select
+            value={optionCount}
+            onChange={(e) => handleSelectCount(e)}
+            width="50%"
+          >
+            <option selected disabled value={0}>
               Select Input
             </option>
             {[...Array(4)].map((i, count) => (
@@ -86,7 +90,12 @@ const MultipleChoiceModal = ({
         </FormControl>
         <VStack width="100%" spacing="6">
           {options.map((option) => (
-            <MultipleChoiceOption key={option.id} data={option} />
+            <MultipleChoiceOption
+              key={option.id}
+              data={option}
+              setOptions={setOptions}
+              setOptionCount={setOptionCount}
+            />
           ))}
         </VStack>
       </VStack>
