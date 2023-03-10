@@ -8,33 +8,41 @@ import {
   IconButton,
   VStack,
   HStack,
+  Text,
 } from "@chakra-ui/react";
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
-import { updatedMultipleChoiceOption } from "../../../../../utils/QuestionUtils";
+import {
+  updatedMultipleChoiceOptionValue,
+  updatedMultipleChoiceCorrectOption,
+} from "../../../../../utils/QuestionUtils";
 
 interface MultipleChoiceOptionProps {
   data: MultipleChoiceOptionData;
+  isEmptyError: boolean;
+  isCorrectError: boolean;
   setOptions: React.Dispatch<React.SetStateAction<MultipleChoiceOptionData[]>>;
   setOptionCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MultipleChoiceOption = ({
   data,
+  isEmptyError,
+  isCorrectError,
   setOptions,
   setOptionCount,
 }: MultipleChoiceOptionProps): React.ReactElement => {
-  const { id } = data;
+  const { id, value } = data;
 
   const updateOptionValue = (updatedValue: string) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceOption(id, prevOptions, updatedValue);
+      return updatedMultipleChoiceOptionValue(id, prevOptions, updatedValue);
     });
   };
 
   const markOptionCorrect = (isCorrect: boolean) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceOption(id, prevOptions, undefined, isCorrect);
+      return updatedMultipleChoiceCorrectOption(id, prevOptions, isCorrect);
     });
   };
 
@@ -52,6 +60,7 @@ const MultipleChoiceOption = ({
           onChange={(e) => updateOptionValue(e.target.value)}
           placeholder="Select Input"
           width="50%"
+          isInvalid={isEmptyError && !value}
         />
         <Spacer />
         <Box color="grey.300" _hover={{ color: "blue.100" }}>
@@ -65,7 +74,10 @@ const MultipleChoiceOption = ({
           />
         </Box>
       </HStack>
-      <Checkbox onChange={(e) => markOptionCorrect(e.target.checked)}>
+      <Checkbox
+        isInvalid={isCorrectError}
+        onChange={(e) => markOptionCorrect(e.target.checked)}
+      >
         Mark as Correct Answer
       </Checkbox>
     </VStack>

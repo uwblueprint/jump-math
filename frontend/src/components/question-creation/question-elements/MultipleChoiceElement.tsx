@@ -33,7 +33,7 @@ const MultipleChoiceElement = ({
         <VStack alignItems="left" gap={1}>
           {data.options.map((option, index) => (
             <Radio key={index} isReadOnly isChecked={option.isCorrect}>
-              {option.data}
+              {option.value}
             </Radio>
           ))}
         </VStack>

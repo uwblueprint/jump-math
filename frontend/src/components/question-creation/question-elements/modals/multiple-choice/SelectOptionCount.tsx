@@ -37,7 +37,7 @@ const SelectOptionCount = ({
     if (count > optionCount) {
       const elementsToAdd = count - optionCount;
       [...Array(elementsToAdd)].forEach(() =>
-        addOption({ id: uuidv4(), data: "", isCorrect: false }),
+        addOption({ id: uuidv4(), value: "", isCorrect: false }),
       );
     }
     if (count < optionCount) {

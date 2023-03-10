@@ -50,17 +50,30 @@ export const updatedQuestionElement = (
   });
 };
 
-export const updatedMultipleChoiceOption = (
+export const updatedMultipleChoiceOptionValue = (
   id: string,
   prevOptions: MultipleChoiceOptionData[],
-  data?: string,
-  isCorrect?: boolean,
+  value: string,
 ): MultipleChoiceOptionData[] => {
   const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
   return update(prevOptions, {
     [indexToUpdate]: {
       $merge: {
-        data,
+        value,
+      },
+    },
+  });
+};
+
+export const updatedMultipleChoiceCorrectOption = (
+  id: string,
+  prevOptions: MultipleChoiceOptionData[],
+  isCorrect: boolean,
+): MultipleChoiceOptionData[] => {
+  const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
+  return update(prevOptions, {
+    [indexToUpdate]: {
+      $merge: {
         isCorrect,
       },
     },

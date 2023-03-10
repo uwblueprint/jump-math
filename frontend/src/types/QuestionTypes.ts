@@ -15,7 +15,7 @@ export enum QuestionElementType {
 
 export type MultipleChoiceOptionData = {
   id: string;
-  data: string;
+  value: string;
   isCorrect: boolean;
 };
 

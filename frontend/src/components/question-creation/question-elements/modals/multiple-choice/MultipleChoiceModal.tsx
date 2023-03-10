@@ -22,30 +22,37 @@ const MultipleChoiceModal = ({
 }: MultipleChoiceModalProps): React.ReactElement => {
   const [optionCount, setOptionCount] = useState(0);
   const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
+
   const [optionCountError, setOptionCountError] = useState(false);
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
-  const [tooManyCorrectOptionsError, setTooManyCorrectOptionsError] = useState(
-    false,
-  );
+  const [manyCorrectOptionsError, setManyCorrectOptionsError] = useState(false);
+  const [emptyOptionError, setEmptyOptionError] = useState(false);
 
   const correctOptionCount = options.filter((option) => option.isCorrect)
     .length;
 
-  const handleClose = () => {
-    setOptionCount(0);
+  const resetErrors = () => {
     setOptionCountError(false);
     setNoCorrectOptionError(false);
-    setTooManyCorrectOptionsError(false);
+    setManyCorrectOptionsError(false);
+    setEmptyOptionError(false);
+  };
+
+  const handleClose = () => {
+    resetErrors();
     onClose();
   };
 
   const handleConfirm = () => {
+    resetErrors();
     if (optionCount === 0) {
       setOptionCountError(true);
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
     } else if (correctOptionCount > 1) {
-      setTooManyCorrectOptionsError(true);
+      setManyCorrectOptionsError(true);
+    } else if (!options.every((option) => option.value)) {
+      setEmptyOptionError(true);
     } else {
       onConfirm({ optionCount, options });
       handleClose();
@@ -60,11 +67,14 @@ const MultipleChoiceModal = ({
       title="Create multiple choice question"
     >
       <VStack width="100%" spacing="10">
-        {!optionCountError && noCorrectOptionError && (
+        {noCorrectOptionError && (
           <ErrorToast errorMessage="Mark a correct answer before confirming" />
         )}
-        {!optionCountError && tooManyCorrectOptionsError && (
+        {manyCorrectOptionsError && (
           <ErrorToast errorMessage="Please mark only ONE correct answer before confirming" />
+        )}
+        {emptyOptionError && (
+          <ErrorToast errorMessage="Please ensure all fields are filled before confirming" />
         )}
         <SelectOptionCount
           optionCount={optionCount}
@@ -77,6 +87,8 @@ const MultipleChoiceModal = ({
             <MultipleChoiceOption
               key={option.id}
               data={option}
+              isEmptyError={emptyOptionError}
+              isCorrectError={noCorrectOptionError}
               setOptions={setOptions}
               setOptionCount={setOptionCount}
             />
