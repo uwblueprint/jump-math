@@ -9,9 +9,9 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-import update from "immutability-helper";
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
+import { updatedMultipleChoiceOption } from "../../../../../utils/QuestionUtils";
 
 interface MultipleChoiceOptionProps {
   data: MultipleChoiceOptionData;
@@ -28,14 +28,13 @@ const MultipleChoiceOption = ({
 
   const updateOptionValue = (updatedValue: string) => {
     setOptions((prevOptions) => {
-      const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
-      return update(prevOptions, {
-        [indexToUpdate]: {
-          $merge: {
-            data: updatedValue,
-          },
-        },
-      });
+      return updatedMultipleChoiceOption(id, prevOptions, updatedValue);
+    });
+  };
+
+  const markOptionCorrect = (isCorrect: boolean) => {
+    setOptions((prevOptions) => {
+      return updatedMultipleChoiceOption(id, prevOptions, undefined, isCorrect);
     });
   };
 
@@ -66,7 +65,9 @@ const MultipleChoiceOption = ({
           />
         </Box>
       </HStack>
-      <Checkbox>Mark as Correct Answer</Checkbox>
+      <Checkbox onChange={(e) => markOptionCorrect(e.target.checked)}>
+        Mark as Correct Answer
+      </Checkbox>
     </VStack>
   );
 };

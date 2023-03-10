@@ -15,7 +15,7 @@ import {
 interface ResponseTypeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleConfirm: () => void;
+  onConfirm: () => void;
   title: string;
   children: React.ReactChild;
 }
@@ -23,7 +23,7 @@ interface ResponseTypeModalProps {
 const ResponseTypeModal = ({
   isOpen,
   onClose,
-  handleConfirm,
+  onConfirm,
   title,
   children,
 }: ResponseTypeModalProps): React.ReactElement => {
@@ -41,7 +41,7 @@ const ResponseTypeModal = ({
           <Button variant="secondary" onClick={onClose} minWidth="10%" mr={2}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm} minWidth="10%">
+          <Button variant="primary" onClick={onConfirm} minWidth="10%">
             Confirm
           </Button>
         </ModalFooter>

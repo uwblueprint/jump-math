@@ -17,6 +17,7 @@ export type MultipleChoiceOptionData = {
   id: string;
   data: string;
   isCorrect: boolean;
+  error?: string;
 };
 
 export type MultipleChoiceData = {

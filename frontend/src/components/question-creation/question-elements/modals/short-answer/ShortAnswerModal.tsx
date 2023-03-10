@@ -52,7 +52,7 @@ const ShortAnswerModal = ({
     <ResponseTypeModal
       isOpen={isOpen}
       onClose={handleClose}
-      handleConfirm={handleConfirm}
+      onConfirm={handleConfirm}
       title="Create short answer question"
     >
       <FormControl isRequired isInvalid={error}>
