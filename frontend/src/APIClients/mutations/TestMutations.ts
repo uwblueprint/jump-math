@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 const PUBLISH_TEST = gql`
-  mutation PublishTest($testId: ID!) {
-    publishTest(id: $testId) {
+  mutation PublishTest($id: ID!) {
+    publishTest(id: $id) {
       id
       name
       questions {
