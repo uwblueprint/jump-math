@@ -10,16 +10,16 @@ import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
 
 interface SelectOptionCountProps {
   optionCount: number;
+  optionCountError: boolean;
   setOptionCount: React.Dispatch<React.SetStateAction<number>>;
   setOptions: React.Dispatch<React.SetStateAction<MultipleChoiceOptionData[]>>;
-  optionCountError: boolean;
 }
 
 const SelectOptionCount = ({
   optionCount,
+  optionCountError,
   setOptionCount,
   setOptions,
-  optionCountError,
 }: SelectOptionCountProps): React.ReactElement => {
   const addOption = (newOption: MultipleChoiceOptionData) => {
     setOptions((prevOptions) => [...prevOptions, newOption]);
@@ -57,7 +57,7 @@ const SelectOptionCount = ({
         onChange={(e) => handleSelectCount(e)}
         width="50%"
       >
-        <option selected disabled value={0}>
+        <option disabled value={0}>
           Select Input
         </option>
         {[...Array(4)].map((i, count) => (
