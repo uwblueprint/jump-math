@@ -56,17 +56,25 @@ const testSessionResolvers = {
     testSessionByAccessCode: async (
       _parent: undefined,
       { accessCode }: { accessCode: string },
-    ): Promise<TestSessionResponseDTO | null> => {
+    ): Promise<TestSessionResponseDTO> => {
       return testSessionService.getTestSessionByAccessCode(accessCode);
     },
-    allTestSessions: async (): Promise<TestSessionResponseDTO[]> => {
+    testSessions: async (): Promise<TestSessionResponseDTO[]> => {
       return testSessionService.getAllTestSessions();
     },
-    testSessionById: async (
+    testSession: async (
       _parent: undefined,
       { id }: { id: string },
-    ): Promise<TestSessionResponseDTO | null> => {
+    ): Promise<TestSessionResponseDTO> => {
       return testSessionService.getTestSessionById(id);
+    },
+  },
+  Mutation: {
+    createTestSession: async (
+      _req: undefined,
+      { testSession }: { testSession: TestSessionRequestDTO },
+    ): Promise<TestSessionResponseDTO> => {
+      return testSessionService.createTestSession({ ...testSession });
     },
   },
 };

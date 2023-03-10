@@ -18,6 +18,14 @@ const testSessionType = gql`
     gradingStatus: GradingStatus!
   }
 
+  input ResultRequestDTO {
+    student: String!
+    score: Float
+    answers: NumberOrArrayOrNull
+    breakdown: [[Boolean]]!
+    gradingStatus: GradingStatus!
+  }
+
   type TestSessionResponseDTO {
     id: ID!
     test: TestResponseDTO!
@@ -29,10 +37,26 @@ const testSessionType = gql`
     startTime: Date!
   }
 
+  input TestSessionRequestDTO {
+    test: String!
+    teacher: String!
+    school: String!
+    gradeLevel: Int!
+    results: [ResultRequestDTO]!
+    accessCode: String!
+    startTime: Date!
+  }
+
   extend type Query {
-    testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO
-    allTestSessions: [TestSessionResponseDTO]!
-    testSessionById(id: String!): TestSessionResponseDTO
+    testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
+    testSessions: [TestSessionResponseDTO]!
+    testSession(id: String!): TestSessionResponseDTO!
+  }
+
+  extend type Mutation {
+    createTestSession(
+      testSession: TestSessionRequestDTO!
+    ): TestSessionResponseDTO!
   }
 `;
 
