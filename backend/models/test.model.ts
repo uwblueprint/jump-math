@@ -16,12 +16,14 @@ export enum AssessmentType {
   BEGINNING,
   END,
 }
+
 export enum AssessmentStatus {
   DRAFT = "DRAFT",
   PUBLISHED = "PUBLISHED",
   ARCHIVED = "ARCHIVED",
   DELETED = "DELETED",
 }
+
 export type QuestionComponentMetadata =
   | QuestionTextMetadata
   | TextMetadata
