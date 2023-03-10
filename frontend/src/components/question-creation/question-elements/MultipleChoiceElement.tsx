@@ -27,11 +27,17 @@ const MultipleChoiceElement = ({
     setShowEditMultipleChoiceModal,
   ] = React.useState(false);
   return (
-    <Flex width="100%" paddingLeft="6">
-      <RadioGroup color="blue.300">
-        <VStack alignItems="left" gap={1}>
+    <Flex width="100%" paddingLeft="6" paddingBottom="4">
+      <RadioGroup>
+        <VStack alignItems="left" paddingTop="2" gap="1">
           {data.options.map((option, index) => (
-            <Radio key={index} isReadOnly isChecked={option.isCorrect}>
+            <Radio
+              size="lg"
+              key={index}
+              isReadOnly
+              isChecked={option.isCorrect}
+              marginBottom="0"
+            >
               {option.value}
             </Radio>
           ))}
