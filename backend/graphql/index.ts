@@ -61,7 +61,7 @@ const graphQLMiddlewares = {
     simpleEntities: authorizedByAllRoles(),
     userById: authorizedByAdmin(),
     users: authorizedByAdmin(),
-    // tests: authorizedByAllRoles(),
+    tests: authorizedByAllRoles(),
   },
   Mutation: {
     createEntity: authorizedByAllRoles(),
@@ -78,7 +78,7 @@ const graphQLMiddlewares = {
     createTest: authorizedByAdmin(),
     updateTest: authorizedByAdmin(),
     deleteTestById: authorizedByAdmin(),
-    // publishTest: authorizedByAdmin(),
+    publishTest: authorizedByAdmin(),
     duplicateTest: authorizedByAdmin(),
   },
 };
