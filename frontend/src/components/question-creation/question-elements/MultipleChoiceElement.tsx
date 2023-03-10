@@ -32,8 +32,8 @@ const MultipleChoiceElement = ({
         <VStack alignItems="left" paddingTop="2" gap="1">
           {data.options.map((option, index) => (
             <Radio
-              size="lg"
               key={index}
+              size="lg"
               isReadOnly
               isChecked={option.isCorrect}
               marginBottom="0"

@@ -34,9 +34,6 @@ const MultipleChoiceModal = ({
     setOptions(data ? data.options : []);
   }, [data]);
 
-  const correctOptionCount = options.filter((option) => option.isCorrect)
-    .length;
-
   const resetErrors = () => {
     setOptionCountError(false);
     setNoCorrectOptionError(false);
@@ -50,6 +47,9 @@ const MultipleChoiceModal = ({
     resetErrors();
     onClose();
   };
+
+  const correctOptionCount = options.filter((option) => option.isCorrect)
+    .length;
 
   const handleConfirm = () => {
     resetErrors();

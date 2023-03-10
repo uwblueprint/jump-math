@@ -4,8 +4,8 @@ import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
-  MultipleChoiceData,
   MultipleChoiceOptionData,
+  QuestionDataType,
   QuestionElement,
 } from "../types/QuestionTypes";
 
@@ -36,7 +36,7 @@ export const shouldReorder = (
 
 export const updatedQuestionElement = (
   id: string,
-  updatedData: string | number | MultipleChoiceData,
+  updatedData: QuestionDataType,
   prevElements: QuestionElement[],
   error?: string,
 ): QuestionElement[] => {
@@ -51,30 +51,17 @@ export const updatedQuestionElement = (
   });
 };
 
-export const updatedMultipleChoiceOptionValue = (
+export const updatedMultipleChoiceOption = (
   id: string,
   prevOptions: MultipleChoiceOptionData[],
   value: string,
-): MultipleChoiceOptionData[] => {
-  const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
-  return update(prevOptions, {
-    [indexToUpdate]: {
-      $merge: {
-        value,
-      },
-    },
-  });
-};
-
-export const updatedMultipleChoiceCorrectOption = (
-  id: string,
-  prevOptions: MultipleChoiceOptionData[],
   isCorrect: boolean,
 ): MultipleChoiceOptionData[] => {
   const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
   return update(prevOptions, {
     [indexToUpdate]: {
       $merge: {
+        value,
         isCorrect,
       },
     },

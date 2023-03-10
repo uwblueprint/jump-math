@@ -12,10 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
-import {
-  updatedMultipleChoiceOptionValue,
-  updatedMultipleChoiceCorrectOption,
-} from "../../../../../utils/QuestionUtils";
+import { updatedMultipleChoiceOption } from "../../../../../utils/QuestionUtils";
 
 interface MultipleChoiceOptionProps {
   data: MultipleChoiceOptionData;
@@ -36,15 +33,21 @@ const MultipleChoiceOption = ({
 
   const updateOptionValue = (updatedValue: string) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceOptionValue(id, prevOptions, updatedValue);
+      return updatedMultipleChoiceOption(
+        id,
+        prevOptions,
+        updatedValue,
+        isCorrect,
+      );
     });
   };
 
   const markOptionCorrect = (updatedIsCorrect: boolean) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceCorrectOption(
+      return updatedMultipleChoiceOption(
         id,
         prevOptions,
+        value,
         updatedIsCorrect,
       );
     });
