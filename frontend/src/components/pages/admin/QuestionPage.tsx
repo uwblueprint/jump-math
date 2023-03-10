@@ -10,20 +10,31 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 
+import AddShortAnswerModal from "../../question-creation/question-elements/modals/short-answer/AddShortAnswerModal";
+
 const QuestionPage = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
   >([]);
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
+    false,
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>
       <QuestionEditorContext.Provider
-        value={{ questionElements, setQuestionElements }}
+        value={{
+          questionElements,
+          setQuestionElements,
+          showAddShortAnswerModal,
+          setShowAddShortAnswerModal,
+        }}
       >
         <Flex minHeight="100vh">
           <QuestionSidebar backPage={HOME_PAGE} />
           <QuestionEditor />
         </Flex>
+        <AddShortAnswerModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );

@@ -127,6 +127,7 @@ const testType = gql`
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
     deleteTestById(id: ID!): ID
     publishTest(id: ID!): TestResponseDTO!
+    duplicateTest(id: ID!): TestResponseDTO!
   }
 `;
 

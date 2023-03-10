@@ -143,6 +143,12 @@ const testResolvers = {
       });
       return updatedTest;
     },
+    duplicateTest: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<TestResponseDTO | null> => {
+      return testService.duplicateTest(id);
+    },
   },
 };
 

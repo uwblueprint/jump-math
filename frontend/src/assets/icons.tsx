@@ -341,6 +341,42 @@ export const MultiSelectTagIcon = (): React.ReactElement => (
   </Icon>
 );
 
+export const TextOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <rect width="24" height="24" opacity="0" />
+    <path fill="currentColor" d="M15 16H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z" />
+    <path fill="currentColor" d="M9 14h3a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2z" />
+    <path
+      fill="currentColor"
+      d="M19.74 8.33l-5.44-6a1 1 0 0 0-.74-.33h-7A2.53 2.53 0 0 0 4 4.5v15A2.53 2.53 0 0 0 6.56 22h10.88A2.53 2.53 0 0 0 20 19.5V9a1 1 0 0 0-.26-.67zM14 5l2.74 3h-2a.79.79 0 0 1-.74-.85zm3.44 15H6.56a.53.53 0 0 1-.56-.5v-15a.53.53 0 0 1 .56-.5H12v3.15A2.79 2.79 0 0 0 14.71 10H18v9.5a.53.53 0 0 1-.56.5z"
+    />
+  </Icon>
+);
+
+export const SaveOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <rect width="24" height="24" opacity="0" />
+    <path
+      fill="currentColor"
+      d="M20.12 8.71l-4.83-4.83A3 3 0 0 0 13.17 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7.17a3 3 0 0 0-.88-2.12zM10 19v-2h4v2zm9-1a1 1 0 0 1-1 1h-2v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2v5a1 1 0 0 0 1 1h4a1 1 0 0 0 0-2h-3V5h3.17a1.05 1.05 0 0 1 .71.29l4.83 4.83a1 1 0 0 1 .29.71z"
+    />
+  </Icon>
+);
+
+export const EyeOutlineIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24" color="blue.300">
+    <rect width="24" height="24" opacity="0" />
+    <path
+      fill="currentColor"
+      d="M21.87 11.5c-.64-1.11-4.16-6.68-10.14-6.5-5.53.14-8.73 5-9.6 6.5a1 1 0 0 0 0 1c.63 1.09 4 6.5 9.89 6.5h.25c5.53-.14 8.74-5 9.6-6.5a1 1 0 0 0 0-1zM12.22 17c-4.31.1-7.12-3.59-8-5 1-1.61 3.61-4.9 7.61-5 4.29-.11 7.11 3.59 8 5-1.03 1.61-3.61 4.9-7.61 5z"
+    />
+    <path
+      fill="currentColor"
+      d="M12 8.5a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 12 8.5zm0 5a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5z"
+    />
+  </Icon>
+);
+
 export const LeftArrowIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <path

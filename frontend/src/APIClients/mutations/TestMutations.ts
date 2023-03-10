@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const PUBLISH_TEST = gql`
+export const PUBLISH_TEST = gql`
   mutation PublishTest($id: ID!) {
     publishTest(id: $id) {
       id
@@ -40,4 +40,10 @@ const PUBLISH_TEST = gql`
   }
 `;
 
-export default PUBLISH_TEST;
+export const DUPLICATE_TEST = gql`
+  mutation DuplicateTest($id: ID!) {
+    duplicateTest(id: $id) {
+      id
+    }
+  }
+`;

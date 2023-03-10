@@ -107,4 +107,12 @@ export interface ITestService {
    * @throws Error if Test with given id not found
    */
   duplicateTest(id: string): Promise<TestResponseDTO>;
+
+  /**
+   * unarchive a Test given the id
+   * @param id string with the test id to be unarchived
+   * @returns a TestResponseDTO with the unarchived test (as a draft)
+   * @throws Error if Test with given id not found or if Test is not archived
+   */
+  unarchiveTest(id: string): Promise<TestResponseDTO>;
 }

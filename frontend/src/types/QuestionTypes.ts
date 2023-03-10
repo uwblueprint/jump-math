@@ -16,6 +16,6 @@ export enum QuestionElementType {
 export type QuestionElement = {
   id: string;
   type: QuestionElementType;
-  data: string;
+  data: string | number;
   error?: string;
 };
