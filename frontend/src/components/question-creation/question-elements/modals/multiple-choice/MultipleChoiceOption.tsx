@@ -32,7 +32,7 @@ const MultipleChoiceOption = ({
   setOptions,
   setOptionCount,
 }: MultipleChoiceOptionProps): React.ReactElement => {
-  const { id, value } = data;
+  const { id, value, isCorrect } = data;
 
   const updateOptionValue = (updatedValue: string) => {
     setOptions((prevOptions) => {
@@ -40,9 +40,13 @@ const MultipleChoiceOption = ({
     });
   };
 
-  const markOptionCorrect = (isCorrect: boolean) => {
+  const markOptionCorrect = (updatedIsCorrect: boolean) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceCorrectOption(id, prevOptions, isCorrect);
+      return updatedMultipleChoiceCorrectOption(
+        id,
+        prevOptions,
+        updatedIsCorrect,
+      );
     });
   };
 
@@ -57,6 +61,7 @@ const MultipleChoiceOption = ({
     <VStack alignItems="left" width="100%" spacing="3">
       <HStack>
         <Input
+          value={value}
           onChange={(e) => updateOptionValue(e.target.value)}
           placeholder="Select Input"
           width="50%"
@@ -75,6 +80,7 @@ const MultipleChoiceOption = ({
         </Box>
       </HStack>
       <Checkbox
+        isChecked={isCorrect}
         isInvalid={isCorrectError}
         onChange={(e) => markOptionCorrect(e.target.checked)}
       >

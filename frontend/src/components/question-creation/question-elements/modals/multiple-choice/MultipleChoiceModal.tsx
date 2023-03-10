@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 import ResponseTypeModal from "../ResponseTypeModal";
 import MultipleChoiceOption from "./MultipleChoiceOption";
@@ -13,20 +13,26 @@ interface MultipleChoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (data: MultipleChoiceData) => void;
+  data?: MultipleChoiceData;
 }
 
 const MultipleChoiceModal = ({
   isOpen,
   onClose,
   onConfirm,
+  data,
 }: MultipleChoiceModalProps): React.ReactElement => {
   const [optionCount, setOptionCount] = useState(0);
   const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
-
   const [optionCountError, setOptionCountError] = useState(false);
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
   const [manyCorrectOptionsError, setManyCorrectOptionsError] = useState(false);
   const [emptyOptionError, setEmptyOptionError] = useState(false);
+
+  useEffect(() => {
+    setOptionCount(data ? data.optionCount : 0);
+    setOptions(data ? data.options : []);
+  }, [data]);
 
   const correctOptionCount = options.filter((option) => option.isCorrect)
     .length;
@@ -39,6 +45,8 @@ const MultipleChoiceModal = ({
   };
 
   const handleClose = () => {
+    setOptionCount(data ? data.optionCount : 0);
+    setOptions(data ? data.options : []);
     resetErrors();
     onClose();
   };

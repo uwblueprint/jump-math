@@ -4,6 +4,7 @@ import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
+  MultipleChoiceData,
   MultipleChoiceOptionData,
   QuestionElement,
 } from "../types/QuestionTypes";
@@ -35,7 +36,7 @@ export const shouldReorder = (
 
 export const updatedQuestionElement = (
   id: string,
-  updatedData: string | number,
+  updatedData: string | number | MultipleChoiceData,
   prevElements: QuestionElement[],
   error?: string,
 ): QuestionElement[] => {

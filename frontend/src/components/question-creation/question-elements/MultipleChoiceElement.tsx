@@ -3,16 +3,15 @@ import {
   RadioGroup,
   Radio,
   VStack,
-  Text,
   Button,
   IconButton,
-  Input,
   Flex,
   Box,
   Spacer,
 } from "@chakra-ui/react";
 import { EditOutlineIcon } from "../../../assets/icons";
 import { MultipleChoiceData } from "../../../types/QuestionTypes";
+import EditMultipleChoiceModal from "./modals/multiple-choice/EditMultipleChoiceModal";
 
 interface MultipleChoiceElementProps {
   id: string;
@@ -24,8 +23,8 @@ const MultipleChoiceElement = ({
   data,
 }: MultipleChoiceElementProps): React.ReactElement => {
   const [
-    showAddMultipleChoiceModal,
-    setShowAddMultipleChoiceModal,
+    showEditMultipleChoiceModal,
+    setShowEditMultipleChoiceModal,
   ] = React.useState(false);
   return (
     <Flex width="100%" paddingLeft="6">
@@ -38,6 +37,23 @@ const MultipleChoiceElement = ({
           ))}
         </VStack>
       </RadioGroup>
+      <Spacer />
+      <Box color="grey.300" _hover={{ color: "blue.100" }}>
+        <Button
+          onClick={() => setShowEditMultipleChoiceModal(true)}
+          as={IconButton}
+          icon={<EditOutlineIcon />}
+          color="currentColor"
+          fontSize="24px"
+          size="icon"
+        />
+      </Box>
+      <EditMultipleChoiceModal
+        isOpen={showEditMultipleChoiceModal}
+        setOpen={setShowEditMultipleChoiceModal}
+        id={id}
+        data={data}
+      />
     </Flex>
   );
 };
