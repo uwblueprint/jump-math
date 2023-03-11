@@ -11,7 +11,7 @@ import { ADMIN_LOGIN } from "../../constants/Routes";
 import LoadingState from "../common/LoadingState";
 import AuthWrapper from "./AuthWrapper";
 import EmailActionError from "./email-action/EmailActionError";
-import PasswordForm from "./password/PasswordForm";
+import PasswordForm from "./Password/PasswordForm";
 
 const AdminSignupConfirmation = ({
   email,

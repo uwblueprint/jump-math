@@ -6,7 +6,7 @@ import {
 } from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import PasswordForm from "../../password/PasswordForm";
+import PasswordForm from "../../Password/PasswordForm";
 
 const TeacherSignupFour = ({
   setPage,
