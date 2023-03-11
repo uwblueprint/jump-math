@@ -17,7 +17,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import ErrorToast from "../../assessment-creation/ErrorToast";
+import ErrorToast from "../../common/ErrorToast";
 import CreateAssessementHeader from "../../assessment-creation/CreateAssessmentHeader";
 
 const CreateAssessmentPage = (): React.ReactElement => {

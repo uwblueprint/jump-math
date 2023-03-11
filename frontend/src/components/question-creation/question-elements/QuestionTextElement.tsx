@@ -4,7 +4,10 @@ import ResizeTextarea from "react-textarea-autosize";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElementType } from "../../../types/QuestionTypes";
-import { updatedQuestionElement } from "../../../utils/QuestionUtils";
+import {
+  updatedQuestionElement,
+  exceedsMaxLength,
+} from "../../../utils/QuestionUtils";
 
 interface QuestionTextElementProps {
   id: string;
@@ -31,10 +34,9 @@ const QuestionTextElement = ({
   );
 
   const updateQuestionTextElement = (updatedQuestion: string) => {
-    const error =
-      updatedQuestion.length > 800
-        ? "There is a limit of 800 characters in the question block."
-        : "";
+    const error = exceedsMaxLength(updatedQuestion)
+      ? "There is a limit of 800 characters in the question block."
+      : "";
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedQuestion, prevElements, error);
     });
