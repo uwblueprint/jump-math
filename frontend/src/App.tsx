@@ -9,7 +9,7 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
-import StudentLogin from "./components/auth/StudentLogin";
+import StudentLogin from "./components/auth/student-login/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 

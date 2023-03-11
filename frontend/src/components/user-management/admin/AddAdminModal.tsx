@@ -1,7 +1,5 @@
 import { useMutation } from "@apollo/client";
 import {
-  Alert,
-  AlertIcon,
   Button,
   FormControl,
   FormErrorMessage,
@@ -22,15 +20,16 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
-import AdminConfirmationMessage from "./AdminConfirmationMessage";
-import ModalFooterButtons from "../common/ModalFooterButtons";
-import { PlusOutlineIcon } from "../../assets/icons";
+import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
+import ModalFooterButtons from "../../common/ModalFooterButtons";
+import { PlusOutlineIcon } from "../../../assets/icons";
 import {
   UserRequest,
   UserResponse,
-} from "../../APIClients/types/UserClientTypes";
-import { ADD_USER } from "../../APIClients/mutations/UserMutations";
-import { GET_USERS_BY_ROLE } from "../../APIClients/queries/UserQueries";
+} from "../../../APIClients/types/UserClientTypes";
+import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import ErrorToast from "../../common/ErrorToast";
 
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -131,7 +130,7 @@ const AddAdminModal = (): React.ReactElement => {
           {showRequestConfirmation ? (
             <>
               <ModalBody>
-                <AdminConfirmationMessage />
+                <AddAdminConfirmationMessage />
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -153,12 +152,12 @@ const AddAdminModal = (): React.ReactElement => {
               <ModalCloseButton />
               <ModalBody>
                 {showRequestError && (
-                  <Alert status="error" mb={10}>
-                    <AlertIcon />
-                    {requestErrorMessage}
-                  </Alert>
+                  <ErrorToast errorMessage={requestErrorMessage as string} />
                 )}
-                <FormControl isRequired>
+                <FormControl
+                  isRequired
+                  marginTop={showRequestError ? "10" : "0"}
+                >
                   <FormLabel color="blue.300">Name of Admin</FormLabel>
                   <HStack direction="row" mt={6}>
                     <Input

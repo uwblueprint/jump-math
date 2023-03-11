@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertIcon,
   Button,
   FormControl,
   FormLabel,
@@ -20,10 +18,11 @@ import {
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import ModalFooterButtons from "../common/ModalFooterButtons";
-import { PlusOutlineIcon } from "../../assets/icons";
-import { ClassroomForm, ClassroomInput } from "../../types/ClassroomTypes";
+import ModalFooterButtons from "../../common/ModalFooterButtons";
+import { PlusOutlineIcon } from "../../../assets/icons";
+import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
+import ErrorToast from "../../common/ErrorToast";
 
 const AddClassroomModal = (): React.ReactElement => {
   const {
@@ -124,12 +123,9 @@ const AddClassroomModal = (): React.ReactElement => {
           <ModalCloseButton />
           <ModalBody>
             {showRequestError && (
-              <Alert status="error" mb={10}>
-                <AlertIcon />
-                {requestErrorMessage}
-              </Alert>
+              <ErrorToast errorMessage={requestErrorMessage as string} />
             )}
-            <FormControl isRequired>
+            <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
               <HStack direction="row" mt={6}>
                 <VStack direction="column" align="left" width="320px">
                   <FormLabel color="blue.300">Class Name</FormLabel>

@@ -7,7 +7,7 @@ import {
 import React from "react";
 
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { ClassroomInput, ClassroomForm } from "../../types/ClassroomTypes";
+import { ClassroomInput, ClassroomForm } from "../../../types/ClassroomTypes";
 
 interface Option extends OptionBase {
   label: string;

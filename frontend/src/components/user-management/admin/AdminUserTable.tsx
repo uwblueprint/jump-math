@@ -1,6 +1,6 @@
 import React from "react";
-import { TableRow, Table } from "../common/table/Table";
-import RemoveUserPopover from "./RemoveUserPopover";
+import { TableRow, Table } from "../../common/table/Table";
+import RemoveUserPopover from "../RemoveUserPopover";
 import { AdminTableProps } from "./AdminTab";
 
 const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {

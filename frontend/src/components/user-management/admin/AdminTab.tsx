@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, VStack, HStack } from "@chakra-ui/react";
 
-import { AdminUser, TeacherUser } from "../../types/UserTypes";
+import { AdminUser, TeacherUser } from "../../../types/UserTypes";
 
 interface SortMenuProps {
   properties: string[];

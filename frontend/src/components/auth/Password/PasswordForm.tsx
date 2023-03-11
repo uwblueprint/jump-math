@@ -14,7 +14,7 @@ import PasswordRequirement from "./PasswordRequirement";
 import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
-import FormError from "../FormError";
+import FormError from "../../common/FormError";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";

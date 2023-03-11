@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Image, HStack, Text, VStack, Flex } from "@chakra-ui/react";
 
-import FormError from "./FormError";
+import FormError from "../common/FormError";
 import AuthContext from "../../contexts/AuthContext";
 import ImageType from "../../types/ImageTypes";
 import { HOME_PAGE } from "../../constants/Routes";

@@ -1,8 +1,8 @@
 import React from "react";
-import { ReactComponent as EnvelopePaperIllustration } from "../../assets/illustrations/envelope-paper.svg";
-import MessageContainer from "../common/MessageContainer";
+import { ReactComponent as EnvelopePaperIllustration } from "../../../assets/illustrations/envelope-paper.svg";
+import MessageContainer from "../../common/MessageContainer";
 
-const AdminConfirmationMessage = (): React.ReactElement => {
+const AddAdminConfirmationMessage = (): React.ReactElement => {
   return (
     <MessageContainer
       illustration={EnvelopePaperIllustration}
@@ -16,4 +16,4 @@ const AdminConfirmationMessage = (): React.ReactElement => {
   );
 };
 
-export default AdminConfirmationMessage;
+export default AddAdminConfirmationMessage;
