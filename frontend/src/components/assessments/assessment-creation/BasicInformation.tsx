@@ -14,7 +14,6 @@ import {
   FormLabel,
   HStack,
   Input,
-  Radio,
   RadioGroup,
   Text,
   VStack,
@@ -23,6 +22,7 @@ import { Select } from "chakra-react-select";
 
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import ErrorToast from "../../common/ErrorToast";
+import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
   setAssessmentName: React.Dispatch<React.SetStateAction<string>>;
@@ -105,9 +105,17 @@ const BasicInformation = ({
                   onChange={onChange}
                   value={value}
                 >
-                  <VStack align="left" spacing={0.5}>
-                    <Radio value="beginning">Beginning of Grade</Radio>
-                    <Radio value="end">End of Grade</Radio>
+                  <VStack align="left" spacing={2}>
+                    <FormRadio
+                      isSelected={value === "beginning"}
+                      text="Beginning of Grade"
+                      value="beginning"
+                    />
+                    <FormRadio
+                      isSelected={value === "end"}
+                      text="End of Grade"
+                      value="end"
+                    />
                   </VStack>
                 </RadioGroup>
                 <FormErrorMessage>{error?.message}</FormErrorMessage>

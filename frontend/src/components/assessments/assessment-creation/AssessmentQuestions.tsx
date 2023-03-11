@@ -26,14 +26,13 @@ const AssessmentQuestions = (): React.ReactElement => {
         </Button>
       </HStack>
       <HStack alignItems="flex-start" display="flex">
-        <VStack alignItems="left" spacing="6" width="60%">
+        <VStack alignItems="left" spacing="6" width="64%">
           <QuestionCard
             points={5}
             questionNumber={1}
             questions={[
               "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
               "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
-              "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
               "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
               "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
             ]}

@@ -14,7 +14,7 @@ const QuestionSummary = ({
     <Box
       backgroundColor="rgba(232, 237, 241, 0.2)"
       borderRadius="16px"
-      width="31%"
+      width="33%"
       padding="8"
     >
       <VStack spacing="2" align="left">

@@ -43,7 +43,7 @@ const QuestionCard = ({
       minWidth="100%"
       padding="6"
     >
-      <HStack alignItems="left" width="90%">
+      <HStack alignItems="left" width="94%">
         <Box
           aria-label="reorder"
           cursor="pointer"
