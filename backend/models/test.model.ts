@@ -138,12 +138,12 @@ const TestSchema: Schema = new Schema(
     assessmentType: {
       type: String,
       required: true,
-      enum: ["BEGINNING", "END"],
+      enum: Object.keys(AssessmentType),
     },
     status: {
       type: String,
       required: true,
-      enum: ["DRAFT", "PUBLISHED", "ARCHIVED", "DELETED"],
+      enum: Object.keys(AssessmentStatus),
     },
   },
   { timestamps: { createdAt: false, updatedAt: true } },
