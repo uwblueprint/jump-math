@@ -42,7 +42,7 @@ const BasicInformation = ({
   const countryOptions = React.useMemo(() => countryList().getData(), []);
 
   return (
-    <Box padding="1.5em 2em 0em 2em">
+    <Box width="100%">
       <VStack align="left" spacing={8} width="75%">
         <Text textStyle="eyebrow">Basic Information</Text>
 

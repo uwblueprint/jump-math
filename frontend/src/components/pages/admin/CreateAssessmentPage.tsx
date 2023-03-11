@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
-import { Box, Divider } from "@chakra-ui/react";
+import { Divider, VStack } from "@chakra-ui/react";
 
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
@@ -31,22 +31,24 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSubmit, onError);
 
   return (
-    <Box>
+    <VStack gap="8" width="100%">
       <CreateAssessementHeader
         assessmentName={assessmentName}
         date={date}
         save={handleSave}
       />
-      <BasicInformation
-        control={control}
-        errors={errors}
-        register={register}
-        setAssessmentName={setAssessmentName}
-        validSubmit={validSubmit}
-      />
-      <Divider />
-      <AssessmentQuestions />
-    </Box>
+      <VStack gap="8" width="92%">
+        <BasicInformation
+          control={control}
+          errors={errors}
+          register={register}
+          setAssessmentName={setAssessmentName}
+          validSubmit={validSubmit}
+        />
+        <Divider borderColor="grey.200" />
+        <AssessmentQuestions />
+      </VStack>
+    </VStack>
   );
 };
 
