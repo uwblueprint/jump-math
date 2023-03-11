@@ -8,17 +8,17 @@ import BasicInformation from "../../assessments/assessment-creation/BasicInforma
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const location = useLocation();
+  const { date } = location.state as { date: string };
+  const [validSubmit, setValidSubmit] = useState(true);
+  const [assessmentName, setAssessmentName] = useState("");
+
   const {
     handleSubmit,
     register,
     formState: { errors },
     control,
   } = useForm();
-
-  const location = useLocation();
-  const { date } = location.state as { date: string };
-  const [validSubmit, setValidSubmit] = useState(true);
-  const [assessmentName, setAssessmentName] = useState("");
 
   const onSubmit = (data: any, e: any) => {
     setValidSubmit(true);
