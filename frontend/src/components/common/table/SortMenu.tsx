@@ -14,7 +14,7 @@ import {
   Divider,
   HStack,
 } from "@chakra-ui/react";
-import { FilterOptionsIcon } from "../../assets/icons";
+import { FilterOptionsIcon } from "../../../assets/icons";
 
 interface SortMenuProps {
   properties: string[];

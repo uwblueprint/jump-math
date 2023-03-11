@@ -22,8 +22,8 @@ import {
   GET_ALL_TEACHERS,
 } from "../../../APIClients/queries/UserQueries";
 import TeacherUserTable from "../../user-management/TeacherUserTable";
-import SortMenu from "../../common/SortMenu";
-import SearchBar from "../../common/SearchBar";
+import SortMenu from "../../common/table/SortMenu";
+import SearchBar from "../../common/table/SearchBar";
 
 import LoadingState from "../../common/LoadingState";
 import { TabEnum } from "../../../types/AuthTypes";

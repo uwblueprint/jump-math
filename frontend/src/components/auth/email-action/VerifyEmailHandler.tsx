@@ -5,7 +5,7 @@ import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import AdminSignupConfirmation from "../AdminSignupConfirmation";
-import TeacherSignupConfirmation from "../TeacherSignup/steps/TeacherSignupConfirmation";
+import TeacherSignupConfirmation from "../teacher-signup/steps/TeacherSignupConfirmation";
 import EmailActionError from "./EmailActionError";
 
 const VerifyEmailHandler = ({

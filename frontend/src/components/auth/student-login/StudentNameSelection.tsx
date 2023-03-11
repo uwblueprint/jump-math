@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import * as Routes from "../../../constants/Routes";
-import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 const students = [
   {

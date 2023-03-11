@@ -28,8 +28,8 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import TeacherSignup from "./components/auth/TeacherSignup";
-import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
+import TeacherSignup from "./components/auth/teacher-signup";
+import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import TeacherPage from "./components/pages/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";

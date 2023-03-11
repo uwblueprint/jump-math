@@ -1,9 +1,9 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
-import { StatusProperty } from "../../types/AssessmentTypes";
+import { Status } from "../../types/AssessmentTypes";
 
 interface StatusTagProps {
-  status: StatusProperty;
+  status: Status;
 }
 
 const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
@@ -11,22 +11,21 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
   let backgroundColor;
 
   switch (status) {
-    case "DRAFT": {
+    case Status.DRAFT: {
       color = "yellow.300";
       backgroundColor = "yellow.50";
       break;
     }
-    case "PUBLISHED": {
+    case Status.PUBLISHED: {
       color = "green.400";
       backgroundColor = "green.50";
       break;
     }
-    case "ARCHIVED": {
+    case Status.ARCHIVED: {
       color = "grey.300";
       backgroundColor = "grey.100";
       break;
     }
-
     default: {
       color = "grey.300";
       backgroundColor = "grey.300";
@@ -40,7 +39,7 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
       color={color}
       borderRadius="full"
     >
-      {status}
+      {status.valueOf()}
     </Tag>
   );
 };

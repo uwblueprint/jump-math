@@ -13,7 +13,7 @@ import { UseFormSetValue } from "react-hook-form";
 import PasswordRequirement from "./PasswordRequirement";
 import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
 import FormError from "../FormError";
 
 interface PasswordFormProps {

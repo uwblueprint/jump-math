@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@apollo/client";
 import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import { UserResponse } from "../../../APIClients/types/UserClientTypes";

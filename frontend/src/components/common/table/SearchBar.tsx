@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { SearchOutlineIcon } from "../../assets/icons";
+import { SearchOutlineIcon } from "../../../assets/icons";
 
 interface SearchBarProps {
   onSearch: React.Dispatch<React.SetStateAction<string>>;

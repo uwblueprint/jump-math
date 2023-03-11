@@ -8,7 +8,7 @@ import {
 import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
 import { Role } from "../../../types/AuthTypes";
 import AuthWrapper from "../AuthWrapper";
-import PasswordForm from "../Password/PasswordForm";
+import PasswordForm from "../password/PasswordForm";
 
 const SetNewPassword = ({
   role,

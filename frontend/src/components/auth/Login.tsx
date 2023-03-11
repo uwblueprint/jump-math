@@ -12,7 +12,7 @@ import { HOME_PAGE } from "../../constants/Routes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
-import ForgotPassword from "./ResetPassword/ForgotPassword";
+import ForgotPassword from "./reset-password/ForgotPassword";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);

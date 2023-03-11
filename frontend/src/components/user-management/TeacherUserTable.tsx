@@ -1,5 +1,5 @@
 import React from "react";
-import { TableRow, Table } from "../common/Table";
+import { TableRow, Table } from "../common/table/Table";
 import RemoveUserPopover from "./RemoveUserPopover";
 import { TeacherTableProps } from "./AdminTab";
 

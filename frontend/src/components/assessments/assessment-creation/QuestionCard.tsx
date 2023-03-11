@@ -12,12 +12,12 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import QuestionTag from "./QuestionTag";
-import { QuestionType } from "../../types/QuestionTypes";
+import { QuestionType } from "../../../types/QuestionTypes";
 import {
   EditOutlineIcon,
   DeleteOutlineIcon,
   HamburgerMenuIcon,
-} from "../../assets/icons";
+} from "../../../assets/icons";
 
 type QuestionCardProps = {
   tags: { type: QuestionType; count: number }[];

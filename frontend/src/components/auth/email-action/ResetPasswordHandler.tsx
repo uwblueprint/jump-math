@@ -4,7 +4,7 @@ import { VERIFY_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutatio
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
-import SetNewPassword from "../ResetPassword/SetNewPassword";
+import SetNewPassword from "../reset-password/SetNewPassword";
 import EmailActionError from "./EmailActionError";
 
 const ResetPasswordHandler = ({

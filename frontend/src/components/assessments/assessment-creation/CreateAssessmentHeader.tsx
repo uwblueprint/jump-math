@@ -16,7 +16,7 @@ import {
   EyeOutlineIcon,
   MoreVerticalOutlineIcon,
   ArrowBackOutlineIcon,
-} from "../../assets/icons";
+} from "../../../assets/icons";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
