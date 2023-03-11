@@ -16,7 +16,7 @@ const AddQuestion = (): React.ReactElement => {
       onClick={() => history.push(CREATE_QUESTION)}
       paddingBottom="8"
       paddingTop="8"
-      width="59%"
+      width="100%"
     >
       <Text textStyle="paragraph">Add Question</Text>
     </Button>
