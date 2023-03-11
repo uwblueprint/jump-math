@@ -31,13 +31,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSubmit, onError);
 
   return (
-    <VStack gap="8" width="100%">
+    <VStack spacing="8" width="100%">
       <CreateAssessementHeader
         assessmentName={assessmentName}
         date={date}
         save={handleSave}
       />
-      <VStack gap="8" width="92%">
+      <VStack spacing="8" width="92%">
         <BasicInformation
           control={control}
           errors={errors}

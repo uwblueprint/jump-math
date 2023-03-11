@@ -17,7 +17,7 @@ const QuestionSummary = ({
       width="31%"
       padding="8"
     >
-      <VStack gap="2" align="left">
+      <VStack spacing="2" align="left">
         <Text textStyle="subtitle2" color="blue.300" paddingBottom="7">
           Assessment Question Summary
         </Text>
