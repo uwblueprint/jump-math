@@ -38,7 +38,7 @@ class TestService implements ITestService {
     try {
       const testToDelete = await MgTest.findById(id);
       if (!testToDelete) {
-        throw new Error(`Test with id ${id} not found`);
+        throw new Error(`Test ${id} not found`);
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
         await MgTest.findByIdAndDelete(id);
