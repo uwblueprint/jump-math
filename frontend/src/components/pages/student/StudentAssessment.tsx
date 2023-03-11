@@ -10,10 +10,10 @@ import {
   HStack,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { JUMP_MATH_LOGO } from "../../assets/images";
-import { STUDENT_LANDING } from "../../constants/Routes";
-import { assessmentMetadata } from "../../constants/StudentAssessmentConstants";
-import QuestionTypeImages from "../common/QuestionTypeImages";
+import { JUMP_MATH_LOGO } from "../../../assets/images";
+import { STUDENT_LANDING } from "../../../constants/Routes";
+import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
+import QuestionTypeImages from "../../common/QuestionTypeImages";
 
 const AssessmentSummary = (): React.ReactElement => {
   const history = useHistory();

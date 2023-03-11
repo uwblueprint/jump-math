@@ -31,9 +31,9 @@ import theme from "./themes";
 import TeacherSignup from "./components/auth/teacher-signup";
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
-import TeacherPage from "./components/pages/TeacherPage";
+import TeacherPage from "./components/pages/teacher/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
-import StudentAssessment from "./components/pages/StudentAssessment";
+import StudentAssessment from "./components/pages/student/StudentAssessment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
