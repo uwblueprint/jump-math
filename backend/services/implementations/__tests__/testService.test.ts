@@ -155,7 +155,7 @@ describe("mongo testService", (): void => {
 
     const originalTest = await MgTest.findById(test.id);
     // TODO: update this to be soft delete instead of hard delete
-    expect(originalTest).toBeNull();
+    expect(originalTest?.status).toBe(AssessmentStatus.DELETED);
   });
 
   it("unarchiveTest - fail", async () => {

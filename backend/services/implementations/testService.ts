@@ -36,9 +36,29 @@ class TestService implements ITestService {
 
   async deleteTest(id: string): Promise<string> {
     try {
-      const deletedTest = await MgTest.findByIdAndDelete(id);
-      if (!deletedTest) {
+      const testToDelete = await MgTest.findById(id);
+      if (!testToDelete) {
         throw new Error(`Test ${id} not found`);
+      }
+      if (testToDelete.status === AssessmentStatus.DRAFT) {
+        await MgTest.findByIdAndDelete(id);
+      } else {
+        await MgTest.findByIdAndUpdate(
+          id,
+          {
+            name: testToDelete.name,
+            questions: testToDelete.questions,
+            grade: testToDelete.grade,
+            curriculumCountry: testToDelete.curriculumCountry,
+            curriculumRegion: testToDelete.curriculumRegion,
+            assessmentType: testToDelete.assessmentType,
+            status: AssessmentStatus.DELETED,
+          },
+          {
+            new: true,
+            runValidators: true,
+          },
+        );
       }
       return id;
     } catch (error: unknown) {

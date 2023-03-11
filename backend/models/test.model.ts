@@ -13,8 +13,8 @@ export enum QuestionComponentType {
 }
 
 export enum AssessmentType {
-  BEGINNING,
-  END,
+  BEGINNING = "BEGINNING",
+  END = "END",
 }
 
 export enum AssessmentStatus {
@@ -23,6 +23,7 @@ export enum AssessmentStatus {
   ARCHIVED = "ARCHIVED",
   DELETED = "DELETED",
 }
+
 export type QuestionComponentMetadata =
   | QuestionTextMetadata
   | TextMetadata

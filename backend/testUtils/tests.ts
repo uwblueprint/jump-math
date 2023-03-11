@@ -136,10 +136,10 @@ export const assertResponseMatchesExpected = (
 ): void => {
   expect(result.id).not.toBeNull();
   expect(result.name).toEqual(expected.name);
-  expect(result.assessmentType).toEqual(expected.assessmentType.toString());
+  expect(result.assessmentType).toEqual(expected.assessmentType);
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
-  expect(result.status).toEqual(expected.status.toString());
+  expect(result.status).toEqual(expected.status);
   expect(result.grade).toEqual(expected.grade);
 
   result.questions.forEach((questionComponents: QuestionComponent[], i) => {
