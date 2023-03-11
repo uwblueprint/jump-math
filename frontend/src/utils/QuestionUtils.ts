@@ -67,3 +67,5 @@ export const updatedMultipleChoiceOption = (
     },
   });
 };
+
+export const exceedsMaxLength = (input: string): boolean => input.length > 800;

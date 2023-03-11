@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 import ResponseTypeModal from "../ResponseTypeModal";
 import MultipleChoiceOption from "./MultipleChoiceOption";
+import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import {
   MultipleChoiceOptionData,
   MultipleChoiceData,
@@ -50,7 +51,7 @@ const MultipleChoiceModal = ({
 
   const correctOptionCount = options.filter((option) => option.isCorrect)
     .length;
-  const lengthError = options.some((option) => option.value.length > 800);
+  const lengthError = options.some((option) => exceedsMaxLength(option.value));
 
   const handleConfirm = () => {
     resetErrors();

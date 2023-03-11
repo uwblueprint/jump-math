@@ -12,7 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
-import { updatedMultipleChoiceOption } from "../../../../../utils/QuestionUtils";
+import {
+  updatedMultipleChoiceOption,
+  exceedsMaxLength,
+} from "../../../../../utils/QuestionUtils";
 
 interface MultipleChoiceOptionProps {
   data: MultipleChoiceOptionData;
@@ -32,9 +35,8 @@ const MultipleChoiceOption = ({
   const { id, value, isCorrect } = data;
   const [lengthError, setLengthError] = useState(false);
 
-  const isOversized = (input: string) => input.length > 800;
   const updateOptionValue = (updatedValue: string) => {
-    setLengthError(isOversized(updatedValue));
+    setLengthError(exceedsMaxLength(updatedValue));
     setOptions((prevOptions) => {
       return updatedMultipleChoiceOption(
         id,

@@ -21,25 +21,25 @@ const SelectOptionCount = ({
   setOptionCount,
   setOptions,
 }: SelectOptionCountProps): React.ReactElement => {
-  const addOption = (newOption: MultipleChoiceOptionData) => {
-    setOptions((prevOptions) => [...prevOptions, newOption]);
+  const addOptions = (n: number) => {
+    const newOptions: MultipleChoiceOptionData[] = [];
+    [...Array(n)].forEach(() =>
+      newOptions.push({ id: uuidv4(), value: "", isCorrect: false }),
+    );
+    setOptions((prevOptions) => [...prevOptions, ...newOptions]);
   };
 
-  const removeLastOption = () => {
-    setOptions((prevOptions) => prevOptions.slice(0, -1));
+  const removeOptions = (n: number) => {
+    setOptions((prevOptions) => prevOptions.slice(0, n));
   };
 
   const handleSelectCount = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const count = parseInt(event.target.value, 10);
-    if (count > optionCount) {
-      const elementsToAdd = count - optionCount;
-      [...Array(elementsToAdd)].forEach(() =>
-        addOption({ id: uuidv4(), value: "", isCorrect: false }),
-      );
-    }
-    if (count < optionCount) {
-      const elementsToRemove = optionCount - count;
-      [...Array(elementsToRemove)].forEach(() => removeLastOption());
+    const countDiff = count - optionCount;
+    if (countDiff > 0) {
+      addOptions(countDiff);
+    } else {
+      removeOptions(countDiff);
     }
     setOptionCount(count);
   };
