@@ -5,6 +5,7 @@ import HomeButton from "./HomeButton";
 import NavbarItem from "./NavbarItem";
 
 import Page from "../../types/PageTypes";
+import Logout from "../auth/Logout";
 
 interface NavbarProps {
   pages: Page[];
@@ -20,6 +21,7 @@ const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
           {pages.map((page, index) => (
             <NavbarItem key={index} page={page} />
           ))}
+          <Logout />
         </HStack>
       </Flex>
     </Box>

@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
 
+import { Box, Text, Flex } from "@chakra-ui/react";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
+import { activePage } from "../common/NavbarItem";
 
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -21,9 +23,17 @@ const Logout = (): React.ReactElement => {
   };
 
   return (
-    <button type="button" className="btn btn-primary" onClick={onLogOutClick}>
-      Log Out
-    </button>
+    <Box>
+      <Flex
+        align="center"
+        mx="4"
+        cursor="pointer"
+        _hover={activePage}
+        onClick={onLogOutClick}
+      >
+        <Text fontSize="14px">Logout</Text>
+      </Flex>
+    </Box>
   );
 };
 
