@@ -26,10 +26,7 @@ const SelectOptionCount = ({
   };
 
   const removeLastOption = () => {
-    setOptions((prevOptions) => {
-      prevOptions.pop();
-      return prevOptions;
-    });
+    setOptions((prevOptions) => prevOptions.slice(0, -1));
   };
 
   const handleSelectCount = (event: React.ChangeEvent<HTMLSelectElement>) => {

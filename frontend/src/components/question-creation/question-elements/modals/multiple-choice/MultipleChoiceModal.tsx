@@ -50,6 +50,7 @@ const MultipleChoiceModal = ({
 
   const correctOptionCount = options.filter((option) => option.isCorrect)
     .length;
+  const lengthError = options.some((option) => option.value.length > 800);
 
   const handleConfirm = () => {
     resetErrors();
@@ -61,7 +62,7 @@ const MultipleChoiceModal = ({
       setManyCorrectOptionsError(true);
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
-    } else {
+    } else if (!lengthError) {
       onConfirm({ optionCount, options });
       handleClose();
     }

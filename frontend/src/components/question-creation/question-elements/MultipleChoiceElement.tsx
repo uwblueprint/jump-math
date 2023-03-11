@@ -29,7 +29,7 @@ const MultipleChoiceElement = ({
   return (
     <Flex width="100%" paddingLeft="6" paddingBottom="4">
       <RadioGroup>
-        <VStack alignItems="left" paddingTop="2" gap="1">
+        <VStack alignItems="left" paddingTop="2" paddingRight="4" gap="1">
           {data.options.map((option, index) => (
             <Radio
               key={index}
