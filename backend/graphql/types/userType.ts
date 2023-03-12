@@ -6,25 +6,13 @@ const userType = gql`
     Admin
   }
 
-  enum UserGradeEnum {
-    K
-    GRADE_1
-    GRADE_2
-    GRADE_3
-    GRADE_4
-    GRADE_5
-    GRADE_6
-    GRADE_7
-    GRADE_8
-  }
-
   type UserDTO {
     id: ID!
     firstName: String!
     lastName: String!
     email: String!
     role: Role!
-    grades: [UserGradeEnum]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 
@@ -33,7 +21,7 @@ const userType = gql`
     firstName: String!
     lastName: String!
     email: String!
-    grades: [UserGradeEnum]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
     school: String!
   }
@@ -44,7 +32,7 @@ const userType = gql`
     email: String!
     role: Role!
     password: String!
-    grades: [UserGradeEnum]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 
@@ -53,7 +41,7 @@ const userType = gql`
     lastName: String!
     email: String!
     role: Role!
-    grades: [UserGradeEnum]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 

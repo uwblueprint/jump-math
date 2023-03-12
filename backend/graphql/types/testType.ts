@@ -22,7 +22,7 @@ const testType = gql`
     DELETED
   }
 
-  enum TestGradeEnum {
+  enum GradeEnum {
     K
     GRADE_1
     GRADE_2
@@ -113,7 +113,7 @@ const testType = gql`
     id: ID!
     name: String!
     questions: [[QuestionComponent]]!
-    grade: TestGradeEnum!
+    grade: GradeEnum!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!
@@ -123,7 +123,7 @@ const testType = gql`
   input TestRequestDTO {
     name: String!
     questions: [[QuestionComponentInput]]!
-    grade: TestGradeEnum!
+    grade: GradeEnum!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!

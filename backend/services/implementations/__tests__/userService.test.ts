@@ -2,7 +2,7 @@ import UserModel, { User } from "../../../models/user.model";
 import UserService from "../userService";
 import SchoolModel, { School } from "../../../models/school.model";
 import TestSessionModel from "../../../models/testSession.model";
-import { UserDTO, TeacherDTO } from "../../../types";
+import { UserDTO, TeacherDTO, Grade } from "../../../types";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
@@ -22,7 +22,7 @@ const testUsers = [
     authId: "321",
     role: "Teacher",
     email: "wendy@gmail.com",
-    grades: ["K", "Grade 1", "Grade 2", "Grade 3"],
+    grades: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
     currentlyTeachingJM: true,
   },
 ];

@@ -7,14 +7,14 @@ export type Token = {
 
 export enum Grade {
   K = "K",
-  GRADE_1 = "Grade 1",
-  GRADE_2 = "Grade 2",
-  GRADE_3 = "Grade 3",
-  GRADE_4 = "Grade 4",
-  GRADE_5 = "Grade 5",
-  GRADE_6 = "Grade 6",
-  GRADE_7 = "Grade 7",
-  GRADE_8 = "Grade 8",
+  GRADE_1 = "GRADE_1",
+  GRADE_2 = "GRADE_2",
+  GRADE_3 = "GRADE_3",
+  GRADE_4 = "GRADE_4",
+  GRADE_5 = "GRADE_5",
+  GRADE_6 = "GRADE_6",
+  GRADE_7 = "GRADE_7",
+  GRADE_8 = "GRADE_8",
 }
 
 export type UserDTO = {
