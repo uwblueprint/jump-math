@@ -1,6 +1,7 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
 import { Status } from "../../types/AssessmentTypes";
+import titleCase from "../../utils/GeneralUtils";
 
 interface StatusTagProps {
   status: Status;
@@ -39,7 +40,7 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
       color={color}
       borderRadius="full"
     >
-      {status.valueOf()}
+      {titleCase(status.valueOf())}
     </Tag>
   );
 };

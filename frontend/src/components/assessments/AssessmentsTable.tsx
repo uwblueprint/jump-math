@@ -4,6 +4,7 @@ import { AssessmentTypes, Status } from "../../types/AssessmentTypes";
 import EditStatusPopover from "./EditStatusPopover";
 import StatusTag from "./StatusTag";
 import { TableRow, Table } from "../common/table/Table";
+import titleCase from "../../utils/GeneralUtils";
 
 interface AssessmentsTableProps {
   assessments: AssessmentTypes[];
@@ -20,7 +21,7 @@ const AssessmentsTable = ({
         {assessment.name}
       </Text>,
       assessment.grade,
-      assessment.type,
+      titleCase(assessment.type),
       assessment.country,
       assessment.region,
     ],

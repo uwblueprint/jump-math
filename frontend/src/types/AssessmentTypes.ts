@@ -1,13 +1,13 @@
 export enum Status {
-  DRAFT = "Draft",
-  PUBLISHED = "Published",
-  ARCHIVED = "Archived",
-  DELETED = "Deleted",
+  DRAFT = "DRAFT",
+  PUBLISHED = "PUBLISHED",
+  ARCHIVED = "ARCHIVED",
+  DELETED = "DELETED",
 }
 
 export enum UseCase {
-  BEGINNING = "Beginning of Term",
-  END = "End of Term",
+  BEGINNING = "BEGINNING",
+  END = "END",
 }
 
 export type AssessmentTypes = {
