@@ -6,31 +6,16 @@ import SchoolService from "../../services/implementations/schoolService";
 
 import {
   ITestSessionService,
-  ResultRequestDTO,
-  ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
-import {
-  MultiSelectMetadata,
-  MultipleChoiceMetadata,
-  ShortAnswerMetadata,
-  QuestionComponent,
-  QuestionComponentType,
-} from "../../models/test.model";
-import {
-  ITestService,
-  TestResponseDTO,
-} from "../../services/interfaces/testService";
+import { ITestService } from "../../services/interfaces/testService";
 import IUserService from "../../services/interfaces/userService";
-import {
-  ISchoolService,
-  SchoolResponseDTO,
-} from "../../services/interfaces/schoolService";
+import { ISchoolService } from "../../services/interfaces/schoolService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
-const testService: ITestService = new TestService(userService);
+const testService: ITestService = new TestService();
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
   userService,
@@ -43,13 +28,16 @@ const testSessionResolvers = {
     description: "A Number or An Array or Null",
     serialize(value) {
       if (
-        typeof value !== "number" &&
-        !Array.isArray(value) &&
-        value !== null
+        typeof value === "number" ||
+        typeof value === null ||
+        (Array.isArray(value) &&
+          value.every(function (e) {
+            return typeof e === "number";
+          }))
       ) {
-        throw new Error("Value must be either a Number or Array or Null");
+        return value;
       }
-      return value;
+      throw new Error("Answers must be either a Number or Array or Null");
     },
     // parseValue and parseLiteral will need to be created for creating test sessions mutation
   }),

@@ -13,7 +13,7 @@ const testSessionType = gql`
   type ResultResponseDTO {
     student: String!
     score: Float
-    answers: NumberOrArrayOrNull
+    answers: [NumberOrArrayOrNull]!
     breakdown: [[Boolean]]!
     gradingStatus: GradingStatus!
   }
@@ -32,7 +32,7 @@ const testSessionType = gql`
     teacher: UserDTO!
     school: SchoolResponseDTO!
     gradeLevel: Int!
-    results: [ResultResponseDTO]!
+    results: [ResultResponseDTO]
     accessCode: String!
     startTime: Date!
   }
