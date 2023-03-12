@@ -1,5 +1,6 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
+
 import { Status } from "../../types/AssessmentTypes";
 import titleCase from "../../utils/GeneralUtils";
 
@@ -35,10 +36,10 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
   }
   return (
     <Tag
-      size="lg"
       backgroundColor={backgroundColor}
-      color={color}
       borderRadius="full"
+      color={color}
+      size="lg"
     >
       {titleCase(status.valueOf())}
     </Tag>

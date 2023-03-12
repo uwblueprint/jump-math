@@ -2,16 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   Box,
-  Center,
-  Text,
-  Stack,
-  VStack,
-  Image,
   Button,
+  Center,
+  Image,
   Link,
+  Stack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import * as Routes from "../../constants/Routes";
+
 import { JUMP_MATH_LOGO } from "../../assets/images";
+import * as Routes from "../../constants/Routes";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
@@ -23,22 +24,22 @@ const DashboardLinks = (): React.ReactElement => {
     <VStack gap={1.5} mx={2}>
       <Button
         onClick={navigateToAdminLogin}
-        width={{ base: "10em", md: "20em" }}
         variant="primary"
+        width={{ base: "10em", md: "20em" }}
       >
         Admin
       </Button>
       <Button
         onClick={navigateToTeacherLogin}
-        width={{ base: "10em", md: "20em" }}
         variant="primary"
+        width={{ base: "10em", md: "20em" }}
       >
         Teacher
       </Button>
       <Button
         onClick={navigateToStudentLogin}
-        width={{ base: "10em", md: "20em" }}
         variant="primary"
+        width={{ base: "10em", md: "20em" }}
       >
         Student
       </Button>
@@ -49,26 +50,26 @@ const DashboardLinks = (): React.ReactElement => {
 const Landing = (): React.ReactElement => {
   return (
     <Box>
-      <Stack p={8} justifyContent="left">
+      <Stack justifyContent="left" p={8}>
         <Link
           _hover={{ color: "blue.200", textDecoration: "none" }}
-          textStyle="subtitle2"
           href="https://jumpmath.org/"
+          textStyle="subtitle2"
         >
           {"< Back to Home"}
         </Link>
       </Stack>
-      <Center pt={10} pb={24}>
+      <Center pb={24} pt={10}>
         <Box
+          borderColor="grey.200"
+          borderRadius="12px"
+          borderWidth="1px"
           p={10}
           width="60%"
-          borderColor="grey.200"
-          borderWidth="1px"
-          borderRadius="12px"
         >
           <VStack gap={6}>
-            <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={90} />
-            <Text textStyle="header4" textAlign="center">
+            <Image alt={JUMP_MATH_LOGO.alt} h={90} src={JUMP_MATH_LOGO.src} />
+            <Text textAlign="center" textStyle="header4">
               Welcome to the Online Assessment Platform
             </Text>
             <Text textStyle="subtitle1">To begin, are you a...</Text>

@@ -1,11 +1,12 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import PasswordForm from "../../password/PasswordForm";
 
 const TeacherSignupFour = ({
@@ -19,15 +20,15 @@ const TeacherSignupFour = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <PasswordForm
-      version="TeacherSignup"
-      setValue={setValue}
-      setStep={setPage}
       handleSubmitCallback={handleSubmitCallback}
+      setStep={setPage}
+      setValue={setValue}
+      version="TeacherSignup"
     />
   );
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper form={form} image={image} subtitle={subtitle} title={title} />
   );
 };
 

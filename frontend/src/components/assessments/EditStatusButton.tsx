@@ -1,5 +1,5 @@
-import { Button } from "@chakra-ui/react";
 import React from "react";
+import { Button } from "@chakra-ui/react";
 
 interface ButtonName {
   name: string;
@@ -7,12 +7,12 @@ interface ButtonName {
 const EditStatusButton = ({ name }: ButtonName): React.ReactElement => {
   return (
     <Button
-      fontSize="18px"
-      textAlign="left"
-      minWidth="200%"
-      fontWeight="0"
       color="black"
+      fontSize="18px"
+      fontWeight="0"
+      minWidth="200%"
       size="md"
+      textAlign="left"
     >
       {name}
     </Button>

@@ -1,22 +1,21 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
+
+import authAPIClient from "../../../APIClients/AuthAPIClient";
+import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../../contexts/AuthContext";
+import { AuthenticatedUser } from "../../../types/AuthTypes";
 import {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../types/TeacherSignupTypes";
 
-import { AuthenticatedUser } from "../../../types/AuthTypes";
-import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
-import authAPIClient from "../../../APIClients/AuthAPIClient";
-
-import TeacherSignupOne from "./steps/TeacherSignUpOne";
-import TeacherSignupTwo from "./steps/TeacherSignupTwo";
-import TeacherSignupThree from "./steps/TeacherSignupThree";
-import TeacherSignupFour from "./steps/TeacherSignupFour";
 import TeacherSignupFive from "./steps/TeacherSignupFive";
+import TeacherSignupFour from "./steps/TeacherSignupFour";
+import TeacherSignupOne from "./steps/TeacherSignUpOne";
+import TeacherSignupThree from "./steps/TeacherSignupThree";
+import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 
 const defaultValues = {
   firstName: "",

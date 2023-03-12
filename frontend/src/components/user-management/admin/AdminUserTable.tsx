@@ -1,6 +1,8 @@
 import React from "react";
-import { TableRow, Table } from "../../common/table/Table";
+
+import { Table, TableRow } from "../../common/table/Table";
 import RemoveUserPopover from "../RemoveUserPopover";
+
 import { AdminTableProps } from "./AdminTab";
 
 const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
@@ -9,8 +11,8 @@ const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu: (
       <RemoveUserPopover
-        name={`${user.firstName} ${user.lastName}`}
         email={user.email}
+        name={`${user.firstName} ${user.lastName}`}
       />
     ),
   }));

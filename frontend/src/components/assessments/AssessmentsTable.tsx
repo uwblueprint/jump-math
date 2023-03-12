@@ -1,10 +1,12 @@
 import React from "react";
 import { Text } from "@chakra-ui/react";
+
 import { AssessmentTypes, Status } from "../../types/AssessmentTypes";
+import titleCase from "../../utils/GeneralUtils";
+import { Table, TableRow } from "../common/table/Table";
+
 import EditStatusPopover from "./EditStatusPopover";
 import StatusTag from "./StatusTag";
-import { TableRow, Table } from "../common/table/Table";
-import titleCase from "../../utils/GeneralUtils";
 
 interface AssessmentsTableProps {
   assessments: AssessmentTypes[];

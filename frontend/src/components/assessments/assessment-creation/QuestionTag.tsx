@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Tag, Text, TagLeftIcon } from "@chakra-ui/react";
+import { Tag, TagLeftIcon, Text } from "@chakra-ui/react";
+
 import {
-  MultiSelectTagIcon,
   MultipleChoiceTagIcon,
+  MultiSelectTagIcon,
   ShortAnswerTagIcon,
 } from "../../../assets/icons";
 import { QuestionType } from "../../../types/QuestionTypes";
@@ -44,15 +45,15 @@ const QuestionTag = ({
 
   return (
     <Tag
-      color={color}
       bgColor={bgColor}
+      borderRadius="full"
+      color={color}
+      fontSize="16px"
+      minWidth="fitContent"
       padding="10px 14px"
       whiteSpace="nowrap"
-      minWidth="fitContent"
-      borderRadius="full"
-      fontSize="16px"
     >
-      <TagLeftIcon boxSize="20px" as={icon} />
+      <TagLeftIcon as={icon} boxSize="20px" />
       <Text ml={2} textStyle="caption">
         {type.valueOf()} x {count}
       </Text>

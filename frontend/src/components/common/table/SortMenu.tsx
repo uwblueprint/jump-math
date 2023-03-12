@@ -1,19 +1,20 @@
 import React from "react";
 import {
-  Flex,
   Button,
-  Radio,
-  VStack,
-  Text,
-  RadioGroup,
+  Divider,
+  Flex,
+  HStack,
   Popover,
-  PopoverTrigger,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
-  Divider,
-  HStack,
+  PopoverTrigger,
+  Radio,
+  RadioGroup,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
+
 import { FilterOptionsIcon } from "../../../assets/icons";
 
 interface SortMenuProps {
@@ -72,8 +73,8 @@ const SortMenu = ({
           <>
             <PopoverTrigger>
               <Button
-                minWidth="5%"
                 leftIcon={<FilterOptionsIcon />}
+                minWidth="5%"
                 variant="tertiary"
               >
                 Sort
@@ -81,8 +82,8 @@ const SortMenu = ({
             </PopoverTrigger>
             <PopoverContent
               borderColor="white"
-              boxShadow="8px 8px 30px 0px #0000000D"
               borderRadius="16px"
+              boxShadow="8px 8px 30px 0px #0000000D"
               py="4"
             >
               <PopoverBody>
@@ -94,7 +95,7 @@ const SortMenu = ({
                   </HStack>
                 </Flex>
               </PopoverBody>
-              <PopoverFooter border="0" alignSelf="end" px="10">
+              <PopoverFooter alignSelf="end" border="0" px="10">
                 <Button
                   minWidth="10%"
                   onClick={() => {

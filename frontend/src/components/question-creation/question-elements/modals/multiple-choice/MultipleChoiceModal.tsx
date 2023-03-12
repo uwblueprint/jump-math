@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
-import ResponseTypeModal from "../ResponseTypeModal";
-import MultipleChoiceOption from "./MultipleChoiceOption";
-import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
+
 import {
-  MultipleChoiceOptionData,
   MultipleChoiceData,
+  MultipleChoiceOptionData,
 } from "../../../../../types/QuestionTypes";
-import SelectOptionCount from "./SelectOptionCount";
+import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
+import ResponseTypeModal from "../ResponseTypeModal";
+
+import MultipleChoiceOption from "./MultipleChoiceOption";
+import SelectOptionCount from "./SelectOptionCount";
 
 interface MultipleChoiceModalProps {
   isOpen: boolean;
@@ -76,7 +78,7 @@ const MultipleChoiceModal = ({
       onConfirm={handleConfirm}
       title="Create multiple choice question"
     >
-      <VStack width="100%" spacing="10">
+      <VStack spacing="10" width="100%">
         {noCorrectOptionError && (
           <ErrorToast errorMessage="Mark a correct answer before confirming" />
         )}
@@ -92,15 +94,15 @@ const MultipleChoiceModal = ({
           setOptionCount={setOptionCount}
           setOptions={setOptions}
         />
-        <VStack width="100%" spacing="6">
+        <VStack spacing="6" width="100%">
           {options.map((option) => (
             <MultipleChoiceOption
               key={option.id}
               data={option}
-              isEmptyError={emptyOptionError}
               isCorrectError={noCorrectOptionError}
-              setOptions={setOptions}
+              isEmptyError={emptyOptionError}
               setOptionCount={setOptionCount}
+              setOptions={setOptions}
             />
           ))}
         </VStack>

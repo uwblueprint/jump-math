@@ -1,11 +1,12 @@
 import React from "react";
 import {
   FormControl,
-  FormLabel,
   FormErrorMessage,
+  FormLabel,
   Select,
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
+
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
 
 interface SelectOptionCountProps {
@@ -45,13 +46,13 @@ const SelectOptionCount = ({
   };
 
   return (
-    <FormControl isRequired isInvalid={optionCountError}>
+    <FormControl isInvalid={optionCountError} isRequired>
       <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
         How many options would you like?
       </FormLabel>
       <Select
-        value={optionCount}
         onChange={(e) => handleSelectCount(e)}
+        value={optionCount}
         width="50%"
       >
         <option disabled value={0}>

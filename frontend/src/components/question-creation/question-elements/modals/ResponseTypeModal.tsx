@@ -1,15 +1,15 @@
 import React from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Divider,
-  Text,
   Button,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
 } from "@chakra-ui/react";
 
 interface ResponseTypeModalProps {
@@ -28,7 +28,7 @@ const ResponseTypeModal = ({
   children,
 }: ResponseTypeModalProps): React.ReactElement => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent minWidth="42vw">
         <ModalHeader>
@@ -38,10 +38,10 @@ const ResponseTypeModal = ({
         <ModalBody>{children}</ModalBody>
         <Divider color="grey.200" mt="1.5em" />
         <ModalFooter>
-          <Button variant="secondary" onClick={onClose} minWidth="10%" mr={2}>
+          <Button minWidth="10%" mr={2} onClick={onClose} variant="secondary">
             Cancel
           </Button>
-          <Button variant="primary" onClick={onConfirm} minWidth="10%">
+          <Button minWidth="10%" onClick={onConfirm} variant="primary">
             Confirm
           </Button>
         </ModalFooter>

@@ -1,13 +1,13 @@
+import React from "react";
+import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import {
   GroupBase,
   OptionBase,
   Select,
   SingleValue,
 } from "chakra-react-select";
-import React from "react";
 
-import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { ClassroomInput, ClassroomForm } from "../../../types/ClassroomTypes";
+import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 
 interface Option extends OptionBase {
   label: string;
@@ -37,17 +37,17 @@ const SelectFormInputClassroom = ({
   };
   return (
     <Select<Option, false, GroupBase<Option>>
-      value={
-        options.find((option) => option.value === watch(field)) || undefined
-      }
+      errorBorderColor="red.200"
+      isSearchable={isSearchable}
       name={field}
+      onChange={handleChange}
       options={options}
       placeholder={placeholder}
       selectedOptionStyle="check"
-      onChange={handleChange}
       useBasicStyles
-      isSearchable={isSearchable}
-      errorBorderColor="red.200"
+      value={
+        options.find((option) => option.value === watch(field)) || undefined
+      }
     />
   );
 };

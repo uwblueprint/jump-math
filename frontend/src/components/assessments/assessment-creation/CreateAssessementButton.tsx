@@ -1,8 +1,9 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import { CREATE_ASSESSMENT } from "../../../constants/Routes";
+import { Button } from "@chakra-ui/react";
+
 import { PlusOutlineIcon } from "../../../assets/icons";
+import { CREATE_ASSESSMENT } from "../../../constants/Routes";
 
 const CreateAssessementButton = (): React.ReactElement => {
   const history = useHistory();
@@ -19,10 +20,10 @@ const CreateAssessementButton = (): React.ReactElement => {
   return (
     <>
       <Button
-        rightIcon={<PlusOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={navigateToCreateAssessmentPage}
+        rightIcon={<PlusOutlineIcon />}
+        variant="primary"
       >
         Create Assessment
       </Button>

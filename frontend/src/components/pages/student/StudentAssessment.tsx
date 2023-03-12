@@ -2,14 +2,15 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   Box,
-  Text,
-  Stack,
   Button,
-  Image,
-  VStack,
   HStack,
+  Image,
   SimpleGrid,
+  Stack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
+
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { STUDENT_LANDING } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
@@ -24,17 +25,17 @@ const AssessmentSummary = (): React.ReactElement => {
   return (
     <HStack alignItems="flex-start" pt="4em">
       <Image
-        src={JUMP_MATH_LOGO.src}
         alt="Jump Math Logo"
-        width="15%"
         mx="2em"
+        src={JUMP_MATH_LOGO.src}
+        width="15%"
       />
-      <VStack pr="4em" height="85vh" justifyContent="space-between">
+      <VStack height="85vh" justifyContent="space-between" pr="4em">
         <VStack align="left">
-          <Text textStyle="header4" color="blue.300">
+          <Text color="blue.300" textStyle="header4">
             {assessmentMetadata.testName}
           </Text>
-          <Text textStyle="paragraph" color="blue.300">
+          <Text color="blue.300" textStyle="paragraph">
             Start Time: {assessmentMetadata.startDate} at{" "}
             {assessmentMetadata.startTime}
           </Text>
@@ -42,10 +43,10 @@ const AssessmentSummary = (): React.ReactElement => {
             <Box
               backgroundColor="rgba(232, 237, 241, 0.2)"
               borderRadius="10px"
-              padding="2em"
               marginTop="7%"
+              padding="2em"
             >
-              <Text textStyle="subtitle2" color="blue.300" mb="2em">
+              <Text color="blue.300" mb="2em" textStyle="subtitle2">
                 Assessment Question Summary
               </Text>
               <HStack justifyContent="space-between">
@@ -70,10 +71,10 @@ const AssessmentSummary = (): React.ReactElement => {
             <Box
               backgroundColor="rgba(232, 237, 241, 0.2)"
               borderRadius="10px"
-              padding="2em"
               marginTop="7%"
+              padding="2em"
             >
-              <Text color="blue.300" textStyle="subtitle2" marginBottom="14px">
+              <Text color="blue.300" marginBottom="14px" textStyle="subtitle2">
                 Rules
               </Text>
               <Stack gap={3}>
@@ -86,9 +87,9 @@ const AssessmentSummary = (): React.ReactElement => {
             </Box>
           </SimpleGrid>
         </VStack>
-        <HStack spacing="3%" width="100%" justifyContent="flex-end">
+        <HStack justifyContent="flex-end" spacing="3%" width="100%">
           {/* TODO: update size="sm" after Cindy merges her PR */}
-          <Button variant="secondary" onClick={handleBackToHome}>
+          <Button onClick={handleBackToHome} variant="secondary">
             Back to Home
           </Button>
           <Button variant="primary">Start Test</Button>

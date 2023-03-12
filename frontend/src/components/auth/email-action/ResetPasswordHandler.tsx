@@ -1,10 +1,12 @@
-import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+
 import { VERIFY_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import SetNewPassword from "../reset-password/SetNewPassword";
+
 import EmailActionError from "./EmailActionError";
 
 const ResetPasswordHandler = ({
@@ -51,7 +53,7 @@ const ResetPasswordHandler = ({
     <>
       {loading && <LoadingState fullPage />}
       {passwordResetVerified && role && (
-        <SetNewPassword role={role} oobCode={oobCode} email={email} />
+        <SetNewPassword email={email} oobCode={oobCode} role={role} />
       )}
       {!loading && !passwordResetVerified && (
         <EmailActionError mode="resetPassword" />

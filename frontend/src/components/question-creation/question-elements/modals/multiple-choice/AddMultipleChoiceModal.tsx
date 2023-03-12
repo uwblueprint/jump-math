@@ -3,11 +3,12 @@ import { useDisclosure } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import MultipleChoiceModal from "./MultipleChoiceModal";
 import {
-  QuestionElementType,
   MultipleChoiceData,
+  QuestionElementType,
 } from "../../../../../types/QuestionTypes";
+
+import MultipleChoiceModal from "./MultipleChoiceModal";
 
 const AddMultipleChoiceModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();

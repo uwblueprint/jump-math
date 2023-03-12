@@ -1,18 +1,19 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Text, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 
-import RouterLink from "../common/RouterLink";
-import AuthWrapper from "./AuthWrapper";
-import * as Routes from "../../constants/Routes";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
-import { HOME_PAGE } from "../../constants/Routes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
+import * as Routes from "../../constants/Routes";
+import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
+import RouterLink from "../common/RouterLink";
+
 import ForgotPassword from "./reset-password/ForgotPassword";
+import AuthWrapper from "./AuthWrapper";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -51,30 +52,30 @@ const Login = (): React.ReactElement => {
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
-      <FormControl isRequired isInvalid={loginError && !email}>
+      <FormControl isInvalid={loginError && !email} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
-          type="email"
-          value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter Email Address"
+          type="email"
+          value={email}
         />
       </FormControl>
 
-      <FormControl isRequired isInvalid={loginError && !password}>
+      <FormControl isInvalid={loginError && !password} isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
-          type="password"
-          value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter Password"
+          type="password"
+          value={password}
         />
       </FormControl>
 
       <Button
+        color="blue.300"
         onClick={() => setForgotPassword(true)}
         textAlign="left"
-        color="blue.300"
       >
         Forgot Password?
       </Button>
@@ -86,9 +87,9 @@ const Login = (): React.ReactElement => {
         <Text>
           Don&apos;t have an account?{" "}
           <RouterLink
-            textDecoration="underline"
             color="blue.300"
             cursor="pointer"
+            textDecoration="underline"
             to={Routes.TEACHER_SIGNUP}
           >
             Sign Up
@@ -102,11 +103,11 @@ const Login = (): React.ReactElement => {
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

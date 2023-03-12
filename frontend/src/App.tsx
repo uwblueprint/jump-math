@@ -1,5 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState, useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -8,32 +7,28 @@ import {
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
-import StudentLogin from "./components/auth/student-login/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import StudentLogin from "./components/auth/student-login/StudentLogin";
+import TeacherSignup from "./components/auth/teacher-signup";
+import AdminDashboard from "./components/pages/admin/AdminDashboard";
+import ComponentLibrary from "./components/pages/ComponentLibrary";
+import Landing from "./components/pages/Landing";
 import NotFound from "./components/pages/NotFound";
-
-import * as Routes from "./constants/Routes";
+import StudentAssessment from "./components/pages/student/StudentAssessment";
+import TeacherPage from "./components/pages/teacher/TeacherPage";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
+import * as Routes from "./constants/Routes";
 import AuthContext from "./contexts/AuthContext";
-import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import SampleContext, {
   DEFAULT_SAMPLE_CONTEXT,
 } from "./contexts/SampleContext";
-import sampleContextReducer from "./reducers/SampleContextReducer";
 import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherContext";
-
+import sampleContextReducer from "./reducers/SampleContextReducer";
 import { AuthenticatedUser } from "./types/AuthTypes";
-
-import Landing from "./components/pages/Landing";
-
+import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
-import TeacherSignup from "./components/auth/teacher-signup";
-import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
-import AdminDashboard from "./components/pages/admin/AdminDashboard";
-import TeacherPage from "./components/pages/teacher/TeacherPage";
-import ComponentLibrary from "./components/pages/ComponentLibrary";
-import StudentAssessment from "./components/pages/student/StudentAssessment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
@@ -72,8 +67,8 @@ const App = (): React.ReactElement => {
                   />
                 )}
                 <PrivateRoute
-                  path={Routes.ADMIN_LANDING}
                   component={AdminDashboard}
+                  path={Routes.ADMIN_LANDING}
                   roles={["Admin"]}
                 />
                 {authenticatedUser?.role === "Teacher" && (
@@ -84,41 +79,41 @@ const App = (): React.ReactElement => {
                   />
                 )}
                 <PrivateRoute
+                  component={TeacherPage}
                   exact
                   path={Routes.TEACHER_LANDING}
-                  component={TeacherPage}
                   roles={["Teacher"]}
                 />
-                <Route exact path={Routes.HOME_PAGE} component={Landing} />
-                <Route exact path={Routes.ADMIN_LOGIN} component={Login} />
-                <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
+                <Route component={Landing} exact path={Routes.HOME_PAGE} />
+                <Route component={Login} exact path={Routes.ADMIN_LOGIN} />
+                <Route component={Login} exact path={Routes.TEACHER_LOGIN} />
                 <Route
+                  component={StudentLogin}
                   exact
                   path={Routes.STUDENT_LOGIN}
-                  component={StudentLogin}
                 />
                 <Route
+                  component={TeacherSignup}
                   exact
                   path={Routes.TEACHER_SIGNUP}
-                  component={TeacherSignup}
                 />
                 <Route
+                  component={EmailActionHandler}
                   exact
                   path={Routes.EMAIL_ACTION}
-                  component={EmailActionHandler}
                 />
                 <Route
+                  component={StudentAssessment}
                   exact
                   path={Routes.STUDENT_ASSESMENT}
-                  component={StudentAssessment}
                 />
                 <PrivateRoute
+                  component={ComponentLibrary}
                   exact
                   path={Routes.COMPONENT_LIBRARY}
-                  component={ComponentLibrary}
                   roles={["Admin", "Teacher"]}
                 />
-                <Route exact path="*" component={NotFound} />
+                <Route component={NotFound} exact path="*" />
               </Switch>
             </Router>
           </AuthContext.Provider>

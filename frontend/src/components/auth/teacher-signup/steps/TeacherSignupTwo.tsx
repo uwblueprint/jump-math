@@ -1,17 +1,18 @@
-import { useQuery } from "@apollo/client";
-import { Button, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { useQuery } from "@apollo/client";
+import { Button, FormControl, FormLabel, Text } from "@chakra-ui/react";
+
 import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
-import SelectFormInput from "../SelectFormInput";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
-import NavigationButtons from "../NavigationButtons";
 import AuthWrapper from "../../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
 
 const TeacherSignupTwo = ({
   setPage,
@@ -70,9 +71,8 @@ const TeacherSignupTwo = ({
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
         <SelectFormInput
-          setValue={setValue}
-          watch={watch}
           field="currentlyTeachingJM"
+          isSearchable={false}
           options={[
             {
               value: true,
@@ -85,32 +85,33 @@ const TeacherSignupTwo = ({
           ]}
           placeholder="Select Response"
           resetError={setIsCurrentlyTeachingJMError}
-          isSearchable={false}
+          setValue={setValue}
+          watch={watch}
         />
       </FormControl>
 
       <FormControl isInvalid={isSchoolError} isRequired>
         <FormLabel color="grey.400">School</FormLabel>
         <SelectFormInput
-          setValue={setValue}
-          watch={watch}
           field="school.id"
+          isSearchable
           options={schools.map((school) => ({
             value: school.id,
             label: school.name,
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
-          isSearchable
+          setValue={setValue}
+          watch={watch}
         />
       </FormControl>
 
-      <Text textStyle="subtitle2" color="grey.400" pb="1em">
+      <Text color="grey.400" pb="1em" textStyle="subtitle2">
         If your school is not listed,{" "}
         <Button
-          onClick={onNewSchoolClick}
-          display="contents"
           color="blue.300"
+          display="contents"
+          onClick={onNewSchoolClick}
           style={{ font: "inherit" }}
         >
           click here.
@@ -118,8 +119,8 @@ const TeacherSignupTwo = ({
       </Text>
 
       <NavigationButtons
-        onContinueClick={onContinueClick}
         onBackClick={() => setPage(1)}
+        onContinueClick={onContinueClick}
       />
     </>
   );
@@ -130,11 +131,11 @@ const TeacherSignupTwo = ({
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

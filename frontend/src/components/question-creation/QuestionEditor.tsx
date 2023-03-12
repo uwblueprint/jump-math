@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { Box, VStack } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
-
-import WelcomeMessage from "./WelcomeMessage";
-import HoverMessage from "./HoverMessage";
+import { Box, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
+
+import HoverMessage from "./HoverMessage";
 import QuestionElementItem from "./QuestionElementItem";
+import WelcomeMessage from "./WelcomeMessage";
 
 const QuestionEditor = (): React.ReactElement => {
   const { questionElements } = useContext(QuestionEditorContext);
@@ -23,8 +23,8 @@ const QuestionEditor = (): React.ReactElement => {
   const isHovering = canDrop && isOver;
 
   return (
-    <Box flex="1" ref={drop} overflow="auto">
-      <VStack margin="3em 5em" align="left" color="grey.400">
+    <Box ref={drop} flex="1" overflow="auto">
+      <VStack align="left" color="grey.400" margin="3em 5em">
         {isHovering && <HoverMessage />}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&

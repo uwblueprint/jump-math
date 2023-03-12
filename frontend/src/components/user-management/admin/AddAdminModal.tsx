@@ -1,35 +1,36 @@
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import {
   Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   Input,
   Modal,
-  ModalHeader,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalBody,
   ModalFooter,
+  ModalHeader,
   ModalOverlay,
   Radio,
   RadioGroup,
-  HStack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 
-import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-import { PlusOutlineIcon } from "../../../assets/icons";
+import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import {
   UserRequest,
   UserResponse,
 } from "../../../APIClients/types/UserClientTypes";
-import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
-import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import { PlusOutlineIcon } from "../../../assets/icons";
 import ErrorToast from "../../common/ErrorToast";
+import ModalFooterButtons from "../../common/ModalFooterButtons";
+
+import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
 
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -117,16 +118,16 @@ const AddAdminModal = (): React.ReactElement => {
   return (
     <>
       <Button
-        rightIcon={<PlusOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={onOpen}
+        rightIcon={<PlusOutlineIcon />}
+        variant="primary"
       >
         Add Admin
       </Button>
-      <Modal isOpen={isOpen} onClose={onModalClose} size="3xl" isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
-        <ModalContent p={2} maxW="80vw">
+        <ModalContent maxW="80vw" p={2}>
           {showRequestConfirmation ? (
             <>
               <ModalBody>
@@ -134,8 +135,8 @@ const AddAdminModal = (): React.ReactElement => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={() => window.location.reload()}
                   mt={10}
+                  onClick={() => window.location.reload()}
                   variant="primary"
                 >
                   Return to database
@@ -145,7 +146,7 @@ const AddAdminModal = (): React.ReactElement => {
           ) : (
             <>
               <ModalHeader>
-                <Text textStyle="subtitle1" color="grey.400">
+                <Text color="grey.400" textStyle="subtitle1">
                   Add Admin
                 </Text>
               </ModalHeader>
@@ -161,45 +162,45 @@ const AddAdminModal = (): React.ReactElement => {
                   <FormLabel color="blue.300">Name of Admin</FormLabel>
                   <HStack direction="row" mt={6}>
                     <Input
-                      type="text"
-                      placeholder="First Name"
-                      onChange={(e) => setFirstName(e.target.value)}
-                      width="320px"
                       isInvalid={requiredFieldEmpty && firstName.length === 0}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="First Name"
+                      type="text"
+                      width="320px"
                     />
                     <Input
-                      type="text"
-                      placeholder="Last Name"
-                      onChange={(e) => setLastName(e.target.value)}
-                      width="320px"
                       isInvalid={requiredFieldEmpty && lastName.length === 0}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Last Name"
+                      type="text"
+                      width="320px"
                     />
                   </HStack>
                 </FormControl>
-                <FormControl isRequired as="fieldset" mt={8}>
+                <FormControl as="fieldset" isRequired mt={8}>
                   <FormLabel color="blue.300">
                     Does the user already have a Jump Math email address?
                   </FormLabel>
                   <RadioGroup
-                    onChange={(val) => setHasJumpMathEmail(val === "yes")}
                     mt={5}
+                    onChange={(val) => setHasJumpMathEmail(val === "yes")}
                   >
-                    <HStack spacing="24px" alignItems="flex-start">
+                    <HStack alignItems="flex-start" spacing="24px">
                       <Radio
-                        value="no"
-                        size="lg"
                         isInvalid={
                           requiredFieldEmpty && hasJumpMathEmail === null
                         }
+                        size="lg"
+                        value="no"
                       >
                         No
                       </Radio>
                       <Radio
-                        value="yes"
-                        size="lg"
                         isInvalid={
                           requiredFieldEmpty && hasJumpMathEmail === null
                         }
+                        size="lg"
+                        value="yes"
                       >
                         Yes
                       </Radio>
@@ -208,17 +209,17 @@ const AddAdminModal = (): React.ReactElement => {
                 </FormControl>
                 {hasJumpMathEmail !== null && (
                   <>
-                    <FormControl isRequired mt={6} isInvalid={isInvalidEmail}>
+                    <FormControl isInvalid={isInvalidEmail} isRequired mt={6}>
                       <FormLabel color="blue.300">{`Please enter their ${
                         hasJumpMathEmail ? "Jump Math" : ""
                       } email address`}</FormLabel>
                       <Input
-                        type="email"
-                        placeholder="Email Address"
-                        onChange={(e) => setEmail(e.target.value)}
-                        width="320px"
-                        mt={4}
                         isInvalid={requiredFieldEmpty && email.length === 0}
+                        mt={4}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email Address"
+                        type="email"
+                        width="320px"
                       />
                       <FormErrorMessage>
                         The email does not end in @jumpmath.org. Please ensure
@@ -226,22 +227,22 @@ const AddAdminModal = (): React.ReactElement => {
                       </FormErrorMessage>
                     </FormControl>
                     <FormControl
+                      isInvalid={isInvalidConfirmationEmail}
                       isRequired
                       mt={6}
-                      isInvalid={isInvalidConfirmationEmail}
                     >
                       <FormLabel color="blue.300">
                         Confirm email address
                       </FormLabel>
                       <Input
-                        type="email"
-                        placeholder="Email Address"
-                        onChange={(e) => setConfirmEmail(e.target.value)}
-                        width="320px"
-                        mt={4}
                         isInvalid={
                           requiredFieldEmpty && confirmEmail.length === 0
                         }
+                        mt={4}
+                        onChange={(e) => setConfirmEmail(e.target.value)}
+                        placeholder="Email Address"
+                        type="email"
+                        width="320px"
                       />
                       <FormErrorMessage>
                         The email addresses do not currently match. Please check

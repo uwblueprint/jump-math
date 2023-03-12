@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   IconButton,
@@ -8,8 +9,9 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
+
 import RemoveUserModal from "./RemoveUserModal";
 
 interface RemoveUserPopoverProps {
@@ -25,33 +27,33 @@ const RemoveUserPopover = ({
 
   return (
     <Popover
-      isOpen={isOpen}
-      onOpen={onOpen}
-      onClose={onClose}
-      placement="right"
       closeOnBlur={false}
+      isOpen={isOpen}
+      onClose={onClose}
+      onOpen={onOpen}
+      placement="right"
     >
       <PopoverTrigger>
         <IconButton
-          icon={<MoreVerticalOutlineIcon boxSize={5} />}
           aria-label="more-vertical-outline"
+          icon={<MoreVerticalOutlineIcon boxSize={5} />}
           size="sm"
         />
       </PopoverTrigger>
-      <PopoverContent width="3xs" borderColor="grey.300" borderRadius="12px">
+      <PopoverContent borderColor="grey.300" borderRadius="12px" width="3xs">
         <PopoverBody>
           <VStack spacing="0em">
             <RemoveUserModal
-              name={name}
               email={email}
+              name={name}
               onCloseParent={onClose}
             />
             <Button
-              variant="primary"
-              mb={2}
               bg="blue.200"
-              opacity="0.6"
+              mb={2}
               onClick={onClose}
+              opacity="0.6"
+              variant="primary"
             >
               Cancel
             </Button>

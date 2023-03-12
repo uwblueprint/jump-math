@@ -1,25 +1,26 @@
 import React from "react";
 import {
-  Text,
   Box,
-  Tabs,
-  TabList,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
+  Tabs,
+  Text,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
-import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+
 import {
+  AssessmentTypes,
   Status,
   UseCase,
-  AssessmentTypes,
 } from "../../../types/AssessmentTypes";
-import SortMenu from "../../common/table/SortMenu";
+import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import AssessmentsTable from "../../assessments/AssessmentsTable";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
-import AssessmentsTable from "../../assessments/AssessmentsTable";
+import SortMenu from "../../common/table/SortMenu";
 
 const getAssessments = (assessment: AssessmentTypes) => {
   return {
@@ -181,10 +182,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <Box>
         <HStack justifyContent="space-between">
           <Text
-            textStyle="header4"
             color="blue.300"
-            style={{ textAlign: "left" }}
             marginBottom="0.5em"
+            style={{ textAlign: "left" }}
+            textStyle="header4"
           >
             Assessments
           </Text>
@@ -205,16 +206,16 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <Box flex="1">
         <Tabs marginTop={3}>
           <TabList>
-            <Tab onClick={() => setSearch("")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("")}>
               All
             </Tab>
-            <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Draft")}>
               Drafts
             </Tab>
-            <Tab onClick={() => setSearch("Published")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Published")}>
               Published
             </Tab>
-            <Tab onClick={() => setSearch("Archived")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Archived")}>
               Archived
             </Tab>
           </TabList>
@@ -224,6 +225,8 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                 <HStack width="100%">
                   <SearchBar onSearch={setSearch} />
                   <SortMenu
+                    onSortOrder={setSortOrder}
+                    onSortProperty={setSortProperty}
                     properties={[
                       "status",
                       "name",
@@ -232,13 +235,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                       "country",
                       "region",
                     ]}
-                    onSortOrder={setSortOrder}
-                    onSortProperty={setSortProperty}
                   />
                   <FilterMenu />
                 </HStack>
                 {search && (
-                  <Text fontSize="16px" color="grey.300" width="100%">
+                  <Text color="grey.300" fontSize="16px" width="100%">
                     Showing {sampleAssessments.length} results for &quot;
                     {search}&quot;
                   </Text>

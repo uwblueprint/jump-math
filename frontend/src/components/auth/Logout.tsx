@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
-import { Box, Text, Flex } from "@chakra-ui/react";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
@@ -25,10 +25,10 @@ const Logout = (): React.ReactElement => {
   return (
     <Box>
       <Flex
-        align="center"
-        mx="4"
-        cursor="pointer"
         _hover={activePage}
+        align="center"
+        cursor="pointer"
+        mx="4"
         onClick={onLogOutClick}
       >
         <Text fontSize="14px">Logout</Text>

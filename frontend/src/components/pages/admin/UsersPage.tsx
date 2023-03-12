@@ -1,32 +1,31 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import {
-  Text,
   Box,
   Center,
-  Tabs,
-  TabList,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
-  HStack,
+  Tabs,
+  Text,
 } from "@chakra-ui/react";
-import { useQuery } from "@apollo/client";
-import AdminTab from "../../user-management/admin/AdminTab";
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
-import AdminUserTable from "../../user-management/admin/AdminUserTable";
-import AddAdminModal from "../../user-management/admin/AddAdminModal";
+
 import {
-  GET_USERS_BY_ROLE,
   GET_ALL_TEACHERS,
+  GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
-import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
-import SortMenu from "../../common/table/SortMenu";
-import SearchBar from "../../common/table/SearchBar";
-
-import LoadingState from "../../common/LoadingState";
-import ErrorState from "../../common/ErrorState";
-
 import { TabEnum } from "../../../types/AuthTypes";
+import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import ErrorState from "../../common/ErrorState";
+import LoadingState from "../../common/LoadingState";
+import SearchBar from "../../common/table/SearchBar";
+import SortMenu from "../../common/table/SortMenu";
+import AddAdminModal from "../../user-management/admin/AddAdminModal";
+import AdminTab from "../../user-management/admin/AdminTab";
+import AdminUserTable from "../../user-management/admin/AdminUserTable";
+import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
 
 const getTeacherUser = (user: TeacherUser) => {
   return {
@@ -182,10 +181,10 @@ const UsersPage = (): React.ReactElement => {
       <Box>
         <HStack justifyContent="space-between">
           <Text
-            textStyle="header4"
             color="blue.300"
-            style={{ textAlign: "left" }}
             marginBottom="0.5em"
+            style={{ textAlign: "left" }}
+            textStyle="header4"
           >
             Database
           </Text>
@@ -193,18 +192,18 @@ const UsersPage = (): React.ReactElement => {
         </HStack>
       </Box>
       {loading && (
-        <Center margin="15%" flex="1">
+        <Center flex="1" margin="15%">
           <LoadingState />
         </Center>
       )}
       {error && (
-        <Center margin="15%" flex="1">
+        <Center flex="1" margin="15%">
           <ErrorState />
         </Center>
       )}
       {data && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3} onChange={handleTabChange} index={tabIndex}>
+          <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
               <Tab color={unselectedColor}>Admin</Tab>
               <Tab color={unselectedColor}>Teachers</Tab>
@@ -212,32 +211,32 @@ const UsersPage = (): React.ReactElement => {
             <TabPanels>
               <TabPanel>
                 <AdminTab
+                  search={search}
+                  searchBarComponent={<SearchBar onSearch={setSearch} />}
+                  searchLength={admins.length}
                   sortMenuComponent={
                     <SortMenu
-                      properties={["firstName", "email"]}
-                      onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
+                      onSortProperty={setSortProperty}
+                      properties={["firstName", "email"]}
                     />
                   }
-                  searchBarComponent={<SearchBar onSearch={setSearch} />}
                   UserTable={<AdminUserTable users={admins} />}
-                  searchLength={admins.length}
-                  search={search}
                 />
               </TabPanel>
               <TabPanel>
                 <AdminTab
+                  search={search}
+                  searchBarComponent={<SearchBar onSearch={setSearch} />}
+                  searchLength={teachers.length}
                   sortMenuComponent={
                     <SortMenu
-                      properties={["firstName", "email", "school"]}
-                      onSortProperty={setSortProperty}
                       onSortOrder={setSortOrder}
+                      onSortProperty={setSortProperty}
+                      properties={["firstName", "email", "school"]}
                     />
                   }
-                  searchBarComponent={<SearchBar onSearch={setSearch} />}
                   UserTable={<TeacherUserTable users={teachers} />}
-                  searchLength={teachers.length}
-                  search={search}
                 />
               </TabPanel>
             </TabPanels>

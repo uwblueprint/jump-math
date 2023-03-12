@@ -1,23 +1,24 @@
 import React, { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import {
-  Text,
+  Button,
   FormControl,
   FormLabel,
   Input,
-  Button,
+  Text,
   useToast,
 } from "@chakra-ui/react";
-import { useMutation, useQuery } from "@apollo/client";
+
 import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "../teacher-signup/NavigationButtons";
-import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import { UserResponse } from "../../../APIClients/types/UserClientTypes";
-import AuthWrapper from "../AuthWrapper";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
+import AuthWrapper from "../AuthWrapper";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 interface ForgotPasswordProps {
   isAdmin: boolean;
@@ -83,32 +84,32 @@ const ForgotPassword = ({
           <FormControl isInvalid={emailError || emailNotFoundError} isRequired>
             <FormLabel color="grey.400">Email Address</FormLabel>
             <Input
-              type="text"
-              value={email}
-              placeholder="Enter Email Address"
               onChange={(e) => {
                 setEmailError(false);
                 setEmailNotFoundError(false);
                 setEmail(e.target.value);
               }}
+              placeholder="Enter Email Address"
+              type="text"
+              value={email}
             />
           </FormControl>
           <NavigationButtons
-            onContinueClick={onResetPasswordClick}
-            onBackClick={() => window.location.reload()}
-            continueButtonText="Submit"
             backButtonText="Back to login page"
+            continueButtonText="Submit"
+            onBackClick={() => window.location.reload()}
+            onContinueClick={onResetPasswordClick}
           />
         </>
       )}
       {step === 2 && (
         <>
-          <Text textStyle="subtitle2" textAlign="center">
+          <Text textAlign="center" textStyle="subtitle2">
             Didn’t receive the email?{" "}
             <Button
-              onClick={onResendClick}
-              display="contents"
               color="blue.300"
+              display="contents"
+              onClick={onResendClick}
               style={{ font: "inherit" }}
             >
               Click to resend
@@ -116,8 +117,8 @@ const ForgotPassword = ({
           </Text>
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            variant="tertiary"
             onClick={() => window.location.reload()}
+            variant="tertiary"
           >
             Back to login page
           </Button>
@@ -137,11 +138,11 @@ const ForgotPassword = ({
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

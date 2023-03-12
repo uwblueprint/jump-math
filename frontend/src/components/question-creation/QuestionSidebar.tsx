@@ -1,18 +1,19 @@
 import React from "react";
 import {
-  Box,
-  Text,
-  HStack,
-  Button,
-  VStack,
-  Stack,
   Accordion,
-  AccordionItem,
   AccordionButton,
   AccordionIcon,
+  AccordionItem,
   AccordionPanel,
+  Box,
+  Button,
+  HStack,
+  Stack,
+  Text,
+  VStack,
   Wrap,
 } from "@chakra-ui/react";
+
 import {
   ImageIcon,
   MultipleChoiceIcon,
@@ -21,10 +22,10 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import QuestionSidebarItem from "./QuestionSidebarItem";
-
 import { QuestionElementType } from "../../types/QuestionTypes";
 import BackButton from "../common/BackButton";
+
+import QuestionSidebarItem from "./QuestionSidebarItem";
 
 interface AccordionItemProps {
   title: string;
@@ -43,9 +44,9 @@ const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
-              type={panel.element}
               key={i}
               icon={panel.icon}
+              type={panel.element}
             />
           );
         })}
@@ -74,18 +75,18 @@ const QuestionSidebar = (): React.ReactElement => {
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
-      padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
+      padding={{ base: "0.5em", md: "2em" }}
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
         <Box justifyContent="flex-start" paddingLeft="0">
           <BackButton />
         </Box>
-        <Text textStyle="header4" color="blue.300">
+        <Text color="blue.300" textStyle="header4">
           Create Question
         </Text>
-        <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
+        <Accordion allowMultiple defaultIndex={[0, 1]} paddingTop="1em">
           {renderAccordionItem([
             {
               title: "Question",
@@ -116,10 +117,10 @@ const QuestionSidebar = (): React.ReactElement => {
         </Accordion>
       </Stack>
       <HStack align="center" paddingTop="2em">
-        <Button variant="secondary" minWidth={0}>
+        <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <Button variant="primary" minWidth={0}>
+        <Button minWidth={0} variant="primary">
           Save
         </Button>
       </HStack>
