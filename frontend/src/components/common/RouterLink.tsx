@@ -10,7 +10,6 @@ import {
 
 type RouterLinkProps = ChakraLinkProps & RouterDOMLinkProps;
 
-/* eslint-disable react/jsx-props-no-spreading */
 const RouterLink = (props: RouterLinkProps): React.ReactElement => (
   <ChakraLink as={RouterDOMLink} {...props} />
 );

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";

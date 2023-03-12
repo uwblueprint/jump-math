@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
