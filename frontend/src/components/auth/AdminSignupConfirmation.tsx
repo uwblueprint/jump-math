@@ -65,18 +65,18 @@ const AdminSignupConfirmation = ({
 
   const setPasswordComponent = (
     <PasswordForm
-      version="AdminSignup"
       email={email}
       oobCode={oobCode}
       setStep={setStep}
+      version="AdminSignup"
     />
   );
 
   const finalSignupConfirmation = (
     <Button
+      onClick={() => history.push(ADMIN_LOGIN)}
       variant="primary"
       width="100%"
-      onClick={() => history.push(ADMIN_LOGIN)}
     >
       Login
     </Button>
@@ -87,10 +87,10 @@ const AdminSignupConfirmation = ({
       {loading && <LoadingState fullPage />}
       {verified ? (
         <AuthWrapper
-          title="Admin Sign Up Confirmation"
-          subtitle={subtitle}
-          image={ADMIN_SIGNUP_IMAGE}
           form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
+          image={ADMIN_SIGNUP_IMAGE}
+          subtitle={subtitle}
+          title="Admin Sign Up Confirmation"
         />
       ) : (
         <EmailActionError mode="resetPassword" />

@@ -10,8 +10,8 @@ const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu: (
       <RemoveUserPopover
-        name={`${user.firstName} ${user.lastName}`}
         email={user.email}
+        name={`${user.firstName} ${user.lastName}`}
       />
     ),
   }));

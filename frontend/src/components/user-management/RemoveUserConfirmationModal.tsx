@@ -12,12 +12,12 @@ const RemoveUserConfirmationModal = (): React.ReactElement => {
   return (
     <>
       <ModalText
-        header="The user has been removed from the Jump Math Database"
         body={["The data has been removed securely."]}
+        header="The user has been removed from the Jump Math Database"
       />
       <Divider style={{ marginTop: "1.5em" }} />
       <ModalFooter my={3}>
-        <Button variant="primary" mr={2} onClick={navigateTo}>
+        <Button mr={2} onClick={navigateTo} variant="primary">
           Return to Database
         </Button>
       </ModalFooter>

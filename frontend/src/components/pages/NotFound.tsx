@@ -12,7 +12,7 @@ const NotFound = (): React.ReactElement => {
     <VStack color="blue.300" height="100vh" justifyContent="center" spacing={8}>
       <Text textStyle="subtitle1">Error 404</Text>
       <Text textStyle="header4">You are not authorized to view this page.</Text>
-      <Button variant="primary" my={2} onClick={navigateTo}>
+      <Button my={2} onClick={navigateTo} variant="primary">
         Go to home page
       </Button>
     </VStack>

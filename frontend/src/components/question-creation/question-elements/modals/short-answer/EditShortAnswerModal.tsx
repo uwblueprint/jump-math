@@ -34,10 +34,10 @@ const EditShortAnswerModal = ({
 
   return (
     <ShortAnswerModal
+      data={data}
       isOpen={isOpen}
       onClose={closeModal}
       onConfirm={updateShortAnswerElement}
-      data={data}
     />
   );
 };

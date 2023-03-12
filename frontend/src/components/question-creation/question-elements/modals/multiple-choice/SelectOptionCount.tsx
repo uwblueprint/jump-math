@@ -46,13 +46,13 @@ const SelectOptionCount = ({
   };
 
   return (
-    <FormControl isRequired isInvalid={optionCountError}>
+    <FormControl isInvalid={optionCountError} isRequired>
       <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
         How many options would you like?
       </FormLabel>
       <Select
-        value={optionCount}
         onChange={(e) => handleSelectCount(e)}
+        value={optionCount}
         width="50%"
       >
         <option disabled value={0}>

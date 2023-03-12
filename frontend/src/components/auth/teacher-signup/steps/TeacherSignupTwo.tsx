@@ -71,9 +71,8 @@ const TeacherSignupTwo = ({
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
         <SelectFormInput
-          setValue={setValue}
-          watch={watch}
           field="currentlyTeachingJM"
+          isSearchable={false}
           options={[
             {
               value: true,
@@ -86,32 +85,33 @@ const TeacherSignupTwo = ({
           ]}
           placeholder="Select Response"
           resetError={setIsCurrentlyTeachingJMError}
-          isSearchable={false}
+          setValue={setValue}
+          watch={watch}
         />
       </FormControl>
 
       <FormControl isInvalid={isSchoolError} isRequired>
         <FormLabel color="grey.400">School</FormLabel>
         <SelectFormInput
-          setValue={setValue}
-          watch={watch}
           field="school.id"
+          isSearchable
           options={schools.map((school) => ({
             value: school.id,
             label: school.name,
           }))}
           placeholder="Search School by typing it in field"
           resetError={setSchoolError}
-          isSearchable
+          setValue={setValue}
+          watch={watch}
         />
       </FormControl>
 
-      <Text textStyle="subtitle2" color="grey.400" pb="1em">
+      <Text color="grey.400" pb="1em" textStyle="subtitle2">
         If your school is not listed,{" "}
         <Button
-          onClick={onNewSchoolClick}
-          display="contents"
           color="blue.300"
+          display="contents"
+          onClick={onNewSchoolClick}
           style={{ font: "inherit" }}
         >
           click here.
@@ -119,8 +119,8 @@ const TeacherSignupTwo = ({
       </Text>
 
       <NavigationButtons
-        onContinueClick={onContinueClick}
         onBackClick={() => setPage(1)}
+        onContinueClick={onContinueClick}
       />
     </>
   );
@@ -131,11 +131,11 @@ const TeacherSignupTwo = ({
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

@@ -34,11 +34,11 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   return (
     <>
       <TableContainer
-        padding="0.5em"
         border="1px solid"
         borderColor="blue.50"
         borderRadius="12px"
         minWidth="100%"
+        padding="0.5em"
       >
         <T>
           <Thead>
@@ -66,9 +66,9 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
         </T>
       </TableContainer>
       <Pagination
-        pagesCount={totalPages}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
+        pagesCount={totalPages}
       />
     </>
   );

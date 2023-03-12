@@ -21,15 +21,15 @@ const TeacherSignupFour = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <PasswordForm
-      version="TeacherSignup"
-      setValue={setValue}
-      setStep={setPage}
       handleSubmitCallback={handleSubmitCallback}
+      setStep={setPage}
+      setValue={setValue}
+      version="TeacherSignup"
     />
   );
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper form={form} image={image} subtitle={subtitle} title={title} />
   );
 };
 

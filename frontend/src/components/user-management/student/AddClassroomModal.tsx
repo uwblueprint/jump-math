@@ -105,18 +105,18 @@ const AddClassroomModal = (): React.ReactElement => {
   return (
     <>
       <Button
-        rightIcon={<PlusOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={onOpen}
+        rightIcon={<PlusOutlineIcon />}
+        variant="primary"
       >
         Add New Classroom
       </Button>
-      <Modal isOpen={isOpen} onClose={onModalClose} size="3xl" isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
-        <ModalContent p={2} maxW="80vw">
+        <ModalContent maxW="80vw" p={2}>
           <ModalHeader>
-            <Text textStyle="subtitle1" color="grey.400">
+            <Text color="grey.400" textStyle="subtitle1">
               Add Classroom
             </Text>
           </ModalHeader>
@@ -127,32 +127,31 @@ const AddClassroomModal = (): React.ReactElement => {
             )}
             <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
               <HStack direction="row" mt={6}>
-                <VStack direction="column" align="left" width="320px">
+                <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">Class Name</FormLabel>
                   <Input
+                    onChange={(e) => handleChange(e, "className")}
+                    placeholder="Type in Class Name"
                     type="text"
                     value={watch("className")}
-                    placeholder="Type in Class Name"
-                    onChange={(e) => handleChange(e, "className")}
                   />
                 </VStack>
-                <VStack direction="column" align="left" width="320px">
+                <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">School Year</FormLabel>
                   <Input
+                    onChange={(e) => handleChange(e, "schoolYear")}
+                    placeholder="Type in School Year"
                     type="text"
                     value={watch("schoolYear")}
-                    placeholder="Type in School Year"
-                    onChange={(e) => handleChange(e, "schoolYear")}
                   />
                 </VStack>
               </HStack>
               <HStack direction="row" mt={6}>
-                <VStack direction="column" align="left" width="320px">
+                <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">Grade Level</FormLabel>
                   <SelectFormInputClassroom
-                    setValue={setValue}
-                    watch={watch}
                     field="gradeLevel"
+                    isSearchable={false}
                     options={[
                       {
                         value: "grade 1",
@@ -164,7 +163,8 @@ const AddClassroomModal = (): React.ReactElement => {
                       },
                     ]}
                     placeholder="Choose a Grade Level"
-                    isSearchable={false}
+                    setValue={setValue}
+                    watch={watch}
                   />
                 </VStack>
               </HStack>

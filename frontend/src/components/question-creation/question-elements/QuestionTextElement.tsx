@@ -45,18 +45,18 @@ const QuestionTextElement = ({
   return (
     <Flex width="100%">
       {questionCount !== 1 && (
-        <Text paddingTop="2" paddingRight="2" textStyle="subtitle2">
+        <Text paddingRight="2" paddingTop="2" textStyle="subtitle2">
           {questionLetter}.
         </Text>
       )}
       <Textarea
-        size="question"
-        value={data}
+        as={ResizeTextarea}
+        maxLength={801}
         onChange={(e) => updateQuestionTextElement(e.target.value)}
         placeholder="This is a question component."
-        maxLength={801}
+        size="question"
+        value={data}
         variant="unstyled"
-        as={ResizeTextarea}
       />
     </Flex>
   );

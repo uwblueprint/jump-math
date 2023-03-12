@@ -31,9 +31,9 @@ const Pagination = ({
 
   return (
     <P
-      pagesCount={pagesCount}
       currentPage={currentPage}
       onPageChange={onPageChange}
+      pagesCount={pagesCount}
     >
       <PaginationContainer>
         {currentPage !== 1 && (
@@ -44,7 +44,7 @@ const Pagination = ({
             &lt; Previous
           </PaginationPrevious>
         )}
-        <PaginationPageGroup isInline align="center">
+        <PaginationPageGroup align="center" isInline>
           {pages.map((page: number, index: number) => {
             if (
               index === 0 ||
@@ -54,14 +54,14 @@ const Pagination = ({
             ) {
               return (
                 <PaginationPage
-                  size="paginationStyle"
-                  variant="paginationStyle"
                   key={`pagination_page_${page}`}
-                  page={page}
                   _current={{
                     bg: "blue.100",
                     color: "grey.100",
                   }}
+                  page={page}
+                  size="paginationStyle"
+                  variant="paginationStyle"
                 />
               );
             }
@@ -73,8 +73,8 @@ const Pagination = ({
             ) {
               return (
                 <PaginationSeparator
-                  size="paginationStyle"
                   key={`pagination_ellipsis_${index}`}
+                  size="paginationStyle"
                   sx={{
                     opacity: "1 !important",
                     bg: "blue.50",

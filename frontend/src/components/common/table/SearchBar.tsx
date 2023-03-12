@@ -17,13 +17,13 @@ const SearchBar = ({ onSearch }: SearchBarProps): React.ReactElement => {
   return (
     <InputGroup width="95%">
       <Input
-        borderRadius="6px"
-        borderColor="grey.100"
         backgroundColor="grey.100"
+        borderColor="grey.100"
+        borderRadius="6px"
         onChange={handleInputChange}
         placeholder="Search bar"
       />
-      <InputRightElement pointerEvents="none" h="full">
+      <InputRightElement h="full" pointerEvents="none">
         <SearchOutlineIcon />
       </InputRightElement>
     </InputGroup>

@@ -37,10 +37,10 @@ const EditMultipleChoiceModal = ({
 
   return (
     <MultipleChoiceModal
+      data={data}
       isOpen={isOpen}
       onClose={closeModal}
       onConfirm={updateMultipleChoiceElement}
-      data={data}
     />
   );
 };

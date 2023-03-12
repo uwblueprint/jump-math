@@ -27,14 +27,14 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
 
   return (
     <Textarea
+      as={ResizeTextarea}
+      maxLength={801}
+      onChange={(e) => updateTextElement(e.target.value)}
+      paddingLeft="6"
+      placeholder="This is a text component which can be added for any additional information."
       size="text"
       value={data}
-      onChange={(e) => updateTextElement(e.target.value)}
-      placeholder="This is a text component which can be added for any additional information."
-      maxLength={801}
       variant="unstyled"
-      as={ResizeTextarea}
-      paddingLeft="6"
     />
   );
 };

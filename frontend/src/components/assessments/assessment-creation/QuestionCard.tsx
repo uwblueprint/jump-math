@@ -45,62 +45,62 @@ const QuestionCard = ({
 }: QuestionCardProps): React.ReactElement => {
   return (
     <Container
-      borderRadius="22px"
-      padding="28px 32px 28px 28px"
-      maxWidth={["318px", "918px"]}
       background="white"
-      color="grey.300"
       border="1px"
       borderColor="grey.200"
+      borderRadius="22px"
+      color="grey.300"
+      maxWidth={["318px", "918px"]}
+      padding="28px 32px 28px 28px"
     >
       <Stack direction={["column", "row"]}>
         <Box w={["10%", "40px"]}>
           <Menu>
             <MenuButton
-              justifyContent="left"
               alignItems="top"
-              mt={1}
-              as={IconButton}
-              fontSize="24px"
               aria-label="Options"
+              as={IconButton}
               cursor="pointer"
-              p={0}
+              fontSize="24px"
               icon={<HamburgerMenuIcon />}
+              justifyContent="left"
+              mt={1}
+              p={0}
             />
           </Menu>
         </Box>
-        <Box marginBottom={["24px", "0px"]} flex="1">
+        <Box flex="1" marginBottom={["24px", "0px"]}>
           <Flex direction="row">
             <Text
+              align="left"
+              color="grey.400"
               flexGrow="1"
               marginBottom="20px"
               textStyle="subtitle1"
-              align="left"
-              color="grey.400"
             >
               Question {questionNum}
             </Text>
-            <Box color="blue.300" fontSize="24px" mr="4" cursor="pointer">
+            <Box color="blue.300" cursor="pointer" fontSize="24px" mr="4">
               <EditOutlineIcon />
             </Box>
-            <Box color="blue.300" fontSize="24px" cursor="pointer">
+            <Box color="blue.300" cursor="pointer" fontSize="24px">
               <DeleteOutlineIcon />
             </Box>
           </Flex>
           <List
-            spacing={3}
-            styleType={questions.length > 1 ? "lower-alpha" : "none"}
-            stylePosition="inside"
-            maxWidth={["250px", "800px"]}
             fontWeight="700"
+            maxWidth={["250px", "800px"]}
+            spacing={3}
+            stylePosition="inside"
+            styleType={questions.length > 1 ? "lower-alpha" : "none"}
           >
             {questions.map((question, key) => (
               <ListItem
                 key={key}
                 color="grey.400"
-                whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow="ellipsis"
+                whiteSpace="nowrap"
               >
                 <Text as="span" fontWeight="400">
                   {question}
@@ -108,12 +108,12 @@ const QuestionCard = ({
               </ListItem>
             ))}
           </List>
-          <Text textStyle="caption" color="grey.300" my={5}>
+          <Text color="grey.300" my={5} textStyle="caption">
             Total: {points} points
           </Text>
-          <Stack overflow="hidden" direction="row">
+          <Stack direction="row" overflow="hidden">
             {tags.map((tag, key) => (
-              <QuestionTag key={key} type={tag.type} count={tag.count} />
+              <QuestionTag key={key} count={tag.count} type={tag.type} />
             ))}
           </Stack>
         </Box>

@@ -11,12 +11,12 @@ const LoadingState = ({
       <VStack spacing={6} textAlign="center">
         <Spinner
           color="blue.300"
-          size="xl"
-          thickness="4px"
           emptyColor="gray.200"
+          size="xl"
           speed="0.65s"
+          thickness="4px"
         />
-        <Text textStyle="paragraph" color="blue.300">
+        <Text color="blue.300" textStyle="paragraph">
           Please wait for the data to load. It will load momentarily.
         </Text>
       </VStack>

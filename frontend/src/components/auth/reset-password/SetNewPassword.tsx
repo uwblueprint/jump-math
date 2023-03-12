@@ -27,35 +27,35 @@ const SetNewPassword = ({
   if (step === 1)
     return (
       <AuthWrapper
-        title="Set New Password"
-        subtitle="Please ensure that your new password is different than your old one"
-        image={image}
         form={
           <PasswordForm
-            version="ResetPassword"
             email={email}
             oobCode={oobCode}
             setStep={setStep}
+            version="ResetPassword"
           />
         }
+        image={image}
+        subtitle="Please ensure that your new password is different than your old one"
+        title="Set New Password"
       />
     );
   return (
     <AuthWrapper
-      title="Password Reset Successful"
-      subtitle={`Your password has been successfully reset\nClick below to log in`}
-      image={image}
       form={
         <Button
-          variant="primary"
-          width="100%"
           onClick={() =>
             history.push(role === "Admin" ? ADMIN_LOGIN : TEACHER_LOGIN)
           }
+          variant="primary"
+          width="100%"
         >
           Login
         </Button>
       }
+      image={image}
+      subtitle={`Your password has been successfully reset\nClick below to log in`}
+      title="Password Reset Successful"
     />
   );
 };

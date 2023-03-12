@@ -25,10 +25,10 @@ const CreateAssessementButton = (): React.ReactElement => {
   return (
     <>
       <Button
-        rightIcon={<PlusOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={navigateToCreateAssessmentPage}
+        rightIcon={<PlusOutlineIcon />}
+        variant="primary"
       >
         Create Assessment
       </Button>

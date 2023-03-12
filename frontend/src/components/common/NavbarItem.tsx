@@ -41,16 +41,16 @@ const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
     : null;
 
   return (
-    <Popover trigger="hover" placement="bottom-start">
+    <Popover placement="bottom-start" trigger="hover">
       <PopoverTrigger>
         <Box>
           <RouterLink
-            to={url}
-            style={{ textDecoration: "none" }}
             onMouseEnter={() => setShowMore(true)}
             onMouseLeave={() => setShowMore(false)}
+            style={{ textDecoration: "none" }}
+            to={url}
           >
-            <Flex align="center" mx="4" cursor="pointer" _hover={activePage}>
+            <Flex _hover={activePage} align="center" cursor="pointer" mx="4">
               <Text fontSize="14px" sx={isCurrentPage ? activePage : undefined}>
                 {title}
               </Text>

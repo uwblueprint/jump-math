@@ -52,7 +52,7 @@ const ResetPasswordHandler = ({
     <>
       {loading && <LoadingState fullPage />}
       {passwordResetVerified && role && (
-        <SetNewPassword role={role} oobCode={oobCode} email={email} />
+        <SetNewPassword email={email} oobCode={oobCode} role={role} />
       )}
       {!loading && !passwordResetVerified && (
         <EmailActionError mode="resetPassword" />

@@ -103,22 +103,22 @@ const TeacherSignupOne = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
-      <Stack direction={["row"]} width="100%" alignItems="flex-end">
+      <Stack alignItems="flex-end" direction={["row"]} width="100%">
         <FormControl isInvalid={firstNameError} isRequired>
           <FormLabel color="grey.400">Name</FormLabel>
           <Input
+            onChange={(e) => handleChange(e, "firstName")}
+            placeholder="First"
             type="text"
             value={watch("firstName")}
-            placeholder="First"
-            onChange={(e) => handleChange(e, "firstName")}
           />
         </FormControl>
         <FormControl isInvalid={lastNameError}>
           <Input
+            onChange={(e) => handleChange(e, "lastName")}
+            placeholder="Last"
             type="text"
             value={watch("lastName")}
-            placeholder="Last"
-            onChange={(e) => handleChange(e, "lastName")}
           />
         </FormControl>
       </Stack>
@@ -126,16 +126,16 @@ const TeacherSignupOne = ({
       <FormControl isInvalid={emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
+          onChange={(e) => handleChange(e, "email")}
+          placeholder="Enter Email Address"
           type="email"
           value={watch("email")}
-          placeholder="Enter Email Address"
-          onChange={(e) => handleChange(e, "email")}
         />
       </FormControl>
 
       <FormControl isInvalid={gradesError} isRequired>
         <FormLabel color="grey.400">What grades do you teach?</FormLabel>
-        <CheckboxGroup value={gradesValues} onChange={onChangeGrades}>
+        <CheckboxGroup onChange={onChangeGrades} value={gradesValues}>
           <SimpleGrid columns={3}>
             {[
               "K",
@@ -157,9 +157,9 @@ const TeacherSignupOne = ({
       </FormControl>
 
       <NavigationButtons
-        onContinueClick={onContinueClick}
-        onBackClick={() => history.push(TEACHER_LOGIN)}
         backButtonText="Back to login page"
+        onBackClick={() => history.push(TEACHER_LOGIN)}
+        onContinueClick={onContinueClick}
       />
     </>
   );
@@ -170,11 +170,11 @@ const TeacherSignupOne = ({
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

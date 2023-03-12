@@ -19,13 +19,13 @@ const NavigationButtons = ({
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
-      <Button variant="primary" width="100%" onClick={onContinueClick}>
+      <Button onClick={onContinueClick} variant="primary" width="100%">
         {continueButtonText}
       </Button>
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
-        variant="tertiary"
         onClick={onBackClick}
+        variant="tertiary"
       >
         {backButtonText}
       </Button>

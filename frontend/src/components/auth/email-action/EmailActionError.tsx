@@ -11,7 +11,7 @@ const EmailActionError = ({ mode }: { mode: string }): React.ReactElement => {
   } has expired or the link has already been used.`;
 
   return (
-    <Center height="100vh" flexDirection="column" textAlign="center">
+    <Center flexDirection="column" height="100vh" textAlign="center">
       <Text textStyle="header4">{header}</Text>
       <Text textStyle="subtitle2">{subtitle}</Text>
     </Center>

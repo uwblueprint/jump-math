@@ -42,9 +42,9 @@ const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
-              type={panel.element}
               key={i}
               icon={panel.icon}
+              type={panel.element}
             />
           );
         })}
@@ -73,8 +73,8 @@ const QuestionSidebar = (): React.ReactElement => {
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
-      padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
+      padding={{ base: "0.5em", md: "2em" }}
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
@@ -84,7 +84,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Text textStyle="header4" color="blue.300">
           Create Question
         </Text>
-        <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
+        <Accordion allowMultiple defaultIndex={[0, 1]} paddingTop="1em">
           {renderAccordionItem([
             {
               title: "Question",
@@ -115,10 +115,10 @@ const QuestionSidebar = (): React.ReactElement => {
         </Accordion>
       </Stack>
       <HStack align="center" paddingTop="2em">
-        <Button variant="secondary" minWidth={0}>
+        <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <Button variant="primary" minWidth={0}>
+        <Button minWidth={0} variant="primary">
           Save
         </Button>
       </HStack>

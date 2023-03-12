@@ -19,25 +19,25 @@ const StudentLogin = (): React.ReactElement => {
         <PinInput
           autoFocus
           focusBorderColor="grey.200"
+          onComplete={handleComplete}
           placeholder=""
           size="lg"
           variant="filled"
-          onComplete={handleComplete}
         >
           {[...Array(6)].map((i) => (
             <PinInputField
               key={i}
-              textStyle="header1"
-              m="3rem 0.6rem 7rem 0.6rem !important"
-              fontSize="2.5rem"
-              color="grey.300"
-              backgroundColor="grey.100"
-              height="50%"
-              style={{ width: "15%" }}
-              _hover={{ backgroundColor: "grey.100" }}
               _focus={{ backgroundColor: "grey.100" }}
-              _valid={{ backgroundColor: "green.200" }}
+              _hover={{ backgroundColor: "grey.100" }}
               _invalid={{ borderColor: "red.200" }}
+              _valid={{ backgroundColor: "green.200" }}
+              backgroundColor="grey.100"
+              color="grey.300"
+              fontSize="2.5rem"
+              height="50%"
+              m="3rem 0.6rem 7rem 0.6rem !important"
+              style={{ width: "15%" }}
+              textStyle="header1"
             />
           ))}
         </PinInput>
@@ -59,11 +59,11 @@ const StudentLogin = (): React.ReactElement => {
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

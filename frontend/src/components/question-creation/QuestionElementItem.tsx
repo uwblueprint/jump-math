@@ -28,21 +28,21 @@ const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
     case QuestionElementType.QUESTION:
-      return <QuestionTextElement key={id} id={id} data={data as string} />;
+      return <QuestionTextElement key={id} data={data as string} id={id} />;
     case QuestionElementType.TEXT:
-      return <TextElement key={id} id={id} data={data as string} />;
+      return <TextElement key={id} data={data as string} id={id} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceElement
           key={id}
-          id={id}
           data={data as MultipleChoiceData}
+          id={id}
         />
       );
     case QuestionElementType.SHORT_ANSWER:
-      return <ShortAnswerElement key={id} id={id} data={data as number} />;
+      return <ShortAnswerElement key={id} data={data as number} id={id} />;
     case QuestionElementType.MULTI_SELECT:
       return <Text key={id}>this is a multi select element.</Text>;
     default:
@@ -117,18 +117,18 @@ const QuestionElementItem = ({
   const opacity = isDragging ? 0 : 1;
   return (
     <Box ref={previewRef} data-handler-id={handlerId} style={{ opacity }}>
-      <HStack spacing="6" fontSize="24px" alignItems="flex-start">
+      <HStack alignItems="flex-start" fontSize="24px" spacing="6">
         <Box ref={dragRef} color="grey.300" cursor="grab">
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
-        <Box color="grey.300" _hover={{ color: "blue.100" }}>
+        <Box _hover={{ color: "blue.100" }} color="grey.300">
           <Button
-            onClick={removeQuestionElement}
             as={IconButton}
-            icon={<DeleteOutlineIcon />}
             color="currentColor"
             fontSize="24px"
+            icon={<DeleteOutlineIcon />}
+            onClick={removeQuestionElement}
             size="icon"
           />
         </Box>

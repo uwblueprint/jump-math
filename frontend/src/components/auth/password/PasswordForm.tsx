@@ -108,27 +108,27 @@ const PasswordForm = ({
       {version === "AdminSignup" && (
         <FormControl isRequired pb={6}>
           <FormLabel color="grey.400">Email Address</FormLabel>
-          <Input type="email" value={email} disabled />
+          <Input disabled type="email" value={email} />
         </FormControl>
       )}
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
-          type="password"
-          placeholder="Enter Password"
-          onChange={handlePasswordChange}
           isInvalid={hasError}
+          onChange={handlePasswordChange}
+          placeholder="Enter Password"
+          type="password"
         />
       </FormControl>
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Confirm Password</FormLabel>
         <Input
-          type="password"
-          placeholder="Enter Password"
+          isInvalid={hasError}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setConfirmPassword(e.target.value)
           }
-          isInvalid={hasError}
+          placeholder="Enter Password"
+          type="password"
         />
       </FormControl>
       <HStack alignItems="top" pb={6}>
@@ -156,29 +156,29 @@ const PasswordForm = ({
       </HStack>
       {version === "AdminSignup" && (
         <Button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
           variant="primary"
           width="100%"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
         >
           Create Account
         </Button>
       )}
       {version === "ResetPassword" && (
         <NavigationButtons
+          backButtonText="Back to login page"
+          continueButtonText="Reset Password"
+          onBackClick={() => history.goBack()}
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)
           }
-          onBackClick={() => history.goBack()}
-          continueButtonText="Reset Password"
-          backButtonText="Back to login page"
         />
       )}
       {version === "TeacherSignup" && (
         <NavigationButtons
+          onBackClick={() => setStep && setStep(3)}
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)
-          }
-          onBackClick={() => setStep && setStep(3)} // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
+          } // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
         />
       )}
     </VStack>

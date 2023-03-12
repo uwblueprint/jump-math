@@ -23,8 +23,8 @@ const QuestionEditor = (): React.ReactElement => {
   const isHovering = canDrop && isOver;
 
   return (
-    <Box flex="1" ref={drop} overflow="auto">
-      <VStack margin="3em 5em" align="left" color="grey.400">
+    <Box ref={drop} flex="1" overflow="auto">
+      <VStack align="left" color="grey.400" margin="3em 5em">
         {isHovering && <HoverMessage />}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&

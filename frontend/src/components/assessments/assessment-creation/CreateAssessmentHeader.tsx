@@ -14,14 +14,8 @@ import {
   ArrowBackOutlineIcon,
   EyeOutlineIcon,
   MoreVerticalOutlineIcon,
-<<<<<<< HEAD:frontend/src/components/assessments/assessment-creation/CreateAssessmentHeader.tsx
 } from "../../../assets/icons";
 import BackButton from "../../common/BackButton";
-=======
-  SaveOutlineIcon,
-  TextOutlineIcon,
-} from "../../assets/icons";
->>>>>>> c800334 (add import sorting):frontend/src/components/assessment-creation/CreateAssessmentHeader.tsx
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;

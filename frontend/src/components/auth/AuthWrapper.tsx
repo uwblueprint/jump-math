@@ -29,28 +29,28 @@ const AuthWrapper = ({
   return (
     <HStack>
       <Image
-        src={image.src}
         alt={image.alt}
         fit="cover"
-        width="50vw"
         height="100vh"
         objectPosition="right"
+        src={image.src}
+        width="50vw"
       />
       <Flex
-        width="50vw"
+        justifyContent="center"
         maxHeight="90vh"
         overflow="scroll"
-        justifyContent="center"
+        width="50vw"
       >
-        <VStack width="75%" spacing={6}>
-          <Image src={JUMP_MATH_LOGO.src} alt={JUMP_MATH_LOGO.alt} h={24} />
-          <Text textStyle="header4" textAlign="center">
+        <VStack spacing={6} width="75%">
+          <Image alt={JUMP_MATH_LOGO.alt} h={24} src={JUMP_MATH_LOGO.src} />
+          <Text textAlign="center" textStyle="header4">
             {title}
           </Text>
           <Text
-            textStyle="subtitle2"
-            textAlign="center"
             pb={error ? "0" : "4"}
+            textAlign="center"
+            textStyle="subtitle2"
             whiteSpace="pre-line"
           >
             {subtitle}

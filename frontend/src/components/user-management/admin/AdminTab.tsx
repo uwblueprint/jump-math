@@ -43,7 +43,7 @@ const AdminTab = ({
           {sortMenuComponent}
         </HStack>
         {search && (
-          <Text fontSize="16px" color="grey.300" width="100%">
+          <Text color="grey.300" fontSize="16px" width="100%">
             Showing {searchLength} results for &quot;{search}&quot;
           </Text>
         )}

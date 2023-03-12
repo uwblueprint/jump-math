@@ -3,10 +3,10 @@ import { Text } from "@chakra-ui/react";
 
 const WelcomeMessage = (): React.ReactElement => (
   <>
-    <Text textStyle="subtitle1" marginBottom={5}>
+    <Text marginBottom={5} textStyle="subtitle1">
       Welcome to the question creation module.
     </Text>
-    <Text textStyle="paragraph" marginBottom={3}>
+    <Text marginBottom={3} textStyle="paragraph">
       Click on any of the elements in the left-side and drag them into the
       creation area.
     </Text>

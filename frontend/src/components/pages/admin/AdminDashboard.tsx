@@ -22,31 +22,31 @@ const AdminDashboard = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
+        component={QuestionPage}
         exact
         path={Routes.CREATE_QUESTION}
-        component={QuestionPage}
         roles={["Admin"]}
       />
       <PrivateRoute
+        component={CreateAssessmentPage}
         exact
         path={Routes.CREATE_ASSESSMENT}
-        component={CreateAssessmentPage}
         roles={["Admin"]}
       />
-      <VStack flex="1" align="left">
+      <VStack align="left" flex="1">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>
             <PrivateRoute
+              component={UsersPage}
               exact
               path={Routes.USER_DATABASE}
-              component={UsersPage}
               roles={["Admin"]}
             />
             <PrivateRoute
+              component={DisplayAssessmentsPage}
               exact
               path={Routes.ASSESSMENTS}
-              component={DisplayAssessmentsPage}
               roles={["Admin"]}
             />
             <Redirect
@@ -54,7 +54,7 @@ const AdminDashboard = (): React.ReactElement => {
               from={Routes.ADMIN_LANDING}
               to={Routes.USER_DATABASE}
             />
-            <Route exact path="*" component={NotFound} />
+            <Route component={NotFound} exact path="*" />
           </Switch>
         </Box>
       </VStack>

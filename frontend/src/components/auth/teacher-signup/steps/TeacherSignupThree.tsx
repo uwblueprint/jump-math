@@ -97,10 +97,10 @@ const TeacherSignupThree = ({
       <FormControl isInvalid={schoolNameError} isRequired>
         <FormLabel color="grey.400">Name of School</FormLabel>
         <Input
+          onChange={(e) => handleChange(e, "school.name")}
+          placeholder="Name of School"
           type="text"
           value={watch("school.name")}
-          placeholder="Name of School"
-          onChange={(e) => handleChange(e, "school.name")}
         />
       </FormControl>
 
@@ -108,50 +108,50 @@ const TeacherSignupThree = ({
         <FormControl isInvalid={countryError} isRequired>
           <FormLabel color="grey.400">Country</FormLabel>
           <SelectFormInput
-            setValue={setValue}
-            watch={watch}
             field="school.country"
+            isSearchable
             options={countryOptions}
             placeholder="Select Country"
             resetError={setCountryError}
-            isSearchable
+            setValue={setValue}
+            watch={watch}
           />
         </FormControl>
         <FormControl isInvalid={cityError} isRequired>
           <FormLabel color="grey.400">City</FormLabel>
           <Input
+            onChange={(e) => handleChange(e, "school.city")}
+            placeholder="Enter City"
             type="text"
             value={watch("school.city")}
-            placeholder="Enter City"
-            onChange={(e) => handleChange(e, "school.city")}
           />
         </FormControl>
       </Stack>
 
-      <Stack direction={["row"]} width="100%" pb={8}>
+      <Stack direction={["row"]} pb={8} width="100%">
         <FormControl isInvalid={districtError} isRequired>
           <FormLabel color="grey.400">District</FormLabel>
           <Input
+            onChange={(e) => handleChange(e, "school.district")}
+            placeholder="Name of District"
             type="text"
             value={watch("school.district")}
-            placeholder="Name of District"
-            onChange={(e) => handleChange(e, "school.district")}
           />
         </FormControl>
         <FormControl isInvalid={addressError} isRequired>
           <FormLabel color="grey.400">Address</FormLabel>
           <Input
+            onChange={(e) => handleChange(e, "school.address")}
+            placeholder="Enter Address"
             type="text"
             value={watch("school.address")}
-            placeholder="Enter Address"
-            onChange={(e) => handleChange(e, "school.address")}
           />
         </FormControl>
       </Stack>
 
       <NavigationButtons
-        onContinueClick={onContinueClick}
         onBackClick={() => setPage(2)}
+        onContinueClick={onContinueClick}
       />
     </>
   );
@@ -166,11 +166,11 @@ const TeacherSignupThree = ({
 
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

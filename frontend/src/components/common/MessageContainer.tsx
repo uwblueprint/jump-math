@@ -18,24 +18,24 @@ const MessageContainer = ({
 }: MessageContainerProps): React.ReactElement => {
   return (
     <Container
-      maxW="3xl"
-      pt={12}
-      mx="auto"
-      my={10}
       borderRadius="3xl"
       centerContent
+      maxW="3xl"
+      mx="auto"
+      my={10}
+      pt={12}
     >
       <Box maxW="sm" textAlign="center">
-        <IllustrationWrapper Illustration={illustration} pb="1.5em" m="auto" />
-        <Text textStyle="subtitle1" color={textColor} pb="0.5em">
+        <IllustrationWrapper Illustration={illustration} m="auto" pb="1.5em" />
+        <Text color={textColor} pb="0.5em" textStyle="subtitle1">
           {subtitle}
         </Text>
         {paragraphs.map((paragraph, i) => (
           <Text
             key={i}
-            textStyle="paragraph"
             color={textColor}
             pb={i < paragraphs.length - 1 ? "0.5em" : "0"}
+            textStyle="paragraph"
           >
             {paragraph}
           </Text>

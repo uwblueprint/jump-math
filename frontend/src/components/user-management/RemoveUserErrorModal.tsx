@@ -15,7 +15,7 @@ const RemoveUserErrorModal = (): React.ReactElement => {
         textColor="red.200"
       />
       <ModalFooter my={3}>
-        <Button variant="primary" mr={2} onClick={navigateTo}>
+        <Button mr={2} onClick={navigateTo} variant="primary">
           Return to Database
         </Button>
       </ModalFooter>

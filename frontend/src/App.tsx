@@ -74,8 +74,8 @@ const App = (): React.ReactElement => {
                   />
                 )}
                 <PrivateRoute
-                  path={Routes.ADMIN_LANDING}
                   component={AdminDashboard}
+                  path={Routes.ADMIN_LANDING}
                   roles={["Admin"]}
                 />
                 {authenticatedUser?.role === "Teacher" && (
@@ -86,41 +86,41 @@ const App = (): React.ReactElement => {
                   />
                 )}
                 <PrivateRoute
+                  component={TeacherPage}
                   exact
                   path={Routes.TEACHER_LANDING}
-                  component={TeacherPage}
                   roles={["Teacher"]}
                 />
-                <Route exact path={Routes.HOME_PAGE} component={Landing} />
-                <Route exact path={Routes.ADMIN_LOGIN} component={Login} />
-                <Route exact path={Routes.TEACHER_LOGIN} component={Login} />
+                <Route component={Landing} exact path={Routes.HOME_PAGE} />
+                <Route component={Login} exact path={Routes.ADMIN_LOGIN} />
+                <Route component={Login} exact path={Routes.TEACHER_LOGIN} />
                 <Route
+                  component={StudentLogin}
                   exact
                   path={Routes.STUDENT_LOGIN}
-                  component={StudentLogin}
                 />
                 <Route
+                  component={TeacherSignup}
                   exact
                   path={Routes.TEACHER_SIGNUP}
-                  component={TeacherSignup}
                 />
                 <Route
+                  component={EmailActionHandler}
                   exact
                   path={Routes.EMAIL_ACTION}
-                  component={EmailActionHandler}
                 />
                 <Route
+                  component={StudentAssessment}
                   exact
                   path={Routes.STUDENT_ASSESMENT}
-                  component={StudentAssessment}
                 />
                 <PrivateRoute
+                  component={ComponentLibrary}
                   exact
                   path={Routes.COMPONENT_LIBRARY}
-                  component={ComponentLibrary}
                   roles={["Admin", "Teacher"]}
                 />
-                <Route exact path="*" component={NotFound} />
+                <Route component={NotFound} exact path="*" />
               </Switch>
             </Router>
           </AuthContext.Provider>

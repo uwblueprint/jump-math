@@ -49,30 +49,30 @@ const Login = (): React.ReactElement => {
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
-      <FormControl isRequired isInvalid={loginError && !email}>
+      <FormControl isInvalid={loginError && !email} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
-          type="email"
-          value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter Email Address"
+          type="email"
+          value={email}
         />
       </FormControl>
 
-      <FormControl isRequired isInvalid={loginError && !password}>
+      <FormControl isInvalid={loginError && !password} isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
-          type="password"
-          value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter Password"
+          type="password"
+          value={password}
         />
       </FormControl>
 
       <Button
+        color="blue.300"
         onClick={() => setForgotPassword(true)}
         textAlign="left"
-        color="blue.300"
       >
         Forgot Password?
       </Button>
@@ -84,9 +84,9 @@ const Login = (): React.ReactElement => {
         <Text>
           Don&apos;t have an account?{" "}
           <RouterLink
-            textDecoration="underline"
             color="blue.300"
             cursor="pointer"
+            textDecoration="underline"
             to={Routes.TEACHER_SIGNUP}
           >
             Sign Up
@@ -100,11 +100,11 @@ const Login = (): React.ReactElement => {
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   return (
     <AuthWrapper
-      title={title}
-      subtitle={subtitle}
-      image={image}
-      form={form}
       error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
     />
   );
 };

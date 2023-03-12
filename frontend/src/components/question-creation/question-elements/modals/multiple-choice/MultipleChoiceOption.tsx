@@ -67,24 +67,24 @@ const MultipleChoiceOption = ({
   };
 
   return (
-    <VStack alignItems="left" width="100%" spacing="3">
+    <VStack alignItems="left" spacing="3" width="100%">
       <HStack>
         <Input
-          value={value}
-          onChange={(e) => updateOptionValue(e.target.value)}
-          placeholder="Select Input"
-          width="50%"
           isInvalid={lengthError || (isEmptyError && !value)}
           maxLength={801}
+          onChange={(e) => updateOptionValue(e.target.value)}
+          placeholder="Select Input"
+          value={value}
+          width="50%"
         />
         <Spacer />
-        <Box color="grey.300" _hover={{ color: "blue.100" }}>
+        <Box _hover={{ color: "blue.100" }} color="grey.300">
           <Button
-            onClick={removeOption}
             as={IconButton}
-            icon={<DeleteOutlineIcon />}
             color="currentColor"
             fontSize="24px"
+            icon={<DeleteOutlineIcon />}
+            onClick={removeOption}
             size="icon"
           />
         </Box>

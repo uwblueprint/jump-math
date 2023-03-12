@@ -38,17 +38,17 @@ const SelectFormInputClassroom = ({
   };
   return (
     <Select<Option, false, GroupBase<Option>>
-      value={
-        options.find((option) => option.value === watch(field)) || undefined
-      }
+      errorBorderColor="red.200"
+      isSearchable={isSearchable}
       name={field}
+      onChange={handleChange}
       options={options}
       placeholder={placeholder}
       selectedOptionStyle="check"
-      onChange={handleChange}
       useBasicStyles
-      isSearchable={isSearchable}
-      errorBorderColor="red.200"
+      value={
+        options.find((option) => option.value === watch(field)) || undefined
+      }
     />
   );
 };

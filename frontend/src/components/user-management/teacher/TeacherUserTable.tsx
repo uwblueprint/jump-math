@@ -9,8 +9,8 @@ const TeacherUserTable = ({ users }: TeacherTableProps): React.ReactElement => {
     values: [`${user.firstName} ${user.lastName}`, user.school!, user.email],
     menu: (
       <RemoveUserPopover
-        name={`${user.firstName} ${user.lastName}`}
         email={user.email}
+        name={`${user.firstName} ${user.lastName}`}
       />
     ),
   }));

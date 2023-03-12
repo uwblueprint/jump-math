@@ -57,37 +57,37 @@ const RemoveUserModal = ({
   return (
     <>
       <Button
-        rightIcon={<CloseOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={onOpen}
+        rightIcon={<CloseOutlineIcon />}
+        variant="primary"
       >
         Remove User
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent alignItems="center" p={2} maxW="600px">
+        <ModalContent alignItems="center" maxW="600px" p={2}>
           {showError && <RemoveUserErrorModal />}
           {showConfirmation && <RemoveUserConfirmationModal />}
           {!showConfirmation && !showError && (
             <>
               <ModalText
-                header={`Are you sure you want to remove ${name}?`}
                 body={["NOTE:", "This user is an admin."]}
+                header={`Are you sure you want to remove ${name}?`}
               />
               <Divider style={{ marginTop: "1.5em" }} />
               <ModalFooter my={0.5}>
                 <Button
-                  variant="secondary"
                   mr={2}
                   onClick={() => {
                     onCloseParent();
                     onClose();
                   }}
+                  variant="secondary"
                 >
                   Cancel
                 </Button>
-                <Button variant="primary" onClick={onRemoveUserClick}>
+                <Button onClick={onRemoveUserClick} variant="primary">
                   Confirm
                 </Button>
               </ModalFooter>

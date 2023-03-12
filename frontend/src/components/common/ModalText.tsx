@@ -17,9 +17,9 @@ const ModalText = ({
       {header && (
         <ModalHeader>
           <Text
-            textStyle="subtitle1"
             align="center"
             color={textColor || "grey.400"}
+            textStyle="subtitle1"
           >
             {header}
           </Text>
@@ -28,7 +28,7 @@ const ModalText = ({
       {body && (
         <ModalBody>
           {body.map((text, i) => (
-            <Text key={i} textStyle="paragraph" align="center" color="grey.300">
+            <Text key={i} align="center" color="grey.300" textStyle="paragraph">
               {text}
             </Text>
           ))}

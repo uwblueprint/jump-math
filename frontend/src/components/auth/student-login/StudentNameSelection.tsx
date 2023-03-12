@@ -59,42 +59,42 @@ const StudentNameSelection = (): React.ReactElement => {
   const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
-      <Box width="100%" pb="10%">
+      <Box pb="10%" width="100%">
         <Controller
           control={control}
           name="grade"
-          rules={{ required: "Please select a grade" }}
           render={({
             field: { onChange, value, name },
             fieldState: { error },
           }) => (
-            <FormControl isRequired isInvalid={Boolean(error)}>
+            <FormControl isInvalid={Boolean(error)} isRequired>
               <FormLabel color="grey.400">First Name</FormLabel>
               <Select
                 name={name}
                 onChange={onChange}
                 options={students}
-                value={value}
                 placeholder="Search Name by typing it in field"
                 useBasicStyles
+                value={value}
               />
               <FormErrorMessage>{error?.message}</FormErrorMessage>
             </FormControl>
           )}
+          rules={{ required: "Please select a grade" }}
         />
       </Box>
       <NavigationButtons
-        onContinueClick={() => undefined}
+        backButtonText="Back to Home"
         onBackClick={() => {
           history.push(Routes.HOME_PAGE);
         }}
-        backButtonText="Back to Home"
+        onContinueClick={() => undefined}
       />
     </>
   );
 
   return (
-    <AuthWrapper title={title} subtitle={subtitle} image={image} form={form} />
+    <AuthWrapper form={form} image={image} subtitle={subtitle} title={title} />
   );
 };
 
