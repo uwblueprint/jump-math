@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import {
   Box,
   Text,
@@ -15,7 +14,6 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import {
-  ArrowBackOutlineIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -26,10 +24,8 @@ import {
 import QuestionSidebarItem from "./QuestionSidebarItem";
 
 import { QuestionElementType } from "../../types/QuestionTypes";
+import BackButton from "../common/BackButton";
 
-interface QuestionSidebarProps {
-  backPage: string;
-}
 interface AccordionItemProps {
   title: string;
   panels: AccordionPanelProps[];
@@ -74,12 +70,7 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const QuestionSidebar = ({
-  backPage,
-}: QuestionSidebarProps): React.ReactElement => {
-  const history = useHistory();
-  const navigateTo = () => history.push(backPage);
-
+const QuestionSidebar = (): React.ReactElement => {
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -88,15 +79,9 @@ const QuestionSidebar = ({
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
-        <Button
-          leftIcon={<ArrowBackOutlineIcon />}
-          variant="tertiary"
-          paddingLeft={0}
-          justifyContent="flex-start"
-          onClick={navigateTo}
-        >
-          Back
-        </Button>
+        <Box justifyContent="flex-start" paddingLeft="0">
+          <BackButton />
+        </Box>
         <Text textStyle="header4" color="blue.300">
           Create Question
         </Text>
