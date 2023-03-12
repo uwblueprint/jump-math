@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { questionsValidator } from "../middlewares/validators/testValidators";
+import { Grade } from "../types";
 /**
  * An enum containing the types of components that can be added to a question
  */
@@ -102,7 +103,7 @@ export interface Test extends Document {
   /** An ordered list of questions to be asked when students take the test */
   questions: QuestionComponent[][];
   /** The intended grade the test was made for */
-  grade: number;
+  grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
   /** the status of the assessment */
@@ -124,8 +125,19 @@ const TestSchema: Schema = new Schema(
       required: true,
     },
     grade: {
-      type: Number,
+      type: String,
       required: true,
+      enum: [
+        "K",
+        "Grade 1",
+        "Grade 2",
+        "Grade 3",
+        "Grade 4",
+        "Grade 5",
+        "Grade 6",
+        "Grade 7",
+        "Grade 8",
+      ],
     },
     curriculumCountry: {
       type: String,

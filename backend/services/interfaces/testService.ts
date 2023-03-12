@@ -9,6 +9,7 @@ import {
   AssessmentType,
   AssessmentStatus,
 } from "../../models/test.model";
+import { Grade } from "../../types";
 
 export type TestResponseDTO = {
   /** the unique identifier of the response */
@@ -18,7 +19,7 @@ export type TestResponseDTO = {
   /** an array of questions on the test */
   questions: QuestionComponent[][];
   /** the grade of the student */
-  grade: number;
+  grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
   /** the status of the assessment */
@@ -49,7 +50,7 @@ export type TestRequestDTO = {
   /** an ordered array of questions on the test */
   questions: QuestionComponentRequest[][];
   /** the grade of the student */
-  grade: number;
+  grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
   /** the status of the assessment */

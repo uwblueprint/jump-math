@@ -101,7 +101,7 @@ const testType = gql`
     id: ID!
     name: String!
     questions: [[QuestionComponent]]!
-    grade: Int!
+    grade: String!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!
@@ -111,7 +111,7 @@ const testType = gql`
   input TestRequestDTO {
     name: String!
     questions: [[QuestionComponentInput]]!
-    grade: Int!
+    grade: String!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
     curriculumRegion: String!
