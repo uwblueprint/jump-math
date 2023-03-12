@@ -1,5 +1,6 @@
 import React from "react";
-import { HStack, Box, Text } from "@chakra-ui/react";
+import { Box, HStack, Text } from "@chakra-ui/react";
+
 import {
   CheckmarkCircleFillIcon,
   CheckmarkCircleOutlineIcon,

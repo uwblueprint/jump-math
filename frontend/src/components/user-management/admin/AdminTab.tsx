@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, VStack, HStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import { AdminUser, TeacherUser } from "../../../types/UserTypes";
 

@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Text, Image, VStack, HStack } from "@chakra-ui/react";
-import { QuestionType } from "../../types/QuestionTypes";
+import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
+
 import { typeToImageMetadata } from "../../constants/StudentAssessmentConstants";
+import { QuestionType } from "../../types/QuestionTypes";
 
 const QuestionTypeImages = ({
   questionTypes,

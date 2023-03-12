@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { Textarea } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
+import { Textarea } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
-  updatedQuestionElement,
   exceedsMaxLength,
+  updatedQuestionElement,
 } from "../../../utils/QuestionUtils";
 
 interface TextElementProps {

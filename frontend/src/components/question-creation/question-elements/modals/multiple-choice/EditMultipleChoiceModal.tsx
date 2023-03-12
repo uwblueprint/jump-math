@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import MultipleChoiceModal from "./MultipleChoiceModal";
-import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 import { MultipleChoiceData } from "../../../../../types/QuestionTypes";
+import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
+
+import MultipleChoiceModal from "./MultipleChoiceModal";
 
 interface EditMultipleChoiceModalProps {
   id: string;

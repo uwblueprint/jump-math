@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
+import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
+import { DragTypes } from "../../types/DragTypes";
 import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
-import { DragTypes } from "../../types/DragTypes";
-import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 
 interface QuestionSidebarItemProps {
   type: QuestionElementType;

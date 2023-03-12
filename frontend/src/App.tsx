@@ -1,5 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState, useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -8,25 +7,28 @@ import {
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
 import Login from "./components/auth/Login";
 import StudentLogin from "./components/auth/student-login/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import StudentLogin from "./components/auth/StudentLogin";
+import TeacherSignup from "./components/auth/TeacherSignup";
+import AdminDashboard from "./components/pages/admin/AdminDashboard";
+import ComponentLibrary from "./components/pages/ComponentLibrary";
+import Landing from "./components/pages/Landing";
 import NotFound from "./components/pages/NotFound";
-
-import * as Routes from "./constants/Routes";
+import StudentAssessment from "./components/pages/StudentAssessment";
+import TeacherPage from "./components/pages/TeacherPage";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
+import * as Routes from "./constants/Routes";
 import AuthContext from "./contexts/AuthContext";
-import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import SampleContext, {
   DEFAULT_SAMPLE_CONTEXT,
 } from "./contexts/SampleContext";
-import sampleContextReducer from "./reducers/SampleContextReducer";
 import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherContext";
-
+import sampleContextReducer from "./reducers/SampleContextReducer";
 import { AuthenticatedUser } from "./types/AuthTypes";
-
-import Landing from "./components/pages/Landing";
-
+import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
 import TeacherSignup from "./components/auth/teacher-signup";
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";

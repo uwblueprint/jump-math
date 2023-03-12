@@ -1,18 +1,20 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
-  Flex,
   Box,
-  Text,
-  Spacer,
+  Flex,
   FlexProps,
   Popover,
-  PopoverTrigger,
   PopoverContent,
+  PopoverTrigger,
+  Spacer,
+  Text,
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
-import RouterLink from "./RouterLink";
-import { ChevronUpIcon, ChevronDownIcon } from "../../assets/icons";
+
+import { ChevronDownIcon, ChevronUpIcon } from "../../assets/icons";
 import Page from "../../types/PageTypes";
+
+import RouterLink from "./RouterLink";
 
 interface NavbarItemProps extends FlexProps {
   page: Page;

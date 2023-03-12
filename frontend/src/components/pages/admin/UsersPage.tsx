@@ -1,11 +1,11 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import {
-  Text,
   Box,
   Center,
-  Tabs,
-  TabList,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
   HStack,
@@ -27,6 +27,14 @@ import LoadingState from "../../common/LoadingState";
 import ErrorState from "../../common/ErrorState";
 
 import { TabEnum } from "../../../types/AuthTypes";
+import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import LoadingState from "../../common/LoadingState";
+import SearchBar from "../../common/SearchBar";
+import SortMenu from "../../common/SortMenu";
+import AddAdminModal from "../../user-management/AddAdminModal";
+import AdminTab from "../../user-management/AdminTab";
+import AdminUserTable from "../../user-management/AdminUserTable";
+import TeacherUserTable from "../../user-management/TeacherUserTable";
 
 const getTeacherUser = (user: TeacherUser) => {
   return {

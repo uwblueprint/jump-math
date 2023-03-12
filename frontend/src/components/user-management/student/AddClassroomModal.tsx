@@ -1,22 +1,22 @@
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import {
   Button,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Modal,
-  ModalHeader,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalBody,
   ModalFooter,
+  ModalHeader,
   ModalOverlay,
-  HStack,
-  VStack,
   Text,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
 
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import { PlusOutlineIcon } from "../../../assets/icons";

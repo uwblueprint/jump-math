@@ -1,11 +1,11 @@
 import React from "react";
-import { Flex, HStack, Spacer, Box } from "@chakra-ui/react";
-
-import HomeButton from "./HomeButton";
-import NavbarItem from "./NavbarItem";
+import { Box, Flex, HStack, Spacer } from "@chakra-ui/react";
 
 import Page from "../../types/PageTypes";
 import Logout from "../auth/Logout";
+
+import HomeButton from "./HomeButton";
+import NavbarItem from "./NavbarItem";
 
 interface NavbarProps {
   pages: Page[];

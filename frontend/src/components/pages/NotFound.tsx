@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, VStack, Text } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import { Button, Text, VStack } from "@chakra-ui/react";
+
 import { HOME_PAGE } from "../../constants/Routes";
 
 const NotFound = (): React.ReactElement => {

@@ -1,6 +1,8 @@
 import React from "react";
-import { Button, IconButton, Input, Flex, Box, Spacer } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, Input, Spacer } from "@chakra-ui/react";
+
 import { EditOutlineIcon } from "../../../assets/icons";
+
 import EditShortAnswerModal from "./modals/short-answer/EditShortAnswerModal";
 
 interface ShortAnswerElementProps {

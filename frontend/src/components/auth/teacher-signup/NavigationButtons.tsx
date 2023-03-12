@@ -1,5 +1,6 @@
-import { Button } from "@chakra-ui/react";
 import React from "react";
+import { Button } from "@chakra-ui/react";
+
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
 
 interface NavigationButtonsProps {

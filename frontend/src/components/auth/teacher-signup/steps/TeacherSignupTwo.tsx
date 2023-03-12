@@ -1,17 +1,18 @@
-import { useQuery } from "@apollo/client";
-import { Button, Text, FormControl, FormLabel } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { useQuery } from "@apollo/client";
+import { Button, FormControl, FormLabel, Text } from "@chakra-ui/react";
+
 import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
 import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
-import SelectFormInput from "../SelectFormInput";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
-import NavigationButtons from "../NavigationButtons";
 import AuthWrapper from "../../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
 
 const TeacherSignupTwo = ({
   setPage,

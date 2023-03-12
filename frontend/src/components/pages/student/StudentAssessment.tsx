@@ -2,13 +2,13 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   Box,
-  Text,
-  Stack,
   Button,
-  Image,
-  VStack,
   HStack,
+  Image,
   SimpleGrid,
+  Stack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { STUDENT_LANDING } from "../../../constants/Routes";

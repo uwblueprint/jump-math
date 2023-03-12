@@ -1,21 +1,23 @@
 import React, { useContext, useRef } from "react";
-import update from "immutability-helper";
-import { IconButton, Button, Text, HStack, Box } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
+import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
+import update from "immutability-helper";
+
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
+import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
+  MultipleChoiceData,
   QuestionElement,
   QuestionElementType,
-  MultipleChoiceData,
 } from "../../types/QuestionTypes";
-import TextElement from "./question-elements/TextElement";
-import QuestionTextElement from "./question-elements/QuestionTextElement";
-import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { DragTypes, DragQuestionItem } from "../../types/DragTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
-import ShortAnswerElement from "./question-elements/ShortAnswerElement";
+
 import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
+import QuestionTextElement from "./question-elements/QuestionTextElement";
+import ShortAnswerElement from "./question-elements/ShortAnswerElement";
+import TextElement from "./question-elements/TextElement";
 
 interface QuestionElementItemProps {
   content: QuestionElement;

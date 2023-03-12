@@ -1,5 +1,5 @@
-import { VStack, Text, Spinner, Center } from "@chakra-ui/react";
 import React from "react";
+import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
 
 const LoadingState = ({
   fullPage,

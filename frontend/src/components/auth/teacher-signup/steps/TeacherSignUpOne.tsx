@@ -1,25 +1,26 @@
-import {
-  Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  CheckboxGroup,
-  Checkbox,
-  useCheckboxGroup,
-  SimpleGrid,
-} from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { TEACHER_LOGIN } from "../../../../constants/Routes";
-import NavigationButtons from "../NavigationButtons";
 import {
-  TeacherSignupForm,
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormLabel,
+  Input,
+  SimpleGrid,
+  Stack,
+  useCheckboxGroup,
+} from "@chakra-ui/react";
+
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import { TEACHER_LOGIN } from "../../../../constants/Routes";
+import {
   TeacherInput,
+  TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import NavigationButtons from "../NavigationButtons";
 
 const TeacherSignupOne = ({
   setPage,

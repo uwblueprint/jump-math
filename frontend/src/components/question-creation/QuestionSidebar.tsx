@@ -1,18 +1,19 @@
 import React from "react";
 import {
-  Box,
-  Text,
-  HStack,
-  Button,
-  VStack,
-  Stack,
   Accordion,
-  AccordionItem,
   AccordionButton,
   AccordionIcon,
+  AccordionItem,
   AccordionPanel,
+  Box,
+  Button,
+  HStack,
+  Stack,
+  Text,
+  VStack,
   Wrap,
 } from "@chakra-ui/react";
+
 import {
   ImageIcon,
   MultipleChoiceIcon,
@@ -21,8 +22,6 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import QuestionSidebarItem from "./QuestionSidebarItem";
-
 import { QuestionElementType } from "../../types/QuestionTypes";
 import BackButton from "../common/BackButton";
 

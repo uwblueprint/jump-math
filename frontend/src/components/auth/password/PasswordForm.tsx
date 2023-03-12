@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 import {
+  Button,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   VStack,
-  HStack,
-  Button,
 } from "@chakra-ui/react";
-import { useMutation } from "@apollo/client";
-import { useHistory } from "react-router-dom";
-import { UseFormSetValue } from "react-hook-form";
-import PasswordRequirement from "./PasswordRequirement";
-import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 import FormError from "../../common/FormError";

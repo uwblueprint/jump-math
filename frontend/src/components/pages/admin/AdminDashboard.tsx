@@ -1,17 +1,17 @@
 import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
-import { Switch, Route, Redirect } from "react-router-dom";
 
-import Navbar from "../../common/Navbar";
-import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
+import Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
+import Navbar from "../../common/Navbar";
+import NotFound from "../NotFound";
 
-import UsersPage from "./UsersPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import QuestionPage from "./QuestionPage";
-import NotFound from "../NotFound";
+import UsersPage from "./UsersPage";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },

@@ -1,18 +1,18 @@
 import React from "react";
 import {
-  Flex,
   Button,
-  Radio,
-  VStack,
-  Text,
-  RadioGroup,
+  Divider,
+  Flex,
+  HStack,
   Popover,
-  PopoverTrigger,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
-  Divider,
-  HStack,
+  PopoverTrigger,
+  Radio,
+  RadioGroup,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { FilterOptionsIcon } from "../../../assets/icons";
 

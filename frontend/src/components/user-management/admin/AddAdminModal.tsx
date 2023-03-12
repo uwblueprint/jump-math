@@ -1,24 +1,24 @@
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import {
   Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   Input,
   Modal,
-  ModalHeader,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalBody,
   ModalFooter,
+  ModalHeader,
   ModalOverlay,
   Radio,
   RadioGroup,
-  HStack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 
 import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
 import ModalFooterButtons from "../../common/ModalFooterButtons";

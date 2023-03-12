@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
-import ResponseTypeModal from "../ResponseTypeModal";
-import MultipleChoiceOption from "./MultipleChoiceOption";
-import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
+
 import {
-  MultipleChoiceOptionData,
   MultipleChoiceData,
+  MultipleChoiceOptionData,
 } from "../../../../../types/QuestionTypes";
-import SelectOptionCount from "./SelectOptionCount";
+import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
+import ResponseTypeModal from "../ResponseTypeModal";
+
+import MultipleChoiceOption from "./MultipleChoiceOption";
+import SelectOptionCount from "./SelectOptionCount";
 
 interface MultipleChoiceModalProps {
   isOpen: boolean;

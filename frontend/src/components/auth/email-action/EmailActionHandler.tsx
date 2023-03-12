@@ -1,8 +1,10 @@
 import React from "react";
+
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../../pages/NotFound";
-import VerifyEmailHandler from "./VerifyEmailHandler";
+
 import ResetPasswordHandler from "./ResetPasswordHandler";
+import VerifyEmailHandler from "./VerifyEmailHandler";
 
 const EmailActionHandler = (): React.ReactElement => {
   const urlParams = new URLSearchParams(window.location.search);

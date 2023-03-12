@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { Box, VStack } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
-
-import WelcomeMessage from "./WelcomeMessage";
-import HoverMessage from "./HoverMessage";
+import { Box, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
+
+import HoverMessage from "./HoverMessage";
 import QuestionElementItem from "./QuestionElementItem";
+import WelcomeMessage from "./WelcomeMessage";
 
 const QuestionEditor = (): React.ReactElement => {
   const { questionElements } = useContext(QuestionEditorContext);

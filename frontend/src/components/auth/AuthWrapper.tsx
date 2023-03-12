@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Image, HStack, Text, VStack, Flex } from "@chakra-ui/react";
+import { Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 import FormError from "../common/FormError";
 import AuthContext from "../../contexts/AuthContext";
 import ImageType from "../../types/ImageTypes";
-import { HOME_PAGE } from "../../constants/Routes";
-import { JUMP_MATH_LOGO } from "../../assets/images";
+
+import FormError from "./FormError";
 
 interface AuthWrapperInputProps {
   title: string;

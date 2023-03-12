@@ -1,5 +1,5 @@
-import { ModalBody, ModalHeader, Text } from "@chakra-ui/react";
 import React from "react";
+import { ModalBody, ModalHeader, Text } from "@chakra-ui/react";
 
 interface ModalTextProps {
   header?: string;

@@ -1,6 +1,7 @@
-import { Button, ModalFooter } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Button, ModalFooter } from "@chakra-ui/react";
+
 import { USER_DATABASE } from "../../constants/Routes";
 import ModalText from "../common/ModalText";
 

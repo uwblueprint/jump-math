@@ -1,7 +1,7 @@
 import React from "react";
 
-import AuthWrapper from "../../AuthWrapper";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import AuthWrapper from "../../AuthWrapper";
 
 const TeacherSignupFive = (): React.ReactElement => {
   const title = "Teacher Sign Up Confirmation";

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
-  FormLabel,
   FormControl,
-  Input,
   FormErrorMessage,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
+
 import ResponseTypeModal from "../ResponseTypeModal";
 
 interface ShortAnswerModalProps {

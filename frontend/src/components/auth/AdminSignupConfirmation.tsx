@@ -1,10 +1,11 @@
-import { useMutation } from "@apollo/client";
-import { Button } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { Button } from "@chakra-ui/react";
+
 import {
-  VERIFY_PASSWORD_RESET,
   RESET_PASSWORD_CODE,
+  VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
 import { ADMIN_LOGIN } from "../../constants/Routes";

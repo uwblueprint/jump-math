@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import {
-  Input,
-  Checkbox,
-  Spacer,
   Box,
   Button,
-  IconButton,
-  VStack,
+  Checkbox,
   HStack,
+  IconButton,
+  Input,
+  Spacer,
   Text,
+  VStack,
 } from "@chakra-ui/react";
+
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
 import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
 import {
-  updatedMultipleChoiceOption,
   exceedsMaxLength,
+  updatedMultipleChoiceOption,
 } from "../../../../../utils/QuestionUtils";
 
 interface MultipleChoiceOptionProps {

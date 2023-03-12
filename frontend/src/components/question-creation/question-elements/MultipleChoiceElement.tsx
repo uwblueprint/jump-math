@@ -1,16 +1,18 @@
 import React from "react";
 import {
-  RadioGroup,
-  Radio,
-  VStack,
-  Button,
-  IconButton,
-  Flex,
   Box,
+  Button,
+  Flex,
+  IconButton,
+  Radio,
+  RadioGroup,
   Spacer,
+  VStack,
 } from "@chakra-ui/react";
+
 import { EditOutlineIcon } from "../../../assets/icons";
 import { MultipleChoiceData } from "../../../types/QuestionTypes";
+
 import EditMultipleChoiceModal from "./modals/multiple-choice/EditMultipleChoiceModal";
 
 interface MultipleChoiceElementProps {

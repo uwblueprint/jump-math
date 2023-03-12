@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import ShortAnswerModal from "./ShortAnswerModal";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
+
+import ShortAnswerModal from "./ShortAnswerModal";
 
 interface EditShortAnswerModalProps {
   id: string;

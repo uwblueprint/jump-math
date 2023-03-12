@@ -1,17 +1,17 @@
-import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
+import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 
-import NavigationButtons from "../NavigationButtons";
-import SelectFormInput from "../SelectFormInput";
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
   TeacherInput,
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
 import AuthWrapper from "../../AuthWrapper";
-import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import NavigationButtons from "../NavigationButtons";
+import SelectFormInput from "../SelectFormInput";
 
 const TeacherSignupThree = ({
   setPage,

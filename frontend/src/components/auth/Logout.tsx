@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
-import { Box, Text, Flex } from "@chakra-ui/react";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";

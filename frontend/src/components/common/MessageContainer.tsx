@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Container, Text } from "@chakra-ui/react";
+
 import IllustrationWrapper from "./IllustrationWrapper";
 
 interface MessageContainerProps {

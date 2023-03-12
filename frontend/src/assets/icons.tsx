@@ -1,5 +1,5 @@
-import { Icon } from "@chakra-ui/react";
 import React from "react";
+import { Icon } from "@chakra-ui/react";
 
 // svg paths are from Eva, our icon pack: https://akveo.github.io/eva-icons/#/
 

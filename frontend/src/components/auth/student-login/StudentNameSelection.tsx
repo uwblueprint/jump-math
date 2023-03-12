@@ -1,15 +1,14 @@
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
   Box,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 
-import { Controller, useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import AuthWrapper from "../AuthWrapper";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import * as Routes from "../../../constants/Routes";
 import NavigationButtons from "../teacher-signup/NavigationButtons";

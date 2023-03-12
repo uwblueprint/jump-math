@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 
-import AuthContext from "../../contexts/AuthContext";
 import { HOME_PAGE } from "../../constants/Routes";
-import NotFound from "../pages/NotFound";
+import AuthContext from "../../contexts/AuthContext";
 import { Role } from "../../types/AuthTypes";
+import NotFound from "../pages/NotFound";
 
 type PrivateRouteProps = {
   component: React.FC;

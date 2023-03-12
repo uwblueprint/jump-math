@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Divider,
   IconButton,
@@ -8,8 +9,9 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
+
 import EditStatusButton from "./EditStatusButton";
 
 const EditStatusPopover = (): React.ReactElement => {

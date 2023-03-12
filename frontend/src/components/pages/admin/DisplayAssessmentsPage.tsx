@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  Text,
   Box,
-  Tabs,
-  TabList,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
+  Tabs,
+  Text,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import {

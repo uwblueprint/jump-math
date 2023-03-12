@@ -1,13 +1,13 @@
 import React from "react";
 import {
   Pagination as P,
-  usePagination,
+  PaginationContainer,
   PaginationNext,
   PaginationPage,
-  PaginationPrevious,
-  PaginationContainer,
   PaginationPageGroup,
+  PaginationPrevious,
   PaginationSeparator,
+  usePagination,
 } from "@ajna/pagination";
 
 const outerLimit = 1;

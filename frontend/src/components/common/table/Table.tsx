@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import {
-  TableContainer,
   Table as T,
-  Thead,
-  Tr,
-  Th,
+  TableContainer,
   Tbody,
   Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
+
 import Pagination from "./Pagination";
 
 export interface TableRow {

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   IconButton,
@@ -8,8 +9,9 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
+
 import RemoveUserModal from "./RemoveUserModal";
 
 interface RemoveUserPopoverProps {

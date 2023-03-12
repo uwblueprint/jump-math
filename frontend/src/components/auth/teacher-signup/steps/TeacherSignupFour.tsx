@@ -1,5 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+
+import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
   TeacherSignupForm,
   TeacherSignupProps,

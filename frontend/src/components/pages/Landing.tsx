@@ -2,16 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   Box,
-  Center,
-  Text,
-  Stack,
-  VStack,
-  Image,
   Button,
+  Center,
+  Image,
   Link,
+  Stack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import * as Routes from "../../constants/Routes";
+
 import { JUMP_MATH_LOGO } from "../../assets/images";
+import * as Routes from "../../constants/Routes";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();

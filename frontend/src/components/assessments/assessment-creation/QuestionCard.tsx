@@ -3,21 +3,32 @@ import {
   Box,
   Container,
   Flex,
-  Stack,
-  Text,
-  Menu,
-  MenuButton,
   IconButton,
   List,
   ListItem,
+  Menu,
+  MenuButton,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
+<<<<<<< HEAD:frontend/src/components/assessments/assessment-creation/QuestionCard.tsx
 import QuestionTag from "./QuestionTag";
 import { QuestionType } from "../../../types/QuestionTypes";
+=======
+
+>>>>>>> c800334 (add import sorting):frontend/src/components/common/QuestionCard.tsx
 import {
-  EditOutlineIcon,
   DeleteOutlineIcon,
+  EditOutlineIcon,
   HamburgerMenuIcon,
+<<<<<<< HEAD:frontend/src/components/assessments/assessment-creation/QuestionCard.tsx
 } from "../../../assets/icons";
+=======
+} from "../../assets/icons";
+import { QuestionType } from "../../types/QuestionTypes";
+
+import QuestionTag from "./QuestionTag";
+>>>>>>> c800334 (add import sorting):frontend/src/components/common/QuestionCard.tsx
 
 type QuestionCardProps = {
   tags: { type: QuestionType; count: number }[];

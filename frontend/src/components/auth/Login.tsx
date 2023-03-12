@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Text, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 
-import RouterLink from "../common/RouterLink";
-import AuthWrapper from "./AuthWrapper";
-import * as Routes from "../../constants/Routes";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
-import { HOME_PAGE } from "../../constants/Routes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
+import * as Routes from "../../constants/Routes";
+import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
 import ForgotPassword from "./reset-password/ForgotPassword";

@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Tag, Text, TagLeftIcon } from "@chakra-ui/react";
+import { Tag, TagLeftIcon, Text } from "@chakra-ui/react";
+
 import {
-  MultiSelectTagIcon,
   MultipleChoiceTagIcon,
+  MultiSelectTagIcon,
   ShortAnswerTagIcon,
 } from "../../../assets/icons";
 import { QuestionType } from "../../../types/QuestionTypes";
