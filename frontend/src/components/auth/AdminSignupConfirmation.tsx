@@ -10,9 +10,10 @@ import {
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
 import { ADMIN_LOGIN } from "../../constants/Routes";
 import LoadingState from "../common/LoadingState";
-import AuthWrapper from "./AuthWrapper";
+
 import EmailActionError from "./email-action/EmailActionError";
 import PasswordForm from "./password/PasswordForm";
+import AuthWrapper from "./AuthWrapper";
 
 const AdminSignupConfirmation = ({
   email,

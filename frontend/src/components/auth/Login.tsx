@@ -10,7 +10,10 @@ import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
+import RouterLink from "../common/RouterLink";
+
 import ForgotPassword from "./reset-password/ForgotPassword";
+import AuthWrapper from "./AuthWrapper";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);

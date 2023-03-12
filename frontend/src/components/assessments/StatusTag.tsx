@@ -1,12 +1,8 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
-<<<<<<< HEAD:frontend/src/components/assessments/StatusTag.tsx
+
 import { Status } from "../../types/AssessmentTypes";
 import titleCase from "../../utils/GeneralUtils";
-=======
-
-import { StatusProperty } from "../../types/AssessmentTypes";
->>>>>>> c800334 (add import sorting):frontend/src/components/assessment-creation/StatusTag.tsx
 
 interface StatusTagProps {
   status: Status;

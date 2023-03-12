@@ -17,8 +17,8 @@ import {
 import { Select } from "chakra-react-select";
 
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import ErrorToast from "../../common/ErrorToast";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
+import ErrorToast from "../../common/ErrorToast";
 
 const CreateAssessmentPage = (): React.ReactElement => {
   const {

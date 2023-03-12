@@ -7,8 +7,7 @@ import {
   SingleValue,
 } from "chakra-react-select";
 
-import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { ClassroomInput, ClassroomForm } from "../../../types/ClassroomTypes";
+import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 
 interface Option extends OptionBase {
   label: string;

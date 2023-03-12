@@ -20,16 +20,17 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-import { PlusOutlineIcon } from "../../../assets/icons";
+import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
+import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import {
   UserRequest,
   UserResponse,
 } from "../../../APIClients/types/UserClientTypes";
-import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
-import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import { PlusOutlineIcon } from "../../../assets/icons";
 import ErrorToast from "../../common/ErrorToast";
+import ModalFooterButtons from "../../common/ModalFooterButtons";
+
+import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
 
 const AddAdminModal = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();

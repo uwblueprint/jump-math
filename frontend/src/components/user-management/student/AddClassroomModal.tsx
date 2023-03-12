@@ -18,11 +18,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import ModalFooterButtons from "../../common/ModalFooterButtons";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
-import SelectFormInputClassroom from "./SelectFormInputClassroom";
 import ErrorToast from "../../common/ErrorToast";
+import ModalFooterButtons from "../../common/ModalFooterButtons";
+
+import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 const AddClassroomModal = (): React.ReactElement => {
   const {

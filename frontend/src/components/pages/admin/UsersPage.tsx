@@ -8,33 +8,24 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  HStack,
+  Tabs,
+  Text,
 } from "@chakra-ui/react";
-import { useQuery } from "@apollo/client";
-import AdminTab from "../../user-management/admin/AdminTab";
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
-import AdminUserTable from "../../user-management/admin/AdminUserTable";
-import AddAdminModal from "../../user-management/admin/AddAdminModal";
+
 import {
-  GET_USERS_BY_ROLE,
   GET_ALL_TEACHERS,
+  GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
-import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
-import SortMenu from "../../common/table/SortMenu";
-import SearchBar from "../../common/table/SearchBar";
-
-import LoadingState from "../../common/LoadingState";
-import ErrorState from "../../common/ErrorState";
-
 import { TabEnum } from "../../../types/AuthTypes";
 import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
-import SearchBar from "../../common/SearchBar";
-import SortMenu from "../../common/SortMenu";
-import AddAdminModal from "../../user-management/AddAdminModal";
-import AdminTab from "../../user-management/AdminTab";
-import AdminUserTable from "../../user-management/AdminUserTable";
-import TeacherUserTable from "../../user-management/TeacherUserTable";
+import SearchBar from "../../common/table/SearchBar";
+import SortMenu from "../../common/table/SortMenu";
+import AddAdminModal from "../../user-management/admin/AddAdminModal";
+import AdminTab from "../../user-management/admin/AdminTab";
+import AdminUserTable from "../../user-management/admin/AdminUserTable";
+import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
 
 const getTeacherUser = (user: TeacherUser) => {
   return {

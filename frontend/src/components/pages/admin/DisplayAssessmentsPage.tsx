@@ -10,16 +10,17 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+
 import {
+  AssessmentTypes,
   Status,
   UseCase,
-  AssessmentTypes,
 } from "../../../types/AssessmentTypes";
-import SortMenu from "../../common/table/SortMenu";
+import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import AssessmentsTable from "../../assessments/AssessmentsTable";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
-import AssessmentsTable from "../../assessments/AssessmentsTable";
+import SortMenu from "../../common/table/SortMenu";
 
 const getAssessments = (assessment: AssessmentTypes) => {
   return {

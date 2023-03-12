@@ -11,9 +11,10 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  ArrowBackOutlineIcon,
   EyeOutlineIcon,
   MoreVerticalOutlineIcon,
+  SaveOutlineIcon,
+  TextOutlineIcon,
 } from "../../../assets/icons";
 import BackButton from "../../common/BackButton";
 
@@ -30,12 +31,12 @@ const CreateAssessementHeader = ({
 }: CreateAssessementHeaderProps): React.ReactElement => {
   return (
     <Box
-      padding="1.5em 2em 1.5em 2em"
       borderBottom="1px"
       borderBottomColor="grey.200"
+      padding="1.5em 2em 1.5em 2em"
     >
       <Flex minWidth="max-content">
-        <HStack spacing={6} alignItems="start">
+        <HStack alignItems="start" spacing={6}>
           <BackButton />
           <VStack align="left">
             <Text textStyle="subtitle1">
@@ -46,28 +47,28 @@ const CreateAssessementHeader = ({
         </HStack>
         <Spacer />
         <HStack spacing={2}>
-          <Button size="sm" variant="tertiary" leftIcon={<EyeOutlineIcon />}>
+          <Button leftIcon={<EyeOutlineIcon />} size="sm" variant="tertiary">
             Preview
           </Button>
           <Button
-            minWidth="10"
-            variant="secondary"
             leftIcon={<SaveOutlineIcon />}
+            minWidth="10"
             onClick={save}
+            variant="secondary"
           >
             Save
           </Button>
           <Button
+            leftIcon={<TextOutlineIcon />}
             minWidth="10"
             variant="primary"
-            leftIcon={<TextOutlineIcon />}
           >
             Publish
           </Button>
           <IconButton
+            aria-label="more-vertical-outline"
             color="blue.700"
             icon={<MoreVerticalOutlineIcon />}
-            aria-label="more-vertical-outline"
             minWidth="10"
           />
         </HStack>

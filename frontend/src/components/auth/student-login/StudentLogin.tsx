@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { PinInput, PinInputField, HStack, Button } from "@chakra-ui/react";
-import AuthWrapper from "../AuthWrapper";
-import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+import { Button, HStack, PinInput, PinInputField } from "@chakra-ui/react";
+
 import { LeftArrowIcon } from "../../../assets/icons";
+import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+import AuthWrapper from "../AuthWrapper";
 
 const StudentLogin = (): React.ReactElement => {
   const history = useHistory();

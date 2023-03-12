@@ -1,7 +1,7 @@
 import React from "react";
-import QuestionCard from "../assessments/assessment-creation/QuestionCard";
+
 import { QuestionType } from "../../types/QuestionTypes";
-import QuestionCard from "../common/QuestionCard";
+import QuestionCard from "../assessments/assessment-creation/QuestionCard";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (

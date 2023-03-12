@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ReactComponent as EnvelopePaperIllustration } from "../../../assets/illustrations/envelope-paper.svg";
 import MessageContainer from "../../common/MessageContainer";
 

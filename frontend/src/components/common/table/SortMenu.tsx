@@ -14,6 +14,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+
 import { FilterOptionsIcon } from "../../../assets/icons";
 
 interface SortMenuProps {

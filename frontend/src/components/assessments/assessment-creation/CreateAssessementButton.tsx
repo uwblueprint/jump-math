@@ -1,14 +1,9 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-<<<<<<< HEAD:frontend/src/components/assessments/assessment-creation/CreateAssessementButton.tsx
-import { CREATE_ASSESSMENT } from "../../../constants/Routes";
-import { PlusOutlineIcon } from "../../../assets/icons";
-=======
 import { Button } from "@chakra-ui/react";
 
-import { PlusOutlineIcon } from "../../assets/icons";
-import { CREATE_ASSESSMENT } from "../../constants/Routes";
->>>>>>> c800334 (add import sorting):frontend/src/components/assessment-creation/CreateAssessementButton.tsx
+import { PlusOutlineIcon } from "../../../assets/icons";
+import { CREATE_ASSESSMENT } from "../../../constants/Routes";
 
 const CreateAssessementButton = (): React.ReactElement => {
   const history = useHistory();

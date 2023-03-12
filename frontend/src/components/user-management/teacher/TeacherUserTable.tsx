@@ -1,7 +1,8 @@
 import React from "react";
-import { TableRow, Table } from "../../common/table/Table";
-import RemoveUserPopover from "../RemoveUserPopover";
+
+import { Table, TableRow } from "../../common/table/Table";
 import { TeacherTableProps } from "../admin/AdminTab";
+import RemoveUserPopover from "../RemoveUserPopover";
 
 const TeacherUserTable = ({ users }: TeacherTableProps): React.ReactElement => {
   const headers = ["Name", "School", "Email"];

@@ -10,8 +10,6 @@ import {
 } from "@chakra-ui/react";
 
 import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "../teacher-signup/NavigationButtons";
-import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
 import { UserResponse } from "../../../APIClients/types/UserClientTypes";
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
@@ -20,7 +18,7 @@ import {
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
 import AuthWrapper from "../AuthWrapper";
-import NavigationButtons from "../TeacherSignup/NavigationButtons";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 interface ForgotPasswordProps {
   isAdmin: boolean;

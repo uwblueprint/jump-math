@@ -12,8 +12,11 @@ import {
 } from "@chakra-ui/react";
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
-import NavigationButtons from "../teacher-signup/NavigationButtons";
+import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import FormError from "../../common/FormError";
+import NavigationButtons from "../teacher-signup/NavigationButtons";
+
+import PasswordRequirement from "./PasswordRequirement";
 
 interface PasswordFormProps {
   version: "AdminSignup" | "TeacherSignup" | "ResetPassword";

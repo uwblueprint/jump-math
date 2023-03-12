@@ -11,6 +11,7 @@ import { Select } from "chakra-react-select";
 
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import * as Routes from "../../../constants/Routes";
+import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 const students = [

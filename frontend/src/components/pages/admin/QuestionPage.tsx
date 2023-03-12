@@ -3,9 +3,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Flex } from "@chakra-ui/react";
 
-import QuestionSidebar from "../../question-creation/QuestionSidebar";
-import QuestionEditor from "../../question-creation/QuestionEditor";
-
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
 import AddMultipleChoiceModal from "../../question-creation/question-elements/modals/multiple-choice/AddMultipleChoiceModal";

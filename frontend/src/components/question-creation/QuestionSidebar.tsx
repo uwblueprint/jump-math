@@ -25,6 +25,8 @@ import {
 import { QuestionElementType } from "../../types/QuestionTypes";
 import BackButton from "../common/BackButton";
 
+import QuestionSidebarItem from "./QuestionSidebarItem";
+
 interface AccordionItemProps {
   title: string;
   panels: AccordionPanelProps[];
@@ -81,7 +83,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Box justifyContent="flex-start" paddingLeft="0">
           <BackButton />
         </Box>
-        <Text textStyle="header4" color="blue.300">
+        <Text color="blue.300" textStyle="header4">
           Create Question
         </Text>
         <Accordion allowMultiple defaultIndex={[0, 1]} paddingTop="1em">

@@ -7,6 +7,7 @@ import { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import AdminSignupConfirmation from "../AdminSignupConfirmation";
 import TeacherSignupConfirmation from "../teacher-signup/steps/TeacherSignupConfirmation";
+
 import EmailActionError from "./EmailActionError";
 
 const VerifyEmailHandler = ({

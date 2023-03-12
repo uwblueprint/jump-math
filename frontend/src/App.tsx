@@ -7,18 +7,17 @@ import {
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
+import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
-import StudentLogin from "./components/auth/student-login/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import StudentLogin from "./components/auth/StudentLogin";
-import TeacherSignup from "./components/auth/TeacherSignup";
+import StudentLogin from "./components/auth/student-login/StudentLogin";
+import TeacherSignup from "./components/auth/teacher-signup";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
 import NotFound from "./components/pages/NotFound";
-import StudentAssessment from "./components/pages/StudentAssessment";
-import TeacherPage from "./components/pages/TeacherPage";
+import StudentAssessment from "./components/pages/student/StudentAssessment";
+import TeacherPage from "./components/pages/teacher/TeacherPage";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import * as Routes from "./constants/Routes";
 import AuthContext from "./contexts/AuthContext";
@@ -30,12 +29,6 @@ import sampleContextReducer from "./reducers/SampleContextReducer";
 import { AuthenticatedUser } from "./types/AuthTypes";
 import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
-import TeacherSignup from "./components/auth/teacher-signup";
-import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
-import AdminDashboard from "./components/pages/admin/AdminDashboard";
-import TeacherPage from "./components/pages/teacher/TeacherPage";
-import ComponentLibrary from "./components/pages/ComponentLibrary";
-import StudentAssessment from "./components/pages/student/StudentAssessment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
