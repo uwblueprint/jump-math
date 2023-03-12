@@ -11,6 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import { Grade } from "../../../APIClients/types/UserClientTypes";
 import {
   AssessmentTypes,
   Status,
@@ -37,7 +38,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
+    grade: Grade.GRADE_5,
     type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
@@ -45,7 +46,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.PUBLISHED,
     name: "Grade 7 California Pre-Term Assessment 2016",
-    grade: "Grade 7",
+    grade: Grade.GRADE_7,
     type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
@@ -53,7 +54,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.ARCHIVED,
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
-    grade: "Grade 5",
+    grade: Grade.GRADE_4,
     type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ottawa",
@@ -61,7 +62,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.PUBLISHED,
     name: "Grade 2 Texas Pre-Term Assessment 2012",
-    grade: "Grade 7",
+    grade: Grade.GRADE_2,
     type: UseCase.BEGINNING,
     country: "USA",
     region: "Texas",
@@ -69,7 +70,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 4 Quebec Post-Term Assessment 2020",
-    grade: "Grade 5",
+    grade: Grade.GRADE_4,
     type: UseCase.BEGINNING,
     country: "Canada",
     region: "Quebec",
@@ -77,7 +78,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
+    grade: Grade.GRADE_7,
     type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
@@ -85,7 +86,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
+    grade: Grade.GRADE_5,
     type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
@@ -93,7 +94,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
+    grade: Grade.GRADE_7,
     type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
@@ -101,7 +102,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
+    grade: Grade.GRADE_5,
     type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
@@ -109,7 +110,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
+    grade: Grade.GRADE_7,
     type: UseCase.END,
     country: "USA",
     region: "California",
@@ -117,7 +118,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
+    grade: Grade.GRADE_5,
     type: UseCase.END,
     country: "Canada",
     region: "Ontario",
@@ -125,7 +126,7 @@ const sampleAssessments: AssessmentTypes[] = [
   {
     status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
+    grade: Grade.GRADE_7,
     type: UseCase.END,
     country: "USA",
     region: "California",

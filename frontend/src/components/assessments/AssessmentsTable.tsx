@@ -22,7 +22,7 @@ const AssessmentsTable = ({
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
-      assessment.grade,
+      titleCase(assessment.grade),
       titleCase(assessment.type),
       assessment.country,
       assessment.region,

@@ -1,6 +1,7 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../../types/ClassroomTypes";
 import Logout from "../../auth/Logout";
 import RefreshCredentials from "../../auth/RefreshCredentials";
@@ -9,7 +10,7 @@ import AddClassroomModal from "../../user-management/student/AddClassroomModal";
 const defaultValues = {
   className: "",
   schoolYear: "",
-  gradeLevel: "",
+  gradeLevel: Grade.KINDERGARTEN,
   subject: "",
 } as ClassroomForm;
 

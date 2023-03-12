@@ -1,5 +1,6 @@
 const titleCase = (word: string): string => {
-  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  const replacedWord = word.replace(/_/g, " ");
+  return replacedWord[0].toUpperCase() + replacedWord.slice(1).toLowerCase();
 };
 
 export default titleCase;

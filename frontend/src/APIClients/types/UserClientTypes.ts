@@ -1,15 +1,16 @@
 import { Role } from "../../types/AuthTypes";
 
-export type Grade =
-  | "K"
-  | "Grade 1"
-  | "Grade 2"
-  | "Grade 3"
-  | "Grade 4"
-  | "Grade 5"
-  | "Grade 6"
-  | "Grade 7"
-  | "Grade 8";
+export enum Grade {
+  KINDERGARTEN = "KINDERGARTEN",
+  GRADE_1 = "GRADE_1",
+  GRADE_2 = "GRADE_2",
+  GRADE_3 = "GRADE_3",
+  GRADE_4 = "GRADE_4",
+  GRADE_5 = "GRADE_5",
+  GRADE_6 = "GRADE_6",
+  GRADE_7 = "GRADE_7",
+  GRADE_8 = "GRADE_8",
+}
 
 export type UserRequest = {
   firstName: string;
