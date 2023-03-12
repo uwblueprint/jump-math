@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { useDrag } from "react-dnd";
+import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
+import { DragTypes } from "../../types/DragTypes";
 import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
-import { DragTypes } from "../../types/DragTypes";
-import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 
 interface QuestionSidebarItemProps {
   type: QuestionElementType;
@@ -23,7 +23,11 @@ const QuestionSidebarItem = ({
   type,
   icon,
 }: QuestionSidebarItemProps): React.ReactElement => {
-  const { setQuestionElements } = useContext(QuestionEditorContext);
+  const {
+    setQuestionElements,
+    setShowAddShortAnswerModal,
+    setShowAddMultipleChoiceModal,
+  } = useContext(QuestionEditorContext);
 
   const addQuestionElement = (newQuestionElement: QuestionElement) => {
     setQuestionElements((prevElements) => [
@@ -38,7 +42,16 @@ const QuestionSidebarItem = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
-        addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
+        switch (item.type) {
+          case QuestionElementType.SHORT_ANSWER:
+            setShowAddShortAnswerModal(true);
+            break;
+          case QuestionElementType.MULTIPLE_CHOICE:
+            setShowAddMultipleChoiceModal(true);
+            break;
+          default:
+            addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
+        }
       }
     },
     collect: (monitor) => ({

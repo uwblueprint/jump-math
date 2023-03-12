@@ -1,3 +1,4 @@
+import React from "react";
 import { useMutation } from "@apollo/client";
 import {
   Button,
@@ -8,16 +9,17 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+
+import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
+import {
+  GET_ALL_TEACHERS,
+  GET_USERS_BY_ROLE,
+} from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
 import ModalText from "../common/ModalText";
+
 import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
 import RemoveUserErrorModal from "./RemoveUserErrorModal";
-import {
-  GET_USERS_BY_ROLE,
-  GET_ALL_TEACHERS,
-} from "../../APIClients/queries/UserQueries";
-import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
 
 interface RemoveUserModalProps {
   name: string;
@@ -55,37 +57,37 @@ const RemoveUserModal = ({
   return (
     <>
       <Button
-        rightIcon={<CloseOutlineIcon />}
-        variant="primary"
         my={2}
         onClick={onOpen}
+        rightIcon={<CloseOutlineIcon />}
+        variant="primary"
       >
         Remove User
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent alignItems="center" p={2} maxW="600px">
+        <ModalContent alignItems="center" maxW="600px" p={2}>
           {showError && <RemoveUserErrorModal />}
           {showConfirmation && <RemoveUserConfirmationModal />}
           {!showConfirmation && !showError && (
             <>
               <ModalText
-                header={`Are you sure you want to remove ${name}?`}
                 body={["NOTE:", "This user is an admin."]}
+                header={`Are you sure you want to remove ${name}?`}
               />
               <Divider style={{ marginTop: "1.5em" }} />
               <ModalFooter my={0.5}>
                 <Button
-                  variant="secondary"
                   mr={2}
                   onClick={() => {
                     onCloseParent();
                     onClose();
                   }}
+                  variant="secondary"
                 >
                   Cancel
                 </Button>
-                <Button variant="primary" onClick={onRemoveUserClick}>
+                <Button onClick={onRemoveUserClick} variant="primary">
                   Confirm
                 </Button>
               </ModalFooter>

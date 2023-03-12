@@ -13,9 +13,22 @@ export enum QuestionElementType {
   MULTI_SELECT = "Multi-select",
 }
 
+export type MultipleChoiceOptionData = {
+  id: string;
+  value: string;
+  isCorrect: boolean;
+};
+
+export type MultipleChoiceData = {
+  optionCount: number;
+  options: MultipleChoiceOptionData[];
+};
+
+export type QuestionDataType = string | number | MultipleChoiceData;
+
 export type QuestionElement = {
   id: string;
   type: QuestionElementType;
-  data: string;
+  data: QuestionDataType;
   error?: string;
 };

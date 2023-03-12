@@ -84,6 +84,9 @@ const graphQLMiddlewares = {
     createTest: authorizedByAdmin(),
     updateTest: authorizedByAdmin(),
     deleteTestById: authorizedByAdmin(),
+    publishTest: authorizedByAdmin(),
+    duplicateTest: authorizedByAdmin(),
+    unarchiveTest: authorizedByAdmin(),
   },
 };
 

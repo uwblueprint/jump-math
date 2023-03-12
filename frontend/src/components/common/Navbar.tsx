@@ -1,10 +1,11 @@
 import React from "react";
-import { Flex, HStack, Spacer, Box } from "@chakra-ui/react";
+import { Box, Flex, HStack, Spacer } from "@chakra-ui/react";
+
+import Page from "../../types/PageTypes";
+import Logout from "../auth/Logout";
 
 import HomeButton from "./HomeButton";
 import NavbarItem from "./NavbarItem";
-
-import Page from "../../types/PageTypes";
 
 interface NavbarProps {
   pages: Page[];
@@ -20,6 +21,7 @@ const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
           {pages.map((page, index) => (
             <NavbarItem key={index} page={page} />
           ))}
+          <Logout />
         </HStack>
       </Flex>
     </Box>

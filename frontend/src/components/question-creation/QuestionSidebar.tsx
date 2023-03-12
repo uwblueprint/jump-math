@@ -1,21 +1,20 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import {
-  Box,
-  Text,
-  HStack,
-  Button,
-  VStack,
-  Stack,
   Accordion,
-  AccordionItem,
   AccordionButton,
   AccordionIcon,
+  AccordionItem,
   AccordionPanel,
+  Box,
+  Button,
+  HStack,
+  Stack,
+  Text,
+  VStack,
   Wrap,
 } from "@chakra-ui/react";
+
 import {
-  ArrowBackOutlineIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -23,13 +22,11 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import { QuestionElementType } from "../../types/QuestionTypes";
+import BackButton from "../common/BackButton";
+
 import QuestionSidebarItem from "./QuestionSidebarItem";
 
-import { QuestionElementType } from "../../types/QuestionTypes";
-
-interface QuestionSidebarProps {
-  backPage: string;
-}
 interface AccordionItemProps {
   title: string;
   panels: AccordionPanelProps[];
@@ -47,9 +44,9 @@ const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
-              type={panel.element}
               key={i}
               icon={panel.icon}
+              type={panel.element}
             />
           );
         })}
@@ -74,33 +71,22 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const QuestionSidebar = ({
-  backPage,
-}: QuestionSidebarProps): React.ReactElement => {
-  const history = useHistory();
-  const navigateTo = () => history.push(backPage);
-
+const QuestionSidebar = (): React.ReactElement => {
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
-      padding={{ base: "0.5em", md: "2em" }}
       justifyContent="space-between"
+      padding={{ base: "0.5em", md: "2em" }}
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
-        <Button
-          leftIcon={<ArrowBackOutlineIcon />}
-          variant="tertiary"
-          paddingLeft={0}
-          justifyContent="flex-start"
-          onClick={navigateTo}
-        >
-          Back
-        </Button>
-        <Text textStyle="header4" color="blue.300">
+        <Box justifyContent="flex-start" paddingLeft="0">
+          <BackButton />
+        </Box>
+        <Text color="blue.300" textStyle="header4">
           Create Question
         </Text>
-        <Accordion defaultIndex={[0, 1]} paddingTop="1em" allowMultiple>
+        <Accordion allowMultiple defaultIndex={[0, 1]} paddingTop="1em">
           {renderAccordionItem([
             {
               title: "Question",
@@ -131,10 +117,10 @@ const QuestionSidebar = ({
         </Accordion>
       </Stack>
       <HStack align="center" paddingTop="2em">
-        <Button variant="secondary" minWidth={0}>
+        <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <Button variant="primary" minWidth={0}>
+        <Button minWidth={0} variant="primary">
           Save
         </Button>
       </HStack>

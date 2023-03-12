@@ -2,8 +2,13 @@ import React from "react";
 import { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
+
 import { DragQuestionItem } from "../types/DragTypes";
-import { QuestionElement } from "../types/QuestionTypes";
+import {
+  MultipleChoiceOptionData,
+  QuestionDataType,
+  QuestionElement,
+} from "../types/QuestionTypes";
 
 export const shouldReorder = (
   dragIndex: number,
@@ -32,9 +37,9 @@ export const shouldReorder = (
 
 export const updatedQuestionElement = (
   id: string,
-  updatedData: string,
-  error: string,
+  updatedData: QuestionDataType,
   prevElements: QuestionElement[],
+  error?: string,
 ): QuestionElement[] => {
   const indexToUpdate = prevElements.findIndex((element) => element.id === id);
   return update(prevElements, {
@@ -46,3 +51,22 @@ export const updatedQuestionElement = (
     },
   });
 };
+
+export const updatedMultipleChoiceOption = (
+  id: string,
+  prevOptions: MultipleChoiceOptionData[],
+  value: string,
+  isCorrect: boolean,
+): MultipleChoiceOptionData[] => {
+  const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
+  return update(prevOptions, {
+    [indexToUpdate]: {
+      $merge: {
+        value,
+        isCorrect,
+      },
+    },
+  });
+};
+
+export const exceedsMaxLength = (input: string): boolean => input.length > 800;

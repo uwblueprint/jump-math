@@ -100,7 +100,6 @@ const testType = gql`
   type TestResponseDTO {
     id: ID!
     name: String!
-    admin: UserDTO!
     questions: [[QuestionComponent]]!
     grade: Int!
     assessmentType: AssessmentTypeEnum!
@@ -111,7 +110,6 @@ const testType = gql`
 
   input TestRequestDTO {
     name: String!
-    admin: ID!
     questions: [[QuestionComponentInput]]!
     grade: Int!
     assessmentType: AssessmentTypeEnum!
@@ -128,6 +126,9 @@ const testType = gql`
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
     deleteTestById(id: ID!): ID
+    publishTest(id: ID!): TestResponseDTO!
+    duplicateTest(id: ID!): TestResponseDTO!
+    unarchiveTest(id: ID!): TestResponseDTO!
   }
 `;
 

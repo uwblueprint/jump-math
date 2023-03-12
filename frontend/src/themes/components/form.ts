@@ -7,6 +7,17 @@ const Form = {
       },
     },
   },
+
+  variants: {
+    paragraph: {
+      container: {
+        label: {
+          textStyle: "paragraph",
+          marginBottom: 4,
+        },
+      },
+    },
+  },
 };
 
 export default Form;

@@ -1,4 +1,5 @@
 import { createContext } from "react";
+
 import { QuestionElement } from "../types/QuestionTypes";
 
 type QuestionEditorContextType = {
@@ -6,6 +7,10 @@ type QuestionEditorContextType = {
   setQuestionElements: (
     _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
   ) => void;
+  showAddShortAnswerModal: boolean;
+  setShowAddShortAnswerModal: (_showShortAnswerModal: boolean) => void;
+  showAddMultipleChoiceModal: boolean;
+  setShowAddMultipleChoiceModal: (_showAddMultipleChoiceModal: boolean) => void;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
@@ -13,6 +18,12 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   setQuestionElements: (
     _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
+  ): void => {},
+  showAddShortAnswerModal: false,
+  setShowAddShortAnswerModal: (_showAddShortAnswerModal: boolean): void => {},
+  showAddMultipleChoiceModal: false,
+  setShowAddMultipleChoiceModal: (
+    showAddMultipleChoiceModal: boolean,
   ): void => {},
 });
 

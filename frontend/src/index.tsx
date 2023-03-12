@@ -1,10 +1,10 @@
-import axios from "axios";
-import jwt from "jsonwebtoken";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
+import { createUploadLink } from "apollo-upload-client";
+import axios from "axios";
+import jwt from "jsonwebtoken";
 
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import { AuthenticatedUser, DecodedJWT } from "./types/AuthTypes";
@@ -12,10 +12,10 @@ import {
   getLocalStorageObjProperty,
   setLocalStorageObjProperty,
 } from "./utils/LocalStorageUtils";
-
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import "./index.css";
 
 const REFRESH_MUTATION = `
   mutation Index_Refresh {
