@@ -8,35 +8,26 @@ import {
   Tab,
   TabPanel,
   TabPanels,
-  VStack,
   HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
-import AdminTab from "../../user-management/AdminTab";
+import AdminTab from "../../user-management/admin/AdminTab";
 import { AdminUser, TeacherUser } from "../../../types/UserTypes";
-import AdminUserTable from "../../user-management/AdminUserTable";
-import AddAdminModal from "../../user-management/AddAdminModal";
-import { AlertIcon } from "../../../assets/icons";
+import AdminUserTable from "../../user-management/admin/AdminUserTable";
+import AddAdminModal from "../../user-management/admin/AddAdminModal";
 import {
   GET_USERS_BY_ROLE,
   GET_ALL_TEACHERS,
 } from "../../../APIClients/queries/UserQueries";
-import TeacherUserTable from "../../user-management/TeacherUserTable";
-import SortMenu from "../../common/SortMenu";
-import SearchBar from "../../common/SearchBar";
+import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
+import SortMenu from "../../common/table/SortMenu";
+import SearchBar from "../../common/table/SearchBar";
 
 import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/ErrorState";
+
 import { TabEnum } from "../../../types/AuthTypes";
 
-const ErrorState = (): React.ReactElement => (
-  <VStack spacing={6} textAlign="center">
-    <AlertIcon />
-    <Text textStyle="paragraph" color="blue.300">
-      The data has not loaded properly. Please reload the page or contact Jump
-      Math.
-    </Text>
-  </VStack>
-);
 const getTeacherUser = (user: TeacherUser) => {
   return {
     email: user.email,

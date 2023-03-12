@@ -10,22 +10,16 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
-import { AssessmentTypes } from "../../../types/AssessmentTypes";
-import SortMenu from "../../common/SortMenu";
-import FilterMenu from "../../assessment-creation/FilterMenu";
-import SearchBar from "../../common/SearchBar";
-import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
-
-// const ErrorState = (): React.ReactElement => (
-//   <VStack spacing={6} textAlign="center">
-//     <AlertIcon />
-//     <Text textStyle="paragraph" color="blue.300">
-//       The data has not loaded properly. Please reload the page or contact Jump
-//       Math.
-//     </Text>
-//   </VStack>
-// );
+import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import {
+  Status,
+  UseCase,
+  AssessmentTypes,
+} from "../../../types/AssessmentTypes";
+import SortMenu from "../../common/table/SortMenu";
+import FilterMenu from "../../common/table/FilterMenu";
+import SearchBar from "../../common/table/SearchBar";
+import AssessmentsTable from "../../assessments/AssessmentsTable";
 
 const getAssessments = (assessment: AssessmentTypes) => {
   return {
@@ -40,98 +34,98 @@ const getAssessments = (assessment: AssessmentTypes) => {
 
 const sampleAssessments: AssessmentTypes[] = [
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "PUBLISHED",
+    status: Status.PUBLISHED,
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "ARCHIVED",
+    status: Status.ARCHIVED,
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ottawa",
   },
   {
-    status: "PUBLISHED",
+    status: Status.PUBLISHED,
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "Texas",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 4 Quebec Post-Term Assessment 2020",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Quebec",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "USA",
     region: "California",
   },

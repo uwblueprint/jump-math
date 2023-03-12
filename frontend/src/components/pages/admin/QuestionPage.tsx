@@ -3,7 +3,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Flex } from "@chakra-ui/react";
 
-import { HOME_PAGE } from "../../../constants/Routes";
 import QuestionSidebar from "../../question-creation/QuestionSidebar";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
@@ -38,7 +37,7 @@ const QuestionPage = (): React.ReactElement => {
         }}
       >
         <Flex minHeight="100vh">
-          <QuestionSidebar backPage={HOME_PAGE} />
+          <QuestionSidebar />
           <QuestionEditor />
         </Flex>
         <AddShortAnswerModal />

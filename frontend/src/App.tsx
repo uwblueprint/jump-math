@@ -9,7 +9,7 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 
 import Login from "./components/auth/Login";
-import StudentLogin from "./components/auth/StudentLogin";
+import StudentLogin from "./components/auth/student-login/StudentLogin";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
 
@@ -28,12 +28,12 @@ import { AuthenticatedUser } from "./types/AuthTypes";
 import Landing from "./components/pages/Landing";
 
 import theme from "./themes";
-import TeacherSignup from "./components/auth/TeacherSignup";
-import EmailActionHandler from "./components/auth/EmailAction/EmailActionHandler";
+import TeacherSignup from "./components/auth/teacher-signup";
+import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
-import TeacherPage from "./components/pages/TeacherPage";
+import TeacherPage from "./components/pages/teacher/TeacherPage";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
-import StudentAssessment from "./components/pages/StudentAssessment";
+import StudentAssessment from "./components/pages/student/StudentAssessment";
 
 const App = (): React.ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
