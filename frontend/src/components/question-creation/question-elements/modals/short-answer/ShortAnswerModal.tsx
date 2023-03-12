@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
-  FormLabel,
   FormControl,
-  Input,
   FormErrorMessage,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
+
 import ResponseTypeModal from "../ResponseTypeModal";
 
 interface ShortAnswerModalProps {
@@ -55,15 +56,15 @@ const ShortAnswerModal = ({
       onConfirm={handleConfirm}
       title="Create short answer question"
     >
-      <FormControl isRequired isInvalid={error}>
+      <FormControl isInvalid={error} isRequired>
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
           Enter correct answer
         </FormLabel>
         <Input
-          value={answer}
-          placeholder="Input Field"
           onChange={handleInputChange}
+          placeholder="Input Field"
           type="number"
+          value={answer}
           width="50%"
         />
         <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
