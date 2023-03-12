@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, HStack, Spacer, VStack } from "@chakra-ui/react";
+import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 interface QuestionSummaryProps {
   questionCount: number;
@@ -14,11 +14,11 @@ const QuestionSummary = ({
     <Box
       backgroundColor="rgba(232, 237, 241, 0.2)"
       borderRadius="16px"
-      width="33%"
       padding="8"
+      width="33%"
     >
-      <VStack spacing="2" align="left">
-        <Text textStyle="subtitle2" color="blue.300" paddingBottom="7">
+      <VStack align="left" spacing="2">
+        <Text color="blue.300" paddingBottom="7" textStyle="subtitle2">
           Assessment Question Summary
         </Text>
         <HStack>
