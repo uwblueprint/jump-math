@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import {
   Flex,
   VStack,
@@ -15,8 +14,8 @@ import {
   SaveOutlineIcon,
   EyeOutlineIcon,
   MoreVerticalOutlineIcon,
-  ArrowBackOutlineIcon,
 } from "../../../assets/icons";
+import BackButton from "../../common/BackButton";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
@@ -29,7 +28,6 @@ const CreateAssessementHeader = ({
   date,
   save,
 }: CreateAssessementHeaderProps): React.ReactElement => {
-  const history = useHistory();
   return (
     <Box
       padding="1.5em 2em 1.5em 2em"
@@ -38,14 +36,7 @@ const CreateAssessementHeader = ({
     >
       <Flex minWidth="max-content">
         <HStack spacing={6} alignItems="start">
-          <Button
-            size="sm"
-            variant="tertiary"
-            leftIcon={<ArrowBackOutlineIcon />}
-            onClick={() => history.goBack()}
-          >
-            Back
-          </Button>
+          <BackButton />
           <VStack align="left">
             <Text textStyle="subtitle1">
               {assessmentName || "Untitled Assessment"}
