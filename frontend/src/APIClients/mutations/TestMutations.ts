@@ -13,3 +13,11 @@ export const DELETE_TEST = gql`
     deleteTestById(id: $id)
   }
 `;
+
+export const UNARCHIVE_TEST = gql`
+  mutation UnarchiveTest($id: ID!) {
+    unarchiveTest(id: $id) {
+      id
+    }
+  }
+`;
