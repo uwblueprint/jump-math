@@ -38,9 +38,9 @@ const testSessionType = gql`
   }
 
   input TestSessionRequestDTO {
-    test: String!
-    teacher: String!
-    school: String!
+    test: ID!
+    teacher: ID!
+    school: ID!
     gradeLevel: Int!
     results: [ResultRequestDTO]!
     accessCode: String!
