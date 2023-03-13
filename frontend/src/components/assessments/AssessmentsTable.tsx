@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "@chakra-ui/react";
 
-import { AssessmentTypes, Status } from "../../types/AssessmentTypes";
+import { AssessmentProperties, Status } from "../../types/AssessmentTypes";
 import titleCase from "../../utils/GeneralUtils";
 import { Table, TableRow } from "../common/table/Table";
 
@@ -9,7 +9,7 @@ import EditStatusPopover from "./EditStatusPopover";
 import StatusTag from "./StatusTag";
 
 interface AssessmentsTableProps {
-  assessments: AssessmentTypes[];
+  assessments: AssessmentProperties[];
 }
 
 const AssessmentsTable = ({
