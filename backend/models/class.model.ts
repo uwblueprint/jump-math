@@ -21,11 +21,31 @@ export interface Class extends Document {
   students: Student[];
 }
 
-export interface Student {
+export interface Student extends Document {
+  id: number;
   firstName: string;
   lastName: string;
   studentNumber?: string;
 }
+
+const StudentSchema: Schema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  studentNumber: {
+    type: String,
+    required: false,
+  },
+});
 
 const ClassSchema: Schema = new Schema({
   className: {
@@ -66,22 +86,7 @@ const ClassSchema: Schema = new Schema({
     required: true,
   },
   students: {
-    type: [
-      {
-        firstName: {
-          type: String,
-          required: true,
-        },
-        lastName: {
-          type: String,
-          required: true,
-        },
-        studentNumber: {
-          type: String,
-          required: false,
-        },
-      },
-    ],
+    type: [StudentSchema],
     required: false,
   },
 });
