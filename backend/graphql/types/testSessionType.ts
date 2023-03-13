@@ -48,9 +48,9 @@ const testSessionType = gql`
   }
 
   extend type Query {
-    testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
-    testSessions: [TestSessionResponseDTO]!
     testSession(id: String!): TestSessionResponseDTO!
+    testSessions: [TestSessionResponseDTO]!
+    testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
   }
 
   extend type Mutation {
