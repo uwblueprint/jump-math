@@ -10,6 +10,9 @@ import {
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { testUsers } from "../../../testUtils/users";
+import TestSessionService from "../testSessionService";
+import TestService from "../testService";
+import SchoolService from "../schoolService";
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
@@ -21,6 +24,9 @@ jest.mock("firebase-admin", () => {
 describe("mongo classService", (): void => {
   let classService: ClassService;
   let userService: UserService;
+  let testSessionService: TestSessionService;
+  let testService: TestService;
+  let schoolService: SchoolService;
 
   beforeAll(async () => {
     await db.connect();
@@ -31,8 +37,13 @@ describe("mongo classService", (): void => {
   });
 
   beforeEach(async () => {
+    classService = new ClassService(userService, testSessionService);
     userService = new UserService();
-    classService = new ClassService(userService);
+    testSessionService = new TestSessionService(
+      testService,
+      userService,
+      schoolService,
+    );
   });
 
   afterEach(async () => {
@@ -62,13 +73,13 @@ describe("mongo classService", (): void => {
 
   it("update class", async () => {
     // add test class
-    const class = await ClassModel.create(testClass[0]);
+    const classObj = await ClassModel.create(testClass[0]);
 
     // mock return value
     userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
-    const res = await classService.updateClass(class.id, updatedTestClass);
+    const res = await classService.updateClass(classObj.id, updatedTestClass);
 
     // assert
     assertResponseMatchesExpected(updatedTestClass, res);

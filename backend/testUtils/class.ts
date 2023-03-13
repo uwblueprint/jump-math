@@ -1,66 +1,64 @@
 import {
-    ClassRequestDTO,
-    ClassResponseDTO,
-  } from "../services/interfaces/classService";
-  import { testUsers } from "./users";
-  import { mockTestSession } from "./testSession";
-  import MgClass, { Class } from "../models/class.model";
-  
-  // set up test classes
-  export const testClass = [
-    {
-        class_name: "class1",
-        school_year: 4,
-        grade_level: "4",
-        teacher: testUsers[1],
-        test_sessions: mockTestSession,
-    },
-    {
-        class_name: "class2",
-        school_year: 5,
-        grade_level: "5",
-        teacher: testUsers[1],
-        test_sessions: mockTestSession,
-      },
-  ];
-  
-    // set up test class with invalid teacher id
-    export const testClassInvalidTeacher = {
-        class_name: "class2",
-        school_year: 5,
-        grade_level: "5",
-        teacher: "56cb91bdc3464f14678934cb",
-        test_sessions: mockTestSession,
-    };
+  ClassRequestDTO,
+  ClassResponseDTO,
+} from "../services/interfaces/classService";
+import { testUsers } from "./users";
+import { mockTestSessionWithId } from "./testSession";
 
-  export const updatedTestClass = {
-    class_name: "class1changed",
-    school_year: 4,
-    grade_level: "4changed",
-    teacher: testUsers[1],
-    test_sessions: mockTestSession,
-  };
-  
-  export const mockClassWithId = {
-    id: "62c248c0f79d6c3c9ebbea93",
-    ...testClass[0],
-    teachers: testUsers[1],
-  };
-  
-  export const mockClassWithId2 = {
-    ...mockClassWithId,
-    id: "62c248c0f79d6c3c9ebbea92",
-  };
-  
-  export const assertResponseMatchesExpected = (
-    expected: ClassRequestDTO,
-    result: ClassResponseDTO,
-  ): void => {
-    expect(result.id).not.toBeNull();
-    expect(result.name).toEqual(expected.name);
-    expect(result.country).toEqual(expected.country);
-    expect(result.subRegion).toEqual(expected.subRegion);
-    expect(result.city).toEqual(expected.city);
-    expect(result.address).toEqual(expected.address);
-    expect(result.teachers).toEqual(testUsers);
-  };
+// set up test classes
+export const testClass: ClassRequestDTO[] = [
+  {
+    className: "class1",
+    schoolYear: 4,
+    gradeLevel: ["K", "Grade 1", "Grade 2", "Grade 3"],
+    teacher: testUsers[1].id,
+    testSessions: [mockTestSessionWithId.id],
+  },
+  {
+    className: "class2",
+    schoolYear: 5,
+    gradeLevel: ["Grade 4", "Grade 5", "Grade 6", "Grade 7"],
+    teacher: testUsers[1].id,
+    testSessions: [mockTestSessionWithId.id],
+  },
+];
+
+// set up test class with invalid teacher id
+export const testClassInvalidTeacher: ClassRequestDTO = {
+  className: "class2",
+  schoolYear: 5,
+  gradeLevel: ["K", "Grade 1", "Grade 2", "Grade 3"],
+  teacher: "56cb91bdc3464f14678934cb",
+  testSessions: [mockTestSessionWithId.id],
+};
+
+export const updatedTestClass: ClassRequestDTO = {
+  className: "class1changed",
+  schoolYear: 4,
+  gradeLevel: ["Grade 4", "Grade 5", "Grade 6", "Grade 7"],
+  teacher: testUsers[1].id,
+  testSessions: [mockTestSessionWithId.id],
+};
+
+export const mockClassWithId = {
+  id: "62c248c0f79d6c3c9ebbea93",
+  ...testClass[0],
+  teacher: testUsers[1].id,
+};
+
+export const mockClassWithId2 = {
+  ...mockClassWithId,
+  id: "62c248c0f79d6c3c9ebbea92",
+};
+
+export const assertResponseMatchesExpected = (
+  expected: ClassRequestDTO,
+  result: ClassResponseDTO,
+): void => {
+  expect(result.id).not.toBeNull();
+  expect(result.className).toEqual(expected.className);
+  expect(result.schoolYear).toEqual(expected.schoolYear);
+  expect(result.gradeLevel).toEqual(expected.gradeLevel);
+  expect(result.teacher).toEqual(testUsers[0]);
+  expect(result.testSessions).toEqual(mockTestSessionWithId);
+};
