@@ -29,10 +29,6 @@ export interface Student extends Document {
 }
 
 const StudentSchema: Schema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   firstName: {
     type: String,
     required: true,
