@@ -20,8 +20,8 @@ import {
 
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
+import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
-import titleCase from "../../../utils/GeneralUtils";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 
@@ -86,7 +86,7 @@ const AddClassroomModal = (): React.ReactElement => {
   const onModalClose = () => {
     setValue("className", "");
     setValue("schoolYear", "");
-    setValue("gradeLevel", Grade.KINDERGARTEN);
+    setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
     onClose();
@@ -155,10 +155,7 @@ const AddClassroomModal = (): React.ReactElement => {
                   <SelectFormInputClassroom
                     field="gradeLevel"
                     isSearchable={false}
-                    options={Object.keys(Grade).map((grade) => ({
-                      value: grade,
-                      label: titleCase(grade),
-                    }))}
+                    options={gradeOptions}
                     placeholder="Choose a Grade Level"
                     setValue={setValue}
                     watch={watch}

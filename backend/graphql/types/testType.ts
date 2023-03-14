@@ -23,7 +23,7 @@ const testType = gql`
   }
 
   enum GradeEnum {
-    KINDERGARTEN
+    K
     GRADE_1
     GRADE_2
     GRADE_3

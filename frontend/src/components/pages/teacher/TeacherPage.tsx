@@ -10,7 +10,7 @@ import AddClassroomModal from "../../user-management/student/AddClassroomModal";
 const defaultValues = {
   className: "",
   schoolYear: "",
-  gradeLevel: Grade.KINDERGARTEN,
+  gradeLevel: Grade.K,
   subject: "",
 } as ClassroomForm;
 

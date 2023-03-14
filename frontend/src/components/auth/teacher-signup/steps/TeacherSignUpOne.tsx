@@ -14,13 +14,13 @@ import {
 
 import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import gradeOptions from "../../../../constants/CreateAssessmentConstants";
 import { TEACHER_LOGIN } from "../../../../constants/Routes";
 import {
   TeacherInput,
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
-import titleCase from "../../../../utils/GeneralUtils";
 import AuthWrapper from "../../AuthWrapper";
 import NavigationButtons from "../NavigationButtons";
 
@@ -139,9 +139,9 @@ const TeacherSignupOne = ({
         <FormLabel color="grey.400">What grades do you teach?</FormLabel>
         <CheckboxGroup onChange={onChangeGrades} value={gradesValues}>
           <SimpleGrid columns={3}>
-            {Object.keys(Grade).map((grade) => (
-              <Checkbox key={grade} value={grade}>
-                {titleCase(grade)}
+            {gradeOptions.map((grade) => (
+              <Checkbox key={grade.value} value={grade.value}>
+                {grade.label}
               </Checkbox>
             ))}
           </SimpleGrid>

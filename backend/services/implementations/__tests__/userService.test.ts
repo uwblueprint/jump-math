@@ -7,6 +7,7 @@ import { UserDTO, TeacherDTO, Grade } from "../../../types";
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
 import { mockTestSessions } from "../../../testUtils/testSession";
+import logger from "../../../utilities/logger";
 
 const testUsers = [
   {
@@ -22,7 +23,7 @@ const testUsers = [
     authId: "321",
     role: "Teacher",
     email: "wendy@gmail.com",
-    grades: [Grade.KINDERGARTEN, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+    grades: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
     currentlyTeachingJM: true,
   },
 ];

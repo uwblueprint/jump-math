@@ -22,7 +22,7 @@ const AssessmentsTable = ({
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
-      titleCase(assessment.grade),
+      assessment.grade === "K" ? "Kindergarten" : `Grade ${assessment.grade}`,
       titleCase(assessment.type),
       assessment.country,
       assessment.region,
