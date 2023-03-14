@@ -127,7 +127,7 @@ const TestSchema: Schema = new Schema(
     grade: {
       type: String,
       required: true,
-      enum: Object.keys(Grade),
+      enum: Object.values(Grade),
     },
     curriculumCountry: {
       type: String,
