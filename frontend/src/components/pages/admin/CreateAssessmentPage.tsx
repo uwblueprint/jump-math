@@ -17,6 +17,7 @@ import {
 import { Select } from "chakra-react-select";
 
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { Status, UseCase } from "../../../types/AssessmentTypes";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import ErrorToast from "../../common/ErrorToast";
 
@@ -104,7 +105,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <Box width="50%">
             <Controller
               control={control}
-              name="assessmentType"
+              name="type"
               render={({
                 field: { onChange, value, name, ref },
                 fieldState: { error },
@@ -118,8 +119,10 @@ const CreateAssessmentPage = (): React.ReactElement => {
                     value={value}
                   >
                     <VStack align="left" spacing={0.5}>
-                      <Radio value="beginning">Beginning of Grade</Radio>
-                      <Radio value="end">End of Grade</Radio>
+                      <Radio value={UseCase.BEGINNING}>
+                        Beginning of Grade
+                      </Radio>
+                      <Radio value={UseCase.END}>End of Grade</Radio>
                     </VStack>
                   </RadioGroup>
                   <FormErrorMessage>{error?.message}</FormErrorMessage>
