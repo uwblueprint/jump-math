@@ -1,10 +1,20 @@
-export type StatusProperty = "DRAFT" | "PUBLISHED" | "ARCHIVED" | "DELETED";
+export enum Status {
+  DRAFT = "DRAFT",
+  PUBLISHED = "PUBLISHED",
+  ARCHIVED = "ARCHIVED",
+  DELETED = "DELETED",
+}
+
+export enum UseCase {
+  BEGINNING = "BEGINNING",
+  END = "END",
+}
 
 export type AssessmentTypes = {
-  status: StatusProperty;
+  status: Status;
   name: string;
   grade: string;
-  type: "BEGINNING" | "END";
+  type: UseCase;
   country: string;
   region: string;
 };

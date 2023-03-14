@@ -1,31 +1,26 @@
 import React from "react";
 import {
-  Text,
   Box,
-  Tabs,
-  TabList,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
+  Tabs,
+  Text,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
-import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
-import { AssessmentTypes } from "../../../types/AssessmentTypes";
-import SortMenu from "../../common/SortMenu";
-import FilterMenu from "../../assessment-creation/FilterMenu";
-import SearchBar from "../../common/SearchBar";
-import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
 
-// const ErrorState = (): React.ReactElement => (
-//   <VStack spacing={6} textAlign="center">
-//     <AlertIcon />
-//     <Text textStyle="paragraph" color="blue.300">
-//       The data has not loaded properly. Please reload the page or contact Jump
-//       Math.
-//     </Text>
-//   </VStack>
-// );
+import {
+  AssessmentTypes,
+  Status,
+  UseCase,
+} from "../../../types/AssessmentTypes";
+import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import AssessmentsTable from "../../assessments/AssessmentsTable";
+import FilterMenu from "../../common/table/FilterMenu";
+import SearchBar from "../../common/table/SearchBar";
+import SortMenu from "../../common/table/SortMenu";
 
 const getAssessments = (assessment: AssessmentTypes) => {
   return {
@@ -40,98 +35,98 @@ const getAssessments = (assessment: AssessmentTypes) => {
 
 const sampleAssessments: AssessmentTypes[] = [
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "PUBLISHED",
+    status: Status.PUBLISHED,
     name: "Grade 7 California Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "ARCHIVED",
+    status: Status.ARCHIVED,
     name: "Grade 4 Ottawa Pre-Term Assessment 2018",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ottawa",
   },
   {
-    status: "PUBLISHED",
+    status: Status.PUBLISHED,
     name: "Grade 2 Texas Pre-Term Assessment 2012",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "Texas",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 4 Quebec Post-Term Assessment 2020",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Quebec",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.BEGINNING,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "USA",
     region: "California",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 5 Ontario Pre-Term Assessment 2016",
     grade: "Grade 5",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "Canada",
     region: "Ontario",
   },
   {
-    status: "DRAFT",
+    status: Status.DRAFT,
     name: "Grade 7 Ontario Pre-Term Assessment 2016",
     grade: "Grade 7",
-    type: "BEGINNING",
+    type: UseCase.END,
     country: "USA",
     region: "California",
   },
@@ -187,10 +182,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <Box>
         <HStack justifyContent="space-between">
           <Text
-            textStyle="header4"
             color="blue.300"
-            style={{ textAlign: "left" }}
             marginBottom="0.5em"
+            style={{ textAlign: "left" }}
+            textStyle="header4"
           >
             Assessments
           </Text>
@@ -211,16 +206,16 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <Box flex="1">
         <Tabs marginTop={3}>
           <TabList>
-            <Tab onClick={() => setSearch("")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("")}>
               All
             </Tab>
-            <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Draft")}>
               Drafts
             </Tab>
-            <Tab onClick={() => setSearch("Published")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Published")}>
               Published
             </Tab>
-            <Tab onClick={() => setSearch("Archived")} color={unselectedColor}>
+            <Tab color={unselectedColor} onClick={() => setSearch("Archived")}>
               Archived
             </Tab>
           </TabList>
@@ -230,6 +225,8 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                 <HStack width="100%">
                   <SearchBar onSearch={setSearch} />
                   <SortMenu
+                    onSortOrder={setSortOrder}
+                    onSortProperty={setSortProperty}
                     properties={[
                       "status",
                       "name",
@@ -238,13 +235,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                       "country",
                       "region",
                     ]}
-                    onSortOrder={setSortOrder}
-                    onSortProperty={setSortProperty}
                   />
                   <FilterMenu />
                 </HStack>
                 {search && (
-                  <Text fontSize="16px" color="grey.300" width="100%">
+                  <Text color="grey.300" fontSize="16px" width="100%">
                     Showing {sampleAssessments.length} results for &quot;
                     {search}&quot;
                   </Text>

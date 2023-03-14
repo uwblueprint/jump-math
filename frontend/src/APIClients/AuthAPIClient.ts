@@ -3,9 +3,10 @@ import {
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
-import { SchoolMetadata } from "../types/TeacherSignupTypes";
+
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
 import { AuthenticatedUser } from "../types/AuthTypes";
+import { SchoolMetadata } from "../types/TeacherSignupTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
 
 type LoginFunction = (

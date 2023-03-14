@@ -1,22 +1,29 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
-  Flex,
   Box,
-  Text,
-  Spacer,
+  Flex,
   FlexProps,
   Popover,
-  PopoverTrigger,
   PopoverContent,
+  PopoverTrigger,
+  Spacer,
+  Text,
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
-import RouterLink from "./RouterLink";
-import { ChevronUpIcon, ChevronDownIcon } from "../../assets/icons";
+
+import { ChevronDownIcon, ChevronUpIcon } from "../../assets/icons";
 import Page from "../../types/PageTypes";
+
+import RouterLink from "./RouterLink";
 
 interface NavbarItemProps extends FlexProps {
   page: Page;
 }
+
+export const activePage = {
+  color: "blue.300",
+  fontWeight: "bold",
+};
 
 const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
   const { title, url, subPages } = page;
@@ -24,11 +31,6 @@ const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
 
   const location = useLocation();
   const isCurrentPage = location.pathname.includes(url);
-
-  const activePage = {
-    color: "blue.300",
-    fontWeight: "bold",
-  };
 
   const children = subPages
     ? subPages.map((subPage, index) => (
@@ -39,16 +41,16 @@ const NavbarItem: React.FC<NavbarItemProps> = ({ page }: NavbarItemProps) => {
     : null;
 
   return (
-    <Popover trigger="hover" placement="bottom-start">
+    <Popover placement="bottom-start" trigger="hover">
       <PopoverTrigger>
         <Box>
           <RouterLink
-            to={url}
-            style={{ textDecoration: "none" }}
             onMouseEnter={() => setShowMore(true)}
             onMouseLeave={() => setShowMore(false)}
+            style={{ textDecoration: "none" }}
+            to={url}
           >
-            <Flex align="center" mx="4" cursor="pointer" _hover={activePage}>
+            <Flex _hover={activePage} align="center" cursor="pointer" mx="4">
               <Text fontSize="14px" sx={isCurrentPage ? activePage : undefined}>
                 {title}
               </Text>

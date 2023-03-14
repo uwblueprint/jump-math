@@ -8,5 +8,3 @@ export interface DragQuestionItem {
   id: string;
   type: string;
 }
-
-export default DragTypes;

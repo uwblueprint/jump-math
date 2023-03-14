@@ -1,4 +1,4 @@
-import { MULTI_SELECT, MULTI_CHOICE, SHORT_ANSWER } from "../assets/images";
+import { MULTI_CHOICE, MULTI_SELECT, SHORT_ANSWER } from "../assets/images";
 import { QuestionType } from "../types/QuestionTypes";
 
 export const assessmentMetadata = {

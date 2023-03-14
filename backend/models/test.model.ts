@@ -13,8 +13,8 @@ export enum QuestionComponentType {
 }
 
 export enum AssessmentType {
-  BEGINNING,
-  END,
+  BEGINNING = "BEGINNING",
+  END = "END",
 }
 
 export enum AssessmentStatus {

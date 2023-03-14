@@ -15,3 +15,17 @@ export const DUPLICATE_TEST = gql`
     }
   }
 `;
+
+export const DELETE_TEST = gql`
+  mutation DeleteTestById($id: ID!) {
+    deleteTestById(id: $id)
+  }
+`;
+
+export const UNARCHIVE_TEST = gql`
+  mutation UnarchiveTest($id: ID!) {
+    unarchiveTest(id: $id) {
+      id
+    }
+  }
+`;

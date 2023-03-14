@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Text, Image, VStack, HStack } from "@chakra-ui/react";
-import { QuestionType } from "../../types/QuestionTypes";
+import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
+
 import { typeToImageMetadata } from "../../constants/StudentAssessmentConstants";
+import { QuestionType } from "../../types/QuestionTypes";
 
 const QuestionTypeImages = ({
   questionTypes,
@@ -9,17 +10,17 @@ const QuestionTypeImages = ({
   questionTypes: Array<QuestionType>;
 }): React.ReactElement => {
   return (
-    <HStack spacing="15%" mt="2em" alignItems="flex-start">
+    <HStack alignItems="flex-start" mt="2em" spacing="15%">
       {questionTypes?.map((type: QuestionType, index) => {
         return (
           <VStack key={index} gap={2}>
             <Box backgroundColor="blue.50" borderRadius="10px" padding="1.7em">
               <Image
-                src={typeToImageMetadata[type].src}
                 alt={typeToImageMetadata[type].alt}
+                src={typeToImageMetadata[type].src}
               />
             </Box>
-            <Text textStyle="caption" align="center">
+            <Text align="center" textStyle="caption">
               {type}
             </Text>
           </VStack>
