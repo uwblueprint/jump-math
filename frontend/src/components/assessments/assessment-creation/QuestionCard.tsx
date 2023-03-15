@@ -19,12 +19,12 @@ import { QuestionType } from "../../../types/QuestionTypes";
 
 import QuestionTag from "./QuestionTag";
 
-type QuestionCardProps = {
+export interface QuestionCardProps {
   tags: { type: QuestionType; count: number }[];
   questionNumber: number;
   points: number;
   questions: string[];
-};
+}
 
 const QuestionCard = ({
   tags,
@@ -39,11 +39,9 @@ const QuestionCard = ({
       borderColor="grey.200"
       borderRadius="22px"
       color="grey.300"
-      maxWidth={["318px", "918px"]}
       minWidth="100%"
-      padding="6"
     >
-      <HStack alignItems="left" width="94%">
+      <HStack alignItems="left" maxWidth="94%" padding="6">
         <Box
           aria-label="reorder"
           cursor="pointer"
