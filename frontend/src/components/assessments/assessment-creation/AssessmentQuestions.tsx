@@ -4,14 +4,13 @@ import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_QUESTION } from "../../../constants/Routes";
-import { QuestionData } from "../../../constants/TestConstants";
 
 import AddQuestionButton from "./AddQuestionButton";
-import QuestionCard from "./QuestionCard";
+import QuestionCard, { QuestionCardProps } from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
 interface AssessmentQuestionsProps {
-  questions: QuestionData[];
+  questions: QuestionCardProps[];
 }
 
 const AssessmentQuestions = ({
