@@ -9,6 +9,8 @@ import { AuthenticatedUser } from "../types/AuthTypes";
 import { SchoolMetadata } from "../types/TeacherSignupTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
 
+import { Grade } from "./types/UserClientTypes";
+
 type LoginFunction = (
   options?:
     | MutationFunctionOptions<{ login: AuthenticatedUser }, OperationVariables>
@@ -60,7 +62,7 @@ const registerTeacher = async (
   lastName: string,
   email: string,
   password: string,
-  grades: string[],
+  grades: Grade[],
   currentlyTeachingJM: boolean,
   school: SchoolMetadata,
   registerFunction: RegisterFunction,

@@ -16,6 +16,7 @@ import {
   TestResponseDTO,
   CreateTestRequestDTO,
 } from "../../interfaces/testService";
+import { Grade } from "../../../types";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
@@ -63,7 +64,7 @@ describe("mongo testService", (): void => {
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
       questions,
-      grade: 10,
+      grade: Grade.GRADE_8,
       assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
@@ -83,7 +84,7 @@ describe("mongo testService", (): void => {
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
       questions,
-      grade: 10,
+      grade: Grade.GRADE_8,
       assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
