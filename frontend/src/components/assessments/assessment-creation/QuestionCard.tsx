@@ -18,7 +18,7 @@ import { QuestionType } from "../../../types/QuestionTypes";
 
 import QuestionTag from "./QuestionTag";
 
-export interface QuestionCardProps {
+interface QuestionCardProps {
   tags: { type: QuestionType; count: number }[];
   questionNumber: number;
   questions: string[];
