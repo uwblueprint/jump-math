@@ -7,7 +7,6 @@ const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
       <QuestionCard
-        points={5}
         questionNumber={1}
         questions={[
           "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",

@@ -19,17 +19,15 @@ import { QuestionType } from "../../../types/QuestionTypes";
 
 import QuestionTag from "./QuestionTag";
 
-export interface QuestionCardProps {
+interface QuestionCardProps {
   tags: { type: QuestionType; count: number }[];
   questionNumber: number;
-  points: number;
   questions: string[];
 }
 
 const QuestionCard = ({
   tags,
   questionNumber,
-  points,
   questions,
 }: QuestionCardProps): React.ReactElement => {
   return (
@@ -85,7 +83,7 @@ const QuestionCard = ({
             ))}
           </List>
           <Text color="grey.300" textStyle="caption">
-            Total: {points} points
+            Total: {questions.length} points
           </Text>
           <HStack overflow="hidden">
             {tags.map((tag, key) => (

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import TEST_QUESTIONS from "../../../constants/TestConstants";
+import { TEST_QUESTIONS } from "../../../constants/TestConstants";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";

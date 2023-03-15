@@ -1,12 +1,13 @@
-import { QuestionCardProps } from "../components/assessments/assessment-creation/QuestionCard";
 import { QuestionType } from "../types/QuestionTypes";
 
-const TEST_QUESTIONS: QuestionCardProps[] = [
+export interface QuestionData {
+  questions: string[];
+  tags: { type: QuestionType; count: number }[];
+}
+
+export const TEST_QUESTIONS: QuestionData[] = [
   {
-    points: 5,
-    questionNumber: 1,
     questions: [
-      "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
     ],
@@ -16,11 +17,10 @@ const TEST_QUESTIONS: QuestionCardProps[] = [
     ],
   },
   {
-    points: 5,
-    questionNumber: 2,
     questions: [
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
+      "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
     ],
     tags: [
@@ -30,8 +30,6 @@ const TEST_QUESTIONS: QuestionCardProps[] = [
     ],
   },
   {
-    points: 5,
-    questionNumber: 3,
     questions: [
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
       "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
@@ -40,5 +38,3 @@ const TEST_QUESTIONS: QuestionCardProps[] = [
     tags: [{ type: QuestionType.MULTIPLE_CHOICE, count: 2 }],
   },
 ];
-
-export default TEST_QUESTIONS;
