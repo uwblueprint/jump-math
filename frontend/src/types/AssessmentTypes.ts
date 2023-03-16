@@ -15,7 +15,7 @@ export enum UseCase {
 export type AssessmentTypes = {
   status: Status;
   name: string;
-  grade: Grade;
+  grade: string;
   type: UseCase;
   country: string;
   region: string;
@@ -24,7 +24,7 @@ export type AssessmentTypes = {
 export type TestRequest = {
   name: string;
   questions: any;
-  grade: number;
+  grade: Grade;
   assessmentType: UseCase;
   status: Status;
   curriculumCountry: string;
@@ -35,7 +35,7 @@ export type TestResponse = {
   id: string;
   name: string;
   questions: any;
-  grade: number;
+  grade: Grade;
   assessmentType: UseCase;
   status: Status;
   curriculumCountry: string;
