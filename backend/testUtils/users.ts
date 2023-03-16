@@ -1,4 +1,4 @@
-import { UserDTO } from "../types";
+import { Grade, UserDTO } from "../types";
 
 // set up test users to return from mock user service
 export const mockAdmin: UserDTO = {
@@ -15,7 +15,7 @@ export const mockTeacher: UserDTO = {
   lastName: "One",
   email: "teacher@gmail.com",
   role: "Teacher",
-  grades: ["K", "Grade 1", "Grade 2", "Grade 3"],
+  grades: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
   currentlyTeachingJM: true,
 };
 

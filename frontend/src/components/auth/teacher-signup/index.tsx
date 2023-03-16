@@ -78,7 +78,7 @@ const TeacherSignup = (): React.ReactElement => {
         data.lastName,
         data.email,
         data.password,
-        data.grades,
+        [...data.grades],
         data.currentlyTeachingJM ?? false,
         data.school,
         registerTeacher,
