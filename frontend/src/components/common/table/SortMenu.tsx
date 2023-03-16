@@ -19,12 +19,14 @@ import { FilterOptionsIcon } from "../../../assets/icons";
 
 interface SortMenuProps {
   properties: string[];
+  labels: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SortMenu = ({
   properties,
+  labels,
   onSortProperty,
   onSortOrder,
 }: SortMenuProps): React.ReactElement => {
@@ -43,7 +45,7 @@ const SortMenu = ({
         </Text>
         {properties.map((property, index) => (
           <Radio key={index} value={property}>
-            {property.charAt(0).toUpperCase() + property.slice(1)}
+            {labels[index].charAt(0).toUpperCase() + labels[index].slice(1)}
           </Radio>
         ))}
       </VStack>
