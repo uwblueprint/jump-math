@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import countryList from "react-select-country-list";
+import { useMutation } from "@apollo/client";
 import {
   Box,
   FormControl,
@@ -16,8 +17,14 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 
+import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import { Status, UseCase } from "../../../types/AssessmentTypes";
+import {
+  Status,
+  TestRequest,
+  TestResponse,
+  UseCase,
+} from "../../../types/AssessmentTypes";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import ErrorToast from "../../common/ErrorToast";
 
@@ -33,10 +40,25 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const { date } = location.state as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
+  const [createTest] = useMutation<{ createTest: TestResponse }>(
+    SAVE_ASSESSMENT,
+  );
 
-  const onSubmit = (data: any, e: any) => {
+  const onSubmit = async (data: any, e: any) => {
     setValidSubmit(true);
-    console.log(data, e);
+    const test: TestRequest = {
+      name: data.assessmentName,
+      questions: [],
+      grade: data.grade.value,
+      assessmentType: data.type,
+      status: Status.DRAFT,
+      curriculumCountry: data.country.value,
+      curriculumRegion: data.region,
+    };
+    await createTest({ variables: { test } }).then((response) => {
+      console.log("response data: ", response);
+    });
+    console.log(data);
   };
   const onError = (errs: any, e: any) => {
     setValidSubmit(false);

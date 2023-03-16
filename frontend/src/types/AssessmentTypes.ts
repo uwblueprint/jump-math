@@ -18,3 +18,24 @@ export type AssessmentTypes = {
   country: string;
   region: string;
 };
+
+export type TestRequest = {
+  name: string;
+  questions: any;
+  grade: number;
+  assessmentType: UseCase;
+  status: Status;
+  curriculumCountry: string;
+  curriculumRegion: string;
+};
+
+export type TestResponse = {
+  id: string;
+  name: string;
+  questions: any;
+  grade: number;
+  assessmentType: UseCase;
+  status: Status;
+  curriculumCountry: string;
+  curriculumRegion: string;
+};
