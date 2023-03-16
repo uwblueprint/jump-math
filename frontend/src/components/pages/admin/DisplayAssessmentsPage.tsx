@@ -14,12 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
-import { Grade } from "../../../APIClients/types/UserClientTypes";
-import {
-  AssessmentTypes,
-  Status,
-  UseCase,
-} from "../../../types/AssessmentTypes";
+import { AssessmentTypes } from "../../../types/AssessmentTypes";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
@@ -38,105 +33,6 @@ const getAssessments = (assessment: AssessmentTypes) => {
     curriculumRegion: assessment.curriculumRegion,
   };
 };
-
-const sampleAssessments: AssessmentTypes[] = [
-  {
-    status: Status.DRAFT,
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_5,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Ontario",
-  },
-  {
-    status: Status.PUBLISHED,
-    name: "Grade 7 California Pre-Term Assessment 2016",
-    grade: Grade.GRADE_7,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "USA",
-    curriculumRegion: "California",
-  },
-  {
-    status: Status.ARCHIVED,
-    name: "Grade 4 Ottawa Pre-Term Assessment 2018",
-    grade: Grade.GRADE_4,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Ottawa",
-  },
-  {
-    status: Status.PUBLISHED,
-    name: "Grade 2 Texas Pre-Term Assessment 2012",
-    grade: Grade.GRADE_2,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "USA",
-    curriculumRegion: "Texas",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 4 Quebec Post-Term Assessment 2020",
-    grade: Grade.GRADE_4,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Quebec",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_7,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "USA",
-    curriculumRegion: "California",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_5,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Ontario",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_7,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "USA",
-    curriculumRegion: "California",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_5,
-    assessmentType: UseCase.BEGINNING,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Ontario",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_7,
-    assessmentType: UseCase.END,
-    curriculumCountry: "USA",
-    curriculumRegion: "California",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_5,
-    assessmentType: UseCase.END,
-    curriculumCountry: "Canada",
-    curriculumRegion: "Ontario",
-  },
-  {
-    status: Status.DRAFT,
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: Grade.GRADE_7,
-    assessmentType: UseCase.END,
-    curriculumCountry: "USA",
-    curriculumRegion: "California",
-  },
-];
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedColor = "#727278";
@@ -268,7 +164,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                   </HStack>
                   {search && (
                     <Text color="grey.300" fontSize="16px" width="100%">
-                      Showing {sampleAssessments.length} results for &quot;
+                      Showing {data.length} results for &quot;
                       {search}&quot;
                     </Text>
                   )}
