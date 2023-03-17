@@ -2,16 +2,16 @@ import React from "react";
 import { Box, HStack, Image, Text, Tooltip, VStack } from "@chakra-ui/react";
 
 import { typeToImageMetadata } from "../../constants/StudentAssessmentConstants";
-import { QuestionType } from "../../types/QuestionTypes";
+import { ResponseType } from "../../types/QuestionTypes";
 
 const QuestionTypeImages = ({
   questionTypes,
 }: {
-  questionTypes: Array<QuestionType>;
+  questionTypes: Array<ResponseType>;
 }): React.ReactElement => {
   return (
     <HStack alignItems="flex-start" mt="2em" spacing="15%">
-      {questionTypes?.map((type: QuestionType, index) => {
+      {questionTypes?.map((type: ResponseType, index) => {
         return (
           <VStack key={index} gap={2}>
             <Tooltip

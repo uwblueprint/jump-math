@@ -31,7 +31,7 @@ const QuestionSummary = ({
         <HStack>
           <Text textStyle="smallerParagraph">Number of Points</Text>
           <Spacer />
-          <Text>{totalPoints}</Text>
+          <Text>{pointCount}</Text>
         </HStack>
         {children}
       </VStack>

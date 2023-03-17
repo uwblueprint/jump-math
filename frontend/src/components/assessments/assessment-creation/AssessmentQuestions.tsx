@@ -5,8 +5,8 @@ import { PlusOutlineIcon } from "../../../assets/icons";
 import {
   QuestionElement,
   QuestionElementType,
-  QuestionType,
 } from "../../../types/QuestionTypes";
+import { generateQuestionCardTags } from "../../../utils/QuestionUtils";
 
 import AddQuestionButton from "./AddQuestionButton";
 import QuestionCard from "./QuestionCard";
@@ -30,53 +30,10 @@ const AssessmentQuestions = ({
       .map((questionElement) => questionElement.data as string);
   };
 
-  const totalPoints: number = questions.reduce(
+  const points: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b).length,
     0,
   );
-
-  const getResponseTypeCount = (
-    question: QuestionElement[],
-    type: QuestionElementType,
-  ): number => {
-    return question.filter((questionElement) => questionElement.type === type)
-      .length;
-  };
-
-  const generateTags = (
-    question: QuestionElement[],
-  ): { type: QuestionType; count: number }[] => {
-    const tags: { type: QuestionType; count: number }[] = [];
-
-    const multipleChoiceCount = getResponseTypeCount(
-      question,
-      QuestionElementType.MULTIPLE_CHOICE,
-    );
-    if (multipleChoiceCount) {
-      tags.push({
-        type: QuestionType.MULTIPLE_CHOICE,
-        count: multipleChoiceCount,
-      });
-    }
-
-    const shortAnswerCount = getResponseTypeCount(
-      question,
-      QuestionElementType.SHORT_ANSWER,
-    );
-    if (shortAnswerCount) {
-      tags.push({ type: QuestionType.SHORT_ANSWER, count: shortAnswerCount });
-    }
-
-    const multiSelectCount = getResponseTypeCount(
-      question,
-      QuestionElementType.MULTI_SELECT,
-    );
-    if (multiSelectCount) {
-      tags.push({ type: QuestionType.MULTI_SELECT, count: multiSelectCount });
-    }
-
-    return tags;
-  };
 
   return (
     <VStack align="left" paddingBottom="22" spacing="12" width="100%">
@@ -98,7 +55,7 @@ const AssessmentQuestions = ({
               key={i}
               questionNumber={i + 1}
               questions={getQuestionTexts(question)}
-              tags={generateTags(question)}
+              tags={generateQuestionCardTags(question)}
             />
           ))}
           <AddQuestionCard setShowQuestionEditor={setShowQuestionEditor} />
