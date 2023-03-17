@@ -36,7 +36,7 @@ const AssessmentQuestions = ({
           Add Question
         </Button>
       </HStack>
-      <HStack alignItems="flex-start" display="flex">
+      <HStack alignItems="flex-start" display="flex" minWidth="940px">
         <VStack alignItems="left" spacing="6" width="64%">
           {questions.map((question, i) => (
             <QuestionCard key={i} questionNumber={i + 1} {...question} />

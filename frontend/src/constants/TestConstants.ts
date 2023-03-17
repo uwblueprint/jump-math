@@ -8,8 +8,8 @@ export interface QuestionData {
 export const TEST_QUESTIONS: QuestionData[] = [
   {
     questions: [
-      "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
-      "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
+      "Thomas has 3 applalso has 3 other friends, Andrian, Mariah, and Carley.",
+      "Thomas has 3 apples, 4 apples and 7 e to eat apples.",
     ],
     tags: [
       { type: QuestionType.MULTIPLE_CHOICE, count: 2 },

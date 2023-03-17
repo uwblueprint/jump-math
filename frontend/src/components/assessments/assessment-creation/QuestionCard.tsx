@@ -31,15 +31,15 @@ const QuestionCard = ({
   questions,
 }: QuestionCardProps): React.ReactElement => {
   return (
-    <Container
+    <Box
       background="white"
       border="1px"
       borderColor="grey.200"
       borderRadius="22px"
       color="grey.300"
-      minWidth="100%"
+      width="100%"
     >
-      <HStack alignItems="left" maxWidth="94%" padding="6">
+      <HStack alignItems="left" padding="6">
         <Box
           aria-label="reorder"
           cursor="pointer"
@@ -48,13 +48,18 @@ const QuestionCard = ({
         >
           <HamburgerMenuIcon />
         </Box>
-        <VStack alignItems="left" spacing="6" width="100%">
+        <VStack alignItems="left" paddingRight="4" spacing="6" width="94%">
           <HStack>
             <Text color="grey.400" textStyle="subtitle1">
               Question {questionNumber}
             </Text>
             <Spacer />
-            <Box color="blue.300" cursor="pointer" fontSize="24px" mr="4">
+            <Box
+              color="blue.300"
+              cursor="pointer"
+              fontSize="24px"
+              paddingRight="4"
+            >
               <EditOutlineIcon />
             </Box>
             <Box color="blue.300" cursor="pointer" fontSize="24px">
@@ -92,7 +97,7 @@ const QuestionCard = ({
           </HStack>
         </VStack>
       </HStack>
-    </Container>
+    </Box>
   );
 };
 
