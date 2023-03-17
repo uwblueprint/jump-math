@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Divider, VStack } from "@chakra-ui/react";
 
 import { TEST_QUESTIONS } from "../../../constants/TestConstants";
@@ -9,8 +9,8 @@ import BasicInformation from "../../assessments/assessment-creation/BasicInforma
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 
 const CreateAssessmentPage = (): React.ReactElement => {
-  const location = useLocation();
-  const { date } = location.state as { date: string };
+  const params = useParams();
+  const { date } = params as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
 

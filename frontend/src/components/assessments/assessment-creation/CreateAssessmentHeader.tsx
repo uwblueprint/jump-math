@@ -66,12 +66,6 @@ const CreateAssessementHeader = ({
           >
             Publish
           </Button>
-          <IconButton
-            aria-label="more-vertical-outline"
-            color="blue.700"
-            icon={<MoreVerticalOutlineIcon />}
-            minWidth="10"
-          />
         </HStack>
       </Flex>
     </Box>
