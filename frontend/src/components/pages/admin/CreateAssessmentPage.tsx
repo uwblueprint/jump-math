@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { TEST_QUESTIONS } from "../../../constants/TestConstants";
+import { QuestionElement } from "../../../types/QuestionTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
@@ -15,6 +15,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const [assessmentName, setAssessmentName] = useState("");
 
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [questions, setQuestions] = useState<QuestionElement[][]>([]);
 
   const {
     handleSubmit,
@@ -36,7 +37,10 @@ const CreateAssessmentPage = (): React.ReactElement => {
   return (
     <>
       {showQuestionEditor ? (
-        <QuestionEditor setShowQuestionEditor={setShowQuestionEditor} />
+        <QuestionEditor
+          setQuestions={setQuestions}
+          setShowQuestionEditor={setShowQuestionEditor}
+        />
       ) : (
         <VStack spacing="8" width="100%">
           <CreateAssessementHeader
@@ -54,7 +58,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
             />
             <Divider borderColor="grey.200" />
             <AssessmentQuestions
-              questions={TEST_QUESTIONS}
+              questions={questions}
               setShowQuestionEditor={setShowQuestionEditor}
             />
           </VStack>
