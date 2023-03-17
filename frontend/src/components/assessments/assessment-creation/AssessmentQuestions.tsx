@@ -1,9 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import { CREATE_QUESTION } from "../../../constants/Routes";
 import { QuestionData } from "../../../constants/TestConstants";
 
 import AddQuestionButton from "./AddQuestionButton";
@@ -12,12 +10,13 @@ import QuestionSummary from "./QuestionSummary";
 
 interface AssessmentQuestionsProps {
   questions: QuestionData[];
+  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssessmentQuestions = ({
   questions,
+  setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
-  const history = useHistory();
   const totalPoints: number = questions.reduce(
     (a, b) => a + b.questions.length,
     0,
@@ -30,7 +29,7 @@ const AssessmentQuestions = ({
         <Spacer />
         <Button
           leftIcon={<PlusOutlineIcon />}
-          onClick={() => history.push(CREATE_QUESTION)}
+          onClick={() => setShowQuestionEditor(true)}
           variant="outline"
         >
           Add Question
@@ -41,7 +40,7 @@ const AssessmentQuestions = ({
           {questions.map((question, i) => (
             <QuestionCard key={i} questionNumber={i + 1} {...question} />
           ))}
-          <AddQuestionButton />
+          <AddQuestionCard setShowQuestionEditor={setShowQuestionEditor} />
         </VStack>
         <Spacer />
         <Box width="33%">
