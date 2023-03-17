@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -23,6 +23,7 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import {
   QuestionElement,
   QuestionElementType,
@@ -84,6 +85,14 @@ const QuestionSidebar = ({
   setShowQuestionEditor,
   setQuestions,
 }: QuestionSidebarProps): React.ReactElement => {
+  const { questionElements } = useContext(QuestionEditorContext);
+  const handleSave = () => {
+    setQuestions((prevQuestions) => {
+      return [...prevQuestions, questionElements];
+    });
+    setShowQuestionEditor(false);
+  };
+
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
