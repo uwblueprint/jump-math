@@ -2,10 +2,7 @@ import React from "react";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../../types/QuestionTypes";
+import { QuestionElement } from "../../../types/QuestionTypes";
 import {
   generateQuestionCardTags,
   getQuestionTexts,
