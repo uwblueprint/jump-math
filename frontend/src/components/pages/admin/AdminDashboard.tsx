@@ -30,7 +30,7 @@ const AdminDashboard = (): React.ReactElement => {
       <PrivateRoute
         component={CreateAssessmentPage}
         exact
-        path={Routes.CREATE_ASSESSMENT}
+        path={`${Routes.CREATE_ASSESSMENT}/:date`}
         roles={["Admin"]}
       />
       <VStack align="left" flex="1">
