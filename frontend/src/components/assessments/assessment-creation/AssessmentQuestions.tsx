@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_QUESTION } from "../../../constants/Routes";
@@ -44,10 +44,12 @@ const AssessmentQuestions = ({
           <AddQuestionCard />
         </VStack>
         <Spacer />
-        <QuestionSummary
-          questionCount={questions.length}
-          totalPoints={totalPoints}
-        />
+        <Box width="33%">
+          <QuestionSummary
+            questionCount={questions.length}
+            totalPoints={totalPoints}
+          />
+        </Box>
       </HStack>
     </VStack>
   );
