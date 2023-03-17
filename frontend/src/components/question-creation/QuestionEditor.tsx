@@ -13,10 +13,12 @@ import QuestionWorkspace from "./QuestionWorkspace";
 
 interface QuestionEditorProps {
   setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
 }
 
 const QuestionEditor = ({
   setShowQuestionEditor,
+  setQuestions,
 }: QuestionEditorProps): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
@@ -42,7 +44,10 @@ const QuestionEditor = ({
         }}
       >
         <Flex minHeight="100vh">
-          <QuestionSidebar setShowQuestionEditor={setShowQuestionEditor} />
+          <QuestionSidebar
+            setQuestions={setQuestions}
+            setShowQuestionEditor={setShowQuestionEditor}
+          />
           <QuestionWorkspace />
         </Flex>
         <AddShortAnswerModal />
