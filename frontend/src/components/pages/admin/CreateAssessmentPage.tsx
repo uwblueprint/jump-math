@@ -7,12 +7,14 @@ import { TEST_QUESTIONS } from "../../../constants/TestConstants";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
+import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
-  const params = useParams();
-  const { date } = params as { date: string };
+  const { date } = useParams<{ date: string }>();
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
+
+  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
 
   const {
     handleSubmit,
@@ -32,24 +34,33 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSubmit, onError);
 
   return (
-    <VStack spacing="8" width="100%">
-      <CreateAssessementHeader
-        assessmentName={assessmentName}
-        date={date}
-        save={handleSave}
-      />
-      <VStack spacing="8" width="92%">
-        <BasicInformation
-          control={control}
-          errors={errors}
-          register={register}
-          setAssessmentName={setAssessmentName}
-          validSubmit={validSubmit}
-        />
-        <Divider borderColor="grey.200" />
-        <AssessmentQuestions questions={TEST_QUESTIONS} />
-      </VStack>
-    </VStack>
+    <>
+      {showQuestionEditor ? (
+        <QuestionEditor setShowQuestionEditor={setShowQuestionEditor} />
+      ) : (
+        <VStack spacing="8" width="100%">
+          <CreateAssessementHeader
+            assessmentName={assessmentName}
+            date={date}
+            save={handleSave}
+          />
+          <VStack spacing="8" width="92%">
+            <BasicInformation
+              control={control}
+              errors={errors}
+              register={register}
+              setAssessmentName={setAssessmentName}
+              validSubmit={validSubmit}
+            />
+            <Divider borderColor="grey.200" />
+            <AssessmentQuestions
+              questions={TEST_QUESTIONS}
+              setShowQuestionEditor={setShowQuestionEditor}
+            />
+          </VStack>
+        </VStack>
+      )}
+    </>
   );
 };
 
