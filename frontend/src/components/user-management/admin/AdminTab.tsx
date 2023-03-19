@@ -2,6 +2,7 @@ import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import EmptyState from "../../common/EmptyState";
 
 interface SortMenuProps {
   properties: string[];
@@ -47,7 +48,7 @@ const AdminTab = ({
             Showing {searchLength} results for &quot;{search}&quot;
           </Text>
         )}
-        {UserTable}
+        {searchLength !== 0 ? UserTable : <EmptyState items="users" />}
       </VStack>
     </>
   );

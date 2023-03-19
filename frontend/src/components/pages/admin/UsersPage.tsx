@@ -45,7 +45,7 @@ const getAdminUser = (user: AdminUser) => {
 };
 
 const UsersPage = (): React.ReactElement => {
-  const unselectedColor = "#727278";
+  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState("ascending");
@@ -205,8 +205,8 @@ const UsersPage = (): React.ReactElement => {
         <Box flex="1">
           <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
-              <Tab color={unselectedColor}>Admin</Tab>
-              <Tab color={unselectedColor}>Teachers</Tab>
+              <Tab color={unselectedTabColor}>Admin</Tab>
+              <Tab color={unselectedTabColor}>Teachers</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

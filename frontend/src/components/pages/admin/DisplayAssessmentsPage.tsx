@@ -19,6 +19,7 @@ import {
 } from "../../../types/AssessmentTypes";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
+import EmptyState from "../../common/EmptyState";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
@@ -245,17 +246,33 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                     {search}&quot;
                   </Text>
                 )}
-                <AssessmentsTable assessments={assessments} />
+                {assessments.length !== 0 ? (
+                  <AssessmentsTable assessments={assessments} />
+                ) : (
+                  <EmptyState items="assessments" />
+                )}
               </VStack>
             </TabPanel>
             <TabPanel>
-              <AssessmentsTable assessments={assessments} />
+              {assessments.length !== 0 ? (
+                <AssessmentsTable assessments={assessments} />
+              ) : (
+                <EmptyState items="assessments" />
+              )}
             </TabPanel>
             <TabPanel>
-              <AssessmentsTable assessments={assessments} />
+              {assessments.length !== 0 ? (
+                <AssessmentsTable assessments={assessments} />
+              ) : (
+                <EmptyState items="assessments" />
+              )}
             </TabPanel>
             <TabPanel>
-              <AssessmentsTable assessments={assessments} />
+              {assessments.length !== 0 ? (
+                <AssessmentsTable assessments={assessments} />
+              ) : (
+                <EmptyState items="assessments" />
+              )}
             </TabPanel>
           </TabPanels>
         </Tabs>
