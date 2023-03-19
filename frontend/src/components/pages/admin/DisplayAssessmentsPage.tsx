@@ -13,8 +13,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
+import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
 import { AssessmentTypes } from "../../../types/AssessmentTypes";
+import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
@@ -35,7 +36,7 @@ const getAssessments = (assessment: AssessmentTypes) => {
 };
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const unselectedColor = "#727278";
+  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("name");
   const [sortOrder, setSortOrder] = React.useState("ascending");
@@ -48,11 +49,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const searchedAssessements = React.useMemo(() => {
     if (!data) return [];
     let filteredTests = data.tests;
-
     if (search) {
       filteredTests = filteredTests.filter(
         (assessment: AssessmentTypes) =>
-          assessment.grade.toLowerCase().includes(search.toLowerCase()) ||
+          assessment.name.toLowerCase().includes(search.toLowerCase()) ||
+          removeUnderscore(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          getFirstNumber(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          removeUnderscore(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
           assessment.curriculumCountry
             .toLowerCase()
             .includes(search.toLowerCase()) ||
@@ -116,20 +125,23 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         <Box flex="1">
           <Tabs marginTop={3}>
             <TabList>
-              <Tab color={unselectedColor} onClick={() => setSearch("")}>
+              <Tab color={unselectedTabColor} onClick={() => setSearch("")}>
                 All
               </Tab>
-              <Tab color={unselectedColor} onClick={() => setSearch("Draft")}>
+              <Tab
+                color={unselectedTabColor}
+                onClick={() => setSearch("Draft")}
+              >
                 Drafts
               </Tab>
               <Tab
-                color={unselectedColor}
+                color={unselectedTabColor}
                 onClick={() => setSearch("Published")}
               >
                 Published
               </Tab>
               <Tab
-                color={unselectedColor}
+                color={unselectedTabColor}
                 onClick={() => setSearch("Archived")}
               >
                 Archived

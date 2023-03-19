@@ -1,7 +1,6 @@
 import { gql } from "@apollo/client";
 
-// eslint-disable-next-line import/prefer-default-export
-export const GET_ALL_TESTS = gql`
+const GET_ALL_TESTS = gql`
   query GetAllTests {
     tests {
       id
@@ -14,3 +13,5 @@ export const GET_ALL_TESTS = gql`
     }
   }
 `;
+
+export default GET_ALL_TESTS;

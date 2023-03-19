@@ -1,9 +1,12 @@
-const titleCase = (word: string): string => {
+export const titleCase = (word: string): string => {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
 };
 
-export const gradeCase = (word: string): string => {
-  return titleCase(word).replace(/_/g, " ");
+export const removeUnderscore = (word: string): string => {
+  return word.replace(/_/g, " ");
 };
 
-export default titleCase;
+export const getFirstNumber = (word: string): string => {
+  const numbers = word.match(/^\d+/);
+  return numbers ? numbers[0] : "";
+};
