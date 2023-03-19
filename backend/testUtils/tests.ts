@@ -8,6 +8,7 @@ import {
   CreateTestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
+import { Grade } from "../types";
 
 export const questions: Array<Array<QuestionComponent>> = [
   [
@@ -83,7 +84,7 @@ export const questions: Array<Array<QuestionComponent>> = [
 export const mockTest: CreateTestRequestDTO = {
   name: "test",
   questions,
-  grade: 11,
+  grade: Grade.GRADE_8,
   assessmentType: AssessmentType.BEGINNING,
   curriculumCountry: "country",
   curriculumRegion: "region",
@@ -94,7 +95,7 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
   {
     name: "test1",
     questions,
-    grade: 11,
+    grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country1",
     curriculumRegion: "region1",
@@ -103,7 +104,7 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
   {
     name: "test2",
     questions,
-    grade: 11,
+    grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
     curriculumRegion: "region1",
@@ -112,7 +113,7 @@ export const mockTestArray: Array<CreateTestRequestDTO> = [
   {
     name: "test3",
     questions,
-    grade: 11,
+    grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
     curriculumRegion: "region2",

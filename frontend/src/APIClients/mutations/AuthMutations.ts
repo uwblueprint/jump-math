@@ -6,7 +6,7 @@ export const REGISTER_TEACHER = gql`
     $lastName: String!
     $email: String!
     $password: String!
-    $grades: [String!]!
+    $grades: [GradeEnum!]!
     $currentlyTeachingJM: Boolean!
     $school: SchoolMetadataInput!
   ) {

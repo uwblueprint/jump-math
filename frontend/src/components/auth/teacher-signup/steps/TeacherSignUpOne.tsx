@@ -12,7 +12,9 @@ import {
   useCheckboxGroup,
 } from "@chakra-ui/react";
 
+import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
+import gradeOptions from "../../../../constants/CreateAssessmentConstants";
 import { TEACHER_LOGIN } from "../../../../constants/Routes";
 import {
   TeacherInput,
@@ -64,7 +66,7 @@ const TeacherSignupOne = ({
     }
   };
 
-  const onChangeGrades = (values: string[]) => {
+  const onChangeGrades = (values: Grade[]) => {
     setValue("grades", values);
     setGradesValue(values);
     setGradesError(false);
@@ -137,19 +139,9 @@ const TeacherSignupOne = ({
         <FormLabel color="grey.400">What grades do you teach?</FormLabel>
         <CheckboxGroup onChange={onChangeGrades} value={gradesValues}>
           <SimpleGrid columns={3}>
-            {[
-              "K",
-              "Grade 3",
-              "Grade 6",
-              "Grade 1",
-              "Grade 4",
-              "Grade 7",
-              "Grade 2",
-              "Grade 5",
-              "Grade 8",
-            ].map((grade) => (
-              <Checkbox key={grade} value={grade}>
-                {grade}
+            {gradeOptions.map((grade) => (
+              <Checkbox key={grade.value} value={grade.value}>
+                {grade.label}
               </Checkbox>
             ))}
           </SimpleGrid>

@@ -12,7 +12,7 @@ const userType = gql`
     lastName: String!
     email: String!
     role: Role!
-    grades: [String]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 
@@ -21,7 +21,7 @@ const userType = gql`
     firstName: String!
     lastName: String!
     email: String!
-    grades: [String]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
     school: String!
   }
@@ -32,7 +32,7 @@ const userType = gql`
     email: String!
     role: Role!
     password: String!
-    grades: [String]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 
@@ -41,7 +41,7 @@ const userType = gql`
     lastName: String!
     email: String!
     role: Role!
-    grades: [String]
+    grades: [GradeEnum]
     currentlyTeachingJM: Boolean
   }
 

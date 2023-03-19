@@ -1,3 +1,5 @@
+import { Grade } from "../APIClients/types/UserClientTypes";
+
 export enum Status {
   DRAFT = "DRAFT",
   PUBLISHED = "PUBLISHED",
@@ -13,7 +15,7 @@ export enum UseCase {
 export type AssessmentProperties = {
   status: Status;
   name: string;
-  grade: string;
+  grade: Grade;
   type: UseCase;
   country: string;
   region: string;
