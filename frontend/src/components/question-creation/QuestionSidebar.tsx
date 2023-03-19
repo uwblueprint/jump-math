@@ -28,6 +28,7 @@ import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
+import { updatedQuestionElement } from "../../utils/QuestionUtils";
 
 import QuestionSidebarItem from "./QuestionSidebarItem";
 
@@ -84,12 +85,91 @@ const QuestionSidebar = ({
   setShowQuestionEditor,
   setQuestions,
 }: QuestionSidebarProps): React.ReactElement => {
-  const { questionElements } = useContext(QuestionEditorContext);
-  const handleSave = () => {
-    setQuestions((prevQuestions) => {
-      return [...prevQuestions, questionElements];
+  const { questionElements, setQuestionElements } = useContext(
+    QuestionEditorContext,
+  );
+
+  const questionError =
+    "Please create a question to be associated with this response";
+  const responseError =
+    "Please add at least one response type for this question";
+  const emptyError =
+    "Please ensure all fields are filled. If you do not need this component, please delete this component.";
+
+  const setElementError = (questionElement: QuestionElement, error: string) => {
+    setQuestionElements((prevElements) => {
+      return updatedQuestionElement(
+        questionElement.id,
+        questionElement.data,
+        prevElements,
+        error,
+      );
     });
-    setShowQuestionEditor(false);
+  };
+
+  const validateQuestionElements = () => {
+    const emptyElement = questionElements.find((element) => !element.data);
+    if (emptyElement) {
+      setElementError(emptyElement, emptyError);
+    }
+
+    const existingError = questionElements.some((element) => element.error);
+    return !emptyElement && !existingError;
+  };
+
+  const validateQuestionPairs = () => {
+    let expectQuestion = true;
+    let pairIndex = 0;
+    /* eslint-disable-next-line no-plusplus */
+    for (let i = 0; i < questionElements.length; ++i) {
+      switch (questionElements[i].type) {
+        case QuestionElementType.QUESTION: {
+          if (!expectQuestion) {
+            setElementError(questionElements[pairIndex], responseError);
+            return false;
+          }
+          setElementError(questionElements[pairIndex], "");
+          pairIndex = i;
+          expectQuestion = false;
+          break;
+        }
+        case QuestionElementType.SHORT_ANSWER: {
+          if (expectQuestion) {
+            setElementError(questionElements[i], questionError);
+            return false;
+          }
+          setElementError(questionElements[i], "");
+          pairIndex = i;
+          expectQuestion = true;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    if (!expectQuestion) {
+      setElementError(questionElements[pairIndex], responseError);
+      return false;
+    }
+    setElementError(questionElements[pairIndex], "");
+    return true;
+  };
+
+  const validateQuestionEditorContent = () => {
+    const validPairs = validateQuestionPairs();
+    const validElements = validateQuestionElements();
+    return validPairs && validElements;
+  };
+
+  const handleSave = () => {
+    const isValid = validateQuestionEditorContent();
+    if (isValid) {
+      setQuestions((prevQuestions) => {
+        return [...prevQuestions, questionElements];
+      });
+      setShowQuestionEditor(false);
+    }
   };
 
   return (
