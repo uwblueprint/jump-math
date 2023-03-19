@@ -1,10 +1,10 @@
 import { OptionBase } from "chakra-react-select";
 
-export interface Option extends OptionBase {
+export interface StringOrBoolOption extends OptionBase {
   value: string | boolean;
   label: string;
 }
 
-export interface MultiOption extends Option {
+export interface StringOption extends StringOrBoolOption {
   value: string;
 }

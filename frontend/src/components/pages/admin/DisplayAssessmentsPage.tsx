@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Grade } from "../../../APIClients/types/UserClientTypes";
+import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import {
   AssessmentProperties,
   Status,
@@ -161,17 +162,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     { value: UseCase.BEGINNING, label: "Beginning" },
     { value: UseCase.END, label: "End" },
   ];
-  const gradeOptions = [
-    "K",
-    "Grade 1",
-    "Grade 2",
-    "Grade 3",
-    "Grade 4",
-    "Grade 5",
-    "Grade 6",
-    "Grade 7",
-    "Grade 8",
-  ].map((value) => ({ value, label: value === "K" ? "Kindergarten" : value }));
 
   const setFilterProps: FilterProp[] = [
     { label: "Grade", setState: setGrades, options: gradeOptions },

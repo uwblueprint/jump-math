@@ -11,14 +11,14 @@ import {
 } from "@chakra-ui/react";
 
 import { FunnelIcon } from "../../../assets/icons";
-import { MultiOption } from "../../../types/SelectInputTypes";
+import { StringOption } from "../../../types/SelectInputTypes";
 
 import FilterRow from "./FilterRow";
 
 export type FilterProp = {
   label: string;
   setState: React.Dispatch<SetStateAction<Array<string>>>;
-  options: MultiOption[];
+  options: StringOption[];
 };
 
 interface FilterProps {

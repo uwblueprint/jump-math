@@ -3,13 +3,13 @@ import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { GroupBase, Select, SingleValue } from "chakra-react-select";
 
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
-import { MultiOption } from "../../../types/SelectInputTypes";
+import { StringOption } from "../../../types/SelectInputTypes";
 
 interface SelectFormInputClassroomProps {
   setValue: UseFormSetValue<ClassroomForm>;
   watch: UseFormWatch<ClassroomForm>;
   field: ClassroomInput;
-  options: MultiOption[];
+  options: StringOption[];
   placeholder: string;
   isSearchable: boolean;
 }
@@ -22,13 +22,13 @@ const SelectFormInputClassroom = ({
   placeholder,
   isSearchable,
 }: SelectFormInputClassroomProps): React.ReactElement => {
-  const handleChange = (option: SingleValue<MultiOption>) => {
+  const handleChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue(field, option.value);
     }
   };
   return (
-    <Select<MultiOption, false, GroupBase<MultiOption>>
+    <Select<StringOption, false, GroupBase<StringOption>>
       errorBorderColor="red.200"
       isSearchable={isSearchable}
       name={field}
