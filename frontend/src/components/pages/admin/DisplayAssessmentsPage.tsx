@@ -43,7 +43,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
-    variables: { role: "Admin" },
   });
 
   const searchedAssessements = React.useMemo(() => {
