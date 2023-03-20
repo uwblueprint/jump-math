@@ -12,7 +12,7 @@ export enum UseCase {
   END = "END",
 }
 
-export type AssessmentTypes = {
+export type AssessmentProperties = {
   status: Status;
   name: string;
   grade: Grade;
