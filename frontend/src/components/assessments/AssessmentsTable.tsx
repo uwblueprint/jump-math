@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "@chakra-ui/react";
 
 import { AssessmentTypes, Status } from "../../types/AssessmentTypes";
-import titleCase from "../../utils/GeneralUtils";
+import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 import { Table, TableRow } from "../common/table/Table";
 
 import EditStatusPopover from "./EditStatusPopover";
@@ -22,10 +22,12 @@ const AssessmentsTable = ({
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
-      assessment.grade === "K" ? "Kindergarten" : `Grade ${assessment.grade}`,
-      titleCase(assessment.type),
-      assessment.country,
-      assessment.region,
+      assessment.grade === "K"
+        ? "Kindergarten"
+        : titleCase(removeUnderscore(assessment.grade)),
+      titleCase(assessment.assessmentType),
+      assessment.curriculumCountry,
+      assessment.curriculumRegion,
     ],
     menu: <EditStatusPopover />,
   }));

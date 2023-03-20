@@ -42,7 +42,7 @@ const UserSchema: Schema = new Schema({
       {
         type: String,
         required: false,
-        enum: Object.values(Grade),
+        enum: Object.keys(Grade),
       },
     ],
     required: false,
