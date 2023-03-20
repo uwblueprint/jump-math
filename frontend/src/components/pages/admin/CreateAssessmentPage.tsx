@@ -55,10 +55,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
       curriculumCountry: data.country.value,
       curriculumRegion: data.region,
     };
-    await createTest({ variables: { test } }).then((response) => {
-      console.log("response data: ", response);
-    });
-    console.log(data);
+    await createTest({ variables: { test } })
+      .then((response) => {
+        console.log("response data: ", response);
+      })
+      .catch(() => {
+        console.log("error");
+      });
   };
   const onError = (errs: any, e: any) => {
     setValidSubmit(false);
