@@ -7,3 +7,11 @@ export interface ClassroomForm {
   schoolYear: string;
   gradeLevel: Grade;
 }
+
+export type StudentInput = "firstName" | "lastName" | "studentNumber";
+
+export interface StudentForm {
+  firstName: string;
+  lastName: string;
+  studentNumber?: number;
+}

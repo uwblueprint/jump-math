@@ -6,6 +6,7 @@ import { ClassroomForm } from "../../../types/ClassroomTypes";
 import Logout from "../../auth/Logout";
 import RefreshCredentials from "../../auth/RefreshCredentials";
 import AddClassroomModal from "../../user-management/student/AddClassroomModal";
+import AddStudentModal from "../../user-management/student/AddStudentModal";
 
 const defaultValues = {
   className: "",
@@ -28,6 +29,7 @@ const TeacherPage = (): React.ReactElement => {
           <Logout />
           <RefreshCredentials />
           <AddClassroomModal />
+          <AddStudentModal />
         </div>
       </div>
     </FormProvider>
