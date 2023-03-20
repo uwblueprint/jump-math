@@ -218,19 +218,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("Draft")}
+                onClick={() => setStatus("DRAFT")}
               >
                 Drafts
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("Published")}
+                onClick={() => setStatus("PUBLISHED")}
               >
                 Published
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("Archived")}
+                onClick={() => setStatus("ARCHIVED")}
               >
                 Archived
               </Tab>
