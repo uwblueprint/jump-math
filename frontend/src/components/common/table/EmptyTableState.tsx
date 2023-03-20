@@ -1,14 +1,15 @@
 import React from "react";
 import { Center, Text, VStack } from "@chakra-ui/react";
 
-import { SadFaceIcon } from "../../assets/icons";
+import { SadFaceIcon } from "../../../assets/icons";
 
 interface EmptyStateProps {
   items: string;
 }
-const EmptyState = ({ items }: EmptyStateProps): React.ReactElement => (
+const EmptyTableState = ({ items }: EmptyStateProps): React.ReactElement => (
   <Center
-    borderRadius="lg"
+    borderColor="#DFDFDF"
+    borderRadius={0}
     borderWidth="1px"
     flex="1"
     padding={20}
@@ -23,4 +24,4 @@ const EmptyState = ({ items }: EmptyStateProps): React.ReactElement => (
   </Center>
 );
 
-export default EmptyState;
+export default EmptyTableState;
