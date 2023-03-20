@@ -12,13 +12,16 @@ export enum UseCase {
   END = "END",
 }
 
-export type AssessmentTypes = {
+export type AssessmentProperties = {
   status: Status;
   name: string;
-  grade: string;
   type: UseCase;
   country: string;
   region: string;
+  grade: Grade;
+  assessmentType: UseCase;
+  curriculumCountry: string;
+  curriculumRegion: string;
 };
 
 export type TestRequest = {
