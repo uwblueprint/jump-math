@@ -16,15 +16,18 @@ import {
 } from "@chakra-ui/react";
 
 import { FilterOptionsIcon } from "../../../assets/icons";
+import { titleCase } from "../../../utils/GeneralUtils";
 
 interface SortMenuProps {
   properties: string[];
+  labels: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SortMenu = ({
   properties,
+  labels,
   onSortProperty,
   onSortOrder,
 }: SortMenuProps): React.ReactElement => {
@@ -43,7 +46,7 @@ const SortMenu = ({
         </Text>
         {properties.map((property, index) => (
           <Radio key={index} value={property}>
-            {property.charAt(0).toUpperCase() + property.slice(1)}
+            {titleCase(labels[index])}
           </Radio>
         ))}
       </VStack>

@@ -16,7 +16,7 @@ export type AssessmentProperties = {
   status: Status;
   name: string;
   grade: Grade;
-  type: UseCase;
-  country: string;
-  region: string;
+  assessmentType: UseCase;
+  curriculumCountry: string;
+  curriculumRegion: string;
 };
