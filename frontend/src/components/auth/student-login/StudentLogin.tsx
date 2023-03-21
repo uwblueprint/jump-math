@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import {
@@ -23,19 +23,22 @@ const StudentLogin = (): React.ReactElement => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [pin, setPin] = useState("");
-  const [pinBorderColor, setPinBorderColor] = useState("grey.100");
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: () => {
-      setPinBorderColor("green.200 !important");
       setError("");
       setSuccess(true);
     },
     onError: async () => {
-      setPinBorderColor("red.200 !important");
       setError("Please ensure input is correct");
       setSuccess(false);
     },
   });
+
+  const getPinBorderColor = () => {
+    if (error) return "red.200 !important";
+    if (success) return "green.200 !important";
+    return "grey.100";
+  };
 
   const handleComplete = (code: string) => {
     checkPin({
@@ -43,14 +46,6 @@ const StudentLogin = (): React.ReactElement => {
         accessCode: code,
       },
     });
-  };
-
-  const resetPin = () => {
-    if (error) {
-      setPin("");
-      setError("");
-      setPinBorderColor("grey.100");
-    }
   };
 
   const form = (
@@ -77,15 +72,13 @@ const StudentLogin = (): React.ReactElement => {
               _focus={{ backgroundColor: "grey.100" }}
               _hover={{ backgroundColor: "grey.100" }}
               backgroundColor="grey.100"
-              borderColor={pinBorderColor}
+              borderColor={getPinBorderColor()}
               color="grey.300"
               fontSize="2.5rem"
               height="50%"
               m="3rem 0.6rem 7rem 0.6rem !important"
-              onFocus={resetPin}
               style={{ width: "15%" }}
               textStyle="header1"
-              value={i}
             />
           ))}
         </PinInput>
