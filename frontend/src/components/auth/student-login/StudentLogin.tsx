@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import {
@@ -22,7 +22,6 @@ const StudentLogin = (): React.ReactElement => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [pin, setPin] = useState("");
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: () => {
       setError("");
@@ -59,11 +58,9 @@ const StudentLogin = (): React.ReactElement => {
         <PinInput
           autoFocus
           focusBorderColor="grey.200"
-          onChange={(value: string) => setPin(value)}
           onComplete={handleComplete}
           placeholder=""
           size="lg"
-          value={pin}
           variant="filled"
         >
           {[...Array(6)].map((i) => (
