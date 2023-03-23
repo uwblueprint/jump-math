@@ -71,6 +71,7 @@ class ClassService implements IClassService {
       gradeLevel: newClass.gradeLevel,
       teacher: teacherDTO,
       testSessions,
+      students: newClass.students,
     };
   }
 
@@ -96,13 +97,7 @@ class ClassService implements IClassService {
         const teacherDTO: UserDTO = await this.userService.getUserById(
           classObj.teacher,
         );
-        // const testSessionDTOs: TestSessionResponseDTO[] = [];
-        // for (const testSessionId of classObj.testSessions) {
-        //   const testSessionDTO: TestSessionResponseDTO = await this.testSessionService.getTestSessionById(
-        //     testSessionId,
-        //   );
-        //   testSessionDTOs.push(testSessionDTO);
-        // }
+
         const testSessionIds = classObj.testSessions;
         const testSessionPromises = testSessionIds.map((id) =>
           this.testSessionService.getTestSessionById(id),
@@ -116,6 +111,7 @@ class ClassService implements IClassService {
           gradeLevel: classObj.gradeLevel,
           teacher: teacherDTO,
           testSessions: testSessionDTOs,
+          students: classObj.students,
         };
       }),
     );

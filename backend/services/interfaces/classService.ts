@@ -1,12 +1,20 @@
 import { UserDTO, Grade } from "../../types";
 import { TestSessionResponseDTO } from "./testSessionService";
 
+export interface Student {
+  id: number;
+  firstName: string;
+  lastName: string;
+  studentNumber?: string;
+}
+
 export interface ClassRequestDTO {
   className: string;
   schoolYear: number;
   gradeLevel: Grade[];
   teacher: string;
   testSessions: string[];
+  students: Student[];
 }
 
 export interface ClassResponseDTO {
@@ -16,6 +24,7 @@ export interface ClassResponseDTO {
   gradeLevel: Grade[];
   teacher: UserDTO;
   testSessions: TestSessionResponseDTO[];
+  students: Student[];
 }
 
 export interface IClassService {
