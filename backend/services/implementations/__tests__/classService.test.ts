@@ -9,10 +9,11 @@ import {
   updatedTestClass,
 } from "../../../testUtils/class";
 import UserService from "../userService";
-import { testUsers } from "../../../testUtils/users";
+import { mockTeacher } from "../../../testUtils/users";
 import TestSessionService from "../testSessionService";
 import TestService from "../testService";
 import SchoolService from "../schoolService";
+import { mockTestSessionWithId } from "../../../testUtils/testSession";
 
 jest.mock("firebase-admin", () => {
   const auth = jest.fn().mockReturnValue({
@@ -37,13 +38,20 @@ describe("mongo classService", (): void => {
   });
 
   beforeEach(async () => {
-    classService = new ClassService(userService, testSessionService);
     userService = new UserService();
     testSessionService = new TestSessionService(
       testService,
       userService,
       schoolService,
     );
+    classService = new ClassService(userService, testSessionService);
+
+    if (expect.getState().currentTestName.includes("exclude mock values"))
+      return;
+    userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
+    testSessionService.getTestSessionById = jest
+      .fn()
+      .mockReturnValue(mockTestSessionWithId);
   });
 
   afterEach(async () => {
@@ -51,9 +59,6 @@ describe("mongo classService", (): void => {
   });
 
   it("create class for valid teachers", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
     // execute
     const createdClass = await classService.createClass(testClass[0]);
 
@@ -62,10 +67,9 @@ describe("mongo classService", (): void => {
   });
 
   it("throw error for non-existing teachers", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue([]);
+    userService.getUserById = jest.fn().mockReturnValue("");
 
-    // execute and assert
+    // execute
     await expect(async () => {
       await classService.createClass(testClassInvalidTeacher);
     }).rejects.toThrowError("Teacher ID was not found");
@@ -74,9 +78,6 @@ describe("mongo classService", (): void => {
   it("update class", async () => {
     // add test class
     const classObj = await ClassModel.create(testClass[0]);
-
-    // mock return value
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
 
     // execute
     const res = await classService.updateClass(classObj.id, updatedTestClass);
@@ -93,9 +94,6 @@ describe("mongo classService", (): void => {
   });
 
   it("getClassById for valid Id", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
     // execute and assert
     const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassById(savedClass.id);
@@ -103,9 +101,6 @@ describe("mongo classService", (): void => {
   });
 
   it("getClassById for invalid Id", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
     // execute and assert
     const notFoundId = "56cb91bdc3464f14678934cd";
     await ClassModel.create(testClass[0]);

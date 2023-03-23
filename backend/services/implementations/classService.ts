@@ -2,7 +2,6 @@ import { UserDTO } from "../../types";
 import MgClass, { Class } from "../../models/class.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import MgTestSession, { TestSession } from "../../models/testSession.model";
 import {
   IClassService,
   ClassRequestDTO,
@@ -133,7 +132,6 @@ class ClassService implements IClassService {
         new: true,
         runValidators: true,
       });
-
       if (!updatedClass) {
         throw new Error(`Class id ${id} not found`);
       }
@@ -150,7 +148,7 @@ class ClassService implements IClassService {
     try {
       const deletedClass: Class | null = await MgClass.findByIdAndDelete(id);
       if (!deletedClass) {
-        throw new Error(`School with id ${id} not found`);
+        throw new Error(`Class with id ${id} not found`);
       }
       return id;
     } catch (error: unknown) {
