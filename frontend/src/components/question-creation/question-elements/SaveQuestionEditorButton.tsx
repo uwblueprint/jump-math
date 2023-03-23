@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
@@ -17,22 +17,18 @@ const SaveQuestionEditorButton = ({
   setShowQuestionEditor,
   setQuestions,
 }: SaveQuestionEditorButtonProps): React.ReactElement => {
-  const [error, setError] = useState(false);
-
-  const { questionElements, setQuestionElements } = useContext(
-    QuestionEditorContext,
-  );
-
-  useEffect(() => {
-    setError(questionElements.every((element) => !element.error));
-  }, [questionElements]);
-
   const questionError =
     "Please create a question to be associated with this response";
   const responseError =
     "Please add at least one response type for this question";
-  const emptyError =
+  const emptyEditorError =
+    "Please add at least one element to the editor before saving";
+  const emptyElementError =
     "Please ensure all fields are filled. If you do not need this component, please delete this component.";
+
+  const { questionElements, setQuestionElements } = useContext(
+    QuestionEditorContext,
+  );
 
   const setElementError = (
     questionElement: QuestionElement,
@@ -48,58 +44,73 @@ const SaveQuestionEditorButton = ({
     });
   };
 
-  const setEmptyElementErrors = () => {
+  const validateQuestionPairs = () => {
+    let valid = true;
+    const questionPairs = questionElements.filter(
+      (element) =>
+        element.type === QuestionElementType.QUESTION ||
+        element.type === QuestionElementType.MULTIPLE_CHOICE ||
+        element.type === QuestionElementType.SHORT_ANSWER ||
+        element.type === QuestionElementType.MULTI_SELECT,
+    );
+    questionPairs.forEach((element, index) => {
+      if (
+        !element.error ||
+        element.error === questionError ||
+        element.error === responseError
+      ) {
+        if (element.type === QuestionElementType.QUESTION) {
+          if (
+            index === questionPairs.length - 1 ||
+            questionPairs[index + 1].type === QuestionElementType.QUESTION
+          ) {
+            setElementError(element, responseError);
+            valid = false;
+          } else {
+            setElementError(element, "");
+          }
+        } else {
+          /* eslint-disable-next-line no-lonely-if */
+          if (
+            index === 0 ||
+            questionPairs[index - 1].type !== QuestionElementType.QUESTION
+          ) {
+            setElementError(element, questionError);
+            valid = false;
+          } else {
+            setElementError(element, "");
+          }
+        }
+      }
+    });
+    return valid;
+  };
+
+  const validateNoEmptyElements = () => {
     const emptyElement = questionElements.find(
       (element) => element.data === "",
     );
     if (emptyElement) {
-      setElementError(emptyElement, emptyError);
+      setElementError(emptyElement, emptyElementError);
+      return false;
     }
+    return true;
   };
 
-  const setQuestionPairErrors = () => {
-    let expectQuestion = true;
-    let lastQuestionIndex = 0;
-    /* eslint-disable-next-line no-plusplus */
-    for (let i = 0; i < questionElements.length; ++i) {
-      switch (questionElements[i].type) {
-        case QuestionElementType.QUESTION: {
-          if (!expectQuestion) {
-            setElementError(questionElements[lastQuestionIndex], responseError);
-          }
-          setElementError(questionElements[lastQuestionIndex], ""); // TO CHANGE
-          lastQuestionIndex = i;
-          expectQuestion = false;
-          break;
-        }
-        case QuestionElementType.SHORT_ANSWER: {
-          if (expectQuestion) {
-            setElementError(questionElements[i], questionError);
-          }
-          setElementError(questionElements[i], "");
-          expectQuestion = true;
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    }
-    if (!expectQuestion) {
-      setElementError(questionElements[lastQuestionIndex], responseError);
-    }
-    setElementError(questionElements[lastQuestionIndex], "");
-  };
-
-  const validateQuestionEditorContent = () => {
-    setEmptyElementErrors();
-    setQuestionPairErrors();
+  const validateNoExistingErrors = () => {
     return questionElements.every((element) => !element.error);
   };
 
+  const validateQuestionEditorContent = () => {
+    return (
+      validateQuestionPairs() &&
+      validateNoEmptyElements() &&
+      validateNoExistingErrors()
+    );
+  };
+
   const handleSave = () => {
-    validateQuestionEditorContent();
-    if (error) {
+    if (validateQuestionEditorContent()) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];
       });
