@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useHistory, useLocation } from "react-router-dom";
 import countryList from "react-select-country-list";
 import { useMutation } from "@apollo/client";
 import {
@@ -19,10 +19,11 @@ import { Select } from "chakra-react-select";
 
 import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { ASSESSMENTS } from "../../../constants/Routes";
 import {
+  AssessmentData,
   Status,
   TestRequest,
-  TestResponse,
   UseCase,
 } from "../../../types/AssessmentTypes";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
@@ -34,17 +35,18 @@ const CreateAssessmentPage = (): React.ReactElement => {
     register,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<AssessmentData>();
 
   const location = useLocation();
+  const history = useHistory();
   const { date } = location.state as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
-  const [createTest] = useMutation<{ createTest: TestResponse }>(
-    SAVE_ASSESSMENT,
-  );
+  const [createTest] = useMutation<{
+    createTest: { createTest: { id: string } };
+  }>(SAVE_ASSESSMENT);
 
-  const onSubmit = async (data: any, e: any) => {
+  const onSubmit: SubmitHandler<AssessmentData> = async (data) => {
     setValidSubmit(true);
     const test: TestRequest = {
       name: data.assessmentName,
@@ -58,6 +60,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     await createTest({ variables: { test } })
       .then((response) => {
         console.log("response data: ", response);
+        history.push(ASSESSMENTS);
       })
       .catch(() => {
         console.log("error");
