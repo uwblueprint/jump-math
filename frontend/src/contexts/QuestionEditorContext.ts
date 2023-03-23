@@ -11,6 +11,8 @@ type QuestionEditorContextType = {
   setShowAddShortAnswerModal: (_showShortAnswerModal: boolean) => void;
   showAddMultipleChoiceModal: boolean;
   setShowAddMultipleChoiceModal: (_showAddMultipleChoiceModal: boolean) => void;
+  showAddMultiSelectModal: boolean;
+  setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean) => void;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
@@ -25,6 +27,8 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   setShowAddMultipleChoiceModal: (
     showAddMultipleChoiceModal: boolean,
   ): void => {},
+  showAddMultiSelectModal: false,
+  setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean): void => {},
 });
 
 export default QuestionEditorContext;

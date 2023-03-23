@@ -5,6 +5,7 @@ import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
+import AddMultiSelectModal from "../../question-creation/question-elements/modals/multi-select/AddMultiSelectModal";
 import AddMultipleChoiceModal from "../../question-creation/question-elements/modals/multiple-choice/AddMultipleChoiceModal";
 import AddShortAnswerModal from "../../question-creation/question-elements/modals/short-answer/AddShortAnswerModal";
 import QuestionEditor from "../../question-creation/QuestionEditor";
@@ -21,6 +22,9 @@ const QuestionPage = (): React.ReactElement => {
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
   ] = React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
+    false,
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -32,6 +36,8 @@ const QuestionPage = (): React.ReactElement => {
           setShowAddShortAnswerModal,
           showAddMultipleChoiceModal,
           setShowAddMultipleChoiceModal,
+          showAddMultiSelectModal,
+          setShowAddMultiSelectModal,
         }}
       >
         <Flex minHeight="100vh">
@@ -40,6 +46,7 @@ const QuestionPage = (): React.ReactElement => {
         </Flex>
         <AddShortAnswerModal />
         <AddMultipleChoiceModal />
+        <AddMultiSelectModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );
