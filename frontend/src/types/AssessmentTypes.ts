@@ -1,10 +1,22 @@
-export type StatusProperty = "DRAFT" | "PUBLISHED" | "ARCHIVED" | "DELETED";
+import { Grade } from "../APIClients/types/UserClientTypes";
 
-export type AssessmentTypes = {
-  status: StatusProperty;
+export enum Status {
+  DRAFT = "DRAFT",
+  PUBLISHED = "PUBLISHED",
+  ARCHIVED = "ARCHIVED",
+  DELETED = "DELETED",
+}
+
+export enum UseCase {
+  BEGINNING = "BEGINNING",
+  END = "END",
+}
+
+export type AssessmentProperties = {
+  status: Status;
   name: string;
-  grade: string;
-  type: "BEGINNING" | "END";
-  country: string;
-  region: string;
+  grade: Grade;
+  assessmentType: UseCase;
+  curriculumCountry: string;
+  curriculumRegion: string;
 };

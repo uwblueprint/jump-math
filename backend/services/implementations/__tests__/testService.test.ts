@@ -16,6 +16,7 @@ import {
   TestResponseDTO,
   CreateTestRequestDTO,
 } from "../../interfaces/testService";
+import { Grade } from "../../../types";
 
 describe("mongo testService", (): void => {
   let testService: TestService;
@@ -63,7 +64,7 @@ describe("mongo testService", (): void => {
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
       questions,
-      grade: 10,
+      grade: Grade.GRADE_8,
       assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
@@ -83,7 +84,7 @@ describe("mongo testService", (): void => {
     const testUpdate: CreateTestRequestDTO = {
       name: "newTest",
       questions,
-      grade: 10,
+      grade: Grade.GRADE_8,
       assessmentType: AssessmentType.END,
       curriculumCountry: "country",
       curriculumRegion: "region",
@@ -108,7 +109,7 @@ describe("mongo testService", (): void => {
 
   it("getTestById id not found", async () => {
     const testId = "62c248c0f79d6c3c9ebbea93";
-    expect(async () => {
+    await expect(async () => {
       await testService.getTestById(testId);
     }).rejects.toThrowError(`Test ID ${testId} not found`);
   });
@@ -123,14 +124,46 @@ describe("mongo testService", (): void => {
   });
 
   it("duplicateTest", async () => {
-    const test = await MgTest.create(mockTest);
+    const test = await MgTest.create({
+      ...mockTest,
+      status: AssessmentStatus.PUBLISHED,
+    });
 
     const duplicateTest = await testService.duplicateTest(test.id);
-    assertResponseMatchesExpected(test, duplicateTest);
+    assertResponseMatchesExpected(mockTest, duplicateTest);
     expect(test.id).not.toEqual(duplicateTest.id);
 
     const originalTest = await testService.getTestById(test.id);
     assertResponseMatchesExpected(test, originalTest);
     expect(test.id).toEqual(originalTest.id);
+  });
+
+  it("unarchiveTest - success", async () => {
+    const test = await MgTest.create({
+      ...mockTest,
+      status: AssessmentStatus.ARCHIVED,
+    });
+
+    const unarchivedTest = await testService.unarchiveTest(test.id);
+    assertResponseMatchesExpected(
+      {
+        ...mockTest,
+        status: AssessmentStatus.DRAFT,
+      },
+      unarchivedTest,
+    );
+    expect(test.id).not.toEqual(unarchivedTest.id);
+
+    const originalTest = await MgTest.findById(test.id);
+    // TODO: update this to be soft delete instead of hard delete
+    expect(originalTest?.status).toBe(AssessmentStatus.DELETED);
+  });
+
+  it("unarchiveTest - fail", async () => {
+    const test = await MgTest.create(mockTest);
+    await expect(async () => {
+      await testService.unarchiveTest(test.id);
+    }).rejects.toThrow(`Test ID ${test.id} is not in archived status`);
+    assertResponseMatchesExpected(mockTest, test);
   });
 });

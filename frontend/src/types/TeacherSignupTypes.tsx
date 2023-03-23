@@ -1,3 +1,5 @@
+import { Grade } from "../APIClients/types/UserClientTypes";
+
 export type TeacherInput =
   | "firstName"
   | "lastName"
@@ -18,7 +20,7 @@ export interface TeacherSignupForm {
   firstName: string;
   lastName: string;
   email: string;
-  grades: string[];
+  grades: Grade[];
   currentlyTeachingJM: boolean | null;
   school: SchoolMetadata;
   password: string;

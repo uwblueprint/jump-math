@@ -1,6 +1,7 @@
-import { Button, ModalFooter } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Button, ModalFooter } from "@chakra-ui/react";
+
 import { USER_DATABASE } from "../../constants/Routes";
 import ModalText from "../common/ModalText";
 
@@ -14,7 +15,7 @@ const RemoveUserErrorModal = (): React.ReactElement => {
         textColor="red.200"
       />
       <ModalFooter my={3}>
-        <Button variant="primary" mr={2} onClick={navigateTo}>
+        <Button mr={2} onClick={navigateTo} variant="primary">
           Return to Database
         </Button>
       </ModalFooter>

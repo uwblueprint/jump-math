@@ -17,7 +17,31 @@ export interface Class extends Document {
   teacher: string;
   /** the ids of the test sessions assigned to the class */
   testSessions: string[];
+  /** the students of the class */
+  students: Student[];
 }
+
+export interface Student extends Document {
+  id: number;
+  firstName: string;
+  lastName: string;
+  studentNumber?: string;
+}
+
+const StudentSchema: Schema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  studentNumber: {
+    type: String,
+    required: false,
+  },
+});
 
 const ClassSchema: Schema = new Schema({
   className: {
@@ -33,17 +57,7 @@ const ClassSchema: Schema = new Schema({
       {
         type: String,
         required: false,
-        enum: [
-          "K",
-          "Grade 1",
-          "Grade 2",
-          "Grade 3",
-          "Grade 4",
-          "Grade 5",
-          "Grade 6",
-          "Grade 7",
-          "Grade 8",
-        ],
+        enum: Object.keys(Grade),
       },
     ],
     required: true,
@@ -56,6 +70,10 @@ const ClassSchema: Schema = new Schema({
   testSessions: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
     required: true,
+  },
+  students: {
+    type: [StudentSchema],
+    required: false,
   },
 });
 

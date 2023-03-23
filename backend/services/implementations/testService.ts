@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import MgTest, { Test } from "../../models/test.model";
+import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
 import {
   CreateTestRequestDTO,
   TestResponseDTO,
@@ -36,9 +36,29 @@ class TestService implements ITestService {
 
   async deleteTest(id: string): Promise<string> {
     try {
-      const deletedTest = await MgTest.findByIdAndDelete(id);
-      if (!deletedTest) {
+      const testToDelete = await MgTest.findById(id);
+      if (!testToDelete) {
         throw new Error(`Test ${id} not found`);
+      }
+      if (testToDelete.status === AssessmentStatus.DRAFT) {
+        await MgTest.findByIdAndDelete(id);
+      } else {
+        await MgTest.findByIdAndUpdate(
+          id,
+          {
+            name: testToDelete.name,
+            questions: testToDelete.questions,
+            grade: testToDelete.grade,
+            curriculumCountry: testToDelete.curriculumCountry,
+            curriculumRegion: testToDelete.curriculumRegion,
+            assessmentType: testToDelete.assessmentType,
+            status: AssessmentStatus.DELETED,
+          },
+          {
+            new: true,
+            runValidators: true,
+          },
+        );
       }
       return id;
     } catch (error: unknown) {
@@ -125,6 +145,7 @@ class TestService implements ITestService {
       // eslint-disable-next-line no-underscore-dangle
       test._id = mongoose.Types.ObjectId();
       test.isNew = true;
+      test.status = AssessmentStatus.DRAFT;
       test.save();
     } catch (error: unknown) {
       Logger.error(
@@ -143,6 +164,45 @@ class TestService implements ITestService {
       curriculumRegion: test.curriculumRegion,
       assessmentType: test.assessmentType,
       status: test.status,
+    };
+  }
+
+  async unarchiveTest(id: string): Promise<TestResponseDTO> {
+    let unarchivedTest: TestResponseDTO;
+
+    try {
+      const test = await MgTest.findById(id);
+      if (!test) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+      if (test.status !== AssessmentStatus.ARCHIVED) {
+        throw new Error(`Test ID ${id} is not in archived status`);
+      }
+      unarchivedTest = await this.duplicateTest(id);
+
+      try {
+        await this.deleteTest(id);
+      } catch (error: unknown) {
+        // rollback test creation
+        await this.deleteTest(unarchivedTest.id);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to unarchive test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return {
+      id: unarchivedTest.id,
+      name: unarchivedTest.name,
+      questions: unarchivedTest.questions,
+      grade: unarchivedTest.grade,
+      curriculumCountry: unarchivedTest.curriculumCountry,
+      curriculumRegion: unarchivedTest.curriculumRegion,
+      assessmentType: unarchivedTest.assessmentType,
+      status: unarchivedTest.status,
     };
   }
 

@@ -1,17 +1,19 @@
-import { useMutation } from "@apollo/client";
-import { Button } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { Button } from "@chakra-ui/react";
+
 import {
-  VERIFY_PASSWORD_RESET,
   RESET_PASSWORD_CODE,
+  VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
 import { ADMIN_LOGIN } from "../../constants/Routes";
 import LoadingState from "../common/LoadingState";
+
+import EmailActionError from "./email-action/EmailActionError";
+import PasswordForm from "./password/PasswordForm";
 import AuthWrapper from "./AuthWrapper";
-import EmailActionError from "./EmailAction/EmailActionError";
-import PasswordForm from "./Password/PasswordForm";
 
 const AdminSignupConfirmation = ({
   email,
@@ -64,18 +66,18 @@ const AdminSignupConfirmation = ({
 
   const setPasswordComponent = (
     <PasswordForm
-      version="AdminSignup"
       email={email}
       oobCode={oobCode}
       setStep={setStep}
+      version="AdminSignup"
     />
   );
 
   const finalSignupConfirmation = (
     <Button
+      onClick={() => history.push(ADMIN_LOGIN)}
       variant="primary"
       width="100%"
-      onClick={() => history.push(ADMIN_LOGIN)}
     >
       Login
     </Button>
@@ -86,10 +88,10 @@ const AdminSignupConfirmation = ({
       {loading && <LoadingState fullPage />}
       {verified ? (
         <AuthWrapper
-          title="Admin Sign Up Confirmation"
-          subtitle={subtitle}
-          image={ADMIN_SIGNUP_IMAGE}
           form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
+          image={ADMIN_SIGNUP_IMAGE}
+          subtitle={subtitle}
+          title="Admin Sign Up Confirmation"
         />
       ) : (
         <EmailActionError mode="resetPassword" />

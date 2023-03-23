@@ -1,17 +1,17 @@
 import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
-import { Switch, Route, Redirect } from "react-router-dom";
 
-import Navbar from "../../common/Navbar";
-import Page from "../../../types/PageTypes";
 import * as Routes from "../../../constants/Routes";
+import Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
+import Navbar from "../../common/Navbar";
+import NotFound from "../NotFound";
 
-import UsersPage from "./UsersPage";
 import CreateAssessmentPage from "./CreateAssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import QuestionPage from "./QuestionPage";
-import NotFound from "../NotFound";
+import UsersPage from "./UsersPage";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS },
@@ -22,31 +22,31 @@ const AdminDashboard = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
+        component={QuestionPage}
         exact
         path={Routes.CREATE_QUESTION}
-        component={QuestionPage}
         roles={["Admin"]}
       />
-      <VStack flex="1" align="left">
+      <PrivateRoute
+        component={CreateAssessmentPage}
+        exact
+        path={Routes.CREATE_ASSESSMENT}
+        roles={["Admin"]}
+      />
+      <VStack align="left" flex="1">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>
             <PrivateRoute
+              component={UsersPage}
               exact
               path={Routes.USER_DATABASE}
-              component={UsersPage}
               roles={["Admin"]}
             />
             <PrivateRoute
+              component={DisplayAssessmentsPage}
               exact
               path={Routes.ASSESSMENTS}
-              component={DisplayAssessmentsPage}
-              roles={["Admin"]}
-            />
-            <PrivateRoute
-              exact
-              path={Routes.CREATE_ASSESSMENT}
-              component={CreateAssessmentPage}
               roles={["Admin"]}
             />
             <Redirect
@@ -54,7 +54,7 @@ const AdminDashboard = (): React.ReactElement => {
               from={Routes.ADMIN_LANDING}
               to={Routes.USER_DATABASE}
             />
-            <Route exact path="*" component={NotFound} />
+            <Route component={NotFound} exact path="*" />
           </Switch>
         </Box>
       </VStack>

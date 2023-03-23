@@ -1,180 +1,149 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import {
-  Text,
   Box,
-  Tabs,
-  TabList,
+  Center,
+  HStack,
   Tab,
+  TabList,
   TabPanel,
   TabPanels,
-  VStack,
-  HStack,
+  Tabs,
+  Text,
 } from "@chakra-ui/react";
-import CreateAssessementButton from "../../assessment-creation/CreateAssessementButton";
-import { AssessmentTypes } from "../../../types/AssessmentTypes";
-import SortMenu from "../../common/SortMenu";
-import FilterMenu from "../../assessment-creation/FilterMenu";
-import SearchBar from "../../common/SearchBar";
-import AssessmentsTable from "../../assessment-creation/AssessmentsTable";
 
-// const ErrorState = (): React.ReactElement => (
-//   <VStack spacing={6} textAlign="center">
-//     <AlertIcon />
-//     <Text textStyle="paragraph" color="blue.300">
-//       The data has not loaded properly. Please reload the page or contact Jump
-//       Math.
-//     </Text>
-//   </VStack>
-// );
+import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
+import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { AssessmentProperties, UseCase } from "../../../types/AssessmentTypes";
+import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
+import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import AssessmentsTab from "../../assessments/AssessmentsTab";
+import AssessmentsTable from "../../assessments/AssessmentsTable";
+import ErrorState from "../../common/ErrorState";
+import LoadingState from "../../common/LoadingState";
+import FilterMenu, { FilterProp } from "../../common/table/FilterMenu";
+import SearchBar from "../../common/table/SearchBar";
+import SortMenu from "../../common/table/SortMenu";
 
-const getAssessments = (assessment: AssessmentTypes) => {
+const getAssessments = (assessment: AssessmentProperties) => {
   return {
     status: assessment.status,
     name: assessment.name,
     grade: assessment.grade,
-    type: assessment.type,
-    country: assessment.country,
-    region: assessment.region,
+    assessmentType: assessment.assessmentType,
+    curriculumCountry: assessment.curriculumCountry,
+    curriculumRegion: assessment.curriculumRegion,
   };
 };
 
-const sampleAssessments: AssessmentTypes[] = [
-  {
-    status: "DRAFT",
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Ontario",
-  },
-  {
-    status: "PUBLISHED",
-    name: "Grade 7 California Pre-Term Assessment 2016",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "California",
-  },
-  {
-    status: "ARCHIVED",
-    name: "Grade 4 Ottawa Pre-Term Assessment 2018",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Ottawa",
-  },
-  {
-    status: "PUBLISHED",
-    name: "Grade 2 Texas Pre-Term Assessment 2012",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "Texas",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 4 Quebec Post-Term Assessment 2020",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Quebec",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "California",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Ontario",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "California",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Ontario",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "California",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 5 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 5",
-    type: "BEGINNING",
-    country: "Canada",
-    region: "Ontario",
-  },
-  {
-    status: "DRAFT",
-    name: "Grade 7 Ontario Pre-Term Assessment 2016",
-    grade: "Grade 7",
-    type: "BEGINNING",
-    country: "USA",
-    region: "California",
-  },
-];
-
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const unselectedColor = "#727278";
+  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("name");
   const [sortOrder, setSortOrder] = React.useState("ascending");
 
-  // const { loading, error, data } = useQuery(GET_USERS_BY_ROLE, {
-  //   fetchPolicy: "cache-and-network",
-  //   variables: { role: "Admin" },
-  // });
+  const [grades, setGrades] = React.useState<Array<string>>([]);
+  const [testTypes, setTestTypes] = React.useState<Array<string>>([]);
+  const [countries, setCountries] = React.useState<Array<string>>([]);
+  const [regions, setRegions] = React.useState<Array<string>>([]);
+  const [status, setStatus] = React.useState("");
+
+  const countryOptions = [
+    { value: "Canada", label: "Canada" },
+    { value: "USA", label: "USA" },
+  ];
+
+  const regionOptions = [
+    "Ottawa",
+    "Calfornia",
+    "Ontario",
+    "Texas",
+  ].map((value) => ({ value, label: value }));
+
+  const testTypeOptions = [
+    { value: UseCase.BEGINNING, label: "Beginning" },
+    { value: UseCase.END, label: "End" },
+  ];
+
+  const setFilterProps: FilterProp[] = [
+    { label: "Grade", setState: setGrades, options: gradeOptions },
+    { label: "Type", setState: setTestTypes, options: testTypeOptions },
+    { label: "Country", setState: setCountries, options: countryOptions },
+    { label: "Region", setState: setRegions, options: regionOptions },
+  ];
+
+  const { loading, error, data } = useQuery(GET_ALL_TESTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  const filteredAssessements = React.useMemo(() => {
+    if (!data) return [];
+    let filteredTests: AssessmentProperties[] = data.tests as AssessmentProperties[];
+    const filterProps = [grades, testTypes, countries, regions, status];
+
+    filterProps.forEach((property, i) => {
+      filteredTests = filteredTests.filter(
+        (assessment: AssessmentProperties) => {
+          const assessmentProperties = [
+            assessment.grade,
+            assessment.assessmentType,
+            assessment.curriculumCountry,
+            assessment.curriculumRegion,
+            assessment.status,
+          ];
+          if (property.length === 0) {
+            return true;
+          }
+          return property.includes(assessmentProperties[i]);
+        },
+      );
+    });
+
+    return filteredTests;
+  }, [data, grades, testTypes, countries, regions, status]);
 
   const searchedAssessements = React.useMemo(() => {
-    let filteredTests = sampleAssessments;
+    let filteredTests = filteredAssessements;
     if (search) {
       filteredTests = filteredTests.filter(
-        (assessment: AssessmentTypes) =>
-          assessment.grade.toLowerCase().includes(search.toLowerCase()) ||
-          assessment.country.toLowerCase().includes(search.toLowerCase()) ||
-          assessment.region.toLowerCase().includes(search.toLowerCase()) ||
-          assessment.type.toLowerCase().includes(search.toLowerCase()),
+        (assessment: AssessmentProperties) =>
+          assessment.name.toLowerCase().includes(search.toLowerCase()) ||
+          removeUnderscore(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          getFirstNumber(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          removeUnderscore(assessment.grade)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          assessment.curriculumCountry
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          assessment.curriculumRegion
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          assessment.assessmentType
+            .toLowerCase()
+            .includes(search.toLowerCase()),
       );
     }
     return filteredTests?.map(getAssessments);
-  }, [search]);
+  }, [filteredAssessements, search]);
 
   const assessments = React.useMemo(() => {
-    let sortedAssessments: AssessmentTypes[] = searchedAssessements as AssessmentTypes[];
+    let sortedAssessments: AssessmentProperties[] = searchedAssessements as AssessmentProperties[];
     if (sortOrder === "descending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentTypes].toLowerCase() <
-        b[sortProperty as keyof AssessmentTypes].toLowerCase()
+        a[sortProperty as keyof AssessmentProperties].toLowerCase() <
+        b[sortProperty as keyof AssessmentProperties].toLowerCase()
           ? 1
           : -1,
       );
     } else if (sortOrder === "ascending") {
       sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentTypes].toLowerCase() >
-        b[sortProperty as keyof AssessmentTypes].toLowerCase()
+        a[sortProperty as keyof AssessmentProperties].toLowerCase() >
+        b[sortProperty as keyof AssessmentProperties].toLowerCase()
           ? 1
           : -1,
       );
@@ -182,89 +151,84 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return sortedAssessments;
   }, [searchedAssessements, sortProperty, sortOrder]);
 
+  const AssessmentTabPanels = [...Array(4)].map((i) => {
+    return (
+      <TabPanel key={i}>
+        <AssessmentsTab
+          key={i}
+          assessmentsTable={<AssessmentsTable assessments={assessments} />}
+          filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
+          search={search}
+          searchBarComponent={<SearchBar onSearch={setSearch} />}
+          searchLength={assessments.length}
+          sortMenuComponent={
+            <SortMenu
+              labels={["firstName", "email", "school"]}
+              onSortOrder={setSortOrder}
+              onSortProperty={setSortProperty}
+              properties={["firstName", "email", "school"]}
+            />
+          }
+        />
+      </TabPanel>
+    );
+  });
+
   return (
     <>
       <Box>
         <HStack justifyContent="space-between">
           <Text
-            textStyle="header4"
             color="blue.300"
-            style={{ textAlign: "left" }}
             marginBottom="0.5em"
+            style={{ textAlign: "left" }}
+            textStyle="header4"
           >
             Assessments
           </Text>
           <CreateAssessementButton />
         </HStack>
       </Box>
-      {/* {loading && (
-        <Center margin="15%" flex="1">
+      {loading && (
+        <Center flex="1" margin="15%">
           <LoadingState />
         </Center>
       )}
       {error && (
-        <Center margin="15%" flex="1">
+        <Center flex="1" margin="15%">
           <ErrorState />
         </Center>
-      )} */}
-      {/* {sampleAssessments && !error && !loading && ( */}
-      <Box flex="1">
-        <Tabs marginTop={3}>
-          <TabList>
-            <Tab onClick={() => setSearch("")} color={unselectedColor}>
-              All
-            </Tab>
-            <Tab onClick={() => setSearch("Draft")} color={unselectedColor}>
-              Drafts
-            </Tab>
-            <Tab onClick={() => setSearch("Published")} color={unselectedColor}>
-              Published
-            </Tab>
-            <Tab onClick={() => setSearch("Archived")} color={unselectedColor}>
-              Archived
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <VStack pt={4} spacing={6}>
-                <HStack width="100%">
-                  <SearchBar onSearch={setSearch} />
-                  <SortMenu
-                    properties={[
-                      "status",
-                      "name",
-                      "grade",
-                      "type",
-                      "country",
-                      "region",
-                    ]}
-                    onSortOrder={setSortOrder}
-                    onSortProperty={setSortProperty}
-                  />
-                  <FilterMenu />
-                </HStack>
-                {search && (
-                  <Text fontSize="16px" color="grey.300" width="100%">
-                    Showing {sampleAssessments.length} results for &quot;
-                    {search}&quot;
-                  </Text>
-                )}
-                <AssessmentsTable assessments={assessments} />
-              </VStack>
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
-            <TabPanel>
-              <AssessmentsTable assessments={assessments} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
-      {/* )} */}
+      )}
+      {assessments && !error && !loading && (
+        <Box flex="1">
+          <Tabs marginTop={3}>
+            <TabList>
+              <Tab color={unselectedTabColor} onClick={() => setStatus("")}>
+                All
+              </Tab>
+              <Tab
+                color={unselectedTabColor}
+                onClick={() => setStatus("DRAFT")}
+              >
+                Drafts
+              </Tab>
+              <Tab
+                color={unselectedTabColor}
+                onClick={() => setStatus("PUBLISHED")}
+              >
+                Published
+              </Tab>
+              <Tab
+                color={unselectedTabColor}
+                onClick={() => setStatus("ARCHIVED")}
+              >
+                Archived
+              </Tab>
+            </TabList>
+            <TabPanels>{AssessmentTabPanels}</TabPanels>
+          </Tabs>
+        </Box>
+      )}
     </>
   );
 };

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 
-import AuthContext from "../../contexts/AuthContext";
 import { HOME_PAGE } from "../../constants/Routes";
-import NotFound from "../pages/NotFound";
+import AuthContext from "../../contexts/AuthContext";
 import { Role } from "../../types/AuthTypes";
+import NotFound from "../pages/NotFound";
 
 type PrivateRouteProps = {
   component: React.FC;
@@ -25,9 +25,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     return <Redirect to={HOME_PAGE} />;
   }
   if (roles.includes(authenticatedUser.role)) {
-    return <Route path={path} exact={exact} component={component} />;
+    return <Route component={component} exact={exact} path={path} />;
   }
-  return <Route path={path} exact={exact} component={NotFound} />;
+  return <Route component={NotFound} exact={exact} path={path} />;
 };
 
 export default PrivateRoute;
