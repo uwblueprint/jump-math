@@ -30,63 +30,64 @@ const SaveQuestionEditorButton = ({
     QuestionEditorContext,
   );
 
-  const setElementError = (
-    questionElement: QuestionElement,
-    errorText: string,
-  ) => {
+  const setElementError = (element: QuestionElement, errorText: string) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(
-        questionElement.id,
-        questionElement.data,
+        element.id,
+        element.data,
         prevElements,
         errorText,
       );
     });
   };
 
-  const validateQuestionPairs = () => {
-    let valid = true;
+  const isResponseType = (elementType: QuestionElementType) => {
+    return (
+      elementType === QuestionElementType.MULTIPLE_CHOICE ||
+      elementType === QuestionElementType.SHORT_ANSWER ||
+      elementType === QuestionElementType.MULTI_SELECT
+    );
+  };
+
+  const isQuestionPairError = (elementError: string) => {
+    return elementError === questionError || elementError === responseError;
+  };
+
+  const validateNoQuestionPairErrors = () => {
     const questionPairs = questionElements.filter(
       (element) =>
         element.type === QuestionElementType.QUESTION ||
-        element.type === QuestionElementType.MULTIPLE_CHOICE ||
-        element.type === QuestionElementType.SHORT_ANSWER ||
-        element.type === QuestionElementType.MULTI_SELECT,
+        isResponseType(element.type),
     );
-    questionPairs.forEach((element, index) => {
-      if (
-        !element.error ||
-        element.error === questionError ||
-        element.error === responseError
-      ) {
+    for (let index = 0; index < questionPairs.length; index += 1) {
+      const element = questionPairs[index];
+      const isExistingError =
+        element.error && !isQuestionPairError(element.error);
+      if (!isExistingError) {
         if (element.type === QuestionElementType.QUESTION) {
-          if (
-            index === questionPairs.length - 1 ||
-            questionPairs[index + 1].type === QuestionElementType.QUESTION
-          ) {
+          const isLastElement = index === questionPairs.length - 1;
+          if (isLastElement || !isResponseType(questionPairs[index + 1].type)) {
             setElementError(element, responseError);
-            valid = false;
-          } else {
-            setElementError(element, "");
+            return false;
           }
-        } else {
-          /* eslint-disable-next-line no-lonely-if */
+        }
+        if (isResponseType(element.type)) {
+          const isFirstElement = index === 0;
           if (
-            index === 0 ||
+            isFirstElement ||
             questionPairs[index - 1].type !== QuestionElementType.QUESTION
           ) {
             setElementError(element, questionError);
-            valid = false;
-          } else {
-            setElementError(element, "");
+            return false;
           }
         }
+        setElementError(element, "");
       }
-    });
-    return valid;
+    }
+    return true;
   };
 
-  const validateNoEmptyElements = () => {
+  const validateNoEmptyElementErrors = () => {
     const emptyElement = questionElements.find(
       (element) => element.data === "",
     );
@@ -98,19 +99,20 @@ const SaveQuestionEditorButton = ({
   };
 
   const validateNoExistingErrors = () => {
-    return questionElements.every((element) => !element.error);
-  };
-
-  const validateQuestionEditorContent = () => {
-    return (
-      validateQuestionPairs() &&
-      validateNoEmptyElements() &&
-      validateNoExistingErrors()
+    return questionElements.every(
+      (element) =>
+        !element.error ||
+        isQuestionPairError(element.error) ||
+        element.error === emptyElementError,
     );
   };
 
   const handleSave = () => {
-    if (validateQuestionEditorContent()) {
+    if (
+      validateNoQuestionPairErrors() &&
+      validateNoEmptyElementErrors() &&
+      validateNoExistingErrors()
+    ) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];
       });
