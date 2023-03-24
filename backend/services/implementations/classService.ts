@@ -29,13 +29,6 @@ class ClassService implements IClassService {
   }
 
   /* eslint-disable class-methods-use-this */
-
-  /**
-   * This method creates a new class in the database.
-   *
-   * @param classObj The request object containing information about the class
-   * to create
-   */
   async createClass(classObj: ClassRequestDTO): Promise<ClassResponseDTO> {
     let teacherDTO: UserDTO;
     const testSessions: TestSessionResponseDTO[] = [];
@@ -75,11 +68,6 @@ class ClassService implements IClassService {
     };
   }
 
-  /**
-   * This method gets a class by id in the database.
-   *
-   * @param id The id of the class
-   */
   async getClassById(id: string): Promise<ClassResponseDTO> {
     let classObj: Class | null;
     try {
@@ -94,11 +82,6 @@ class ClassService implements IClassService {
     return (await this.mapClassToClassDTOs([classObj]))[0];
   }
 
-  /**
-   * This method assigns teacher and testSession ids to their respective ResponseDTOs
-   *
-   * @param classObjs array of Class objects
-   */
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
   ): Promise<Array<ClassResponseDTO>> {
@@ -128,12 +111,6 @@ class ClassService implements IClassService {
     return classDtos;
   }
 
-  /**
-   * This method updates a class in the database.
-   *
-   * @param id The id of the class
-   * @param classObj The requested changes
-   */
   async updateClass(
     id: string,
     classObj: ClassRequestDTO,
@@ -156,11 +133,6 @@ class ClassService implements IClassService {
     return (await this.mapClassToClassDTOs([updatedClass]))[0];
   }
 
-  /**
-   * This method deletes a class in the database.
-   *
-   * @param id The id of the class
-   */
   async deleteClass(id: string): Promise<string> {
     try {
       const deletedClass: Class | null = await MgClass.findByIdAndDelete(id);
