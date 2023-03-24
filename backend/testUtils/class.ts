@@ -1,14 +1,25 @@
 import {
+  Student,
   ClassRequestDTO,
   ClassResponseDTO,
 } from "../services/interfaces/classService";
 import { mockTeacher } from "./users";
 import { mockTestSessionWithId } from "./testSession";
 import { Grade } from "../types";
-import { Student } from "../models/class.model";
 
 // set up test students
-export const testStudents: Student[] = [];
+export const testStudents: Student[] = [
+  {
+    id: 1,
+    firstName: "David",
+    lastName: "Liu",
+  },
+  {
+    id: 1,
+    firstName: "deez",
+    lastName: "nuts",
+  },
+];
 // set up test classes
 export const testClass: ClassRequestDTO[] = [
   {
@@ -69,5 +80,9 @@ export const assertResponseMatchesExpected = (
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.testSessions).toEqual([mockTestSessionWithId]);
-  // expect(result.students).toEqual(testStudents);
+  result.students.forEach((student, index) => {
+    expect(student.firstName).toEqual(testStudents[index].firstName);
+    expect(student.lastName).toEqual(testStudents[index].lastName);
+    expect(student.studentNumber).toEqual(testStudents[index].studentNumber);
+  });
 };

@@ -61,7 +61,10 @@ describe("mongo classService", (): void => {
   it("create class for valid teachers", async () => {
     // execute
     const createdClass = await classService.createClass(testClass[0]);
-
+    console.log("testClass");
+    console.log(testClass[0]);
+    console.log("createdClass");
+    console.log(createdClass);
     // assert
     assertResponseMatchesExpected(testClass[0], createdClass);
   });

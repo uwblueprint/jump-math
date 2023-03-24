@@ -28,7 +28,7 @@ export interface Student extends Document {
   studentNumber?: string;
 }
 
-const StudentSchema: Schema = new Schema({
+export const StudentSchema: Schema = new Schema({
   firstName: {
     type: String,
     required: true,
