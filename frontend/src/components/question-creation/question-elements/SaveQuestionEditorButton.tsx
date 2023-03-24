@@ -112,20 +112,13 @@ const SaveQuestionEditorButton = ({
     return !emptyEditor;
   };
 
-  const validateQuestionEditorContent = () => {
-    return (
-      validateQuestionPairs() &&
-      validateNoEmptyElements() &&
-      validateNoExistingErrors()
-    );
-  };
-
   const handleSave = () => {
     if (
       validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
-      validateNoExistingErrors()
+      validateNoExistingErrors() &&
+      validateNoMissingQuestionError()
     ) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];
