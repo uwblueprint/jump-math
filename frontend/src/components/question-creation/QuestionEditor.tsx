@@ -5,6 +5,7 @@ import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../types/QuestionTypes";
+import ErrorToast from "../common/ErrorToast";
 
 import AddMultipleChoiceModal from "./question-elements/modals/multiple-choice/AddMultipleChoiceModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
@@ -30,6 +31,7 @@ const QuestionEditor = ({
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
   ] = React.useState(false);
+  const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -41,6 +43,8 @@ const QuestionEditor = ({
           setShowAddShortAnswerModal,
           showAddMultipleChoiceModal,
           setShowAddMultipleChoiceModal,
+          showEditorError,
+          setShowEditorError,
         }}
       >
         <Flex minHeight="100vh">

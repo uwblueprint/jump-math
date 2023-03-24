@@ -21,14 +21,14 @@ const SaveQuestionEditorButton = ({
     "Please create a question to be associated with this response";
   const responseError =
     "Please add at least one response type for this question";
-  const emptyEditorError =
-    "Please add at least one element to the editor before saving";
   const emptyElementError =
     "Please ensure all fields are filled. If you do not need this component, please delete this component.";
 
-  const { questionElements, setQuestionElements } = useContext(
-    QuestionEditorContext,
-  );
+  const {
+    questionElements,
+    setQuestionElements,
+    setShowEditorError,
+  } = useContext(QuestionEditorContext);
 
   const setElementError = (element: QuestionElement, errorText: string) => {
     setQuestionElements((prevElements) => {
@@ -107,11 +107,18 @@ const SaveQuestionEditorButton = ({
     );
   };
 
+  const validateNoEmptyEditorError = () => {
+    const emptyEditor = questionElements.length === 0;
+    setShowEditorError(emptyEditor);
+    return !emptyEditor;
+  };
+
   const handleSave = () => {
     if (
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
-      validateNoExistingErrors()
+      validateNoExistingErrors() &&
+      validateNoEmptyEditorError()
     ) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];

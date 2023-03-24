@@ -4,13 +4,16 @@ import { Box, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
+import ErrorToast from "../common/ErrorToast";
 
 import HoverMessage from "./HoverMessage";
 import QuestionElementItem from "./QuestionElementItem";
 import WelcomeMessage from "./WelcomeMessage";
 
 const QuestionWorkspace = (): React.ReactElement => {
-  const { questionElements } = useContext(QuestionEditorContext);
+  const { questionElements, showEditorError } = useContext(
+    QuestionEditorContext,
+  );
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragTypes.QUESTION_SIDEBAR_ITEM,
     drop: () => ({ name: "Question Editor" }),
@@ -22,9 +25,17 @@ const QuestionWorkspace = (): React.ReactElement => {
 
   const isHovering = canDrop && isOver;
 
+  const emptyEditorError =
+    "Please add at least one element to the editor before saving";
+
   return (
     <Box ref={drop} flex="1" overflow="auto">
       <VStack align="left" color="grey.400" margin="3em 5em">
+        {!questionElements.length && showEditorError && (
+          <Box paddingBottom="4">
+            <ErrorToast errorMessage={emptyEditorError} />
+          </Box>
+        )}
         {isHovering && <HoverMessage />}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&
