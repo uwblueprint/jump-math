@@ -10,6 +10,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
@@ -48,9 +49,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [countries, setCountries] = React.useState<Array<string>>([]);
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
-
-  const [confirmationMessage, setConfirmationMessage] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState("");
 
   const countryOptions = [
     { value: "Canada", label: "Canada" },
@@ -161,13 +159,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <TabPanel key={i}>
         <AssessmentsTab
           key={i}
-          assessmentsTable={
-            <AssessmentsTable
-              assessments={assessments}
-              setConfirmationMessage={setConfirmationMessage}
-              setErrorMessage={setErrorMessage}
-            />
-          }
+          assessmentsTable={<AssessmentsTable assessments={assessments} />}
           filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}

@@ -10,14 +10,10 @@ import StatusTag from "./StatusTag";
 
 interface AssessmentsTableProps {
   assessments: AssessmentProperties[];
-  setConfirmationMessage: React.Dispatch<React.SetStateAction<string>>;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AssessmentsTable = ({
   assessments,
-  setConfirmationMessage,
-  setErrorMessage,
 }: AssessmentsTableProps): React.ReactElement => {
   const headers = ["Status", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment, i) => ({
@@ -33,13 +29,7 @@ const AssessmentsTable = ({
       assessment.curriculumCountry,
       assessment.curriculumRegion,
     ],
-    menu: (
-      <EditStatusPopover
-        assessmentId={assessment.id}
-        setConfirmationMessage={setConfirmationMessage}
-        setErrorMessage={setErrorMessage}
-      />
-    ),
+    menu: <EditStatusPopover assessmentId={assessment.id} />,
   }));
 
   return <Table headers={headers} rows={rows} />;
