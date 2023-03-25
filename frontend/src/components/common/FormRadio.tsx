@@ -20,7 +20,7 @@ const FormRadio = ({
     >
       <Radio
         marginBottom={0}
-        paddingTop="3"
+        paddingTop="4"
         paddingX="3"
         value={value}
         variant={isSelected ? "blue" : "grey"}
