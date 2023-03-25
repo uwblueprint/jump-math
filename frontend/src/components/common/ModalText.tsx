@@ -3,7 +3,7 @@ import { ModalBody, ModalHeader, Text } from "@chakra-ui/react";
 
 interface ModalTextProps {
   header?: string;
-  body?: string[];
+  body?: string;
   textColor?: string;
 }
 
@@ -16,22 +16,16 @@ const ModalText = ({
     <>
       {header && (
         <ModalHeader>
-          <Text
-            align="center"
-            color={textColor || "grey.400"}
-            textStyle="subtitle1"
-          >
+          <Text color={textColor || "grey.400"} textStyle="subtitle2">
             {header}
           </Text>
         </ModalHeader>
       )}
       {body && (
         <ModalBody>
-          {body.map((text, i) => (
-            <Text key={i} align="center" color="grey.300" textStyle="paragraph">
-              {text}
-            </Text>
-          ))}
+          <Text color="grey.300" textStyle="paragraph">
+            {body}
+          </Text>
         </ModalBody>
       )}
     </>
