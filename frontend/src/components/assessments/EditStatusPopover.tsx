@@ -45,7 +45,10 @@ const EditStatusPopover = ({
       >
         <PopoverBody>
           <VStack spacing="0em">
-            <DeleteAssessmentButton assessmentId={assessmentId} />
+            <DeleteAssessmentButton
+              assessmentId={assessmentId}
+              closePopover={onClose}
+            />
           </VStack>
         </PopoverBody>
       </PopoverContent>
