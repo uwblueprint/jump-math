@@ -17,6 +17,7 @@ import {
   TextOutlineIcon,
 } from "../../../assets/icons";
 import BackButton from "../../common/BackButton";
+import EditStatusPopover from "../EditStatusPopover";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
@@ -65,12 +66,7 @@ const CreateAssessementHeader = ({
           >
             Publish
           </Button>
-          <IconButton
-            aria-label="more-vertical-outline"
-            color="blue.700"
-            icon={<MoreVerticalOutlineIcon />}
-            minWidth="10"
-          />
+          <EditStatusPopover />
         </HStack>
       </Flex>
     </Box>
