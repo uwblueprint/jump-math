@@ -2,11 +2,11 @@ import React from "react";
 import { Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
+import { QuestionElement } from "../../../types/QuestionTypes";
 import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../../types/QuestionTypes";
-import { generateQuestionCardTags } from "../../../utils/QuestionUtils";
+  generateQuestionCardTags,
+  getQuestionTexts,
+} from "../../../utils/QuestionUtils";
 
 import AddQuestionButton from "./AddQuestionButton";
 import QuestionCard from "./QuestionCard";
@@ -21,16 +21,7 @@ const AssessmentQuestions = ({
   questions,
   setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
-  const getQuestionTexts = (question: QuestionElement[]): string[] => {
-    return question
-      .filter(
-        (questionElement) =>
-          questionElement.type === QuestionElementType.QUESTION,
-      )
-      .map((questionElement) => questionElement.data as string);
-  };
-
-  const points: number = questions.reduce(
+  const totalPoints: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b).length,
     0,
   );

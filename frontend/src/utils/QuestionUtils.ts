@@ -10,6 +10,7 @@ import {
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
+  ResponseElementType,
 } from "../types/QuestionTypes";
 
 export const shouldReorder = (
@@ -73,51 +74,31 @@ export const updatedMultipleChoiceOption = (
 
 export const exceedsMaxLength = (input: string): boolean => input.length > 800;
 
-const getResponseTypeCount = (
-  question: QuestionElement[],
-  type: QuestionElementType,
-): number => {
-  return question.filter((questionElement) => questionElement.type === type)
-    .length;
-};
-
 export const generateQuestionCardTags = (
   question: QuestionElement[],
 ): QuestionTagProps[] => {
   const tags: QuestionTagProps[] = [];
 
-  const multipleChoiceCount = getResponseTypeCount(
-    question,
-    QuestionElementType.MULTIPLE_CHOICE,
-  );
-  if (multipleChoiceCount) {
-    tags.push({
-      type: QuestionElementType.MULTIPLE_CHOICE,
-      count: multipleChoiceCount,
-    });
-  }
-
-  const shortAnswerCount = getResponseTypeCount(
-    question,
-    QuestionElementType.SHORT_ANSWER,
-  );
-  if (shortAnswerCount) {
-    tags.push({
-      type: QuestionElementType.SHORT_ANSWER,
-      count: shortAnswerCount,
-    });
-  }
-
-  const multiSelectCount = getResponseTypeCount(
-    question,
-    QuestionElementType.MULTI_SELECT,
-  );
-  if (multiSelectCount) {
-    tags.push({
-      type: QuestionElementType.MULTI_SELECT,
-      count: multiSelectCount,
-    });
-  }
+  Object.values(ResponseElementType).forEach((responseType) => {
+    const responseTypeCount = question.filter(
+      (questionElement) => questionElement.type === responseType,
+    ).length;
+    if (responseTypeCount) {
+      tags.push({
+        type: responseType,
+        count: responseTypeCount,
+      });
+    }
+  });
 
   return tags;
+};
+
+export const getQuestionTexts = (question: QuestionElement[]): string[] => {
+  return question
+    .filter(
+      (questionElement) =>
+        questionElement.type === QuestionElementType.QUESTION,
+    )
+    .map((questionElement) => questionElement.data as string);
 };
