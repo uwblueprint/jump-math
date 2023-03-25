@@ -23,7 +23,7 @@ const FormRadio = ({
         paddingTop="4"
         paddingX="3"
         value={value}
-        variant={isSelected ? "blue" : "grey"}
+        variant={isSelected ? "selected" : "default"}
       >
         {text}
       </Radio>

@@ -12,12 +12,12 @@ const Radio = {
     },
   },
   variants: {
-    blue: {
+    selected: {
       label: {
         color: "blue.300",
       },
     },
-    grey: {
+    default: {
       label: {
         color: "grey.300",
       },

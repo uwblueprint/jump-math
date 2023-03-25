@@ -6,7 +6,7 @@ import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_QUESTION } from "../../../constants/Routes";
 import { QuestionData } from "../../../constants/TestConstants";
 
-import AddQuestionCard from "./AddQuestionCard";
+import AddQuestionButton from "./AddQuestionButton";
 import QuestionCard from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
@@ -41,7 +41,7 @@ const AssessmentQuestions = ({
           {questions.map((question, i) => (
             <QuestionCard key={i} questionNumber={i + 1} {...question} />
           ))}
-          <AddQuestionCard />
+          <AddQuestionButton />
         </VStack>
         <Spacer />
         <Box width="33%">

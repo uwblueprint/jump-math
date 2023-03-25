@@ -5,7 +5,7 @@ import { Button, Text } from "@chakra-ui/react";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_QUESTION } from "../../../constants/Routes";
 
-const AddQuestionCard = (): React.ReactElement => {
+const AddQuestionButton = (): React.ReactElement => {
   const history = useHistory();
   return (
     <Button
@@ -23,4 +23,4 @@ const AddQuestionCard = (): React.ReactElement => {
   );
 };
 
-export default AddQuestionCard;
+export default AddQuestionButton;
