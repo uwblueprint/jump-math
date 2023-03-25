@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Divider,
   IconButton,
   Popover,
   PopoverBody,
@@ -12,17 +11,21 @@ import {
 
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
 
-import EditStatusButton from "./EditStatusButton";
+import DeleteAssessmentButton from "./DeleteAssessmentButton";
 
-const EditStatusPopover = (): React.ReactElement => {
+interface EditStatusPopoverProps {
+  assessmentId: string;
+  setConfirmationMessage: React.Dispatch<React.SetStateAction<string>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const EditStatusPopover = ({
+  assessmentId,
+  setConfirmationMessage,
+  setErrorMessage,
+}: EditStatusPopoverProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const names = ["Publish", "Edit", "Archive", "Delete"];
-  const buttons = names.map((name, i) => (
-    <>
-      <EditStatusButton name={name} />
-      {name !== "Delete" && <Divider key={i} borderColor="grey.200" px="17%" />}
-    </>
-  ));
+
   return (
     <Popover
       closeOnBlur={false}
@@ -45,7 +48,13 @@ const EditStatusPopover = (): React.ReactElement => {
         width="80%"
       >
         <PopoverBody>
-          <VStack spacing="0em">{buttons}</VStack>
+          <VStack spacing="0em">
+            <DeleteAssessmentButton
+              assessmentId={assessmentId}
+              setConfirmationMessage={setConfirmationMessage}
+              setErrorMessage={setErrorMessage}
+            />
+          </VStack>
         </PopoverBody>
       </PopoverContent>
     </Popover>

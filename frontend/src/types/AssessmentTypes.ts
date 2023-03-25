@@ -13,6 +13,7 @@ export enum UseCase {
 }
 
 export type AssessmentProperties = {
+  id: string;
   status: Status;
   name: string;
   grade: Grade;
