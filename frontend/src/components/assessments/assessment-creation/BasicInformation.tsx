@@ -129,7 +129,7 @@ const BasicInformation = ({
           <Text mb="2" textStyle="subtitle2">
             Curriculum
           </Text>
-          <HStack width="100%">
+          <HStack alignItems="flex-start" width="100%">
             <Controller
               control={control}
               name="country"
