@@ -4,11 +4,13 @@ import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 interface QuestionSummaryProps {
   questionCount: number;
   totalPoints: number;
+  children?: React.ReactChild;
 }
 
 const QuestionSummary = ({
   questionCount,
   totalPoints,
+  children,
 }: QuestionSummaryProps): React.ReactElement => {
   return (
     <Box
@@ -30,6 +32,7 @@ const QuestionSummary = ({
           <Spacer />
           <Text>{totalPoints}</Text>
         </HStack>
+        {children}
       </VStack>
     </Box>
   );
