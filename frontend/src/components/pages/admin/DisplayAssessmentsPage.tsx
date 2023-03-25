@@ -10,7 +10,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 
 import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
@@ -18,6 +17,7 @@ import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import { AssessmentProperties, UseCase } from "../../../types/AssessmentTypes";
 import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
@@ -151,35 +151,25 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return sortedAssessments;
   }, [searchedAssessements, sortProperty, sortOrder]);
 
-  const TabPanelRows = [...Array(4)].map((i) => {
+  const AssessmentTabPanels = [...Array(4)].map((i) => {
     return (
       <TabPanel key={i}>
-        <VStack pt={4} spacing={6}>
-          <HStack width="100%">
-            <SearchBar onSearch={setSearch} />
+        <AssessmentsTab
+          key={i}
+          assessmentsTable={<AssessmentsTable assessments={assessments} />}
+          filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
+          search={search}
+          searchBarComponent={<SearchBar onSearch={setSearch} />}
+          searchLength={assessments.length}
+          sortMenuComponent={
             <SortMenu
-              labels={["status", "name", "grade", "type", "country", "region"]}
+              labels={["firstName", "email", "school"]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
-              properties={[
-                "status",
-                "name",
-                "grade",
-                "type",
-                "country",
-                "region",
-              ]}
+              properties={["firstName", "email", "school"]}
             />
-            <FilterMenu filterProps={setFilterProps} />
-          </HStack>
-          {search && (
-            <Text color="grey.300" fontSize="16px" width="100%">
-              Showing {assessments.length} results for &quot;
-              {search}&quot;
-            </Text>
-          )}
-          <AssessmentsTable assessments={assessments} />
-        </VStack>
+          }
+        />
       </TabPanel>
     );
   });
@@ -209,7 +199,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <ErrorState />
         </Center>
       )}
-      {data && !error && !loading && (
+      {assessments && !error && !loading && (
         <Box flex="1">
           <Tabs marginTop={3}>
             <TabList>
@@ -235,7 +225,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                 Archived
               </Tab>
             </TabList>
-            <TabPanels>{TabPanelRows}</TabPanels>
+            <TabPanels>{AssessmentTabPanels}</TabPanels>
           </Tabs>
         </Box>
       )}

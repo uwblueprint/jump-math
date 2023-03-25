@@ -2,16 +2,9 @@ import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import { AdminUser, TeacherUser } from "../../../types/UserTypes";
-
-interface SortMenuProps {
-  properties: string[];
-  onSortProperty: React.Dispatch<React.SetStateAction<string>>;
-  onSortOrder: React.Dispatch<React.SetStateAction<string>>;
-}
-
-interface SearchBarProps {
-  onSearch: React.Dispatch<React.SetStateAction<string>>;
-}
+import EmptyTableState from "../../common/table/EmptyTableState";
+import { SearchBarProps } from "../../common/table/SearchBar";
+import { SortMenuProps } from "../../common/table/SortMenu";
 
 interface AdminTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
@@ -47,7 +40,7 @@ const AdminTab = ({
             Showing {searchLength} results for &quot;{search}&quot;
           </Text>
         )}
-        {UserTable}
+        {searchLength !== 0 ? UserTable : <EmptyTableState items="users" />}
       </VStack>
     </>
   );
