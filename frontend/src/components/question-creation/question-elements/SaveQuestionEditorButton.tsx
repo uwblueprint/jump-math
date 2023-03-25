@@ -5,6 +5,7 @@ import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElement,
   QuestionElementType,
+  ResponseElementType,
 } from "../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
@@ -41,14 +42,6 @@ const SaveQuestionEditorButton = ({
     });
   };
 
-  const isResponseType = (elementType: QuestionElementType) => {
-    return (
-      elementType === QuestionElementType.MULTIPLE_CHOICE ||
-      elementType === QuestionElementType.SHORT_ANSWER ||
-      elementType === QuestionElementType.MULTI_SELECT
-    );
-  };
-
   const isQuestionPairError = (elementError: string) => {
     return elementError === questionError || elementError === responseError;
   };
@@ -57,7 +50,7 @@ const SaveQuestionEditorButton = ({
     const questionPairs = questionElements.filter(
       (element) =>
         element.type === QuestionElementType.QUESTION ||
-        isResponseType(element.type),
+        element.type in ResponseElementType,
     );
     for (let index = 0; index < questionPairs.length; index += 1) {
       const element = questionPairs[index];
@@ -66,12 +59,15 @@ const SaveQuestionEditorButton = ({
       if (!isExistingError) {
         if (element.type === QuestionElementType.QUESTION) {
           const isLastElement = index === questionPairs.length - 1;
-          if (isLastElement || !isResponseType(questionPairs[index + 1].type)) {
+          if (
+            isLastElement ||
+            !(questionPairs[index + 1].type in ResponseElementType)
+          ) {
             setElementError(element, responseError);
             return false;
           }
         }
-        if (isResponseType(element.type)) {
+        if (element.type in ResponseElementType) {
           const isFirstElement = index === 0;
           if (
             isFirstElement ||

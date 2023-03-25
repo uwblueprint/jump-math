@@ -10,7 +10,6 @@ import {
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
-  ResponseType,
 } from "../types/QuestionTypes";
 
 export const shouldReorder = (
@@ -93,7 +92,7 @@ export const generateQuestionCardTags = (
   );
   if (multipleChoiceCount) {
     tags.push({
-      type: ResponseType.MULTIPLE_CHOICE,
+      type: QuestionElementType.MULTIPLE_CHOICE,
       count: multipleChoiceCount,
     });
   }
@@ -103,7 +102,10 @@ export const generateQuestionCardTags = (
     QuestionElementType.SHORT_ANSWER,
   );
   if (shortAnswerCount) {
-    tags.push({ type: ResponseType.SHORT_ANSWER, count: shortAnswerCount });
+    tags.push({
+      type: QuestionElementType.SHORT_ANSWER,
+      count: shortAnswerCount,
+    });
   }
 
   const multiSelectCount = getResponseTypeCount(
@@ -111,7 +113,10 @@ export const generateQuestionCardTags = (
     QuestionElementType.MULTI_SELECT,
   );
   if (multiSelectCount) {
-    tags.push({ type: ResponseType.MULTI_SELECT, count: multiSelectCount });
+    tags.push({
+      type: QuestionElementType.MULTI_SELECT,
+      count: multiSelectCount,
+    });
   }
 
   return tags;

@@ -1,14 +1,19 @@
 import { MULTI_CHOICE, MULTI_SELECT, SHORT_ANSWER } from "../assets/images";
-import { ResponseType } from "../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../types/QuestionTypes";
+
+const questionTypes: Array<ResponseElementType> = [
+  QuestionElementType.MULTIPLE_CHOICE,
+  QuestionElementType.MULTI_SELECT,
+  QuestionElementType.SHORT_ANSWER,
+];
 
 export const assessmentMetadata = {
   numOfQuestions: 12,
   totalPoints: 50,
-  questionTypes: [
-    ResponseType.MULTIPLE_CHOICE,
-    ResponseType.MULTI_SELECT,
-    ResponseType.SHORT_ANSWER,
-  ],
+  questionTypes,
   rules:
     "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
   startTime: "2:00pm",
