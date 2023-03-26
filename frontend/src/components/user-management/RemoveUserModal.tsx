@@ -10,7 +10,7 @@ import {
 } from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
 import { USER_DATABASE } from "../../constants/Routes";
-import GenericModal from "../common/GenericModal";
+import Modal from "../common/Modal";
 
 interface RemoveUserModalProps {
   name: string;
@@ -51,7 +51,7 @@ const RemoveUserModal = ({
   const renderComponent = () => {
     if (showConfirmation) {
       return (
-        <GenericModal
+        <Modal
           body="The data has been removed securely."
           header="The user has been removed from the Jump Math Database"
           isOpen={isOpen}
@@ -63,7 +63,7 @@ const RemoveUserModal = ({
     }
     if (showError) {
       return (
-        <GenericModal
+        <Modal
           header="Unable to remove user at this moment. Please try again."
           isOpen={isOpen}
           onClose={onClose}
@@ -74,7 +74,7 @@ const RemoveUserModal = ({
     }
 
     return (
-      <GenericModal
+      <Modal
         body="NOTE: This user is an admin."
         header={`Are you sure you want to remove ${name}?`}
         isOpen={isOpen}

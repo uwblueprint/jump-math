@@ -6,7 +6,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-import ResponseTypeModal from "../ResponseTypeModal";
+import Modal from "../../../../common/Modal";
 
 interface ShortAnswerModalProps {
   isOpen: boolean;
@@ -50,11 +50,12 @@ const ShortAnswerModal = ({
   };
 
   return (
-    <ResponseTypeModal
+    <Modal
+      header="Create short answer question"
       isOpen={isOpen}
+      onCancel={handleClose}
       onClose={handleClose}
-      onConfirm={handleConfirm}
-      title="Create short answer question"
+      onSubmit={handleConfirm}
     >
       <FormControl isInvalid={error} isRequired>
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
@@ -69,7 +70,7 @@ const ShortAnswerModal = ({
         />
         <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
       </FormControl>
-    </ResponseTypeModal>
+    </Modal>
   );
 };
 

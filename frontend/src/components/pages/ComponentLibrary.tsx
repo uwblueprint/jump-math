@@ -2,6 +2,7 @@ import React from "react";
 
 import { QuestionType } from "../../types/QuestionTypes";
 import QuestionCard from "../assessments/assessment-creation/QuestionCard";
+import ArchiveModal from "../assessments/EditStatusModals/ArchiveModal";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
@@ -20,6 +21,7 @@ const ComponentLibrary = (): React.ReactElement => {
           { type: QuestionType.MULTI_SELECT, count: 1 },
         ]}
       />
+      <ArchiveModal isOpen onClose={() => {}} />
     </div>
   );
 };

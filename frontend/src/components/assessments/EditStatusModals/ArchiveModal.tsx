@@ -1,6 +1,6 @@
 import React from "react";
 
-import GenericModal from "../../common/GenericModal";
+import Modal from "../../common/Modal";
 
 interface ArchiveModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ const ArchiveModal = ({
   const archiveTest = async () => {};
 
   return (
-    <GenericModal
+    <Modal
       body="Once this assessment is archived it is not visible to other teachers. This can be recovered as a draft on the assessments page."
       header="Archive Assessment"
       isOpen={isOpen}
