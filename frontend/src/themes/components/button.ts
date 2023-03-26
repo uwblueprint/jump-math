@@ -127,6 +127,15 @@ const Button = {
       },
       DarkBlueIcon,
     },
+    outline: {
+      color: "blue.300",
+      borderColor: "blue.300",
+      borderWidth: "2px",
+      fontSize: "16px",
+      fontWeight: "700",
+      lineHeight: "21px",
+      letterSpacing: "0",
+    },
   },
 
   defaultProps: {
