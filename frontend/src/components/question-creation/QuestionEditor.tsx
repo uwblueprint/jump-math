@@ -5,7 +5,6 @@ import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../types/QuestionTypes";
-import ErrorToast from "../common/ErrorToast";
 
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
