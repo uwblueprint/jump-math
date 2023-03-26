@@ -154,6 +154,23 @@ const testResolvers = {
     ): Promise<TestResponseDTO | null> => {
       return testService.unarchiveTest(id);
     },
+    archiveTest: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<TestResponseDTO | null> => {
+      const testToUpdate = await testService.getTestById(id);
+      if (
+        testToUpdate.status !== AssessmentStatus.DRAFT &&
+        testToUpdate.status !== AssessmentStatus.PUBLISHED
+      ) {
+        throw new Error(`Test with id ${id} cannot be archived.`);
+      }
+      const updatedTest = await testService.updateTest(id, {
+        ...testToUpdate,
+        status: AssessmentStatus.ARCHIVED,
+      });
+      return updatedTest;
+    },
   },
 };
 
