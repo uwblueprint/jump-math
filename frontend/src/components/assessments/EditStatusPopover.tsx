@@ -48,15 +48,12 @@ const EditStatusPopover = ({
         width="80%"
       >
         <PopoverBody>
-          <VStack spacing="0em">
+          <VStack divider={<StackDivider borderColor="grey.200" />} spacing="0em">
             {assessmentStatus === Status.DRAFT && (
-              <>
                 <PublishAssessmentButton
                   assessmentId={assessmentId}
                   closePopover={onClose}
                 />
-                <Divider borderColor="grey.200" px="17%" />
-              </>
             )}
             <DeleteAssessmentButton
               assessmentId={assessmentId}
