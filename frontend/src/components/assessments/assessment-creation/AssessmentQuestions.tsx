@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { QuestionElement } from "../../../types/QuestionTypes";
@@ -21,7 +21,7 @@ const AssessmentQuestions = ({
   questions,
   setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
-  const totalPoints: number = questions.reduce(
+  const pointCount: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b).length,
     0,
   );
@@ -49,13 +49,13 @@ const AssessmentQuestions = ({
               tags={generateQuestionCardTags(question)}
             />
           ))}
-          <AddQuestionCard setShowQuestionEditor={setShowQuestionEditor} />
+          <AddQuestionButton setShowQuestionEditor={setShowQuestionEditor} />
         </VStack>
         <Spacer />
         <Box width="33%">
           <QuestionSummary
+            pointCount={pointCount}
             questionCount={questions.length}
-            totalPoints={totalPoints}
           />
         </Box>
       </HStack>
