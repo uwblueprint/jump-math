@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Divider,
   IconButton,
   Popover,
   PopoverBody,
@@ -10,15 +11,19 @@ import {
 } from "@chakra-ui/react";
 
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
+import { Status } from "../../types/AssessmentTypes";
 
 import DeleteAssessmentButton from "./EditStatusButtons/DeleteAssessmentButton";
+import PublishAssessmentButton from "./EditStatusButtons/PublishAssessmentButton";
 
 interface EditStatusPopoverProps {
   assessmentId: string;
+  assessmentStatus: Status;
 }
 
 const EditStatusPopover = ({
   assessmentId,
+  assessmentStatus,
 }: EditStatusPopoverProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
 
@@ -45,6 +50,13 @@ const EditStatusPopover = ({
       >
         <PopoverBody>
           <VStack spacing="0em">
+            {assessmentStatus === Status.DRAFT && (
+              <PublishAssessmentButton
+                assessmentId={assessmentId}
+                closePopover={onClose}
+              />
+            )}
+            <Divider borderColor="grey.200" px="17%" />
             <DeleteAssessmentButton
               assessmentId={assessmentId}
               closePopover={onClose}

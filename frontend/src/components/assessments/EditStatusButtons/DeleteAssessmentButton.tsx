@@ -1,7 +1,7 @@
 import React from "react";
 
-import DeleteAssessmentModal from "../DeleteAssessmentModal";
 import EditStatusButton from "../EditStatusButton";
+import DeleteAssessmentModal from "../EditStatusModals/DeleteAssessmentModal";
 
 interface DeleteAssessmentButtonProps {
   assessmentId: string;

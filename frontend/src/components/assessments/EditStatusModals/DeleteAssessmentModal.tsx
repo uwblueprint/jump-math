@@ -13,9 +13,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { DELETE_TEST } from "../../APIClients/mutations/TestMutations";
-import GET_ALL_TESTS from "../../APIClients/queries/TestQueries";
-import Toast from "../common/Toast";
+import { DELETE_TEST } from "../../../APIClients/mutations/TestMutations";
+import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
+import Toast from "../../common/Toast";
 
 interface DeleteAssessmentModalProps {
   isOpen: boolean;
