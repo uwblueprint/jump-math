@@ -29,3 +29,11 @@ export const UNARCHIVE_TEST = gql`
     }
   }
 `;
+
+export const ARCHIVE_TEST = gql`
+  mutation ArchiveTest($id: ID!) {
+    archiveTest(id: $id) {
+      id
+    }
+  }
+`;
