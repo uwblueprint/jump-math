@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
   Spacer,
   Text,
   VStack,
@@ -12,7 +11,6 @@ import {
 
 import {
   EyeOutlineIcon,
-  MoreVerticalOutlineIcon,
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
