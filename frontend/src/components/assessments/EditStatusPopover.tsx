@@ -29,7 +29,6 @@ const EditStatusPopover = ({
 
   return (
     <Popover
-      closeOnBlur={false}
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}
@@ -51,12 +50,14 @@ const EditStatusPopover = ({
         <PopoverBody>
           <VStack spacing="0em">
             {assessmentStatus === Status.DRAFT && (
-              <PublishAssessmentButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
+              <>
+                <PublishAssessmentButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+                <Divider borderColor="grey.200" px="17%" />
+              </>
             )}
-            <Divider borderColor="grey.200" px="17%" />
             <DeleteAssessmentButton
               assessmentId={assessmentId}
               closePopover={onClose}
