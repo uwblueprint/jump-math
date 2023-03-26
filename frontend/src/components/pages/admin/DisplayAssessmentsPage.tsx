@@ -10,7 +10,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 
 import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
