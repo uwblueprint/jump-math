@@ -40,27 +40,24 @@ const AssessmentSummary = (): React.ReactElement => {
             Start Time: {assessmentMetadata.startDate} at{" "}
             {assessmentMetadata.startTime}
           </Text>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="2em">
-            <Box marginTop="7%">
-              <QuestionSummary
-                questionCount={assessmentMetadata.numOfQuestions}
-                totalPoints={assessmentMetadata.totalPoints}
-              >
-                <VStack align="left" width="100%">
-                  <br />
-                  <Text paddingBottom="2" textStyle="smaller-paragraph">
-                    Question Types:
-                  </Text>
-                  <QuestionTypeImages
-                    questionTypes={assessmentMetadata.questionTypes}
-                  />
-                </VStack>
-              </QuestionSummary>
-            </Box>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
+            <QuestionSummary
+              questionCount={assessmentMetadata.numOfQuestions}
+              totalPoints={assessmentMetadata.totalPoints}
+            >
+              <VStack align="left" width="100%">
+                <br />
+                <Text paddingBottom="2" textStyle="smaller-paragraph">
+                  Question Types:
+                </Text>
+                <QuestionTypeImages
+                  questionTypes={assessmentMetadata.questionTypes}
+                />
+              </VStack>
+            </QuestionSummary>
             <Box
               backgroundColor="rgba(232, 237, 241, 0.2)"
               borderRadius="10px"
-              marginTop="7%"
               padding="2em"
             >
               <Text color="blue.300" marginBottom="14px" textStyle="subtitle2">
@@ -76,8 +73,7 @@ const AssessmentSummary = (): React.ReactElement => {
             </Box>
           </SimpleGrid>
         </VStack>
-        <HStack justifyContent="flex-end" spacing="3%" width="100%">
-          {/* TODO: update size="sm" after Cindy merges her PR */}
+        <HStack justifyContent="flex-end" spacing="1%" width="100%">
           <Button onClick={handleBackToHome} variant="secondary">
             Back to Home
           </Button>
