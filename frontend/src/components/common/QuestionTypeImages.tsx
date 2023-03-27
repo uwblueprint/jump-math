@@ -14,24 +14,29 @@ const QuestionTypeImages = ({
       {questionTypes?.map((type: QuestionType, index) => {
         return (
           <VStack key={index} gap={2}>
-            <Box backgroundColor="blue.50" borderRadius="10px" padding="1.7em">
-              <Tooltip
-                align-items="center"
-                bg="blue.300"
-                borderRadius={4}
-                fontWeight="700"
-                hasArrow
-                label={typeToImageMetadata[type].tooltip}
-                placement="bottom"
-                textAlign="center"
-                width="190px"
+            <Tooltip
+              align-items="center"
+              bg="blue.300"
+              borderRadius={4}
+              fontWeight="700"
+              hasArrow
+              label={typeToImageMetadata[type].tooltip}
+              offset={[0, -10]}
+              textAlign="center"
+              width="190px"
+            >
+              <Box
+                _hover={{ outline: "1px solid #154472" }}
+                backgroundColor="blue.50"
+                borderRadius="10px"
+                padding="1.7em"
               >
                 <Image
                   alt={typeToImageMetadata[type].alt}
                   src={typeToImageMetadata[type].src}
                 />
-              </Tooltip>
-            </Box>
+              </Box>
+            </Tooltip>
             <Text align="center" textStyle="caption">
               {type}
             </Text>
