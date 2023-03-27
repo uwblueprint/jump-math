@@ -22,7 +22,7 @@ export interface Class extends Document {
 }
 
 export interface Student extends Document {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   studentNumber?: string;

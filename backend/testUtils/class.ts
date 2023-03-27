@@ -1,5 +1,5 @@
 import {
-  Student,
+  StudentRequestDTO,
   ClassRequestDTO,
   ClassResponseDTO,
 } from "../services/interfaces/classService";
@@ -8,14 +8,12 @@ import { mockTestSessionWithId } from "./testSession";
 import { Grade } from "../types";
 
 // set up test students
-export const testStudents: Student[] = [
+export const testStudents: StudentRequestDTO[] = [
   {
-    id: 1,
     firstName: "David",
     lastName: "Liu",
   },
   {
-    id: 1,
     firstName: "deez",
     lastName: "nuts",
   },

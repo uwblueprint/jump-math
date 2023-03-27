@@ -6,6 +6,7 @@ import {
   IClassService,
   ClassRequestDTO,
   ClassResponseDTO,
+  StudentResponseDTO,
 } from "../interfaces/classService";
 import IUserService from "../interfaces/userService";
 import {
@@ -33,6 +34,8 @@ class ClassService implements IClassService {
     let teacherDTO: UserDTO;
     const testSessions: TestSessionResponseDTO[] = [];
     let newClass: Class | null;
+    let students: StudentResponseDTO[] = [];
+
     try {
       // get the user details for the teacher
       teacherDTO = await this.userService.getUserById(classObj.teacher);
@@ -50,6 +53,15 @@ class ClassService implements IClassService {
 
       // create a new class document
       newClass = await MgClass.create({ ...classObj });
+
+      students = newClass.students.map((student) => ({
+        id: student.id,
+        firstName: student.firstName,
+        lastName: student.lastName,
+        ...(student.studentNumber
+          ? { studentNumber: student.studentNumber }
+          : {}),
+      }));
     } catch (error: unknown) {
       Logger.error(
         `Failed to create class. Reason = ${getErrorMessage(error)}`,
@@ -64,7 +76,7 @@ class ClassService implements IClassService {
       gradeLevel: newClass.gradeLevel,
       teacher: teacherDTO,
       testSessions,
-      students: newClass.students,
+      students,
     };
   }
 
@@ -116,11 +128,21 @@ class ClassService implements IClassService {
     classObj: ClassRequestDTO,
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
+    let updatedClassObj;
     try {
-      updatedClass = await MgClass.findByIdAndUpdate(id, classObj, {
+      const studentDTOs: StudentResponseDTO[] = (await this.getClassById(id))
+        .students;
+
+      updatedClassObj = {
+        ...classObj,
+        students: studentDTOs,
+      };
+
+      updatedClass = await MgClass.findByIdAndUpdate(id, updatedClassObj, {
         new: true,
         runValidators: true,
       });
+
       if (!updatedClass) {
         throw new Error(`Class id ${id} not found`);
       }
