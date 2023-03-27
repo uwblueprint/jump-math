@@ -1,17 +1,17 @@
 import React from "react";
 
 import EditStatusButton from "../EditStatusButton";
-import DeleteAssessmentModal from "../EditStatusModals/DeleteAssessmentModal";
+import DeleteModal from "../EditStatusModals/DeleteModal";
 
-interface DeleteAssessmentButtonProps {
+interface DeleteButtonProps {
   assessmentId: string;
   closePopover: () => void;
 }
 
-const DeleteAssessmentButton = ({
+const DeleteButton = ({
   assessmentId,
   closePopover,
-}: DeleteAssessmentButtonProps): React.ReactElement => {
+}: DeleteButtonProps): React.ReactElement => {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
   return (
@@ -23,7 +23,7 @@ const DeleteAssessmentButton = ({
           setShowDeleteModal(true);
         }}
       />
-      <DeleteAssessmentModal
+      <DeleteModal
         assessmentId={assessmentId}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -32,4 +32,4 @@ const DeleteAssessmentButton = ({
   );
 };
 
-export default DeleteAssessmentButton;
+export default DeleteButton;

@@ -1,17 +1,17 @@
 import React from "react";
 
 import EditStatusButton from "../EditStatusButton";
-import PublishAssessmentModal from "../EditStatusModals/PublishAssessmentModal";
+import PublishModal from "../EditStatusModals/PublishModal";
 
-interface PublishAssessmentButtonProps {
+interface PublishButtonProps {
   assessmentId: string;
   closePopover: () => void;
 }
 
-const PublishAssessmentButton = ({
+const PublishButton = ({
   assessmentId,
   closePopover,
-}: PublishAssessmentButtonProps): React.ReactElement => {
+}: PublishButtonProps): React.ReactElement => {
   const [showPublishModal, setshowPublishModal] = React.useState(false);
 
   return (
@@ -23,7 +23,7 @@ const PublishAssessmentButton = ({
           setshowPublishModal(true);
         }}
       />
-      <PublishAssessmentModal
+      <PublishModal
         assessmentId={assessmentId}
         isOpen={showPublishModal}
         onClose={() => setshowPublishModal(false)}
@@ -32,4 +32,4 @@ const PublishAssessmentButton = ({
   );
 };
 
-export default PublishAssessmentButton;
+export default PublishButton;
