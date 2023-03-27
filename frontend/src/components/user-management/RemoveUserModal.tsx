@@ -1,14 +1,7 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import {
-  Button,
-  Divider,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 
 import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
 import {
@@ -16,10 +9,8 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
-import ModalText from "../common/ModalText";
-
-import RemoveUserConfirmationModal from "./RemoveUserConfirmationModal";
-import RemoveUserErrorModal from "./RemoveUserErrorModal";
+import { USER_DATABASE } from "../../constants/Routes";
+import Modal from "../common/Modal";
 
 interface RemoveUserModalProps {
   name: string;
@@ -32,6 +23,9 @@ const RemoveUserModal = ({
   email,
   onCloseParent,
 }: RemoveUserModalProps): React.ReactElement => {
+  const history = useHistory();
+  const navigateTo = () => history.push(USER_DATABASE);
+
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showError, setShowError] = React.useState(false);
@@ -54,6 +48,46 @@ const RemoveUserModal = ({
     }
   };
 
+  const renderComponent = () => {
+    if (showConfirmation) {
+      return (
+        <Modal
+          body="The data has been removed securely."
+          header="The user has been removed from the Jump Math Database"
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={navigateTo}
+          submitButtonText="Return to Database"
+        />
+      );
+    }
+    if (showError) {
+      return (
+        <Modal
+          header="Unable to remove user at this moment. Please try again."
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={navigateTo}
+          submitButtonText="Return to Database"
+        />
+      );
+    }
+
+    return (
+      <Modal
+        body="NOTE: This user is an admin."
+        header={`Are you sure you want to remove ${name}?`}
+        isOpen={isOpen}
+        onCancel={() => {
+          onCloseParent();
+          onClose();
+        }}
+        onClose={onClose}
+        onSubmit={onRemoveUserClick}
+      />
+    );
+  };
+
   return (
     <>
       <Button
@@ -64,37 +98,7 @@ const RemoveUserModal = ({
       >
         Remove User
       </Button>
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent alignItems="center" maxW="600px" p={2}>
-          {showError && <RemoveUserErrorModal />}
-          {showConfirmation && <RemoveUserConfirmationModal />}
-          {!showConfirmation && !showError && (
-            <>
-              <ModalText
-                body={["NOTE:", "This user is an admin."]}
-                header={`Are you sure you want to remove ${name}?`}
-              />
-              <Divider style={{ marginTop: "1.5em" }} />
-              <ModalFooter my={0.5}>
-                <Button
-                  mr={2}
-                  onClick={() => {
-                    onCloseParent();
-                    onClose();
-                  }}
-                  variant="secondary"
-                >
-                  Cancel
-                </Button>
-                <Button onClick={onRemoveUserClick} variant="primary">
-                  Confirm
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      {renderComponent()}
     </>
   );
 };
