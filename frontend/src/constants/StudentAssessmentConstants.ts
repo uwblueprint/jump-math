@@ -1,5 +1,5 @@
 import { MULTI_CHOICE, MULTI_SELECT, SHORT_ANSWER } from "../assets/images";
-import { QuestionType } from "../types/QuestionTypes";
+import { QuestionToolTips, QuestionType } from "../types/QuestionTypes";
 
 export const assessmentMetadata = {
   numOfQuestions: 12,
@@ -14,6 +14,14 @@ export const assessmentMetadata = {
   startTime: "2:00pm",
   startDate: "September 15, 2022",
   testName: "Unit 0 Review Test",
+};
+
+export const assessmentToolTips = {
+  questionTooltips: [
+    QuestionToolTips.MULTIPLE_CHOICE,
+    QuestionToolTips.MULTI_SELECT,
+    QuestionToolTips.SHORT_ANSWER,
+  ],
 };
 
 export const typeToImageMetadata = {
