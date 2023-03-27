@@ -34,6 +34,7 @@ const CreateAssessementHeader = ({
       borderBottom="1px"
       borderBottomColor="grey.200"
       padding="1.5em 2em 1.5em 2em"
+      width="100%"
     >
       <Flex minWidth="max-content">
         <HStack alignItems="start" spacing={6}>

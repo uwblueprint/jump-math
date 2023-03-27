@@ -7,7 +7,7 @@ import {
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
-import ResponseTypeModal from "../ResponseTypeModal";
+import Modal from "../../../../common/Modal";
 
 import MultipleChoiceOption from "./MultipleChoiceOption";
 import SelectOptionCount from "./SelectOptionCount";
@@ -72,11 +72,12 @@ const MultipleChoiceModal = ({
   };
 
   return (
-    <ResponseTypeModal
+    <Modal
+      header="Create multiple choice question"
       isOpen={isOpen}
+      onCancel={handleClose}
       onClose={handleClose}
-      onConfirm={handleConfirm}
-      title="Create multiple choice question"
+      onSubmit={handleConfirm}
     >
       <VStack spacing="10" width="100%">
         {noCorrectOptionError && (
@@ -107,7 +108,7 @@ const MultipleChoiceModal = ({
           ))}
         </VStack>
       </VStack>
-    </ResponseTypeModal>
+    </Modal>
   );
 };
 
