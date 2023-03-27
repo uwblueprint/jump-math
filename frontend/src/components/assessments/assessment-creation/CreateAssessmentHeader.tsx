@@ -18,15 +18,20 @@ import BackButton from "../../common/BackButton";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
-  date: string;
   save: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CreateAssessementHeader = ({
   assessmentName,
-  date,
   save,
 }: CreateAssessementHeaderProps): React.ReactElement => {
+  const date = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formattedDate = date.toLocaleDateString("en-US", options);
   return (
     <Box
       borderBottom="1px"
@@ -41,7 +46,7 @@ const CreateAssessementHeader = ({
             <Text textStyle="subtitle1">
               {assessmentName || "Untitled Assessment"}
             </Text>
-            <Text textStyle="smallerParagraph"> Created {date}</Text>
+            <Text textStyle="smallerParagraph"> Created {formattedDate}</Text>
           </VStack>
         </HStack>
         <Spacer />

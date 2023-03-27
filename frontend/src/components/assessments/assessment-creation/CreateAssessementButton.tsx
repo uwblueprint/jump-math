@@ -1,24 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_ASSESSMENT } from "../../../constants/Routes";
-import RouterLink from "../../common/RouterLink";
 
 const CreateAssessementButton = (): React.ReactElement => {
-  const date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  };
-  const formattedDate = date.toLocaleDateString("en-US", options);
-
+  const history = useHistory();
   return (
-    <Button my={2} rightIcon={<PlusOutlineIcon />} variant="primary">
-      <RouterLink to={`${CREATE_ASSESSMENT}/${formattedDate}`}>
-        Create Assessment
-      </RouterLink>
+    <Button
+      my={2}
+      onClick={() => history.push(CREATE_ASSESSMENT)}
+      rightIcon={<PlusOutlineIcon />}
+      variant="primary"
+    >
+      Create Assessment
     </Button>
   );
 };

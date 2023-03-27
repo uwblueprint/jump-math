@@ -104,17 +104,20 @@ const SaveQuestionEditorButton = ({
   };
 
   const validateNoEmptyEditorError = () => {
-    const emptyEditor = questionElements.length === 0;
+    const emptyEditor =
+      questionElements.filter(
+        (element) => element.type === QuestionElementType.QUESTION,
+      ).length === 0;
     setShowEditorError(emptyEditor);
     return !emptyEditor;
   };
 
   const handleSave = () => {
     if (
+      validateNoEmptyEditorError() &&
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
-      validateNoExistingErrors() &&
-      validateNoEmptyEditorError()
+      validateNoExistingErrors()
     ) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];

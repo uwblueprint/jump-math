@@ -74,7 +74,6 @@ const CreateAssessmentPage = (): React.ReactElement => {
         <VStack spacing="8" width="100%">
           <CreateAssessementHeader
             assessmentName={assessmentName}
-            date={date}
             save={handleSave}
           />
           <VStack spacing="8" width="92%">
