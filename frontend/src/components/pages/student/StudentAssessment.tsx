@@ -13,10 +13,7 @@ import {
 
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { STUDENT_LANDING } from "../../../constants/Routes";
-import {
-  assessmentMetadata,
-  assessmentToolTips,
-} from "../../../constants/StudentAssessmentConstants";
+import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
 import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
 
@@ -54,7 +51,6 @@ const AssessmentSummary = (): React.ReactElement => {
                   Question Types:
                 </Text>
                 <QuestionTypeImages
-                  questionToolTips={assessmentToolTips.questionTooltips}
                   questionTypes={assessmentMetadata.questionTypes}
                 />
               </VStack>

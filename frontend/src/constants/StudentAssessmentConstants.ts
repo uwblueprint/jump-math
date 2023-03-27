@@ -1,5 +1,5 @@
 import { MULTI_CHOICE, MULTI_SELECT, SHORT_ANSWER } from "../assets/images";
-import { QuestionToolTips, QuestionType } from "../types/QuestionTypes";
+import { QuestionType } from "../types/QuestionTypes";
 
 export const assessmentMetadata = {
   numOfQuestions: 12,
@@ -16,25 +16,22 @@ export const assessmentMetadata = {
   testName: "Unit 0 Review Test",
 };
 
-export const assessmentToolTips = {
-  questionTooltips: [
-    QuestionToolTips.MULTIPLE_CHOICE,
-    QuestionToolTips.MULTI_SELECT,
-    QuestionToolTips.SHORT_ANSWER,
-  ],
-};
-
 export const typeToImageMetadata = {
   "Multiple Choice": {
     src: MULTI_CHOICE.src,
     alt: "multi-choice",
+    tooltip:
+      "Users will have to select the best response from a list of options",
   },
   "Multi-select": {
     src: MULTI_SELECT.src,
     alt: "multi-select",
+    tooltip:
+      "Users will have to select the correct responses from a list of options",
   },
   "Short Answer": {
     src: SHORT_ANSWER.src,
     alt: "short-answer",
+    tooltip: "Users will have to type in their answers",
   },
 };

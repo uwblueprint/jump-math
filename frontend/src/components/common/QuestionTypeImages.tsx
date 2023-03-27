@@ -2,19 +2,16 @@ import React from "react";
 import { Box, HStack, Image, Text, Tooltip, VStack } from "@chakra-ui/react";
 
 import { typeToImageMetadata } from "../../constants/StudentAssessmentConstants";
-import { QuestionToolTips, QuestionType } from "../../types/QuestionTypes";
+import { QuestionType } from "../../types/QuestionTypes";
 
 const QuestionTypeImages = ({
   questionTypes,
-  questionToolTips,
 }: {
   questionTypes: Array<QuestionType>;
-  questionToolTips: Array<QuestionToolTips>;
 }): React.ReactElement => {
   return (
     <HStack alignItems="flex-start" mt="2em" spacing="15%">
       {questionTypes?.map((type: QuestionType, index) => {
-        const tooltip = questionToolTips[index];
         return (
           <VStack key={index} gap={2}>
             <Box backgroundColor="blue.50" borderRadius="10px" padding="1.7em">
@@ -24,7 +21,7 @@ const QuestionTypeImages = ({
                 borderRadius={4}
                 fontWeight="700"
                 hasArrow
-                label={tooltip}
+                label={typeToImageMetadata[type].tooltip}
                 placement="bottom"
                 textAlign="center"
                 width="190px"

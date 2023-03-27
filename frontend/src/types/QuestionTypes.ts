@@ -4,12 +4,6 @@ export enum QuestionType {
   MULTI_SELECT = "Multi-select",
 }
 
-export enum QuestionToolTips {
-  MULTIPLE_CHOICE = "Users will have to select the best response from a list of options",
-  MULTI_SELECT = "Users will have to select the correct responses from a list of options",
-  SHORT_ANSWER = "Users will have to type in their answers",
-}
-
 export enum QuestionElementType {
   QUESTION = "Question",
   TEXT = "Text",
