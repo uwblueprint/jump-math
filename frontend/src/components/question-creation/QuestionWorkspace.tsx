@@ -32,7 +32,7 @@ const QuestionWorkspace = (): React.ReactElement => {
     <Box ref={drop} flex="1" overflow="auto">
       <VStack align="left" color="grey.400" margin="3em 5em">
         {isHovering && <HoverMessage />}
-        {!isHovering && !questionElements.length && showEditorError && (
+        {!isHovering && showEditorError && (
           <Box paddingBottom="4">
             <ErrorToast errorMessage={emptyEditorError} />
           </Box>
