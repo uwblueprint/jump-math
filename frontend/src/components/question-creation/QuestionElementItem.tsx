@@ -9,12 +9,14 @@ import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
   MultipleChoiceData,
+  MultiSelectData,
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
 import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
+import MultiSelectElement from "./question-elements/MultiSelectElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
 import TextElement from "./question-elements/TextElement";
@@ -41,10 +43,12 @@ const renderQuestionContent = (content: QuestionElement) => {
           id={id}
         />
       );
+    case QuestionElementType.MULTI_SELECT:
+      return (
+        <MultiSelectElement key={id} data={data as MultiSelectData} id={id} />
+      );
     case QuestionElementType.SHORT_ANSWER:
       return <ShortAnswerElement key={id} data={data as number} id={id} />;
-    case QuestionElementType.MULTI_SELECT:
-      return <Text key={id}>this is a multi select element.</Text>;
     default:
       return null;
   }

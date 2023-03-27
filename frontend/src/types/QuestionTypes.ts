@@ -24,7 +24,22 @@ export type MultipleChoiceData = {
   options: MultipleChoiceOptionData[];
 };
 
-export type QuestionDataType = string | number | MultipleChoiceData;
+export type MultiSelectOptionData = {
+  id: string;
+  value: string;
+  isCorrect: boolean;
+};
+
+export type MultiSelectData = {
+  optionCount: number;
+  options: MultiSelectOptionData[];
+};
+
+export type QuestionDataType =
+  | string
+  | number
+  | MultipleChoiceData
+  | MultiSelectData;
 
 export type QuestionElement = {
   id: string;
