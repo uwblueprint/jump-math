@@ -4,13 +4,9 @@ import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
-import {
-  AssessmentData,
-  Status,
-  TestRequest,
-} from "../../../types/AssessmentTypes";
+import { Status, TestRequest } from "../../../types/AssessmentTypes";
 import { QuestionElement } from "../../../types/QuestionTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
@@ -18,45 +14,46 @@ import CreateAssessementHeader from "../../assessments/assessment-creation/Creat
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const history = useHistory();
+
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [name, setName] = useState("");
   const [questions, setQuestions] = useState<QuestionElement[][]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [createTest] = useMutation<{
+    createTest: { createTest: { id: string } };
+  }>(CREATE_NEW_ASSESSMENT);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
     control,
-  } = useForm<AssessmentData>();
+    setValue,
+    watch,
+  } = useForm<TestRequest>();
 
-  const history = useHistory();
-  const [validSubmit, setValidSubmit] = useState(true);
-  const [assessmentName, setAssessmentName] = useState("");
-  const [createTest] = useMutation<{
-    createTest: { createTest: { id: string } };
-  }>(SAVE_ASSESSMENT);
-
-  const onSubmit: SubmitHandler<AssessmentData> = async (data) => {
-    setValidSubmit(true);
+  const onSubmit: SubmitHandler<TestRequest> = async (data) => {
     const test: TestRequest = {
-      name: data.assessmentName,
+      name: data.name,
       questions: [],
-      grade: data.grade.value,
-      assessmentType: data.type,
+      grade: data.grade,
+      assessmentType: data.assessmentType,
       status: Status.DRAFT,
-      curriculumCountry: data.country.value,
-      curriculumRegion: data.region,
+      curriculumCountry: data.curriculumCountry,
+      curriculumRegion: data.curriculumRegion,
     };
     await createTest({ variables: { test } })
-      .then((response) => {
-        console.log("response data: ", response);
+      .then(() => {
         history.push(ASSESSMENTS_PAGE);
       })
       .catch(() => {
-        console.log("error");
+        setErrorMessage("Assessment failed to save. Please try again.");
       });
   };
-  const onError = (errs: any, e: any) => {
-    setValidSubmit(false);
+  const onError = () => {
+    setErrorMessage("Please resolve all issues before publishing or saving");
   };
 
   const handleSave = handleSubmit(onSubmit, onError);
@@ -70,17 +67,16 @@ const CreateAssessmentPage = (): React.ReactElement => {
         />
       ) : (
         <VStack spacing="8" width="100%">
-          <CreateAssessementHeader
-            assessmentName={assessmentName}
-            save={handleSave}
-          />
+          <CreateAssessementHeader name={name} onSave={handleSave} />
           <VStack spacing="8" width="92%">
             <BasicInformation
               control={control}
+              errorMessage={errorMessage}
               errors={errors}
               register={register}
-              setAssessmentName={setAssessmentName}
-              validSubmit={validSubmit}
+              setName={setName}
+              setValue={setValue}
+              watch={watch}
             />
             <Divider borderColor="grey.200" />
             <AssessmentQuestions

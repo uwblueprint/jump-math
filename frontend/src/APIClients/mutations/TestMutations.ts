@@ -38,7 +38,7 @@ export const ARCHIVE_TEST = gql`
   }
 `;
 
-export const SAVE_ASSESSMENT = gql`
+export const CREATE_NEW_ASSESSMENT = gql`
   mutation Create_Test($test: TestRequestDTO!) {
     createTest(test: $test) {
       id
