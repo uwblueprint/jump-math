@@ -38,6 +38,19 @@ const Alert = {
       }
       return {};
     },
+    successToast: {
+      container: {
+        backgroundColor: "blue.50",
+        color: "blue.300",
+      },
+    },
+    errorToast: {
+      fontWeight: "400",
+      container: {
+        backgroundColor: "red.50",
+        color: "red.200",
+      },
+    },
   },
   defaultProps: {
     variant: "top-accent",

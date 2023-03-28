@@ -1,31 +1,34 @@
 import React from "react";
 import {
-  Divider,
   IconButton,
   Popover,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  StackDivider,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
 import { MoreVerticalOutlineIcon } from "../../assets/icons";
+import { Status } from "../../types/AssessmentTypes";
 
-import EditStatusButton from "./EditStatusButton";
+import DeleteButton from "./EditStatusButtons/DeleteButton";
+import PublishButton from "./EditStatusButtons/PublishButton";
 
-const EditStatusPopover = (): React.ReactElement => {
+interface EditStatusPopoverProps {
+  assessmentId: string;
+  assessmentStatus: Status;
+}
+
+const EditStatusPopover = ({
+  assessmentId,
+  assessmentStatus,
+}: EditStatusPopoverProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const names = ["Publish", "Edit", "Archive", "Delete"];
-  const buttons = names.map((name, i) => (
-    <>
-      <EditStatusButton name={name} />
-      {name !== "Delete" && <Divider key={i} borderColor="grey.200" px="17%" />}
-    </>
-  ));
+
   return (
     <Popover
-      closeOnBlur={false}
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}
@@ -45,7 +48,18 @@ const EditStatusPopover = (): React.ReactElement => {
         width="80%"
       >
         <PopoverBody>
-          <VStack spacing="0em">{buttons}</VStack>
+          <VStack
+            divider={<StackDivider borderColor="grey.200" />}
+            spacing="0em"
+          >
+            {assessmentStatus === Status.DRAFT && (
+              <PublishButton
+                assessmentId={assessmentId}
+                closePopover={onClose}
+              />
+            )}
+            <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
+          </VStack>
         </PopoverBody>
       </PopoverContent>
     </Popover>

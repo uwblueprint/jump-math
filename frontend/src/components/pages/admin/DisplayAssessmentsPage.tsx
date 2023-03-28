@@ -14,7 +14,11 @@ import {
 
 import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import { AssessmentProperties, UseCase } from "../../../types/AssessmentTypes";
+import {
+  AssessmentProperties,
+  Status,
+  UseCase,
+} from "../../../types/AssessmentTypes";
 import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
@@ -27,6 +31,7 @@ import SortMenu from "../../common/table/SortMenu";
 
 const getAssessments = (assessment: AssessmentProperties) => {
   return {
+    id: assessment.id,
     status: assessment.status,
     name: assessment.name,
     grade: assessment.grade,
@@ -215,19 +220,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("DRAFT")}
+                onClick={() => setStatus(Status.DRAFT)}
               >
                 Drafts
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("PUBLISHED")}
+                onClick={() => setStatus(Status.PUBLISHED)}
               >
                 Published
               </Tab>
               <Tab
                 color={unselectedTabColor}
-                onClick={() => setStatus("ARCHIVED")}
+                onClick={() => setStatus(Status.ARCHIVED)}
               >
                 Archived
               </Tab>
