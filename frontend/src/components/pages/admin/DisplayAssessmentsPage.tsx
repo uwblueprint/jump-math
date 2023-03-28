@@ -163,10 +163,17 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           searchLength={assessments.length}
           sortMenuComponent={
             <SortMenu
-              labels={["firstName", "email", "school"]}
+              labels={["status", "name", "grade", "type", "country", "region"]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
-              properties={["firstName", "email", "school"]}
+              properties={[
+                "status",
+                "name",
+                "grade",
+                "assessmentType",
+                "curriculumCountry",
+                "curriculumRegion",
+              ]}
             />
           }
         />
