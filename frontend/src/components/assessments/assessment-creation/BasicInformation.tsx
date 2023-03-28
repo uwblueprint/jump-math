@@ -3,7 +3,6 @@ import {
   Control,
   Controller,
   FieldErrorsImpl,
-  FieldValues,
   UseFormRegister,
 } from "react-hook-form";
 import countryList from "react-select-country-list";
@@ -21,13 +20,14 @@ import {
 import { Select } from "chakra-react-select";
 
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { AssessmentData, UseCase } from "../../../types/AssessmentTypes";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
   setAssessmentName: React.Dispatch<React.SetStateAction<string>>;
-  register: UseFormRegister<FieldValues>;
-  control: Control<FieldValues, any>;
+  register: UseFormRegister<AssessmentData>;
+  control: Control<AssessmentData, any>;
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
   validSubmit: boolean;
 }
@@ -92,7 +92,7 @@ const BasicInformation = ({
         <Box width="50%">
           <Controller
             control={control}
-            name="assessmentType"
+            name="type"
             render={({
               field: { onChange, value, name, ref },
               fieldState: { error },
@@ -107,14 +107,14 @@ const BasicInformation = ({
                 >
                   <VStack align="left" spacing={2}>
                     <FormRadio
-                      isSelected={value === "beginning"}
+                      isSelected={value === UseCase.BEGINNING}
                       text="Beginning of Grade"
-                      value="beginning"
+                      value={UseCase.BEGINNING}
                     />
                     <FormRadio
-                      isSelected={value === "end"}
+                      isSelected={value === UseCase.END}
                       text="End of Grade"
-                      value="end"
+                      value={UseCase.END}
                     />
                   </VStack>
                 </RadioGroup>

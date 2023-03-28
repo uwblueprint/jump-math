@@ -1,29 +1,57 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory, useLocation } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
+import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { ASSESSMENTS } from "../../../constants/Routes";
 import { TEST_QUESTIONS } from "../../../constants/TestConstants";
+import {
+  AssessmentData,
+  Status,
+  TestRequest,
+} from "../../../types/AssessmentTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 
 const CreateAssessmentPage = (): React.ReactElement => {
-  const location = useLocation();
-  const { date } = location.state as { date: string };
-  const [validSubmit, setValidSubmit] = useState(true);
-  const [assessmentName, setAssessmentName] = useState("");
-
   const {
     handleSubmit,
     register,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<AssessmentData>();
 
-  const onSubmit = (data: any, e: any) => {
+  const location = useLocation();
+  const history = useHistory();
+  const { date } = location.state as { date: string };
+  const [validSubmit, setValidSubmit] = useState(true);
+  const [assessmentName, setAssessmentName] = useState("");
+  const [createTest] = useMutation<{
+    createTest: { createTest: { id: string } };
+  }>(SAVE_ASSESSMENT);
+
+  const onSubmit: SubmitHandler<AssessmentData> = async (data) => {
     setValidSubmit(true);
-    console.log(data, e);
+    const test: TestRequest = {
+      name: data.assessmentName,
+      questions: [],
+      grade: data.grade.value,
+      assessmentType: data.type,
+      status: Status.DRAFT,
+      curriculumCountry: data.country.value,
+      curriculumRegion: data.region,
+    };
+    await createTest({ variables: { test } })
+      .then((response) => {
+        console.log("response data: ", response);
+        history.push(ASSESSMENTS);
+      })
+      .catch(() => {
+        console.log("error");
+      });
   };
   const onError = (errs: any, e: any) => {
     setValidSubmit(false);
