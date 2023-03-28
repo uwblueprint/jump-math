@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
@@ -28,9 +28,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     control,
   } = useForm<AssessmentData>();
 
-  const location = useLocation();
   const history = useHistory();
-  const { date } = location.state as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
   const [createTest] = useMutation<{
