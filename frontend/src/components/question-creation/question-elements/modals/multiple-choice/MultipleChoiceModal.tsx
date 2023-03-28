@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
+import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import {
   MultipleChoiceData,
   MultipleChoiceOptionData,
@@ -13,6 +14,7 @@ import MultipleChoiceOption from "./MultipleChoiceOption";
 import SelectOptionCount from "./SelectOptionCount";
 
 interface MultipleChoiceModalProps {
+  isMultiSelect: boolean;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (data: MultipleChoiceData) => void;
@@ -20,6 +22,7 @@ interface MultipleChoiceModalProps {
 }
 
 const MultipleChoiceModal = ({
+  isMultiSelect,
   isOpen,
   onClose,
   onConfirm,
@@ -61,7 +64,7 @@ const MultipleChoiceModal = ({
       setOptionCountError(true);
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
-    } else if (correctOptionCount > 1) {
+    } else if (!isMultiSelect && correctOptionCount > 1) {
       setManyCorrectOptionsError(true);
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
@@ -76,7 +79,11 @@ const MultipleChoiceModal = ({
       isOpen={isOpen}
       onClose={handleClose}
       onConfirm={handleConfirm}
-      title="Create multiple choice question"
+      title={
+        isMultiSelect
+          ? "Create multi-select question"
+          : "Create multiple choice question"
+      }
     >
       <VStack spacing="10" width="100%">
         {noCorrectOptionError && (

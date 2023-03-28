@@ -10,6 +10,7 @@ import MultipleChoiceModal from "./MultipleChoiceModal";
 interface EditMultipleChoiceModalProps {
   id: string;
   data: MultipleChoiceData;
+  isMultiSelect: boolean;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -17,6 +18,7 @@ interface EditMultipleChoiceModalProps {
 const EditMultipleChoiceModal = ({
   id,
   data,
+  isMultiSelect,
   isOpen,
   setOpen,
 }: EditMultipleChoiceModalProps): React.ReactElement => {
@@ -38,6 +40,7 @@ const EditMultipleChoiceModal = ({
   return (
     <MultipleChoiceModal
       data={data}
+      isMultiSelect={isMultiSelect}
       isOpen={isOpen}
       onClose={closeModal}
       onConfirm={updateMultipleChoiceElement}
