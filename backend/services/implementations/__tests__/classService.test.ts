@@ -15,13 +15,6 @@ import TestService from "../testService";
 import SchoolService from "../schoolService";
 import { mockTestSessionWithId } from "../../../testUtils/testSession";
 
-jest.mock("firebase-admin", () => {
-  const auth = jest.fn().mockReturnValue({
-    getUser: jest.fn().mockReturnValue({ email: "test@test.com" }),
-  });
-  return { auth };
-});
-
 describe("mongo classService", (): void => {
   let classService: ClassService;
   let userService: UserService;
@@ -45,9 +38,6 @@ describe("mongo classService", (): void => {
       schoolService,
     );
     classService = new ClassService(userService, testSessionService);
-
-    if (expect.getState().currentTestName.includes("exclude mock values"))
-      return;
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     testSessionService.getTestSessionById = jest
       .fn()

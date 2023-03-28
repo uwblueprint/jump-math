@@ -2,6 +2,7 @@ import {
   StudentRequestDTO,
   ClassRequestDTO,
   ClassResponseDTO,
+  StudentResponseDTO,
 } from "../services/interfaces/classService";
 import { mockTeacher } from "./users";
 import { mockTestSessionWithId } from "./testSession";
@@ -14,6 +15,19 @@ export const testStudents: StudentRequestDTO[] = [
     lastName: "Liu",
   },
   {
+    firstName: "Calvin",
+    lastName: "Zhang",
+  },
+];
+
+export const testStudentsWithIds: StudentResponseDTO[] = [
+  {
+    id: "6421bf4b8c29e57d38efc7bd",
+    firstName: "David",
+    lastName: "Liu",
+  },
+  {
+    id: "6421bf4b8c29e57d38efc7be",
     firstName: "Calvin",
     lastName: "Zhang",
   },
@@ -61,6 +75,7 @@ export const mockClassWithId = {
   id: "62c248c0f79d6c3c9ebbea93",
   ...testClass[0],
   teacher: mockTeacher.id,
+  students: testStudentsWithIds,
 };
 
 export const mockClassWithId2 = {
@@ -79,6 +94,7 @@ export const assertResponseMatchesExpected = (
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.testSessions).toEqual([mockTestSessionWithId]);
   result.students.forEach((student, index) => {
+    expect(student.id).not.toBeNull();
     expect(student.firstName).toEqual(testStudents[index].firstName);
     expect(student.lastName).toEqual(testStudents[index].lastName);
     expect(student.studentNumber).toEqual(testStudents[index].studentNumber);
