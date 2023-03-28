@@ -14,6 +14,7 @@ import {
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { STUDENT_LANDING } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
+import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
 
 const AssessmentSummary = (): React.ReactElement => {
@@ -39,39 +40,24 @@ const AssessmentSummary = (): React.ReactElement => {
             Start Time: {assessmentMetadata.startDate} at{" "}
             {assessmentMetadata.startTime}
           </Text>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="2em">
-            <Box
-              backgroundColor="rgba(232, 237, 241, 0.2)"
-              borderRadius="10px"
-              marginTop="7%"
-              padding="2em"
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
+            <QuestionSummary
+              questionCount={assessmentMetadata.numOfQuestions}
+              totalPoints={assessmentMetadata.totalPoints}
             >
-              <Text color="blue.300" mb="2em" textStyle="subtitle2">
-                Assessment Question Summary
-              </Text>
-              <HStack justifyContent="space-between">
-                {/* TODO: switch to smallerParagraph after Cindy merges her PR */}
-                <Text textStyle="paragraph">Number of Questions:</Text>
-                <Text textStyle="paragraph">
-                  {assessmentMetadata.numOfQuestions}
+              <VStack align="left" width="100%">
+                <br />
+                <Text paddingBottom="2" textStyle="smaller-paragraph">
+                  Question Types:
                 </Text>
-              </HStack>
-              <HStack justifyContent="space-between">
-                <Text textStyle="paragraph">Total Number of Points:</Text>
-                <Text textStyle="paragraph">
-                  {assessmentMetadata.totalPoints}
-                </Text>
-              </HStack>
-              <br />
-              <Text textStyle="paragraph">Question Types:</Text>
-              <QuestionTypeImages
-                questionTypes={assessmentMetadata.questionTypes}
-              />
-            </Box>
+                <QuestionTypeImages
+                  questionTypes={assessmentMetadata.questionTypes}
+                />
+              </VStack>
+            </QuestionSummary>
             <Box
               backgroundColor="rgba(232, 237, 241, 0.2)"
               borderRadius="10px"
-              marginTop="7%"
               padding="2em"
             >
               <Text color="blue.300" marginBottom="14px" textStyle="subtitle2">
@@ -87,8 +73,7 @@ const AssessmentSummary = (): React.ReactElement => {
             </Box>
           </SimpleGrid>
         </VStack>
-        <HStack justifyContent="flex-end" spacing="3%" width="100%">
-          {/* TODO: update size="sm" after Cindy merges her PR */}
+        <HStack justifyContent="flex-end" spacing="1%" width="100%">
           <Button onClick={handleBackToHome} variant="secondary">
             Back to Home
           </Button>

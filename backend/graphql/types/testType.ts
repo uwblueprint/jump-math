@@ -141,6 +141,7 @@ const testType = gql`
     publishTest(id: ID!): TestResponseDTO!
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!
+    archiveTest(id: ID!): TestResponseDTO!
   }
 `;
 

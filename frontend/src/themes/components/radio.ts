@@ -7,6 +7,21 @@ const Radio = {
         borderColor: "blue.300",
       },
     },
+    label: {
+      textStyle: "smallerParagraph",
+    },
+  },
+  variants: {
+    selected: {
+      label: {
+        color: "blue.300",
+      },
+    },
+    default: {
+      label: {
+        color: "grey.300",
+      },
+    },
   },
 };
 
