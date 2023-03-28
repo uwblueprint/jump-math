@@ -14,8 +14,8 @@ export const testStudents: StudentRequestDTO[] = [
     lastName: "Liu",
   },
   {
-    firstName: "deez",
-    lastName: "nuts",
+    firstName: "Calvin",
+    lastName: "Zhang",
   },
 ];
 // set up test classes
