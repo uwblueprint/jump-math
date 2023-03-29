@@ -43,7 +43,7 @@ const DuplicateModal = ({
 
   return (
     <Modal
-      body="Create a copy of this existing assessment, and view it under draft assessments."
+      body="Create a copy of this existing assessment. This new assessment can be viewed under draft assessments."
       header="Duplicate Assessment"
       isOpen={isOpen}
       onCancel={onClose}
