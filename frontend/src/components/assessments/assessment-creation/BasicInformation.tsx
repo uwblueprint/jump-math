@@ -30,21 +30,21 @@ import FormRadio from "../../common/FormRadio";
 interface BasicInformationProps {
   setName: React.Dispatch<React.SetStateAction<string>>;
   register: UseFormRegister<TestRequest>;
+  setValue: UseFormSetValue<TestRequest>;
+  watch: UseFormWatch<TestRequest>;
   control: Control<TestRequest, any>;
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
   errorMessage: string;
-  setValue: UseFormSetValue<TestRequest>;
-  watch: UseFormWatch<TestRequest>;
 }
 
 const BasicInformation = ({
   setName,
   register,
+  setValue,
+  watch,
   control,
   errors,
   errorMessage,
-  setValue,
-  watch,
 }: BasicInformationProps): React.ReactElement => {
   const handleGradeChange = (
     option: SingleValue<{ value: Grade; label: string }>,

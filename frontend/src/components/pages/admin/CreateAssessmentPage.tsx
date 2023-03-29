@@ -34,15 +34,11 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
-  const onSubmit: SubmitHandler<TestRequest> = async (data) => {
+  const onSave: SubmitHandler<TestRequest> = async (data) => {
     const test: TestRequest = {
-      name: data.name,
-      questions: [],
-      grade: data.grade,
-      assessmentType: data.assessmentType,
+      ...data,
       status: Status.DRAFT,
-      curriculumCountry: data.curriculumCountry,
-      curriculumRegion: data.curriculumRegion,
+      questions: [],
     };
     await createTest({ variables: { test } })
       .then(() => {
@@ -56,7 +52,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
 
-  const handleSave = handleSubmit(onSubmit, onError);
+  const handleSave = handleSubmit(onSave, onError);
 
   return (
     <>

@@ -1,5 +1,7 @@
 import { Grade } from "../APIClients/types/UserClientTypes";
 
+import { QuestionComponentRequest } from "./QuestionTypes";
+
 export enum Status {
   DRAFT = "DRAFT",
   PUBLISHED = "PUBLISHED",
@@ -24,7 +26,7 @@ export type AssessmentProperties = {
 
 export type TestRequest = {
   name: string;
-  questions: any[];
+  questions: QuestionComponentRequest[][];
   grade: Grade;
   assessmentType: UseCase;
   status: Status;

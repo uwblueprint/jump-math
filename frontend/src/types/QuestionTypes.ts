@@ -40,3 +40,43 @@ export type MultiData = {
   optionCount: number;
   options: MultiOptionData[];
 };
+
+export interface QuestionTextMetadata {
+  questionText: string;
+}
+
+export interface TextMetadata {
+  text: string;
+}
+
+export interface ImageMetadata {
+  src: string;
+}
+
+export interface MultipleChoiceMetadata {
+  options: string[];
+  answerIndex: number;
+}
+
+export interface MultiSelectMetadata {
+  options: string[];
+  answerIndices: number[];
+}
+
+export interface ShortAnswerMetadata {
+  answer: number;
+}
+
+export interface QuestionComponentMetadataRequest {
+  questionTextMetadata: QuestionTextMetadata;
+  textMetadata: TextMetadata;
+  imageMetadata: ImageMetadata;
+  multipleChoiceMetadata: MultipleChoiceMetadata;
+  multiSelectMetadata: MultiSelectMetadata;
+  shortAnswerMetadata: ShortAnswerMetadata;
+}
+
+export type QuestionComponentRequest = {
+  type: QuestionElementType;
+  metadata: QuestionComponentMetadataRequest;
+};
