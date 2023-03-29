@@ -59,10 +59,13 @@ const EditStatusPopover = ({
                 closePopover={onClose}
               />
             )}
-            <DuplicateButton
-              assessmentId={assessmentId}
-              closePopover={onClose}
-            />
+            {(assessmentStatus === Status.DRAFT ||
+              assessmentStatus === Status.PUBLISHED) && (
+              <DuplicateButton
+                assessmentId={assessmentId}
+                closePopover={onClose}
+              />
+            )}
             <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
           </VStack>
         </PopoverBody>

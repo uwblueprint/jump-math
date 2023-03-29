@@ -12,7 +12,7 @@ const DuplicateButton = ({
   assessmentId,
   closePopover,
 }: DuplicateButtonProps): React.ReactElement => {
-  const [showDuplicateModal, setshowDuplicateModal] = React.useState(false);
+  const [showDuplicateModal, setShowDuplicateModal] = React.useState(false);
 
   return (
     <>
@@ -20,13 +20,13 @@ const DuplicateButton = ({
         name="Duplicate"
         onClick={() => {
           closePopover();
-          setshowDuplicateModal(true);
+          setShowDuplicateModal(true);
         }}
       />
       <DuplicateModal
         assessmentId={assessmentId}
         isOpen={showDuplicateModal}
-        onClose={() => setshowDuplicateModal(false)}
+        onClose={() => setShowDuplicateModal(false)}
       />
     </>
   );
