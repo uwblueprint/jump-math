@@ -14,6 +14,7 @@ import { MoreVerticalOutlineIcon } from "../../assets/icons";
 import { Status } from "../../types/AssessmentTypes";
 
 import DeleteButton from "./EditStatusButtons/DeleteButton";
+import DuplicateButton from "./EditStatusButtons/DuplicateButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
 
 interface EditStatusPopoverProps {
@@ -58,6 +59,10 @@ const EditStatusPopover = ({
                 closePopover={onClose}
               />
             )}
+            <DuplicateButton
+              assessmentId={assessmentId}
+              closePopover={onClose}
+            />
             <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
           </VStack>
         </PopoverBody>
