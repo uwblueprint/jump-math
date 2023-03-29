@@ -43,7 +43,7 @@ const DuplicateModal = ({
 
   return (
     <Modal
-      body="Once this is duplicated, teachers will be able to make a copy of this assessment for their students."
+      body="Create a copy of this existing assessment, and view it under draft assessments."
       header="Duplicate Assessment"
       isOpen={isOpen}
       onCancel={onClose}
