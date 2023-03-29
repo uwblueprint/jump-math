@@ -6,7 +6,7 @@ import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
 import Modal from "../../common/Modal";
 import Toast from "../../common/Toast";
 
-interface PublishModalProps {
+interface DuplicateModalProps {
   isOpen: boolean;
   onClose: () => void;
   assessmentId: string;
@@ -16,7 +16,7 @@ const DuplicateModal = ({
   isOpen,
   onClose,
   assessmentId,
-}: PublishModalProps): React.ReactElement => {
+}: DuplicateModalProps): React.ReactElement => {
   const [duplicateAssessment, { error }] = useMutation<{
     duplicateAssessment: string;
   }>(DUPLICATE_TEST, {
