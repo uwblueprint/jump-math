@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import { MultipleChoiceData } from "../../../../../types/QuestionTypes";
+import {
+  MultipleChoiceData,
+  QuestionElementType,
+} from "../../../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
 import MultipleChoiceModal from "./MultipleChoiceModal";
@@ -10,17 +13,17 @@ import MultipleChoiceModal from "./MultipleChoiceModal";
 interface EditMultipleChoiceModalProps {
   id: string;
   data: MultipleChoiceData;
-  isMultiSelect: boolean;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: QuestionElementType;
 }
 
 const EditMultipleChoiceModal = ({
   id,
   data,
-  isMultiSelect,
   isOpen,
   setOpen,
+  type,
 }: EditMultipleChoiceModalProps): React.ReactElement => {
   const { onClose } = useDisclosure();
   const closeModal = () => {
@@ -40,10 +43,10 @@ const EditMultipleChoiceModal = ({
   return (
     <MultipleChoiceModal
       data={data}
-      isMultiSelect={isMultiSelect}
       isOpen={isOpen}
       onClose={closeModal}
       onConfirm={updateMultipleChoiceElement}
+      type={type}
     />
   );
 };

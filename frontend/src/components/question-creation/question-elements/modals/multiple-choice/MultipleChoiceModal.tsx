@@ -5,6 +5,7 @@ import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext
 import {
   MultipleChoiceData,
   MultipleChoiceOptionData,
+  QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
@@ -14,19 +15,19 @@ import MultipleChoiceOption from "./MultipleChoiceOption";
 import SelectOptionCount from "./SelectOptionCount";
 
 interface MultipleChoiceModalProps {
-  isMultiSelect: boolean;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (data: MultipleChoiceData) => void;
+  type: QuestionElementType;
   data?: MultipleChoiceData;
 }
 
 const MultipleChoiceModal = ({
-  isMultiSelect,
   isOpen,
   onClose,
   onConfirm,
   data,
+  type,
 }: MultipleChoiceModalProps): React.ReactElement => {
   const [optionCount, setOptionCount] = useState(0);
   const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
@@ -64,7 +65,10 @@ const MultipleChoiceModal = ({
       setOptionCountError(true);
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
-    } else if (!isMultiSelect && correctOptionCount > 1) {
+    } else if (
+      type === QuestionElementType.MULTIPLE_CHOICE &&
+      correctOptionCount > 1
+    ) {
       setManyCorrectOptionsError(true);
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
@@ -80,9 +84,9 @@ const MultipleChoiceModal = ({
       onClose={handleClose}
       onConfirm={handleConfirm}
       title={
-        isMultiSelect
-          ? "Create multi-select question"
-          : "Create multiple choice question"
+        type === QuestionElementType.MULTIPLE_CHOICE
+          ? "Create multiple choice question"
+          : "Create multi-select question"
       }
     >
       <VStack spacing="10" width="100%">

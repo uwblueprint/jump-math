@@ -21,7 +21,9 @@ const QuestionPage = (): React.ReactElement => {
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
   ] = React.useState(false);
-  const [isMultiSelect, setIsMultiSelect] = React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
+    false,
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -33,8 +35,8 @@ const QuestionPage = (): React.ReactElement => {
           setShowAddShortAnswerModal,
           showAddMultipleChoiceModal,
           setShowAddMultipleChoiceModal,
-          isMultiSelect,
-          setIsMultiSelect,
+          showAddMultiSelectModal,
+          setShowAddMultiSelectModal,
         }}
       >
         <Flex minHeight="100vh">

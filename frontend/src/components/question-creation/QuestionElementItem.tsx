@@ -39,7 +39,7 @@ const renderQuestionContent = (content: QuestionElement) => {
           key={id}
           data={data as MultipleChoiceData}
           id={id}
-          isMultiSelect={false}
+          type={QuestionElementType.MULTIPLE_CHOICE}
         />
       );
     case QuestionElementType.MULTI_SELECT:
@@ -48,7 +48,7 @@ const renderQuestionContent = (content: QuestionElement) => {
           key={id}
           data={data as MultipleChoiceData}
           id={id}
-          isMultiSelect
+          type={QuestionElementType.MULTI_SELECT}
         />
       );
     case QuestionElementType.SHORT_ANSWER:

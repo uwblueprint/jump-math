@@ -15,16 +15,18 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
   const {
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
-    isMultiSelect,
+    showAddMultiSelectModal,
+    setShowAddMultiSelectModal,
   } = useContext(QuestionEditorContext);
   const closeModal = () => {
     setShowAddMultipleChoiceModal(false);
+    setShowAddMultiSelectModal(false);
     onClose();
   };
 
-  const multiData = isMultiSelect
-    ? { type: QuestionElementType.MULTI_SELECT }
-    : { type: QuestionElementType.MULTIPLE_CHOICE };
+  const multiData = showAddMultiSelectModal
+    ? QuestionElementType.MULTI_SELECT
+    : QuestionElementType.MULTIPLE_CHOICE;
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const addMultipleChoiceElement = (data: MultipleChoiceData) => {
@@ -32,7 +34,7 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
       ...prevElements,
       {
         id: uuidv4(),
-        ...multiData,
+        type: multiData,
         data,
       },
     ]);
@@ -40,10 +42,14 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
 
   return (
     <MultipleChoiceModal
-      isMultiSelect={isMultiSelect}
-      isOpen={showAddMultipleChoiceModal}
+      isOpen={showAddMultipleChoiceModal || showAddMultiSelectModal}
       onClose={closeModal}
       onConfirm={addMultipleChoiceElement}
+      type={
+        showAddMultipleChoiceModal
+          ? QuestionElementType.MULTIPLE_CHOICE
+          : QuestionElementType.MULTI_SELECT
+      }
     />
   );
 };
