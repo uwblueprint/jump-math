@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
   Spacer,
   Text,
   VStack,
@@ -12,21 +11,19 @@ import {
 
 import {
   EyeOutlineIcon,
-  MoreVerticalOutlineIcon,
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
+import { getReadableDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 
 interface CreateAssessementHeaderProps {
   assessmentName: string;
-  date: string;
   save: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CreateAssessementHeader = ({
   assessmentName,
-  date,
   save,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   return (
@@ -43,7 +40,9 @@ const CreateAssessementHeader = ({
             <Text textStyle="subtitle1">
               {assessmentName || "Untitled Assessment"}
             </Text>
-            <Text textStyle="smallerParagraph"> Created {date}</Text>
+            <Text textStyle="smallerParagraph">
+              Created {getReadableDate()}
+            </Text>
           </VStack>
         </HStack>
         <Spacer />
@@ -66,12 +65,6 @@ const CreateAssessementHeader = ({
           >
             Publish
           </Button>
-          <IconButton
-            aria-label="more-vertical-outline"
-            color="blue.700"
-            icon={<MoreVerticalOutlineIcon />}
-            minWidth="10"
-          />
         </HStack>
       </Flex>
     </Box>

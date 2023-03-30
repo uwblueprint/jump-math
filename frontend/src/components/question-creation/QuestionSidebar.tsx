@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 import {
+  ArrowBackOutlineIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -22,10 +23,18 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import { QuestionElementType } from "../../types/QuestionTypes";
-import BackButton from "../common/BackButton";
+import {
+  QuestionElement,
+  QuestionElementType,
+} from "../../types/QuestionTypes";
 
+import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
+
+interface QuestionSidebarProps {
+  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+}
 
 interface AccordionItemProps {
   title: string;
@@ -71,7 +80,10 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const QuestionSidebar = (): React.ReactElement => {
+const QuestionSidebar = ({
+  setShowQuestionEditor,
+  setQuestions,
+}: QuestionSidebarProps): React.ReactElement => {
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -81,7 +93,14 @@ const QuestionSidebar = (): React.ReactElement => {
     >
       <Stack w="22vw">
         <Box justifyContent="flex-start" paddingLeft="0">
-          <BackButton />
+          <Button
+            leftIcon={<ArrowBackOutlineIcon />}
+            onClick={() => setShowQuestionEditor(false)}
+            size="sm"
+            variant="tertiary"
+          >
+            Back
+          </Button>
         </Box>
         <Text color="blue.300" textStyle="header4">
           Create Question
@@ -120,9 +139,10 @@ const QuestionSidebar = (): React.ReactElement => {
         <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <Button minWidth={0} variant="primary">
-          Save
-        </Button>
+        <SaveQuestionEditorButton
+          setQuestions={setQuestions}
+          setShowQuestionEditor={setShowQuestionEditor}
+        />
       </HStack>
     </VStack>
   );

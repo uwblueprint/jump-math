@@ -42,8 +42,8 @@ const AssessmentSummary = (): React.ReactElement => {
           </Text>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
             <QuestionSummary
+              pointCount={assessmentMetadata.totalPoints}
               questionCount={assessmentMetadata.numOfQuestions}
-              totalPoints={assessmentMetadata.totalPoints}
             >
               <VStack align="left" width="100%">
                 <br />

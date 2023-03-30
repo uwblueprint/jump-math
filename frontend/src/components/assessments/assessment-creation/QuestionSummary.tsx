@@ -3,13 +3,13 @@ import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 interface QuestionSummaryProps {
   questionCount: number;
-  totalPoints: number;
+  pointCount: number;
   children?: React.ReactChild;
 }
 
 const QuestionSummary = ({
   questionCount,
-  totalPoints,
+  pointCount,
   children,
 }: QuestionSummaryProps): React.ReactElement => {
   return (
@@ -30,7 +30,7 @@ const QuestionSummary = ({
         <HStack>
           <Text textStyle="smallerParagraph">Number of Points</Text>
           <Spacer />
-          <Text>{totalPoints}</Text>
+          <Text>{pointCount}</Text>
         </HStack>
         {children}
       </VStack>

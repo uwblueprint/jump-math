@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Box,
-  Container,
   HStack,
   List,
   ListItem,
@@ -15,12 +14,11 @@ import {
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
-import { QuestionType } from "../../../types/QuestionTypes";
 
-import QuestionTag from "./QuestionTag";
+import QuestionTag, { QuestionTagProps } from "./QuestionTag";
 
 interface QuestionCardProps {
-  tags: { type: QuestionType; count: number }[];
+  tags: QuestionTagProps[];
   questionNumber: number;
   questions: string[];
 }

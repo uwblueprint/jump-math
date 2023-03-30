@@ -27,6 +27,7 @@ const QuestionSidebarItem = ({
     setQuestionElements,
     setShowAddShortAnswerModal,
     setShowAddMultipleChoiceModal,
+    setShowEditorError,
   } = useContext(QuestionEditorContext);
 
   const addQuestionElement = (newQuestionElement: QuestionElement) => {
@@ -48,6 +49,10 @@ const QuestionSidebarItem = ({
             break;
           case QuestionElementType.MULTIPLE_CHOICE:
             setShowAddMultipleChoiceModal(true);
+            break;
+          case QuestionElementType.QUESTION:
+            setShowEditorError(false);
+            addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
             break;
           default:
             addQuestionElement({ id: uuidv4(), type: item.type, data: "" });

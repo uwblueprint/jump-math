@@ -10,7 +10,6 @@ import NotFound from "../NotFound";
 
 import CreateAssessmentPage from "./CreateAssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
-import QuestionPage from "./QuestionPage";
 import UsersPage from "./UsersPage";
 
 const pages: Page[] = [
@@ -21,12 +20,6 @@ const pages: Page[] = [
 const AdminDashboard = (): React.ReactElement => {
   return (
     <Switch>
-      <PrivateRoute
-        component={QuestionPage}
-        exact
-        path={Routes.CREATE_QUESTION}
-        roles={["Admin"]}
-      />
       <PrivateRoute
         component={CreateAssessmentPage}
         exact
