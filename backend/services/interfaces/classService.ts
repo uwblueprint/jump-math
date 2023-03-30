@@ -20,7 +20,7 @@ export interface ClassRequestDTO {
   gradeLevel: Grade[];
   teacher: string;
   testSessions: string[];
-  students: StudentRequestDTO[];
+  students?: StudentRequestDTO[];
 }
 
 export interface ClassResponseDTO {
@@ -65,4 +65,35 @@ export interface IClassService {
    * @throws Error if retrieval fails
    */
   deleteClass(id: string): Promise<string>;
+
+  /**
+   * This method creates a new student in the database.
+   * @param student new student
+   * @returns the created student
+   * @throws Error if creation fails
+   */
+  createStudent(
+    student: StudentRequestDTO,
+    classId: string,
+  ): Promise<ClassResponseDTO>;
+
+  /**
+   * This method updates the student with given id.
+   * @param student The request object containing information about the updated student
+   * @returns the new updated ClassResponseDTO
+   * @throws Error if retrieval fails
+   */
+  updateStudent(
+    studentId: string,
+    classId: string,
+    student: StudentRequestDTO,
+  ): Promise<ClassResponseDTO>;
+
+  /**
+   * This method deletes the student with given id
+   * @param id student id class id
+   * @returns
+   * @throws Error if retrieval fails
+   */
+  deleteStudent(studentId: string, classId: string): Promise<string>;
 }

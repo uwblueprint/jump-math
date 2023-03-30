@@ -20,6 +20,18 @@ export const testStudents: StudentRequestDTO[] = [
   },
 ];
 
+export const updatedTestStudents: StudentRequestDTO[] = [
+  {
+    firstName: "Jeremy",
+    lastName: "Lin",
+    studentNumber: "7",
+  },
+  {
+    firstName: "Calvin",
+    lastName: "Zhang",
+  },
+];
+
 export const testStudentsWithIds: StudentResponseDTO[] = [
   {
     id: "6421bf4b8c29e57d38efc7bd",
@@ -40,7 +52,7 @@ export const testClass: ClassRequestDTO[] = [
     gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
     teacher: mockTeacher.id,
     testSessions: [mockTestSessionWithId.id],
-    students: testStudents,
+    students: [],
   },
   {
     className: "class2",
@@ -48,9 +60,14 @@ export const testClass: ClassRequestDTO[] = [
     gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
     teacher: mockTeacher.id,
     testSessions: [mockTestSessionWithId.id],
-    students: testStudents,
+    students: [],
   },
 ];
+
+export const testClassWithStudents: ClassRequestDTO = {
+  ...testClass[0],
+  students: testStudents,
+};
 
 // set up test class with invalid teacher id
 export const testClassInvalidTeacher: ClassRequestDTO = {
@@ -59,7 +76,7 @@ export const testClassInvalidTeacher: ClassRequestDTO = {
   gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
   teacher: "56cb91bdc3464f14678934cb",
   testSessions: [mockTestSessionWithId.id],
-  students: testStudents,
+  students: [],
 };
 
 export const updatedTestClass: ClassRequestDTO = {
@@ -68,7 +85,16 @@ export const updatedTestClass: ClassRequestDTO = {
   gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
   teacher: mockTeacher.id,
   testSessions: [mockTestSessionWithId.id],
-  students: testStudents,
+  students: [],
+};
+
+export const updatedTestClassWithStudent: ClassRequestDTO = {
+  className: "class1",
+  schoolYear: 4,
+  gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+  teacher: mockTeacher.id,
+  testSessions: [mockTestSessionWithId.id],
+  students: updatedTestStudents,
 };
 
 export const mockClassWithId = {
@@ -93,10 +119,14 @@ export const assertResponseMatchesExpected = (
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.testSessions).toEqual([mockTestSessionWithId]);
-  result.students.forEach((student, index) => {
-    expect(student.id).not.toBeNull();
-    expect(student.firstName).toEqual(testStudents[index].firstName);
-    expect(student.lastName).toEqual(testStudents[index].lastName);
-    expect(student.studentNumber).toEqual(testStudents[index].studentNumber);
-  });
+  if (expected.students !== undefined) {
+    result.students.forEach((student, index) => {
+      expect(student.id).not.toBeNull();
+      expect(student.firstName).toEqual(expected.students![index]?.firstName);
+      expect(student.lastName).toEqual(expected.students![index]?.lastName);
+      expect(student.studentNumber).toEqual(
+        expected.students![index]?.studentNumber,
+      );
+    });
+  }
 };

@@ -7,6 +7,10 @@ import {
   testClassInvalidTeacher,
   assertResponseMatchesExpected,
   updatedTestClass,
+  testStudents,
+  testClassWithStudents,
+  updatedTestClassWithStudent,
+  updatedTestStudents,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -103,6 +107,7 @@ describe("mongo classService", (): void => {
     const savedClass = await ClassModel.create(testClass[0]);
 
     const deletedClassId = await classService.deleteClass(savedClass.id);
+
     expect(deletedClassId).toBe(savedClass.id);
   });
 
@@ -110,6 +115,75 @@ describe("mongo classService", (): void => {
     const notFoundId = "86cb91bdc3464f14678934cd";
     await expect(async () => {
       await classService.deleteClass(notFoundId);
+    }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
+  });
+
+  it("creates student", async () => {
+    const createdClass = await classService.createClass(testClass[0]);
+
+    // execute
+    const createdClassWithStudent = await classService.createStudent(
+      testStudents[0],
+      createdClass.id,
+    );
+
+    // assert
+    assertResponseMatchesExpected(
+      testClassWithStudents,
+      createdClassWithStudent,
+    );
+  });
+
+  it("update student", async () => {
+    // add test class
+    const createdClassWithStudent = await ClassModel.create(
+      testClassWithStudents,
+    );
+
+    // execute
+    const res = await classService.updateStudent(
+      createdClassWithStudent.students[0].id,
+      createdClassWithStudent.id,
+      updatedTestStudents[0],
+    );
+
+    // assert
+    assertResponseMatchesExpected(updatedTestClassWithStudent, res);
+  });
+
+  it("update student for student not found", async () => {
+    const createdClassWithStudent = await ClassModel.create(
+      testClassWithStudents,
+    );
+    const notFoundId = "62d9fc947195ae705e71f0d9";
+    await expect(async () => {
+      await classService.updateStudent(
+        notFoundId,
+        createdClassWithStudent.id,
+        updatedTestStudents[0],
+      );
+    }).rejects.toThrowError(
+      `Student id ${notFoundId} not found in class ${createdClassWithStudent.id}`,
+    );
+  });
+
+  it("deleteStudent", async () => {
+    const classObj = await ClassModel.create(testClassWithStudents);
+
+    const savedStudent = classObj.students[0];
+    const deletedStudentId = await classService.deleteStudent(
+      savedStudent.id,
+      classObj.id,
+    );
+
+    expect(deletedStudentId).toBe(savedStudent.id);
+  });
+
+  it("deleteStudent with non-existing id", async () => {
+    const classObj = await ClassModel.create(testClassWithStudents);
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await classService.deleteStudent(classObj.students[0].id, notFoundId);
     }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 });
