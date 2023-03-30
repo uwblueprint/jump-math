@@ -23,7 +23,7 @@ const SaveQuestionEditorButton = ({
   const responseError =
     "Please add at least one response type for this question";
   const emptyElementError =
-    "Please ensure all fields are filled. If you do not need this component, please delete this component.";
+    "Please ensure this field is filled. If you do not need this item, please delete it.";
 
   const {
     questionElements,
@@ -103,7 +103,7 @@ const SaveQuestionEditorButton = ({
     );
   };
 
-  const validateNoEmptyEditorError = () => {
+  const validateNoMissingQuestionError = () => {
     const emptyEditor =
       questionElements.filter(
         (element) => element.type === QuestionElementType.QUESTION,
@@ -114,7 +114,7 @@ const SaveQuestionEditorButton = ({
 
   const handleSave = () => {
     if (
-      validateNoEmptyEditorError() &&
+      validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
       validateNoExistingErrors()

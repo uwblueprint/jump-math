@@ -14,6 +14,7 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
+import { getReadableDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 
 interface CreateAssessementHeaderProps {
@@ -25,13 +26,6 @@ const CreateAssessementHeader = ({
   assessmentName,
   save,
 }: CreateAssessementHeaderProps): React.ReactElement => {
-  const date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  };
-  const formattedDate = date.toLocaleDateString("en-US", options);
   return (
     <Box
       borderBottom="1px"
@@ -46,7 +40,9 @@ const CreateAssessementHeader = ({
             <Text textStyle="subtitle1">
               {assessmentName || "Untitled Assessment"}
             </Text>
-            <Text textStyle="smallerParagraph"> Created {formattedDate}</Text>
+            <Text textStyle="smallerParagraph">
+              Created {getReadableDate()}
+            </Text>
           </VStack>
         </HStack>
         <Spacer />

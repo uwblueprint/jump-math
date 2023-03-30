@@ -26,7 +26,7 @@ const QuestionWorkspace = (): React.ReactElement => {
   const isHovering = canDrop && isOver;
 
   const emptyEditorError =
-    "Please add at least one element to the editor before saving";
+    "Please add at least one question to the editor before saving";
 
   return (
     <Box ref={drop} flex="1" overflow="auto">
