@@ -14,6 +14,7 @@ import {
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
+import ImageElement from "./question-elements/ImageElement";
 import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
@@ -32,7 +33,7 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.TEXT:
       return <TextElement key={id} data={data as string} id={id} />;
     case QuestionElementType.IMAGE:
-      return <Text key={id}>this is an image element.</Text>;
+      return <ImageElement key={id} data={data as string} id={id} />;
     case QuestionElementType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceElement

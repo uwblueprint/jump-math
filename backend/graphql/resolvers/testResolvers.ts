@@ -1,3 +1,4 @@
+import { FileUpload } from "graphql-upload";
 import TestService from "../../services/implementations/testService";
 import {
   AssessmentStatus,
@@ -11,8 +12,18 @@ import {
   QuestionComponentRequest,
   QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
+import { UploadedImage } from "../../services/interfaces/imageStorageService";
+import FileStorageService from "../../services/implementations/fileStorageService";
+import ImageStorageService from "../../services/implementations/imageStorageService";
 
 const testService: ITestService = new TestService();
+const fileStorageService = new FileStorageService(
+  process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "",
+);
+const imageStorageService = new ImageStorageService(
+  "assessment-images",
+  fileStorageService,
+);
 
 type QuestionMetadataName =
   | "QuestionTextMetadata"
@@ -170,6 +181,12 @@ const testResolvers = {
         status: AssessmentStatus.ARCHIVED,
       });
       return updatedTest;
+    },
+    uploadTestImage: async (
+      _req: undefined,
+      { file }: { file: Promise<FileUpload> },
+    ): Promise<UploadedImage> => {
+      return imageStorageService.uploadImage(file);
     },
   },
 };

@@ -130,6 +130,11 @@ const testType = gql`
     status: StatusEnum!
   }
 
+  type UploadedImage {
+    url: String!
+    path: String!
+  }
+
   extend type Query {
     tests: [TestResponseDTO]!
   }
@@ -142,6 +147,7 @@ const testType = gql`
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!
     archiveTest(id: ID!): TestResponseDTO!
+    uploadTestImage(file: Upload): UploadedImage
   }
 `;
 
