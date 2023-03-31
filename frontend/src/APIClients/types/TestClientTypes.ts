@@ -17,7 +17,7 @@ interface QuestionMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
-  // multipleChoiceMetadata: MultipleChoiceMetadata;
+  multipleChoiceMetadata: MultipleChoiceMetadata;
 }
 
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
