@@ -1,8 +1,8 @@
 import React from "react";
 import { Tag } from "@chakra-ui/react";
 
-import { Status } from "../../types/AssessmentTypes";
-import { titleCase } from "../../utils/GeneralUtils";
+import { Status } from "../../../types/AssessmentTypes";
+import { titleCase } from "../../../utils/GeneralUtils";
 
 interface StatusTagProps {
   status: Status;

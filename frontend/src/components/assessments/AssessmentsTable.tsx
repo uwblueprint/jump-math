@@ -5,8 +5,8 @@ import { AssessmentProperties, Status } from "../../types/AssessmentTypes";
 import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 import { Table, TableRow } from "../common/table/Table";
 
-import EditStatusPopover from "./EditStatusPopover";
-import StatusTag from "./StatusTag";
+import EditStatusPopover from "./assessment-status/EditStatusPopover";
+import StatusTag from "./assessment-status/StatusTag";
 
 interface AssessmentsTableProps {
   assessments: AssessmentProperties[];

@@ -2,7 +2,7 @@ import React from "react";
 
 import { QuestionElementType } from "../../types/QuestionTypes";
 import QuestionCard from "../assessments/assessment-creation/QuestionCard";
-import ArchiveModal from "../assessments/EditStatusModals/ArchiveModal";
+import ArchiveModal from "../assessments/assessment-status/EditStatusModals/ArchiveModal";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
