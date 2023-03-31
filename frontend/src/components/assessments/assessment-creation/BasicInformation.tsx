@@ -21,9 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { Select, SingleValue } from "chakra-react-select";
 
+import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import { TestRequest, UseCase } from "../../../types/AssessmentTypes";
+import { UseCase } from "../../../types/AssessmentTypes";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 

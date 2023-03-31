@@ -29,7 +29,7 @@ export type QuestionElement = {
 };
 
 export type QuestionElementDataType =
-  // remove when all the elements have been implemented
+  // remove string when all the elements have been implemented
   | string
   | MultiData
   | QuestionTextMetadata
@@ -61,12 +61,4 @@ export interface ShortAnswerMetadata {
 export interface MultipleChoiceMetadata {
   options: string[];
   answerIndex: number;
-}
-
-export interface QuestionComponentRequest {
-  type: QuestionElementType;
-  questionTextMetadata?: QuestionTextMetadata;
-  textMetadata?: TextMetadata;
-  shortAnswerMetadata?: ShortAnswerMetadata;
-  multipleChoiceMetadata: null | MultipleChoiceMetadata;
 }

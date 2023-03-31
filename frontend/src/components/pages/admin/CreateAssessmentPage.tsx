@@ -5,12 +5,15 @@ import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
 import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import {
+  QuestionComponentRequest,
+  TestRequest,
+} from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
-import { Status, TestRequest } from "../../../types/AssessmentTypes";
+import { Status } from "../../../types/AssessmentTypes";
 import {
   MultipleChoiceData,
   MultipleChoiceMetadata,
-  QuestionComponentRequest,
   QuestionElement,
   QuestionElementType,
   QuestionTextMetadata,
