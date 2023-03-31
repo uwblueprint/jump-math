@@ -7,16 +7,18 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
+  MultipleChoiceMetadata,
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+  TextMetadata,
+} from "../types/QuestionMetadataTypes";
+import {
   MultiData,
   MultiOptionData,
-  MultipleChoiceMetadata,
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
-  QuestionTextMetadata,
   ResponseElementType,
-  ShortAnswerMetadata,
-  TextMetadata,
 } from "../types/QuestionTypes";
 
 export const shouldReorder = (
@@ -131,19 +133,16 @@ export const formatQuestionsRequest = (
           return {
             type: QuestionElementType.QUESTION_TEXT,
             questionTextMetadata: element.data as QuestionTextMetadata,
-            multipleChoiceMetadata: null,
           };
         case QuestionElementType.TEXT:
           return {
             type: QuestionElementType.TEXT,
             textMetadata: element.data as TextMetadata,
-            multipleChoiceMetadata: null,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {
             type: QuestionElementType.SHORT_ANSWER,
             shortAnswerMetadata: element.data as ShortAnswerMetadata,
-            multipleChoiceMetadata: null,
           };
         case QuestionElementType.MULTIPLE_CHOICE:
           return {
@@ -156,7 +155,6 @@ export const formatQuestionsRequest = (
           return {
             type: QuestionElementType.QUESTION_TEXT,
             questionTextMetadata: element.data as QuestionTextMetadata,
-            multipleChoiceMetadata: null,
           };
       }
     });

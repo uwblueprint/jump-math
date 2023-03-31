@@ -8,12 +8,14 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
-  MultiData,
-  QuestionElement,
-  QuestionElementType,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
+} from "../../types/QuestionMetadataTypes";
+import {
+  MultiData,
+  QuestionElement,
+  QuestionElementType,
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 

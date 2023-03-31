@@ -6,7 +6,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-import { ShortAnswerMetadata } from "../../../../../types/QuestionTypes";
+import { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
 import Modal from "../../../../common/Modal";
 
 interface ShortAnswerModalProps {

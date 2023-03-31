@@ -1,28 +1,26 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
   MultipleChoiceMetadata,
-  QuestionElementType,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
-} from "../../types/QuestionTypes";
+} from "../../types/QuestionMetadataTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 
 import { Grade } from "./UserClientTypes";
 
-export type QuestionComponentMetadata =
-  | QuestionTextMetadata
-  | TextMetadata
-  | MultipleChoiceMetadata
-  | ShortAnswerMetadata;
-
-export interface QuestionComponentRequest {
-  /** the type of question component  */
+interface QuestionType {
   type: QuestionElementType;
-  questionTextMetadata?: QuestionTextMetadata;
-  textMetadata?: TextMetadata;
-  shortAnswerMetadata?: ShortAnswerMetadata;
-  multipleChoiceMetadata: null | MultipleChoiceMetadata;
 }
+
+interface QuestionMetadata {
+  questionTextMetadata: QuestionTextMetadata;
+  textMetadata: TextMetadata;
+  shortAnswerMetadata: ShortAnswerMetadata;
+  // multipleChoiceMetadata: MultipleChoiceMetadata;
+}
+
+export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
 
 export type TestRequest = {
   name: string;

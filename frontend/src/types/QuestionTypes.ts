@@ -1,3 +1,16 @@
+import {
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+  TextMetadata,
+} from "./QuestionMetadataTypes";
+
+export interface QuestionElement {
+  id: string;
+  type: QuestionElementType;
+  data: QuestionElementDataType;
+  error?: string;
+}
+
 export enum QuestionElementType {
   QUESTION_TEXT = "QUESTION_TEXT",
   TEXT = "TEXT",
@@ -5,6 +18,24 @@ export enum QuestionElementType {
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   SHORT_ANSWER = "SHORT_ANSWER",
   MULTI_SELECT = "MULTI_SELECT",
+}
+
+export type QuestionElementDataType =
+  // remove string when all the elements have been implemented
+  | string
+  | QuestionTextMetadata
+  | TextMetadata
+  | ShortAnswerMetadata
+  | MultiData;
+
+export interface MultiOptionData {
+  id: string;
+  value: string;
+  isCorrect: boolean;
+}
+
+export interface MultiData {
+  options: MultiOptionData[];
 }
 
 export type ResponseElementType = Extract<
@@ -20,45 +51,3 @@ export const ResponseElementType = {
   [QuestionElementType.SHORT_ANSWER]: QuestionElementType.SHORT_ANSWER,
   [QuestionElementType.MULTI_SELECT]: QuestionElementType.MULTI_SELECT,
 } as const;
-
-export type QuestionElement = {
-  id: string;
-  type: QuestionElementType;
-  data: QuestionElementDataType;
-  error?: string;
-};
-
-export type QuestionElementDataType =
-  // remove string when all the elements have been implemented
-  | string
-  | MultiData
-  | QuestionTextMetadata
-  | TextMetadata
-  | ShortAnswerMetadata;
-
-export type MultiOptionData = {
-  id: string;
-  value: string;
-  isCorrect: boolean;
-};
-
-export type MultiData = {
-  options: MultiOptionData[];
-};
-
-export interface QuestionTextMetadata {
-  questionText: string;
-}
-
-export interface TextMetadata {
-  text: string;
-}
-
-export interface ShortAnswerMetadata {
-  answer: number;
-}
-
-export interface MultipleChoiceMetadata {
-  options: string[];
-  answerIndex: number;
-}
