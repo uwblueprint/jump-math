@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
 import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
-import { ASSESSMENTS } from "../../../constants/Routes";
+import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import {
   AssessmentData,
   Status,
@@ -49,7 +49,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     await createTest({ variables: { test } })
       .then((response) => {
         console.log("response data: ", response);
-        history.push(ASSESSMENTS);
+        history.push(ASSESSMENTS_PAGE);
       })
       .catch(() => {
         console.log("error");

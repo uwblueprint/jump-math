@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import { TEACHER_LOGIN } from "../../../../constants/Routes";
+import { TEACHER_LOGIN_PAGE } from "../../../../constants/Routes";
 import AuthWrapper from "../../AuthWrapper";
 
 const TeacherSignupConfirmation = (): React.ReactElement => {
@@ -12,7 +12,7 @@ const TeacherSignupConfirmation = (): React.ReactElement => {
     <AuthWrapper
       form={
         <Button
-          onClick={() => history.push(TEACHER_LOGIN)}
+          onClick={() => history.push(TEACHER_LOGIN_PAGE)}
           variant="primary"
           width="100%"
         >

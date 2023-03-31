@@ -13,8 +13,8 @@ import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
 const pages: Page[] = [
-  { title: "Assessments", url: Routes.ASSESSMENTS },
-  { title: "Database", url: Routes.USER_DATABASE },
+  { title: "Assessments", url: Routes.ASSESSMENTS_PAGE },
+  { title: "Database", url: Routes.USER_DATABASE_PAGE },
 ];
 
 const AdminDashboard = (): React.ReactElement => {
@@ -23,7 +23,7 @@ const AdminDashboard = (): React.ReactElement => {
       <PrivateRoute
         component={CreateAssessmentPage}
         exact
-        path={Routes.CREATE_ASSESSMENT}
+        path={Routes.CREATE_ASSESSMENT_PAGE}
         roles={["Admin"]}
       />
       <VStack align="left" flex="1">
@@ -33,19 +33,19 @@ const AdminDashboard = (): React.ReactElement => {
             <PrivateRoute
               component={UsersPage}
               exact
-              path={Routes.USER_DATABASE}
+              path={Routes.USER_DATABASE_PAGE}
               roles={["Admin"]}
             />
             <PrivateRoute
               component={DisplayAssessmentsPage}
               exact
-              path={Routes.ASSESSMENTS}
+              path={Routes.ASSESSMENTS_PAGE}
               roles={["Admin"]}
             />
             <Redirect
               exact
-              from={Routes.ADMIN_LANDING}
-              to={Routes.USER_DATABASE}
+              from={Routes.ADMIN_LANDING_PAGE}
+              to={Routes.USER_DATABASE_PAGE}
             />
             <Route component={NotFound} exact path="*" />
           </Switch>
