@@ -37,11 +37,6 @@ const QuestionWorkspace = (): React.ReactElement => {
             <ErrorToast errorMessage={emptyEditorError} />
           </Box>
         )}
-        {!isHovering && showEditorError && (
-          <Box paddingBottom="4">
-            <ErrorToast errorMessage={emptyEditorError} />
-          </Box>
-        )}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
         {!isHovering &&
           questionElements.length &&

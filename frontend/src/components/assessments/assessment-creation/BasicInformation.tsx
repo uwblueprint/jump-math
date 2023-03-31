@@ -68,10 +68,8 @@ const BasicInformation = ({
   return (
     <Box width="100%">
       <VStack align="left" spacing={8} width="75%">
-        <Text textStyle="eyebrow">Basic Information</Text>
-
         {errorMessage && <ErrorToast errorMessage={errorMessage} />}
-
+        <Text textStyle="eyebrow">Basic Information</Text>
         <FormControl isInvalid={Boolean(errors.name)} isRequired>
           <FormLabel color="grey.400">Assessment Name</FormLabel>
           <Input

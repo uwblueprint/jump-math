@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -36,20 +36,36 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
+  const noQuestionError =
+    "Please add at least one question to the assessment before saving";
+  useEffect(() => {
+    if (errorMessage === noQuestionError && questions.length !== 0) {
+      setErrorMessage("");
+    }
+  }, [questions, errorMessage]);
+
   const onSave: SubmitHandler<TestRequest> = async (data) => {
-    const test: TestRequest = {
-      ...data,
-      status: Status.DRAFT,
-      questions: formatQuestionsRequest(questions),
-    };
-    await createTest({ variables: { test } })
-      .then(() => {
-        history.push(ASSESSMENTS_PAGE);
+    if (questions.length === 0) {
+      setErrorMessage(noQuestionError);
+    } else {
+      await createTest({
+        variables: {
+          test: {
+            ...data,
+            status: Status.DRAFT,
+            questions: formatQuestionsRequest(questions),
+          },
+        },
       })
-      .catch(() => {
-        setErrorMessage("Assessment failed to save. Please try again.");
-      });
+        .then(() => {
+          history.push(ASSESSMENTS_PAGE);
+        })
+        .catch(() => {
+          setErrorMessage("Assessment failed to save. Please try again.");
+        });
+    }
   };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };

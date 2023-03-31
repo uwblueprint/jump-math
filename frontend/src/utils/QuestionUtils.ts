@@ -144,17 +144,12 @@ export const formatQuestionsRequest = (
             type: QuestionElementType.SHORT_ANSWER,
             shortAnswerMetadata: element.data as ShortAnswerMetadata,
           };
-        case QuestionElementType.MULTIPLE_CHOICE:
+        default:
           return {
             type: QuestionElementType.MULTIPLE_CHOICE,
             multipleChoiceMetadata: formatMultipleChoiceRequest(
               element.data as MultiData,
             ),
-          };
-        default:
-          return {
-            type: QuestionElementType.QUESTION_TEXT,
-            questionTextMetadata: element.data as QuestionTextMetadata,
           };
       }
     });

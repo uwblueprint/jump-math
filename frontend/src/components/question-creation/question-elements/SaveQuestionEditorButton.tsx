@@ -117,8 +117,7 @@ const SaveQuestionEditorButton = ({
       validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
-      validateNoExistingErrors() &&
-      validateNoMissingQuestionError()
+      validateNoExistingErrors()
     ) {
       setQuestions((prevQuestions) => {
         return [...prevQuestions, questionElements];
