@@ -11,6 +11,8 @@ import {
   MultiData,
   QuestionElement,
   QuestionElementType,
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
@@ -28,7 +30,13 @@ const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
     case QuestionElementType.QUESTION:
-      return <QuestionTextElement key={id} data={data as string} id={id} />;
+      return (
+        <QuestionTextElement
+          key={id}
+          data={data as QuestionTextMetadata}
+          id={id}
+        />
+      );
     case QuestionElementType.TEXT:
       return <TextElement key={id} data={data as string} id={id} />;
     case QuestionElementType.IMAGE:
@@ -52,7 +60,13 @@ const renderQuestionContent = (content: QuestionElement) => {
         />
       );
     case QuestionElementType.SHORT_ANSWER:
-      return <ShortAnswerElement key={id} data={data as number} id={id} />;
+      return (
+        <ShortAnswerElement
+          key={id}
+          data={data as ShortAnswerMetadata}
+          id={id}
+        />
+      );
     default:
       return null;
   }

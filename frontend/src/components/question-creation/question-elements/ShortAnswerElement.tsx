@@ -2,12 +2,13 @@ import React from "react";
 import { Box, Button, Flex, IconButton, Input, Spacer } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
+import { ShortAnswerMetadata } from "../../../types/QuestionTypes";
 
 import EditShortAnswerModal from "./modals/short-answer/EditShortAnswerModal";
 
 interface ShortAnswerElementProps {
   id: string;
-  data: number;
+  data: ShortAnswerMetadata;
 }
 
 const ShortAnswerElement = ({
@@ -25,7 +26,7 @@ const ShortAnswerElement = ({
         borderRadius="0"
         focusBorderColor="grey.300"
         readOnly
-        value={data}
+        value={data.answer}
         variant="outline"
         width="34%"
       />
@@ -41,7 +42,7 @@ const ShortAnswerElement = ({
         />
       </Box>
       <EditShortAnswerModal
-        data={data}
+        data={data.answer}
         id={id}
         isOpen={showEditShortAnswerModal}
         setOpen={setShowEditShortAnswerModal}

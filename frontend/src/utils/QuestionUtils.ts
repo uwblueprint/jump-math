@@ -10,6 +10,7 @@ import {
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
+  QuestionTextMetadata,
   ResponseElementType,
 } from "../types/QuestionTypes";
 
@@ -100,5 +101,8 @@ export const getQuestionTexts = (question: QuestionElement[]): string[] => {
       (questionElement) =>
         questionElement.type === QuestionElementType.QUESTION,
     )
-    .map((questionElement) => questionElement.data as string);
+    .map(
+      (questionElement) =>
+        (questionElement.data as QuestionTextMetadata).questionText,
+    );
 };

@@ -1,9 +1,9 @@
 export enum QuestionElementType {
-  QUESTION = "Question",
+  QUESTION = "QUESTION_TEXT",
   TEXT = "Text",
   IMAGE = "Image",
   MULTIPLE_CHOICE = "Multiple Choice",
-  SHORT_ANSWER = "Short Answer",
+  SHORT_ANSWER = "SHORT_ANSWER",
   MULTI_SELECT = "Multi-select",
 }
 
@@ -28,7 +28,12 @@ export type QuestionElement = {
   error?: string;
 };
 
-export type QuestionElementDataType = string | number | MultiData;
+export type QuestionElementDataType =
+  | string
+  | number
+  | MultiData
+  | QuestionTextMetadata
+  | ShortAnswerMetadata;
 
 export type MultiOptionData = {
   id: string;
@@ -37,7 +42,6 @@ export type MultiOptionData = {
 };
 
 export type MultiData = {
-  optionCount: number;
   options: MultiOptionData[];
 };
 
@@ -45,38 +49,16 @@ export interface QuestionTextMetadata {
   questionText: string;
 }
 
-export interface TextMetadata {
-  text: string;
-}
-
-export interface ImageMetadata {
-  src: string;
-}
-
-export interface MultipleChoiceMetadata {
-  options: string[];
-  answerIndex: number;
-}
-
-export interface MultiSelectMetadata {
-  options: string[];
-  answerIndices: number[];
-}
-
 export interface ShortAnswerMetadata {
   answer: number;
 }
 
 export interface QuestionComponentMetadataRequest {
-  questionTextMetadata: QuestionTextMetadata;
-  textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
-  multipleChoiceMetadata: MultipleChoiceMetadata;
-  multiSelectMetadata: MultiSelectMetadata;
-  shortAnswerMetadata: ShortAnswerMetadata;
+  questionTextMetadata?: QuestionTextMetadata;
 }
 
 export type QuestionComponentRequest = {
   type: QuestionElementType;
-  metadata: QuestionComponentMetadataRequest;
+  questionTextMetadata?: QuestionTextMetadata;
+  shortAnswerMetadata?: ShortAnswerMetadata;
 };

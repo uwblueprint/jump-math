@@ -25,7 +25,7 @@ export const typeToImageMetadata = {
     tooltip:
       "Users will have to select the correct responses from a list of options",
   },
-  "Short Answer": {
+  SHORT_ANSWER: {
     src: SHORT_ANSWER.src,
     alt: "short-answer",
     tooltip: "Users will have to type in their answers",

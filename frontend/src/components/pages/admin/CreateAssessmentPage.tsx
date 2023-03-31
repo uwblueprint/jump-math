@@ -7,7 +7,13 @@ import { Divider, VStack } from "@chakra-ui/react";
 import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { Status, TestRequest } from "../../../types/AssessmentTypes";
-import { QuestionElement } from "../../../types/QuestionTypes";
+import {
+  QuestionComponentRequest,
+  QuestionElement,
+  QuestionElementType,
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+} from "../../../types/QuestionTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
@@ -34,11 +40,39 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
+  const convertedQuestions = (): QuestionComponentRequest[][] => {
+    return questions.map((question) => {
+      return question.map((element) => {
+        switch (element.type) {
+          case QuestionElementType.SHORT_ANSWER:
+            return {
+              type: QuestionElementType.SHORT_ANSWER,
+              shortAnswerMetadata: element.data as ShortAnswerMetadata,
+            };
+          default:
+            return {
+              type: QuestionElementType.QUESTION,
+              questionTextMetadata: element.data as QuestionTextMetadata,
+            };
+        }
+      });
+    });
+  };
+
+  const testQuestion: QuestionComponentRequest[][] = [
+    [
+      {
+        type: QuestionElementType.QUESTION,
+        questionTextMetadata: { questionText: "test" },
+      },
+    ],
+  ];
+
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     const test: TestRequest = {
       ...data,
       status: Status.DRAFT,
-      questions: [],
+      questions: convertedQuestions(),
     };
     await createTest({ variables: { test } })
       .then(() => {
