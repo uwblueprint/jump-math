@@ -63,10 +63,10 @@ export interface MultipleChoiceMetadata {
   answerIndex: number;
 }
 
-export type QuestionComponentRequest = {
+export interface QuestionComponentRequest {
   type: QuestionElementType;
   questionTextMetadata?: QuestionTextMetadata;
   textMetadata?: TextMetadata;
   shortAnswerMetadata?: ShortAnswerMetadata;
-  multipleChoiceMetadata?: MultipleChoiceMetadata;
-};
+  multipleChoiceMetadata: null | MultipleChoiceMetadata;
+}

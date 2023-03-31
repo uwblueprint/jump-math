@@ -60,16 +60,19 @@ const CreateAssessmentPage = (): React.ReactElement => {
             return {
               type: QuestionElementType.QUESTION_TEXT,
               questionTextMetadata: element.data as QuestionTextMetadata,
+              multipleChoiceMetadata: null,
             };
           case QuestionElementType.TEXT:
             return {
               type: QuestionElementType.TEXT,
               textMetadata: element.data as TextMetadata,
+              multipleChoiceMetadata: null,
             };
           case QuestionElementType.SHORT_ANSWER:
             return {
               type: QuestionElementType.SHORT_ANSWER,
               shortAnswerMetadata: element.data as ShortAnswerMetadata,
+              multipleChoiceMetadata: null,
             };
           case QuestionElementType.MULTIPLE_CHOICE:
             return {
@@ -82,6 +85,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
             return {
               type: QuestionElementType.QUESTION_TEXT,
               questionTextMetadata: element.data as QuestionTextMetadata,
+              multipleChoiceMetadata: null,
             };
         }
       });
