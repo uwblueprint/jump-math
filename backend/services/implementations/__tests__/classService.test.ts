@@ -119,7 +119,7 @@ describe("mongo classService", (): void => {
   });
 
   it("creates student", async () => {
-    const createdClass = await classService.createClass(testClass[0]);
+    const createdClass = await ClassModel.create(testClass[0]);
 
     // execute
     const createdClassWithStudent = await classService.createStudent(
@@ -132,6 +132,14 @@ describe("mongo classService", (): void => {
       testClassWithStudents,
       createdClassWithStudent,
     );
+  });
+
+  it("create student for class id not found", async () => {
+    const notFoundId = "62d9fc947195ae705e71f0d9";
+    // assert
+    await expect(async () => {
+      await classService.createStudent(testStudents[0], notFoundId);
+    }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 
   it("update student", async () => {
@@ -163,7 +171,7 @@ describe("mongo classService", (): void => {
         updatedTestStudents[0],
       );
     }).rejects.toThrowError(
-      `Student id ${notFoundId} not found in class ${createdClassWithStudent.id}`,
+      `Student with id ${notFoundId} could not be updated for class with id ${createdClassWithStudent.id}`,
     );
   });
 
@@ -184,6 +192,8 @@ describe("mongo classService", (): void => {
     const notFoundId = "86cb91bdc3464f14678934cd";
     await expect(async () => {
       await classService.deleteStudent(classObj.students[0].id, notFoundId);
-    }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
+    }).rejects.toThrowError(
+      `Class with id ${notFoundId}, student with id ${classObj.students[0].id} was not deleted`,
+    );
   });
 });

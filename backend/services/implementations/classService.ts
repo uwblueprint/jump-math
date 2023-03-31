@@ -166,29 +166,28 @@ class ClassService implements IClassService {
     student: StudentRequestDTO,
     classId: string,
   ): Promise<ClassResponseDTO> {
-    let newStudent: StudentResponseDTO;
     let classObj: Class | null;
 
     try {
-      // create a new StudentResponseDTO
-      newStudent = {
-        id: "",
-        firstName: student.firstName,
-        lastName: student.lastName,
-        studentNumber: student.studentNumber,
-      };
-
-      classObj = await MgClass.findById(classId);
+      classObj = await MgClass.findOneAndUpdate(
+        { _id: classId },
+        {
+          $push: { students: student },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
       if (!classObj) {
-        throw new Error(`Class id ${classId} not found`);
+        throw new Error(`Class with id ${classId} not found`);
       }
-
-      classObj?.students.push(newStudent);
-      await classObj?.save();
     } catch (error: unknown) {
       Logger.error(
-        `Failed to create student. Reason = ${getErrorMessage(error)}`,
+        `Failed to create student in class ${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
       );
       throw error;
     }
@@ -200,35 +199,33 @@ class ClassService implements IClassService {
     classId: string,
     student: StudentRequestDTO,
   ): Promise<ClassResponseDTO> {
-    let studentToUpdate;
-    let updatedClass: Class | null;
+    let classObj: Class | null;
     try {
-      updatedClass = await MgClass.findById(classId);
-
-      if (!updatedClass) {
-        throw new Error(`Class ${classId} not found`);
-      }
-
-      studentToUpdate = updatedClass.students.find(
-        (studentObj) => studentObj.id === studentId,
+      classObj = await MgClass.findOneAndUpdate(
+        { _id: classId, "students._id": studentId },
+        {
+          $set: {
+            "students.$": student,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
       );
 
-      if (!studentToUpdate) {
+      if (!classObj) {
         throw new Error(
-          `Student id ${studentId} not found in class ${classId}`,
+          `Student with id ${studentId} could not be updated for class with id ${classId}`,
         );
       }
-
-      Object.assign(studentToUpdate, student);
-
-      await updatedClass.save();
     } catch (error: unknown) {
       Logger.error(
         `Failed to update student. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-    return (await this.mapClassToClassDTOs([updatedClass]))[0];
+    return (await this.mapClassToClassDTOs([classObj]))[0];
   }
 
   async deleteStudent(studentId: string, classId: string): Promise<string> {
@@ -242,7 +239,9 @@ class ClassService implements IClassService {
       );
 
       if (!result) {
-        throw new Error(`Class with id ${classId} not found`);
+        throw new Error(
+          `Class with id ${classId}, student with id ${studentId} was not deleted`,
+        );
       }
 
       return studentId;

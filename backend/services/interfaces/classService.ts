@@ -20,7 +20,6 @@ export interface ClassRequestDTO {
   gradeLevel: Grade[];
   teacher: string;
   testSessions: string[];
-  students?: StudentRequestDTO[];
 }
 
 export interface ClassResponseDTO {
