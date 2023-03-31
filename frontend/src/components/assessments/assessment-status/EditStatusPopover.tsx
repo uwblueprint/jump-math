@@ -10,8 +10,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { MoreVerticalOutlineIcon } from "../../assets/icons";
-import { Status } from "../../types/AssessmentTypes";
+import { MoreVerticalOutlineIcon } from "../../../assets/icons";
+import { Status } from "../../../types/AssessmentTypes";
 
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";

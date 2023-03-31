@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
 
-import { PUBLISH_TEST } from "../../../APIClients/mutations/TestMutations";
-import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
-import Modal from "../../common/Modal";
-import Toast from "../../common/Toast";
+import { PUBLISH_TEST } from "../../../../APIClients/mutations/TestMutations";
+import GET_ALL_TESTS from "../../../../APIClients/queries/TestQueries";
+import Modal from "../../../common/Modal";
+import Toast from "../../../common/Toast";
 
 interface PublishModalProps {
   isOpen: boolean;

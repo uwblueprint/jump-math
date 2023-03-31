@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
 
-import { DUPLICATE_TEST } from "../../../APIClients/mutations/TestMutations";
-import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
-import Modal from "../../common/Modal";
-import Toast from "../../common/Toast";
+import { DUPLICATE_TEST } from "../../../../APIClients/mutations/TestMutations";
+import GET_ALL_TESTS from "../../../../APIClients/queries/TestQueries";
+import Modal from "../../../common/Modal";
+import Toast from "../../../common/Toast";
 
 interface DuplicateModalProps {
   isOpen: boolean;

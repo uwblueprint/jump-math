@@ -16,9 +16,9 @@ import * as Routes from "../../constants/Routes";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
-  const navigateToAdminLogin = () => history.push(Routes.ADMIN_LOGIN);
-  const navigateToTeacherLogin = () => history.push(Routes.TEACHER_LOGIN);
-  const navigateToStudentLogin = () => history.push(Routes.STUDENT_LOGIN);
+  const navigateToAdminLogin = () => history.push(Routes.ADMIN_LOGIN_PAGE);
+  const navigateToTeacherLogin = () => history.push(Routes.TEACHER_LOGIN_PAGE);
+  const navigateToStudentLogin = () => history.push(Routes.STUDENT_LOGIN_PAGE);
 
   return (
     <VStack gap={1.5} mx={2}>

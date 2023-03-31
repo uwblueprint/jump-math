@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { JUMP_MATH_LOGO } from "../../../assets/images";
-import { STUDENT_LANDING } from "../../../constants/Routes";
+import { STUDENT_LANDING_PAGE } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
 import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
@@ -20,7 +20,7 @@ import QuestionTypeImages from "../../common/QuestionTypeImages";
 const AssessmentSummary = (): React.ReactElement => {
   const history = useHistory();
   const handleBackToHome = () => {
-    history.push(STUDENT_LANDING);
+    history.push(STUDENT_LANDING_PAGE);
   };
 
   return (
