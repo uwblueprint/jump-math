@@ -110,7 +110,10 @@ const QuestionSidebar = ({
             {
               title: "Question",
               panels: [
-                { element: QuestionElementType.QUESTION, icon: QuestionIcon },
+                {
+                  element: QuestionElementType.QUESTION_TEXT,
+                  icon: QuestionIcon,
+                },
                 { element: QuestionElementType.TEXT, icon: TextIcon },
                 { element: QuestionElementType.IMAGE, icon: ImageIcon },
               ],

@@ -30,7 +30,7 @@ interface QuestionElementItemProps {
 const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
-    case QuestionElementType.QUESTION:
+    case QuestionElementType.QUESTION_TEXT:
       return (
         <QuestionTextElement
           key={id}

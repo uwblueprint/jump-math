@@ -43,22 +43,22 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
-  const convertMultipleChoice = (
-    mc: MultipleChoiceData,
+  const multipleChoiceToRequest = (
+    data: MultipleChoiceData,
   ): MultipleChoiceMetadata => {
     return {
-      options: mc.options.map((option) => option.value),
-      answerIndex: mc.options.findIndex((option) => option.isCorrect),
+      options: data.options.map((option) => option.value),
+      answerIndex: data.options.findIndex((option) => option.isCorrect),
     };
   };
 
-  const convertQuestionsToRequest = (): QuestionComponentRequest[][] => {
+  const questionsToRequest = (): QuestionComponentRequest[][] => {
     return questions.map((question) => {
       return question.map((element) => {
         switch (element.type) {
-          case QuestionElementType.QUESTION:
+          case QuestionElementType.QUESTION_TEXT:
             return {
-              type: QuestionElementType.QUESTION,
+              type: QuestionElementType.QUESTION_TEXT,
               questionTextMetadata: element.data as QuestionTextMetadata,
             };
           case QuestionElementType.TEXT:
@@ -74,13 +74,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
           case QuestionElementType.MULTIPLE_CHOICE:
             return {
               type: QuestionElementType.MULTIPLE_CHOICE,
-              multipleChoiceMetadata: convertMultipleChoice(
+              multipleChoiceMetadata: multipleChoiceToRequest(
                 element.data as MultipleChoiceData,
               ),
             };
           default:
             return {
-              type: QuestionElementType.QUESTION,
+              type: QuestionElementType.QUESTION_TEXT,
               questionTextMetadata: element.data as QuestionTextMetadata,
             };
         }
@@ -92,7 +92,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     const test: TestRequest = {
       ...data,
       status: Status.DRAFT,
-      questions: convertQuestionsToRequest(),
+      questions: questionsToRequest(),
     };
     await createTest({ variables: { test } })
       .then(() => {

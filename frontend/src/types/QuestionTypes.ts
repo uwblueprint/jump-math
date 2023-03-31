@@ -1,5 +1,5 @@
 export enum QuestionElementType {
-  QUESTION = "QUESTION_TEXT",
+  QUESTION_TEXT = "QUESTION_TEXT",
   TEXT = "TEXT",
   IMAGE = "IMAGE",
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
@@ -29,8 +29,8 @@ export type QuestionElement = {
 };
 
 export type QuestionElementDataType =
+  // remove when all the elements have been implemented
   | string
-  | number
   | MultiData
   | QuestionTextMetadata
   | TextMetadata

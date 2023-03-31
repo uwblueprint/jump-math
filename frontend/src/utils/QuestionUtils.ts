@@ -99,7 +99,7 @@ export const getQuestionTexts = (question: QuestionElement[]): string[] => {
   return question
     .filter(
       (questionElement) =>
-        questionElement.type === QuestionElementType.QUESTION,
+        questionElement.type === QuestionElementType.QUESTION_TEXT,
     )
     .map(
       (questionElement) =>

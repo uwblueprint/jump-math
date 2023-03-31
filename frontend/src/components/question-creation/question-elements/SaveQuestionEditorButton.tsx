@@ -49,7 +49,7 @@ const SaveQuestionEditorButton = ({
   const validateNoQuestionPairErrors = () => {
     const questionPairs = questionElements.filter(
       (element) =>
-        element.type === QuestionElementType.QUESTION ||
+        element.type === QuestionElementType.QUESTION_TEXT ||
         element.type in ResponseElementType,
     );
     for (let index = 0; index < questionPairs.length; index += 1) {
@@ -57,7 +57,7 @@ const SaveQuestionEditorButton = ({
       const isExistingError =
         element.error && !isQuestionPairError(element.error);
       if (!isExistingError) {
-        if (element.type === QuestionElementType.QUESTION) {
+        if (element.type === QuestionElementType.QUESTION_TEXT) {
           const isLastElement = index === questionPairs.length - 1;
           if (
             isLastElement ||
@@ -71,7 +71,7 @@ const SaveQuestionEditorButton = ({
           const isFirstElement = index === 0;
           if (
             isFirstElement ||
-            questionPairs[index - 1].type !== QuestionElementType.QUESTION
+            questionPairs[index - 1].type !== QuestionElementType.QUESTION_TEXT
           ) {
             setElementError(element, questionError);
             return false;
@@ -106,7 +106,7 @@ const SaveQuestionEditorButton = ({
   const validateNoMissingQuestionError = () => {
     const emptyEditor =
       questionElements.filter(
-        (element) => element.type === QuestionElementType.QUESTION,
+        (element) => element.type === QuestionElementType.QUESTION_TEXT,
       ).length === 0;
     setShowEditorError(emptyEditor);
     return !emptyEditor;

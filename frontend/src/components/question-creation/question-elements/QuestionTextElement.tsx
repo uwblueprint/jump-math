@@ -26,12 +26,12 @@ const QuestionTextElement = ({
   );
 
   const questionCount = questionElements.filter(
-    (element) => element.type === QuestionElementType.QUESTION,
+    (element) => element.type === QuestionElementType.QUESTION_TEXT,
   ).length;
   const questionLetter = String.fromCharCode(
     "a".charCodeAt(0) +
       (questionElements
-        .filter((element) => element.type === QuestionElementType.QUESTION)
+        .filter((element) => element.type === QuestionElementType.QUESTION_TEXT)
         .findIndex((element) => element.id === id) %
         26),
   );
