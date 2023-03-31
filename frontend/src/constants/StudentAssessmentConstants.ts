@@ -13,13 +13,13 @@ export const assessmentMetadata = {
 };
 
 export const typeToImageMetadata = {
-  "Multiple Choice": {
+  MULTIPLE_CHOICE: {
     src: MULTI_CHOICE.src,
     alt: "multi-choice",
     tooltip:
       "Users will have to select the best response from a list of options",
   },
-  "Multi-select": {
+  MULTI_SELECT: {
     src: MULTI_SELECT.src,
     alt: "multi-select",
     tooltip:

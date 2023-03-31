@@ -36,7 +36,7 @@ const MultiOptionModal = ({
   const [emptyOptionError, setEmptyOptionError] = useState(false);
 
   useEffect(() => {
-    setOptionCount(data ? data.optionCount : 0);
+    setOptionCount(data ? data.options.length : 0);
     setOptions(data ? data.options : []);
   }, [data]);
 
@@ -48,7 +48,7 @@ const MultiOptionModal = ({
   };
 
   const handleClose = () => {
-    setOptionCount(data ? data.optionCount : 0);
+    setOptionCount(data ? data.options.length : 0);
     setOptions(data ? data.options : []);
     resetErrors();
     onClose();
@@ -72,7 +72,7 @@ const MultiOptionModal = ({
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
     } else if (!lengthError) {
-      onConfirm({ optionCount, options });
+      onConfirm({ options });
       handleClose();
     }
   };

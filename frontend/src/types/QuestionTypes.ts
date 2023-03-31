@@ -1,10 +1,10 @@
 export enum QuestionElementType {
   QUESTION = "QUESTION_TEXT",
-  TEXT = "Text",
-  IMAGE = "Image",
-  MULTIPLE_CHOICE = "Multiple Choice",
+  TEXT = "TEXT",
+  IMAGE = "IMAGE",
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   SHORT_ANSWER = "SHORT_ANSWER",
-  MULTI_SELECT = "Multi-select",
+  MULTI_SELECT = "MULTI_SELECT",
 }
 
 export type ResponseElementType = Extract<
@@ -33,6 +33,7 @@ export type QuestionElementDataType =
   | number
   | MultiData
   | QuestionTextMetadata
+  | TextMetadata
   | ShortAnswerMetadata;
 
 export type MultiOptionData = {
@@ -49,16 +50,23 @@ export interface QuestionTextMetadata {
   questionText: string;
 }
 
+export interface TextMetadata {
+  text: string;
+}
+
 export interface ShortAnswerMetadata {
   answer: number;
 }
 
-export interface QuestionComponentMetadataRequest {
-  questionTextMetadata?: QuestionTextMetadata;
+export interface MultipleChoiceMetadata {
+  options: string[];
+  answerIndex: number;
 }
 
 export type QuestionComponentRequest = {
   type: QuestionElementType;
   questionTextMetadata?: QuestionTextMetadata;
+  textMetadata?: TextMetadata;
   shortAnswerMetadata?: ShortAnswerMetadata;
+  multipleChoiceMetadata?: MultipleChoiceMetadata;
 };

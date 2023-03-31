@@ -13,6 +13,7 @@ import {
   QuestionElementType,
   QuestionTextMetadata,
   ShortAnswerMetadata,
+  TextMetadata,
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
@@ -38,7 +39,7 @@ const renderQuestionContent = (content: QuestionElement) => {
         />
       );
     case QuestionElementType.TEXT:
-      return <TextElement key={id} data={data as string} id={id} />;
+      return <TextElement key={id} data={data as TextMetadata} id={id} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:

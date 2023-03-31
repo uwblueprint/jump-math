@@ -8,11 +8,14 @@ import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutatio
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { Status, TestRequest } from "../../../types/AssessmentTypes";
 import {
+  MultipleChoiceData,
+  MultipleChoiceMetadata,
   QuestionComponentRequest,
   QuestionElement,
   QuestionElementType,
   QuestionTextMetadata,
   ShortAnswerMetadata,
+  TextMetadata,
 } from "../../../types/QuestionTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
@@ -40,14 +43,40 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
-  const convertedQuestions = (): QuestionComponentRequest[][] => {
+  const convertMultipleChoice = (
+    mc: MultipleChoiceData,
+  ): MultipleChoiceMetadata => {
+    return {
+      options: mc.options.map((option) => option.value),
+      answerIndex: mc.options.findIndex((option) => option.isCorrect),
+    };
+  };
+
+  const convertQuestionsToRequest = (): QuestionComponentRequest[][] => {
     return questions.map((question) => {
       return question.map((element) => {
         switch (element.type) {
+          case QuestionElementType.QUESTION:
+            return {
+              type: QuestionElementType.QUESTION,
+              questionTextMetadata: element.data as QuestionTextMetadata,
+            };
+          case QuestionElementType.TEXT:
+            return {
+              type: QuestionElementType.TEXT,
+              textMetadata: element.data as TextMetadata,
+            };
           case QuestionElementType.SHORT_ANSWER:
             return {
               type: QuestionElementType.SHORT_ANSWER,
               shortAnswerMetadata: element.data as ShortAnswerMetadata,
+            };
+          case QuestionElementType.MULTIPLE_CHOICE:
+            return {
+              type: QuestionElementType.MULTIPLE_CHOICE,
+              multipleChoiceMetadata: convertMultipleChoice(
+                element.data as MultipleChoiceData,
+              ),
             };
           default:
             return {
@@ -59,20 +88,11 @@ const CreateAssessmentPage = (): React.ReactElement => {
     });
   };
 
-  const testQuestion: QuestionComponentRequest[][] = [
-    [
-      {
-        type: QuestionElementType.QUESTION,
-        questionTextMetadata: { questionText: "test" },
-      },
-    ],
-  ];
-
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     const test: TestRequest = {
       ...data,
       status: Status.DRAFT,
-      questions: convertedQuestions(),
+      questions: convertQuestionsToRequest(),
     };
     await createTest({ variables: { test } })
       .then(() => {
