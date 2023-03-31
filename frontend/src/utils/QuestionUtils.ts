@@ -3,15 +3,20 @@ import { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 
+import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
+  MultiData,
   MultiOptionData,
+  MultipleChoiceMetadata,
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
   QuestionTextMetadata,
   ResponseElementType,
+  ShortAnswerMetadata,
+  TextMetadata,
 } from "../types/QuestionTypes";
 
 export const shouldReorder = (
@@ -105,4 +110,55 @@ export const getQuestionTexts = (question: QuestionElement[]): string[] => {
       (questionElement) =>
         (questionElement.data as QuestionTextMetadata).questionText,
     );
+};
+
+const formatMultipleChoiceRequest = (
+  data: MultiData,
+): MultipleChoiceMetadata => {
+  return {
+    options: data.options.map((option) => option.value),
+    answerIndex: data.options.findIndex((option) => option.isCorrect),
+  };
+};
+
+export const formatQuestionsRequest = (
+  questions: QuestionElement[][],
+): QuestionComponentRequest[][] => {
+  return questions.map((question) => {
+    return question.map((element) => {
+      switch (element.type) {
+        case QuestionElementType.QUESTION_TEXT:
+          return {
+            type: QuestionElementType.QUESTION_TEXT,
+            questionTextMetadata: element.data as QuestionTextMetadata,
+            multipleChoiceMetadata: null,
+          };
+        case QuestionElementType.TEXT:
+          return {
+            type: QuestionElementType.TEXT,
+            textMetadata: element.data as TextMetadata,
+            multipleChoiceMetadata: null,
+          };
+        case QuestionElementType.SHORT_ANSWER:
+          return {
+            type: QuestionElementType.SHORT_ANSWER,
+            shortAnswerMetadata: element.data as ShortAnswerMetadata,
+            multipleChoiceMetadata: null,
+          };
+        case QuestionElementType.MULTIPLE_CHOICE:
+          return {
+            type: QuestionElementType.MULTIPLE_CHOICE,
+            multipleChoiceMetadata: formatMultipleChoiceRequest(
+              element.data as MultiData,
+            ),
+          };
+        default:
+          return {
+            type: QuestionElementType.QUESTION_TEXT,
+            questionTextMetadata: element.data as QuestionTextMetadata,
+            multipleChoiceMetadata: null,
+          };
+      }
+    });
+  });
 };

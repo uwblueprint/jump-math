@@ -5,21 +5,11 @@ import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
 import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
-import {
-  QuestionComponentRequest,
-  TestRequest,
-} from "../../../APIClients/types/TestClientTypes";
+import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { Status } from "../../../types/AssessmentTypes";
-import {
-  MultipleChoiceData,
-  MultipleChoiceMetadata,
-  QuestionElement,
-  QuestionElementType,
-  QuestionTextMetadata,
-  ShortAnswerMetadata,
-  TextMetadata,
-} from "../../../types/QuestionTypes";
+import { QuestionElement } from "../../../types/QuestionTypes";
+import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
@@ -46,60 +36,11 @@ const CreateAssessmentPage = (): React.ReactElement => {
     watch,
   } = useForm<TestRequest>();
 
-  const multipleChoiceToRequest = (
-    data: MultipleChoiceData,
-  ): MultipleChoiceMetadata => {
-    return {
-      options: data.options.map((option) => option.value),
-      answerIndex: data.options.findIndex((option) => option.isCorrect),
-    };
-  };
-
-  const questionsToRequest = (): QuestionComponentRequest[][] => {
-    return questions.map((question) => {
-      return question.map((element) => {
-        switch (element.type) {
-          case QuestionElementType.QUESTION_TEXT:
-            return {
-              type: QuestionElementType.QUESTION_TEXT,
-              questionTextMetadata: element.data as QuestionTextMetadata,
-              multipleChoiceMetadata: null,
-            };
-          case QuestionElementType.TEXT:
-            return {
-              type: QuestionElementType.TEXT,
-              textMetadata: element.data as TextMetadata,
-              multipleChoiceMetadata: null,
-            };
-          case QuestionElementType.SHORT_ANSWER:
-            return {
-              type: QuestionElementType.SHORT_ANSWER,
-              shortAnswerMetadata: element.data as ShortAnswerMetadata,
-              multipleChoiceMetadata: null,
-            };
-          case QuestionElementType.MULTIPLE_CHOICE:
-            return {
-              type: QuestionElementType.MULTIPLE_CHOICE,
-              multipleChoiceMetadata: multipleChoiceToRequest(
-                element.data as MultipleChoiceData,
-              ),
-            };
-          default:
-            return {
-              type: QuestionElementType.QUESTION_TEXT,
-              questionTextMetadata: element.data as QuestionTextMetadata,
-              multipleChoiceMetadata: null,
-            };
-        }
-      });
-    });
-  };
-
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     const test: TestRequest = {
       ...data,
       status: Status.DRAFT,
-      questions: questionsToRequest(),
+      questions: formatQuestionsRequest(questions),
     };
     await createTest({ variables: { test } })
       .then(() => {
