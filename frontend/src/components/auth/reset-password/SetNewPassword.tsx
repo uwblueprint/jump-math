@@ -6,7 +6,10 @@ import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
-import { ADMIN_LOGIN, TEACHER_LOGIN } from "../../../constants/Routes";
+import {
+  ADMIN_LOGIN_PAGE,
+  TEACHER_LOGIN_PAGE,
+} from "../../../constants/Routes";
 import { Role } from "../../../types/AuthTypes";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../password/PasswordForm";
@@ -45,7 +48,9 @@ const SetNewPassword = ({
       form={
         <Button
           onClick={() =>
-            history.push(role === "Admin" ? ADMIN_LOGIN : TEACHER_LOGIN)
+            history.push(
+              role === "Admin" ? ADMIN_LOGIN_PAGE : TEACHER_LOGIN_PAGE,
+            )
           }
           variant="primary"
           width="100%"

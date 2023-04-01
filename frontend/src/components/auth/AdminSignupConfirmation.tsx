@@ -8,7 +8,7 @@ import {
   VERIFY_PASSWORD_RESET,
 } from "../../APIClients/mutations/AuthMutations";
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
-import { ADMIN_LOGIN } from "../../constants/Routes";
+import { ADMIN_LOGIN_PAGE } from "../../constants/Routes";
 import LoadingState from "../common/LoadingState";
 
 import EmailActionError from "./email-action/EmailActionError";
@@ -75,7 +75,7 @@ const AdminSignupConfirmation = ({
 
   const finalSignupConfirmation = (
     <Button
-      onClick={() => history.push(ADMIN_LOGIN)}
+      onClick={() => history.push(ADMIN_LOGIN_PAGE)}
       variant="primary"
       width="100%"
     >

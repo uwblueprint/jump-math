@@ -63,54 +63,58 @@ const App = (): React.ReactElement => {
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.ADMIN_LANDING}
+                    to={Routes.ADMIN_LANDING_PAGE}
                   />
                 )}
                 <PrivateRoute
                   component={AdminDashboard}
-                  path={Routes.ADMIN_LANDING}
+                  path={Routes.ADMIN_LANDING_PAGE}
                   roles={["Admin"]}
                 />
                 {authenticatedUser?.role === "Teacher" && (
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
-                    to={Routes.TEACHER_LANDING}
+                    to={Routes.TEACHER_LANDING_PAGE}
                   />
                 )}
                 <PrivateRoute
                   component={TeacherPage}
                   exact
-                  path={Routes.TEACHER_LANDING}
-                  roles={["Teacher"]}
+                  path={Routes.TEACHER_LANDING_PAGE}
+                  roles={["Teacher", "Admin"]}
                 />
                 <Route component={Landing} exact path={Routes.HOME_PAGE} />
-                <Route component={Login} exact path={Routes.ADMIN_LOGIN} />
-                <Route component={Login} exact path={Routes.TEACHER_LOGIN} />
+                <Route component={Login} exact path={Routes.ADMIN_LOGIN_PAGE} />
+                <Route
+                  component={Login}
+                  exact
+                  path={Routes.TEACHER_LOGIN_PAGE}
+                />
                 <Route
                   component={StudentLogin}
                   exact
-                  path={Routes.STUDENT_LOGIN}
+                  path={Routes.STUDENT_LOGIN_PAGE}
                 />
                 <Route
                   component={TeacherSignup}
                   exact
-                  path={Routes.TEACHER_SIGNUP}
+                  path={Routes.TEACHER_SIGNUP_PAGE}
                 />
                 <Route
                   component={EmailActionHandler}
                   exact
-                  path={Routes.EMAIL_ACTION}
+                  path={Routes.EMAIL_ACTION_PAGE}
                 />
                 <Route
                   component={StudentAssessment}
                   exact
-                  path={Routes.STUDENT_ASSESMENT}
+                  path={Routes.STUDENT_ASSESMENT_PAGE}
                 />
                 <PrivateRoute
                   component={ComponentLibrary}
                   exact
-                  path={Routes.COMPONENT_LIBRARY}
+                  path={Routes.COMPONENT_LIBRARY_PAGE}
                   roles={["Admin", "Teacher"]}
                 />
                 <Route component={NotFound} exact path="*" />

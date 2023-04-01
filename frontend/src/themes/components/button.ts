@@ -127,6 +127,49 @@ const Button = {
       },
       DarkBlueIcon,
     },
+    outline: {
+      color: "blue.300",
+      borderColor: "blue.300",
+      borderWidth: "2px",
+      fontSize: "16px",
+      fontWeight: "700",
+      lineHeight: "21px",
+      letterSpacing: "0",
+    },
+    delete: {
+      bg: "red.200",
+      color: "#FFFFFF",
+      _active: {
+        bg: "red.100",
+        border: "none",
+      },
+      _hover: {
+        bg: "red.100",
+        border: "1.5px solid #FFFFFF",
+        _disabled: {
+          bg: "red.100",
+          border: "none",
+        },
+      },
+      WhiteIcon,
+    },
+    deleteCancel: {
+      bg: "red.50",
+      color: "red.200",
+      _active: {
+        bg: "red.100",
+        border: "none",
+      },
+      _hover: {
+        bg: "red.100",
+        border: "1.5px solid #FFFFFF",
+        _disabled: {
+          bg: "red.100",
+          border: "none",
+        },
+      },
+      WhiteIcon,
+    },
   },
 
   defaultProps: {

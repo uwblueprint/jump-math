@@ -21,7 +21,7 @@ export type FilterProp = {
   options: StringOption[];
 };
 
-interface FilterProps {
+export interface FilterMenuProps {
   filterProps: FilterProp[];
 }
 
@@ -38,7 +38,7 @@ const addFilter = (
   });
 };
 
-const FilterMenu = ({ filterProps }: FilterProps): React.ReactElement => {
+const FilterMenu = ({ filterProps }: FilterMenuProps): React.ReactElement => {
   const [optionsSelected, setOptionsSelected] = React.useState<
     Map<string, string[]>
   >(new Map());
