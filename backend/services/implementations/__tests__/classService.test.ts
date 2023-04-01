@@ -11,7 +11,7 @@ import {
   testClassWithStudents,
   updatedTestClassWithStudent,
   updatedTestStudents,
-  assertResponseStudentsMatchesExpected,
+  assertStudentResponseMatchesExpected,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -122,7 +122,7 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 
-  it("creates student", async () => {
+  it("create student", async () => {
     const createdClass = await ClassModel.create(testClass[0]);
     // execute
     const createdClassWithStudent = await classService.createStudent(
@@ -135,7 +135,7 @@ describe("mongo classService", (): void => {
       testClassWithStudents,
       createdClassWithStudent,
     );
-    assertResponseStudentsMatchesExpected(
+    assertStudentResponseMatchesExpected(
       testClassWithStudents.students,
       createdClassWithStudent.students,
     );
@@ -164,7 +164,7 @@ describe("mongo classService", (): void => {
 
     // assert
     assertResponseMatchesExpected(updatedTestClassWithStudent, res);
-    assertResponseStudentsMatchesExpected(
+    assertStudentResponseMatchesExpected(
       updatedTestClassWithStudent.students,
       res.students,
     );
@@ -201,14 +201,14 @@ describe("mongo classService", (): void => {
     expect(deletedStudentId).toBe(savedStudent.id);
   });
 
-  it("deleteStudent with non-existing id", async () => {
+  it("deleteStudent with non-existing class id", async () => {
     // execute and assert
     const classObj = await ClassModel.create(testClassWithStudents);
     const notFoundId = "86cb91bdc3464f14678934cd";
     await expect(async () => {
       await classService.deleteStudent(classObj.students[0].id, notFoundId);
     }).rejects.toThrowError(
-      `Class with id ${notFoundId}, student with id ${classObj.students[0].id} was not deleted`,
+      `Student with id ${classObj.students[0].id} in class with id ${notFoundId} was not deleted`,
     );
   });
 });

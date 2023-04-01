@@ -119,20 +119,10 @@ class ClassService implements IClassService {
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
     try {
-      updatedClass = await MgClass.findByIdAndUpdate(
-        id,
-        {
-          className: classObj.className,
-          schoolYear: classObj.schoolYear,
-          gradeLevel: classObj.gradeLevel,
-          teacher: classObj.teacher,
-          testSessions: classObj.testSessions,
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
+      updatedClass = await MgClass.findByIdAndUpdate(id, classObj, {
+        new: true,
+        runValidators: true,
+      });
 
       if (!updatedClass) {
         throw new Error(`Class id ${id} not found`);
@@ -239,13 +229,13 @@ class ClassService implements IClassService {
 
       if (!result) {
         throw new Error(
-          `Class with id ${classId}, student with id ${studentId} was not deleted`,
+          `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
       return studentId;
     } catch (error: unknown) {
       Logger.error(
-        `Failed to delete student from class. Reason = ${getErrorMessage(
+        `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
           error,
         )}`,
       );

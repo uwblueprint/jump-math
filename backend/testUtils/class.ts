@@ -64,11 +64,8 @@ export const testClass: ClassRequestDTO[] = [
 
 // set up test class with invalid teacher id
 export const testClassInvalidTeacher: ClassRequestDTO = {
-  className: "class2",
-  schoolYear: 5,
-  gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+  ...testClass[0],
   teacher: "56cb91bdc3464f14678934cb",
-  testSessions: [mockTestSessionWithId.id],
 };
 
 export const testClassWithStudents = {
@@ -96,7 +93,6 @@ export const updatedTestClassWithStudent = {
 export const mockClassWithId = {
   id: "62c248c0f79d6c3c9ebbea93",
   ...testClass[0],
-  teacher: mockTeacher.id,
   students: testStudentsWithIds,
 };
 
@@ -117,7 +113,7 @@ export const assertResponseMatchesExpected = (
   expect(result.testSessions).toEqual([mockTestSessionWithId]);
 };
 
-export const assertResponseStudentsMatchesExpected = (
+export const assertStudentResponseMatchesExpected = (
   expected: StudentRequestDTO[],
   result: StudentResponseDTO[],
 ): void => {
