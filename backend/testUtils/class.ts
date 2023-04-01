@@ -115,14 +115,16 @@ export const assertResponseMatchesExpected = (
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.testSessions).toEqual([mockTestSessionWithId]);
-  // if (expected.students !== undefined) {
-  //   result.students.forEach((student, index) => {
-  //     expect(student.id).not.toBeNull();
-  //     expect(student.firstName).toEqual(expected.students![index]?.firstName);
-  //     expect(student.lastName).toEqual(expected.students![index]?.lastName);
-  //     expect(student.studentNumber).toEqual(
-  //       expected.students![index]?.studentNumber,
-  //     );
-  //   });
-  // }
+};
+
+export const assertResponseStudentsMatchesExpected = (
+  expected: StudentRequestDTO[],
+  result: StudentResponseDTO[],
+): void => {
+  result.forEach((student, index) => {
+    expect(student.id).not.toBeNull();
+    expect(student.firstName).toEqual(expected[index].firstName);
+    expect(student.lastName).toEqual(expected[index].lastName);
+    expect(student.studentNumber).toEqual(expected[index].studentNumber);
+  });
 };

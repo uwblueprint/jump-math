@@ -11,6 +11,7 @@ import {
   testClassWithStudents,
   updatedTestClassWithStudent,
   updatedTestStudents,
+  assertResponseStudentsMatchesExpected,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -63,7 +64,7 @@ describe("mongo classService", (): void => {
   it("throw error for non-existing teachers", async () => {
     userService.getUserById = jest.fn().mockReturnValue("");
 
-    // execute
+    // execute and assert
     await expect(async () => {
       await classService.createClass(testClassInvalidTeacher);
     }).rejects.toThrowError("Teacher ID was not found");
@@ -81,6 +82,7 @@ describe("mongo classService", (): void => {
   });
 
   it("update class for class not found", async () => {
+    // execute and assert
     const notFoundId = "62d9fc947195ae705e71f0d9";
     await expect(async () => {
       await classService.updateClass(notFoundId, updatedTestClass);
@@ -104,10 +106,12 @@ describe("mongo classService", (): void => {
   });
 
   it("deleteClass", async () => {
+    // execute
     const savedClass = await ClassModel.create(testClass[0]);
 
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
+    // assert
     expect(deletedClassId).toBe(savedClass.id);
   });
 
@@ -120,7 +124,6 @@ describe("mongo classService", (): void => {
 
   it("creates student", async () => {
     const createdClass = await ClassModel.create(testClass[0]);
-
     // execute
     const createdClassWithStudent = await classService.createStudent(
       testStudents[0],
@@ -131,6 +134,10 @@ describe("mongo classService", (): void => {
     assertResponseMatchesExpected(
       testClassWithStudents,
       createdClassWithStudent,
+    );
+    assertResponseStudentsMatchesExpected(
+      testClassWithStudents.students,
+      createdClassWithStudent.students,
     );
   });
 
@@ -157,9 +164,14 @@ describe("mongo classService", (): void => {
 
     // assert
     assertResponseMatchesExpected(updatedTestClassWithStudent, res);
+    assertResponseStudentsMatchesExpected(
+      updatedTestClassWithStudent.students,
+      res.students,
+    );
   });
 
   it("update student for student not found", async () => {
+    // execute and assert
     const createdClassWithStudent = await ClassModel.create(
       testClassWithStudents,
     );
@@ -177,17 +189,20 @@ describe("mongo classService", (): void => {
 
   it("deleteStudent", async () => {
     const classObj = await ClassModel.create(testClassWithStudents);
-
     const savedStudent = classObj.students[0];
+
+    // execute
     const deletedStudentId = await classService.deleteStudent(
       savedStudent.id,
       classObj.id,
     );
 
+    // assert
     expect(deletedStudentId).toBe(savedStudent.id);
   });
 
   it("deleteStudent with non-existing id", async () => {
+    // execute and assert
     const classObj = await ClassModel.create(testClassWithStudents);
     const notFoundId = "86cb91bdc3464f14678934cd";
     await expect(async () => {

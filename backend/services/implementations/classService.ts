@@ -6,7 +6,6 @@ import {
   IClassService,
   ClassRequestDTO,
   ClassResponseDTO,
-  StudentResponseDTO,
   StudentRequestDTO,
 } from "../interfaces/classService";
 import IUserService from "../interfaces/userService";
@@ -243,7 +242,6 @@ class ClassService implements IClassService {
           `Class with id ${classId}, student with id ${studentId} was not deleted`,
         );
       }
-
       return studentId;
     } catch (error: unknown) {
       Logger.error(
