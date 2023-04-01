@@ -96,7 +96,7 @@ export interface IClassService {
    * This method deletes the student with given id
    * @param studentId The unique identifier of the student to delete
    * @param classId The unique identifier of the class to delete the student from
-   * @returns
+   * @returns the id of the deleted student
    * @throws Error if deletion fails
    */
   deleteStudent(studentId: string, classId: string): Promise<string>;
