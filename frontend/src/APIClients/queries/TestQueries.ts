@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 const GET_ALL_TESTS = gql`
-  query GetAllTests {
-    tests {
+  query GetAllTests($status: [StatusEnum] = null) {
+    tests(status: $status) {
       id
       name
       grade

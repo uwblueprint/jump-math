@@ -99,7 +99,7 @@ export interface ITestService {
    * @returns an array of TestResponseDTO
    * @throws Error if retrieval fails
    */
-  getAllTests(): Promise<TestResponseDTO[]>;
+  getAllTests(status?: AssessmentStatus[]): Promise<TestResponseDTO[]>;
 
   /**
    * duplicate a Test given the id

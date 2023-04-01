@@ -96,8 +96,11 @@ const testResolvers = {
     },
   },
   Query: {
-    tests: async (): Promise<TestResponseDTO[]> => {
-      return testService.getAllTests();
+    tests: async (
+      _: unknown,
+      { status }: { status?: AssessmentStatus[] },
+    ): Promise<TestResponseDTO[]> => {
+      return testService.getAllTests(status);
     },
   },
   Mutation: {

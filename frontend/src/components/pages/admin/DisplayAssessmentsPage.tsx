@@ -79,6 +79,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
+    variables: { status: ["PUBLISHED", "ARCHIVED", "DRAFT"] },
   });
 
   const filteredAssessements = React.useMemo(() => {

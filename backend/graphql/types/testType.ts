@@ -131,7 +131,7 @@ const testType = gql`
   }
 
   extend type Query {
-    tests: [TestResponseDTO]!
+    tests(status: [StatusEnum]): [TestResponseDTO]!
   }
 
   extend type Mutation {
