@@ -88,7 +88,7 @@ const graphQLMiddlewares = {
     duplicateTest: authorizedByAdmin(),
     unarchiveTest: authorizedByAdmin(),
     archiveTest: authorizedByAdmin(),
-    createStudent: authorizedByAdmin(),
+    createStudent: authorizedByAllRoles(),
   },
 };
 
