@@ -127,7 +127,7 @@ class TestService implements ITestService {
   async getAllTests(): Promise<TestResponseDTO[]> {
     try {
       let tests = await MgTest.find();
-      tests = tests.filter((test) => test.status !== "DELETED");
+      tests = tests.filter((test) => test.status !== AssessmentStatus.DELETED);
       return await this.mapTestsToTestResponseDTOs(tests);
     } catch (error: unknown) {
       Logger.error(`Failed to get tests. Reason = ${getErrorMessage(error)}`);
