@@ -3,34 +3,34 @@ import { VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import {
-  MultipleChoiceData,
-  MultipleChoiceOptionData,
+  MultiData,
+  MultiOptionData,
   QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
 import ResponseTypeModal from "../ResponseTypeModal";
 
-import MultipleChoiceOption from "./MultipleChoiceOption";
+import MultipleChoiceOption from "./MultiOption";
 import SelectOptionCount from "./SelectOptionCount";
 
-interface MultipleChoiceModalProps {
+interface MultiOptionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (data: MultipleChoiceData) => void;
+  onConfirm: (data: MultiData) => void;
   type: QuestionElementType;
-  data?: MultipleChoiceData;
+  data?: MultiData;
 }
 
-const MultipleChoiceModal = ({
+const MultiOptionModal = ({
   isOpen,
   onClose,
   onConfirm,
   data,
   type,
-}: MultipleChoiceModalProps): React.ReactElement => {
+}: MultiOptionModalProps): React.ReactElement => {
   const [optionCount, setOptionCount] = useState(0);
-  const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
+  const [options, setOptions] = useState<MultiOptionData[]>([]);
   const [optionCountError, setOptionCountError] = useState(false);
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
   const [manyCorrectOptionsError, setManyCorrectOptionsError] = useState(false);
@@ -122,4 +122,4 @@ const MultipleChoiceModal = ({
   );
 };
 
-export default MultipleChoiceModal;
+export default MultiOptionModal;

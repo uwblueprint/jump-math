@@ -29,7 +29,12 @@ const AssessmentsTable = ({
       assessment.curriculumCountry,
       assessment.curriculumRegion,
     ],
-    menu: <EditStatusPopover />,
+    menu: (
+      <EditStatusPopover
+        assessmentId={assessment.id}
+        assessmentStatus={assessment.status}
+      />
+    ),
   }));
 
   return <Table headers={headers} rows={rows} />;

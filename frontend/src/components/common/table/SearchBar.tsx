@@ -3,7 +3,7 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
 import { SearchOutlineIcon } from "../../../assets/icons";
 
-interface SearchBarProps {
+export interface SearchBarProps {
   onSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 

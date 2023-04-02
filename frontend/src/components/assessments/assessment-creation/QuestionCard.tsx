@@ -2,14 +2,12 @@ import * as React from "react";
 import {
   Box,
   Container,
-  Flex,
-  IconButton,
+  HStack,
   List,
   ListItem,
-  Menu,
-  MenuButton,
-  Stack,
+  Spacer,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 
 import {
@@ -21,69 +19,59 @@ import { QuestionType } from "../../../types/QuestionTypes";
 
 import QuestionTag from "./QuestionTag";
 
-type QuestionCardProps = {
+interface QuestionCardProps {
   tags: { type: QuestionType; count: number }[];
-  questionNum: number;
-  points: number;
+  questionNumber: number;
   questions: string[];
-};
+}
 
 const QuestionCard = ({
   tags,
-  questionNum,
-  points,
+  questionNumber,
   questions,
 }: QuestionCardProps): React.ReactElement => {
   return (
-    <Container
+    <Box
       background="white"
       border="1px"
       borderColor="grey.200"
       borderRadius="22px"
       color="grey.300"
-      maxWidth={["318px", "918px"]}
-      padding="28px 32px 28px 28px"
+      width="100%"
     >
-      <Stack direction={["column", "row"]}>
-        <Box w={["10%", "40px"]}>
-          <Menu>
-            <MenuButton
-              alignItems="top"
-              aria-label="Options"
-              as={IconButton}
+      <HStack alignItems="left" padding="6">
+        <Box
+          aria-label="reorder"
+          cursor="pointer"
+          fontSize="24px"
+          paddingRight="6"
+        >
+          <HamburgerMenuIcon />
+        </Box>
+        <VStack alignItems="left" paddingRight="4" spacing="6" width="94%">
+          <HStack>
+            <Text color="grey.400" textStyle="subtitle1">
+              Question {questionNumber}
+            </Text>
+            <Spacer />
+            <Box
+              color="blue.300"
               cursor="pointer"
               fontSize="24px"
-              icon={<HamburgerMenuIcon />}
-              justifyContent="left"
-              mt={1}
-              p={0}
-            />
-          </Menu>
-        </Box>
-        <Box flex="1" marginBottom={["24px", "0px"]}>
-          <Flex direction="row">
-            <Text
-              align="left"
-              color="grey.400"
-              flexGrow="1"
-              marginBottom="20px"
-              textStyle="subtitle1"
+              paddingRight="4"
             >
-              Question {questionNum}
-            </Text>
-            <Box color="blue.300" cursor="pointer" fontSize="24px" mr="4">
               <EditOutlineIcon />
             </Box>
             <Box color="blue.300" cursor="pointer" fontSize="24px">
               <DeleteOutlineIcon />
             </Box>
-          </Flex>
+          </HStack>
           <List
             fontWeight="700"
-            maxWidth={["250px", "800px"]}
-            spacing={3}
+            spacing={4}
             stylePosition="inside"
             styleType={questions.length > 1 ? "lower-alpha" : "none"}
+            textStyle="paragraph"
           >
             {questions.map((question, key) => (
               <ListItem
@@ -93,23 +81,23 @@ const QuestionCard = ({
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
               >
-                <Text as="span" fontWeight="400">
+                <Text as="span" textStyle="paragraph">
                   {question}
                 </Text>
               </ListItem>
             ))}
           </List>
-          <Text color="grey.300" my={5} textStyle="caption">
-            Total: {points} points
+          <Text color="grey.300" textStyle="caption">
+            Total: {questions.length} points
           </Text>
-          <Stack direction="row" overflow="hidden">
+          <HStack overflow="hidden">
             {tags.map((tag, key) => (
               <QuestionTag key={key} count={tag.count} type={tag.type} />
             ))}
-          </Stack>
-        </Box>
-      </Stack>
-    </Container>
+          </HStack>
+        </VStack>
+      </HStack>
+    </Box>
   );
 };
 

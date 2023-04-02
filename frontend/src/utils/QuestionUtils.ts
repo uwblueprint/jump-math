@@ -5,7 +5,7 @@ import update from "immutability-helper";
 
 import { DragQuestionItem } from "../types/DragTypes";
 import {
-  MultipleChoiceOptionData,
+  MultiOptionData,
   QuestionDataType,
   QuestionElement,
 } from "../types/QuestionTypes";
@@ -52,12 +52,12 @@ export const updatedQuestionElement = (
   });
 };
 
-export const updatedMultipleChoiceOption = (
+export const updatedMultiOption = (
   id: string,
-  prevOptions: MultipleChoiceOptionData[],
+  prevOptions: MultiOptionData[],
   value: string,
   isCorrect: boolean,
-): MultipleChoiceOptionData[] => {
+): MultiOptionData[] => {
   const indexToUpdate = prevOptions.findIndex((option) => option.id === id);
   return update(prevOptions, {
     [indexToUpdate]: {

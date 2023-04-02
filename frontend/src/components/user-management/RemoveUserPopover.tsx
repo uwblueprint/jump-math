@@ -27,7 +27,6 @@ const RemoveUserPopover = ({
 
   return (
     <Popover
-      closeOnBlur={false}
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}

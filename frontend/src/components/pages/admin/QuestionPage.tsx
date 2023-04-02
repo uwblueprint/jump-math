@@ -5,7 +5,7 @@ import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../../types/QuestionTypes";
-import AddMultipleChoiceModal from "../../question-creation/question-elements/modals/multiple-choice/AddMultipleChoiceModal";
+import AddMultiOptionModal from "../../question-creation/question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "../../question-creation/question-elements/modals/short-answer/AddShortAnswerModal";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 import QuestionSidebar from "../../question-creation/QuestionSidebar";
@@ -44,7 +44,7 @@ const QuestionPage = (): React.ReactElement => {
           <QuestionEditor />
         </Flex>
         <AddShortAnswerModal />
-        <AddMultipleChoiceModal />
+        <AddMultiOptionModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );

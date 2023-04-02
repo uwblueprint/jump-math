@@ -4,13 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import {
-  MultipleChoiceData,
+  MultiData,
   QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 
-import MultipleChoiceModal from "./MultipleChoiceModal";
+import MultiOptionModal from "./MultiOptionModal";
 
-const AddMultipleChoiceModal = (): React.ReactElement => {
+const AddMultiOptionModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
   const {
     showAddMultipleChoiceModal,
@@ -29,7 +29,7 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
     : QuestionElementType.MULTIPLE_CHOICE;
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addMultipleChoiceElement = (data: MultipleChoiceData) => {
+  const addMultipleChoiceElement = (data: MultiData) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {
@@ -41,7 +41,7 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
   };
 
   return (
-    <MultipleChoiceModal
+    <MultiOptionModal
       isOpen={showAddMultipleChoiceModal || showAddMultiSelectModal}
       onClose={closeModal}
       onConfirm={addMultipleChoiceElement}
@@ -54,4 +54,4 @@ const AddMultipleChoiceModal = (): React.ReactElement => {
   );
 };
 
-export default AddMultipleChoiceModal;
+export default AddMultiOptionModal;

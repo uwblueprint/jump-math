@@ -12,50 +12,40 @@ import {
 } from "@chakra-ui/react";
 
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
-import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
+import { MultiOptionData } from "../../../../../types/QuestionTypes";
 import {
   exceedsMaxLength,
-  updatedMultipleChoiceOption,
+  updatedMultiOption,
 } from "../../../../../utils/QuestionUtils";
 
-interface MultipleChoiceOptionProps {
-  data: MultipleChoiceOptionData;
+interface MultiOptionProps {
+  data: MultiOptionData;
   isEmptyError: boolean;
   isCorrectError: boolean;
-  setOptions: React.Dispatch<React.SetStateAction<MultipleChoiceOptionData[]>>;
+  setOptions: React.Dispatch<React.SetStateAction<MultiOptionData[]>>;
   setOptionCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const MultipleChoiceOption = ({
+const MultiOption = ({
   data,
   isEmptyError,
   isCorrectError,
   setOptions,
   setOptionCount,
-}: MultipleChoiceOptionProps): React.ReactElement => {
+}: MultiOptionProps): React.ReactElement => {
   const { id, value, isCorrect } = data;
   const [lengthError, setLengthError] = useState(false);
 
   const updateOptionValue = (updatedValue: string) => {
     setLengthError(exceedsMaxLength(updatedValue));
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceOption(
-        id,
-        prevOptions,
-        updatedValue,
-        isCorrect,
-      );
+      return updatedMultiOption(id, prevOptions, updatedValue, isCorrect);
     });
   };
 
   const markOptionCorrect = (updatedIsCorrect: boolean) => {
     setOptions((prevOptions) => {
-      return updatedMultipleChoiceOption(
-        id,
-        prevOptions,
-        value,
-        updatedIsCorrect,
-      );
+      return updatedMultiOption(id, prevOptions, value, updatedIsCorrect);
     });
   };
 
@@ -105,4 +95,4 @@ const MultipleChoiceOption = ({
   );
 };
 
-export default MultipleChoiceOption;
+export default MultiOption;

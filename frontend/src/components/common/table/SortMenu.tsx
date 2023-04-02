@@ -18,7 +18,7 @@ import {
 import { FilterOptionsIcon } from "../../../assets/icons";
 import { titleCase } from "../../../utils/GeneralUtils";
 
-interface SortMenuProps {
+export interface SortMenuProps {
   properties: string[];
   labels: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;

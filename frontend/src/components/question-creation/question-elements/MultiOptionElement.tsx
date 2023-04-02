@@ -13,30 +13,25 @@ import {
 } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import {
-  MultipleChoiceData,
-  QuestionElementType,
-} from "../../../types/QuestionTypes";
+import { MultiData, QuestionElementType } from "../../../types/QuestionTypes";
 
-import EditMultipleChoiceModal from "./modals/multiple-choice/EditMultipleChoiceModal";
+import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
-interface MultipleChoiceElementProps {
+interface MultiOptionElementProps {
   id: string;
-  data: MultipleChoiceData;
+  data: MultiData;
   type: QuestionElementType;
 }
 
-const MultipleChoiceElement = ({
+const MultiOptionElement = ({
   id,
   data,
   type,
-}: MultipleChoiceElementProps): React.ReactElement => {
+}: MultiOptionElementProps): React.ReactElement => {
   const [
     showEditMultipleChoiceModal,
     setShowEditMultipleChoiceModal,
   ] = React.useState(false);
-  const InputType =
-    type === QuestionElementType.MULTIPLE_CHOICE ? Checkbox : Radio;
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
@@ -70,7 +65,7 @@ const MultipleChoiceElement = ({
           size="icon"
         />
       </Box>
-      <EditMultipleChoiceModal
+      <EditMultiOptionModal
         data={data}
         id={id}
         isOpen={showEditMultipleChoiceModal}
@@ -81,4 +76,4 @@ const MultipleChoiceElement = ({
   );
 };
 
-export default MultipleChoiceElement;
+export default MultiOptionElement;

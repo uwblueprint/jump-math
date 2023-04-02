@@ -82,7 +82,7 @@ const App = (): React.ReactElement => {
                   component={TeacherPage}
                   exact
                   path={Routes.TEACHER_LANDING}
-                  roles={["Teacher"]}
+                  roles={["Teacher", "Admin"]}
                 />
                 <Route component={Landing} exact path={Routes.HOME_PAGE} />
                 <Route component={Login} exact path={Routes.ADMIN_LOGIN} />

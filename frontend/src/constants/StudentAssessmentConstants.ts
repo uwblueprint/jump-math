@@ -20,13 +20,18 @@ export const typeToImageMetadata = {
   "Multiple Choice": {
     src: MULTI_CHOICE.src,
     alt: "multi-choice",
+    tooltip:
+      "Users will have to select the best response from a list of options",
   },
   "Multi-select": {
     src: MULTI_SELECT.src,
     alt: "multi-select",
+    tooltip:
+      "Users will have to select the correct responses from a list of options",
   },
   "Short Answer": {
     src: SHORT_ANSWER.src,
     alt: "short-answer",
+    tooltip: "Users will have to type in their answers",
   },
 };
