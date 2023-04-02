@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -74,7 +76,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSave, onError);
 
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       {showQuestionEditor ? (
         <QuestionEditor
           setQuestions={setQuestions}
@@ -103,7 +105,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
           </VStack>
         </VStack>
       )}
-    </>
+    </DndProvider>
   );
 };
 

@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
   Button,
@@ -10,18 +11,23 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import type { Identifier } from "dnd-core";
+import update from "immutability-helper";
 
 import {
   DeleteOutlineIcon,
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
+import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
 import { Question } from "../../../types/QuestionTypes";
+import { shouldReorder } from "../../../utils/QuestionUtils";
 
 import QuestionTag, { QuestionTagProps } from "./QuestionTag";
 
 interface QuestionCardProps {
   id: string;
+  index: number;
   tags: QuestionTagProps[];
   questionNumber: number;
   questions: string[];
@@ -30,6 +36,7 @@ interface QuestionCardProps {
 
 const QuestionCard = ({
   id,
+  index,
   questionNumber,
   questions,
   setQuestions,
@@ -41,19 +48,75 @@ const QuestionCard = ({
     );
   };
 
+  const reorderQuestionCards = (hoverIndex: number, dragIndex: number) => {
+    setQuestions((prevQuestions) =>
+      update(prevQuestions, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevQuestions[dragIndex]],
+        ],
+      }),
+    );
+  };
+
+  const dragRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [{ handlerId }, drop] = useDrop<
+    DragQuestionItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
+    accept: DragTypes.QUESTION_CARD,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item: DragQuestionItem, monitor) {
+      if (!previewRef.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (shouldReorder(dragIndex, hoverIndex, previewRef, monitor)) {
+        reorderQuestionCards(dragIndex, hoverIndex);
+        /* eslint-disable no-param-reassign */
+        item.index = hoverIndex;
+      }
+    },
+  });
+
+  const [{ isDragging }, drag, preview] = useDrag({
+    type: DragTypes.QUESTION_CARD,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  drag(dragRef);
+  drop(preview(previewRef));
+
+  const opacity = isDragging ? 0 : 1;
   return (
     <Box
+      ref={previewRef}
       background="white"
       border="1px"
       borderColor="grey.200"
       borderRadius="22px"
       color="grey.300"
+      data-handler-id={handlerId}
+      style={{ opacity }}
       width="100%"
     >
       <HStack alignItems="left" padding="6">
         <Box
+          ref={dragRef}
           aria-label="reorder"
-          cursor="pointer"
+          cursor="grab"
           fontSize="24px"
           paddingRight="6"
         >

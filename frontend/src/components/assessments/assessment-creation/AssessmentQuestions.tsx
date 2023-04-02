@@ -47,6 +47,7 @@ const AssessmentQuestions = ({
             <QuestionCard
               key={question.id}
               id={question.id}
+              index={i}
               questionNumber={i + 1}
               questions={getQuestionTexts(question.elements)}
               setQuestions={setQuestions}

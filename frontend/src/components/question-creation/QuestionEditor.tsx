@@ -1,6 +1,4 @@
 import React from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
@@ -36,32 +34,30 @@ const QuestionEditor = ({
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <QuestionEditorContext.Provider
-        value={{
-          questionElements,
-          setQuestionElements,
-          showAddShortAnswerModal,
-          setShowAddShortAnswerModal,
-          showAddMultipleChoiceModal,
-          setShowAddMultipleChoiceModal,
-          showAddMultiSelectModal,
-          setShowAddMultiSelectModal,
-          showEditorError,
-          setShowEditorError,
-        }}
-      >
-        <Flex minHeight="100vh">
-          <QuestionSidebar
-            setQuestions={setQuestions}
-            setShowQuestionEditor={setShowQuestionEditor}
-          />
-          <QuestionWorkspace />
-        </Flex>
-        <AddShortAnswerModal />
-        <AddMultiOptionModal />
-      </QuestionEditorContext.Provider>
-    </DndProvider>
+    <QuestionEditorContext.Provider
+      value={{
+        questionElements,
+        setQuestionElements,
+        showAddShortAnswerModal,
+        setShowAddShortAnswerModal,
+        showAddMultipleChoiceModal,
+        setShowAddMultipleChoiceModal,
+        showAddMultiSelectModal,
+        setShowAddMultiSelectModal,
+        showEditorError,
+        setShowEditorError,
+      }}
+    >
+      <Flex minHeight="100vh">
+        <QuestionSidebar
+          setQuestions={setQuestions}
+          setShowQuestionEditor={setShowQuestionEditor}
+        />
+        <QuestionWorkspace />
+      </Flex>
+      <AddShortAnswerModal />
+      <AddMultiOptionModal />
+    </QuestionEditorContext.Provider>
   );
 };
 
