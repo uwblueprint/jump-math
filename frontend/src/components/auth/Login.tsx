@@ -19,8 +19,8 @@ const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
   const location = useLocation();
 
-  const isAdmin = location.pathname.includes(Routes.ADMIN_LOGIN);
-  const isTeacher = location.pathname.includes(Routes.TEACHER_LOGIN);
+  const isAdmin = location.pathname.includes(Routes.ADMIN_LOGIN_PAGE);
+  const isTeacher = location.pathname.includes(Routes.TEACHER_LOGIN_PAGE);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -90,7 +90,7 @@ const Login = (): React.ReactElement => {
             color="blue.300"
             cursor="pointer"
             textDecoration="underline"
-            to={Routes.TEACHER_SIGNUP}
+            to={Routes.TEACHER_SIGNUP_PAGE}
           >
             Sign Up
           </RouterLink>

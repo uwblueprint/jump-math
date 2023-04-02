@@ -1,41 +1,59 @@
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
-import countryList from "react-select-country-list";
-import {
-  Box,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
-  Input,
-  Radio,
-  RadioGroup,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { Divider, VStack } from "@chakra-ui/react";
 
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import {
+  AssessmentData,
+  Status,
+  TestRequest,
+} from "../../../types/AssessmentTypes";
+import { QuestionElement } from "../../../types/QuestionTypes";
+import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
+import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
-import ErrorToast from "../../common/ErrorToast";
+import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [questions, setQuestions] = useState<QuestionElement[][]>([]);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<AssessmentData>();
 
-  const location = useLocation();
-  const { date } = location.state as { date: string };
+  const history = useHistory();
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
+  const [createTest] = useMutation<{
+    createTest: { createTest: { id: string } };
+  }>(SAVE_ASSESSMENT);
 
-  const onSubmit = (data: any, e: any) => {
+  const onSubmit: SubmitHandler<AssessmentData> = async (data) => {
     setValidSubmit(true);
-    console.log(data, e);
+    const test: TestRequest = {
+      name: data.assessmentName,
+      questions: [],
+      grade: data.grade.value,
+      assessmentType: data.type,
+      status: Status.DRAFT,
+      curriculumCountry: data.country.value,
+      curriculumRegion: data.region,
+    };
+    await createTest({ variables: { test } })
+      .then((response) => {
+        console.log("response data: ", response);
+        history.push(ASSESSMENTS_PAGE);
+      })
+      .catch(() => {
+        console.log("error");
+      });
   };
   const onError = (errs: any, e: any) => {
     setValidSubmit(false);
@@ -43,141 +61,36 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   const handleSave = handleSubmit(onSubmit, onError);
 
-  const countryOptions = React.useMemo(() => countryList().getData(), []);
-
   return (
-    <Box>
-      <CreateAssessementHeader
-        assessmentName={assessmentName}
-        date={date}
-        save={handleSave}
-      />
-      <Box padding="1.5em 2em 0em 2em">
-        <VStack align="left" spacing={8} width="75%">
-          <Text textStyle="eyebrow">Basic Information</Text>
-
-          {!validSubmit && (
-            <ErrorToast errorMessage="Please resolve all issues before publishing or saving" />
-          )}
-
-          <FormControl isInvalid={Boolean(errors.assessmentName)} isRequired>
-            <FormLabel color="grey.400">Assessment Name</FormLabel>
-            <Input
-              placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
-              {...register("assessmentName", {
-                onChange: (e) => {
-                  setAssessmentName(e.target.value);
-                },
-                required: "Please enter a name for the assessment",
-              })}
-            />
-            <FormErrorMessage>
-              {errors.assessmentName?.message}
-            </FormErrorMessage>
-          </FormControl>
-
-          <Box width="50%">
-            <Controller
+    <>
+      {showQuestionEditor ? (
+        <QuestionEditor
+          setQuestions={setQuestions}
+          setShowQuestionEditor={setShowQuestionEditor}
+        />
+      ) : (
+        <VStack spacing="8" width="100%">
+          <CreateAssessementHeader
+            assessmentName={assessmentName}
+            save={handleSave}
+          />
+          <VStack spacing="8" width="92%">
+            <BasicInformation
               control={control}
-              name="grade"
-              render={({
-                field: { onChange, value, name },
-                fieldState: { error },
-              }) => (
-                <FormControl isInvalid={Boolean(error)} isRequired>
-                  <FormLabel color="grey.400">Grade Level</FormLabel>
-                  <Select
-                    name={name}
-                    onChange={onChange}
-                    options={gradeOptions}
-                    placeholder=""
-                    useBasicStyles
-                    value={value}
-                  />
-                  <FormErrorMessage>{error?.message}</FormErrorMessage>
-                </FormControl>
-              )}
-              rules={{ required: "Please select a grade" }}
+              errors={errors}
+              register={register}
+              setAssessmentName={setAssessmentName}
+              validSubmit={validSubmit}
             />
-          </Box>
-
-          <Box width="50%">
-            <Controller
-              control={control}
-              name="assessmentType"
-              render={({
-                field: { onChange, value, name, ref },
-                fieldState: { error },
-              }) => (
-                <FormControl isInvalid={Boolean(error)} isRequired>
-                  <FormLabel color="grey.400">Type of Assessment</FormLabel>
-                  <RadioGroup
-                    ref={ref}
-                    name={name}
-                    onChange={onChange}
-                    value={value}
-                  >
-                    <VStack align="left" spacing={0.5}>
-                      <Radio value="beginning">Beginning of Grade</Radio>
-                      <Radio value="end">End of Grade</Radio>
-                    </VStack>
-                  </RadioGroup>
-                  <FormErrorMessage>{error?.message}</FormErrorMessage>
-                </FormControl>
-              )}
-              rules={{ required: "Please select a type of assessment" }}
+            <Divider borderColor="grey.200" />
+            <AssessmentQuestions
+              questions={questions}
+              setShowQuestionEditor={setShowQuestionEditor}
             />
-          </Box>
-
-          <FormControl>
-            <Text mb="2" textStyle="subtitle2">
-              Curriculum
-            </Text>
-            <HStack width="100%">
-              <Controller
-                control={control}
-                name="country"
-                render={({
-                  field: { onChange, value, name },
-                  fieldState: { error },
-                }) => (
-                  <FormControl
-                    isInvalid={Boolean(error)}
-                    isRequired
-                    mr={2}
-                    variant="paragraph"
-                  >
-                    <FormLabel color="grey.400">Country</FormLabel>
-                    <Select
-                      name={name}
-                      onChange={onChange}
-                      options={countryOptions}
-                      placeholder=""
-                      useBasicStyles
-                      value={value}
-                    />
-                    <FormErrorMessage>{error?.message}</FormErrorMessage>
-                  </FormControl>
-                )}
-                rules={{ required: "Please select a country" }}
-              />
-
-              <FormControl
-                isInvalid={Boolean(errors.region)}
-                isRequired
-                variant="paragraph"
-              >
-                <FormLabel color="grey.400">Region</FormLabel>
-                <Input
-                  {...register("region", { required: "Please enter a region" })}
-                />
-                <FormErrorMessage> {errors.region?.message} </FormErrorMessage>
-              </FormControl>
-            </HStack>
-          </FormControl>
+          </VStack>
         </VStack>
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };
 

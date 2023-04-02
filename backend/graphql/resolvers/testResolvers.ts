@@ -130,13 +130,13 @@ const testResolvers = {
     },
     publishTest: async (
       _req: undefined,
-      { testId }: { testId: string },
+      { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(testId);
+      const testToUpdate = await testService.getTestById(id);
       if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${testId} cannot be published.`);
+        throw new Error(`Test with id ${id} cannot be published.`);
       }
-      const updatedTest = await testService.updateTest(testId, {
+      const updatedTest = await testService.updateTest(id, {
         ...testToUpdate,
         status: AssessmentStatus.PUBLISHED,
       });
