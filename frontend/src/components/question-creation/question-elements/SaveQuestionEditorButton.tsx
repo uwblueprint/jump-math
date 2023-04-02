@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
+  Question,
   QuestionElement,
   QuestionElementType,
   ResponseElementType,
@@ -11,7 +13,7 @@ import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
 interface SaveQuestionEditorButtonProps {
   setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
 const SaveQuestionEditorButton = ({
@@ -120,7 +122,7 @@ const SaveQuestionEditorButton = ({
       validateNoExistingErrors()
     ) {
       setQuestions((prevQuestions) => {
-        return [...prevQuestions, questionElements];
+        return [...prevQuestions, { id: uuidv4(), elements: questionElements }];
       });
       setShowQuestionEditor(false);
     }

@@ -23,17 +23,14 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import { Question, QuestionElementType } from "../../types/QuestionTypes";
 
 import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
 
 interface QuestionSidebarProps {
   setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
 interface AccordionItemProps {

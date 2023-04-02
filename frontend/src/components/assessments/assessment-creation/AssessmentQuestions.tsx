@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import { QuestionElement } from "../../../types/QuestionTypes";
+import { Question } from "../../../types/QuestionTypes";
 import {
   generateQuestionCardTags,
   getQuestionTexts,
@@ -13,16 +13,18 @@ import QuestionCard from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
 interface AssessmentQuestionsProps {
-  questions: QuestionElement[][];
+  questions: Question[];
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
   setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssessmentQuestions = ({
   questions,
+  setQuestions,
   setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
   const pointCount: number = questions.reduce(
-    (a, b) => a + getQuestionTexts(b).length,
+    (a, b) => a + getQuestionTexts(b.elements).length,
     0,
   );
 
@@ -43,10 +45,12 @@ const AssessmentQuestions = ({
         <VStack alignItems="left" spacing="6" width="64%">
           {questions.map((question, i) => (
             <QuestionCard
-              key={i}
+              key={question.id}
+              id={question.id}
               questionNumber={i + 1}
-              questions={getQuestionTexts(question)}
-              tags={generateQuestionCardTags(question)}
+              questions={getQuestionTexts(question.elements)}
+              setQuestions={setQuestions}
+              tags={generateQuestionCardTags(question.elements)}
             />
           ))}
           <AddQuestionButton setShowQuestionEditor={setShowQuestionEditor} />

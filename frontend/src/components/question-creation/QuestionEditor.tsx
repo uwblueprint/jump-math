@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { QuestionElement } from "../../types/QuestionTypes";
+import { Question, QuestionElement } from "../../types/QuestionTypes";
 
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
@@ -13,7 +13,7 @@ import QuestionWorkspace from "./QuestionWorkspace";
 
 interface QuestionEditorProps {
   setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
 const QuestionEditor = ({

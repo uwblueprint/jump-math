@@ -1,7 +1,9 @@
 import * as React from "react";
 import {
   Box,
+  Button,
   HStack,
+  IconButton,
   List,
   ListItem,
   Spacer,
@@ -14,20 +16,31 @@ import {
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
+import { Question } from "../../../types/QuestionTypes";
 
 import QuestionTag, { QuestionTagProps } from "./QuestionTag";
 
 interface QuestionCardProps {
+  id: string;
   tags: QuestionTagProps[];
   questionNumber: number;
   questions: string[];
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
 const QuestionCard = ({
-  tags,
+  id,
   questionNumber,
   questions,
+  setQuestions,
+  tags,
 }: QuestionCardProps): React.ReactElement => {
+  const removeQuestionCard = () => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.filter((question) => question.id !== id),
+    );
+  };
+
   return (
     <Box
       background="white"
@@ -53,15 +66,29 @@ const QuestionCard = ({
             </Text>
             <Spacer />
             <Box
+              _hover={{ color: "grey.300" }}
               color="blue.300"
               cursor="pointer"
               fontSize="24px"
               paddingRight="1"
             >
-              <EditOutlineIcon />
+              <Button
+                as={IconButton}
+                color="currentColor"
+                fontSize="24px"
+                icon={<EditOutlineIcon />}
+                size="icon"
+              />
             </Box>
-            <Box color="blue.300" cursor="pointer" fontSize="24px">
-              <DeleteOutlineIcon />
+            <Box _hover={{ color: "grey.300" }} color="blue.300">
+              <Button
+                as={IconButton}
+                color="currentColor"
+                fontSize="24px"
+                icon={<DeleteOutlineIcon />}
+                onClick={removeQuestionCard}
+                size="icon"
+              />
             </Box>
           </HStack>
           <List

@@ -8,7 +8,7 @@ import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutatio
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { Status } from "../../../types/AssessmentTypes";
-import { QuestionElement } from "../../../types/QuestionTypes";
+import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
@@ -20,12 +20,12 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [name, setName] = useState("");
-  const [questions, setQuestions] = useState<QuestionElement[][]>([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
   }>(CREATE_NEW_ASSESSMENT);
+  const [questions, setQuestions] = useState<Question[]>([]);
 
   const {
     handleSubmit,
@@ -97,6 +97,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
             <Divider borderColor="grey.200" />
             <AssessmentQuestions
               questions={questions}
+              setQuestions={setQuestions}
               setShowQuestionEditor={setShowQuestionEditor}
             />
           </VStack>
