@@ -32,6 +32,7 @@ const Login = (): React.ReactElement => {
 
   const onLogInClick = async () => {
     if (!(email && password)) {
+      setLoginError(true);
       return;
     }
     const user: AuthenticatedUser = await authAPIClient.login(
