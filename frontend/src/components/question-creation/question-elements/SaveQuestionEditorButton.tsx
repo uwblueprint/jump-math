@@ -2,24 +2,16 @@ import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
-  Question,
   QuestionElement,
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
-interface SaveQuestionEditorButtonProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
-}
-
-const SaveQuestionEditorButton = ({
-  setShowQuestionEditor,
-  setQuestions,
-}: SaveQuestionEditorButtonProps): React.ReactElement => {
+const SaveQuestionEditorButton = (): React.ReactElement => {
   const questionError =
     "Please create a question to be associated with this response";
   const responseError =
@@ -27,6 +19,7 @@ const SaveQuestionEditorButton = ({
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
+  const { setQuestions, setShowQuestionEditor } = useContext(AssessmentContext);
   const {
     questionElements,
     setQuestionElements,

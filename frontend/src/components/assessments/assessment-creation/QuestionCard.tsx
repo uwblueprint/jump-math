@@ -22,35 +22,31 @@ import {
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
 import { Question } from "../../../types/QuestionTypes";
-import { shouldReorder } from "../../../utils/QuestionUtils";
+import {
+  generateQuestionCardTags,
+  getQuestionTexts,
+  shouldReorder,
+} from "../../../utils/QuestionUtils";
 
-import QuestionTag, { QuestionTagProps } from "./QuestionTag";
+import QuestionTag from "./QuestionTag";
 
 interface QuestionCardProps {
-  id: string;
   index: number;
-  tags: QuestionTagProps[];
   questionNumber: number;
-  questionInfo: Question;
-  questions: string[];
-  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
+  question: Question;
 }
 
 const QuestionCard = ({
-  id,
   index,
   questionNumber,
-  questionInfo,
-  questions,
-  setQuestions,
-  tags,
+  question,
 }: QuestionCardProps): React.ReactElement => {
-  const { setShowQuestionEditor, setEditorQuestion } = useContext(
+  const { setQuestions, setShowQuestionEditor, setEditorQuestion } = useContext(
     AssessmentContext,
   );
   const removeQuestionCard = () => {
     setQuestions((prevQuestions) =>
-      prevQuestions.filter((question) => question.id !== id),
+      prevQuestions.filter((prevQuestion) => prevQuestion.id !== question.id),
     );
   };
 
@@ -64,6 +60,9 @@ const QuestionCard = ({
       }),
     );
   };
+
+  const questionTexts = getQuestionTexts(question.elements);
+  const tags = generateQuestionCardTags(question.elements);
 
   const dragRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -91,6 +90,8 @@ const QuestionCard = ({
       }
     },
   });
+
+  const { id } = question;
 
   const [{ isDragging }, drag, preview] = useDrag({
     type: DragTypes.QUESTION_CARD,
@@ -148,7 +149,7 @@ const QuestionCard = ({
                 icon={<EditOutlineIcon />}
                 onClick={() => {
                   setShowQuestionEditor(true);
-                  setEditorQuestion(questionInfo);
+                  setEditorQuestion(question);
                 }}
                 size="icon"
               />
@@ -168,10 +169,10 @@ const QuestionCard = ({
             fontWeight="700"
             spacing={4}
             stylePosition="inside"
-            styleType={questions.length > 1 ? "lower-alpha" : "none"}
+            styleType={questionTexts.length > 1 ? "lower-alpha" : "none"}
             textStyle="paragraph"
           >
-            {questions.map((question, key) => (
+            {questionTexts.map((questionText, key) => (
               <ListItem
                 key={key}
                 color="grey.400"
@@ -180,13 +181,13 @@ const QuestionCard = ({
                 whiteSpace="nowrap"
               >
                 <Text as="span" textStyle="paragraph">
-                  {question}
+                  {questionText}
                 </Text>
               </ListItem>
             ))}
           </List>
           <Text color="grey.300" textStyle="caption">
-            Total: {questions.length} points
+            Total: {questionTexts.length} points
           </Text>
           <HStack overflow="hidden">
             {tags.map((tag, key) => (

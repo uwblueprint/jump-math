@@ -21,15 +21,15 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 const CreateAssessmentPage = (): React.ReactElement => {
   const history = useHistory();
 
-  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [name, setName] = useState("");
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
   }>(CREATE_NEW_ASSESSMENT);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
 
   const {
     handleSubmit,
@@ -81,17 +81,16 @@ const CreateAssessmentPage = (): React.ReactElement => {
     <DndProvider backend={HTML5Backend}>
       <AssessmentContext.Provider
         value={{
-          editorQuestion,
-          setEditorQuestion,
+          questions,
+          setQuestions,
           showQuestionEditor,
           setShowQuestionEditor,
+          editorQuestion,
+          setEditorQuestion,
         }}
       >
         {showQuestionEditor ? (
-          <QuestionEditor
-            setQuestions={setQuestions}
-            setShowQuestionEditor={setShowQuestionEditor}
-          />
+          <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
             <CreateAssessementHeader name={name} onSave={handleSave} />
@@ -107,10 +106,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 watch={watch}
               />
               <Divider borderColor="grey.200" />
-              <AssessmentQuestions
-                questions={questions}
-                setQuestions={setQuestions}
-              />
+              <AssessmentQuestions />
             </VStack>
           </VStack>
         )}

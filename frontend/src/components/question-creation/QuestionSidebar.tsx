@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -23,15 +23,11 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import { Question, QuestionElementType } from "../../types/QuestionTypes";
+import AssessmentContext from "../../contexts/AssessmentContext";
+import { QuestionElementType } from "../../types/QuestionTypes";
 
 import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
-
-interface QuestionSidebarProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
-}
 
 interface AccordionItemProps {
   title: string;
@@ -77,10 +73,8 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const QuestionSidebar = ({
-  setShowQuestionEditor,
-  setQuestions,
-}: QuestionSidebarProps): React.ReactElement => {
+const QuestionSidebar = (): React.ReactElement => {
+  const { setShowQuestionEditor } = useContext(AssessmentContext);
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -139,10 +133,7 @@ const QuestionSidebar = ({
         <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <SaveQuestionEditorButton
-          setQuestions={setQuestions}
-          setShowQuestionEditor={setShowQuestionEditor}
-        />
+        <SaveQuestionEditorButton />
       </HStack>
     </VStack>
   );

@@ -3,22 +3,14 @@ import { Flex } from "@chakra-ui/react";
 
 import AssessmentContext from "../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { Question, QuestionElement } from "../../types/QuestionTypes";
+import { QuestionElement } from "../../types/QuestionTypes";
 
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
-interface QuestionEditorProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
-}
-
-const QuestionEditor = ({
-  setShowQuestionEditor,
-  setQuestions,
-}: QuestionEditorProps): React.ReactElement => {
+const QuestionEditor = (): React.ReactElement => {
   const { editorQuestion } = useContext(AssessmentContext);
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
@@ -51,10 +43,7 @@ const QuestionEditor = ({
       }}
     >
       <Flex minHeight="100vh">
-        <QuestionSidebar
-          setQuestions={setQuestions}
-          setShowQuestionEditor={setShowQuestionEditor}
-        />
+        <QuestionSidebar />
         <QuestionWorkspace />
       </Flex>
       <AddShortAnswerModal />
