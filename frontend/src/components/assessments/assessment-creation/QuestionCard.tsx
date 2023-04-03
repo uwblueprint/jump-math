@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { shouldReorder } from "../../../utils/QuestionUtils";
@@ -30,6 +31,7 @@ interface QuestionCardProps {
   index: number;
   tags: QuestionTagProps[];
   questionNumber: number;
+  questionInfo: Question;
   questions: string[];
   setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
@@ -38,10 +40,14 @@ const QuestionCard = ({
   id,
   index,
   questionNumber,
+  questionInfo,
   questions,
   setQuestions,
   tags,
 }: QuestionCardProps): React.ReactElement => {
+  const { setShowQuestionEditor, setEditorQuestion } = useContext(
+    AssessmentContext,
+  );
   const removeQuestionCard = () => {
     setQuestions((prevQuestions) =>
       prevQuestions.filter((question) => question.id !== id),
@@ -140,6 +146,10 @@ const QuestionCard = ({
                 color="currentColor"
                 fontSize="24px"
                 icon={<EditOutlineIcon />}
+                onClick={() => {
+                  setShowQuestionEditor(true);
+                  setEditorQuestion(questionInfo);
+                }}
                 size="icon"
               />
             </Box>

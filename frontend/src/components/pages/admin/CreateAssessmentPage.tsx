@@ -9,6 +9,7 @@ import { Divider, VStack } from "@chakra-ui/react";
 import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
@@ -28,6 +29,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     createTest: { createTest: { id: string } };
   }>(CREATE_NEW_ASSESSMENT);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
 
   const {
     handleSubmit,
@@ -77,34 +79,42 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      {showQuestionEditor ? (
-        <QuestionEditor
-          setQuestions={setQuestions}
-          setShowQuestionEditor={setShowQuestionEditor}
-        />
-      ) : (
-        <VStack spacing="8" width="100%">
-          <CreateAssessementHeader name={name} onSave={handleSave} />
-          <VStack spacing="8" width="92%">
-            <BasicInformation
-              clearErrors={clearErrors}
-              control={control}
-              errorMessage={errorMessage}
-              errors={errors}
-              register={register}
-              setName={setName}
-              setValue={setValue}
-              watch={watch}
-            />
-            <Divider borderColor="grey.200" />
-            <AssessmentQuestions
-              questions={questions}
-              setQuestions={setQuestions}
-              setShowQuestionEditor={setShowQuestionEditor}
-            />
+      <AssessmentContext.Provider
+        value={{
+          editorQuestion,
+          setEditorQuestion,
+          showQuestionEditor,
+          setShowQuestionEditor,
+        }}
+      >
+        {showQuestionEditor ? (
+          <QuestionEditor
+            setQuestions={setQuestions}
+            setShowQuestionEditor={setShowQuestionEditor}
+          />
+        ) : (
+          <VStack spacing="8" width="100%">
+            <CreateAssessementHeader name={name} onSave={handleSave} />
+            <VStack spacing="8" width="92%">
+              <BasicInformation
+                clearErrors={clearErrors}
+                control={control}
+                errorMessage={errorMessage}
+                errors={errors}
+                register={register}
+                setName={setName}
+                setValue={setValue}
+                watch={watch}
+              />
+              <Divider borderColor="grey.200" />
+              <AssessmentQuestions
+                questions={questions}
+                setQuestions={setQuestions}
+              />
+            </VStack>
           </VStack>
-        </VStack>
-      )}
+        )}
+      </AssessmentContext.Provider>
     </DndProvider>
   );
 };

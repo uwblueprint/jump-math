@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Flex } from "@chakra-ui/react";
 
+import AssessmentContext from "../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { Question, QuestionElement } from "../../types/QuestionTypes";
 
@@ -18,9 +19,10 @@ const QuestionEditor = ({
   setShowQuestionEditor,
   setQuestions,
 }: QuestionEditorProps): React.ReactElement => {
+  const { editorQuestion } = useContext(AssessmentContext);
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
-  >([]);
+  >(editorQuestion ? editorQuestion.elements : []);
   const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
     false,
   );

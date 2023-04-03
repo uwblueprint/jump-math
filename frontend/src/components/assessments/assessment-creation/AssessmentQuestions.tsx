@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Question } from "../../../types/QuestionTypes";
 import {
   generateQuestionCardTags,
@@ -15,14 +16,13 @@ import QuestionSummary from "./QuestionSummary";
 interface AssessmentQuestionsProps {
   questions: Question[];
   setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssessmentQuestions = ({
   questions,
   setQuestions,
-  setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
+  const { setShowQuestionEditor } = useContext(AssessmentContext);
   const pointCount: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b.elements).length,
     0,
@@ -48,13 +48,14 @@ const AssessmentQuestions = ({
               key={question.id}
               id={question.id}
               index={i}
+              questionInfo={question}
               questionNumber={i + 1}
               questions={getQuestionTexts(question.elements)}
               setQuestions={setQuestions}
               tags={generateQuestionCardTags(question.elements)}
             />
           ))}
-          <AddQuestionButton setShowQuestionEditor={setShowQuestionEditor} />
+          <AddQuestionButton />
         </VStack>
         <Spacer />
         <Box width="33%">
