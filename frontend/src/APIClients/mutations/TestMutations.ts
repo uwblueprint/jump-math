@@ -30,6 +30,14 @@ export const UNARCHIVE_TEST = gql`
   }
 `;
 
+export const ARCHIVE_TEST = gql`
+  mutation ArchiveTest($id: ID!) {
+    archiveTest(id: $id) {
+      id
+    }
+  }
+`;
+
 export const SAVE_ASSESSMENT = gql`
   mutation Create_Test($test: TestRequestDTO!) {
     createTest(test: $test) {

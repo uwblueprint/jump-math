@@ -1,17 +1,18 @@
 import ClassService from "../../services/implementations/classService";
+import SchoolService from "../../services/implementations/schoolService";
+import TestService from "../../services/implementations/testService";
+import TestSessionService from "../../services/implementations/testSessionService";
+import UserService from "../../services/implementations/userService";
 import {
-  IClassService,
   ClassRequestDTO,
   ClassResponseDTO,
+  IClassService,
+  StudentRequestDTO,
 } from "../../services/interfaces/classService";
-import UserService from "../../services/implementations/userService";
-import IUserService from "../../services/interfaces/userService";
-import { ITestSessionService } from "../../services/interfaces/testSessionService";
-import TestSessionService from "../../services/implementations/testSessionService";
-import TestService from "../../services/implementations/testService";
-import { ITestService } from "../../services/interfaces/testService";
 import { ISchoolService } from "../../services/interfaces/schoolService";
-import SchoolService from "../../services/implementations/schoolService";
+import { ITestService } from "../../services/interfaces/testService";
+import { ITestSessionService } from "../../services/interfaces/testSessionService";
+import IUserService from "../../services/interfaces/userService";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService();
@@ -27,14 +28,6 @@ const classService: IClassService = new ClassService(
 );
 
 const classResolvers = {
-  Query: {
-    class: async (
-      _parent: undefined,
-      { id }: { id: string },
-    ): Promise<ClassResponseDTO> => {
-      return classService.getClassById(id);
-    },
-  },
   Mutation: {
     createClass: async (
       _req: undefined,
@@ -42,6 +35,13 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       const newClass = await classService.createClass({ ...classObj });
       return newClass;
+    },
+    createStudent: async (
+      _req: undefined,
+      { student }: { student: StudentRequestDTO },
+      classId: string,
+    ): Promise<ClassResponseDTO> => {
+      return classService.createStudent(student, classId);
     },
   },
 };
