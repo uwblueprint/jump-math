@@ -42,6 +42,11 @@ const QuestionCard = ({
   const { setQuestions, setShowQuestionEditor, setEditorQuestion } = useContext(
     AssessmentContext,
   );
+
+  const { id } = question;
+  const questionTexts = getQuestionTexts(question.elements);
+  const tags = generateQuestionCardTags(question.elements);
+
   const removeQuestionCard = () => {
     setQuestions((prevQuestions) =>
       prevQuestions.filter((prevQuestion) => prevQuestion.id !== question.id),
@@ -58,9 +63,6 @@ const QuestionCard = ({
       }),
     );
   };
-
-  const questionTexts = getQuestionTexts(question.elements);
-  const tags = generateQuestionCardTags(question.elements);
 
   const dragRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -88,8 +90,6 @@ const QuestionCard = ({
       }
     },
   });
-
-  const { id } = question;
 
   const [{ isDragging }, drag, preview] = useDrag({
     type: DragTypes.QUESTION_CARD,
