@@ -14,7 +14,7 @@ const classType = gql`
     studentNumber: String
   }
 
-  type ClassRequestDTO {
+  input ClassRequestDTO {
     className: String!
     schoolYear: Int!;
     gradeLevel: [GradeEnum]!
@@ -33,16 +33,8 @@ const classType = gql`
   }
 
   extend type Mutation {
-    createClass(
-      class: ClassRequestDTO!
-    ): ClassResponseDTO!
-  }
-
-  extend type Mutation {
-    createStudent(
-      student: StudentRequestDTO!
-      classId: String!
-    ): ClassResponseDTO!
+    createClass(class: ClassRequestDTO!): ClassResponseDTO!
+    createStudent(student: StudentRequestDTO!, classId: String!): ClassResponseDTO!
   }
 `;
 
