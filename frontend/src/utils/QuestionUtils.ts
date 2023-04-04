@@ -3,11 +3,14 @@ import { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 
+import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
   MultiOptionData,
-  QuestionDataType,
   QuestionElement,
+  QuestionElementDataType,
+  QuestionElementType,
+  ResponseElementType,
 } from "../types/QuestionTypes";
 
 export const shouldReorder = (
@@ -37,7 +40,7 @@ export const shouldReorder = (
 
 export const updatedQuestionElement = (
   id: string,
-  updatedData: QuestionDataType,
+  updatedData: QuestionElementDataType,
   prevElements: QuestionElement[],
   error?: string,
 ): QuestionElement[] => {
@@ -70,3 +73,32 @@ export const updatedMultiOption = (
 };
 
 export const exceedsMaxLength = (input: string): boolean => input.length > 800;
+
+export const generateQuestionCardTags = (
+  question: QuestionElement[],
+): QuestionTagProps[] => {
+  const tags: QuestionTagProps[] = [];
+
+  Object.values(ResponseElementType).forEach((responseType) => {
+    const responseTypeCount = question.filter(
+      (questionElement) => questionElement.type === responseType,
+    ).length;
+    if (responseTypeCount) {
+      tags.push({
+        type: responseType,
+        count: responseTypeCount,
+      });
+    }
+  });
+
+  return tags;
+};
+
+export const getQuestionTexts = (question: QuestionElement[]): string[] => {
+  return question
+    .filter(
+      (questionElement) =>
+        questionElement.type === QuestionElementType.QUESTION,
+    )
+    .map((questionElement) => questionElement.data as string);
+};

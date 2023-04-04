@@ -6,33 +6,33 @@ import {
   MultiSelectTagIcon,
   ShortAnswerTagIcon,
 } from "../../../assets/icons";
-import { QuestionType } from "../../../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../../../types/QuestionTypes";
 
-type QuestionTypeProps = {
-  type: QuestionType;
+export type QuestionTagProps = {
+  type: ResponseElementType;
   count: number;
 };
 
-const QuestionTag = ({
-  type,
-  count,
-}: QuestionTypeProps): React.ReactElement => {
+const QuestionTag = ({ type, count }: QuestionTagProps): React.ReactElement => {
   let color: string;
   let bgColor: string;
   let icon;
 
   switch (type) {
-    case QuestionType.MULTIPLE_CHOICE:
+    case QuestionElementType.MULTIPLE_CHOICE:
       color = "green.400";
       bgColor = "green.50";
       icon = MultipleChoiceTagIcon;
       break;
-    case QuestionType.SHORT_ANSWER:
+    case QuestionElementType.SHORT_ANSWER:
       color = "yellow.300";
       bgColor = "yellow.50";
       icon = ShortAnswerTagIcon;
       break;
-    case QuestionType.MULTI_SELECT:
+    case QuestionElementType.MULTI_SELECT:
       color = "blue.300";
       bgColor = "blue.50";
       icon = MultiSelectTagIcon;

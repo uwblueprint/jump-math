@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
-import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import {
   MultiData,
   MultiOptionData,

@@ -1,25 +1,28 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import { CREATE_QUESTION } from "../../../constants/Routes";
-import { QuestionData } from "../../../constants/TestConstants";
+import { QuestionElement } from "../../../types/QuestionTypes";
+import {
+  generateQuestionCardTags,
+  getQuestionTexts,
+} from "../../../utils/QuestionUtils";
 
 import AddQuestionButton from "./AddQuestionButton";
 import QuestionCard from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
 interface AssessmentQuestionsProps {
-  questions: QuestionData[];
+  questions: QuestionElement[][];
+  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssessmentQuestions = ({
   questions,
+  setShowQuestionEditor,
 }: AssessmentQuestionsProps): React.ReactElement => {
-  const history = useHistory();
-  const totalPoints: number = questions.reduce(
-    (a, b) => a + b.questions.length,
+  const pointCount: number = questions.reduce(
+    (a, b) => a + getQuestionTexts(b).length,
     0,
   );
 
@@ -30,7 +33,7 @@ const AssessmentQuestions = ({
         <Spacer />
         <Button
           leftIcon={<PlusOutlineIcon />}
-          onClick={() => history.push(CREATE_QUESTION)}
+          onClick={() => setShowQuestionEditor(true)}
           variant="outline"
         >
           Add Question
@@ -39,15 +42,20 @@ const AssessmentQuestions = ({
       <HStack alignItems="flex-start" display="flex" minWidth="940px">
         <VStack alignItems="left" spacing="6" width="64%">
           {questions.map((question, i) => (
-            <QuestionCard key={i} questionNumber={i + 1} {...question} />
+            <QuestionCard
+              key={i}
+              questionNumber={i + 1}
+              questions={getQuestionTexts(question)}
+              tags={generateQuestionCardTags(question)}
+            />
           ))}
-          <AddQuestionButton />
+          <AddQuestionButton setShowQuestionEditor={setShowQuestionEditor} />
         </VStack>
         <Spacer />
         <Box width="33%">
           <QuestionSummary
+            pointCount={pointCount}
             questionCount={questions.length}
-            totalPoints={totalPoints}
           />
         </Box>
       </HStack>

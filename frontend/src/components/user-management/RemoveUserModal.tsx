@@ -9,7 +9,7 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
-import { USER_DATABASE } from "../../constants/Routes";
+import { USER_DATABASE_PAGE } from "../../constants/Routes";
 import Modal from "../common/Modal";
 
 interface RemoveUserModalProps {
@@ -24,7 +24,7 @@ const RemoveUserModal = ({
   onCloseParent,
 }: RemoveUserModalProps): React.ReactElement => {
   const history = useHistory();
-  const navigateTo = () => history.push(USER_DATABASE);
+  const navigateTo = () => history.push(USER_DATABASE_PAGE);
 
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [showConfirmation, setShowConfirmation] = React.useState(false);

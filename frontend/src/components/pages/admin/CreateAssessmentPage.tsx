@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
 import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
-import { ASSESSMENTS } from "../../../constants/Routes";
-import { TEST_QUESTIONS } from "../../../constants/TestConstants";
+import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import {
   AssessmentData,
   Status,
   TestRequest,
 } from "../../../types/AssessmentTypes";
+import { QuestionElement } from "../../../types/QuestionTypes";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
+import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [questions, setQuestions] = useState<QuestionElement[][]>([]);
+
   const {
     handleSubmit,
     register,
@@ -24,9 +28,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     control,
   } = useForm<AssessmentData>();
 
-  const location = useLocation();
   const history = useHistory();
-  const { date } = location.state as { date: string };
   const [validSubmit, setValidSubmit] = useState(true);
   const [assessmentName, setAssessmentName] = useState("");
   const [createTest] = useMutation<{
@@ -47,7 +49,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     await createTest({ variables: { test } })
       .then((response) => {
         console.log("response data: ", response);
-        history.push(ASSESSMENTS);
+        history.push(ASSESSMENTS_PAGE);
       })
       .catch(() => {
         console.log("error");
@@ -60,24 +62,35 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSubmit, onError);
 
   return (
-    <VStack spacing="8" width="100%">
-      <CreateAssessementHeader
-        assessmentName={assessmentName}
-        date={date}
-        save={handleSave}
-      />
-      <VStack spacing="8" width="92%">
-        <BasicInformation
-          control={control}
-          errors={errors}
-          register={register}
-          setAssessmentName={setAssessmentName}
-          validSubmit={validSubmit}
+    <>
+      {showQuestionEditor ? (
+        <QuestionEditor
+          setQuestions={setQuestions}
+          setShowQuestionEditor={setShowQuestionEditor}
         />
-        <Divider borderColor="grey.200" />
-        <AssessmentQuestions questions={TEST_QUESTIONS} />
-      </VStack>
-    </VStack>
+      ) : (
+        <VStack spacing="8" width="100%">
+          <CreateAssessementHeader
+            assessmentName={assessmentName}
+            save={handleSave}
+          />
+          <VStack spacing="8" width="92%">
+            <BasicInformation
+              control={control}
+              errors={errors}
+              register={register}
+              setAssessmentName={setAssessmentName}
+              validSubmit={validSubmit}
+            />
+            <Divider borderColor="grey.200" />
+            <AssessmentQuestions
+              questions={questions}
+              setShowQuestionEditor={setShowQuestionEditor}
+            />
+          </VStack>
+        </VStack>
+      )}
+    </>
   );
 };
 

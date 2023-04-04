@@ -1,43 +1,67 @@
-import React, { useContext } from "react";
-import { useDrop } from "react-dnd";
-import { Box, VStack } from "@chakra-ui/react";
+import React from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Flex } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { DragTypes } from "../../types/DragTypes";
+import { QuestionElement } from "../../types/QuestionTypes";
 
-import HoverMessage from "./HoverMessage";
-import QuestionElementItem from "./QuestionElementItem";
-import WelcomeMessage from "./WelcomeMessage";
+import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
+import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
+import QuestionSidebar from "./QuestionSidebar";
+import QuestionWorkspace from "./QuestionWorkspace";
 
-const QuestionEditor = (): React.ReactElement => {
-  const { questionElements } = useContext(QuestionEditorContext);
-  const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: DragTypes.QUESTION_SIDEBAR_ITEM,
-    drop: () => ({ name: "Question Editor" }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  }));
+interface QuestionEditorProps {
+  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+}
 
-  const isHovering = canDrop && isOver;
+const QuestionEditor = ({
+  setShowQuestionEditor,
+  setQuestions,
+}: QuestionEditorProps): React.ReactElement => {
+  const [questionElements, setQuestionElements] = React.useState<
+    QuestionElement[]
+  >([]);
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
+    false,
+  );
+  const [
+    showAddMultipleChoiceModal,
+    setShowAddMultipleChoiceModal,
+  ] = React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
+    false,
+  );
+  const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
-    <Box ref={drop} flex="1" overflow="auto">
-      <VStack align="left" color="grey.400" margin="3em 5em">
-        {isHovering && <HoverMessage />}
-        {!isHovering && !questionElements.length && <WelcomeMessage />}
-        {!isHovering &&
-          questionElements.length &&
-          questionElements.map((questionElement, index) => (
-            <QuestionElementItem
-              key={questionElement.id}
-              content={questionElement}
-              index={index}
-            />
-          ))}
-      </VStack>
-    </Box>
+    <DndProvider backend={HTML5Backend}>
+      <QuestionEditorContext.Provider
+        value={{
+          questionElements,
+          setQuestionElements,
+          showAddShortAnswerModal,
+          setShowAddShortAnswerModal,
+          showAddMultipleChoiceModal,
+          setShowAddMultipleChoiceModal,
+          showAddMultiSelectModal,
+          setShowAddMultiSelectModal,
+          showEditorError,
+          setShowEditorError,
+        }}
+      >
+        <Flex minHeight="100vh">
+          <QuestionSidebar
+            setQuestions={setQuestions}
+            setShowQuestionEditor={setShowQuestionEditor}
+          />
+          <QuestionWorkspace />
+        </Flex>
+        <AddShortAnswerModal />
+        <AddMultiOptionModal />
+      </QuestionEditorContext.Provider>
+    </DndProvider>
   );
 };
 

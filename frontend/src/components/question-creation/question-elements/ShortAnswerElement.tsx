@@ -19,7 +19,7 @@ const ShortAnswerElement = ({
     setShowEditShortAnswerModal,
   ] = React.useState(false);
   return (
-    <Flex paddingLeft="6" width="100%">
+    <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <Input
         borderColor="grey.300"
         borderRadius="0"
