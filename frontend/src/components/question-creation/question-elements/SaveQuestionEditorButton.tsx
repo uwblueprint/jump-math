@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
+import update from "immutability-helper";
 import { v4 as uuidv4 } from "uuid";
 
 import AssessmentContext from "../../../contexts/AssessmentContext";
@@ -19,7 +20,12 @@ const SaveQuestionEditorButton = (): React.ReactElement => {
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
-  const { setQuestions, setShowQuestionEditor } = useContext(AssessmentContext);
+  const {
+    setQuestions,
+    setShowQuestionEditor,
+    editorQuestion,
+    setEditorQuestion,
+  } = useContext(AssessmentContext);
   const {
     questionElements,
     setQuestionElements,
@@ -114,9 +120,34 @@ const SaveQuestionEditorButton = (): React.ReactElement => {
       validateNoEmptyElementErrors() &&
       validateNoExistingErrors()
     ) {
-      setQuestions((prevQuestions) => {
-        return [...prevQuestions, { id: uuidv4(), elements: questionElements }];
+      const validatedQuestionElements = questionElements.map((element) => {
+        return {
+          ...element,
+          error: "",
+        };
       });
+      if (editorQuestion) {
+        setQuestions((prevQuestions) => {
+          const indexToUpdate = prevQuestions.findIndex(
+            (question) => question.id === editorQuestion.id,
+          );
+          return update(prevQuestions, {
+            [indexToUpdate]: {
+              $merge: {
+                elements: validatedQuestionElements,
+              },
+            },
+          });
+        });
+        setEditorQuestion(null);
+      } else {
+        setQuestions((prevQuestions) => {
+          return [
+            ...prevQuestions,
+            { id: uuidv4(), elements: validatedQuestionElements },
+          ];
+        });
+      }
       setShowQuestionEditor(false);
     }
   };
