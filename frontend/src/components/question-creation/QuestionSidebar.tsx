@@ -74,7 +74,15 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 };
 
 const QuestionSidebar = (): React.ReactElement => {
-  const { setShowQuestionEditor } = useContext(AssessmentContext);
+  const { setShowQuestionEditor, setEditorQuestion } = useContext(
+    AssessmentContext,
+  );
+
+  const closeQuestionEditor = () => {
+    setEditorQuestion(null);
+    setShowQuestionEditor(false);
+  };
+
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -86,7 +94,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Box justifyContent="flex-start" paddingLeft="0">
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={() => setShowQuestionEditor(false)}
+            onClick={closeQuestionEditor}
             size="sm"
             variant="tertiary"
           >
@@ -133,7 +141,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <SaveQuestionEditorButton />
+        <SaveQuestionEditorButton closeQuestionEditor={closeQuestionEditor} />
       </HStack>
     </VStack>
   );

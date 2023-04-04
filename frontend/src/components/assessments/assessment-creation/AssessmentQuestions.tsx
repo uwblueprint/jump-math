@@ -32,12 +32,7 @@ const AssessmentQuestions = (): React.ReactElement => {
       <HStack alignItems="flex-start" display="flex" minWidth="940px">
         <VStack alignItems="left" spacing="6" width="64%">
           {questions.map((question, i) => (
-            <QuestionCard
-              key={question.id}
-              index={i}
-              question={question}
-              questionNumber={i + 1}
-            />
+            <QuestionCard key={question.id} index={i} question={question} />
           ))}
           <AddQuestionButton />
         </VStack>

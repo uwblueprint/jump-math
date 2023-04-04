@@ -12,7 +12,13 @@ import {
 } from "../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
-const SaveQuestionEditorButton = (): React.ReactElement => {
+interface SaveQuestionEditorButtonProps {
+  closeQuestionEditor: () => void;
+}
+
+const SaveQuestionEditorButton = ({
+  closeQuestionEditor,
+}: SaveQuestionEditorButtonProps): React.ReactElement => {
   const questionError =
     "Please create a question to be associated with this response";
   const responseError =
@@ -20,12 +26,7 @@ const SaveQuestionEditorButton = (): React.ReactElement => {
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
-  const {
-    setQuestions,
-    setShowQuestionEditor,
-    editorQuestion,
-    setEditorQuestion,
-  } = useContext(AssessmentContext);
+  const { setQuestions, editorQuestion } = useContext(AssessmentContext);
   const {
     questionElements,
     setQuestionElements,
@@ -113,6 +114,33 @@ const SaveQuestionEditorButton = (): React.ReactElement => {
     return !emptyEditor;
   };
 
+  const addQuestion = (newQuestionElements: QuestionElement[]) => {
+    setQuestions((prevQuestions) => {
+      return [
+        ...prevQuestions,
+        { id: uuidv4(), elements: newQuestionElements },
+      ];
+    });
+  };
+
+  const updateQuestion = (
+    id: string,
+    updatedQuestionElements: QuestionElement[],
+  ) => {
+    setQuestions((prevQuestions) => {
+      const indexToUpdate = prevQuestions.findIndex(
+        (question) => question.id === id,
+      );
+      return update(prevQuestions, {
+        [indexToUpdate]: {
+          $merge: {
+            elements: updatedQuestionElements,
+          },
+        },
+      });
+    });
+  };
+
   const handleSave = () => {
     if (
       validateNoMissingQuestionError() &&
@@ -126,29 +154,12 @@ const SaveQuestionEditorButton = (): React.ReactElement => {
           error: "",
         };
       });
-      if (editorQuestion) {
-        setQuestions((prevQuestions) => {
-          const indexToUpdate = prevQuestions.findIndex(
-            (question) => question.id === editorQuestion.id,
-          );
-          return update(prevQuestions, {
-            [indexToUpdate]: {
-              $merge: {
-                elements: validatedQuestionElements,
-              },
-            },
-          });
-        });
-        setEditorQuestion(null);
+      if (!editorQuestion) {
+        addQuestion(validatedQuestionElements);
       } else {
-        setQuestions((prevQuestions) => {
-          return [
-            ...prevQuestions,
-            { id: uuidv4(), elements: validatedQuestionElements },
-          ];
-        });
+        updateQuestion(editorQuestion.id, validatedQuestionElements);
       }
-      setShowQuestionEditor(false);
+      closeQuestionEditor();
     }
   };
   return (

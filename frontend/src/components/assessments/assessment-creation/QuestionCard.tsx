@@ -32,13 +32,11 @@ import QuestionTag from "./QuestionTag";
 
 interface QuestionCardProps {
   index: number;
-  questionNumber: number;
   question: Question;
 }
 
 const QuestionCard = ({
   index,
-  questionNumber,
   question,
 }: QuestionCardProps): React.ReactElement => {
   const { setQuestions, setShowQuestionEditor, setEditorQuestion } = useContext(
@@ -132,7 +130,7 @@ const QuestionCard = ({
         <VStack alignItems="left" paddingRight="4" spacing="6" width="94%">
           <HStack>
             <Text color="grey.400" textStyle="subtitle1">
-              Question {questionNumber}
+              Question {index + 1}
             </Text>
             <Spacer />
             <Box
