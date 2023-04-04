@@ -34,6 +34,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     control,
     setValue,
     watch,
+    clearErrors,
   } = useForm<TestRequest>();
 
   const noQuestionError =
@@ -84,6 +85,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <CreateAssessementHeader name={name} onSave={handleSave} />
           <VStack spacing="8" width="92%">
             <BasicInformation
+              clearErrors={clearErrors}
               control={control}
               errorMessage={errorMessage}
               errors={errors}

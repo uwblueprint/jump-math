@@ -3,6 +3,7 @@ import {
   Control,
   Controller,
   FieldErrorsImpl,
+  UseFormClearErrors,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
@@ -36,6 +37,7 @@ interface BasicInformationProps {
   control: Control<TestRequest, any>;
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
   errorMessage: string;
+  clearErrors: UseFormClearErrors<TestRequest>;
 }
 
 const BasicInformation = ({
@@ -46,12 +48,14 @@ const BasicInformation = ({
   control,
   errors,
   errorMessage,
+  clearErrors,
 }: BasicInformationProps): React.ReactElement => {
   const handleGradeChange = (
     option: SingleValue<{ value: Grade; label: string }>,
   ) => {
     if (option) {
       setValue("grade", option.value);
+      clearErrors("grade");
     }
   };
 
@@ -60,6 +64,7 @@ const BasicInformation = ({
   ) => {
     if (option) {
       setValue("curriculumCountry", option.value);
+      clearErrors("curriculumCountry");
     }
   };
 
@@ -188,6 +193,7 @@ const BasicInformation = ({
             >
               <FormLabel color="grey.400">Region</FormLabel>
               <Input
+                placeholder="Enter a region"
                 {...register("curriculumRegion", {
                   required: "Please enter a region",
                 })}
