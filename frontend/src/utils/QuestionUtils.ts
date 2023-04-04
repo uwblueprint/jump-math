@@ -8,6 +8,7 @@ import { QuestionTagProps } from "../components/assessments/assessment-creation/
 import { DragQuestionItem } from "../types/DragTypes";
 import {
   MultipleChoiceMetadata,
+  MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -123,6 +124,19 @@ const formatMultipleChoiceRequest = (
   };
 };
 
+const formatMultiSelectRequest = (data: MultiData): MultiSelectMetadata => {
+  const answerIndices: number[] = [];
+  data.options.forEach((option, index) => {
+    if (option.isCorrect) {
+      answerIndices.push(index);
+    }
+  });
+  return {
+    options: data.options.map((option) => option.value),
+    answerIndices,
+  };
+};
+
 export const formatQuestionsRequest = (
   questions: QuestionElement[][],
 ): QuestionComponentRequest[][] => {
@@ -143,6 +157,13 @@ export const formatQuestionsRequest = (
           return {
             type: QuestionElementType.SHORT_ANSWER,
             shortAnswerMetadata: element.data as ShortAnswerMetadata,
+          };
+        case QuestionElementType.MULTI_SELECT:
+          return {
+            type: QuestionElementType.MULTI_SELECT,
+            multiSelectMetadata: formatMultiSelectRequest(
+              element.data as MultiData,
+            ),
           };
         default:
           return {

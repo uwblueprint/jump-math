@@ -1,6 +1,7 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
   MultipleChoiceMetadata,
+  MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -18,6 +19,7 @@ interface QuestionMetadata {
   textMetadata: TextMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
+  multiSelectMetadata: MultiSelectMetadata;
 }
 
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;

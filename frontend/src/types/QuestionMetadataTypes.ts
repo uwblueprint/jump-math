@@ -14,3 +14,8 @@ export interface MultipleChoiceMetadata {
   options: string[];
   answerIndex: number;
 }
+
+export interface MultiSelectMetadata {
+  options: string[];
+  answerIndices: number[];
+}
