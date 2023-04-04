@@ -43,12 +43,14 @@ class ClassService implements IClassService {
         throw new Error("Teacher ID was not found");
       }
 
-      // get the test session details for each test session
-      classObj.testSessions.forEach(async (classTestSession) => {
-        testSessions.push(
-          await this.testSessionService.getTestSessionById(classTestSession),
-        );
-      });
+      await Promise.all(
+        classObj.testSessions.map(async (classTestSession) => {
+          const testSession = await this.testSessionService.getTestSessionById(
+            classTestSession,
+          );
+          testSessions.push(testSession);
+        }),
+      );
 
       // create a new class document
       newClass = await MgClass.create({ ...classObj });
@@ -58,7 +60,6 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-
     return {
       id: newClass.id,
       className: newClass.className,
