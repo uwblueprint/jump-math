@@ -6,7 +6,7 @@ import { Flex } from "@chakra-ui/react";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../types/QuestionTypes";
 
-import AddMultipleChoiceModal from "./question-elements/modals/multiple-choice/AddMultipleChoiceModal";
+import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
@@ -30,6 +30,9 @@ const QuestionEditor = ({
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
   ] = React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
+    false,
+  );
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
@@ -42,6 +45,8 @@ const QuestionEditor = ({
           setShowAddShortAnswerModal,
           showAddMultipleChoiceModal,
           setShowAddMultipleChoiceModal,
+          showAddMultiSelectModal,
+          setShowAddMultiSelectModal,
           showEditorError,
           setShowEditorError,
         }}
@@ -54,7 +59,7 @@ const QuestionEditor = ({
           <QuestionWorkspace />
         </Flex>
         <AddShortAnswerModal />
-        <AddMultipleChoiceModal />
+        <AddMultiOptionModal />
       </QuestionEditorContext.Provider>
     </DndProvider>
   );

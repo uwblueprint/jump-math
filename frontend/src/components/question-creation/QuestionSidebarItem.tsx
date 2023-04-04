@@ -27,6 +27,7 @@ const QuestionSidebarItem = ({
     setQuestionElements,
     setShowAddShortAnswerModal,
     setShowAddMultipleChoiceModal,
+    setShowAddMultiSelectModal,
     setShowEditorError,
   } = useContext(QuestionEditorContext);
 
@@ -49,6 +50,9 @@ const QuestionSidebarItem = ({
             break;
           case QuestionElementType.MULTIPLE_CHOICE:
             setShowAddMultipleChoiceModal(true);
+            break;
+          case QuestionElementType.MULTI_SELECT:
+            setShowAddMultiSelectModal(true);
             break;
           case QuestionElementType.QUESTION:
             setShowEditorError(false);

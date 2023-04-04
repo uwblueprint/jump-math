@@ -2,24 +2,29 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import { MultipleChoiceData } from "../../../../../types/QuestionTypes";
+import {
+  MultiData,
+  QuestionElementType,
+} from "../../../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
-import MultipleChoiceModal from "./MultipleChoiceModal";
+import MultiOptionModal from "./MultiOptionModal";
 
-interface EditMultipleChoiceModalProps {
+interface EditMultiOptionModalProps {
   id: string;
-  data: MultipleChoiceData;
+  data: MultiData;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: QuestionElementType;
 }
 
-const EditMultipleChoiceModal = ({
+const EditMultiOptionModal = ({
   id,
   data,
   isOpen,
   setOpen,
-}: EditMultipleChoiceModalProps): React.ReactElement => {
+  type,
+}: EditMultiOptionModalProps): React.ReactElement => {
   const { onClose } = useDisclosure();
   const closeModal = () => {
     setOpen(false);
@@ -27,22 +32,21 @@ const EditMultipleChoiceModal = ({
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateMultipleChoiceElement = (
-    updatedMultipleChoice: MultipleChoiceData,
-  ) => {
+  const updateMultipleChoiceElement = (updatedMultipleChoice: MultiData) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedMultipleChoice, prevElements);
     });
   };
 
   return (
-    <MultipleChoiceModal
+    <MultiOptionModal
       data={data}
       isOpen={isOpen}
       onClose={closeModal}
       onConfirm={updateMultipleChoiceElement}
+      type={type}
     />
   );
 };
 
-export default EditMultipleChoiceModal;
+export default EditMultiOptionModal;

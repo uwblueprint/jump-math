@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import {
-  MultipleChoiceData,
-  MultipleChoiceOptionData,
+  MultiData,
+  MultiOptionData,
+  QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
-import Modal from "../../../../common/Modal";
+import ResponseTypeModal from "../ResponseTypeModal";
 
-import MultipleChoiceOption from "./MultipleChoiceOption";
+import MultipleChoiceOption from "./MultiOption";
 import SelectOptionCount from "./SelectOptionCount";
 
-interface MultipleChoiceModalProps {
+interface MultiOptionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (data: MultipleChoiceData) => void;
-  data?: MultipleChoiceData;
+  onConfirm: (data: MultiData) => void;
+  type: QuestionElementType;
+  data?: MultiData;
 }
 
-const MultipleChoiceModal = ({
+const MultiOptionModal = ({
   isOpen,
   onClose,
   onConfirm,
   data,
-}: MultipleChoiceModalProps): React.ReactElement => {
+  type,
+}: MultiOptionModalProps): React.ReactElement => {
   const [optionCount, setOptionCount] = useState(0);
-  const [options, setOptions] = useState<MultipleChoiceOptionData[]>([]);
+  const [options, setOptions] = useState<MultiOptionData[]>([]);
   const [optionCountError, setOptionCountError] = useState(false);
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
   const [manyCorrectOptionsError, setManyCorrectOptionsError] = useState(false);
@@ -61,7 +64,10 @@ const MultipleChoiceModal = ({
       setOptionCountError(true);
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
-    } else if (correctOptionCount > 1) {
+    } else if (
+      type === QuestionElementType.MULTIPLE_CHOICE &&
+      correctOptionCount > 1
+    ) {
       setManyCorrectOptionsError(true);
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
@@ -72,12 +78,15 @@ const MultipleChoiceModal = ({
   };
 
   return (
-    <Modal
-      header="Create multiple choice question"
+    <ResponseTypeModal
       isOpen={isOpen}
-      onCancel={handleClose}
       onClose={handleClose}
-      onSubmit={handleConfirm}
+      onConfirm={handleConfirm}
+      title={
+        type === QuestionElementType.MULTIPLE_CHOICE
+          ? "Create multiple choice question"
+          : "Create multi-select question"
+      }
     >
       <VStack spacing="10" width="100%">
         {noCorrectOptionError && (
@@ -108,8 +117,8 @@ const MultipleChoiceModal = ({
           ))}
         </VStack>
       </VStack>
-    </Modal>
+    </ResponseTypeModal>
   );
 };
 
-export default MultipleChoiceModal;
+export default MultiOptionModal;

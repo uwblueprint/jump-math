@@ -4,42 +4,54 @@ import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
 import {
-  MultipleChoiceData,
+  MultiData,
   QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 
-import MultipleChoiceModal from "./MultipleChoiceModal";
+import MultiOptionModal from "./MultiOptionModal";
 
-const AddMultipleChoiceModal = (): React.ReactElement => {
+const AddMultiOptionModal = (): React.ReactElement => {
   const { onClose } = useDisclosure();
   const {
     showAddMultipleChoiceModal,
     setShowAddMultipleChoiceModal,
+    showAddMultiSelectModal,
+    setShowAddMultiSelectModal,
   } = useContext(QuestionEditorContext);
   const closeModal = () => {
     setShowAddMultipleChoiceModal(false);
+    setShowAddMultiSelectModal(false);
     onClose();
   };
 
+  const multiData = showAddMultiSelectModal
+    ? QuestionElementType.MULTI_SELECT
+    : QuestionElementType.MULTIPLE_CHOICE;
+
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addMultipleChoiceElement = (data: MultipleChoiceData) => {
+  const addMultipleChoiceElement = (data: MultiData) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {
         id: uuidv4(),
-        type: QuestionElementType.MULTIPLE_CHOICE,
+        type: multiData,
         data,
       },
     ]);
   };
 
   return (
-    <MultipleChoiceModal
-      isOpen={showAddMultipleChoiceModal}
+    <MultiOptionModal
+      isOpen={showAddMultipleChoiceModal || showAddMultiSelectModal}
       onClose={closeModal}
       onConfirm={addMultipleChoiceElement}
+      type={
+        showAddMultipleChoiceModal
+          ? QuestionElementType.MULTIPLE_CHOICE
+          : QuestionElementType.MULTI_SELECT
+      }
     />
   );
 };
 
-export default AddMultipleChoiceModal;
+export default AddMultiOptionModal;

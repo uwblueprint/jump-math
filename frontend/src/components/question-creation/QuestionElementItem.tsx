@@ -8,13 +8,13 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
-  MultipleChoiceData,
+  MultiData,
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
-import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
+import MultiOptionElement from "./question-elements/MultiOptionElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
 import TextElement from "./question-elements/TextElement";
@@ -35,16 +35,24 @@ const renderQuestionContent = (content: QuestionElement) => {
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
       return (
-        <MultipleChoiceElement
+        <MultiOptionElement
           key={id}
-          data={data as MultipleChoiceData}
+          data={data as MultiData}
           id={id}
+          type={QuestionElementType.MULTIPLE_CHOICE}
+        />
+      );
+    case QuestionElementType.MULTI_SELECT:
+      return (
+        <MultiOptionElement
+          key={id}
+          data={data as MultiData}
+          id={id}
+          type={QuestionElementType.MULTI_SELECT}
         />
       );
     case QuestionElementType.SHORT_ANSWER:
       return <ShortAnswerElement key={id} data={data as number} id={id} />;
-    case QuestionElementType.MULTI_SELECT:
-      return <Text key={id}>this is a multi select element.</Text>;
     default:
       return null;
   }

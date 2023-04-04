@@ -28,15 +28,15 @@ export type QuestionElement = {
   error?: string;
 };
 
-export type QuestionElementDataType = string | number | MultipleChoiceData;
+export type QuestionElementDataType = string | number | MultiData;
 
-export type MultipleChoiceOptionData = {
+export type MultiOptionData = {
   id: string;
   value: string;
   isCorrect: boolean;
 };
 
-export type MultipleChoiceData = {
+export type MultiData = {
   optionCount: number;
-  options: MultipleChoiceOptionData[];
+  options: MultiOptionData[];
 };

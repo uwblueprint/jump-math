@@ -7,13 +7,13 @@ import {
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import { MultipleChoiceOptionData } from "../../../../../types/QuestionTypes";
+import { MultiOptionData } from "../../../../../types/QuestionTypes";
 
 interface SelectOptionCountProps {
   optionCount: number;
   optionCountError: boolean;
   setOptionCount: React.Dispatch<React.SetStateAction<number>>;
-  setOptions: React.Dispatch<React.SetStateAction<MultipleChoiceOptionData[]>>;
+  setOptions: React.Dispatch<React.SetStateAction<MultiOptionData[]>>;
 }
 
 const SelectOptionCount = ({
@@ -23,7 +23,7 @@ const SelectOptionCount = ({
   setOptions,
 }: SelectOptionCountProps): React.ReactElement => {
   const addOptions = (n: number) => {
-    const newOptions: MultipleChoiceOptionData[] = [];
+    const newOptions: MultiOptionData[] = [];
     [...Array(n)].forEach(() =>
       newOptions.push({ id: uuidv4(), value: "", isCorrect: false }),
     );
