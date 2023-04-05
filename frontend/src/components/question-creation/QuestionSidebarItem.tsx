@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { useDrag } from "react-dnd";
-import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
+import { Box, Icon, Text, Tooltip, VStack, WrapItem } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
+import editorTooltips from "../../constants/QuestionConstants";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
 import {
@@ -83,16 +84,33 @@ const QuestionSidebarItem = ({
 
   const opacity = isDragging ? 0.4 : 1;
   return (
-    <Box ref={drag} style={{ opacity }}>
-      <WrapItem cursor="grab">
-        <VStack>
-          <Icon as={icon} />
-          <Text textStyle="caption">
-            {titleCase(removeUnderscore(type.valueOf()))}
-          </Text>
-        </VStack>
-      </WrapItem>
-    </Box>
+    <Tooltip
+      bg="blue.300"
+      borderRadius={4}
+      hasArrow
+      label={editorTooltips[type]}
+      maxWidth="40"
+      placement="right-start"
+      textAlign="center"
+      textStyle="mobileSubtitle2"
+    >
+      <Box
+        ref={drag}
+        _hover={{ backgroundColor: "grey.100" }}
+        borderRadius="4"
+        padding="1.5"
+        style={{ opacity }}
+      >
+        <WrapItem cursor="grab">
+          <VStack>
+            <Icon as={icon} />
+            <Text align="center" maxWidth="20" textStyle="caption">
+              {titleCase(removeUnderscore(type.valueOf()))}
+            </Text>
+          </VStack>
+        </WrapItem>
+      </Box>
+    </Tooltip>
   );
 };
 

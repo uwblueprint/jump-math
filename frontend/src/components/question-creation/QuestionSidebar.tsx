@@ -42,7 +42,7 @@ interface AccordionPanelProps {
 const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
   return (
     <AccordionPanel pb={4}>
-      <Wrap spacing="0.5em">
+      <Wrap spacing="0">
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
