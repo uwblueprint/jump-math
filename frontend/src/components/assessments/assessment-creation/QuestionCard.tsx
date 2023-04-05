@@ -1,46 +1,127 @@
-import * as React from "react";
+import React, { useContext, useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
+  Button,
   HStack,
+  IconButton,
   List,
   ListItem,
   Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import type { Identifier } from "dnd-core";
+import update from "immutability-helper";
 
 import {
   DeleteOutlineIcon,
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
+import AssessmentContext from "../../../contexts/AssessmentContext";
+import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
+import { Question } from "../../../types/QuestionTypes";
+import {
+  generateQuestionCardTags,
+  getQuestionTexts,
+  shouldReorder,
+} from "../../../utils/QuestionUtils";
 
-import QuestionTag, { QuestionTagProps } from "./QuestionTag";
+import QuestionTag from "./QuestionTag";
 
 interface QuestionCardProps {
-  tags: QuestionTagProps[];
-  questionNumber: number;
-  questions: string[];
+  index: number;
+  question: Question;
 }
 
 const QuestionCard = ({
-  tags,
-  questionNumber,
-  questions,
+  index,
+  question,
 }: QuestionCardProps): React.ReactElement => {
+  const { setQuestions, setShowQuestionEditor, setEditorQuestion } = useContext(
+    AssessmentContext,
+  );
+
+  const { id } = question;
+  const questionTexts = getQuestionTexts(question.elements);
+  const tags = generateQuestionCardTags(question.elements);
+
+  const removeQuestionCard = () => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.filter((prevQuestion) => prevQuestion.id !== question.id),
+    );
+  };
+
+  const reorderQuestionCards = (hoverIndex: number, dragIndex: number) => {
+    setQuestions((prevQuestions) =>
+      update(prevQuestions, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevQuestions[dragIndex]],
+        ],
+      }),
+    );
+  };
+
+  const dragRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [{ handlerId }, drop] = useDrop<
+    DragQuestionItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
+    accept: DragTypes.QUESTION_CARD,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item: DragQuestionItem, monitor) {
+      if (!previewRef.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (shouldReorder(dragIndex, hoverIndex, previewRef, monitor)) {
+        reorderQuestionCards(dragIndex, hoverIndex);
+        /* eslint-disable no-param-reassign */
+        item.index = hoverIndex;
+      }
+    },
+  });
+
+  const [{ isDragging }, drag, preview] = useDrag({
+    type: DragTypes.QUESTION_CARD,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  drag(dragRef);
+  drop(preview(previewRef));
+
+  const opacity = isDragging ? 0 : 1;
   return (
     <Box
+      ref={previewRef}
       background="white"
       border="1px"
       borderColor="grey.200"
       borderRadius="22px"
       color="grey.300"
+      data-handler-id={handlerId}
+      style={{ opacity }}
       width="100%"
     >
       <HStack alignItems="left" padding="6">
         <Box
+          ref={dragRef}
           aria-label="reorder"
-          cursor="pointer"
+          cursor="grab"
           fontSize="24px"
           paddingRight="6"
         >
@@ -49,29 +130,47 @@ const QuestionCard = ({
         <VStack alignItems="left" paddingRight="4" spacing="6" width="94%">
           <HStack>
             <Text color="grey.400" textStyle="subtitle1">
-              Question {questionNumber}
+              Question {index + 1}
             </Text>
             <Spacer />
             <Box
+              _hover={{ color: "grey.300" }}
               color="blue.300"
               cursor="pointer"
               fontSize="24px"
               paddingRight="1"
             >
-              <EditOutlineIcon />
+              <Button
+                as={IconButton}
+                color="currentColor"
+                fontSize="24px"
+                icon={<EditOutlineIcon />}
+                onClick={() => {
+                  setShowQuestionEditor(true);
+                  setEditorQuestion(question);
+                }}
+                size="icon"
+              />
             </Box>
-            <Box color="blue.300" cursor="pointer" fontSize="24px">
-              <DeleteOutlineIcon />
+            <Box _hover={{ color: "grey.300" }} color="blue.300">
+              <Button
+                as={IconButton}
+                color="currentColor"
+                fontSize="24px"
+                icon={<DeleteOutlineIcon />}
+                onClick={removeQuestionCard}
+                size="icon"
+              />
             </Box>
           </HStack>
           <List
             fontWeight="700"
             spacing={4}
             stylePosition="inside"
-            styleType={questions.length > 1 ? "lower-alpha" : "none"}
+            styleType={questionTexts.length > 1 ? "lower-alpha" : "none"}
             textStyle="paragraph"
           >
-            {questions.map((question, key) => (
+            {questionTexts.map((questionText, key) => (
               <ListItem
                 key={key}
                 color="grey.400"
@@ -80,13 +179,13 @@ const QuestionCard = ({
                 whiteSpace="nowrap"
               >
                 <Text as="span" textStyle="paragraph">
-                  {question}
+                  {questionText}
                 </Text>
               </ListItem>
             ))}
           </List>
           <Text color="grey.300" textStyle="caption">
-            Total: {questions.length} points
+            Total: {questionTexts.length} points
           </Text>
           <HStack overflow="hidden">
             {tags.map((tag, key) => (

@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
+import update from "immutability-helper";
+import { v4 as uuidv4 } from "uuid";
 
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElement,
@@ -10,13 +13,11 @@ import {
 import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
 interface SaveQuestionEditorButtonProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+  closeQuestionEditor: () => void;
 }
 
 const SaveQuestionEditorButton = ({
-  setShowQuestionEditor,
-  setQuestions,
+  closeQuestionEditor,
 }: SaveQuestionEditorButtonProps): React.ReactElement => {
   const questionError =
     "Please create a question to be associated with this response";
@@ -25,6 +26,7 @@ const SaveQuestionEditorButton = ({
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
+  const { setQuestions, editorQuestion } = useContext(AssessmentContext);
   const {
     questionElements,
     setQuestionElements,
@@ -112,6 +114,33 @@ const SaveQuestionEditorButton = ({
     return !emptyEditor;
   };
 
+  const addQuestion = (newQuestionElements: QuestionElement[]) => {
+    setQuestions((prevQuestions) => {
+      return [
+        ...prevQuestions,
+        { id: uuidv4(), elements: newQuestionElements },
+      ];
+    });
+  };
+
+  const updateQuestion = (
+    id: string,
+    updatedQuestionElements: QuestionElement[],
+  ) => {
+    setQuestions((prevQuestions) => {
+      const indexToUpdate = prevQuestions.findIndex(
+        (question) => question.id === id,
+      );
+      return update(prevQuestions, {
+        [indexToUpdate]: {
+          $merge: {
+            elements: updatedQuestionElements,
+          },
+        },
+      });
+    });
+  };
+
   const handleSave = () => {
     if (
       validateNoMissingQuestionError() &&
@@ -119,10 +148,18 @@ const SaveQuestionEditorButton = ({
       validateNoEmptyElementErrors() &&
       validateNoExistingErrors()
     ) {
-      setQuestions((prevQuestions) => {
-        return [...prevQuestions, questionElements];
+      const validatedQuestionElements = questionElements.map((element) => {
+        return {
+          ...element,
+          error: "",
+        };
       });
-      setShowQuestionEditor(false);
+      if (!editorQuestion) {
+        addQuestion(validatedQuestionElements);
+      } else {
+        updateQuestion(editorQuestion.id, validatedQuestionElements);
+      }
+      closeQuestionEditor();
     }
   };
   return (

@@ -1,8 +1,7 @@
-import React from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useContext } from "react";
 import { Flex } from "@chakra-ui/react";
 
+import AssessmentContext from "../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { QuestionElement } from "../../types/QuestionTypes";
 
@@ -11,18 +10,11 @@ import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShor
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
-interface QuestionEditorProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
-}
-
-const QuestionEditor = ({
-  setShowQuestionEditor,
-  setQuestions,
-}: QuestionEditorProps): React.ReactElement => {
+const QuestionEditor = (): React.ReactElement => {
+  const { editorQuestion } = useContext(AssessmentContext);
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
-  >([]);
+  >(editorQuestion ? editorQuestion.elements : []);
   const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
     false,
   );
@@ -36,32 +28,27 @@ const QuestionEditor = ({
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <QuestionEditorContext.Provider
-        value={{
-          questionElements,
-          setQuestionElements,
-          showAddShortAnswerModal,
-          setShowAddShortAnswerModal,
-          showAddMultipleChoiceModal,
-          setShowAddMultipleChoiceModal,
-          showAddMultiSelectModal,
-          setShowAddMultiSelectModal,
-          showEditorError,
-          setShowEditorError,
-        }}
-      >
-        <Flex minHeight="100vh">
-          <QuestionSidebar
-            setQuestions={setQuestions}
-            setShowQuestionEditor={setShowQuestionEditor}
-          />
-          <QuestionWorkspace />
-        </Flex>
-        <AddShortAnswerModal />
-        <AddMultiOptionModal />
-      </QuestionEditorContext.Provider>
-    </DndProvider>
+    <QuestionEditorContext.Provider
+      value={{
+        questionElements,
+        setQuestionElements,
+        showAddShortAnswerModal,
+        setShowAddShortAnswerModal,
+        showAddMultipleChoiceModal,
+        setShowAddMultipleChoiceModal,
+        showAddMultiSelectModal,
+        setShowAddMultiSelectModal,
+        showEditorError,
+        setShowEditorError,
+      }}
+    >
+      <Flex minHeight="100vh">
+        <QuestionSidebar />
+        <QuestionWorkspace />
+      </Flex>
+      <AddShortAnswerModal />
+      <AddMultiOptionModal />
+    </QuestionEditorContext.Provider>
   );
 };
 

@@ -4,6 +4,11 @@ import {
   TextMetadata,
 } from "./QuestionMetadataTypes";
 
+export type Question = {
+  id: string;
+  elements: QuestionElement[];
+};
+
 export interface QuestionElement {
   id: string;
   type: QuestionElementType;

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -7,8 +9,9 @@ import { Divider, VStack } from "@chakra-ui/react";
 import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
-import { QuestionElement } from "../../../types/QuestionTypes";
+import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
@@ -18,9 +21,10 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 const CreateAssessmentPage = (): React.ReactElement => {
   const history = useHistory();
 
-  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [name, setName] = useState("");
-  const [questions, setQuestions] = useState<QuestionElement[][]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [createTest] = useMutation<{
@@ -74,35 +78,40 @@ const CreateAssessmentPage = (): React.ReactElement => {
   const handleSave = handleSubmit(onSave, onError);
 
   return (
-    <>
-      {showQuestionEditor ? (
-        <QuestionEditor
-          setQuestions={setQuestions}
-          setShowQuestionEditor={setShowQuestionEditor}
-        />
-      ) : (
-        <VStack spacing="8" width="100%">
-          <CreateAssessementHeader name={name} onSave={handleSave} />
-          <VStack spacing="8" width="92%">
-            <BasicInformation
-              clearErrors={clearErrors}
-              control={control}
-              errorMessage={errorMessage}
-              errors={errors}
-              register={register}
-              setName={setName}
-              setValue={setValue}
-              watch={watch}
-            />
-            <Divider borderColor="grey.200" />
-            <AssessmentQuestions
-              questions={questions}
-              setShowQuestionEditor={setShowQuestionEditor}
-            />
+    <DndProvider backend={HTML5Backend}>
+      <AssessmentContext.Provider
+        value={{
+          questions,
+          setQuestions,
+          showQuestionEditor,
+          setShowQuestionEditor,
+          editorQuestion,
+          setEditorQuestion,
+        }}
+      >
+        {showQuestionEditor ? (
+          <QuestionEditor />
+        ) : (
+          <VStack spacing="8" width="100%">
+            <CreateAssessementHeader name={name} onSave={handleSave} />
+            <VStack spacing="8" width="92%">
+              <BasicInformation
+                clearErrors={clearErrors}
+                control={control}
+                errorMessage={errorMessage}
+                errors={errors}
+                register={register}
+                setName={setName}
+                setValue={setValue}
+                watch={watch}
+              />
+              <Divider borderColor="grey.200" />
+              <AssessmentQuestions />
+            </VStack>
           </VStack>
-        </VStack>
-      )}
-    </>
+        )}
+      </AssessmentContext.Provider>
+    </DndProvider>
   );
 };
 

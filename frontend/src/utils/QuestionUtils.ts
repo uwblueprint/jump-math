@@ -16,6 +16,7 @@ import {
 import {
   MultiData,
   MultiOptionData,
+  Question,
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
@@ -138,10 +139,10 @@ const formatMultiSelectRequest = (data: MultiData): MultiSelectMetadata => {
 };
 
 export const formatQuestionsRequest = (
-  questions: QuestionElement[][],
+  questions: Question[],
 ): QuestionComponentRequest[][] => {
   return questions.map((question) => {
-    return question.map((element) => {
+    return question.elements.map((element) => {
       switch (element.type) {
         case QuestionElementType.QUESTION_TEXT:
           return {
