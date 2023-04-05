@@ -20,11 +20,13 @@ import BackButton from "../../common/BackButton";
 interface CreateAssessementHeaderProps {
   name: string;
   onSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onPublish: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CreateAssessementHeader = ({
   name,
   onSave,
+  onPublish,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   return (
     <Box
@@ -59,6 +61,7 @@ const CreateAssessementHeader = ({
           <Button
             leftIcon={<TextOutlineIcon />}
             minWidth="10"
+            onClick={onPublish}
             variant="primary"
           >
             Publish

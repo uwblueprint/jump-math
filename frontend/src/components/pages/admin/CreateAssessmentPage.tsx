@@ -49,17 +49,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
-  const onSave: SubmitHandler<TestRequest> = async (data) => {
+  const createNewAssessment = async (test: TestRequest) => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
     } else {
       await createTest({
         variables: {
-          test: {
-            ...data,
-            status: Status.DRAFT,
-            questions: formatQuestionsRequest(questions),
-          },
+          test,
         },
       })
         .then(() => {
@@ -71,11 +67,28 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const onSave: SubmitHandler<TestRequest> = async (data) => {
+    createNewAssessment({
+      ...data,
+      status: Status.DRAFT,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onPublish: SubmitHandler<TestRequest> = async (data) => {
+    createNewAssessment({
+      ...data,
+      status: Status.PUBLISHED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
 
   const handleSave = handleSubmit(onSave, onError);
+  const handlePublish = handleSubmit(onPublish, onError);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -93,7 +106,11 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <CreateAssessementHeader name={name} onSave={handleSave} />
+            <CreateAssessementHeader
+              name={name}
+              onPublish={handlePublish}
+              onSave={handleSave}
+            />
             <VStack spacing="8" width="92%">
               <BasicInformation
                 clearErrors={clearErrors}
