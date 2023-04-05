@@ -33,8 +33,7 @@ const classResolvers = {
       _req: undefined,
       { classObj }: { classObj: ClassRequestDTO },
     ): Promise<ClassResponseDTO> => {
-      const newClass = await classService.createClass({ ...classObj });
-      return newClass;
+      return classService.createClass(classObj);
     },
     createStudent: async (
       _req: undefined,
