@@ -1,65 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { SAVE_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
-import {
-  AssessmentData,
-  Status,
-  TestRequest,
-} from "../../../types/AssessmentTypes";
+import { Status } from "../../../types/AssessmentTypes";
 import { QuestionElement } from "../../../types/QuestionTypes";
+import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
+  const history = useHistory();
+
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
+  const [name, setName] = useState("");
   const [questions, setQuestions] = useState<QuestionElement[][]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [createTest] = useMutation<{
+    createTest: { createTest: { id: string } };
+  }>(CREATE_NEW_ASSESSMENT);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
     control,
-  } = useForm<AssessmentData>();
+    setValue,
+    watch,
+    clearErrors,
+  } = useForm<TestRequest>();
 
-  const history = useHistory();
-  const [validSubmit, setValidSubmit] = useState(true);
-  const [assessmentName, setAssessmentName] = useState("");
-  const [createTest] = useMutation<{
-    createTest: { createTest: { id: string } };
-  }>(SAVE_ASSESSMENT);
+  const noQuestionError =
+    "Please add at least one question to the assessment before saving";
+  useEffect(() => {
+    if (errorMessage === noQuestionError && questions.length !== 0) {
+      setErrorMessage("");
+    }
+  }, [questions, errorMessage]);
 
-  const onSubmit: SubmitHandler<AssessmentData> = async (data) => {
-    setValidSubmit(true);
-    const test: TestRequest = {
-      name: data.assessmentName,
-      questions: [],
-      grade: data.grade.value,
-      assessmentType: data.type,
-      status: Status.DRAFT,
-      curriculumCountry: data.country.value,
-      curriculumRegion: data.region,
-    };
-    await createTest({ variables: { test } })
-      .then((response) => {
-        console.log("response data: ", response);
-        history.push(ASSESSMENTS_PAGE);
+  const onSave: SubmitHandler<TestRequest> = async (data) => {
+    if (questions.length === 0) {
+      setErrorMessage(noQuestionError);
+    } else {
+      await createTest({
+        variables: {
+          test: {
+            ...data,
+            status: Status.DRAFT,
+            questions: formatQuestionsRequest(questions),
+          },
+        },
       })
-      .catch(() => {
-        console.log("error");
-      });
-  };
-  const onError = (errs: any, e: any) => {
-    setValidSubmit(false);
+        .then(() => {
+          history.push(ASSESSMENTS_PAGE);
+        })
+        .catch(() => {
+          setErrorMessage("Assessment failed to save. Please try again.");
+        });
+    }
   };
 
-  const handleSave = handleSubmit(onSubmit, onError);
+  const onError = () => {
+    setErrorMessage("Please resolve all issues before publishing or saving");
+  };
+
+  const handleSave = handleSubmit(onSave, onError);
 
   return (
     <>
@@ -70,17 +82,17 @@ const CreateAssessmentPage = (): React.ReactElement => {
         />
       ) : (
         <VStack spacing="8" width="100%">
-          <CreateAssessementHeader
-            assessmentName={assessmentName}
-            save={handleSave}
-          />
+          <CreateAssessementHeader name={name} onSave={handleSave} />
           <VStack spacing="8" width="92%">
             <BasicInformation
+              clearErrors={clearErrors}
               control={control}
+              errorMessage={errorMessage}
               errors={errors}
               register={register}
-              setAssessmentName={setAssessmentName}
-              validSubmit={validSubmit}
+              setName={setName}
+              setValue={setValue}
+              watch={watch}
             />
             <Divider borderColor="grey.200" />
             <AssessmentQuestions

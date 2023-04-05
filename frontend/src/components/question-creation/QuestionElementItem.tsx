@@ -8,6 +8,11 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+  TextMetadata,
+} from "../../types/QuestionMetadataTypes";
+import {
   MultiData,
   QuestionElement,
   QuestionElementType,
@@ -27,10 +32,16 @@ interface QuestionElementItemProps {
 const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
-    case QuestionElementType.QUESTION:
-      return <QuestionTextElement key={id} data={data as string} id={id} />;
+    case QuestionElementType.QUESTION_TEXT:
+      return (
+        <QuestionTextElement
+          key={id}
+          data={data as QuestionTextMetadata}
+          id={id}
+        />
+      );
     case QuestionElementType.TEXT:
-      return <TextElement key={id} data={data as string} id={id} />;
+      return <TextElement key={id} data={data as TextMetadata} id={id} />;
     case QuestionElementType.IMAGE:
       return <Text key={id}>this is an image element.</Text>;
     case QuestionElementType.MULTIPLE_CHOICE:
@@ -52,7 +63,13 @@ const renderQuestionContent = (content: QuestionElement) => {
         />
       );
     case QuestionElementType.SHORT_ANSWER:
-      return <ShortAnswerElement key={id} data={data as number} id={id} />;
+      return (
+        <ShortAnswerElement
+          key={id}
+          data={data as ShortAnswerMetadata}
+          id={id}
+        />
+      );
     default:
       return null;
   }

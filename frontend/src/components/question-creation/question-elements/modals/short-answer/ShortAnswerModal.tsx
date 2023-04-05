@@ -6,12 +6,13 @@ import {
   Input,
 } from "@chakra-ui/react";
 
+import { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
 import Modal from "../../../../common/Modal";
 
 interface ShortAnswerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (data: number) => void;
+  onConfirm: (data: ShortAnswerMetadata) => void;
   data?: number;
 }
 
@@ -42,7 +43,7 @@ const ShortAnswerModal = ({
 
   const handleConfirm = () => {
     if (typeof answer !== "undefined") {
-      onConfirm(answer);
+      onConfirm({ answer });
       handleClose();
     } else {
       setError(true);

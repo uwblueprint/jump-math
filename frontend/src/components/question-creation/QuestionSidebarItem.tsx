@@ -9,6 +9,7 @@ import {
   QuestionElement,
   QuestionElementType,
 } from "../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 
 interface QuestionSidebarItemProps {
   type: QuestionElementType;
@@ -45,6 +46,21 @@ const QuestionSidebarItem = ({
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
         switch (item.type) {
+          case QuestionElementType.QUESTION_TEXT:
+            setShowEditorError(false);
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { questionText: "" },
+            });
+            break;
+          case QuestionElementType.TEXT:
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { text: "" },
+            });
+            break;
           case QuestionElementType.SHORT_ANSWER:
             setShowAddShortAnswerModal(true);
             break;
@@ -53,10 +69,6 @@ const QuestionSidebarItem = ({
             break;
           case QuestionElementType.MULTI_SELECT:
             setShowAddMultiSelectModal(true);
-            break;
-          case QuestionElementType.QUESTION:
-            setShowEditorError(false);
-            addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
             break;
           default:
             addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
@@ -75,7 +87,9 @@ const QuestionSidebarItem = ({
       <WrapItem cursor="grab">
         <VStack>
           <Icon as={icon} />
-          <Text textStyle="caption">{type.valueOf()}</Text>
+          <Text textStyle="caption">
+            {titleCase(removeUnderscore(type.valueOf()))}
+          </Text>
         </VStack>
       </WrapItem>
     </Box>

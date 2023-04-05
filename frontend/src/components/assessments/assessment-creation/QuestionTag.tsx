@@ -10,6 +10,7 @@ import {
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../../utils/GeneralUtils";
 
 export type QuestionTagProps = {
   type: ResponseElementType;
@@ -55,7 +56,7 @@ const QuestionTag = ({ type, count }: QuestionTagProps): React.ReactElement => {
     >
       <TagLeftIcon as={icon} boxSize="20px" />
       <Text ml={2} textStyle="caption">
-        {type.valueOf()} x {count}
+        {titleCase(removeUnderscore(type.valueOf()))} x {count}
       </Text>
     </Tag>
   );

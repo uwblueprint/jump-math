@@ -10,7 +10,7 @@ import {
 import { Select } from "chakra-react-select";
 
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
-import * as Routes from "../../../constants/Routes";
+import { HOME_PAGE } from "../../../constants/Routes";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -87,7 +87,7 @@ const StudentNameSelection = (): React.ReactElement => {
       <NavigationButtons
         backButtonText="Back to Home"
         onBackClick={() => {
-          history.push(Routes.HOME_PAGE);
+          history.push(HOME_PAGE);
         }}
         onContinueClick={() => undefined}
       />

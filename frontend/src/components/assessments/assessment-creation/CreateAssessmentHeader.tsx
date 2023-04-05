@@ -18,13 +18,13 @@ import { getReadableDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 
 interface CreateAssessementHeaderProps {
-  assessmentName: string;
-  save: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  name: string;
+  onSave: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CreateAssessementHeader = ({
-  assessmentName,
-  save,
+  name,
+  onSave,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   return (
     <Box
@@ -37,9 +37,7 @@ const CreateAssessementHeader = ({
         <HStack alignItems="start" spacing={6}>
           <BackButton />
           <VStack align="left">
-            <Text textStyle="subtitle1">
-              {assessmentName || "Untitled Assessment"}
-            </Text>
+            <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
             <Text textStyle="smallerParagraph">
               Created {getReadableDate()}
             </Text>
@@ -53,7 +51,7 @@ const CreateAssessementHeader = ({
           <Button
             leftIcon={<SaveOutlineIcon />}
             minWidth="10"
-            onClick={save}
+            onClick={onSave}
             variant="secondary"
           >
             Save

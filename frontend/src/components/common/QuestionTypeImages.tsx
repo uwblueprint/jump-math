@@ -3,6 +3,7 @@ import { Box, HStack, Image, Text, Tooltip, VStack } from "@chakra-ui/react";
 
 import { typeToImageMetadata } from "../../constants/StudentAssessmentConstants";
 import { ResponseElementType } from "../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 
 const QuestionTypeImages = ({
   questionTypes,
@@ -38,7 +39,7 @@ const QuestionTypeImages = ({
               </Box>
             </Tooltip>
             <Text align="center" textStyle="caption">
-              {type}
+              {titleCase(removeUnderscore(type))}
             </Text>
           </VStack>
         );

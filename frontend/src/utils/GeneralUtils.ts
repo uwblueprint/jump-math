@@ -1,5 +1,11 @@
-export const titleCase = (word: string): string => {
-  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+export const titleCase = (input: string): string => {
+  const words = input.split(" ");
+
+  return words
+    .map((word) => {
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    })
+    .join(" ");
 };
 
 export const removeUnderscore = (word: string): string => {

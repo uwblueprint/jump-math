@@ -56,7 +56,7 @@ const QuestionCard = ({
               color="blue.300"
               cursor="pointer"
               fontSize="24px"
-              paddingRight="4"
+              paddingRight="1"
             >
               <EditOutlineIcon />
             </Box>
