@@ -49,7 +49,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
-  const createNewAssessment = async (test: TestRequest) => {
+  const onCreateTest = async (test: TestRequest) => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
     } else {
@@ -68,7 +68,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   };
 
   const onSave: SubmitHandler<TestRequest> = async (data) => {
-    createNewAssessment({
+    onCreateTest({
       ...data,
       status: Status.DRAFT,
       questions: formatQuestionsRequest(questions),
@@ -76,7 +76,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
   };
 
   const onPublish: SubmitHandler<TestRequest> = async (data) => {
-    createNewAssessment({
+    onCreateTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
