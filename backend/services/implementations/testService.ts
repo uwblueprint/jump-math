@@ -7,10 +7,17 @@ import {
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
+import IImageStorageService from "../interfaces/imageStorageService";
 
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
+  imageStorageService: IImageStorageService;
+
+  constructor(imageStorageService: IImageStorageService) {
+    this.imageStorageService = imageStorageService;
+  }
+
   /* eslint-disable class-methods-use-this */
   async createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
