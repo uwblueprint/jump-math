@@ -16,6 +16,7 @@ import { Status } from "../../../types/AssessmentTypes";
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
+import UnarchiveButton from "./EditStatusButtons/UnarchiveButton";
 
 interface EditStatusPopoverProps {
   assessmentId: string;
@@ -62,6 +63,12 @@ const EditStatusPopover = ({
             {(assessmentStatus === Status.DRAFT ||
               assessmentStatus === Status.PUBLISHED) && (
               <DuplicateButton
+                assessmentId={assessmentId}
+                closePopover={onClose}
+              />
+            )}
+            {assessmentStatus === Status.ARCHIVED && (
+              <UnarchiveButton
                 assessmentId={assessmentId}
                 closePopover={onClose}
               />
