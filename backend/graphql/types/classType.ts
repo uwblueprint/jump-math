@@ -14,6 +14,14 @@ const classType = gql`
     studentNumber: String
   }
 
+  input ClassRequestDTO {
+    className: String!
+    schoolYear: Int!
+    gradeLevel: [GradeEnum]!
+    teacher: String!
+    testSessions: [String]!
+  }
+
   type ClassResponseDTO {
     id: String!
     className: String!
@@ -25,6 +33,7 @@ const classType = gql`
   }
 
   extend type Mutation {
+    createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(
       student: StudentRequestDTO!
       classId: String!

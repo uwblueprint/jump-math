@@ -4,6 +4,7 @@ import TestService from "../../services/implementations/testService";
 import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
 import {
+  ClassRequestDTO,
   ClassResponseDTO,
   IClassService,
   StudentRequestDTO,
@@ -28,6 +29,12 @@ const classService: IClassService = new ClassService(
 
 const classResolvers = {
   Mutation: {
+    createClass: async (
+      _req: undefined,
+      { classObj }: { classObj: ClassRequestDTO },
+    ): Promise<ClassResponseDTO> => {
+      return classService.createClass(classObj);
+    },
     createStudent: async (
       _req: undefined,
       { student }: { student: StudentRequestDTO },
