@@ -95,6 +95,9 @@ const AddClassroomModal = (): React.ReactElement => {
       setGradeLevelError(true);
       return false;
     }
+    setClassName(watch("className"));
+    setSchoolYear(parseInt(watch("schoolYear"), 10));
+    setGradeLevel(watch("gradeLevel"));
 
     return true;
   };
@@ -116,9 +119,6 @@ const AddClassroomModal = (): React.ReactElement => {
       console.log(`Classname: ${watch("className")}`);
       console.log(`School Year: ${watch("schoolYear")}`);
       console.log(`Grade Level: ${watch("gradeLevel")}`);
-      setClassName(watch("className"));
-      setSchoolYear(parseInt(watch("schoolYear"), 10));
-      setGradeLevel(watch("gradeLevel"));
     } else {
       setShowRequestError(true);
       setRequestErrorMessage(
