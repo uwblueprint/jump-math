@@ -12,21 +12,21 @@ const UnarchiveButton = ({
   assessmentId,
   closePopover,
 }: UnarchiveButtonProps): React.ReactElement => {
-  const [showUnarchiveModal, setshowUnarchiveModal] = React.useState(false);
+  const [showUnarchiveModal, setShowUnarchiveModal] = React.useState(false);
 
   return (
     <>
       <EditStatusButton
-        name="Unarchive"
+        name="Un-archive"
         onClick={() => {
           closePopover();
-          setshowUnarchiveModal(true);
+          setShowUnarchiveModal(true);
         }}
       />
       <UnarchiveModal
         assessmentId={assessmentId}
         isOpen={showUnarchiveModal}
-        onClose={() => setshowUnarchiveModal(false)}
+        onClose={() => setShowUnarchiveModal(false)}
       />
     </>
   );
