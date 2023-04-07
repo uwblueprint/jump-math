@@ -12,10 +12,7 @@ import {
   mockTestArray,
   questions,
 } from "../../../testUtils/tests";
-import {
-  TestResponseDTO,
-  CreateTestRequestDTO,
-} from "../../interfaces/testService";
+import { TestResponseDTO, TestRequestDTO } from "../../interfaces/testService";
 import { Grade } from "../../../types";
 
 describe("mongo testService", (): void => {
@@ -61,7 +58,7 @@ describe("mongo testService", (): void => {
     const createdTest = await MgTest.create(mockTest);
 
     // create DTO object to update to
-    const testUpdate: CreateTestRequestDTO = {
+    const testUpdate: TestRequestDTO = {
       name: "newTest",
       questions,
       grade: Grade.GRADE_8,
@@ -81,7 +78,7 @@ describe("mongo testService", (): void => {
     await MgTest.create(mockTest);
 
     // create DTO object to update to
-    const testUpdate: CreateTestRequestDTO = {
+    const testUpdate: TestRequestDTO = {
       name: "newTest",
       questions,
       grade: Grade.GRADE_8,

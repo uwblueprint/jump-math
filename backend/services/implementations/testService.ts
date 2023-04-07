@@ -1,22 +1,50 @@
 import mongoose from "mongoose";
-import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
+import { FileUpload } from "graphql-upload";
+import MgTest, {
+  AssessmentStatus,
+  QuestionComponent,
+  QuestionComponentMetadata,
+  QuestionComponentType,
+  Test,
+} from "../../models/test.model";
 import {
-  CreateTestRequestDTO,
+  TestRequestDTO,
   TestResponseDTO,
   ITestService,
+  QuestionComponentRequest,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
+import IImageStorageService from "../interfaces/imageStorageService";
+import FileStorageService from "./fileStorageService";
+import ImageStorageService from "./imageStorageService";
 
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
+  imageStorageService: IImageStorageService;
+
+  constructor() {
+    const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
+    const fileStorageService = new FileStorageService(defaultBucket);
+    this.imageStorageService = new ImageStorageService(
+      "assessment-images",
+      fileStorageService,
+    );
+  }
+
   /* eslint-disable class-methods-use-this */
-  async createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO> {
+  async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
 
     try {
-      newTest = await MgTest.create(test);
+      const questions: QuestionComponent[][] = await this.uploadImages(
+        test.questions,
+      );
+      newTest = await MgTest.create({
+        ...test,
+        questions,
+      });
     } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -67,17 +95,24 @@ class TestService implements ITestService {
     }
   }
 
-  async updateTest(
-    id: string,
-    test: CreateTestRequestDTO,
-  ): Promise<TestResponseDTO> {
+  async updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
 
     try {
-      updatedTest = await MgTest.findByIdAndUpdate(id, test, {
-        new: true,
-        runValidators: true,
-      });
+      const questions: QuestionComponent[][] = await this.uploadImages(
+        test.questions,
+      );
+      updatedTest = await MgTest.findByIdAndUpdate(
+        id,
+        {
+          ...test,
+          questions,
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
       if (!updatedTest) {
         throw new Error(`Test with id ${id} not found`);
       }
@@ -222,6 +257,26 @@ class TestService implements ITestService {
           assessmentType: test.assessmentType,
           status: test.status,
         };
+      }),
+    );
+  }
+
+  private async uploadImages(
+    questions: QuestionComponentRequest[][],
+  ): Promise<QuestionComponent[][]> {
+    return Promise.all(
+      questions.map(async (question: QuestionComponentRequest[]) => {
+        return Promise.all(
+          question.map(async (questionComponent: QuestionComponentRequest) => {
+            if (questionComponent.type === QuestionComponentType.IMAGE) {
+              const imageComponent: QuestionComponentMetadata = await this.imageStorageService.uploadImage(
+                questionComponent.metadata as Promise<FileUpload>,
+              );
+              return { ...questionComponent, metadata: imageComponent };
+            }
+            return questionComponent as QuestionComponent;
+          }),
+        );
       }),
     );
   }

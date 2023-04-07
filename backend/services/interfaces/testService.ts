@@ -1,13 +1,14 @@
+import { FileUpload } from "graphql-upload";
 import {
   QuestionTextMetadata,
   TextMetadata,
-  ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   ShortAnswerMetadata,
   QuestionComponent,
   AssessmentType,
   AssessmentStatus,
+  QuestionComponentMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
 
@@ -30,25 +31,44 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-export type CreateTestRequestDTO = Omit<TestResponseDTO, "id">;
+/* QuestionComponentMetadata object for service requests */
+export type QuestionComponentMetadataRequest =
+  | Exclude<QuestionComponentMetadata, "ImageMetadata">
+  | Promise<FileUpload>;
 
-export interface QuestionComponentMetadataRequest {
+/* QuestionComponent object for service requests */
+export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
+  metadata: QuestionComponentMetadataRequest;
+};
+
+/* TestRequestDTO for service requests */
+export type TestRequestDTO = Omit<TestResponseDTO, "id" | "questions"> & {
+  questions: QuestionComponentRequest[][];
+};
+
+/* QuestionComponentMetadata object for GraphQL requests */
+export interface GraphQLQuestionComponentMetadataRequest {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
+  imageMetadata: Promise<FileUpload>;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
 }
 
-export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
-  QuestionComponentMetadataRequest;
+/* QuestionComponent object for GraphQL requests */
+export type GraphQLQuestionComponentRequest = Omit<
+  QuestionComponent,
+  "metadata"
+> &
+  GraphQLQuestionComponentMetadataRequest;
 
-export type TestRequestDTO = {
+/* TestRequestDTO for GraphQL requests */
+export type GraphQLTestRequestDTO = {
   /** the name of the test */
   name: string;
   /** an ordered array of questions on the test */
-  questions: QuestionComponentRequest[][];
+  questions: GraphQLQuestionComponentRequest[][];
   /** the grade of the student */
   grade: Grade;
   /** the type of assessment */
@@ -68,7 +88,7 @@ export interface ITestService {
    * @returns a TestResponseDTO with the created test
    * @throws Error if creation fails
    */
-  createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+  createTest(test: TestRequestDTO): Promise<TestResponseDTO>;
 
   /**
    * delete a Test with the given id, return deleted id
@@ -83,7 +103,7 @@ export interface ITestService {
    * @param id The unique identifier of the Test document to update
    * @param test The object containing the updated Test
    */
-  updateTest(id: string, test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+  updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO>;
 
   /**
    * retrieve a Test given the id

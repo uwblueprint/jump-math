@@ -52,6 +52,7 @@ export interface TextMetadata {
  */
 export interface ImageMetadata {
   src: string;
+  fileName: string;
 }
 
 /**
