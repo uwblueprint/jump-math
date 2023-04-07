@@ -4,6 +4,8 @@ export type ClassRequest = {
   className: string;
   schoolYear: number;
   gradeLevel: Grade;
+  teacher: string;
+  testSessions: string[];
 };
 
 export type ClassResponse = {

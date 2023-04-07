@@ -7,9 +7,6 @@ const CREATE_CLASS = gql`
       className
       schoolYear
       gradeLevel
-      teacher {
-        id
-      }
     }
   }
 `;

@@ -44,6 +44,8 @@ const AddClassroomModal = (): React.ReactElement => {
   const [className, setClassName] = useState("");
   const [schoolYear, setSchoolYear] = useState<number>(0);
   const [gradeLevel, setGradeLevel] = useState<Grade>(Grade.K);
+  const [teacher, setTeacher] = useState("6347056d47cd96025c18e639");
+  const [testSessions, setTestSessions] = useState([]);
   const [classNameError, setClassNameError] = React.useState(false);
   const [schoolYearError, setSchoolYearError] = React.useState(false);
   const [gradeLevelError, setGradeLevelError] = React.useState(false);
@@ -66,7 +68,6 @@ const AddClassroomModal = (): React.ReactElement => {
     switch (field) {
       case "className":
         setClassNameError(false);
-
         break;
       case "schoolYear":
         setSchoolYearError(false);
@@ -129,6 +130,8 @@ const AddClassroomModal = (): React.ReactElement => {
       className,
       schoolYear,
       gradeLevel,
+      teacher,
+      testSessions,
     };
     await createClass({ variables: { classObj } })
       .then((data) => {
@@ -168,7 +171,7 @@ const AddClassroomModal = (): React.ReactElement => {
                   onClick={() => window.location.reload()}
                   variant="primary"
                 >
-                  Return to database
+                  Return to dashboard
                 </Button>
               </ModalFooter>
             </>
