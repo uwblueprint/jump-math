@@ -25,7 +25,7 @@ const Login = (): React.ReactElement => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [invalidFormError, setinvalidFormError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
 
@@ -33,7 +33,7 @@ const Login = (): React.ReactElement => {
 
   const onLogInClick = async () => {
     setLoginError(false);
-    setErrorMessage(false);
+    setinvalidFormError(false);
 
     if (!(email && password)) {
       setLoginError(true);
@@ -48,7 +48,7 @@ const Login = (): React.ReactElement => {
       );
       setAuthenticatedUser(user);
     } catch (error) {
-      setErrorMessage(true);
+      setinvalidFormError(true);
     }
   };
 
@@ -113,7 +113,7 @@ const Login = (): React.ReactElement => {
     error = "Please ensure fields are filled";
   }
 
-  if (errorMessage) {
+  if (invalidFormError) {
     error = "Failed to login";
   }
 
