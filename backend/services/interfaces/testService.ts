@@ -1,4 +1,3 @@
-import { FileUpload } from "graphql-upload";
 import {
   QuestionTextMetadata,
   TextMetadata,
@@ -8,7 +7,7 @@ import {
   QuestionComponent,
   AssessmentType,
   AssessmentStatus,
-  QuestionComponentMetadata,
+  ImageMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
 
@@ -31,54 +30,26 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-/* QuestionComponentMetadata object for service requests */
-export type QuestionComponentMetadataRequest =
-  | Exclude<QuestionComponentMetadata, "ImageMetadata">
-  | Promise<FileUpload>;
-
-/* QuestionComponent object for service requests */
-export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
-  metadata: QuestionComponentMetadataRequest;
-};
-
 /* TestRequestDTO for service requests */
-export type TestRequestDTO = Omit<TestResponseDTO, "id" | "questions"> & {
-  questions: QuestionComponentRequest[][];
-};
+export type TestRequestDTO = Omit<TestResponseDTO, "id">;
 
 /* QuestionComponentMetadata object for GraphQL requests */
-export interface GraphQLQuestionComponentMetadataRequest {
+export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imageMetadata: Promise<FileUpload>;
+  imageMetadata: ImageMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
 }
 
 /* QuestionComponent object for GraphQL requests */
-export type GraphQLQuestionComponentRequest = Omit<
-  QuestionComponent,
-  "metadata"
-> &
-  GraphQLQuestionComponentMetadataRequest;
+export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
+  GraphQLQuestionComponentMetadata;
 
 /* TestRequestDTO for GraphQL requests */
-export type GraphQLTestRequestDTO = {
-  /** the name of the test */
-  name: string;
-  /** an ordered array of questions on the test */
-  questions: GraphQLQuestionComponentRequest[][];
-  /** the grade of the student */
-  grade: Grade;
-  /** the type of assessment */
-  assessmentType: AssessmentType;
-  /** the status of the assessment */
-  status: AssessmentStatus;
-  /** the country that the test is to be administered in */
-  curriculumCountry: string;
-  /** the region that the test is to be administered in */
-  curriculumRegion: string;
+export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
+  questions: GraphQLQuestionComponent[][];
 };
 
 export interface ITestService {

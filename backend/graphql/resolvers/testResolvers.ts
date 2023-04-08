@@ -1,16 +1,15 @@
 import TestService from "../../services/implementations/testService";
 import {
   AssessmentStatus,
+  QuestionComponent,
   QuestionComponentMetadata,
 } from "../../models/test.model";
 import {
   ITestService,
   GraphQLTestRequestDTO,
   TestResponseDTO,
-  QuestionComponentRequest,
-  QuestionComponentMetadataRequest,
-  GraphQLQuestionComponentRequest,
-  GraphQLQuestionComponentMetadataRequest,
+  GraphQLQuestionComponent,
+  GraphQLQuestionComponentMetadata,
 } from "../../services/interfaces/testService";
 
 const testService: ITestService = new TestService();
@@ -24,14 +23,14 @@ type QuestionMetadataName =
   | "ShortAnswerMetadata";
 
 const resolveQuestions = (
-  questions: GraphQLQuestionComponentRequest[][],
-): QuestionComponentRequest[][] => {
-  const resolvedQuestions: QuestionComponentRequest[][] = [];
+  questions: GraphQLQuestionComponent[][],
+): QuestionComponent[][] => {
+  const resolvedQuestions: QuestionComponent[][] = [];
 
-  questions.forEach((questionComponents: GraphQLQuestionComponentRequest[]) => {
-    const resolvedQuestionComponents: QuestionComponentRequest[] = [];
+  questions.forEach((questionComponents: GraphQLQuestionComponent[]) => {
+    const resolvedQuestionComponents: QuestionComponent[] = [];
     questionComponents.forEach(
-      (questionComponent: GraphQLQuestionComponentRequest) => {
+      (questionComponent: GraphQLQuestionComponent) => {
         const {
           questionTextMetadata,
           textMetadata,
@@ -39,9 +38,9 @@ const resolveQuestions = (
           multipleChoiceMetadata,
           multiSelectMetadata,
           shortAnswerMetadata,
-        }: GraphQLQuestionComponentMetadataRequest = questionComponent;
+        }: GraphQLQuestionComponentMetadata = questionComponent;
 
-        let metadata: QuestionComponentMetadataRequest;
+        let metadata: QuestionComponentMetadata;
 
         switch (questionComponent.type.toString()) {
           case "QUESTION_TEXT":
@@ -106,7 +105,7 @@ const testResolvers = {
       _req: undefined,
       { test }: { test: GraphQLTestRequestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
         test.questions,
       );
       return testService.createTest({ ...test, questions: resolvedQuestions });
@@ -115,7 +114,7 @@ const testResolvers = {
       _req: undefined,
       { id, test }: { id: string; test: GraphQLTestRequestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
         test.questions,
       );
       return testService.updateTest(id, {

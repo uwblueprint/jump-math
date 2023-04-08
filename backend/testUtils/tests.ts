@@ -1,6 +1,3 @@
-import { FileUpload } from "graphql-upload";
-import fs from "fs";
-import { resolve } from "path";
 import {
   QuestionComponent,
   QuestionComponentType,
@@ -8,23 +5,12 @@ import {
   AssessmentType,
 } from "../models/test.model";
 import {
-  QuestionComponentRequest,
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
 
-const imageFile = fs.createReadStream(resolve(__dirname, "assets/test.png"));
-const imageUpload: Promise<FileUpload> = new Promise((r) =>
-  r({
-    createReadStream: () => imageFile,
-    filename: "test.png",
-    mimetype: "image/png",
-    encoding: "7bit",
-  }),
-);
-
-export const questions: Array<Array<QuestionComponentRequest>> = [
+export const questions: Array<Array<QuestionComponent>> = [
   [
     {
       type: QuestionComponentType.TEXT,
@@ -81,7 +67,11 @@ export const questions: Array<Array<QuestionComponentRequest>> = [
     },
     {
       type: QuestionComponentType.IMAGE,
-      metadata: imageUpload,
+      metadata: {
+        url:
+          "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
+        filePath: "/assessment-images/test.png",
+      },
     },
     {
       type: QuestionComponentType.SHORT_ANSWER,
@@ -89,22 +79,6 @@ export const questions: Array<Array<QuestionComponentRequest>> = [
         answer: 7,
       },
     },
-  ],
-];
-
-export const questionResponses: Array<Array<QuestionComponent>> = [
-  questions[0] as Array<QuestionComponent>,
-  [
-    questions[1][0] as QuestionComponent,
-    {
-      type: QuestionComponentType.IMAGE,
-      metadata: {
-        src:
-          "https://storage.googleapis.com/jump-math-98edf.appspot.com/test.png",
-        fileName: "test.png",
-      },
-    },
-    questions[1][2] as QuestionComponent,
   ],
 ];
 
@@ -151,13 +125,11 @@ export const mockTestArray: Array<TestRequestDTO> = [
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,
-  questions: questionResponses,
 };
 
 export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
   ...mockTest,
-  questions: questionResponses,
 };
 
 export const assertResponseMatchesExpected = (
@@ -172,20 +144,11 @@ export const assertResponseMatchesExpected = (
   expect(result.status).toEqual(expected.status);
   expect(result.grade).toEqual(expected.grade);
 
-  result.questions.forEach(
-    (questionComponents: QuestionComponentRequest[], i) => {
-      const expectedQuestion: QuestionComponentRequest[] =
-        expected.questions[i];
-      questionComponents.forEach(
-        (questionComponent: QuestionComponentRequest, j) => {
-          expect(Number(questionComponent.type)).toEqual(
-            expectedQuestion[j].type,
-          );
-          expect(questionComponent.metadata).toEqual(
-            expectedQuestion[j].metadata,
-          );
-        },
-      );
-    },
-  );
+  result.questions.forEach((questionComponents: QuestionComponent[], i) => {
+    const expectedQuestion: QuestionComponent[] = expected.questions[i];
+    questionComponents.forEach((questionComponent: QuestionComponent, j) => {
+      expect(Number(questionComponent.type)).toEqual(expectedQuestion[j].type);
+      expect(questionComponent.metadata).toEqual(expectedQuestion[j].metadata);
+    });
+  });
 };

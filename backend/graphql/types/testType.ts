@@ -50,11 +50,14 @@ const testType = gql`
     text: String!
   }
 
-  scalar ImageMetadataInput
+  input ImageMetadataInput {
+    url: String!
+    filePath: String!
+  }
 
   type ImageMetadata {
-    src: String!
-    fileName: String!
+    url: String!
+    filePath: String!
   }
 
   input MultipleChoiceMetadataInput {

@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-import { FileUpload } from "graphql-upload";
 import MgTest, {
   AssessmentStatus,
+  ImageMetadata,
   QuestionComponent,
-  QuestionComponentMetadata,
   QuestionComponentType,
   Test,
 } from "../../models/test.model";
@@ -11,7 +10,6 @@ import {
   TestRequestDTO,
   TestResponseDTO,
   ITestService,
-  QuestionComponentRequest,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
@@ -36,11 +34,10 @@ class TestService implements ITestService {
   /* eslint-disable class-methods-use-this */
   async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
-      const questions: QuestionComponent[][] = await this.uploadImages(
-        test.questions,
-      );
+      questions = await this.hydrateImages(test.questions);
       newTest = await MgTest.create({
         ...test,
         questions,
@@ -53,7 +50,7 @@ class TestService implements ITestService {
     return {
       id: newTest.id,
       name: newTest.name,
-      questions: newTest.questions,
+      questions,
       grade: newTest.grade,
       curriculumCountry: newTest.curriculumCountry,
       curriculumRegion: newTest.curriculumRegion,
@@ -97,25 +94,18 @@ class TestService implements ITestService {
 
   async updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
-      const questions: QuestionComponent[][] = await this.uploadImages(
-        test.questions,
-      );
-      updatedTest = await MgTest.findByIdAndUpdate(
-        id,
-        {
-          ...test,
-          questions,
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
+      updatedTest = await MgTest.findByIdAndUpdate(id, test, {
+        new: true,
+        runValidators: true,
+      });
       if (!updatedTest) {
         throw new Error(`Test with id ${id} not found`);
       }
+
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -124,7 +114,7 @@ class TestService implements ITestService {
     return {
       id: updatedTest.id,
       name: updatedTest.name,
-      questions: updatedTest.questions,
+      questions,
       grade: updatedTest.grade,
       curriculumCountry: updatedTest.curriculumCountry,
       curriculumRegion: updatedTest.curriculumRegion,
@@ -135,12 +125,14 @@ class TestService implements ITestService {
 
   async getTestById(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
       test = await MgTest.findById(id);
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
@@ -150,7 +142,7 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      questions: test.questions,
+      questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
       curriculumRegion: test.curriculumRegion,
@@ -247,10 +239,13 @@ class TestService implements ITestService {
   ): Promise<TestResponseDTO[]> {
     return Promise.all(
       tests.map(async (test) => {
+        const questions: QuestionComponent[][] = await this.hydrateImages(
+          test.questions,
+        );
         return {
           id: test.id,
           name: test.name,
-          questions: test.questions,
+          questions,
           grade: test.grade,
           curriculumCountry: test.curriculumCountry,
           curriculumRegion: test.curriculumRegion,
@@ -261,20 +256,20 @@ class TestService implements ITestService {
     );
   }
 
-  private async uploadImages(
-    questions: QuestionComponentRequest[][],
+  private async hydrateImages(
+    questions: QuestionComponent[][],
   ): Promise<QuestionComponent[][]> {
     return Promise.all(
-      questions.map(async (question: QuestionComponentRequest[]) => {
+      questions.map(async (question: QuestionComponent[]) => {
         return Promise.all(
-          question.map(async (questionComponent: QuestionComponentRequest) => {
+          question.map(async (questionComponent: QuestionComponent) => {
             if (questionComponent.type === QuestionComponentType.IMAGE) {
-              const imageComponent: QuestionComponentMetadata = await this.imageStorageService.uploadImage(
-                questionComponent.metadata as Promise<FileUpload>,
+              const imageMetadata: ImageMetadata = await this.imageStorageService.getImage(
+                (questionComponent.metadata as ImageMetadata).filePath,
               );
-              return { ...questionComponent, metadata: imageComponent };
+              return { ...questionComponent, metadata: imageMetadata };
             }
-            return questionComponent as QuestionComponent;
+            return questionComponent;
           }),
         );
       }),

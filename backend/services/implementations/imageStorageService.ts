@@ -22,7 +22,7 @@ const writeFile = (readStream: ReadStream, filePath: string): Promise<void> => {
     out.on("finish", () => {
       resolve();
     });
-    out.on("error", (err) => reject(err));
+    out.on("error", (err: Error) => reject(err));
   });
 };
 
@@ -59,19 +59,18 @@ class ImageStorageService implements IImageStorageService {
     }
   }
 
-  async getImage(fileName: string): Promise<ImageMetadata> {
-    const signedUrl = await this.storageService.getFile(fileName);
-    return { src: signedUrl, fileName };
+  async getImage(filePath: string): Promise<ImageMetadata> {
+    const signedUrl = await this.storageService.getFile(filePath);
+    return { url: signedUrl, filePath };
   }
 
   private async createImage(
     filePath: string,
     fileContentType: string,
   ): Promise<ImageMetadata> {
-    const fileName = uuidv4();
     try {
-      await this.storageService.createFile(fileName, filePath, fileContentType);
-      return await this.getImage(fileName);
+      await this.storageService.createFile(filePath, filePath, fileContentType);
+      return await this.getImage(filePath);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create image. Reason = ${getErrorMessage(error)}`,
