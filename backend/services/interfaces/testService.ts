@@ -30,10 +30,8 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-/* TestRequestDTO for service requests */
 export type TestRequestDTO = Omit<TestResponseDTO, "id">;
 
-/* QuestionComponentMetadata object for GraphQL requests */
 export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
@@ -43,11 +41,9 @@ export interface GraphQLQuestionComponentMetadata {
   shortAnswerMetadata: ShortAnswerMetadata;
 }
 
-/* QuestionComponent object for GraphQL requests */
 export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
   GraphQLQuestionComponentMetadata;
 
-/* TestRequestDTO for GraphQL requests */
 export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
   questions: GraphQLQuestionComponent[][];
 };
