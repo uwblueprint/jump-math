@@ -25,22 +25,31 @@ const Login = (): React.ReactElement => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
   const onLogInClick = async () => {
+    setLoginError(false);
+    setErrorMessage(false);
+
     if (!(email && password)) {
       setLoginError(true);
       return;
     }
-    const user: AuthenticatedUser = await authAPIClient.login(
-      email,
-      password,
-      login,
-    );
-    setAuthenticatedUser(user);
+
+    try {
+      const user: AuthenticatedUser = await authAPIClient.login(
+        email,
+        password,
+        login,
+      );
+      setAuthenticatedUser(user);
+    } catch (error) {
+      setErrorMessage(true);
+    }
   };
 
   if (authenticatedUser) {
@@ -98,7 +107,15 @@ const Login = (): React.ReactElement => {
       )}
     </>
   );
-  const error = loginError ? "Please ensure fields are filled" : "";
+
+  let error = "";
+  if (loginError) {
+    error = "Please ensure fields are filled";
+  }
+
+  if (errorMessage) {
+    error = "Failed to login";
+  }
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   return (
