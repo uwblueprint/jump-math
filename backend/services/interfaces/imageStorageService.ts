@@ -12,7 +12,7 @@ interface IImageStorageService {
   /**
    * Get an image stored in Firebase
    * @param file the file path to get
-   * @returns a url to the requested image
+   * @returns a url and file path for the requested image
    */
   getImage(filePath: string): Promise<ImageMetadata>;
 }
