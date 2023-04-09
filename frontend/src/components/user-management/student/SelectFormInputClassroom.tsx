@@ -2,6 +2,7 @@ import React from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { GroupBase, Select, SingleValue } from "chakra-react-select";
 
+import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 import { StringOption } from "../../../types/SelectInputTypes";
 
@@ -12,6 +13,7 @@ interface SelectFormInputClassroomProps {
   options: StringOption[];
   placeholder: string;
   isSearchable: boolean;
+  setGradeLevel: React.Dispatch<React.SetStateAction<Grade>>;
 }
 
 const SelectFormInputClassroom = ({
@@ -21,10 +23,12 @@ const SelectFormInputClassroom = ({
   options,
   placeholder,
   isSearchable,
+  setGradeLevel,
 }: SelectFormInputClassroomProps): React.ReactElement => {
   const handleChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue(field, option.value);
+      setGradeLevel(option.value as Grade);
     }
   };
   return (

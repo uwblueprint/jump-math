@@ -42,8 +42,8 @@ const AddClassroomModal = (): React.ReactElement => {
   } = useFormContext<ClassroomForm>();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [className, setClassName] = useState("");
-  const [schoolYear, setSchoolYear] = useState<number>(0);
-  const [gradeLevel, setGradeLevel] = useState<Grade>(Grade.K);
+  const [schoolYear, setSchoolYear] = useState(0);
+  const [gradeLevel, setGradeLevel] = useState(Grade.K);
   const [teacher, setTeacher] = useState("6347056d47cd96025c18e639");
   const [testSessions, setTestSessions] = useState([]);
   const [classNameError, setClassNameError] = React.useState(false);
@@ -68,9 +68,11 @@ const AddClassroomModal = (): React.ReactElement => {
     switch (field) {
       case "className":
         setClassNameError(false);
+        setClassName(event.target.value);
         break;
       case "schoolYear":
         setSchoolYearError(false);
+        setSchoolYear(parseInt(event.target.value, 10));
         break;
       case "gradeLevel":
         setGradeLevelError(false);
@@ -95,10 +97,7 @@ const AddClassroomModal = (): React.ReactElement => {
       setGradeLevelError(true);
       return false;
     }
-    setClassName(watch("className"));
-    setSchoolYear(parseInt(watch("schoolYear"), 10));
     setGradeLevel(watch("gradeLevel"));
-
     return true;
   };
 
@@ -219,6 +218,7 @@ const AddClassroomModal = (): React.ReactElement => {
                         isSearchable={false}
                         options={gradeOptions}
                         placeholder="Choose a Grade Level"
+                        setGradeLevel={setGradeLevel}
                         setValue={setValue}
                         watch={watch}
                       />
