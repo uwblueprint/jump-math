@@ -13,22 +13,16 @@ import {
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import IImageStorageService from "../interfaces/imageStorageService";
-import FileStorageService from "./fileStorageService";
-import ImageStorageService from "./imageStorageService";
+import IImageUploadService from "../interfaces/imageUploadService";
+import ImageUploadService from "./imageUploadService";
 
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
-  imageStorageService: IImageStorageService;
+  imageUploadService: IImageUploadService;
 
   constructor() {
-    const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
-    const fileStorageService = new FileStorageService(defaultBucket);
-    this.imageStorageService = new ImageStorageService(
-      "assessment-images",
-      fileStorageService,
-    );
+    this.imageUploadService = new ImageUploadService("assessment-images");
   }
 
   /* eslint-disable class-methods-use-this */
@@ -264,7 +258,7 @@ class TestService implements ITestService {
         return Promise.all(
           question.map(async (questionComponent: QuestionComponent) => {
             if (questionComponent.type === QuestionComponentType.IMAGE) {
-              const imageMetadata: ImageMetadata = await this.imageStorageService.getImage(
+              const imageMetadata: ImageMetadata = await this.imageUploadService.getImage(
                 (questionComponent.metadata as ImageMetadata).filePath,
               );
               return { ...questionComponent, metadata: imageMetadata };

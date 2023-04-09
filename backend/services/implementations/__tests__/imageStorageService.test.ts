@@ -1,9 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import db from "../../../testUtils/testDb";
-import IImageStorageService from "../../interfaces/imageStorageService";
-import ImageStorageService from "../imageStorageService";
-import IFileStorageService from "../../interfaces/fileStorageService";
-import FileStorageService from "../fileStorageService";
 import {
   assertResponseMatchesExpected,
   filename,
@@ -12,6 +8,8 @@ import {
   invalidImageUpload,
   uploadDir,
 } from "../../../testUtils/imageStorage";
+import IImageUploadService from "../../interfaces/imageUploadService";
+import ImageUploadService from "../imageUploadService";
 
 jest.mock("firebase-admin", () => {
   const storage = jest.fn().mockReturnValue({
@@ -33,10 +31,8 @@ jest.mock("firebase-admin", () => {
   return { storage };
 });
 
-describe("mongo imageStorageService", (): void => {
-  const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
-  let fileStorageService: IFileStorageService;
-  let imageStorageService: IImageStorageService;
+describe("mongo imageUploadService", (): void => {
+  let imageUploadService: IImageUploadService;
 
   beforeAll(async () => {
     await db.connect();
@@ -47,11 +43,7 @@ describe("mongo imageStorageService", (): void => {
   });
 
   beforeEach(async () => {
-    fileStorageService = new FileStorageService(defaultBucket);
-    imageStorageService = new ImageStorageService(
-      uploadDir,
-      fileStorageService,
-    );
+    imageUploadService = new ImageUploadService(uploadDir);
   });
 
   afterEach(async () => {
@@ -59,13 +51,13 @@ describe("mongo imageStorageService", (): void => {
   });
 
   it("uploadImage", async () => {
-    const res = await imageStorageService.uploadImage(imageUpload);
+    const res = await imageUploadService.uploadImage(imageUpload);
     assertResponseMatchesExpected(res);
   });
 
   it("uploadImage - invalid image type", async () => {
     await expect(async () => {
-      await imageStorageService.uploadImage(invalidImageUpload);
+      await imageUploadService.uploadImage(invalidImageUpload);
     }).rejects.toThrowError(
       `The image type ${invalidImageType} is not one of image/jpeg, image/png, image/gif`,
     );
@@ -73,7 +65,7 @@ describe("mongo imageStorageService", (): void => {
 
   it("getImage", async () => {
     const filePath = `${uploadDir}/${filename}_${uuidv4()}`;
-    const res = await imageStorageService.getImage(filePath);
+    const res = await imageUploadService.getImage(filePath);
     assertResponseMatchesExpected(res);
   });
 });

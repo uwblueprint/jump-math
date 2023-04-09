@@ -1,7 +1,7 @@
 import { FileUpload } from "graphql-upload";
 import { ImageMetadata } from "../../models/test.model";
 
-interface IImageStorageService {
+interface IImageUploadService {
   /**
    * Upload an image to Firebase
    * @param file the file to upload
@@ -17,4 +17,4 @@ interface IImageStorageService {
   getImage(filePath: string): Promise<ImageMetadata>;
 }
 
-export default IImageStorageService;
+export default IImageUploadService;

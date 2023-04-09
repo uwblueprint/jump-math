@@ -11,7 +11,8 @@ import {
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import { ImageMetadata } from "../../models/test.model";
-import IImageStorageService from "../interfaces/imageStorageService";
+import IImageUploadService from "../interfaces/imageUploadService";
+import FileStorageService from "./fileStorageService";
 
 const Logger = logger(__filename);
 
@@ -26,13 +27,16 @@ const writeFile = (readStream: ReadStream, filePath: string): Promise<void> => {
   });
 };
 
-class ImageStorageService implements IImageStorageService {
+class ImageUploadService implements IImageUploadService {
   uploadDir: string;
 
   storageService: IFileStorageService;
 
-  constructor(uploadDir: string, storageService: IFileStorageService) {
+  constructor(uploadDir: string) {
     this.uploadDir = uploadDir;
+
+    const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
+    const storageService = new FileStorageService(defaultBucket);
     this.storageService = storageService;
   }
 
@@ -80,4 +84,4 @@ class ImageStorageService implements IImageStorageService {
   }
 }
 
-export default ImageStorageService;
+export default ImageUploadService;

@@ -28,7 +28,7 @@ describe("mongo testService", (): void => {
 
   beforeEach(async () => {
     testService = new TestService();
-    testService.imageStorageService.getImage = jest.fn().mockReturnValue({
+    testService.imageUploadService.getImage = jest.fn().mockReturnValue({
       url:
         "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
       filePath: "/assessment-images/test.png",
