@@ -29,6 +29,7 @@ const SelectFormInputClassroom = ({
     if (option) {
       setValue(field, option.value);
       setGradeLevel(option.value as Grade);
+      console.log(`${field}: ${option.value}`);
     }
   };
   return (
