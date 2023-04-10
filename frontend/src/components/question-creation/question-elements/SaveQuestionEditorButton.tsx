@@ -153,13 +153,11 @@ const SaveQuestionEditorButton = ({
   };
 
   const handleSave = () => {
-    console.log("questionElements", questionElements);
-
     if (
       validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
-      validateNoExistingErrors() &&
-      validateNoEmptyElementErrors()
+      validateNoEmptyElementErrors() &&
+      validateNoExistingErrors()
     ) {
       const validatedQuestionElements = questionElements.map((element) => {
         return {
