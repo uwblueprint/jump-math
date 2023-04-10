@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { watch } from "fs";
 
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import {
@@ -21,7 +22,7 @@ const TeacherSignupFour = ({
   const form = (
     <PasswordForm
       handleSubmitCallback={handleSubmitCallback}
-      setStep={() => setPage(2)}
+      setStep={setPage}
       setValue={setValue}
       version="TeacherSignup"
     />
