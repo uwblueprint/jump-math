@@ -45,3 +45,12 @@ export const CREATE_NEW_ASSESSMENT = gql`
     }
   }
 `;
+
+export const UPLOAD_TEST_IMAGE = gql`
+  mutation UploadTestImage($file: Upload!) {
+    uploadTestImage(file: $file) {
+      url
+      filePath
+    }
+  }
+`;

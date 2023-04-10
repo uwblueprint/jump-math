@@ -6,6 +6,11 @@ export interface TextMetadata {
   text: string;
 }
 
+export interface ImageMetadata {
+  url: string;
+  filePath: string;
+}
+
 export interface ShortAnswerMetadata {
   answer: number;
 }

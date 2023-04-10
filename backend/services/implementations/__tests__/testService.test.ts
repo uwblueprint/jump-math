@@ -14,8 +14,10 @@ import {
 } from "../../../testUtils/tests";
 import { TestResponseDTO, TestRequestDTO } from "../../interfaces/testService";
 import { Grade } from "../../../types";
+import ImageUploadService from "../imageUploadService";
 
 describe("mongo testService", (): void => {
+  let imageUploadService: ImageUploadService;
   let testService: TestService;
 
   beforeAll(async () => {
@@ -27,7 +29,8 @@ describe("mongo testService", (): void => {
   });
 
   beforeEach(async () => {
-    testService = new TestService();
+    imageUploadService = new ImageUploadService("assessment-images");
+    testService = new TestService(imageUploadService);
     testService.imageUploadService.getImage = jest.fn().mockReturnValue({
       url:
         "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",

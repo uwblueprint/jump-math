@@ -15,10 +15,15 @@ import {
   validatePrimitive,
   validateArray,
 } from "../../middlewares/validators/util";
+import IImageUploadService from "../../services/interfaces/imageUploadService";
+import ImageUploadService from "../../services/implementations/imageUploadService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
-const testService: ITestService = new TestService();
+const imageUploadService: IImageUploadService = new ImageUploadService(
+  "assessment-images",
+);
+const testService: ITestService = new TestService(imageUploadService);
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
   userService,

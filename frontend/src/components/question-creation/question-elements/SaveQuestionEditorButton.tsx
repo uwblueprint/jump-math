@@ -6,6 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
+  ImageMetadata,
+  QuestionTextMetadata,
+  TextMetadata,
+} from "../../../types/QuestionMetadataTypes";
+import {
   QuestionElement,
   QuestionElementType,
   ResponseElementType,
@@ -87,7 +92,13 @@ const SaveQuestionEditorButton = ({
 
   const validateNoEmptyElementErrors = () => {
     const emptyElement = questionElements.find(
-      (element) => element.data === "",
+      (element) =>
+        (element.type === QuestionElementType.QUESTION_TEXT &&
+          (element.data as QuestionTextMetadata).questionText === "") ||
+        (element.type === QuestionElementType.TEXT &&
+          (element.data as TextMetadata).text === "") ||
+        (element.type === QuestionElementType.IMAGE &&
+          (element.data as ImageMetadata).url === ""),
     );
     if (emptyElement) {
       setElementError(emptyElement, emptyElementError);
@@ -142,11 +153,13 @@ const SaveQuestionEditorButton = ({
   };
 
   const handleSave = () => {
+    console.log("questionElements", questionElements);
+
     if (
       validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
-      validateNoEmptyElementErrors() &&
-      validateNoExistingErrors()
+      validateNoExistingErrors() &&
+      validateNoEmptyElementErrors()
     ) {
       const validatedQuestionElements = questionElements.map((element) => {
         return {

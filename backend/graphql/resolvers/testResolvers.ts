@@ -1,6 +1,8 @@
+import { FileUpload } from "graphql-upload";
 import TestService from "../../services/implementations/testService";
 import {
   AssessmentStatus,
+  ImageMetadata,
   QuestionComponent,
   QuestionComponentMetadata,
 } from "../../models/test.model";
@@ -11,8 +13,13 @@ import {
   GraphQLQuestionComponent,
   GraphQLQuestionComponentMetadata,
 } from "../../services/interfaces/testService";
+import IImageUploadService from "../../services/interfaces/imageUploadService";
+import ImageUploadService from "../../services/implementations/imageUploadService";
 
-const testService: ITestService = new TestService();
+const imageUploadService: IImageUploadService = new ImageUploadService(
+  "assessment-images",
+);
+const testService: ITestService = new TestService(imageUploadService);
 
 type QuestionMetadataName =
   | "QuestionTextMetadata"
@@ -170,6 +177,12 @@ const testResolvers = {
         status: AssessmentStatus.ARCHIVED,
       });
       return updatedTest;
+    },
+    uploadTestImage: async (
+      _req: undefined,
+      { file }: { file: Promise<FileUpload> },
+    ): Promise<ImageMetadata> => {
+      return imageUploadService.uploadImage(file);
     },
   },
 };

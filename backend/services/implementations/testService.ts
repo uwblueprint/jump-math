@@ -21,8 +21,8 @@ const Logger = logger(__filename);
 class TestService implements ITestService {
   imageUploadService: IImageUploadService;
 
-  constructor() {
-    this.imageUploadService = new ImageUploadService("assessment-images");
+  constructor(imageUploadService: IImageUploadService) {
+    this.imageUploadService = imageUploadService;
   }
 
   /* eslint-disable class-methods-use-this */

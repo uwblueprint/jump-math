@@ -62,6 +62,13 @@ const QuestionSidebarItem = ({
               data: { text: "" },
             });
             break;
+          case QuestionElementType.IMAGE:
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { url: "", filePath: "" },
+            });
+            break;
           case QuestionElementType.SHORT_ANSWER:
             setShowAddShortAnswerModal(true);
             break;

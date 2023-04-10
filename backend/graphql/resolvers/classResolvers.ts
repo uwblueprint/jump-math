@@ -1,4 +1,5 @@
 import ClassService from "../../services/implementations/classService";
+import ImageUploadService from "../../services/implementations/imageUploadService";
 import SchoolService from "../../services/implementations/schoolService";
 import TestService from "../../services/implementations/testService";
 import TestSessionService from "../../services/implementations/testSessionService";
@@ -9,13 +10,17 @@ import {
   IClassService,
   StudentRequestDTO,
 } from "../../services/interfaces/classService";
+import IImageUploadService from "../../services/interfaces/imageUploadService";
 import { ISchoolService } from "../../services/interfaces/schoolService";
 import { ITestService } from "../../services/interfaces/testService";
 import { ITestSessionService } from "../../services/interfaces/testSessionService";
 import IUserService from "../../services/interfaces/userService";
 
 const userService: IUserService = new UserService();
-const testService: ITestService = new TestService();
+const imageUploadService: IImageUploadService = new ImageUploadService(
+  "assessment-images",
+);
+const testService: ITestService = new TestService(imageUploadService);
 const schoolService: ISchoolService = new SchoolService(userService);
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
