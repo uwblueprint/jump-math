@@ -24,19 +24,19 @@ const Login = (): React.ReactElement => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(false);
   const [invalidFormError, setinvalidFormError] = useState(false);
+  const [loginError, setloginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
   const onLogInClick = async () => {
-    setLoginError(false);
     setinvalidFormError(false);
+    setloginError(false);
 
     if (!(email && password)) {
-      setLoginError(true);
+      setinvalidFormError(true);
       return;
     }
 
@@ -48,7 +48,7 @@ const Login = (): React.ReactElement => {
       );
       setAuthenticatedUser(user);
     } catch (error) {
-      setinvalidFormError(true);
+      setloginError(true);
     }
   };
 
@@ -61,7 +61,7 @@ const Login = (): React.ReactElement => {
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
-      <FormControl isInvalid={loginError && !email} isRequired>
+      <FormControl isInvalid={invalidFormError && !email} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +71,7 @@ const Login = (): React.ReactElement => {
         />
       </FormControl>
 
-      <FormControl isInvalid={loginError && !password} isRequired>
+      <FormControl isInvalid={invalidFormError && !password} isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
           onChange={(e) => setPassword(e.target.value)}
@@ -109,11 +109,11 @@ const Login = (): React.ReactElement => {
   );
 
   let error = "";
-  if (loginError) {
+  if (invalidFormError) {
     error = "Please ensure fields are filled";
   }
 
-  if (invalidFormError) {
+  if (loginError) {
     error = "Failed to login";
   }
 
