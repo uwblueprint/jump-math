@@ -20,9 +20,11 @@ import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
+import ImageUploadService from "../imageUploadService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
+  let imageUploadService: ImageUploadService;
   let testService: TestService;
   let userService: UserService;
   let schoolService: SchoolService;
@@ -38,7 +40,8 @@ describe("mongo testSessionService", (): void => {
   beforeEach(async () => {
     userService = new UserService();
     schoolService = new SchoolService(userService);
-    testService = new TestService();
+    imageUploadService = new ImageUploadService("assessment-images");
+    testService = new TestService(imageUploadService);
     testSessionService = new TestSessionService(
       testService,
       userService,
