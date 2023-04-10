@@ -10,7 +10,13 @@ const HomeButton = (): React.ReactElement => {
   return (
     <Box w="200px">
       <RouterLink to={HOME_PAGE}>
-        <Image alt={JUMP_MATH_LOGO.alt} h="68px" src={JUMP_MATH_LOGO.src} />
+        <Image
+          alt={JUMP_MATH_LOGO.alt}
+          h="68px"
+          objectFit="contain"
+          objectPosition="center"
+          src={JUMP_MATH_LOGO.src}
+        />
       </RouterLink>
     </Box>
   );
