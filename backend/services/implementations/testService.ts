@@ -158,6 +158,7 @@ class TestService implements ITestService {
 
   async duplicateTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
       test = await MgTest.findById(id);
@@ -169,6 +170,8 @@ class TestService implements ITestService {
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
+
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
@@ -180,7 +183,7 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      questions: test.questions,
+      questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
       curriculumRegion: test.curriculumRegion,
