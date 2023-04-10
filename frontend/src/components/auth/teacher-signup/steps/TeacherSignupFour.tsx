@@ -21,7 +21,7 @@ const TeacherSignupFour = ({
   const form = (
     <PasswordForm
       handleSubmitCallback={handleSubmitCallback}
-      setStep={setPage}
+      setStep={() => setPage(2)}
       setValue={setValue}
       version="TeacherSignup"
     />
