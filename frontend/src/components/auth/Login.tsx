@@ -24,19 +24,19 @@ const Login = (): React.ReactElement => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [invalidFormError, setinvalidFormError] = useState(false);
-  const [loginError, setloginError] = useState(false);
+  const [invalidFormError, setInvalidFormError] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
 
   const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
 
   const onLogInClick = async () => {
-    setinvalidFormError(false);
-    setloginError(false);
+    setInvalidFormError(false);
+    setLoginError(false);
 
     if (!(email && password)) {
-      setinvalidFormError(true);
+      setInvalidFormError(true);
       return;
     }
 
@@ -48,7 +48,7 @@ const Login = (): React.ReactElement => {
       );
       setAuthenticatedUser(user);
     } catch (error) {
-      setloginError(true);
+      setLoginError(true);
     }
   };
 
