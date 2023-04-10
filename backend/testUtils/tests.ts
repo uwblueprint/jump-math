@@ -5,7 +5,7 @@ import {
   AssessmentType,
 } from "../models/test.model";
 import {
-  CreateTestRequestDTO,
+  TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
@@ -68,8 +68,9 @@ export const questions: Array<Array<QuestionComponent>> = [
     {
       type: QuestionComponentType.IMAGE,
       metadata: {
-        src:
-          "https://storage.googleapis.com/jump-math-98edf.appspot.com/teacher-signup.png",
+        url:
+          "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
+        filePath: "/assessment-images/test.png",
       },
     },
     {
@@ -81,7 +82,7 @@ export const questions: Array<Array<QuestionComponent>> = [
   ],
 ];
 
-export const mockTest: CreateTestRequestDTO = {
+export const mockTest: TestRequestDTO = {
   name: "test",
   questions,
   grade: Grade.GRADE_8,
@@ -91,7 +92,7 @@ export const mockTest: CreateTestRequestDTO = {
   status: AssessmentStatus.DRAFT,
 };
 
-export const mockTestArray: Array<CreateTestRequestDTO> = [
+export const mockTestArray: Array<TestRequestDTO> = [
   {
     name: "test1",
     questions,
@@ -132,7 +133,7 @@ export const mockTestWithId2: TestResponseDTO = {
 };
 
 export const assertResponseMatchesExpected = (
-  expected: CreateTestRequestDTO,
+  expected: TestRequestDTO,
   result: TestResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
