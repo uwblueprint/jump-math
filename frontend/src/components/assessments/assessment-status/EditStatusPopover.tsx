@@ -13,6 +13,7 @@ import {
 import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 import { Status } from "../../../types/AssessmentTypes";
 
+import ArchiveButton from "./EditStatusButtons/ArchiveButton";
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
@@ -69,6 +70,12 @@ const EditStatusPopover = ({
             )}
             {assessmentStatus === Status.ARCHIVED && (
               <UnarchiveButton
+                assessmentId={assessmentId}
+                closePopover={onClose}
+              />
+            )}
+            {assessmentStatus !== Status.ARCHIVED && (
+              <ArchiveButton
                 assessmentId={assessmentId}
                 closePopover={onClose}
               />
