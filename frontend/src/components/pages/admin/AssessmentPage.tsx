@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
@@ -10,7 +10,7 @@ import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutatio
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
-import { Status } from "../../../types/AssessmentTypes";
+import { Assessment, Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
@@ -18,10 +18,11 @@ import BasicInformation from "../../assessments/assessment-creation/BasicInforma
 import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
-const CreateAssessmentPage = (): React.ReactElement => {
+const AssessmentPage = (): React.ReactElement => {
+  const { state } = useLocation<{ state: Assessment }>();
   const history = useHistory();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(state.name || "");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
@@ -115,4 +116,4 @@ const CreateAssessmentPage = (): React.ReactElement => {
   );
 };
 
-export default CreateAssessmentPage;
+export default AssessmentPage;

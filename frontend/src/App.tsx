@@ -109,7 +109,7 @@ const App = (): React.ReactElement => {
                 <Route
                   component={StudentAssessment}
                   exact
-                  path={Routes.STUDENT_ASSESMENT_PAGE}
+                  path={Routes.STUDENT_ASSESSMENT_PAGE}
                 />
                 <PrivateRoute
                   component={ComponentLibrary}

@@ -1,5 +1,7 @@
 import {
   ImageMetadata,
+  MultipleChoiceMetadata,
+  MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -15,6 +17,11 @@ export interface QuestionElement {
   type: QuestionElementType;
   data: QuestionElementDataType;
   error?: string;
+}
+
+export interface QuestionComponent {
+  type: QuestionElementType;
+  data: QuestionComponentMetadata;
 }
 
 export enum QuestionElementType {
@@ -34,6 +41,11 @@ export type QuestionElementDataType =
   | ImageMetadata
   | ShortAnswerMetadata
   | MultiData;
+
+export type QuestionComponentMetadata =
+  | Exclude<QuestionElementDataType, MultiData>
+  | MultipleChoiceMetadata
+  | MultiSelectMetadata;
 
 export interface MultiOptionData {
   id: string;

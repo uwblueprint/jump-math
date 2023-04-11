@@ -18,6 +18,7 @@ import {
   MultiData,
   MultiOptionData,
   Question,
+  QuestionComponent,
   QuestionElement,
   QuestionElementDataType,
   QuestionElementType,
@@ -175,6 +176,51 @@ export const formatQuestionsRequest = (
         default:
           return {
             type: QuestionElementType.MULTIPLE_CHOICE,
+            multipleChoiceMetadata: formatMultipleChoiceRequest(
+              element.data as MultiData,
+            ),
+          };
+      }
+    });
+  });
+};
+
+export const formatQuestionsResponse = (
+  questions: QuestionComponent[][],
+): Question[] => {
+  return questions.map((questionComponents: QuestionComponent[]) => {
+    return questionComponents.map((element: QuestionComponent) => {
+      switch (element.type) {
+        case QuestionComponentType.QUESTION_TEXT:
+          return {
+            type: QuestionComponentType.QUESTION_TEXT,
+            questionTextMetadata: element.data as QuestionTextMetadata,
+          };
+        case QuestionComponentType.TEXT:
+          return {
+            type: QuestionComponentType.TEXT,
+            textMetadata: element.data as TextMetadata,
+          };
+        case QuestionComponentType.IMAGE:
+          return {
+            type: QuestionComponentType.IMAGE,
+            imageMetadata: element.data as ImageMetadata,
+          };
+        case QuestionComponentType.SHORT_ANSWER:
+          return {
+            type: QuestionComponentType.SHORT_ANSWER,
+            shortAnswerMetadata: element.data as ShortAnswerMetadata,
+          };
+        case QuestionComponentType.MULTI_SELECT:
+          return {
+            type: QuestionComponentType.MULTI_SELECT,
+            multiSelectMetadata: formatMultiSelectRequest(
+              element.data as MultiData,
+            ),
+          };
+        default:
+          return {
+            type: QuestionComponentType.MULTIPLE_CHOICE,
             multipleChoiceMetadata: formatMultipleChoiceRequest(
               element.data as MultiData,
             ),

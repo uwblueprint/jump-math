@@ -10,7 +10,7 @@ export const EMAIL_ACTION_PAGE = "/email-action";
 export const ADMIN_LANDING_PAGE = "/admin";
 export const USER_DATABASE_PAGE = "/admin/user-database";
 export const ASSESSMENTS_PAGE = "/admin/assessments";
-export const CREATE_ASSESSMENT_PAGE = "/admin/create-assessment";
+export const ASSESSMENT_PAGE = "/admin/assessment";
 export const COMPONENT_LIBRARY_PAGE = "/component-library";
 
 // Private Teacher Routes
@@ -18,4 +18,4 @@ export const TEACHER_LANDING_PAGE = "/teacher";
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
-export const STUDENT_ASSESMENT_PAGE = "/student/assessment";
+export const STUDENT_ASSESSMENT_PAGE = "/student/assessment";
