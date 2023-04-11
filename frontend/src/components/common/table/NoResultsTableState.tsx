@@ -1,16 +1,7 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Center, Image, Text, VStack } from "@chakra-ui/react";
 
-import { ReactComponent as DisplayAssessments } from "../../../assets/illustrations/display-assessments.svg";
-import IllustrationWrapper from "../IllustrationWrapper";
+import DisplayAssessments from "../../../assets/illustrations/display-assessments.svg";
 
 const NoResultsTableState = (): React.ReactElement => {
   return (
@@ -22,7 +13,12 @@ const NoResultsTableState = (): React.ReactElement => {
       minWidth="100%"
     >
       <VStack>
-        <IllustrationWrapper Illustration={DisplayAssessments} pb="1rem" />
+        <Image
+          height="8rem"
+          paddingBottom="1rem"
+          src={DisplayAssessments}
+          width="8rem"
+        />
         <Text textStyle="subtitle1">You currently have no assessments.</Text>
         <Text paddingBottom="2rem" textStyle="paragraph">
           Create your first assessment
