@@ -216,7 +216,7 @@ const UsersPage = (): React.ReactElement => {
                   searchLength={admins.length}
                   sortMenuComponent={
                     <SortMenu
-                      labels={["firstName", "email"]}
+                      labels={["name", "email"]}
                       onSortOrder={setSortOrder}
                       onSortProperty={setSortProperty}
                       properties={["firstName", "email"]}
