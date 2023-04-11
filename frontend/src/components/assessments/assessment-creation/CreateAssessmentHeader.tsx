@@ -1,4 +1,5 @@
 import React from "react";
+import { UseFormHandleSubmit } from "react-hook-form";
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import {
   EyeOutlineIcon,
   SaveOutlineIcon,
@@ -20,16 +22,32 @@ import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface CreateAssessementHeaderProps {
   name: string;
-  onSave: () => void;
-  onPublish: () => void;
+  handleSubmit: UseFormHandleSubmit<TestRequest>;
+  onPublish: (data: TestRequest) => Promise<void>;
+  onSave: (data: TestRequest) => Promise<void>;
+  onError: () => void;
+  validateForm: () => boolean;
 }
 
 const CreateAssessementHeader = ({
   name,
-  onSave,
+  handleSubmit,
   onPublish,
+  onSave,
+  onError,
+  validateForm,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const confirmPublish = () => {
+    if (validateForm()) {
+      setShowPublishModal(true);
+    }
+  };
+
+  const handleSave = handleSubmit(onSave, onError);
+  const handlePublish = handleSubmit(confirmPublish, onError);
+  const onConfirmPublish = handleSubmit(onPublish, onError);
+
   return (
     <>
       <Box
@@ -56,7 +74,7 @@ const CreateAssessementHeader = ({
             <Button
               leftIcon={<SaveOutlineIcon />}
               minWidth="10"
-              onClick={onSave}
+              onClick={handleSave}
               variant="secondary"
             >
               Save
@@ -64,7 +82,7 @@ const CreateAssessementHeader = ({
             <Button
               leftIcon={<TextOutlineIcon />}
               minWidth="10"
-              onClick={() => setShowPublishModal(true)}
+              onClick={handlePublish}
               variant="primary"
             >
               Publish
@@ -75,7 +93,7 @@ const CreateAssessementHeader = ({
       <PublishModal
         isOpen={showPublishModal}
         onClose={() => setShowPublishModal(false)}
-        publishAssessment={onPublish}
+        publishAssessment={onConfirmPublish}
       />
     </>
   );
