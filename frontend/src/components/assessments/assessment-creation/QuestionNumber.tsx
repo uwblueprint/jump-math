@@ -18,14 +18,15 @@ const QuestionNumber = ({
       {status === QuestionNumberTypes.COMPLETED ? (
         <IconButton
           aria-label={`Question Number ${num}`}
+          fontSize="20px"
           icon={<CheckmarkIcon />}
-          isDisabled
-          minWidth="4%"
+          isActive
+          minWidth="3.7rem"
           variant="primary"
         />
       ) : (
         <Button
-          minWidth="4%"
+          minWidth="3.7rem"
           variant={
             status === QuestionNumberTypes.CURRENT ? "primary" : "outline"
           }
