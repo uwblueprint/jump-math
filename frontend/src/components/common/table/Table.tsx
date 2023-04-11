@@ -7,6 +7,7 @@ import {
   Th,
   Thead,
   Tr,
+  VStack,
 } from "@chakra-ui/react";
 
 import Pagination from "./Pagination";
@@ -23,7 +24,7 @@ interface TableProps {
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
   const totalItems = rows.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -32,7 +33,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
   const itemsToShow = rows.slice(startIndex, endIndex);
 
   return (
-    <>
+    <VStack alignItems="center" paddingBottom="6" spacing="6" width="100%">
       <TableContainer
         border="1px solid"
         borderColor="blue.50"
@@ -70,7 +71,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
         onPageChange={setCurrentPage}
         pagesCount={totalPages}
       />
-    </>
+    </VStack>
   );
 };
 
