@@ -35,7 +35,7 @@ const CreateAssessementHeader = ({
     >
       <Flex minWidth="max-content">
         <HStack alignItems="start" spacing={6}>
-          <BackButton />
+          <BackButton size="sm" text="Back" />
           <VStack align="left">
             <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
             <Text textStyle="smallerParagraph">

@@ -101,7 +101,7 @@ const PasswordForm = ({
   }, [password]);
 
   return (
-    <VStack>
+    <VStack width="100%">
       {displayMatchError && (
         <FormError message="Please ensure passwords match" />
       )}
@@ -134,8 +134,8 @@ const PasswordForm = ({
           type="password"
         />
       </FormControl>
-      <HStack alignItems="top" pb={6}>
-        <VStack alignItems="left" mr={4}>
+      <HStack alignItems="top" pb={8} width="100%">
+        <VStack alignItems="left" mr={16}>
           <PasswordRequirement
             isFulfilled={minNineChars}
             requirement="minimum of 9 characters"

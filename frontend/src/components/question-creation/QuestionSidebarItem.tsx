@@ -90,8 +90,9 @@ const QuestionSidebarItem = ({
       hasArrow
       label={editorTooltips[type]}
       maxWidth="40"
+      padding="4"
       placement="right-start"
-      textAlign="center"
+      textAlign="left"
       textStyle="mobileSubtitle2"
     >
       <Box

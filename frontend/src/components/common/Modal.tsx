@@ -40,7 +40,7 @@ const Modal = ({
   return (
     <ChakraModal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent minW="42vw">
+      <ModalContent borderRadius="12px" minW="42vw">
         <ModalText body={body} header={header} />
         <ModalCloseButton />
         {children && <ModalBody>{children}</ModalBody>}

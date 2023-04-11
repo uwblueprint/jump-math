@@ -12,6 +12,7 @@ import {
 import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
 import { LeftArrowIcon } from "../../../assets/icons";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+import BackButton from "../../common/BackButton";
 import AuthWrapper from "../AuthWrapper";
 
 const StudentLogin = (): React.ReactElement => {
@@ -80,15 +81,7 @@ const StudentLogin = (): React.ReactElement => {
           ))}
         </PinInput>
       </HStack>
-      <Button
-        leftIcon={<LeftArrowIcon />}
-        onClick={() => {
-          history.goBack();
-        }}
-        variant="tertiary"
-      >
-        Back to Home
-      </Button>
+      <BackButton size="md" text="Back to Home" />
     </>
   );
 
