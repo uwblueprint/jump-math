@@ -178,12 +178,6 @@ const testResolvers = {
       });
       return updatedTest;
     },
-    uploadTestImage: async (
-      _req: undefined,
-      { file }: { file: Promise<FileUpload> },
-    ): Promise<ImageMetadata> => {
-      return imageUploadService.uploadImage(file);
-    },
   },
 };
 

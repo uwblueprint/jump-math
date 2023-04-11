@@ -85,6 +85,9 @@ export const updatedMultiOption = (
 
 export const exceedsMaxLength = (input: string): boolean => input.length > 800;
 
+export const exceedsMaxFileSize = (file: File): boolean =>
+  file.size / 1024 / 1024 > 5;
+
 export const generateQuestionCardTags = (
   question: QuestionElement[],
 ): QuestionTagProps[] => {

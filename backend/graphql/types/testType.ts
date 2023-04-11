@@ -50,9 +50,11 @@ const testType = gql`
     text: String!
   }
 
+  scalar FileUpload
+
   input ImageMetadataInput {
-    url: String!
-    filePath: String!
+    previewUrl: String!
+    file: FileUpload!
   }
 
   type ImageMetadata {
@@ -144,7 +146,6 @@ const testType = gql`
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!
     archiveTest(id: ID!): TestResponseDTO!
-    uploadTestImage(file: Upload!): ImageMetadata!
   }
 `;
 

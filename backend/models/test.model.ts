@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { FileUpload } from "graphql-upload";
 import { questionsValidator } from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
 /**

@@ -10,11 +10,12 @@ import {
   TestRequestDTO,
   TestResponseDTO,
   ITestService,
+  ImagePreviewMetadata,
+  QuestionComponentRequest,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import IImageUploadService from "../interfaces/imageUploadService";
-import ImageUploadService from "./imageUploadService";
 
 const Logger = logger(__filename);
 
@@ -31,7 +32,7 @@ class TestService implements ITestService {
     let questions: QuestionComponent[][];
 
     try {
-      questions = await this.hydrateImages(test.questions);
+      questions = await this.uploadImages(test.questions);
       newTest = await MgTest.create({
         ...test,
         questions,
@@ -253,8 +254,29 @@ class TestService implements ITestService {
     );
   }
 
+  private async uploadImages(
+    questions: QuestionComponentRequest[][],
+  ): Promise<QuestionComponent[][]> {
+    return Promise.all(
+      questions.map(async (question: QuestionComponent[]) => {
+        return Promise.all(
+          question.map(async (questionComponent: QuestionComponent) => {
+            if (questionComponent.type === QuestionComponentType.IMAGE) {
+              const imageMetadata: ImageMetadata = await this.imageUploadService.uploadImage(
+                ((questionComponent.metadata as unknown) as ImagePreviewMetadata)
+                  .file,
+              );
+              return { ...questionComponent, metadata: imageMetadata };
+            }
+            return questionComponent;
+          }),
+        );
+      }),
+    );
+  }
+
   private async hydrateImages(
-    questions: QuestionComponent[][],
+    questions: QuestionComponentRequest[][],
   ): Promise<QuestionComponent[][]> {
     return Promise.all(
       questions.map(async (question: QuestionComponent[]) => {

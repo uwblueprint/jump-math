@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useMutation } from "@apollo/client";
 import { Button, Flex, Image, Input } from "@chakra-ui/react";
 
-import { UPLOAD_TEST_IMAGE } from "../../../APIClients/mutations/TestMutations";
 import { UploadOutlineIcon } from "../../../assets/icons";
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { ImageMetadata } from "../../../types/QuestionMetadataTypes";
-import { updatedQuestionElement } from "../../../utils/QuestionUtils";
+import {
+  exceedsMaxFileSize,
+  updatedQuestionElement,
+} from "../../../utils/QuestionUtils";
 
 interface ImageElementProps {
   id: string;
@@ -17,34 +18,28 @@ interface ImageElementProps {
 const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
   const [imageMetadata, setImageMetadata] = useState<ImageMetadata>(data);
   const [error, setError] = useState<string>("");
-  const [uploadTestImage] = useMutation<{ uploadTestImage: ImageMetadata }>(
-    UPLOAD_TEST_IMAGE,
-    {
-      onCompleted: (res) => {
-        setImageMetadata(res.uploadTestImage);
-      },
-      onError: (err) => {
-        setError("Error uploading image.");
-      },
-    },
-  );
   const inputFile = useRef<HTMLInputElement>(null);
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
 
-  const updateImageElement = async (e: { target: HTMLInputElement }) => {
-    setError("");
-    const fileList: FileList | null = e.target.files;
-    if (!fileList || !fileList[0]) return;
+  const updateImageElement = (event: { target: HTMLInputElement }) => {
+    const file: File | undefined = event.target.files?.[0];
+    if (!file) return;
 
-    const fileSize = fileList[0].size / 1024 / 1024;
-    if (fileSize > 5) {
-      setError("Your file exceeds 5MB. Upload a smaller file.");
-    }
-
-    await uploadTestImage({
-      variables: { file: fileList[0] },
-    });
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      if (e.target?.result) {
+        setImageMetadata({
+          previewUrl: e.target.result as string,
+          file,
+        });
+      }
+    };
+    fileReader.readAsDataURL(file);
+    setError(
+      exceedsMaxFileSize(file)
+        ? "Your file exceeds 5MB. Upload a smaller file."
+        : "",
+    );
   };
 
   const openFileBrowser = () => {
@@ -62,6 +57,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
       alignItems="center"
       h="250px"
       justifyContent="center"
+      pb={8}
       position="relative"
       tabIndex={0}
       w="100%"
@@ -69,9 +65,9 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
       <Image
         h="100%"
         objectFit="contain"
-        opacity={imageMetadata.url ? 1 : 0.5}
+        opacity={imageMetadata.previewUrl ? 1 : 0.5}
         position="absolute"
-        src={imageMetadata.url || JUMP_MATH_LOGO.src}
+        src={imageMetadata.previewUrl || JUMP_MATH_LOGO.src}
         w="100%"
         zIndex="-1"
       />

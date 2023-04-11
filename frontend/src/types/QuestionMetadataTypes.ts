@@ -7,8 +7,10 @@ export interface TextMetadata {
 }
 
 export interface ImageMetadata {
+  previewUrl: string;
   url: string;
   filePath: string;
+  file: File | undefined;
 }
 
 export interface ShortAnswerMetadata {
