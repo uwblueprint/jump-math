@@ -5,8 +5,8 @@ import { Button } from "@chakra-ui/react";
 import { ArrowBackOutlineIcon } from "../../assets/icons";
 
 interface BackButtonProps {
-  size: string;
-  text: string;
+  size?: string;
+  text?: string;
 }
 
 const BackButton = ({ size, text }: BackButtonProps): React.ReactElement => {
@@ -15,10 +15,10 @@ const BackButton = ({ size, text }: BackButtonProps): React.ReactElement => {
     <Button
       leftIcon={<ArrowBackOutlineIcon />}
       onClick={() => history.goBack()}
-      size={size}
+      size={size || "sm"}
       variant="tertiary"
     >
-      {text}
+      {text || "Back"}
     </Button>
   );
 };
