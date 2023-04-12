@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import {
@@ -8,7 +8,7 @@ import {
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
-import ResponseTypeModal from "../ResponseTypeModal";
+import Modal from "../../../../common/Modal";
 
 import MultipleChoiceOption from "./MultiOption";
 import SelectOptionCount from "./SelectOptionCount";
@@ -78,15 +78,16 @@ const MultiOptionModal = ({
   };
 
   return (
-    <ResponseTypeModal
-      isOpen={isOpen}
-      onClose={handleClose}
-      onConfirm={handleConfirm}
-      title={
+    <Modal
+      header={
         type === QuestionElementType.MULTIPLE_CHOICE
           ? "Create multiple choice question"
           : "Create multi-select question"
       }
+      isOpen={isOpen}
+      onCancel={handleClose}
+      onClose={handleClose}
+      onSubmit={handleConfirm}
     >
       <VStack spacing="10" width="100%">
         {noCorrectOptionError && (
@@ -117,7 +118,7 @@ const MultiOptionModal = ({
           ))}
         </VStack>
       </VStack>
-    </ResponseTypeModal>
+    </Modal>
   );
 };
 
