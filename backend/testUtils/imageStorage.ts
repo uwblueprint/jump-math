@@ -1,7 +1,7 @@
 import { FileUpload } from "graphql-upload";
 import fs from "fs";
 import { resolve } from "path";
-import { ImageMetadata } from "../models/test.model";
+import { ImageUpload } from "../services/interfaces/imageUploadService";
 
 export const filename = "test.png";
 export const uploadDir = "test-bucket";
@@ -28,7 +28,7 @@ export const invalidImageUpload: Promise<FileUpload> = new Promise((r) =>
   }),
 );
 
-export const assertResponseMatchesExpected = (result: ImageMetadata): void => {
+export const assertResponseMatchesExpected = (result: ImageUpload): void => {
   expect(result.url).toEqual(signedUrl);
   expect(result.filePath).toMatch(new RegExp(`^${uploadDir}/${filename}.+`));
 };

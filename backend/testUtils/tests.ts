@@ -1,16 +1,21 @@
 import {
-  QuestionComponent,
   QuestionComponentType,
   AssessmentStatus,
   AssessmentType,
 } from "../models/test.model";
 import {
+  ImagePreviewMetadata,
+  QuestionComponentRequest,
+  QuestionComponentResponse,
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
+import { imageUpload } from "./imageStorage";
 
-export const questions: Array<Array<QuestionComponent>> = [
+export const imageUrl =
+  "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
+export const questions: Array<Array<QuestionComponentResponse>> = [
   [
     {
       type: QuestionComponentType.TEXT,
@@ -68,9 +73,7 @@ export const questions: Array<Array<QuestionComponent>> = [
     {
       type: QuestionComponentType.IMAGE,
       metadata: {
-        url:
-          "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-        filePath: "/assessment-images/test.png",
+        url: imageUrl,
       },
     },
     {
@@ -82,9 +85,21 @@ export const questions: Array<Array<QuestionComponent>> = [
   ],
 ];
 
+export const questionsRequest: Array<Array<QuestionComponentRequest>> = [
+  questions[0] as QuestionComponentRequest[],
+  [
+    questions[1][0] as QuestionComponentRequest,
+    {
+      type: QuestionComponentType.IMAGE,
+      metadata: imageUpload,
+    },
+    questions[1][2] as QuestionComponentRequest,
+  ],
+];
+
 export const mockTest: TestRequestDTO = {
   name: "test",
-  questions,
+  questions: questionsRequest,
   grade: Grade.GRADE_8,
   assessmentType: AssessmentType.BEGINNING,
   curriculumCountry: "country",
@@ -95,7 +110,7 @@ export const mockTest: TestRequestDTO = {
 export const mockTestArray: Array<TestRequestDTO> = [
   {
     name: "test1",
-    questions,
+    questions: questionsRequest,
     grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country1",
@@ -104,7 +119,7 @@ export const mockTestArray: Array<TestRequestDTO> = [
   },
   {
     name: "test2",
-    questions,
+    questions: questionsRequest,
     grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
@@ -113,7 +128,7 @@ export const mockTestArray: Array<TestRequestDTO> = [
   },
   {
     name: "test3",
-    questions,
+    questions: questionsRequest,
     grade: Grade.GRADE_8,
     assessmentType: AssessmentType.END,
     curriculumCountry: "country2",
@@ -125,11 +140,13 @@ export const mockTestArray: Array<TestRequestDTO> = [
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTest,
+  questions,
 };
 
 export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
   ...mockTest,
+  questions,
 };
 
 export const assertResponseMatchesExpected = (
@@ -144,11 +161,26 @@ export const assertResponseMatchesExpected = (
   expect(result.status).toEqual(expected.status);
   expect(result.grade).toEqual(expected.grade);
 
-  result.questions.forEach((questionComponents: QuestionComponent[], i) => {
-    const expectedQuestion: QuestionComponent[] = expected.questions[i];
-    questionComponents.forEach((questionComponent: QuestionComponent, j) => {
-      expect(Number(questionComponent.type)).toEqual(expectedQuestion[j].type);
-      expect(questionComponent.metadata).toEqual(expectedQuestion[j].metadata);
-    });
-  });
+  result.questions.forEach(
+    (questionComponents: QuestionComponentResponse[], i) => {
+      const expectedQuestion: QuestionComponentRequest[] =
+        expected.questions[i];
+      questionComponents.forEach(
+        (questionComponent: QuestionComponentResponse, j) => {
+          if (questionComponent.type === QuestionComponentType.IMAGE) {
+            expect(
+              (questionComponent.metadata as ImagePreviewMetadata).url,
+            ).toEqual(imageUrl);
+          } else {
+            expect(Number(questionComponent.type)).toEqual(
+              expectedQuestion[j].type,
+            );
+            expect(questionComponent.metadata).toEqual(
+              expectedQuestion[j].metadata,
+            );
+          }
+        },
+      );
+    },
+  );
 };

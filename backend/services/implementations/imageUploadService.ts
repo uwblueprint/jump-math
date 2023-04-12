@@ -10,8 +10,9 @@ import {
   validateImageType,
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import { ImageMetadata } from "../../models/test.model";
-import IImageUploadService from "../interfaces/imageUploadService";
+import IImageUploadService, {
+  ImageUpload,
+} from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
 
 const Logger = logger(__filename);
@@ -41,7 +42,7 @@ class ImageUploadService implements IImageUploadService {
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(file: Promise<FileUpload>): Promise<ImageMetadata> {
+  async uploadImage(file: Promise<FileUpload>): Promise<ImageUpload> {
     let filePath;
     try {
       const { createReadStream, mimetype, filename } = await file;
@@ -63,7 +64,7 @@ class ImageUploadService implements IImageUploadService {
     }
   }
 
-  async getImage(filePath: string): Promise<ImageMetadata> {
+  async getImage(filePath: string): Promise<ImageUpload> {
     const signedUrl = await this.storageService.getFile(filePath);
     return { url: signedUrl, filePath };
   }
@@ -71,7 +72,7 @@ class ImageUploadService implements IImageUploadService {
   private async createImage(
     filePath: string,
     fileContentType: string,
-  ): Promise<ImageMetadata> {
+  ): Promise<ImageUpload> {
     try {
       await this.storageService.createFile(filePath, filePath, fileContentType);
       return await this.getImage(filePath);

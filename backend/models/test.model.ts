@@ -51,7 +51,6 @@ export interface TextMetadata {
  * This interface contains additional information about an image component
  */
 export interface ImageMetadata {
-  url: string;
   filePath: string;
 }
 

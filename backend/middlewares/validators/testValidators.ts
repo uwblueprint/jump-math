@@ -47,13 +47,6 @@ export const questionsValidator = (
           throw new Error("The text field is not of type string");
         }
       } else if (questionComponent.type === QuestionComponentType.IMAGE) {
-        if (!("url" in questionComponent.metadata)) {
-          throw new Error("Image component is missing a url field");
-        }
-        if (!validatePrimitive(questionComponent.metadata.url, "string")) {
-          throw new Error("The src field is not of type string");
-        }
-
         if (!("filePath" in questionComponent.metadata)) {
           throw new Error("Image component is missing a filePath field");
         }

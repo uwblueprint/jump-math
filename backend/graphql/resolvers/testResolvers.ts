@@ -1,15 +1,13 @@
 import TestService from "../../services/implementations/testService";
-import {
-  AssessmentStatus,
-  QuestionComponent,
-  QuestionComponentMetadata,
-} from "../../models/test.model";
+import { QuestionComponentMetadata } from "../../models/test.model";
 import {
   ITestService,
   GraphQLTestRequestDTO,
   TestResponseDTO,
   GraphQLQuestionComponent,
   GraphQLQuestionComponentMetadata,
+  QuestionComponentRequest,
+  QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
 
 const testService: ITestService = new TestService();
@@ -24,11 +22,11 @@ type QuestionMetadataName =
 
 const resolveQuestions = (
   questions: GraphQLQuestionComponent[][],
-): QuestionComponent[][] => {
-  const resolvedQuestions: QuestionComponent[][] = [];
+): QuestionComponentRequest[][] => {
+  const resolvedQuestions: QuestionComponentRequest[][] = [];
 
   questions.forEach((questionComponents: GraphQLQuestionComponent[]) => {
-    const resolvedQuestionComponents: QuestionComponent[] = [];
+    const resolvedQuestionComponents: QuestionComponentRequest[] = [];
     questionComponents.forEach(
       (questionComponent: GraphQLQuestionComponent) => {
         const {
@@ -40,7 +38,7 @@ const resolveQuestions = (
           shortAnswerMetadata,
         }: GraphQLQuestionComponentMetadata = questionComponent;
 
-        let metadata: QuestionComponentMetadata;
+        let metadata: QuestionComponentMetadataRequest;
 
         switch (questionComponent.type.toString()) {
           case "QUESTION_TEXT":
@@ -105,7 +103,7 @@ const testResolvers = {
       _req: undefined,
       { test }: { test: GraphQLTestRequestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.createTest({ ...test, questions: resolvedQuestions });
@@ -114,7 +112,7 @@ const testResolvers = {
       _req: undefined,
       { id, test }: { id: string; test: GraphQLTestRequestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.updateTest(id, {
@@ -132,15 +130,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${id} cannot be published.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.PUBLISHED,
-      });
-      return updatedTest;
+      return testService.publishTest(id);
     },
     duplicateTest: async (
       _req: undefined,
@@ -158,18 +148,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (
-        testToUpdate.status !== AssessmentStatus.DRAFT &&
-        testToUpdate.status !== AssessmentStatus.PUBLISHED
-      ) {
-        throw new Error(`Test with id ${id} cannot be archived.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.ARCHIVED,
-      });
-      return updatedTest;
+      return testService.archiveTest(id);
     },
   },
 };

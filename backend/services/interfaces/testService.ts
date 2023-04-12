@@ -1,3 +1,4 @@
+import { FileUpload } from "graphql-upload";
 import {
   QuestionTextMetadata,
   TextMetadata,
@@ -8,8 +9,20 @@ import {
   AssessmentType,
   AssessmentStatus,
   ImageMetadata,
+  QuestionComponentMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
+import { ImageUpload } from "./imageUploadService";
+
+export interface ImagePreviewMetadata {
+  url: string;
+}
+
+export type QuestionComponentResponse = Omit<QuestionComponent, "metadata"> & {
+  metadata:
+    | Exclude<QuestionComponentMetadata, ImageMetadata>
+    | ImagePreviewMetadata;
+};
 
 export type TestResponseDTO = {
   /** the unique identifier of the response */
@@ -17,7 +30,7 @@ export type TestResponseDTO = {
   /** the name of the test */
   name: string;
   /** an array of questions on the test */
-  questions: QuestionComponent[][];
+  questions: QuestionComponentResponse[][];
   /** the grade of the student */
   grade: Grade;
   /** the type of assessment */
@@ -30,12 +43,25 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-export type TestRequestDTO = Omit<TestResponseDTO, "id">;
+export type QuestionComponentMetadataRequest =
+  | Exclude<QuestionComponentMetadata, ImageMetadata>
+  | Promise<FileUpload>;
+export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
+  metadata: QuestionComponentMetadataRequest;
+};
+
+export type TestRequestDTO = Omit<TestResponseDTO, "id" | "questions"> & {
+  questions: QuestionComponentRequest[][];
+};
+
+export type QuestionComponentsUploaded = Omit<QuestionComponent, "metadata"> & {
+  metadata: Exclude<QuestionComponentMetadata, ImageMetadata> | ImageUpload;
+};
 
 export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
+  imageMetadata: Promise<FileUpload>;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
@@ -89,6 +115,14 @@ export interface ITestService {
   getAllTests(): Promise<TestResponseDTO[]>;
 
   /**
+   * publish a Test given the id
+   * @param id string with the test id to be published
+   * @returns a TestResponseDTO with the published test
+   * @throws Error if Test with given id not found or it is not a draft
+   */
+  publishTest(id: string): Promise<TestResponseDTO>;
+
+  /**
    * duplicate a Test given the id
    * @param id string with the test id to be duplicated
    * @returns a TestResponseDTO with the duplicated test
@@ -103,4 +137,12 @@ export interface ITestService {
    * @throws Error if Test with given id not found or if Test is not archived
    */
   unarchiveTest(id: string): Promise<TestResponseDTO>;
+
+  /**
+   * archive a Test given the id
+   * @param id string with the test id to be archived
+   * @returns a TestResponseDTO with the archived test
+   * @throws Error if Test with given id not found or it is not a draft nor published
+   */
+  archiveTest(id: string): Promise<TestResponseDTO>;
 }
