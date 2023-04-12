@@ -11,9 +11,6 @@ import {
   TestRequestDTO,
   TestResponseDTO,
   ITestService,
-  QuestionComponentRequest,
-  QuestionComponentResponse,
-  QuestionComponentsUploaded,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
@@ -21,6 +18,11 @@ import IImageUploadService, {
   ImageUpload,
 } from "../interfaces/imageUploadService";
 import ImageUploadService from "./imageUploadService";
+import {
+  QuestionComponentsUploaded,
+  QuestionComponentResponse,
+  QuestionComponentRequest,
+} from "../../types/questionTypes";
 
 const Logger = logger(__filename);
 
@@ -63,7 +65,7 @@ class TestService implements ITestService {
     try {
       const testToDelete = await MgTest.findById(id);
       if (!testToDelete) {
-        throw new Error(`Test ${id} not found`);
+        throw new Error(`Test ID ${id} not found`);
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
         await MgTest.findByIdAndDelete(id);
@@ -110,7 +112,7 @@ class TestService implements ITestService {
         },
       );
       if (!updatedTest) {
-        throw new Error(`Test with id ${id} not found`);
+        throw new Error(`Test ID ${id} not found`);
       }
     } catch (error: unknown) {
       Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);

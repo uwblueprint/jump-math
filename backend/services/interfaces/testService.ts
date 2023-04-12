@@ -1,37 +1,21 @@
-import { FileUpload } from "graphql-upload";
 import {
-  QuestionTextMetadata,
-  TextMetadata,
-  MultipleChoiceMetadata,
-  MultiSelectMetadata,
-  ShortAnswerMetadata,
   QuestionComponent,
   AssessmentType,
   AssessmentStatus,
-  ImageMetadata,
-  QuestionComponentMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
-import { ImageUpload } from "./imageUploadService";
+import {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
+  QuestionComponentResponse,
+} from "../../types/questionTypes";
 
-export interface ImagePreviewMetadata {
-  url: string;
-}
-
-export type QuestionComponentResponse = Omit<QuestionComponent, "metadata"> & {
-  metadata:
-    | Exclude<QuestionComponentMetadata, ImageMetadata>
-    | ImagePreviewMetadata;
-};
-
-export type TestResponseDTO = {
-  /** the unique identifier of the response */
-  id: string;
-  /** the name of the test */
+export interface TestDTO {
+  /** The name of the test */
   name: string;
-  /** an array of questions on the test */
-  questions: QuestionComponentResponse[][];
-  /** the grade of the student */
+  /** An ordered list of questions to be asked when students take the test */
+  questions: QuestionComponent[][];
+  /** The intended grade the test was made for */
   grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
@@ -41,37 +25,19 @@ export type TestResponseDTO = {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+}
+
+export type GraphQLTestDTO = Omit<TestDTO, "questions"> & {
+  questions: GraphQLQuestionComponent[][];
 };
 
-export type QuestionComponentMetadataRequest =
-  | Exclude<QuestionComponentMetadata, ImageMetadata>
-  | Promise<FileUpload>;
-export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> & {
-  metadata: QuestionComponentMetadataRequest;
-};
-
-export type TestRequestDTO = Omit<TestResponseDTO, "id" | "questions"> & {
+export type TestRequestDTO = Omit<TestDTO, "questions"> & {
   questions: QuestionComponentRequest[][];
 };
 
-export type QuestionComponentsUploaded = Omit<QuestionComponent, "metadata"> & {
-  metadata: Exclude<QuestionComponentMetadata, ImageMetadata> | ImageUpload;
-};
-
-export interface GraphQLQuestionComponentMetadata {
-  questionTextMetadata: QuestionTextMetadata;
-  textMetadata: TextMetadata;
-  imageMetadata: Promise<FileUpload>;
-  multipleChoiceMetadata: MultipleChoiceMetadata;
-  multiSelectMetadata: MultiSelectMetadata;
-  shortAnswerMetadata: ShortAnswerMetadata;
-}
-
-export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
-  GraphQLQuestionComponentMetadata;
-
-export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
-  questions: GraphQLQuestionComponent[][];
+export type TestResponseDTO = Omit<TestDTO, "questions"> & {
+  id: string;
+  questions: QuestionComponentResponse[][];
 };
 
 export interface ITestService {

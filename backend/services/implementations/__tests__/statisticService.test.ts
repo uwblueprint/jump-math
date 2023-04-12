@@ -9,10 +9,10 @@ import {
   createTestSessionWithSchoolAndResults,
   mockTestSessions,
 } from "../../../testUtils/testSession";
-import { mockTestWithId } from "../../../testUtils/tests";
 import { createSchoolWithCountry } from "../../../testUtils/school";
 import { TestStatistic } from "../../interfaces/statisticService";
 import mockTestStatisticsBySchool from "../../../testUtils/statistics";
+import { mockTestResponse } from "../../../testUtils/tests";
 
 describe("mongo statisticService", (): void => {
   let statisticService: StatisticService;
@@ -82,7 +82,7 @@ describe("mongo statisticService", (): void => {
       ],
     ]);
     const actualResult = await statisticService.getTestGradeStatisticsByCountry(
-      mockTestWithId.id,
+      mockTestResponse.id,
     );
     expect(actualResult).toEqual(expectedResult);
   });
@@ -91,7 +91,7 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getTestGradeStatisticsBySchool(
-      mockTestWithId.id,
+      mockTestResponse.id,
     );
     expect(actualResult).toEqual(mockTestStatisticsBySchool);
   });

@@ -16,7 +16,7 @@ import {
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
-import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
+import { mockTestResponse, mockTestResponse2 } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
@@ -47,7 +47,7 @@ describe("mongo testSessionService", (): void => {
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
+    testService.getTestById = jest.fn().mockReturnValue(mockTestResponse);
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
   });
@@ -191,11 +191,9 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("computeTestGrades", async () => {
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
-
     const res = await testSessionService.computeTestGrades(
       mockUngradedTestResult,
-      mockTestWithId.id,
+      mockTestResponse.id,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });
@@ -215,7 +213,6 @@ describe("mongo testSessionService", (): void => {
     testSessionService.getTestSessionById = jest
       .fn()
       .mockReturnValue(mockTestSessionWithId);
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
 
     const res = await testSessionService.gradeTestResult(
       mockUngradedTestResult,
@@ -237,12 +234,11 @@ describe("mongo testSessionService", (): void => {
 
   it("updateTestSession", async () => {
     // insert test session into database
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     const testSession = await MgTestSession.create(mockTestSession);
 
     // create DTO object to update to
     const updatedTestSession = {
-      test: mockTestWithId2.id,
+      test: mockTestResponse2.id,
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
       gradeLevel: 3,

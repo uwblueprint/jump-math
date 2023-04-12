@@ -17,14 +17,11 @@ import {
   ShortAnswerMetadata,
   QuestionComponentType,
 } from "../../models/test.model";
-import {
-  ITestService,
-  QuestionComponentResponse,
-  TestResponseDTO,
-} from "../interfaces/testService";
+import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
+import { QuestionComponentResponse } from "../../types/questionTypes";
 
 const Logger = logger(__filename);
 

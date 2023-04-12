@@ -1,14 +1,16 @@
 import TestService from "../../services/implementations/testService";
 import { QuestionComponentMetadata } from "../../models/test.model";
 import {
+  GraphQLTestDTO,
   ITestService,
-  GraphQLTestRequestDTO,
   TestResponseDTO,
-  GraphQLQuestionComponent,
-  GraphQLQuestionComponentMetadata,
-  QuestionComponentRequest,
-  QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
+import {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
+  GraphQLQuestionComponentMetadata,
+  QuestionComponentMetadataRequest,
+} from "../../types/questionTypes";
 
 const testService: ITestService = new TestService();
 
@@ -101,7 +103,7 @@ const testResolvers = {
   Mutation: {
     createTest: async (
       _req: undefined,
-      { test }: { test: GraphQLTestRequestDTO },
+      { test }: { test: GraphQLTestDTO },
     ): Promise<TestResponseDTO> => {
       const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
@@ -110,7 +112,7 @@ const testResolvers = {
     },
     updateTest: async (
       _req: undefined,
-      { id, test }: { id: string; test: GraphQLTestRequestDTO },
+      { id, test }: { id: string; test: GraphQLTestDTO },
     ): Promise<TestResponseDTO | null> => {
       const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,

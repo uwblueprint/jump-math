@@ -2,20 +2,22 @@ import {
   QuestionComponentType,
   AssessmentStatus,
   AssessmentType,
+  QuestionComponent,
 } from "../models/test.model";
 import {
-  ImagePreviewMetadata,
-  QuestionComponentRequest,
-  QuestionComponentResponse,
+  TestDTO,
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
+import {
+  QuestionComponentRequest,
+  QuestionComponentResponse,
+  ImagePreviewMetadata,
+} from "../types/questionTypes";
 import { imageUpload } from "./imageStorage";
 
-export const imageUrl =
-  "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
-export const questions: Array<Array<QuestionComponentResponse>> = [
+export const questionsWithoutImage: Array<Array<QuestionComponent>> = [
   [
     {
       type: QuestionComponentType.TEXT,
@@ -71,12 +73,6 @@ export const questions: Array<Array<QuestionComponentResponse>> = [
       },
     },
     {
-      type: QuestionComponentType.IMAGE,
-      metadata: {
-        url: imageUrl,
-      },
-    },
-    {
       type: QuestionComponentType.SHORT_ANSWER,
       metadata: {
         answer: 7,
@@ -85,19 +81,47 @@ export const questions: Array<Array<QuestionComponentResponse>> = [
   ],
 ];
 
-export const questionsRequest: Array<Array<QuestionComponentRequest>> = [
-  questions[0] as QuestionComponentRequest[],
+export const questions: Array<
+  Array<QuestionComponent>
+> = questionsWithoutImage.concat([
   [
-    questions[1][0] as QuestionComponentRequest,
+    {
+      type: QuestionComponentType.IMAGE,
+      metadata: {
+        filePath: "assessment-images/test.png",
+      },
+    },
+  ],
+]);
+
+export const questionsRequest: Array<
+  Array<QuestionComponentRequest>
+> = (questionsWithoutImage as QuestionComponentRequest[][]).concat([
+  [
     {
       type: QuestionComponentType.IMAGE,
       metadata: imageUpload,
     },
-    questions[1][2] as QuestionComponentRequest,
   ],
-];
+]);
 
-export const mockTest: TestRequestDTO = {
+export const imageUrl =
+  "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
+
+export const questionsResponse: Array<
+  Array<QuestionComponentResponse>
+> = (questionsWithoutImage as QuestionComponentResponse[][]).concat([
+  [
+    {
+      type: QuestionComponentType.IMAGE,
+      metadata: {
+        url: imageUrl,
+      },
+    },
+  ],
+]);
+
+export const mockTestRequest: TestRequestDTO = {
   name: "test",
   questions: questionsRequest,
   grade: Grade.GRADE_8,
@@ -107,47 +131,62 @@ export const mockTest: TestRequestDTO = {
   status: AssessmentStatus.DRAFT,
 };
 
-export const mockTestArray: Array<TestRequestDTO> = [
+export const mockTestRequest2: TestRequestDTO = {
+  name: "newTest",
+  questions: questionsRequest,
+  grade: Grade.GRADE_7,
+  assessmentType: AssessmentType.END,
+  curriculumCountry: "newCountry",
+  curriculumRegion: "newRegion",
+  status: AssessmentStatus.PUBLISHED,
+};
+
+export const mockTestResponse: TestResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea95",
+  ...mockTestRequest,
+  questions: questionsResponse,
+};
+
+export const mockTestResponse2: TestResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea96",
+  ...mockTestRequest2,
+  questions: questionsResponse,
+};
+
+export const mockTest: TestDTO = {
+  ...mockTestRequest,
+  questions,
+};
+
+export const mockTestArray: Array<TestDTO> = [
   {
+    ...mockTest,
     name: "test1",
-    questions: questionsRequest,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country1",
-    curriculumRegion: "region1",
-    status: AssessmentStatus.DRAFT,
   },
   {
+    ...mockTest,
     name: "test2",
-    questions: questionsRequest,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country2",
-    curriculumRegion: "region1",
-    status: AssessmentStatus.DRAFT,
   },
   {
+    ...mockTest,
     name: "test3",
-    questions: questionsRequest,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country2",
-    curriculumRegion: "region2",
-    status: AssessmentStatus.DRAFT,
   },
 ];
 
-export const mockTestWithId: TestResponseDTO = {
-  id: "62c248c0f79d6c3c9ebbea95",
-  ...mockTest,
-  questions,
-};
-
-export const mockTestWithId2: TestResponseDTO = {
-  id: "62c248c0f79d6c3c9ebbea90",
-  ...mockTest,
-  questions,
-};
+export const mockTestRequestArray: Array<TestRequestDTO> = [
+  {
+    ...mockTestRequest,
+    name: "test1",
+  },
+  {
+    ...mockTestRequest,
+    name: "test2",
+  },
+  {
+    ...mockTestRequest,
+    name: "test3",
+  },
+];
 
 export const assertResponseMatchesExpected = (
   expected: TestRequestDTO,
