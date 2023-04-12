@@ -84,23 +84,24 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   });
 
   const filteredAssessements = React.useMemo(() => {
-    setEmpty(true);
-
     if (!data) return [];
 
     let filteredTests: AssessmentProperties[] = data.tests as AssessmentProperties[];
-    const filterProps = [status, grades, testTypes, countries, regions];
+    const filterProps = [grades, testTypes, countries, regions, status];
+
+    if (filteredTests.length) {
+      setEmpty(false);
+    }
 
     filterProps.forEach((property, i) => {
       filteredTests = filteredTests.filter(
         (assessment: AssessmentProperties) => {
-          if (i === 1) setEmpty(false);
           const assessmentProperties = [
-            assessment.status,
             assessment.grade,
             assessment.assessmentType,
             assessment.curriculumCountry,
             assessment.curriculumRegion,
+            assessment.status,
           ];
           if (property.length === 0) {
             return true;

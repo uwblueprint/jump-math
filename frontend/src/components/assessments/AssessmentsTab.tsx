@@ -28,9 +28,9 @@ const AssessmentsTab = ({
   searchLength,
 }: AssessmentsTabProps): React.ReactElement => {
   const emptyResults = noResults ? (
-    <NoResultsTableState />
+    <EmptyTableState />
   ) : (
-    <EmptyTableState items="assessments" />
+    <NoResultsTableState items="assessments" />
   );
   return (
     <>

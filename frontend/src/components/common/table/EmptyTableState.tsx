@@ -1,27 +1,40 @@
 import React from "react";
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+import { Button, Center, Image, Text, VStack } from "@chakra-ui/react";
 
-import { SadFaceIcon } from "../../../assets/icons";
+import DisplayAssessments from "../../../assets/illustrations/display-assessments.svg";
+import { CREATE_ASSESSMENT_PAGE } from "../../../constants/Routes";
 
-interface EmptyStateProps {
-  items: string;
-}
-const EmptyTableState = ({ items }: EmptyStateProps): React.ReactElement => (
-  <Center
-    borderColor="#DFDFDF"
-    borderRadius={0}
-    borderWidth="1px"
-    flex="1"
-    padding={20}
-    width="100%"
-  >
-    <VStack spacing={6} textAlign="center">
-      <Text color="grey.300" textStyle="paragraph">
-        No {items} match the filter criteria
-      </Text>
-      <SadFaceIcon />
-    </VStack>
-  </Center>
-);
+const EmptyTableState = (): React.ReactElement => {
+  const history = useHistory();
+  return (
+    <Center
+      backgroundColor="blue.50"
+      borderRadius="1rem"
+      color="blue.300"
+      minHeight="60vh"
+      minWidth="100%"
+    >
+      <VStack>
+        <Image
+          height="8rem"
+          paddingBottom="1rem"
+          src={DisplayAssessments}
+          width="8rem"
+        />
+        <Text textStyle="subtitle1">You currently have no assessments.</Text>
+        <Text paddingBottom="2rem" textStyle="paragraph">
+          Create your first assessment
+        </Text>
+        <Button
+          onClick={() => history.push(CREATE_ASSESSMENT_PAGE)}
+          variant="primary"
+        >
+          Create assessment
+        </Button>
+      </VStack>
+    </Center>
+  );
+};
 
 export default EmptyTableState;
