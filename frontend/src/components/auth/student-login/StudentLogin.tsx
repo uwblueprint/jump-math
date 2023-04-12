@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 
 import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
-import { LeftArrowIcon } from "../../../assets/icons";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import BackButton from "../../common/BackButton";
 import AuthWrapper from "../AuthWrapper";
