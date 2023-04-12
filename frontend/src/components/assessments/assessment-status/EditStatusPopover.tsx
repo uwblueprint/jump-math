@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Divider,
   IconButton,
   Popover,
   PopoverBody,
@@ -51,34 +52,30 @@ const EditStatusPopover = ({
         width="80%"
       >
         <PopoverBody>
-          <VStack
-            divider={<StackDivider borderColor="grey.200" />}
-            spacing="0em"
-          >
+          <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
             {assessmentStatus === Status.DRAFT && (
               <PublishButton
                 assessmentId={assessmentId}
                 closePopover={onClose}
               />
             )}
-            {(assessmentStatus === Status.DRAFT ||
-              assessmentStatus === Status.PUBLISHED) && (
-              <DuplicateButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
-            )}
-            {assessmentStatus === Status.ARCHIVED && (
+            {assessmentStatus === Status.ARCHIVED ? (
               <UnarchiveButton
                 assessmentId={assessmentId}
                 closePopover={onClose}
               />
-            )}
-            {assessmentStatus !== Status.ARCHIVED && (
-              <ArchiveButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
+            ) : (
+              <>
+                <ArchiveButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+                <Divider borderColor="grey.200" />
+                <DuplicateButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+              </>
             )}
             <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
           </VStack>
