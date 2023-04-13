@@ -21,7 +21,7 @@ const BackButton = ({
       size={size}
       variant="tertiary"
     >
-      {text || "Back"}
+      {text}
     </Button>
   );
 };
