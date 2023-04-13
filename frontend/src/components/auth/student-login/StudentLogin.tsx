@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
-import {
-  Button,
-  HStack,
-  PinInput,
-  PinInputField,
-  Text,
-} from "@chakra-ui/react";
+import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
@@ -15,7 +8,6 @@ import BackButton from "../../common/BackButton";
 import AuthWrapper from "../AuthWrapper";
 
 const StudentLogin = (): React.ReactElement => {
-  const history = useHistory();
   const title = "Student Login";
   const subtitle = "Please enter your classroom's access code";
   const image = STUDENT_SIGNUP_IMAGE;
