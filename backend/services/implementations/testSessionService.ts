@@ -16,12 +16,14 @@ import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
 import {
-  MultiSelectMetadata,
-  MultipleChoiceMetadata,
   QuestionComponentResponse,
   QuestionComponentType,
-  ShortAnswerMetadata,
 } from "../../types/questionTypes";
+import {
+  MultipleChoiceMetadata,
+  ShortAnswerMetadata,
+  MultiSelectMetadata,
+} from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
 

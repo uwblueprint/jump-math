@@ -1,15 +1,17 @@
-import {
-  QuestionComponent,
-  AssessmentType,
-  AssessmentStatus,
-} from "../../models/test.model";
+import { AssessmentType, AssessmentStatus } from "../../models/test.model";
 import { Grade } from "../../types";
 import {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
   QuestionComponentResponse,
-  GenericQuestionComponent,
+  QuestionComponent,
 } from "../../types/questionTypes";
+
+export type GenericQuestionComponent =
+  | GraphQLQuestionComponent
+  | QuestionComponentRequest
+  | QuestionComponent
+  | QuestionComponentResponse;
 
 export interface BaseTestDTO<Type extends GenericQuestionComponent> {
   /** The name of the test */
@@ -28,11 +30,11 @@ export interface BaseTestDTO<Type extends GenericQuestionComponent> {
   curriculumRegion: string;
 }
 
-export type TestDTO = BaseTestDTO<QuestionComponent>;
-
 export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
 
 export type TestRequestDTO = BaseTestDTO<QuestionComponentRequest>;
+
+export type TestDTO = BaseTestDTO<QuestionComponent>;
 
 export type TestResponseDTO = BaseTestDTO<QuestionComponentResponse> & {
   /** the unique identifier of the response */

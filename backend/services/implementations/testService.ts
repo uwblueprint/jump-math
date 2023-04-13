@@ -15,11 +15,11 @@ import ImageUploadService from "./imageUploadService";
 import {
   QuestionComponentResponse,
   QuestionComponentRequest,
-  ImageMetadata,
   QuestionComponent,
   QuestionComponentType,
   QuestionComponentUploaded,
 } from "../../types/questionTypes";
+import { ImageMetadata } from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
 

@@ -5,11 +5,13 @@ import {
   TestResponseDTO,
 } from "../../services/interfaces/testService";
 import {
-  GraphQLQuestionComponent,
-  QuestionComponentRequest,
   GraphQLQuestionComponentMetadata,
   QuestionComponentMetadataRequest,
   QuestionComponentMetadata,
+} from "../../types/questionMetadataTypes";
+import {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
 } from "../../types/questionTypes";
 
 const testService: ITestService = new TestService();

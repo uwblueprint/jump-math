@@ -5,8 +5,8 @@ import {
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
+import { ImagePreviewMetadata } from "../types/questionMetadataTypes";
 import {
-  ImagePreviewMetadata,
   QuestionComponent,
   QuestionComponentRequest,
   QuestionComponentResponse,
