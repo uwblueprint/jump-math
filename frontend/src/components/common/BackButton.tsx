@@ -9,7 +9,7 @@ interface BackButtonProps {
   text?: string;
 }
 
-const BackButton = ({ size, text }: BackButtonProps): React.ReactElement => {
+const BackButton = ({ size = "sm", text = "Back" }: BackButtonProps): React.ReactElement => {
   const history = useHistory();
   return (
     <Button
