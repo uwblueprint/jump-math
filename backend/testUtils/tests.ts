@@ -5,10 +5,7 @@ import {
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import {
-  ImagePreviewMetadata,
-  ImageTypes,
-} from "../types/questionMetadataTypes";
+import { ImageTypes } from "../types/questionMetadataTypes";
 import {
   BaseQuestionComponent,
   QuestionComponent,
@@ -133,6 +130,12 @@ export const mockTestResponse: TestResponseDTO = {
   questions: questionsResponse,
 };
 
+export const mockTestResponse2: TestResponseDTO = {
+  id: "62c248c0f79d6c3c9ebbea96",
+  ...mockTestRequest2,
+  questions: questionsResponse,
+};
+
 export const mockTest: TestDTO = {
   ...mockTestRequest,
   questions,
@@ -153,23 +156,23 @@ export const mockTestArray: Array<TestDTO> = [
   },
 ];
 
-export const mockTestRequestArray: Array<TestRequestDTO> = [
+export const mockTestResponseArray: Array<TestResponseDTO> = [
   {
-    ...mockTestRequest,
+    ...mockTestResponse,
     name: "test1",
   },
   {
-    ...mockTestRequest,
+    ...mockTestResponse,
     name: "test2",
   },
   {
-    ...mockTestRequest,
+    ...mockTestResponse,
     name: "test3",
   },
 ];
 
 export const assertResponseMatchesExpected = (
-  expected: TestRequestDTO,
+  expected: TestResponseDTO,
   result: TestResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
@@ -182,22 +185,14 @@ export const assertResponseMatchesExpected = (
 
   result.questions.forEach(
     (questionComponents: QuestionComponentResponse[], i) => {
-      const expectedQuestion: QuestionComponentRequest[] =
+      const expectedQuestion: QuestionComponentResponse[] =
         expected.questions[i];
       questionComponents.forEach(
         (questionComponent: QuestionComponentResponse, j) => {
-          if (questionComponent.type === QuestionComponentType.IMAGE) {
-            expect(
-              (questionComponent.metadata as ImagePreviewMetadata).url,
-            ).toEqual(imageUrl);
-          } else {
-            expect(Number(questionComponent.type)).toEqual(
-              expectedQuestion[j].type,
-            );
-            expect(questionComponent.metadata).toEqual(
-              expectedQuestion[j].metadata,
-            );
-          }
+          expect(questionComponent.type).toEqual(expectedQuestion[j].type);
+          expect(questionComponent.metadata).toEqual(
+            expectedQuestion[j].metadata,
+          );
         },
       );
     },

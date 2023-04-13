@@ -380,9 +380,17 @@ class TestService implements ITestService {
   ): QuestionComponent[][] {
     return questions.map((question: QuestionComponentUploaded[]) => {
       return question.map((questionComponent: QuestionComponentUploaded) => {
-        return questionComponent as QuestionComponent;
+        if (questionComponent.type === QuestionComponentType.IMAGE) {
+          return {
+            ...questionComponent,
+            metadata: {
+              filePath: (questionComponent.metadata as ImageUpload).url,
+            },
+          };
+        }
+        return questionComponent;
       });
-    }) as QuestionComponent[][];
+    });
   }
 
   private getQuestionComponentResponses(
@@ -390,9 +398,17 @@ class TestService implements ITestService {
   ): QuestionComponentResponse[][] {
     return questions.map((question: QuestionComponentUploaded[]) => {
       return question.map((questionComponent: QuestionComponentUploaded) => {
-        return questionComponent as QuestionComponentResponse;
+        if (questionComponent.type === QuestionComponentType.IMAGE) {
+          return {
+            ...questionComponent,
+            metadata: {
+              url: (questionComponent.metadata as ImageUpload).url,
+            },
+          };
+        }
+        return questionComponent;
       });
-    }) as QuestionComponentResponse[][];
+    });
   }
 
   private async hydrateImages(

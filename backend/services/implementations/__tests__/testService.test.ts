@@ -9,7 +9,9 @@ import {
   mockTestArray,
   mockTestRequest,
   mockTestRequest2,
-  mockTestRequestArray,
+  mockTestResponse,
+  mockTestResponse2,
+  mockTestResponseArray,
 } from "../../../testUtils/tests";
 import { TestResponseDTO } from "../../interfaces/testService";
 
@@ -44,7 +46,8 @@ describe("mongo testService", (): void => {
 
   it("createTest", async () => {
     const res = await testService.createTest(mockTestRequest);
-    assertResponseMatchesExpected(mockTestRequest, res);
+    console.log(res.questions[1][1]);
+    assertResponseMatchesExpected(mockTestResponse, res);
   });
 
   it("deleteTest", async () => {
@@ -59,7 +62,7 @@ describe("mongo testService", (): void => {
 
     // update test and assert
     const res = await testService.updateTest(createdTest.id, mockTestRequest2);
-    assertResponseMatchesExpected(mockTestRequest2, res);
+    assertResponseMatchesExpected(mockTestResponse2, res);
   });
 
   it("getTestById", async () => {
@@ -67,7 +70,7 @@ describe("mongo testService", (): void => {
     const res = await testService.getTestById(test.id);
 
     expect(res.id).toEqual(test.id);
-    assertResponseMatchesExpected(mockTestRequest, res);
+    assertResponseMatchesExpected(mockTestResponse, res);
   });
 
   it("getAllTests", async () => {
@@ -75,7 +78,7 @@ describe("mongo testService", (): void => {
     const res = await testService.getAllTests();
 
     res.forEach((test: TestResponseDTO, i) => {
-      assertResponseMatchesExpected(mockTestRequestArray[i], test);
+      assertResponseMatchesExpected(mockTestResponseArray[i], test);
     });
   });
 
@@ -85,7 +88,7 @@ describe("mongo testService", (): void => {
     const publishedTest = await testService.publishTest(test.id);
     assertResponseMatchesExpected(
       {
-        ...mockTestRequest,
+        ...mockTestResponse,
         status: AssessmentStatus.PUBLISHED,
       },
       publishedTest,
@@ -100,13 +103,13 @@ describe("mongo testService", (): void => {
     });
 
     const duplicateTest = await testService.duplicateTest(test.id);
-    assertResponseMatchesExpected(mockTestRequest, duplicateTest);
+    assertResponseMatchesExpected(mockTestResponse, duplicateTest);
     expect(test.id).not.toEqual(duplicateTest.id);
 
     const originalTest = await testService.getTestById(test.id);
     assertResponseMatchesExpected(
       {
-        ...mockTestRequest,
+        ...mockTestResponse,
         status: AssessmentStatus.PUBLISHED,
       },
       originalTest,
@@ -123,7 +126,7 @@ describe("mongo testService", (): void => {
     const unarchivedTest = await testService.unarchiveTest(test.id);
     assertResponseMatchesExpected(
       {
-        ...mockTestRequest,
+        ...mockTestResponse,
         status: AssessmentStatus.DRAFT,
       },
       unarchivedTest,
@@ -140,7 +143,7 @@ describe("mongo testService", (): void => {
     const archivedTest = await testService.archiveTest(test.id);
     assertResponseMatchesExpected(
       {
-        ...mockTestRequest,
+        ...mockTestResponse,
         status: AssessmentStatus.ARCHIVED,
       },
       archivedTest,
