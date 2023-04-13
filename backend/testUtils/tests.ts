@@ -5,8 +5,12 @@ import {
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import { ImagePreviewMetadata } from "../types/questionMetadataTypes";
 import {
+  ImagePreviewMetadata,
+  ImageTypes,
+} from "../types/questionMetadataTypes";
+import {
+  BaseQuestionComponent,
   QuestionComponent,
   QuestionComponentRequest,
   QuestionComponentResponse,
@@ -14,113 +18,94 @@ import {
 } from "../types/questionTypes";
 import { imageUpload } from "./imageStorage";
 
-export const questionsWithoutImage: Array<Array<QuestionComponent>> = [
-  [
-    {
-      type: QuestionComponentType.TEXT,
-      metadata: {
-        text:
-          "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+export const getQuestions = <Type extends ImageTypes>(
+  imageMetadata: Type,
+): Array<Array<BaseQuestionComponent<Type>>> => {
+  return [
+    [
+      {
+        type: QuestionComponentType.TEXT,
+        metadata: {
+          text:
+            "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Thomas have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Thomas have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.SHORT_ANSWER,
-      metadata: {
-        answer: 3,
+      {
+        type: QuestionComponentType.SHORT_ANSWER,
+        metadata: {
+          answer: 3,
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Rick have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Rick have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.MULTIPLE_CHOICE,
-      metadata: {
-        options: ["3", "4", "5", "6"],
-        answerIndex: 0,
+      {
+        type: QuestionComponentType.MULTIPLE_CHOICE,
+        metadata: {
+          options: ["3", "4", "5", "6"],
+          answerIndex: 0,
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Mike have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Mike have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.MULTI_SELECT,
-      metadata: {
-        options: ["3", "6", "3 + 3", "0"],
-        answerIndices: [1, 2],
+      {
+        type: QuestionComponentType.MULTI_SELECT,
+        metadata: {
+          options: ["3", "6", "3 + 3", "0"],
+          answerIndices: [1, 2],
+        },
       },
-    },
-  ],
-  [
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many children are in the image below?",
+    ],
+    [
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many children are in the image below?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.SHORT_ANSWER,
-      metadata: {
-        answer: 7,
+      {
+        type: QuestionComponentType.IMAGE,
+        metadata: imageMetadata,
       },
-    },
-  ],
-];
+      {
+        type: QuestionComponentType.SHORT_ANSWER,
+        metadata: {
+          answer: 7,
+        },
+      },
+    ],
+  ];
+};
 
-export const questions: Array<
-  Array<QuestionComponent>
-> = questionsWithoutImage.concat([
-  [
-    {
-      type: QuestionComponentType.IMAGE,
-      metadata: {
-        filePath: "assessment-images/test.png",
-      },
-    },
-  ],
-]);
+export const questions: Array<Array<QuestionComponent>> = getQuestions({
+  filePath: "assessment-images/test.png",
+});
 
 export const questionsRequest: Array<
   Array<QuestionComponentRequest>
-> = ((questionsWithoutImage as unknown) as QuestionComponentRequest[][]).concat(
-  [
-    [
-      {
-        type: QuestionComponentType.IMAGE,
-        metadata: imageUpload,
-      },
-    ],
-  ],
-);
+> = getQuestions(imageUpload);
 
 export const imageUrl =
   "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
 
 export const questionsResponse: Array<
   Array<QuestionComponentResponse>
-> = ((questionsWithoutImage as unknown) as QuestionComponentResponse[][]).concat(
-  [
-    [
-      {
-        type: QuestionComponentType.IMAGE,
-        metadata: {
-          url: imageUrl,
-        },
-      },
-    ],
-  ],
-);
+> = getQuestions({
+  url: imageUrl,
+});
 
 export const mockTestRequest: TestRequestDTO = {
   name: "test",
