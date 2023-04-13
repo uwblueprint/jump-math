@@ -46,7 +46,6 @@ describe("mongo testService", (): void => {
 
   it("createTest", async () => {
     const res = await testService.createTest(mockTestRequest);
-    console.log(res.questions[1][1]);
     assertResponseMatchesExpected(mockTestResponse, res);
   });
 
