@@ -6,7 +6,6 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  StackDivider,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
