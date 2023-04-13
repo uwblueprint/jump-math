@@ -204,21 +204,19 @@ describe("mongo testService", (): void => {
     });
 
     it("publishTest", async () => {
-      await expect(async () => {
-        await testService.publishTest(test.id);
-      }).rejects.toThrow(`Test with ID ${test.id} is not in draft status`);
+      expect(testService.publishTest(test.id)).rejects.toThrow(
+        `Test with ID ${test.id} is not in draft status`,
+      );
     });
 
     it("unarchiveTest", async () => {
-      await expect(async () => {
-        await testService.unarchiveTest(test.id);
-      }).rejects.toThrow(`Test with ID ${test.id} is not in archived status`);
+      expect(testService.unarchiveTest(test.id)).rejects.toThrow(
+        `Test with ID ${test.id} is not in archived status`,
+      );
     });
 
     it("archiveTest", async () => {
-      await expect(async () => {
-        await testService.archiveTest(test.id);
-      }).rejects.toThrow(
+      expect(testService.archiveTest(test.id)).rejects.toThrow(
         `Test with ID ${test.id} is not in draft or published status`,
       );
     });
