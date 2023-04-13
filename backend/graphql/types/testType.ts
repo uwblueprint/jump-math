@@ -50,14 +50,10 @@ const testType = gql`
     text: String!
   }
 
-  input ImageMetadataInput {
-    url: String!
-    filePath: String!
-  }
+  scalar ImageMetadataInput
 
-  type ImageMetadata {
+  type ImagePreviewMetadata {
     url: String!
-    filePath: String!
   }
 
   input MultipleChoiceMetadataInput {
@@ -88,17 +84,17 @@ const testType = gql`
     answer: Float!
   }
 
-  union QuestionComponentMetadata =
+  union QuestionComponentMetadataResponse =
       QuestionTextMetadata
     | TextMetadata
-    | ImageMetadata
+    | ImagePreviewMetadata
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
 
-  type QuestionComponent {
+  type QuestionComponentResponse {
     type: QuestionComponentTypeEnum!
-    metadata: QuestionComponentMetadata!
+    metadata: QuestionComponentMetadataResponse!
   }
 
   input QuestionComponentInput {
@@ -114,7 +110,7 @@ const testType = gql`
   type TestResponseDTO {
     id: ID!
     name: String!
-    questions: [[QuestionComponent]]!
+    questions: [[QuestionComponentResponse]]!
     grade: GradeEnum!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!

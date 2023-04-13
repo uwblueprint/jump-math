@@ -7,7 +7,7 @@ import {
 import {
   GraphQLQuestionComponentMetadata,
   QuestionComponentMetadataRequest,
-  QuestionComponentMetadata,
+  QuestionComponentMetadataResponse,
 } from "../../types/questionMetadataTypes";
 import {
   GraphQLQuestionComponent,
@@ -19,7 +19,7 @@ const testService: ITestService = new TestService();
 type QuestionMetadataName =
   | "QuestionTextMetadata"
   | "TextMetadata"
-  | "ImageMetadata"
+  | "ImagePreviewMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
   | "ShortAnswerMetadata";
@@ -82,14 +82,14 @@ const resolveQuestions = (
 };
 
 const testResolvers = {
-  QuestionComponentMetadata: {
+  QuestionComponentMetadataResponse: {
     // eslint-disable-next-line no-underscore-dangle
     __resolveType: (
-      obj: QuestionComponentMetadata,
+      obj: QuestionComponentMetadataResponse,
     ): QuestionMetadataName | null => {
       if ("questionText" in obj) return "QuestionTextMetadata";
       if ("text" in obj) return "TextMetadata";
-      if ("src" in obj) return "ImageMetadata";
+      if ("url" in obj) return "ImagePreviewMetadata";
       if ("answerIndex" in obj) return "MultipleChoiceMetadata";
       if ("answerIndices" in obj) return "MultiSelectMetadata";
       if ("answer" in obj) return "ShortAnswerMetadata";

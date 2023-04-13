@@ -152,44 +152,48 @@ describe("mongo testService", (): void => {
     const notFoundId = "62c248c0f79d6c3c9ebbea95";
 
     it("deleteTest", async () => {
-      expect(testService.deleteTest(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
-      );
+      await expect(async () => {
+        await testService.deleteTest(notFoundId);
+      }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
     it("updateTest for non-existing ID", async () => {
-      expect(
-        testService.updateTest(notFoundId, mockTestRequest),
-      ).rejects.toThrowError(`Test ID ${notFoundId} not found`);
+      await expect(async () => {
+        await testService.updateTest(notFoundId, mockTestRequest);
+      }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
     it("getTestById", async () => {
-      expect(testService.getTestById(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
-      );
+      await expect(async () => {
+        await testService.getTestById(notFoundId);
+      }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
     it("publishTest", async () => {
-      expect(testService.publishTest(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
+      await expect(async () => {
+        await testService.publishTest(notFoundId);
+      }).rejects.toThrowError(
+        `Test with ID ${notFoundId} is not found or not in draft status`,
       );
     });
 
     it("duplicateTest", async () => {
-      expect(testService.duplicateTest(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
-      );
+      await expect(async () => {
+        await testService.duplicateTest(notFoundId);
+      }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
     it("unarchiveTest", async () => {
-      expect(testService.unarchiveTest(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
-      );
+      await expect(async () => {
+        await testService.unarchiveTest(notFoundId);
+      }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
     it("archiveTest", async () => {
-      expect(testService.archiveTest(notFoundId)).rejects.toThrowError(
-        `Test ID ${notFoundId} not found`,
+      await expect(async () => {
+        await testService.archiveTest(notFoundId);
+      }).rejects.toThrowError(
+        `Test with ID ${notFoundId} is not found or not in draft / published status`,
       );
     });
   });
@@ -204,20 +208,26 @@ describe("mongo testService", (): void => {
     });
 
     it("publishTest", async () => {
-      expect(testService.publishTest(test.id)).rejects.toThrow(
-        `Test with ID ${test.id} is not in draft status`,
+      await expect(async () => {
+        await testService.publishTest(test.id);
+      }).rejects.toThrowError(
+        `Test with ID ${test.id} is not found or not in draft status`,
       );
     });
 
     it("unarchiveTest", async () => {
-      expect(testService.unarchiveTest(test.id)).rejects.toThrow(
+      await expect(async () => {
+        await testService.unarchiveTest(test.id);
+      }).rejects.toThrowError(
         `Test with ID ${test.id} is not in archived status`,
       );
     });
 
     it("archiveTest", async () => {
-      expect(testService.archiveTest(test.id)).rejects.toThrow(
-        `Test with ID ${test.id} is not in draft or published status`,
+      await expect(async () => {
+        await testService.archiveTest(test.id);
+      }).rejects.toThrowError(
+        `Test with ID ${test.id} is not found or not in draft / published status`,
       );
     });
   });

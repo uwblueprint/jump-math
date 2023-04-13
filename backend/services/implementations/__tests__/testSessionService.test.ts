@@ -185,9 +185,9 @@ describe("mongo testSessionService", (): void => {
 
   it("deleteTestSession not found", async () => {
     const notFoundId = "62cf26998b7308f775a572aa";
-    expect(
-      testSessionService.deleteTestSession(notFoundId),
-    ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
+    await expect(async () => {
+      await testSessionService.deleteTestSession(notFoundId);
+    }).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
 
   it("computeTestGrades", async () => {

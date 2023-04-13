@@ -172,17 +172,24 @@ class TestService implements ITestService {
     let questions: QuestionComponentResponse[][];
 
     try {
-      test = await MgTest.findById(id);
-      if (!test) {
-        throw new Error(`Test ID ${id} not found`);
-      }
-      if (test.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with ID ${id} is not in draft status.`);
-      }
-      test.isNew = true;
-      test.status = AssessmentStatus.PUBLISHED;
-      test.save();
+      test = await MgTest.findOneAndUpdate(
+        { _id: id, status: AssessmentStatus.DRAFT },
+        {
+          $set: {
+            status: AssessmentStatus.PUBLISHED,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
+      if (!test) {
+        throw new Error(
+          `Test with ID ${id} is not found or not in draft status`,
+        );
+      }
       questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
@@ -284,26 +291,31 @@ class TestService implements ITestService {
     let questions: QuestionComponentResponse[][];
 
     try {
-      test = await MgTest.findById(id);
+      test = await MgTest.findOneAndUpdate(
+        {
+          _id: id,
+          status: { $in: [AssessmentStatus.DRAFT, AssessmentStatus.PUBLISHED] },
+        },
+        {
+          $set: {
+            status: AssessmentStatus.ARCHIVED,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
       if (!test) {
-        throw new Error(`Test ID ${id} not found`);
-      }
-      if (
-        test.status !== AssessmentStatus.DRAFT &&
-        test.status !== AssessmentStatus.PUBLISHED
-      ) {
         throw new Error(
-          `Test with ID ${id} is not in draft or published status.`,
+          `Test with ID ${id} is not found or not in draft / published status`,
         );
       }
-      test.isNew = true;
-      test.status = AssessmentStatus.ARCHIVED;
-      test.save();
-
       questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
-        `Failed to publish test with ID ${id}. Reason = ${getErrorMessage(
+        `Failed to archive test with ID ${id}. Reason = ${getErrorMessage(
           error,
         )}`,
       );

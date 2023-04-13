@@ -95,3 +95,5 @@ export interface GraphQLQuestionComponentMetadata {
 export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<
   Promise<FileUpload>
 >;
+
+export type QuestionComponentMetadataResponse = BaseQuestionComponentMetadata<ImagePreviewMetadata>;
