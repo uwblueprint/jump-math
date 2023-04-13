@@ -127,7 +127,7 @@ const AddAdminModal = (): React.ReactElement => {
       </Button>
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
-        <ModalContent maxW="80vw" p={2}>
+        <ModalContent borderRadius="12px" maxW="80vw" p={2}>
           {showRequestConfirmation ? (
             <>
               <ModalBody>
@@ -159,7 +159,7 @@ const AddAdminModal = (): React.ReactElement => {
                   isRequired
                   marginTop={showRequestError ? "10" : "0"}
                 >
-                  <FormLabel color="blue.300">Name of Admin</FormLabel>
+                  <FormLabel color="grey.300">Name of Admin</FormLabel>
                   <HStack direction="row" mt={6}>
                     <Input
                       isInvalid={requiredFieldEmpty && firstName.length === 0}
@@ -178,10 +178,11 @@ const AddAdminModal = (): React.ReactElement => {
                   </HStack>
                 </FormControl>
                 <FormControl as="fieldset" isRequired mt={8}>
-                  <FormLabel color="blue.300">
+                  <FormLabel color="grey.300">
                     Does the user already have a Jump Math email address?
                   </FormLabel>
                   <RadioGroup
+                    color="grey.300"
                     mt={5}
                     onChange={(val) => setHasJumpMathEmail(val === "yes")}
                   >
@@ -210,7 +211,7 @@ const AddAdminModal = (): React.ReactElement => {
                 {hasJumpMathEmail !== null && (
                   <>
                     <FormControl isInvalid={isInvalidEmail} isRequired mt={6}>
-                      <FormLabel color="blue.300">{`Please enter their ${
+                      <FormLabel color="grey.300">{`Please enter their ${
                         hasJumpMathEmail ? "Jump Math" : ""
                       } email address`}</FormLabel>
                       <Input
@@ -231,7 +232,7 @@ const AddAdminModal = (): React.ReactElement => {
                       isRequired
                       mt={6}
                     >
-                      <FormLabel color="blue.300">
+                      <FormLabel color="grey.300">
                         Confirm email address
                       </FormLabel>
                       <Input

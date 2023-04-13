@@ -62,8 +62,8 @@ const RemoveUserModal = ({
         Remove User
       </Button>
       <Modal
-        body="NOTE: This user is an admin."
-        header={`Are you sure you want to remove ${name}?`}
+        body={`Are you sure you want to remove ${name}?`}
+        header="Remove User"
         isOpen={isOpen}
         onCancel={() => {
           onCloseParent();
