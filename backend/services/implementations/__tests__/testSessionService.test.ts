@@ -16,7 +16,7 @@ import {
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
-import { mockTestResponse, mockTestResponse2 } from "../../../testUtils/tests";
+import { mockTestResponse } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
@@ -238,7 +238,7 @@ describe("mongo testSessionService", (): void => {
 
     // create DTO object to update to
     const updatedTestSession = {
-      test: mockTestResponse2.id,
+      test: "62c248c0f79d6c3c9ebbea96",
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
       gradeLevel: 3,

@@ -133,12 +133,6 @@ export const mockTestResponse: TestResponseDTO = {
   questions: questionsResponse,
 };
 
-export const mockTestResponse2: TestResponseDTO = {
-  id: "62c248c0f79d6c3c9ebbea96",
-  ...mockTestRequest2,
-  questions: questionsResponse,
-};
-
 export const mockTest: TestDTO = {
   ...mockTestRequest,
   questions,
