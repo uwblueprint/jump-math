@@ -18,7 +18,7 @@ const BackButton = ({
     <Button
       leftIcon={<ArrowBackOutlineIcon />}
       onClick={() => history.goBack()}
-      size={size || "sm"}
+      size={size}
       variant="tertiary"
     >
       {text || "Back"}
