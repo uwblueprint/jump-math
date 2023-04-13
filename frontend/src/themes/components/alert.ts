@@ -40,6 +40,7 @@ const Alert = {
     },
     successToast: {
       container: {
+        margin: "4",
         backgroundColor: "blue.50",
         color: "blue.300",
       },
@@ -47,6 +48,7 @@ const Alert = {
     errorToast: {
       fontWeight: "400",
       container: {
+        margin: "4",
         backgroundColor: "red.50",
         color: "red.200",
       },
