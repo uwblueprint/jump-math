@@ -1,12 +1,6 @@
 import mongoose from "mongoose";
 import { FileUpload } from "graphql-upload";
-import MgTest, {
-  AssessmentStatus,
-  ImageMetadata,
-  QuestionComponent,
-  QuestionComponentType,
-  Test,
-} from "../../models/test.model";
+import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
 import {
   TestRequestDTO,
   TestResponseDTO,
@@ -19,9 +13,12 @@ import IImageUploadService, {
 } from "../interfaces/imageUploadService";
 import ImageUploadService from "./imageUploadService";
 import {
-  QuestionComponentsUploaded,
   QuestionComponentResponse,
   QuestionComponentRequest,
+  ImageMetadata,
+  QuestionComponent,
+  QuestionComponentType,
+  QuestionComponentUploaded,
 } from "../../types/questionTypes";
 
 const Logger = logger(__filename);
@@ -36,7 +33,7 @@ class TestService implements ITestService {
   /* eslint-disable class-methods-use-this */
   async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
-    let questions: QuestionComponentsUploaded[][];
+    let questions: QuestionComponentUploaded[][];
 
     try {
       questions = await this.uploadImages(test.questions);
@@ -96,7 +93,7 @@ class TestService implements ITestService {
 
   async updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
-    let questions: QuestionComponentsUploaded[][];
+    let questions: QuestionComponentUploaded[][];
 
     try {
       questions = await this.uploadImages(test.questions);
@@ -348,7 +345,7 @@ class TestService implements ITestService {
 
   private async uploadImages(
     questions: QuestionComponentRequest[][],
-  ): Promise<QuestionComponentsUploaded[][]> {
+  ): Promise<QuestionComponentUploaded[][]> {
     return Promise.all(
       questions.map(async (question: QuestionComponentRequest[]) => {
         return Promise.all(
@@ -359,7 +356,7 @@ class TestService implements ITestService {
               );
               return { ...questionComponent, metadata: imageMetadata };
             }
-            return questionComponent as QuestionComponentsUploaded;
+            return (questionComponent as unknown) as QuestionComponentUploaded;
           }),
         );
       }),
@@ -367,20 +364,20 @@ class TestService implements ITestService {
   }
 
   private getQuestionComponents(
-    questions: QuestionComponentsUploaded[][],
+    questions: QuestionComponentUploaded[][],
   ): QuestionComponent[][] {
-    return questions.map((question: QuestionComponentsUploaded[]) => {
-      return question.map((questionComponent: QuestionComponentsUploaded) => {
+    return questions.map((question: QuestionComponentUploaded[]) => {
+      return question.map((questionComponent: QuestionComponentUploaded) => {
         return questionComponent as QuestionComponent;
       });
     }) as QuestionComponent[][];
   }
 
   private getQuestionComponentResponses(
-    questions: QuestionComponentsUploaded[][],
+    questions: QuestionComponentUploaded[][],
   ): QuestionComponentResponse[][] {
-    return questions.map((question: QuestionComponentsUploaded[]) => {
-      return question.map((questionComponent: QuestionComponentsUploaded) => {
+    return questions.map((question: QuestionComponentUploaded[]) => {
+      return question.map((questionComponent: QuestionComponentUploaded) => {
         return questionComponent as QuestionComponentResponse;
       });
     }) as QuestionComponentResponse[][];
@@ -404,7 +401,7 @@ class TestService implements ITestService {
                 },
               };
             }
-            return questionComponent as QuestionComponentResponse;
+            return (questionComponent as unknown) as QuestionComponentResponse;
           }),
         );
       }),

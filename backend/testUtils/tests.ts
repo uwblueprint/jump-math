@@ -1,9 +1,4 @@
-import {
-  QuestionComponentType,
-  AssessmentStatus,
-  AssessmentType,
-  QuestionComponent,
-} from "../models/test.model";
+import { AssessmentStatus, AssessmentType } from "../models/test.model";
 import {
   TestDTO,
   TestRequestDTO,
@@ -11,9 +6,11 @@ import {
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
 import {
+  ImagePreviewMetadata,
+  QuestionComponent,
   QuestionComponentRequest,
   QuestionComponentResponse,
-  ImagePreviewMetadata,
+  QuestionComponentType,
 } from "../types/questionTypes";
 import { imageUpload } from "./imageStorage";
 
@@ -96,30 +93,34 @@ export const questions: Array<
 
 export const questionsRequest: Array<
   Array<QuestionComponentRequest>
-> = (questionsWithoutImage as QuestionComponentRequest[][]).concat([
+> = ((questionsWithoutImage as unknown) as QuestionComponentRequest[][]).concat(
   [
-    {
-      type: QuestionComponentType.IMAGE,
-      metadata: imageUpload,
-    },
+    [
+      {
+        type: QuestionComponentType.IMAGE,
+        metadata: imageUpload,
+      },
+    ],
   ],
-]);
+);
 
 export const imageUrl =
   "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
 
 export const questionsResponse: Array<
   Array<QuestionComponentResponse>
-> = (questionsWithoutImage as QuestionComponentResponse[][]).concat([
+> = ((questionsWithoutImage as unknown) as QuestionComponentResponse[][]).concat(
   [
-    {
-      type: QuestionComponentType.IMAGE,
-      metadata: {
-        url: imageUrl,
+    [
+      {
+        type: QuestionComponentType.IMAGE,
+        metadata: {
+          url: imageUrl,
+        },
       },
-    },
+    ],
   ],
-]);
+);
 
 export const mockTestRequest: TestRequestDTO = {
   name: "test",

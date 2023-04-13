@@ -1,5 +1,4 @@
 import TestService from "../../services/implementations/testService";
-import { QuestionComponentMetadata } from "../../models/test.model";
 import {
   GraphQLTestDTO,
   ITestService,
@@ -10,6 +9,7 @@ import {
   QuestionComponentRequest,
   GraphQLQuestionComponentMetadata,
   QuestionComponentMetadataRequest,
+  QuestionComponentMetadata,
 } from "../../types/questionTypes";
 
 const testService: ITestService = new TestService();

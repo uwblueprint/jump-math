@@ -8,13 +8,14 @@ import {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
   QuestionComponentResponse,
+  GenericQuestionComponent,
 } from "../../types/questionTypes";
 
-export interface TestDTO {
+export interface BaseTestDTO<Type extends GenericQuestionComponent> {
   /** The name of the test */
   name: string;
   /** An ordered list of questions to be asked when students take the test */
-  questions: QuestionComponent[][];
+  questions: Type[][];
   /** The intended grade the test was made for */
   grade: Grade;
   /** the type of assessment */
@@ -27,17 +28,15 @@ export interface TestDTO {
   curriculumRegion: string;
 }
 
-export type GraphQLTestDTO = Omit<TestDTO, "questions"> & {
-  questions: GraphQLQuestionComponent[][];
-};
+export type TestDTO = BaseTestDTO<QuestionComponent>;
 
-export type TestRequestDTO = Omit<TestDTO, "questions"> & {
-  questions: QuestionComponentRequest[][];
-};
+export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
 
-export type TestResponseDTO = Omit<TestDTO, "questions"> & {
+export type TestRequestDTO = BaseTestDTO<QuestionComponentRequest>;
+
+export type TestResponseDTO = BaseTestDTO<QuestionComponentResponse> & {
+  /** the unique identifier of the response */
   id: string;
-  questions: QuestionComponentResponse[][];
 };
 
 export interface ITestService {

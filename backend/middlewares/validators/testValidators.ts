@@ -1,4 +1,4 @@
-import type { QuestionComponent } from "../../models/test.model";
+import { QuestionComponent } from "../../types/questionTypes";
 import { validateArray, validatePrimitive } from "./util";
 
 export enum QuestionComponentType {
