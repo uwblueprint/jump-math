@@ -23,7 +23,7 @@ import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 interface CreateAssessementHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
-  onPublish: (data: TestRequest) => Promise<void>;
+  onConfirmPublish: (data: TestRequest) => Promise<void>;
   onSave: (data: TestRequest) => Promise<void>;
   onError: () => void;
   validateForm: () => boolean;
@@ -32,21 +32,21 @@ interface CreateAssessementHeaderProps {
 const CreateAssessementHeader = ({
   name,
   handleSubmit,
-  onPublish,
+  onConfirmPublish,
   onSave,
   onError,
   validateForm,
 }: CreateAssessementHeaderProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
-  const confirmPublish = () => {
+  const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
     }
   };
 
   const handleSave = handleSubmit(onSave, onError);
-  const handlePublish = handleSubmit(confirmPublish, onError);
-  const onConfirmPublish = handleSubmit(onPublish, onError);
+  const handlePublish = handleSubmit(onPublish, onError);
+  const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
 
   return (
     <>
@@ -93,7 +93,7 @@ const CreateAssessementHeader = ({
       <PublishModal
         isOpen={showPublishModal}
         onClose={() => setShowPublishModal(false)}
-        publishAssessment={onConfirmPublish}
+        publishAssessment={handleConfirmPublish}
       />
     </>
   );

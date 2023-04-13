@@ -112,8 +112,8 @@ const CreateAssessmentPage = (): React.ReactElement => {
             <CreateAssessementHeader
               handleSubmit={handleSubmit}
               name={name}
+              onConfirmPublish={onPublish}
               onError={onError}
-              onPublish={onPublish}
               onSave={onSave}
               validateForm={validateForm}
             />
