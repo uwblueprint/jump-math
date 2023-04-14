@@ -108,9 +108,13 @@ const AddClassroomModal = (): React.ReactElement => {
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
     if (!validateFields()) {
       setShowRequestError(true);
+      setShowWarning(false);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
+    } else if (!showWarning) {
+      setShowWarning(true);
+      setShowRequestError(false);
     } else {
       console.log(`Classname: ${data.className}`);
       console.log(`School Year: ${data.schoolYear}`);
@@ -134,17 +138,13 @@ const AddClassroomModal = (): React.ReactElement => {
           });
         })
         .catch(() => {
-          setRequestErrorMessage(
-            "There is an error in processing your information. Please refresh the page and enter your information again. Contact Jump Math support for help.",
-          );
-          setShowRequestError(true);
           showToast({
             message: "Failed to create a new classroom. Please try again.",
             status: "error",
           });
         });
+      onModalClose();
     }
-    onModalClose();
   };
 
   const onError = () => {
@@ -221,7 +221,7 @@ const AddClassroomModal = (): React.ReactElement => {
             <ModalFooter>
               <ModalFooterButtons
                 onDiscard={onModalClose}
-                onSave={showWarning ? handleSave : () => setShowWarning(true)}
+                onSave={handleSave}
               />
             </ModalFooter>
           </>
