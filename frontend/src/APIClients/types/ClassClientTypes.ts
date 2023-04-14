@@ -12,5 +12,5 @@ export type ClassResponse = {
   className: string;
   schoolYear: number;
   gradeLevel: Grade;
-  teacher: string;
+  teacher: UserResponse;
 };
