@@ -6,6 +6,11 @@ export interface TextMetadata {
   text: string;
 }
 
+export interface ImageMetadata {
+  previewUrl: string;
+  file: File | undefined;
+}
+
 export interface ShortAnswerMetadata {
   answer: number;
 }

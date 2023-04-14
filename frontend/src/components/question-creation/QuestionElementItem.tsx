@@ -8,6 +8,7 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
+  ImageMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -19,6 +20,7 @@ import {
 } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
+import ImageElement from "./question-elements/ImageElement";
 import MultiOptionElement from "./question-elements/MultiOptionElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
@@ -43,7 +45,7 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.TEXT:
       return <TextElement key={id} data={data as TextMetadata} id={id} />;
     case QuestionElementType.IMAGE:
-      return <Text key={id}>this is an image element.</Text>;
+      return <ImageElement key={id} data={data as ImageMetadata} id={id} />;
     case QuestionElementType.MULTIPLE_CHOICE:
       return (
         <MultiOptionElement

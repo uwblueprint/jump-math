@@ -38,8 +38,8 @@ export const ARCHIVE_TEST = gql`
   }
 `;
 
-export const CREATE_NEW_ASSESSMENT = gql`
-  mutation Create_Test($test: TestRequestDTO!) {
+export const CREATE_NEW_TEST = gql`
+  mutation CreateTest($test: TestRequestDTO!) {
     createTest(test: $test) {
       id
     }
