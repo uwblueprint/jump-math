@@ -130,30 +130,19 @@ class TestService implements ITestService {
 
   async getTestById(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let questions: QuestionComponentResponse[][];
 
     try {
       test = await MgTest.findById(id);
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
-      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-    return {
-      id: test.id,
-      name: test.name,
-      questions,
-      grade: test.grade,
-      curriculumCountry: test.curriculumCountry,
-      curriculumRegion: test.curriculumRegion,
-      assessmentType: test.assessmentType,
-      status: test.status,
-    };
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
   async getAllTests(): Promise<TestResponseDTO[]> {
@@ -169,7 +158,6 @@ class TestService implements ITestService {
 
   async publishTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let questions: QuestionComponentResponse[][];
 
     try {
       test = await MgTest.findOneAndUpdate(
@@ -190,7 +178,6 @@ class TestService implements ITestService {
           `Test with ID ${id} is not found or not in draft status`,
         );
       }
-      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to publish test with ID ${id}. Reason = ${getErrorMessage(
@@ -199,21 +186,11 @@ class TestService implements ITestService {
       );
       throw error;
     }
-    return {
-      id: test.id,
-      name: test.name,
-      questions,
-      grade: test.grade,
-      curriculumCountry: test.curriculumCountry,
-      curriculumRegion: test.curriculumRegion,
-      assessmentType: test.assessmentType,
-      status: test.status,
-    };
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
   async duplicateTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let questions: QuestionComponentResponse[][];
 
     try {
       test = await MgTest.findById(id);
@@ -225,8 +202,6 @@ class TestService implements ITestService {
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
-
-      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
@@ -235,16 +210,7 @@ class TestService implements ITestService {
       );
       throw error;
     }
-    return {
-      id: test.id,
-      name: test.name,
-      questions,
-      grade: test.grade,
-      curriculumCountry: test.curriculumCountry,
-      curriculumRegion: test.curriculumRegion,
-      assessmentType: test.assessmentType,
-      status: test.status,
-    };
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
   async unarchiveTest(id: string): Promise<TestResponseDTO> {
@@ -288,7 +254,6 @@ class TestService implements ITestService {
 
   async archiveTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
-    let questions: QuestionComponentResponse[][];
 
     try {
       test = await MgTest.findOneAndUpdate(
@@ -312,7 +277,6 @@ class TestService implements ITestService {
           `Test with ID ${id} is not found or not in draft / published status`,
         );
       }
-      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to archive test with ID ${id}. Reason = ${getErrorMessage(
@@ -321,19 +285,10 @@ class TestService implements ITestService {
       );
       throw error;
     }
-    return {
-      id: test.id,
-      name: test.name,
-      questions,
-      grade: test.grade,
-      curriculumCountry: test.curriculumCountry,
-      curriculumRegion: test.curriculumRegion,
-      assessmentType: test.assessmentType,
-      status: test.status,
-    };
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
-  async mapTestsToTestResponseDTOs(
+  private async mapTestsToTestResponseDTOs(
     tests: Array<Test>,
   ): Promise<TestResponseDTO[]> {
     return Promise.all(
@@ -355,26 +310,6 @@ class TestService implements ITestService {
     );
   }
 
-  private async uploadImages(
-    questions: QuestionComponentRequest[][],
-  ): Promise<QuestionComponentUploaded[][]> {
-    return Promise.all(
-      questions.map(async (question: QuestionComponentRequest[]) => {
-        return Promise.all(
-          question.map(async (questionComponent: QuestionComponentRequest) => {
-            if (questionComponent.type === QuestionComponentType.IMAGE) {
-              const imageMetadata: ImageUpload = await this.imageUploadService.uploadImage(
-                questionComponent.metadata as Promise<FileUpload>,
-              );
-              return { ...questionComponent, metadata: imageMetadata };
-            }
-            return (questionComponent as unknown) as QuestionComponentUploaded;
-          }),
-        );
-      }),
-    );
-  }
-
   private getQuestionComponents(
     questions: QuestionComponentUploaded[][],
   ): QuestionComponent[][] {
@@ -384,7 +319,7 @@ class TestService implements ITestService {
           return {
             ...questionComponent,
             metadata: {
-              filePath: (questionComponent.metadata as ImageUpload).url,
+              filePath: (questionComponent.metadata as ImageUpload).filePath,
             },
           };
         }
@@ -430,6 +365,26 @@ class TestService implements ITestService {
               };
             }
             return (questionComponent as unknown) as QuestionComponentResponse;
+          }),
+        );
+      }),
+    );
+  }
+
+  private async uploadImages(
+    questions: QuestionComponentRequest[][],
+  ): Promise<QuestionComponentUploaded[][]> {
+    return Promise.all(
+      questions.map(async (question: QuestionComponentRequest[]) => {
+        return Promise.all(
+          question.map(async (questionComponent: QuestionComponentRequest) => {
+            if (questionComponent.type === QuestionComponentType.IMAGE) {
+              const imageMetadata: ImageUpload = await this.imageUploadService.uploadImage(
+                questionComponent.metadata as Promise<FileUpload>,
+              );
+              return { ...questionComponent, metadata: imageMetadata };
+            }
+            return (questionComponent as unknown) as QuestionComponentUploaded;
           }),
         );
       }),
