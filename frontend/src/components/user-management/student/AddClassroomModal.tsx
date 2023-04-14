@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useContext, useState } from "react";
+import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
   Button,
@@ -20,43 +20,40 @@ import {
 } from "@chakra-ui/react";
 
 import CREATE_CLASS from "../../../APIClients/mutations/ClassMutations";
-import {
-  ClassRequest,
-  ClassResponse,
-} from "../../../APIClients/types/ClassClientTypes";
+import { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import AuthContext from "../../../contexts/AuthContext";
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
+import Toast from "../../common/Toast";
+import WarningToast from "../../common/WarningToast";
 
-import AddClassroomConfirmationMessage from "./AddClassroomConfirmationMessage";
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 const AddClassroomModal = (): React.ReactElement => {
   const {
+    handleSubmit,
     watch,
     setValue,
     formState: { errors },
   } = useFormContext<ClassroomForm>();
+  const { authenticatedUser } = useContext(AuthContext);
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [className, setClassName] = useState("");
-  const [schoolYear, setSchoolYear] = useState(0);
-  const [gradeLevel, setGradeLevel] = useState(Grade.K);
-  const [teacher, setTeacher] = useState("6347056d47cd96025c18e639");
-  const [testSessions, setTestSessions] = useState([]);
   const [classNameError, setClassNameError] = React.useState(false);
   const [schoolYearError, setSchoolYearError] = React.useState(false);
   const [gradeLevelError, setGradeLevelError] = React.useState(false);
   const [showRequestError, setShowRequestError] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
     CREATE_CLASS,
   );
-  const [showRequestConfirmation, setShowRequestConfirmation] = useState(false);
+  const { showToast } = Toast();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -68,11 +65,9 @@ const AddClassroomModal = (): React.ReactElement => {
     switch (field) {
       case "className":
         setClassNameError(false);
-        setClassName(event.target.value);
         break;
       case "schoolYear":
         setSchoolYearError(false);
-        setSchoolYear(parseInt(event.target.value, 10));
         break;
       case "gradeLevel":
         setGradeLevelError(false);
@@ -97,54 +92,68 @@ const AddClassroomModal = (): React.ReactElement => {
       setGradeLevelError(true);
       return false;
     }
-    setGradeLevel(watch("gradeLevel"));
     return true;
   };
 
   const onModalClose = () => {
-    setClassName("");
-    setSchoolYear(1);
-    setGradeLevel(Grade.K);
     setValue("className", "");
     setValue("schoolYear", "");
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
+    setShowWarning(false);
     setRequestErrorMessage("");
     onClose();
   };
 
-  const onSubmit = async () => {
-    if (validateFields()) {
-      console.log(`Classname: ${watch("className")}`);
-      console.log(`School Year: ${watch("schoolYear")}`);
-      console.log(`Grade Level: ${watch("gradeLevel")}`);
-    } else {
+  const onSave: SubmitHandler<ClassroomForm> = async (data) => {
+    if (!validateFields()) {
       setShowRequestError(true);
       setRequestErrorMessage(
-        "Please ensure all required components are filled out before submitting your application.",
+        "Please ensure all required components are filled out before saving changes",
       );
-      return;
-    }
-    const classObj: ClassRequest = {
-      className,
-      schoolYear,
-      gradeLevel,
-      teacher,
-      testSessions,
-    };
-    await createClass({ variables: { classObj } })
-      .then((data) => {
-        console.log("response data: ", data);
-        if (showRequestError) setShowRequestError(false);
-        setShowRequestConfirmation(true);
+    } else {
+      console.log(`Classname: ${data.className}`);
+      console.log(`School Year: ${data.schoolYear}`);
+      console.log(`Grade Level: ${data.gradeLevel}`);
+      console.log(`Teacher: ${authenticatedUser?.id}`);
+      await createClass({
+        variables: {
+          classObj: {
+            ...data,
+            schoolYear: parseInt(data.schoolYear, 10),
+            teacher: authenticatedUser?.id,
+          },
+        },
       })
-      .catch(() => {
-        setRequestErrorMessage(
-          "There is an error in processing your information. Please refresh the page and enter your information again. Contact Jump Math support for help.",
-        );
-        setShowRequestError(true);
-      });
+        .then((response) => {
+          console.log("response data: ", response);
+          if (showRequestError) setShowRequestError(false);
+          showToast({
+            message: "New classroom created.",
+            status: "success",
+          });
+        })
+        .catch(() => {
+          setRequestErrorMessage(
+            "There is an error in processing your information. Please refresh the page and enter your information again. Contact Jump Math support for help.",
+          );
+          setShowRequestError(true);
+          showToast({
+            message: "Failed to create a new classroom. Please try again.",
+            status: "error",
+          });
+        });
+    }
+    onModalClose();
   };
+
+  const onError = () => {
+    setRequestErrorMessage(
+      "Please resolve all issues before publishing or saving",
+    );
+  };
+
+  const handleSave = handleSubmit(onSave, onError);
 
   return (
     <>
@@ -159,81 +168,63 @@ const AddClassroomModal = (): React.ReactElement => {
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
         <ModalContent maxW="80vw" p={2}>
-          {showRequestConfirmation ? (
-            <>
-              <ModalBody>
-                <AddClassroomConfirmationMessage />
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  mt={10}
-                  onClick={() => window.location.reload()}
-                  variant="primary"
-                >
-                  Return to dashboard
-                </Button>
-              </ModalFooter>
-            </>
-          ) : (
-            <>
-              <ModalHeader>
-                <Text color="grey.400" textStyle="subtitle1">
-                  Add Classroom
-                </Text>
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                {showRequestError && (
-                  <ErrorToast errorMessage={requestErrorMessage as string} />
-                )}
-                <FormControl
-                  isRequired
-                  marginTop={showRequestError ? "10" : "0"}
-                >
-                  <HStack direction="row" mt={6}>
-                    <VStack align="left" direction="column" width="320px">
-                      <FormLabel color="blue.300">Class Name</FormLabel>
-                      <Input
-                        onChange={(e) => handleChange(e, "className")}
-                        placeholder="Type in Class Name"
-                        type="text"
-                        value={watch("className")}
-                      />
-                    </VStack>
-                    <VStack align="left" direction="column" width="320px">
-                      <FormLabel color="blue.300">School Year</FormLabel>
-                      <Input
-                        onChange={(e) => handleChange(e, "schoolYear")}
-                        placeholder="Type in School Year"
-                        type="number"
-                        value={watch("schoolYear")}
-                      />
-                    </VStack>
-                  </HStack>
-                  <HStack direction="row" mt={6}>
-                    <VStack align="left" direction="column" width="320px">
-                      <FormLabel color="blue.300">Grade Level</FormLabel>
-                      <SelectFormInputClassroom
-                        field="gradeLevel"
-                        isSearchable={false}
-                        options={gradeOptions}
-                        placeholder="Choose a Grade Level"
-                        setGradeLevel={setGradeLevel}
-                        setValue={setValue}
-                        watch={watch}
-                      />
-                    </VStack>
-                  </HStack>
-                </FormControl>
-              </ModalBody>
-              <ModalFooter>
-                <ModalFooterButtons
-                  onDiscard={onModalClose}
-                  onSave={onSubmit}
-                />
-              </ModalFooter>
-            </>
-          )}
+          <>
+            <ModalHeader>
+              <Text color="grey.400" textStyle="subtitle1">
+                Add Classroom
+              </Text>
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {showRequestError && (
+                <ErrorToast errorMessage={requestErrorMessage as string} />
+              )}
+              {showWarning && (
+                <WarningToast warningMessage="Please make sure all information is correct before saving the changes" />
+              )}
+              <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
+                <HStack direction="row" mt={6}>
+                  <VStack align="left" direction="column" width="320px">
+                    <FormLabel color="blue.300">Class Name</FormLabel>
+                    <Input
+                      onChange={(e) => handleChange(e, "className")}
+                      placeholder="Type in Class Name"
+                      type="text"
+                      value={watch("className")}
+                    />
+                  </VStack>
+                  <VStack align="left" direction="column" width="320px">
+                    <FormLabel color="blue.300">School Year</FormLabel>
+                    <Input
+                      onChange={(e) => handleChange(e, "schoolYear")}
+                      placeholder="Type in School Year"
+                      type="number"
+                      value={watch("schoolYear")}
+                    />
+                  </VStack>
+                </HStack>
+                <HStack direction="row" mt={6}>
+                  <VStack align="left" direction="column" width="320px">
+                    <FormLabel color="blue.300">Grade Level</FormLabel>
+                    <SelectFormInputClassroom
+                      field="gradeLevel"
+                      isSearchable={false}
+                      options={gradeOptions}
+                      placeholder="Choose a Grade Level"
+                      setValue={setValue}
+                      watch={watch}
+                    />
+                  </VStack>
+                </HStack>
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <ModalFooterButtons
+                onDiscard={onModalClose}
+                onSave={showWarning ? handleSave : () => setShowWarning(true)}
+              />
+            </ModalFooter>
+          </>
         </ModalContent>
       </Modal>
     </>

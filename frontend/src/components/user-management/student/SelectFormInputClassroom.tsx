@@ -13,7 +13,6 @@ interface SelectFormInputClassroomProps {
   options: StringOption[];
   placeholder: string;
   isSearchable: boolean;
-  setGradeLevel: React.Dispatch<React.SetStateAction<Grade>>;
 }
 
 const SelectFormInputClassroom = ({
@@ -23,12 +22,10 @@ const SelectFormInputClassroom = ({
   options,
   placeholder,
   isSearchable,
-  setGradeLevel,
 }: SelectFormInputClassroomProps): React.ReactElement => {
   const handleChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue(field, option.value);
-      setGradeLevel(option.value as Grade);
       console.log(`${field}: ${option.value}`);
     }
   };

@@ -5,7 +5,6 @@ export type ClassRequest = {
   schoolYear: number;
   gradeLevel: Grade;
   teacher: string;
-  testSessions: string[];
 };
 
 export type ClassResponse = {
@@ -13,4 +12,5 @@ export type ClassResponse = {
   className: string;
   schoolYear: number;
   gradeLevel: Grade;
+  teacher: string;
 };

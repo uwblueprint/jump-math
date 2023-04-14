@@ -49,16 +49,14 @@ export const testClass: ClassRequestDTO[] = [
   {
     className: "class1",
     schoolYear: 4,
-    gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+    gradeLevel: Grade.K,
     teacher: mockTeacher.id,
-    testSessions: [mockTestSessionWithId.id],
   },
   {
     className: "class2",
     schoolYear: 5,
-    gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
+    gradeLevel: Grade.GRADE_4,
     teacher: mockTeacher.id,
-    testSessions: [mockTestSessionWithId.id],
   },
 ];
 
@@ -76,15 +74,14 @@ export const testClassWithStudents = {
 export const updatedTestClass: ClassRequestDTO = {
   className: "class1changed",
   schoolYear: 4,
-  gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
+  gradeLevel: Grade.GRADE_5,
   teacher: mockTeacher.id,
-  testSessions: [mockTestSessionWithId.id],
 };
 
 export const updatedTestClassWithStudent = {
   className: "class1",
   schoolYear: 4,
-  gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+  gradeLevel: Grade.GRADE_1,
   teacher: mockTeacher.id,
   testSessions: [mockTestSessionWithId.id],
   students: updatedTestStudents,

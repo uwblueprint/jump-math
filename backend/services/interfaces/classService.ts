@@ -17,16 +17,15 @@ export interface StudentResponseDTO {
 export interface ClassRequestDTO {
   className: string;
   schoolYear: number;
-  gradeLevel: Grade[];
+  gradeLevel: Grade;
   teacher: string;
-  testSessions: string[];
 }
 
 export interface ClassResponseDTO {
   id: string;
   className: string;
   schoolYear: number;
-  gradeLevel: Grade[];
+  gradeLevel: Grade;
   teacher: UserDTO;
   testSessions: TestSessionResponseDTO[];
   students: StudentResponseDTO[];
