@@ -65,8 +65,17 @@ class ImageUploadService implements IImageUploadService {
   }
 
   async getImage(filePath: string): Promise<ImageUpload> {
-    const signedUrl = await this.storageService.getFile(filePath);
-    return { url: signedUrl, filePath };
+    try {
+      const signedUrl = await this.storageService.getFile(filePath);
+      return { url: signedUrl, filePath };
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get image for filePath "${filePath}". Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 
   private async createImage(
