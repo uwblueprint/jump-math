@@ -7,7 +7,6 @@ import { UserDTO, TeacherDTO, Grade } from "../../../types";
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
 import { mockTestSessions } from "../../../testUtils/testSession";
-import logger from "../../../utilities/logger";
 
 const testUsers = [
   {

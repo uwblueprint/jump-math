@@ -12,10 +12,7 @@ import {
   mockTestArray,
   questions,
 } from "../../../testUtils/tests";
-import {
-  TestResponseDTO,
-  CreateTestRequestDTO,
-} from "../../interfaces/testService";
+import { TestResponseDTO, TestRequestDTO } from "../../interfaces/testService";
 import { Grade } from "../../../types";
 
 describe("mongo testService", (): void => {
@@ -31,6 +28,11 @@ describe("mongo testService", (): void => {
 
   beforeEach(async () => {
     testService = new TestService();
+    testService.imageUploadService.getImage = jest.fn().mockReturnValue({
+      url:
+        "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
+      filePath: "/assessment-images/test.png",
+    });
   });
 
   afterEach(async () => {
@@ -61,7 +63,7 @@ describe("mongo testService", (): void => {
     const createdTest = await MgTest.create(mockTest);
 
     // create DTO object to update to
-    const testUpdate: CreateTestRequestDTO = {
+    const testUpdate: TestRequestDTO = {
       name: "newTest",
       questions,
       grade: Grade.GRADE_8,
@@ -81,7 +83,7 @@ describe("mongo testService", (): void => {
     await MgTest.create(mockTest);
 
     // create DTO object to update to
-    const testUpdate: CreateTestRequestDTO = {
+    const testUpdate: TestRequestDTO = {
       name: "newTest",
       questions,
       grade: Grade.GRADE_8,

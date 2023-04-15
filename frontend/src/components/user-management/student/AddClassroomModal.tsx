@@ -154,61 +154,56 @@ const AddClassroomModal = (): React.ReactElement => {
       </Button>
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
-        <ModalContent maxW="80vw" p={2}>
-          <>
-            <ModalHeader>
-              <Text color="grey.400" textStyle="subtitle1">
-                Add Classroom
-              </Text>
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {showRequestError && (
-                <ErrorToast errorMessage={requestErrorMessage as string} />
-              )}
-              <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
-                <HStack direction="row" mt={6}>
-                  <VStack align="left" direction="column" width="320px">
-                    <FormLabel color="blue.300">Class Name</FormLabel>
-                    <Input
-                      onChange={(e) => handleChange(e, "className")}
-                      placeholder="Type in Class Name"
-                      type="text"
-                      value={watch("className")}
-                    />
-                  </VStack>
-                  <VStack align="left" direction="column" width="320px">
-                    <FormLabel color="blue.300">School Year</FormLabel>
-                    <Input
-                      onChange={(e) => handleChange(e, "schoolYear")}
-                      placeholder="Type in School Year"
-                      type="number"
-                      value={watch("schoolYear")}
-                    />
-                  </VStack>
-                </HStack>
-                <HStack direction="row" mt={6}>
-                  <VStack align="left" direction="column" width="320px">
-                    <FormLabel color="blue.300">Grade Level</FormLabel>
-                    <SelectFormInputClassroom
-                      field="gradeLevel"
-                      isSearchable={false}
-                      options={gradeOptions}
-                      placeholder="Choose a Grade Level"
-                      setValue={setValue}
-                      watch={watch}
-                    />
-                  </VStack>
-                </HStack>
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <ModalFooterButtons
-                onDiscard={onModalClose}
-                onSave={handleSave}
-              />
-            </ModalFooter>
-          </>
+        <ModalContent borderRadius="12px" maxW="80vw" p={2}>
+          <ModalHeader>
+            <Text color="grey.400" textStyle="subtitle1">
+              Add Classroom
+            </Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {showRequestError && (
+              <ErrorToast errorMessage={requestErrorMessage as string} />
+            )}
+            <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
+              <HStack direction="row" mt={6}>
+                <VStack align="left" direction="column" width="320px">
+                  <FormLabel color="blue.300">Class Name</FormLabel>
+                  <Input
+                    onChange={(e) => handleChange(e, "className")}
+                    placeholder="Type in Class Name"
+                    type="text"
+                    value={watch("className")}
+                  />
+                </VStack>
+                <VStack align="left" direction="column" width="320px">
+                  <FormLabel color="blue.300">School Year</FormLabel>
+                  <Input
+                    onChange={(e) => handleChange(e, "schoolYear")}
+                    placeholder="Type in School Year"
+                    type="text"
+                    value={watch("schoolYear")}
+                  />
+                </VStack>
+              </HStack>
+              <HStack direction="row" mt={6}>
+                <VStack align="left" direction="column" width="320px">
+                  <FormLabel color="blue.300">Grade Level</FormLabel>
+                  <SelectFormInputClassroom
+                    field="gradeLevel"
+                    isSearchable={false}
+                    options={gradeOptions}
+                    placeholder="Choose a Grade Level"
+                    setValue={setValue}
+                    watch={watch}
+                  />
+                </VStack>
+              </HStack>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <ModalFooterButtons onDiscard={onModalClose} onSave={onSubmit} />
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

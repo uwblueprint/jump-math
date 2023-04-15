@@ -158,7 +158,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const AssessmentTabPanels = [...Array(4)].map((i) => {
     return (
-      <TabPanel key={i}>
+      <TabPanel key={i} padding="0">
         <AssessmentsTab
           key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}

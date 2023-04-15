@@ -1,13 +1,13 @@
 import {
   QuestionTextMetadata,
   TextMetadata,
-  ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   ShortAnswerMetadata,
   QuestionComponent,
   AssessmentType,
   AssessmentStatus,
+  ImageMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
 
@@ -30,9 +30,9 @@ export type TestResponseDTO = {
   curriculumRegion: string;
 };
 
-export type CreateTestRequestDTO = Omit<TestResponseDTO, "id">;
+export type TestRequestDTO = Omit<TestResponseDTO, "id">;
 
-export interface QuestionComponentMetadataRequest {
+export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
   imageMetadata: ImageMetadata;
@@ -41,24 +41,11 @@ export interface QuestionComponentMetadataRequest {
   shortAnswerMetadata: ShortAnswerMetadata;
 }
 
-export type QuestionComponentRequest = Omit<QuestionComponent, "metadata"> &
-  QuestionComponentMetadataRequest;
+export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
+  GraphQLQuestionComponentMetadata;
 
-export type TestRequestDTO = {
-  /** the name of the test */
-  name: string;
-  /** an ordered array of questions on the test */
-  questions: QuestionComponentRequest[][];
-  /** the grade of the student */
-  grade: Grade;
-  /** the type of assessment */
-  assessmentType: AssessmentType;
-  /** the status of the assessment */
-  status: AssessmentStatus;
-  /** the country that the test is to be administered in */
-  curriculumCountry: string;
-  /** the region that the test is to be administered in */
-  curriculumRegion: string;
+export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
+  questions: GraphQLQuestionComponent[][];
 };
 
 export interface ITestService {
@@ -68,7 +55,7 @@ export interface ITestService {
    * @returns a TestResponseDTO with the created test
    * @throws Error if creation fails
    */
-  createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+  createTest(test: TestRequestDTO): Promise<TestResponseDTO>;
 
   /**
    * delete a Test with the given id, return deleted id
@@ -83,7 +70,7 @@ export interface ITestService {
    * @param id The unique identifier of the Test document to update
    * @param test The object containing the updated Test
    */
-  updateTest(id: string, test: CreateTestRequestDTO): Promise<TestResponseDTO>;
+  updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO>;
 
   /**
    * retrieve a Test given the id

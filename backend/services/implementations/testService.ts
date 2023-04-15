@@ -1,22 +1,41 @@
 import mongoose from "mongoose";
-import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
+import MgTest, {
+  AssessmentStatus,
+  ImageMetadata,
+  QuestionComponent,
+  QuestionComponentType,
+  Test,
+} from "../../models/test.model";
 import {
-  CreateTestRequestDTO,
+  TestRequestDTO,
   TestResponseDTO,
   ITestService,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
+import IImageUploadService from "../interfaces/imageUploadService";
+import ImageUploadService from "./imageUploadService";
 
 const Logger = logger(__filename);
 
 class TestService implements ITestService {
+  imageUploadService: IImageUploadService;
+
+  constructor() {
+    this.imageUploadService = new ImageUploadService("assessment-images");
+  }
+
   /* eslint-disable class-methods-use-this */
-  async createTest(test: CreateTestRequestDTO): Promise<TestResponseDTO> {
+  async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
-      newTest = await MgTest.create(test);
+      questions = await this.hydrateImages(test.questions);
+      newTest = await MgTest.create({
+        ...test,
+        questions,
+      });
     } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -25,7 +44,7 @@ class TestService implements ITestService {
     return {
       id: newTest.id,
       name: newTest.name,
-      questions: newTest.questions,
+      questions,
       grade: newTest.grade,
       curriculumCountry: newTest.curriculumCountry,
       curriculumRegion: newTest.curriculumRegion,
@@ -67,11 +86,9 @@ class TestService implements ITestService {
     }
   }
 
-  async updateTest(
-    id: string,
-    test: CreateTestRequestDTO,
-  ): Promise<TestResponseDTO> {
+  async updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
       updatedTest = await MgTest.findByIdAndUpdate(id, test, {
@@ -81,6 +98,8 @@ class TestService implements ITestService {
       if (!updatedTest) {
         throw new Error(`Test with id ${id} not found`);
       }
+
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -89,7 +108,7 @@ class TestService implements ITestService {
     return {
       id: updatedTest.id,
       name: updatedTest.name,
-      questions: updatedTest.questions,
+      questions,
       grade: updatedTest.grade,
       curriculumCountry: updatedTest.curriculumCountry,
       curriculumRegion: updatedTest.curriculumRegion,
@@ -100,12 +119,14 @@ class TestService implements ITestService {
 
   async getTestById(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
       test = await MgTest.findById(id);
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test with ID ${id}. Reason = ${getErrorMessage(error)}`,
@@ -115,7 +136,7 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      questions: test.questions,
+      questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
       curriculumRegion: test.curriculumRegion,
@@ -137,6 +158,7 @@ class TestService implements ITestService {
 
   async duplicateTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
+    let questions: QuestionComponent[][];
 
     try {
       test = await MgTest.findById(id);
@@ -148,6 +170,8 @@ class TestService implements ITestService {
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
+
+      questions = await this.hydrateImages(test.questions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
@@ -159,7 +183,7 @@ class TestService implements ITestService {
     return {
       id: test.id,
       name: test.name,
-      questions: test.questions,
+      questions,
       grade: test.grade,
       curriculumCountry: test.curriculumCountry,
       curriculumRegion: test.curriculumRegion,
@@ -212,16 +236,39 @@ class TestService implements ITestService {
   ): Promise<TestResponseDTO[]> {
     return Promise.all(
       tests.map(async (test) => {
+        const questions: QuestionComponent[][] = await this.hydrateImages(
+          test.questions,
+        );
         return {
           id: test.id,
           name: test.name,
-          questions: test.questions,
+          questions,
           grade: test.grade,
           curriculumCountry: test.curriculumCountry,
           curriculumRegion: test.curriculumRegion,
           assessmentType: test.assessmentType,
           status: test.status,
         };
+      }),
+    );
+  }
+
+  private async hydrateImages(
+    questions: QuestionComponent[][],
+  ): Promise<QuestionComponent[][]> {
+    return Promise.all(
+      questions.map(async (question: QuestionComponent[]) => {
+        return Promise.all(
+          question.map(async (questionComponent: QuestionComponent) => {
+            if (questionComponent.type === QuestionComponentType.IMAGE) {
+              const imageMetadata: ImageMetadata = await this.imageUploadService.getImage(
+                (questionComponent.metadata as ImageMetadata).filePath,
+              );
+              return { ...questionComponent, metadata: imageMetadata };
+            }
+            return questionComponent;
+          }),
+        );
       }),
     );
   }
