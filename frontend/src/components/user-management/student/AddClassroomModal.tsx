@@ -202,7 +202,7 @@ const AddClassroomModal = (): React.ReactElement => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <ModalFooterButtons onDiscard={onModalClose} onSave={onSubmit} />
+            <ModalFooterButtons onDiscard={onModalClose} onSave={handleSave} />
           </ModalFooter>
         </ModalContent>
       </Modal>
