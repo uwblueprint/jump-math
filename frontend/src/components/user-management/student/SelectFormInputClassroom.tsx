@@ -25,7 +25,6 @@ const SelectFormInputClassroom = ({
   const handleChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue(field, option.value);
-      console.log(`${field}: ${option.value}`);
     }
   };
   return (
