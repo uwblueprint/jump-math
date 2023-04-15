@@ -117,7 +117,7 @@ const AddClassroomModal = (): React.ReactElement => {
           },
         },
       })
-        .then((response) => {
+        .then(() => {
           if (showRequestError) setShowRequestError(false);
           showToast({
             message: "New classroom created.",
