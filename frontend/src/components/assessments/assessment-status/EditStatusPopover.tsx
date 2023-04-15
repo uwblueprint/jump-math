@@ -1,11 +1,11 @@
 import React from "react";
 import {
+  Divider,
   IconButton,
   Popover,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  StackDivider,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -15,6 +15,7 @@ import { Status } from "../../../types/AssessmentTypes";
 
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
+import EditButton from "./EditStatusButtons/EditButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
 import UnarchiveButton from "./EditStatusButtons/UnarchiveButton";
 
@@ -50,15 +51,18 @@ const EditStatusPopover = ({
         width="80%"
       >
         <PopoverBody>
-          <VStack
-            divider={<StackDivider borderColor="grey.200" />}
-            spacing="0em"
-          >
+          <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
             {assessmentStatus === Status.DRAFT && (
-              <PublishButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
+              <>
+                <PublishButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+                <EditButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+              </>
             )}
             {(assessmentStatus === Status.DRAFT ||
               assessmentStatus === Status.PUBLISHED) && (

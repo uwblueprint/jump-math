@@ -8,7 +8,7 @@ import PrivateRoute from "../../auth/PrivateRoute";
 import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
 
-import CreateAssessmentPage from "./CreateAssessmentPage";
+import AssessmentPage from "./AssessmentPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
@@ -21,9 +21,9 @@ const AdminDashboard = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
-        component={CreateAssessmentPage}
+        component={AssessmentPage}
         exact
-        path={Routes.CREATE_ASSESSMENT_PAGE}
+        path={Routes.ASSESSMENT_PAGE}
         roles={["Admin"]}
       />
       <VStack align="left" flex="1">

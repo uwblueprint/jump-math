@@ -12,7 +12,7 @@ const PublishButton = ({
   assessmentId,
   closePopover,
 }: PublishButtonProps): React.ReactElement => {
-  const [showPublishModal, setshowPublishModal] = React.useState(false);
+  const [showPublishModal, setShowPublishModal] = React.useState(false);
 
   return (
     <>
@@ -20,13 +20,13 @@ const PublishButton = ({
         name="Publish"
         onClick={() => {
           closePopover();
-          setshowPublishModal(true);
+          setShowPublishModal(true);
         }}
       />
       <PublishModal
         assessmentId={assessmentId}
         isOpen={showPublishModal}
-        onClose={() => setshowPublishModal(false)}
+        onClose={() => setShowPublishModal(false)}
       />
     </>
   );

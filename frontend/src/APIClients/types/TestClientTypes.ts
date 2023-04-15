@@ -1,12 +1,13 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
+  ImagePreviewMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
+import { Question, QuestionElementType } from "../../types/QuestionTypes";
 
 import { Grade } from "./UserClientTypes";
 
@@ -39,4 +40,23 @@ export type TestRequest = {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+};
+
+export type QuestionComponentResponse = QuestionType & {
+  metadata:
+    | QuestionTextMetadata
+    | TextMetadata
+    | ImagePreviewMetadata
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata;
+};
+
+export type TestResponse = TestRequest & {
+  id: string;
+  questions: QuestionComponentResponse[][];
+};
+
+export type Test = TestRequest & {
+  questions: Question[];
 };

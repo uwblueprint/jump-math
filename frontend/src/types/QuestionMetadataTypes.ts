@@ -11,6 +11,10 @@ export interface ImageMetadata {
   file: File | undefined;
 }
 
+export interface ImagePreviewMetadata {
+  url: string;
+}
+
 export interface ShortAnswerMetadata {
   answer: number;
 }
