@@ -9,10 +9,7 @@ import {
   StudentRequestDTO,
 } from "../interfaces/classService";
 import IUserService from "../interfaces/userService";
-import {
-  ITestSessionService,
-  TestSessionResponseDTO,
-} from "../interfaces/testSessionService";
+import { ITestSessionService } from "../interfaces/testSessionService";
 
 const Logger = logger(__filename);
 
@@ -223,7 +220,6 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
-      return studentId;
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -232,6 +228,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
+    return studentId;
   }
 }
 
