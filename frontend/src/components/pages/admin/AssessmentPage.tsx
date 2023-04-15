@@ -13,17 +13,18 @@ import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
+import AssessementHeader from "../../assessments/assessment-creation/AssessmentHeader";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
-import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const AssessmentPage = (): React.ReactElement => {
   const { state } = useLocation<Test>();
   const history = useHistory();
 
-  const [name, setName] = useState(state.name || "");
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<Question[]>(
+    state?.questions || [],
+  );
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,7 +41,17 @@ const AssessmentPage = (): React.ReactElement => {
     setValue,
     watch,
     clearErrors,
-  } = useForm<TestRequest>();
+  } = useForm<TestRequest>({
+    defaultValues: {
+      name: state?.name,
+      questions: state?.questions,
+      grade: state?.grade,
+      assessmentType: state?.assessmentType,
+      status: state?.status,
+      curriculumCountry: state?.curriculumCountry,
+      curriculumRegion: state?.curriculumRegion,
+    },
+  });
 
   const noQuestionError =
     "Please add at least one question to the assessment before saving";
@@ -50,17 +61,19 @@ const AssessmentPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
-  const onSave: SubmitHandler<TestRequest> = async (data) => {
+  const validateForm = () => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
-    } else {
+      return false;
+    }
+    return true;
+  };
+
+  const onCreateTest = async (test: TestRequest) => {
+    if (validateForm()) {
       await createTest({
         variables: {
-          test: {
-            ...data,
-            status: Status.DRAFT,
-            questions: formatQuestionsRequest(questions),
-          },
+          test,
         },
       })
         .then(() => {
@@ -72,11 +85,25 @@ const AssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const onSave: SubmitHandler<TestRequest> = async (data) => {
+    onCreateTest({
+      ...data,
+      status: Status.DRAFT,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onPublish: SubmitHandler<TestRequest> = async (data: TestRequest) => {
+    onCreateTest({
+      ...data,
+      status: Status.PUBLISHED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
-
-  const handleSave = handleSubmit(onSave, onError);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -94,7 +121,15 @@ const AssessmentPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <CreateAssessementHeader name={name} onSave={handleSave} />
+            <AssessementHeader
+              handleSubmit={handleSubmit}
+              isEditing={!!state}
+              name={watch("name")}
+              onConfirmPublish={onPublish}
+              onError={onError}
+              onSave={onSave}
+              validateForm={validateForm}
+            />
             <VStack spacing="8" width="92%">
               <BasicInformation
                 clearErrors={clearErrors}
@@ -102,7 +137,6 @@ const AssessmentPage = (): React.ReactElement => {
                 errorMessage={errorMessage}
                 errors={errors}
                 register={register}
-                setName={setName}
                 setValue={setValue}
                 watch={watch}
               />

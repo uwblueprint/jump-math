@@ -13,6 +13,7 @@ import {
 import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 import { Status } from "../../../types/AssessmentTypes";
 
+import ArchiveButton from "./EditStatusButtons/ArchiveButton";
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
 import EditButton from "./EditStatusButtons/EditButton";
@@ -58,24 +59,30 @@ const EditStatusPopover = ({
                   assessmentId={assessmentId}
                   closePopover={onClose}
                 />
+                <Divider borderColor="grey.200" />
                 <EditButton
                   assessmentId={assessmentId}
                   closePopover={onClose}
                 />
               </>
             )}
-            {(assessmentStatus === Status.DRAFT ||
-              assessmentStatus === Status.PUBLISHED) && (
-              <DuplicateButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
-            )}
-            {assessmentStatus === Status.ARCHIVED && (
+            {assessmentStatus === Status.ARCHIVED ? (
               <UnarchiveButton
                 assessmentId={assessmentId}
                 closePopover={onClose}
               />
+            ) : (
+              <>
+                <ArchiveButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+                <Divider borderColor="grey.200" />
+                <DuplicateButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+              </>
             )}
             <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
           </VStack>

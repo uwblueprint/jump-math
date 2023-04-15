@@ -17,7 +17,7 @@ const UnarchiveButton = ({
   return (
     <>
       <EditStatusButton
-        name="Un-archive"
+        name="Unarchive"
         onClick={() => {
           closePopover();
           setShowUnarchiveModal(true);

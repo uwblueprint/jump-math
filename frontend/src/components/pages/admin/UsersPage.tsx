@@ -209,14 +209,14 @@ const UsersPage = (): React.ReactElement => {
               <Tab color={unselectedTabColor}>Teachers</Tab>
             </TabList>
             <TabPanels>
-              <TabPanel>
+              <TabPanel padding="0">
                 <AdminTab
                   search={search}
                   searchBarComponent={<SearchBar onSearch={setSearch} />}
                   searchLength={admins.length}
                   sortMenuComponent={
                     <SortMenu
-                      labels={["firstName", "email"]}
+                      labels={["name", "email"]}
                       onSortOrder={setSortOrder}
                       onSortProperty={setSortProperty}
                       properties={["firstName", "email"]}
@@ -225,7 +225,7 @@ const UsersPage = (): React.ReactElement => {
                   UserTable={<AdminUserTable users={admins} />}
                 />
               </TabPanel>
-              <TabPanel>
+              <TabPanel padding="0">
                 <AdminTab
                   search={search}
                   searchBarComponent={<SearchBar onSearch={setSearch} />}

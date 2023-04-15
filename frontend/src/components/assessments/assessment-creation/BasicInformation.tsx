@@ -30,7 +30,6 @@ import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
-  setName: React.Dispatch<React.SetStateAction<string>>;
   register: UseFormRegister<TestRequest>;
   setValue: UseFormSetValue<TestRequest>;
   watch: UseFormWatch<TestRequest>;
@@ -41,7 +40,6 @@ interface BasicInformationProps {
 }
 
 const BasicInformation = ({
-  setName,
   register,
   setValue,
   watch,
@@ -80,9 +78,6 @@ const BasicInformation = ({
           <Input
             placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
             {...register("name", {
-              onChange: (e) => {
-                setName(e.target.value);
-              },
               required: "Please enter a name for the assessment",
             })}
           />

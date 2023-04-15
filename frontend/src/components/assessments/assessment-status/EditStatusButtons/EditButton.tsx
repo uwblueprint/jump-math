@@ -23,25 +23,23 @@ const EditButton = ({
     variables: { id: assessmentId },
   });
 
-  if (data) {
-    return (
-      <EditStatusButton
-        name="Edit"
-        onClick={async () => {
-          closePopover();
+  return (
+    <EditStatusButton
+      name="Edit"
+      onClick={async () => {
+        closePopover();
+        if (data) {
           history.push({
             pathname: ASSESSMENT_PAGE,
             state: {
               ...data.test,
-              question: formatQuestionsResponse(data.test.questions),
+              questions: formatQuestionsResponse(data.test.questions),
             },
           });
-        }}
-      />
-    );
-  }
-
-  return <></>;
+        }
+      }}
+    />
+  );
 };
 
 export default EditButton;
