@@ -5,7 +5,7 @@ interface WarningToastProps {
   warningMessage: string;
 }
 
-const ErrorToast = ({
+const WarningToast = ({
   warningMessage,
 }: WarningToastProps): React.ReactElement => {
   return (
@@ -16,4 +16,4 @@ const ErrorToast = ({
   );
 };
 
-export default ErrorToast;
+export default WarningToast;

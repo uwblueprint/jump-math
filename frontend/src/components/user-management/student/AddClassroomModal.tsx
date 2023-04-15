@@ -29,7 +29,6 @@ import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import Toast from "../../common/Toast";
-import WarningToast from "../../common/WarningToast";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
@@ -46,7 +45,6 @@ const AddClassroomModal = (): React.ReactElement => {
   const [schoolYearError, setSchoolYearError] = React.useState(false);
   const [gradeLevelError, setGradeLevelError] = React.useState(false);
   const [showRequestError, setShowRequestError] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
@@ -60,7 +58,6 @@ const AddClassroomModal = (): React.ReactElement => {
     field: ClassroomInput,
   ) => {
     setValue(field, event.target.value);
-    console.log(`${field}: ${event.target.value}`);
 
     switch (field) {
       case "className":
@@ -100,7 +97,6 @@ const AddClassroomModal = (): React.ReactElement => {
     setValue("schoolYear", "");
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
-    setShowWarning(false);
     setRequestErrorMessage("");
     onClose();
   };
@@ -108,18 +104,10 @@ const AddClassroomModal = (): React.ReactElement => {
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
     if (!validateFields()) {
       setShowRequestError(true);
-      setShowWarning(false);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
-    } else if (!showWarning) {
-      setShowWarning(true);
-      setShowRequestError(false);
     } else {
-      console.log(`Classname: ${data.className}`);
-      console.log(`School Year: ${data.schoolYear}`);
-      console.log(`Grade Level: ${data.gradeLevel}`);
-      console.log(`Teacher: ${authenticatedUser?.id}`);
       await createClass({
         variables: {
           classObj: {
@@ -130,7 +118,6 @@ const AddClassroomModal = (): React.ReactElement => {
         },
       })
         .then((response) => {
-          console.log("response data: ", response);
           if (showRequestError) setShowRequestError(false);
           showToast({
             message: "New classroom created.",
@@ -178,9 +165,6 @@ const AddClassroomModal = (): React.ReactElement => {
             <ModalBody>
               {showRequestError && (
                 <ErrorToast errorMessage={requestErrorMessage as string} />
-              )}
-              {showWarning && (
-                <WarningToast warningMessage="Please make sure all information is correct before saving the changes" />
               )}
               <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
                 <HStack direction="row" mt={6}>
