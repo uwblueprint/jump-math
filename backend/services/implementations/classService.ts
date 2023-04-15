@@ -32,7 +32,6 @@ class ClassService implements IClassService {
   /* eslint-disable class-methods-use-this */
   async createClass(classObj: ClassRequestDTO): Promise<ClassResponseDTO> {
     let teacherDTO: UserDTO;
-    const testSessions: TestSessionResponseDTO[] = [];
     let newClass: Class | null;
 
     try {
