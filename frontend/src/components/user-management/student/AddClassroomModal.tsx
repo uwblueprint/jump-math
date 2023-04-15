@@ -134,13 +134,7 @@ const AddClassroomModal = (): React.ReactElement => {
     }
   };
 
-  const onError = () => {
-    setRequestErrorMessage(
-      "Please resolve all issues before publishing or saving",
-    );
-  };
-
-  const handleSave = handleSubmit(onSave, onError);
+  const handleSave = handleSubmit(onSave);
 
   return (
     <>
