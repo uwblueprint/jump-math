@@ -37,8 +37,7 @@ const classResolvers = {
     },
     createStudent: async (
       _req: undefined,
-      { student }: { student: StudentRequestDTO },
-      classId: string,
+      { student, classId }: { student: StudentRequestDTO; classId: string },
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
     },
