@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { FractionMetadata } from "./test.model";
 
 /**
  * An enum containing the grading status of a Result
@@ -25,7 +26,7 @@ export interface Result {
    *  - number[]: a list of option indices (for multi select)
    *  - null: for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: (number[] | number | null | FractionMetadata)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
