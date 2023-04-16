@@ -6,7 +6,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { CREATE_NEW_TEST } from "../../../APIClients/mutations/TestMutations";
+import {
+  CREATE_NEW_TEST,
+  UPDATE_TEST,
+} from "../../../APIClients/mutations/TestMutations";
 import { Test, TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
@@ -32,6 +35,10 @@ const AssessmentPage = (): React.ReactElement => {
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
   }>(CREATE_NEW_TEST);
+
+  const [updateTest] = useMutation<{
+    updateTest: { updateTest: { id: string } };
+  }>(UPDATE_TEST);
 
   const {
     handleSubmit,
@@ -85,6 +92,23 @@ const AssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const onUpdateTest = async (test: TestRequest) => {
+    if (validateForm()) {
+      await updateTest({
+        variables: {
+          id: state?.id,
+          test,
+        },
+      })
+        .then(() => {
+          history.push(ASSESSMENTS_PAGE);
+        })
+        .catch(() => {
+          setErrorMessage("Assessment failed to update. Please try again.");
+        });
+    }
+  };
+
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     onCreateTest({
       ...data,
@@ -95,6 +119,14 @@ const AssessmentPage = (): React.ReactElement => {
 
   const onPublish: SubmitHandler<TestRequest> = async (data: TestRequest) => {
     onCreateTest({
+      ...data,
+      status: Status.PUBLISHED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onUpdate: SubmitHandler<TestRequest> = async (data: TestRequest) => {
+    onUpdateTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
@@ -125,7 +157,7 @@ const AssessmentPage = (): React.ReactElement => {
               handleSubmit={handleSubmit}
               isEditing={!!state}
               name={watch("name")}
-              onConfirmPublish={onPublish}
+              onConfirmPublish={state ? onUpdate : onPublish}
               onError={onError}
               onSave={onSave}
               validateForm={validateForm}

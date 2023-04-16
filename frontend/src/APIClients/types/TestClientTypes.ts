@@ -24,6 +24,19 @@ interface QuestionMetadata {
   multiSelectMetadata: MultiSelectMetadata;
 }
 
+type QuestionMetadataName =
+  | "QuestionTextMetadata"
+  | "TextMetadata"
+  | "ImagePreviewMetadata"
+  | "MultipleChoiceMetadata"
+  | "MultiSelectMetadata"
+  | "ShortAnswerMetadata";
+
+type QuestionMetadataTypename = {
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
+  __typename: QuestionMetadataName;
+};
+
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
 
 export type TestRequest = {
@@ -43,13 +56,15 @@ export type TestRequest = {
 };
 
 export type QuestionComponentResponse = QuestionType & {
-  metadata:
+  metadata: (
     | QuestionTextMetadata
     | TextMetadata
     | ImagePreviewMetadata
     | MultipleChoiceMetadata
     | MultiSelectMetadata
-    | ShortAnswerMetadata;
+    | ShortAnswerMetadata
+  ) &
+    QuestionMetadataTypename;
 };
 
 export type TestResponse = TestRequest & {
@@ -57,6 +72,6 @@ export type TestResponse = TestRequest & {
   questions: QuestionComponentResponse[][];
 };
 
-export type Test = TestRequest & {
+export type Test = TestResponse & {
   questions: Question[];
 };

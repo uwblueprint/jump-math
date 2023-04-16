@@ -45,3 +45,11 @@ export const CREATE_NEW_TEST = gql`
     }
   }
 `;
+
+export const UPDATE_TEST = gql`
+  mutation UpdateTest($id: ID!, $test: TestRequestDTO!) {
+    updateTest(id: $id, test: $test) {
+      id
+    }
+  }
+`;

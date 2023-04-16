@@ -246,7 +246,9 @@ export const formatQuestionsResponse = (
               break;
             }
             default: {
-              data = questionComponent.metadata as QuestionElementDataType;
+              /* eslint-disable-next-line @typescript-eslint/naming-convention */
+              const { __typename, ...rest } = questionComponent.metadata;
+              data = rest as QuestionElementDataType;
               break;
             }
           }
