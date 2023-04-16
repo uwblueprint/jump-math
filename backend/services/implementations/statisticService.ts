@@ -112,6 +112,42 @@ class StatisticService implements IStatisticService {
     return this.constructTestStatisticsByGroup(aggCursor, "school");
   }
 
+  /* eslint-disable class-methods-use-this */
+  async getSubmissionCountByTest(testId: string): Promise<number> {
+    const pipeline = [
+      // Stage 1: filter out tests that have the requested testId
+      { $match: { test: { $eq: Types.ObjectId(testId) } } },
+
+      // Stage 2: filter out results that are not graded
+      {
+        $project: {
+          results: {
+            $filter: {
+              input: "$results",
+              as: "results",
+              cond: {
+                $eq: [
+                  "$$results.gradingStatus",
+                  GradingStatus.GRADED.toString(),
+                ],
+              },
+            },
+          },
+        },
+      },
+
+      // Stage 3: unwind on the results field so that there is a document for each student result
+      { $unwind: "$results" },
+
+      // Stage 4: counts number of graded tests
+      { $count: "numSubmittedTests" },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+
+    return aggCursor[0]?.numSubmittedTests || 0;
+  }
+
   private getAverageScorePerQuestion(
     resultBreakdowns: boolean[][][],
   ): QuestionStatistic[][] {

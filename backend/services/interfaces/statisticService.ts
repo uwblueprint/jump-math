@@ -40,4 +40,12 @@ export interface IStatisticService {
   getTestGradeStatisticsBySchool(
     testId: string,
   ): Promise<Map<string, TestStatistic>>;
+
+  /**
+   * This method returns the number of submitted tests for a given test.
+   * The return value is an integer that contains the given number of tests.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getSubmissionCountByTest(testId: string): Promise<number>;
 }
