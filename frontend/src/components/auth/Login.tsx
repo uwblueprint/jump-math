@@ -10,6 +10,7 @@ import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import { AuthenticatedUser } from "../../types/AuthTypes";
+import BackButton from "../common/BackButton";
 import RouterLink from "../common/RouterLink";
 
 import ForgotPassword from "./reset-password/ForgotPassword";
@@ -96,6 +97,8 @@ const Login = (): React.ReactElement => {
           </RouterLink>
         </Text>
       )}
+
+      <BackButton size="md" text="Back to Home" />
     </>
   );
   const error = loginError ? "Please ensure fields are filled" : "";

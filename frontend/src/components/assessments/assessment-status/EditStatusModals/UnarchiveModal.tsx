@@ -29,12 +29,12 @@ const UnarchiveModal = ({
     await unarchiveAssessment({ variables: { id: assessmentId } });
     if (error) {
       showToast({
-        message: "Assessment failed to un-archive. Please try again.",
+        message: "Assessment failed to unarchive. Please try again.",
         status: "error",
       });
     } else {
       showToast({
-        message: "Assessment un-archived.",
+        message: "Assessment unarchived.",
         status: "success",
       });
     }
@@ -43,13 +43,13 @@ const UnarchiveModal = ({
 
   return (
     <Modal
-      body="View this assessment under drafts once you un-archive it"
-      header="Un-archive Assessment"
+      body="View this assessment under drafts once you unarchive it"
+      header="Unarchive Assessment"
       isOpen={isOpen}
       onCancel={onClose}
       onClose={onClose}
       onSubmit={onUnarchiveAssessment}
-      submitButtonText="Un-archive"
+      submitButtonText="Unarchive"
     />
   );
 };
