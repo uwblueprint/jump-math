@@ -43,7 +43,7 @@ export interface IStatisticService {
 
   /**
    * This method returns the number of submitted tests for a given test.
-   * The return value is an integer that contains the given number of tests.
+   * The return value is an integer that contains the number of test results.
    *
    * @param testId The unique identifier of the test to obtain statistics for
    */
