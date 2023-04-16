@@ -8,6 +8,7 @@ export enum QuestionComponentType {
   MULTIPLE_CHOICE,
   MULTI_SELECT,
   SHORT_ANSWER,
+  FRACTION,
 }
 
 export const questionsValidator = (
@@ -112,6 +113,23 @@ export const questionsValidator = (
         }
         if (!validatePrimitive(questionComponent.metadata.answer, "number")) {
           throw new Error("The answer field is not of type number");
+        }
+      } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+        if (!("numerator" in questionComponent.metadata)) {
+          throw new Error("Fraction component is missing a numerator field");
+        }
+        if (
+          !validatePrimitive(questionComponent.metadata.numerator, "number")
+        ) {
+          throw new Error("The numerator field is not of type number");
+        }
+        if (!("denominator" in questionComponent.metadata)) {
+          throw new Error("Fraction component is missing a denominator field");
+        }
+        if (
+          !validatePrimitive(questionComponent.metadata.denominator, "number")
+        ) {
+          throw new Error("The denominator field is not of type number");
         }
       }
     });
