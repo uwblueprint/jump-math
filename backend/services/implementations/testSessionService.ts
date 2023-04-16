@@ -17,6 +17,7 @@ import {
   ShortAnswerMetadata,
   QuestionComponent,
   QuestionComponentType,
+  FractionMetadata,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
@@ -352,7 +353,12 @@ class TestSessionService implements ITestSessionService {
     // - index (for multiple choice)
     // - list of indices (for multiple select)
     // - null (for no answer)
-    const studentTestAnswers: (number[] | number | null)[][] = result.answers;
+    const studentTestAnswers: (
+      | number[]
+      | number
+      | null
+      | FractionMetadata
+    )[][] = result.answers;
 
     let computedScore = 0.0;
     const computedBreakdown: boolean[][] = [];
@@ -367,19 +373,31 @@ class TestSessionService implements ITestSessionService {
           const { type } = questionComponent;
           const singleResponse =
             type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.SHORT_ANSWER;
+            type === QuestionComponentType.SHORT_ANSWER ||
+            type === QuestionComponentType.FRACTION;
           const multiResponse = type === QuestionComponentType.MULTI_SELECT;
           let isCorrect = false;
 
           if (singleResponse) {
-            const actualAnswer: number = this.getCorrectAnswer(
-              questionComponent,
-            );
+            const actualAnswer:
+              | number
+              | FractionMetadata = this.getCorrectAnswer(questionComponent);
             const studentAnswer = studentTestAnswers[i][questionsCount] as
               | number
-              | null;
+              | null
+              | FractionMetadata;
 
-            isCorrect = studentAnswer === actualAnswer;
+            if (type === QuestionComponentType.FRACTION) {
+              const actualFractionAnswer = actualAnswer as FractionMetadata;
+              const studentFractionAnswer = studentAnswer as FractionMetadata;
+              isCorrect =
+                actualFractionAnswer.numerator ===
+                  studentFractionAnswer.numerator &&
+                actualFractionAnswer.denominator ===
+                  studentFractionAnswer.denominator;
+            } else {
+              isCorrect = studentAnswer === actualAnswer;
+            }
           } else if (multiResponse) {
             const actualAnswers: number[] = this.getCorrectAnswers(
               questionComponent,
@@ -429,8 +447,10 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private getCorrectAnswer(questionComponent: QuestionComponent): number {
-    let actualAnswer: number;
+  private getCorrectAnswer(
+    questionComponent: QuestionComponent,
+  ): number | FractionMetadata {
+    let actualAnswer: number | FractionMetadata;
 
     if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
       const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
@@ -438,6 +458,9 @@ class TestSessionService implements ITestSessionService {
     } else if (questionComponent.type === QuestionComponentType.SHORT_ANSWER) {
       const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
       actualAnswer = questionMetadata.answer;
+    } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+      const questionMetadata = questionComponent.metadata as FractionMetadata;
+      actualAnswer = questionMetadata;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

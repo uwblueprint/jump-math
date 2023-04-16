@@ -1,3 +1,4 @@
+import { FractionMetadata } from "../../models/test.model";
 import { GradingStatus } from "../../models/testSession.model";
 import { UserDTO } from "../../types";
 import { SchoolResponseDTO } from "./schoolService";
@@ -70,7 +71,7 @@ export interface ResultRequestDTO {
    *  - number[]: a list of option indices (for multi select)
    *  - null: for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: (number[] | number | null | FractionMetadata)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -97,7 +98,7 @@ export interface ResultResponseDTO {
    *  - number[]: a list of option indices (for multi select)
    *  - null: for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: (number[] | number | null | FractionMetadata)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
