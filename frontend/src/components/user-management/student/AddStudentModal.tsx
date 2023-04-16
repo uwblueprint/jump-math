@@ -113,7 +113,7 @@ const AddStudentModal = (): React.ReactElement => {
       </Button>
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
-        <ModalContent maxW="80vw" p={2}>
+        <ModalContent borderRadius="12px" maxW="80vw" p={2}>
           <ModalHeader>
             <Text color="grey.400" textStyle="subtitle1">
               Add a new student

@@ -49,17 +49,19 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
-  const onSave: SubmitHandler<TestRequest> = async (data) => {
+  const validateForm = () => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
-    } else {
+      return false;
+    }
+    return true;
+  };
+
+  const onCreateTest = async (test: TestRequest) => {
+    if (validateForm()) {
       await createTest({
         variables: {
-          test: {
-            ...data,
-            status: Status.DRAFT,
-            questions: formatQuestionsRequest(questions),
-          },
+          test,
         },
       })
         .then(() => {
@@ -71,11 +73,25 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const onSave: SubmitHandler<TestRequest> = async (data) => {
+    onCreateTest({
+      ...data,
+      status: Status.DRAFT,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onPublish: SubmitHandler<TestRequest> = async (data: TestRequest) => {
+    onCreateTest({
+      ...data,
+      status: Status.PUBLISHED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
-
-  const handleSave = handleSubmit(onSave, onError);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -93,7 +109,14 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <CreateAssessementHeader name={name} onSave={handleSave} />
+            <CreateAssessementHeader
+              handleSubmit={handleSubmit}
+              name={name}
+              onConfirmPublish={onPublish}
+              onError={onError}
+              onSave={onSave}
+              validateForm={validateForm}
+            />
             <VStack spacing="8" width="92%">
               <BasicInformation
                 clearErrors={clearErrors}
