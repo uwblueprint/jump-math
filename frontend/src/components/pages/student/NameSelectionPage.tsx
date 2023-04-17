@@ -10,10 +10,16 @@ import {
 import { Select } from "chakra-react-select";
 
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+<<<<<<<< HEAD:frontend/src/components/auth/student-login/NameSelection.tsx
 import { ASSESSMENT_SUMMARY_PAGE, HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
+========
+import { HOME_PAGE } from "../../../constants/Routes";
+import AuthWrapper from "../../auth/AuthWrapper";
+import NavigationButtons from "../../auth/teacher-signup/NavigationButtons";
+>>>>>>>> 81cd3d0 (initial commit):frontend/src/components/pages/student/NameSelectionPage.tsx
 
 const students = [
   {
@@ -53,9 +59,12 @@ const students = [
     value: "Cyrus",
   },
 ];
-
+<<<<<<<< HEAD:frontend/src/components/auth/student-login/NameSelection.tsx
 const NameSelection = (): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
+========
+const NameSelectionPage = (): React.ReactElement => {
+>>>>>>>> 81cd3d0 (initial commit):frontend/src/components/pages/student/NameSelectionPage.tsx
   const history = useHistory();
   const { control } = useForm();
   const title = "Student Login";
@@ -111,4 +120,8 @@ const NameSelection = (): React.ReactElement => {
   );
 };
 
+<<<<<<<< HEAD:frontend/src/components/auth/student-login/NameSelection.tsx
 export default NameSelection;
+========
+export default NameSelectionPage;
+>>>>>>>> 81cd3d0 (initial commit):frontend/src/components/pages/student/NameSelectionPage.tsx
