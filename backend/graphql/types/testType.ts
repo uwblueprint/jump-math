@@ -8,6 +8,7 @@ const testType = gql`
     MULTIPLE_CHOICE
     MULTI_SELECT
     SHORT_ANSWER
+    FRACTION
   }
 
   enum AssessmentTypeEnum {
@@ -88,6 +89,16 @@ const testType = gql`
     answer: Float!
   }
 
+  input FractionMetadataInput {
+    numerator: Int!
+    denominator: Int!
+  }
+
+  type FractionMetadata {
+    numerator: Int!
+    denominator: Int!
+  }
+
   union QuestionComponentMetadata =
       QuestionTextMetadata
     | TextMetadata
@@ -95,6 +106,7 @@ const testType = gql`
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
+    | FractionMetadata
 
   type QuestionComponent {
     type: QuestionComponentTypeEnum!
@@ -109,6 +121,7 @@ const testType = gql`
     multipleChoiceMetadata: MultipleChoiceMetadataInput
     multiSelectMetadata: MultiSelectMetadataInput
     shortAnswerMetadata: ShortAnswerMetadataInput
+    fractionMetadata: FractionMetadataInput
   }
 
   type TestResponseDTO {
