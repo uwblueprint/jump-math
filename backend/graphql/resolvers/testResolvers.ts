@@ -63,6 +63,9 @@ const resolveQuestions = (
           case "SHORT_ANSWER":
             metadata = shortAnswerMetadata;
             break;
+          case "FRACTION":
+            metadata = fractionMetadata;
+            break;
           default:
             metadata = questionTextMetadata; // placeholder
             break;
