@@ -27,7 +27,7 @@ import SampleContext, {
 } from "./contexts/SampleContext";
 import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherContext";
 import sampleContextReducer from "./reducers/SampleContextReducer";
-import { AuthenticatedUser } from "./types/AuthTypes";
+import { AuthenticatedStudent, AuthenticatedUser } from "./types/AuthTypes";
 import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
 
@@ -39,6 +39,11 @@ const App = (): React.ReactElement => {
   const [authenticatedUser, setAuthenticatedUser] = useState<AuthenticatedUser>(
     currentUser,
   );
+
+  const [
+    authenticatedStudent,
+    setAuthenticatedStudent,
+  ] = useState<AuthenticatedStudent>({ validated: true });
 
   // Some sort of global state. Context API replaces redux.
   // Split related states into different contexts as necessary.

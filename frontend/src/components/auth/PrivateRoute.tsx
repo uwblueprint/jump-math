@@ -19,13 +19,20 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component,
   roles,
 }: PrivateRouteProps) => {
-  const { authenticatedUser } = useContext(AuthContext);
+  const { authenticatedUser, authenticatedStudent } = useContext(AuthContext);
 
-  if (!authenticatedUser) {
+  if (!authenticatedUser && !authenticatedStudent) {
     return <Redirect to={HOME_PAGE} />;
   }
-  if (roles.includes(authenticatedUser.role)) {
-    return <Route component={component} exact={exact} path={path} />;
+  if (authenticatedUser) {
+    if (roles.includes(authenticatedUser.role)) {
+      return <Route component={component} exact={exact} path={path} />;
+    }
+  }
+  if (authenticatedStudent) {
+    if (roles.includes("Student")) {
+      return <Route component={component} exact={exact} path={path} />;
+    }
   }
   return <Route component={NotFound} exact={exact} path={path} />;
 };
