@@ -11,8 +11,8 @@ import { Select } from "chakra-react-select";
 
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { HOME_PAGE } from "../../../constants/Routes";
-import AuthWrapper from "../AuthWrapper";
-import NavigationButtons from "../teacher-signup/NavigationButtons";
+import AuthWrapper from "../../auth/AuthWrapper";
+import NavigationButtons from "../../auth/teacher-signup/NavigationButtons";
 
 const students = [
   {
@@ -52,7 +52,7 @@ const students = [
     value: "Cyrus",
   },
 ];
-const StudentNameSelection = (): React.ReactElement => {
+const NameSelectionPage = (): React.ReactElement => {
   const history = useHistory();
   const { control } = useForm();
   const title = "Student Login";
@@ -99,4 +99,4 @@ const StudentNameSelection = (): React.ReactElement => {
   );
 };
 
-export default StudentNameSelection;
+export default NameSelectionPage;

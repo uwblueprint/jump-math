@@ -17,7 +17,7 @@ import { assessmentMetadata } from "../../../constants/StudentAssessmentConstant
 import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
 
-const AssessmentSummary = (): React.ReactElement => {
+const AssessmentSummaryPage = (): React.ReactElement => {
   const history = useHistory();
   const handleBackToHome = () => {
     history.push(STUDENT_LANDING_PAGE);
@@ -84,4 +84,4 @@ const AssessmentSummary = (): React.ReactElement => {
   );
 };
 
-export default AssessmentSummary;
+export default AssessmentSummaryPage;

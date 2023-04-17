@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+import AuthContext from "../../../contexts/AuthContext";
 import BackButton from "../../common/BackButton";
 import AuthWrapper from "../AuthWrapper";
 
 const StudentLogin = (): React.ReactElement => {
+  const { setAuthenticatedStudent } = useContext(AuthContext);
   const title = "Student Login";
   const subtitle = "Please enter your classroom's access code";
   const image = STUDENT_SIGNUP_IMAGE;
@@ -18,6 +20,7 @@ const StudentLogin = (): React.ReactElement => {
     onCompleted: () => {
       setError("");
       setSuccess(true);
+      setAuthenticatedStudent({ validated: true });
     },
     onError: async () => {
       setError("Please ensure input is correct");

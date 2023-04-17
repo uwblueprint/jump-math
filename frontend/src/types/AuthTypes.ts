@@ -1,4 +1,4 @@
-export type Role = "Admin" | "Teacher";
+export type Role = "Admin" | "Teacher" | "Student";
 
 export enum TabEnum {
   ADMIN,
@@ -12,6 +12,10 @@ export type AuthenticatedUser = {
   email: string;
   role: Role;
   accessToken: string;
+} | null;
+
+export type AuthenticatedStudent = {
+  validated: boolean;
 } | null;
 
 export type DecodedJWT =
