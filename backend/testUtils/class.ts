@@ -105,6 +105,7 @@ export const assertResponseMatchesExpected = (
   expect(result.schoolYear).toEqual(expected.schoolYear);
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
+  expect(result.testSessions).toEqual([]);
 };
 
 export const assertStudentResponseMatchesExpected = (

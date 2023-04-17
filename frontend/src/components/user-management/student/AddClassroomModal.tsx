@@ -41,9 +41,6 @@ const AddClassroomModal = (): React.ReactElement => {
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [classNameError, setClassNameError] = React.useState(false);
-  const [schoolYearError, setSchoolYearError] = React.useState(false);
-  const [gradeLevelError, setGradeLevelError] = React.useState(false);
   const [showRequestError, setShowRequestError] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
@@ -58,35 +55,18 @@ const AddClassroomModal = (): React.ReactElement => {
     field: ClassroomInput,
   ) => {
     setValue(field, event.target.value);
-
-    switch (field) {
-      case "className":
-        setClassNameError(false);
-        break;
-      case "schoolYear":
-        setSchoolYearError(false);
-        break;
-      case "gradeLevel":
-        setGradeLevelError(false);
-        break;
-      default:
-        break;
-    }
   };
 
   const validateFields = (): boolean => {
     if (!watch("className") || !!errors.className) {
-      setClassNameError(true);
       return false;
     }
 
     if (!watch("schoolYear") || !!errors.schoolYear) {
-      setSchoolYearError(true);
       return false;
     }
 
     if (!watch("gradeLevel") || !!errors.gradeLevel) {
-      setGradeLevelError(true);
       return false;
     }
     return true;
@@ -108,6 +88,7 @@ const AddClassroomModal = (): React.ReactElement => {
         "Please ensure all required components are filled out before saving changes",
       );
     } else {
+      if (showRequestError) setShowRequestError(false);
       await createClass({
         variables: {
           classObj: {
@@ -118,7 +99,6 @@ const AddClassroomModal = (): React.ReactElement => {
         },
       })
         .then(() => {
-          if (showRequestError) setShowRequestError(false);
           showToast({
             message: "New classroom created.",
             status: "success",
@@ -173,9 +153,10 @@ const AddClassroomModal = (): React.ReactElement => {
                 <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">School Year</FormLabel>
                   <Input
+                    defaultValue="2023"
                     onChange={(e) => handleChange(e, "schoolYear")}
                     placeholder="Type in School Year"
-                    type="text"
+                    type="number"
                     value={watch("schoolYear")}
                   />
                 </VStack>
