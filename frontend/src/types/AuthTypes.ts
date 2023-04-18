@@ -27,7 +27,8 @@ export type AuthenticatedUser =
   | null;
 
 export type AuthenticatedStudent = {
-  validated: boolean;
+  testId: string;
+  studentId: string;
 } | null;
 
 export type DecodedJWT =
