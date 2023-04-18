@@ -6,6 +6,7 @@ import {
 } from "../services/interfaces/classService";
 import { mockTeacher } from "./users";
 import { Grade } from "../types";
+import { mockTestSessionWithId } from "./testSession";
 
 // set up test students
 export const testStudents: StudentRequestDTO[] = [
@@ -70,6 +71,11 @@ export const testClassWithStudents = {
   students: testStudents,
 };
 
+export const testClassWithTestSessions = {
+  ...testClass[0],
+  testSessions: mockTestSessionWithId.id,
+};
+
 export const updatedTestClass: ClassRequestDTO = {
   className: "class1changed",
   schoolYear: 4,
@@ -105,7 +111,7 @@ export const assertResponseMatchesExpected = (
   expect(result.schoolYear).toEqual(expected.schoolYear);
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
-  expect(result.testSessions).toEqual([]);
+  expect(result.testSessions).not.toBeNull();
 };
 
 export const assertStudentResponseMatchesExpected = (

@@ -12,6 +12,7 @@ import {
   updatedTestClassWithStudent,
   updatedTestStudents,
   assertStudentResponseMatchesExpected,
+  testClassWithTestSessions,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -91,9 +92,10 @@ describe("mongo classService", (): void => {
 
   it("getClassById for valid Id", async () => {
     // execute and assert
-    const savedClass = await ClassModel.create(testClass[0]);
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
+    expect(res.testSessions).toEqual([mockTestSessionWithId]);
   });
 
   it("getClassById for invalid Id", async () => {
