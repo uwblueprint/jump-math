@@ -42,7 +42,7 @@ const App = (): React.ReactElement => {
   const [
     authenticatedStudent,
     setAuthenticatedStudent,
-  ] = useState<AuthenticatedStudent>({ validated: true });
+  ] = useState<AuthenticatedStudent>(null);
 
   // Some sort of global state. Context API replaces redux.
   // Split related states into different contexts as necessary.
@@ -106,7 +106,6 @@ const App = (): React.ReactElement => {
                 )}
                 <PrivateRoute
                   component={StudentDashboard}
-                  exact
                   path={Routes.STUDENT_LANDING_PAGE}
                   roles={["Student"]}
                 />

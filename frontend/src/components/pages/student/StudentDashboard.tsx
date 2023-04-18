@@ -20,7 +20,7 @@ const StudentDashboard = (): React.ReactElement => {
       <PrivateRoute
         component={AssessmentSummaryPage}
         exact
-        path={Routes.ASSESSMENTS_PAGE}
+        path={Routes.ASSESSMENT_SUMMARY_PAGE}
         roles={["Student"]}
       />
       <Redirect
