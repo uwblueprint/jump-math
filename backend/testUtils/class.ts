@@ -73,7 +73,7 @@ export const testClassWithStudents = {
 
 export const testClassWithTestSessions = {
   ...testClass[0],
-  testSessions: mockTestSessionWithId.id,
+  testSessions: [mockTestSessionWithId.id],
 };
 
 export const updatedTestClass: ClassRequestDTO = {
