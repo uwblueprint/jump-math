@@ -10,13 +10,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import StudentLogin from "./components/auth/student-login/StudentLogin";
 import TeacherSignup from "./components/auth/teacher-signup";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
 import NotFound from "./components/pages/NotFound";
 import StudentDashboard from "./components/pages/student/StudentDashboard";
+import StudentLoginPage from "./components/pages/student/StudentLoginPage";
 import TeacherPage from "./components/pages/teacher/TeacherPage";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import * as Routes from "./constants/Routes";
@@ -97,7 +97,7 @@ const App = (): React.ReactElement => {
                   roles={["Teacher", "Admin"]}
                 />
                 {/* private student routing */}
-                {authenticatedStudent?.validated && (
+                {authenticatedStudent && (
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
@@ -123,7 +123,7 @@ const App = (): React.ReactElement => {
                   path={Routes.TEACHER_SIGNUP_PAGE}
                 />
                 <Route
-                  component={StudentLogin}
+                  component={StudentLoginPage}
                   exact
                   path={Routes.STUDENT_LOGIN_PAGE}
                 />

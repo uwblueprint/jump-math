@@ -18,5 +18,4 @@ export const TEACHER_LANDING_PAGE = "/teacher";
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
-export const NAME_SELECTION_PAGE = "/student/name-selection";
 export const ASSESSMENT_SUMMARY_PAGE = "/student/assessment-summary";
