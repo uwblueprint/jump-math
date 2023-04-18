@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Box,
@@ -12,15 +12,18 @@ import {
 } from "@chakra-ui/react";
 
 import { JUMP_MATH_LOGO } from "../../../assets/images";
-import { STUDENT_LANDING_PAGE } from "../../../constants/Routes";
+import { HOME_PAGE } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
+import AuthContext from "../../../contexts/AuthContext";
 import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const history = useHistory();
+  const { setAuthenticatedUser } = useContext(AuthContext);
   const handleBackToHome = () => {
-    history.push(STUDENT_LANDING_PAGE);
+    setAuthenticatedUser(null);
+    history.push(HOME_PAGE);
   };
 
   return (
