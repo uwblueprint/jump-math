@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Box } from "@chakra-ui/react";
 
 import AuthContext from "../../../contexts/AuthContext";
+import { AuthenticatedAdminOrTeacher } from "../../../types/AuthTypes";
 import { Table, TableRow } from "../../common/table/Table";
 import RemoveUserPopover from "../RemoveUserPopover";
 
@@ -14,7 +15,9 @@ const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
   const rows: TableRow[] = users.map((user) => ({
     values: [`${user.firstName} ${user.lastName}`, user.email],
     menu:
-      authenticatedUser && authenticatedUser.email !== user.email ? (
+      authenticatedUser &&
+      (authenticatedUser as AuthenticatedAdminOrTeacher).email !==
+        user.email ? (
         <RemoveUserPopover
           email={user.email}
           name={`${user.firstName} ${user.lastName}`}
