@@ -16,7 +16,11 @@ type AuthenticatedAdminOrTeacher = BaseUser & {
   email: string;
   accessToken: string;
 };
-type AuthenticatedStudent = BaseUser & { testId: string };
+
+type AuthenticatedStudent = BaseUser & {
+  studentNumber?: string;
+  testId: string;
+};
 
 export type AuthenticatedUser =
   | AuthenticatedAdminOrTeacher
