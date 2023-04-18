@@ -54,7 +54,7 @@ const students = [
   },
 ];
 const NameSelection = (): React.ReactElement => {
-  const { setAuthenticatedStudent } = useContext(AuthContext);
+  const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
   const { control } = useForm();
   const title = "Student Login";
@@ -92,9 +92,12 @@ const NameSelection = (): React.ReactElement => {
           history.push(HOME_PAGE);
         }}
         onContinueClick={() => {
-          setAuthenticatedStudent({
+          setAuthenticatedUser({
+            id: "temporary",
+            firstName: "temporary",
+            lastName: "temporary",
+            role: "Student",
             testId: "temporary",
-            studentId: "temporary",
           });
           history.push(ASSESSMENT_SUMMARY_PAGE);
         }}

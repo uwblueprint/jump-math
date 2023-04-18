@@ -5,19 +5,23 @@ export enum TabEnum {
   TEACHER,
 }
 
-export type AuthenticatedUser = {
+type BaseUser = {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
   role: Role;
-  accessToken: string;
-} | null;
+};
 
-export type AuthenticatedStudent = {
-  testId: string;
-  studentId: string;
-} | null;
+type AuthenticatedAdminOrTeacher = BaseUser & {
+  email: string;
+  accessToken: string;
+};
+type AuthenticatedStudent = BaseUser & { testId: string };
+
+export type AuthenticatedUser =
+  | AuthenticatedAdminOrTeacher
+  | AuthenticatedStudent
+  | null;
 
 export type DecodedJWT =
   | string

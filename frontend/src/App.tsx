@@ -26,7 +26,7 @@ import SampleContext, {
 } from "./contexts/SampleContext";
 import SampleContextDispatcherContext from "./contexts/SampleContextDispatcherContext";
 import sampleContextReducer from "./reducers/SampleContextReducer";
-import { AuthenticatedStudent, AuthenticatedUser } from "./types/AuthTypes";
+import { AuthenticatedUser } from "./types/AuthTypes";
 import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
 
@@ -38,11 +38,6 @@ const App = (): React.ReactElement => {
   const [authenticatedUser, setAuthenticatedUser] = useState<AuthenticatedUser>(
     currentUser,
   );
-
-  const [
-    authenticatedStudent,
-    setAuthenticatedStudent,
-  ] = useState<AuthenticatedStudent>(null);
 
   // Some sort of global state. Context API replaces redux.
   // Split related states into different contexts as necessary.
@@ -63,8 +58,6 @@ const App = (): React.ReactElement => {
             value={{
               authenticatedUser,
               setAuthenticatedUser,
-              authenticatedStudent,
-              setAuthenticatedStudent,
             }}
           >
             <Router>
@@ -97,7 +90,7 @@ const App = (): React.ReactElement => {
                   roles={["Teacher", "Admin"]}
                 />
                 {/* private student routing */}
-                {authenticatedStudent && (
+                {authenticatedUser?.role === "Student" && (
                   <Redirect
                     exact
                     from={Routes.HOME_PAGE}
