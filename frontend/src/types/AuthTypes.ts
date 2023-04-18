@@ -12,7 +12,7 @@ type BaseUser = {
   role: Role;
 };
 
-type AuthenticatedAdminOrTeacher = BaseUser & {
+export type AuthenticatedAdminOrTeacher = BaseUser & {
   email: string;
   accessToken: string;
 };
