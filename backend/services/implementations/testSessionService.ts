@@ -392,9 +392,9 @@ class TestSessionService implements ITestSessionService {
               const studentFractionAnswer = studentAnswer as FractionMetadata;
               isCorrect =
                 actualFractionAnswer.numerator ===
-                  studentFractionAnswer.numerator &&
+                  studentFractionAnswer?.numerator &&
                 actualFractionAnswer.denominator ===
-                  studentFractionAnswer.denominator;
+                  studentFractionAnswer?.denominator;
             } else {
               isCorrect = studentAnswer === actualAnswer;
             }
