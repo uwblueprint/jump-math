@@ -12,7 +12,7 @@ type BaseUser = {
   role: Role;
 };
 
-export type AuthenticatedAdminOrTeacher = BaseUser & {
+type AuthenticatedAdminOrTeacher = BaseUser & {
   email: string;
   accessToken: string;
 };
@@ -26,11 +26,6 @@ export type AuthenticatedUser =
   | AuthenticatedAdminOrTeacher
   | AuthenticatedStudent
   | null;
-
-export type AuthenticatedStudent = {
-  testId: string;
-  studentId: string;
-} | null;
 
 export type DecodedJWT =
   | string
