@@ -24,10 +24,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   if (!authenticatedUser) {
     return <Redirect to={HOME_PAGE} />;
   }
-  if (authenticatedUser) {
-    if (roles.includes(authenticatedUser.role)) {
-      return <Route component={component} exact={exact} path={path} />;
-    }
+  if (roles.includes(authenticatedUser.role)) {
+    return <Route component={component} exact={exact} path={path} />;
   }
   return <Route component={NotFound} exact={exact} path={path} />;
 };
