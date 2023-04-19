@@ -54,7 +54,15 @@ const students = [
   },
 ];
 
-const NameSelection = (): React.ReactElement => {
+interface NameSelectionProps {
+  testId: string;
+  testSessionId: string;
+}
+
+const NameSelection = ({
+  testId,
+  testSessionId,
+}: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
   const { control } = useForm();
