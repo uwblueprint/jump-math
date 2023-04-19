@@ -105,8 +105,8 @@ const NameSelection = ({
             id: "temporary",
             firstName: "temporary",
             lastName: "temporary",
+            studentNumber: "temporary",
             role: "Student",
-            testId: "temporary",
           });
           history.push(ASSESSMENT_SUMMARY_PAGE);
         }}

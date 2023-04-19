@@ -106,6 +106,34 @@ describe("mongo classService", (): void => {
     );
   });
 
+  it("getClassByTestSessionId for valid testSessionId", async () => {
+    const savedClass = await ClassModel.create(testClass[0]);
+    const res = await classService.getClassByTestSessionId(
+      savedClass.testSessions[0],
+    );
+    assertResponseMatchesExpected(savedClass, res);
+  });
+
+  it("getClassByTestSessionId for non-existing testSessionId", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await classService.getClassByTestSessionId(notFoundId);
+    }).rejects.toThrowError(
+      `Class with test session id ${notFoundId} not found`,
+    );
+  });
+
+  it("getClassByTestSessionId for classes with same testSessionId", async () => {
+    await ClassModel.create(testClass[0]);
+    await ClassModel.create(testClass[0]);
+    const testSessionId = testClass[0].testSessions[0];
+    await expect(async () => {
+      await classService.getClassByTestSessionId(testSessionId);
+    }).rejects.toThrowError(
+      `More than one class has the same Test Session of id ${testSessionId}`,
+    );
+  });
+
   it("deleteClass", async () => {
     // execute
     const savedClass = await ClassModel.create(testClass[0]);

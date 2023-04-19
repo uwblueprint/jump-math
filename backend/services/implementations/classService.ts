@@ -72,6 +72,28 @@ class ClassService implements IClassService {
     return (await this.mapClassToClassDTOs([classObj]))[0];
   }
 
+  async getClassByTestSessionId(
+    testSessionId: string,
+  ): Promise<ClassResponseDTO> {
+    let classes: Class[];
+    try {
+      classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
+      if (!classes.length) {
+        throw new Error(
+          `Class with test session id ${testSessionId} not found`,
+        );
+      } else if (classes.length > 1) {
+        throw new Error(
+          `More than one class has the same Test Session of id ${testSessionId}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+    return (await this.mapClassToClassDTOs(classes))[0];
+  }
+
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
   ): Promise<Array<ClassResponseDTO>> {
