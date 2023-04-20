@@ -17,14 +17,14 @@ import AuthContext from "../../../contexts/AuthContext";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
-interface StudentOption extends OptionBase {
-  value: StudentResponse;
-  label: string;
-}
-
 interface NameSelectionProps {
   testId: string;
   testSessionId: string;
+}
+
+interface StudentOption extends OptionBase {
+  value: StudentResponse;
+  label: string;
 }
 
 const NameSelection = ({
