@@ -33,9 +33,9 @@ const NameSelection = ({
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
-  useQuery(GET_CLASS_BY_TEST_SESSION, {
+  const { loading, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
     variables: { testSessionId },
-    onCompleted: (data) => {
+    onCompleted: () => {
       setStudents(
         data.classByTestSession.students.map(
           (student: StudentResponse) => student,
@@ -63,6 +63,7 @@ const NameSelection = ({
         <FormControl isInvalid={error} isRequired>
           <FormLabel color="grey.400">Student Name</FormLabel>
           <Select
+            isLoading={loading}
             onChange={handleStudentChange}
             options={students.map((student) => ({
               value: student,
