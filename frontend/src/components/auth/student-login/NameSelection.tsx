@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -11,50 +11,12 @@ import {
 import { Select } from "chakra-react-select";
 
 import GET_CLASS_BY_TEST_SESSION from "../../../APIClients/queries/ClassQueries";
+import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { ASSESSMENT_SUMMARY_PAGE, HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
-
-const students = [
-  {
-    label: "Evans",
-    value: "Evans",
-  },
-  {
-    label: "Tony",
-    value: "Tony",
-  },
-  {
-    label: "John",
-    value: "John",
-  },
-  {
-    label: "Enzo",
-    value: "Enzo",
-  },
-  {
-    label: "Julia",
-    value: "Julia",
-  },
-  {
-    label: "Emily",
-    value: "Emily",
-  },
-  {
-    label: "Afsana",
-    value: "Afsana",
-  },
-  {
-    label: "George",
-    value: "George",
-  },
-  {
-    label: "Cyrus",
-    value: "Cyrus",
-  },
-];
 
 interface NameSelectionProps {
   testId: string;
@@ -65,10 +27,15 @@ const NameSelection = ({
   testId,
   testSessionId,
 }: NameSelectionProps): React.ReactElement => {
-  const { loading, error, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
+  const [students, setStudents] = useState<StudentResponse[]>([]);
+  useQuery(GET_CLASS_BY_TEST_SESSION, {
     variables: { testSessionId },
-    onCompleted: () => {
-      console.log(data);
+    onCompleted: (data) => {
+      setStudents(
+        data.classByTestSession.students.map(
+          (student: StudentResponse) => student,
+        ),
+      );
     },
   });
 
@@ -93,7 +60,12 @@ const NameSelection = ({
               <Select
                 name={name}
                 onChange={onChange}
-                options={students}
+                options={students.map((student) => ({
+                  value: student.id,
+                  label: student.studentNumber
+                    ? `${student.firstName} ${student.lastName} (${student.studentNumber})`
+                    : `${student.firstName} ${student.lastName}`,
+                }))}
                 placeholder="Search Name by typing it in field"
                 useBasicStyles
                 value={value}
@@ -101,7 +73,6 @@ const NameSelection = ({
               <FormErrorMessage>{fieldError?.message}</FormErrorMessage>
             </FormControl>
           )}
-          rules={{ required: "Please select a grade" }}
         />
       </Box>
       <NavigationButtons
