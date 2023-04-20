@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import {
   Box,
   FormControl,
@@ -9,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 
+import GET_CLASS_BY_TEST_SESSION from "../../../APIClients/queries/ClassQueries";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { ASSESSMENT_SUMMARY_PAGE, HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
@@ -63,6 +65,13 @@ const NameSelection = ({
   testId,
   testSessionId,
 }: NameSelectionProps): React.ReactElement => {
+  const { loading, error, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
+    variables: { testSessionId },
+    onCompleted: () => {
+      console.log(data);
+    },
+  });
+
   const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
   const { control } = useForm();
@@ -77,9 +86,9 @@ const NameSelection = ({
           name="grade"
           render={({
             field: { onChange, value, name },
-            fieldState: { error },
+            fieldState: { error: fieldError },
           }) => (
-            <FormControl isInvalid={Boolean(error)} isRequired>
+            <FormControl isInvalid={Boolean(fieldError)} isRequired>
               <FormLabel color="grey.400">First Name</FormLabel>
               <Select
                 name={name}
@@ -89,7 +98,7 @@ const NameSelection = ({
                 useBasicStyles
                 value={value}
               />
-              <FormErrorMessage>{error?.message}</FormErrorMessage>
+              <FormErrorMessage>{fieldError?.message}</FormErrorMessage>
             </FormControl>
           )}
           rules={{ required: "Please select a grade" }}

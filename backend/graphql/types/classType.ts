@@ -31,6 +31,11 @@ const classType = gql`
     students: [StudentResponseDTO]!
   }
 
+  extend type Query {
+    class(id: String!): ClassResponseDTO!
+    classByTestSession(testSessionId: String!): ClassResponseDTO!
+  }
+
   extend type Mutation {
     createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(
