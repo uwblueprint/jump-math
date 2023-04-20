@@ -31,6 +31,7 @@ const NameSelection = ({
   testId,
   testSessionId,
 }: NameSelectionProps): React.ReactElement => {
+  const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
   useQuery(GET_CLASS_BY_TEST_SESSION, {
     variables: { testSessionId },
@@ -52,7 +53,6 @@ const NameSelection = ({
     }
   };
 
-  const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
   const title = "Student Login";
   const subtitle = "Please enter your name in the field or search for it below";
