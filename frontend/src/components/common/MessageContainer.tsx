@@ -1,25 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Container, Text } from "@chakra-ui/react";
-
-import IllustrationWrapper from "./IllustrationWrapper";
+import { Button, Container, Image, Text } from "@chakra-ui/react";
 
 interface MessageContainerProps {
   buttonRoute?: string;
   buttonText?: string;
-  illustration: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  subtitle: string;
+  image: string;
   paragraphs: string[];
+  subtitle: string;
   textColor: string;
 }
 
 const MessageContainer = ({
   buttonRoute = "",
   buttonText,
-  illustration,
-  subtitle,
+  image,
   paragraphs,
   textColor,
+  subtitle,
 }: MessageContainerProps): React.ReactElement => {
   const history = useHistory();
   return (
@@ -32,7 +30,7 @@ const MessageContainer = ({
       pt={12}
       textAlign="center"
     >
-      <IllustrationWrapper Illustration={illustration} m="auto" pb="1.5em" />
+      <Image m="auto" pb="1.5em" src={image} />
       <Text color={textColor} pb="0.5em" textStyle="subtitle1">
         {subtitle}
       </Text>
