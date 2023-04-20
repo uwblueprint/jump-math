@@ -22,9 +22,13 @@ export interface Class extends Document {
 }
 
 export interface Student {
+  /** the unique identifier for the student */
   id: string;
+  /** the first name of the student */
   firstName: string;
+  /** the last name of the student */
   lastName: string;
+  /** an optional identifier provided by the teacher */
   studentNumber?: string;
 }
 

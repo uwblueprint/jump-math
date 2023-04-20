@@ -32,7 +32,6 @@ const classType = gql`
   }
 
   extend type Query {
-    class(id: String!): ClassResponseDTO!
     classByTestSession(testSessionId: String!): ClassResponseDTO!
   }
 
