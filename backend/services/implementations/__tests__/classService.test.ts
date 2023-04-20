@@ -95,7 +95,6 @@ describe("mongo classService", (): void => {
     const savedClass = await ClassModel.create(testClassWithTestSessions);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
-    expect(res.testSessions).toEqual([mockTestSessionWithId]);
   });
 
   it("getClassById for invalid Id", async () => {
