@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,10 +15,18 @@ import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { HOME_PAGE } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
 import AuthContext from "../../../contexts/AuthContext";
+import StudentContext from "../../../contexts/StudentContext";
 import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
 import QuestionTypeImages from "../../common/QuestionTypeImages";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
+  const { state } = useLocation<string>();
+  const { setTestId } = useContext(StudentContext);
+
+  useEffect(() => {
+    setTestId(state);
+  }, [state, setTestId]);
+
   const history = useHistory();
   const { setAuthenticatedUser } = useContext(AuthContext);
   const handleBackToHome = () => {

@@ -91,7 +91,10 @@ const NameSelection = ({
               ...selectedStudent.value,
               role: "Student",
             });
-            history.push(ASSESSMENT_SUMMARY_PAGE);
+            history.push({
+              pathname: ASSESSMENT_SUMMARY_PAGE,
+              state: testId,
+            });
           }
         }}
       />
