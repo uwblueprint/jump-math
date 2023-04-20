@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
@@ -8,7 +7,7 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
+import { OptionBase, Select, SingleValue } from "chakra-react-select";
 
 import GET_CLASS_BY_TEST_SESSION from "../../../APIClients/queries/ClassQueries";
 import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -21,6 +20,11 @@ import NavigationButtons from "../teacher-signup/NavigationButtons";
 interface NameSelectionProps {
   testId: string;
   testSessionId: string;
+}
+
+interface StudentOption extends OptionBase {
+  value: StudentResponse;
+  label: string;
 }
 
 const NameSelection = ({
@@ -39,41 +43,39 @@ const NameSelection = ({
     },
   });
 
+  const [selectedStudent, setSelectedStudent] = useState<StudentOption>();
+  const [error, setError] = useState(false);
+  const handleStudentChange = (option: SingleValue<StudentOption>) => {
+    if (option) {
+      setSelectedStudent(option);
+      setError(false);
+    }
+  };
+
   const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
-  const { control } = useForm();
   const title = "Student Login";
   const subtitle = "Please enter your name in the field or search for it below";
   const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
       <Box pb="10%" width="100%">
-        <Controller
-          control={control}
-          name="grade"
-          render={({
-            field: { onChange, value, name },
-            fieldState: { error: fieldError },
-          }) => (
-            <FormControl isInvalid={Boolean(fieldError)} isRequired>
-              <FormLabel color="grey.400">First Name</FormLabel>
-              <Select
-                name={name}
-                onChange={onChange}
-                options={students.map((student) => ({
-                  value: student.id,
-                  label: student.studentNumber
-                    ? `${student.firstName} ${student.lastName} (${student.studentNumber})`
-                    : `${student.firstName} ${student.lastName}`,
-                }))}
-                placeholder="Search Name by typing it in field"
-                useBasicStyles
-                value={value}
-              />
-              <FormErrorMessage>{fieldError?.message}</FormErrorMessage>
-            </FormControl>
-          )}
-        />
+        <FormControl isInvalid={error} isRequired>
+          <FormLabel color="grey.400">Student Name</FormLabel>
+          <Select
+            onChange={handleStudentChange}
+            options={students.map((student) => ({
+              value: student,
+              label: student.studentNumber
+                ? `${student.firstName} ${student.lastName} (${student.studentNumber})`
+                : `${student.firstName} ${student.lastName}`,
+            }))}
+            placeholder="Search for your name by typing it in the field"
+            useBasicStyles
+            value={selectedStudent}
+          />
+          <FormErrorMessage>Please select your name</FormErrorMessage>
+        </FormControl>
       </Box>
       <NavigationButtons
         backButtonText="Back to Home"
@@ -81,14 +83,15 @@ const NameSelection = ({
           history.push(HOME_PAGE);
         }}
         onContinueClick={() => {
-          setAuthenticatedUser({
-            id: "temporary",
-            firstName: "temporary",
-            lastName: "temporary",
-            studentNumber: "temporary",
-            role: "Student",
-          });
-          history.push(ASSESSMENT_SUMMARY_PAGE);
+          if (!selectedStudent) {
+            setError(true);
+          } else {
+            setAuthenticatedUser({
+              ...selectedStudent.value,
+              role: "Student",
+            });
+            history.push(ASSESSMENT_SUMMARY_PAGE);
+          }
         }}
       />
     </>
