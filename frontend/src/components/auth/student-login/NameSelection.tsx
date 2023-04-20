@@ -23,11 +23,6 @@ interface NameSelectionProps {
   testSessionId: string;
 }
 
-interface StudentOption extends OptionBase {
-  value: StudentResponse;
-  label: string;
-}
-
 const NameSelection = ({
   testId,
   testSessionId,
