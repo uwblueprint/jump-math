@@ -10,13 +10,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import StudentLogin from "./components/auth/student-login/StudentLogin";
 import TeacherSignup from "./components/auth/teacher-signup";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
 import NotFound from "./components/pages/NotFound";
-import StudentAssessment from "./components/pages/student/StudentAssessment";
+import StudentDashboard from "./components/pages/student/StudentDashboard";
+import StudentLoginPage from "./components/pages/student/StudentLoginPage";
 import TeacherPage from "./components/pages/teacher/TeacherPage";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import * as Routes from "./constants/Routes";
@@ -55,10 +55,14 @@ const App = (): React.ReactElement => {
           value={dispatchSampleContextUpdate}
         >
           <AuthContext.Provider
-            value={{ authenticatedUser, setAuthenticatedUser }}
+            value={{
+              authenticatedUser,
+              setAuthenticatedUser,
+            }}
           >
             <Router>
               <Switch>
+                {/* private admin routing */}
                 {authenticatedUser?.role === "Admin" && (
                   <Redirect
                     exact
@@ -71,6 +75,7 @@ const App = (): React.ReactElement => {
                   path={Routes.ADMIN_LANDING_PAGE}
                   roles={["Admin"]}
                 />
+                {/* private teacher routing */}
                 {authenticatedUser?.role === "Teacher" && (
                   <Redirect
                     exact
@@ -84,6 +89,20 @@ const App = (): React.ReactElement => {
                   path={Routes.TEACHER_LANDING_PAGE}
                   roles={["Teacher", "Admin"]}
                 />
+                {/* private student routing */}
+                {authenticatedUser?.role === "Student" && (
+                  <Redirect
+                    exact
+                    from={Routes.HOME_PAGE}
+                    to={Routes.STUDENT_LANDING_PAGE}
+                  />
+                )}
+                <PrivateRoute
+                  component={StudentDashboard}
+                  path={Routes.STUDENT_LANDING_PAGE}
+                  roles={["Student"]}
+                />
+                {/* public routing */}
                 <Route component={Landing} exact path={Routes.HOME_PAGE} />
                 <Route component={Login} exact path={Routes.ADMIN_LOGIN_PAGE} />
                 <Route
@@ -92,25 +111,21 @@ const App = (): React.ReactElement => {
                   path={Routes.TEACHER_LOGIN_PAGE}
                 />
                 <Route
-                  component={StudentLogin}
-                  exact
-                  path={Routes.STUDENT_LOGIN_PAGE}
-                />
-                <Route
                   component={TeacherSignup}
                   exact
                   path={Routes.TEACHER_SIGNUP_PAGE}
+                />
+                <Route
+                  component={StudentLoginPage}
+                  exact
+                  path={Routes.STUDENT_LOGIN_PAGE}
                 />
                 <Route
                   component={EmailActionHandler}
                   exact
                   path={Routes.EMAIL_ACTION_PAGE}
                 />
-                <Route
-                  component={StudentAssessment}
-                  exact
-                  path={Routes.STUDENT_ASSESMENT_PAGE}
-                />
+                {/* pages to remove */}
                 <PrivateRoute
                   component={ComponentLibrary}
                   exact

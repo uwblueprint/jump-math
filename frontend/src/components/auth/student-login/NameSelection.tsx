@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
@@ -10,7 +10,8 @@ import {
 import { Select } from "chakra-react-select";
 
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
-import { HOME_PAGE } from "../../../constants/Routes";
+import { ASSESSMENT_SUMMARY_PAGE, HOME_PAGE } from "../../../constants/Routes";
+import AuthContext from "../../../contexts/AuthContext";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -52,7 +53,8 @@ const students = [
     value: "Cyrus",
   },
 ];
-const StudentNameSelection = (): React.ReactElement => {
+const NameSelection = (): React.ReactElement => {
+  const { setAuthenticatedUser } = useContext(AuthContext);
   const history = useHistory();
   const { control } = useForm();
   const title = "Student Login";
@@ -89,7 +91,16 @@ const StudentNameSelection = (): React.ReactElement => {
         onBackClick={() => {
           history.push(HOME_PAGE);
         }}
-        onContinueClick={() => undefined}
+        onContinueClick={() => {
+          setAuthenticatedUser({
+            id: "temporary",
+            firstName: "temporary",
+            lastName: "temporary",
+            role: "Student",
+            testId: "temporary",
+          });
+          history.push(ASSESSMENT_SUMMARY_PAGE);
+        }}
       />
     </>
   );
@@ -99,4 +110,4 @@ const StudentNameSelection = (): React.ReactElement => {
   );
 };
 
-export default StudentNameSelection;
+export default NameSelection;
