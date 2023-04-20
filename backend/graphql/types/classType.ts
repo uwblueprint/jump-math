@@ -17,16 +17,15 @@ const classType = gql`
   input ClassRequestDTO {
     className: String!
     schoolYear: Int!
-    gradeLevel: [GradeEnum]!
+    gradeLevel: GradeEnum!
     teacher: String!
-    testSessions: [String]!
   }
 
   type ClassResponseDTO {
     id: String!
     className: String!
     schoolYear: Int!
-    gradeLevel: [GradeEnum]!
+    gradeLevel: GradeEnum!
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
     students: [StudentResponseDTO]!

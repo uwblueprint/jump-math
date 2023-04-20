@@ -9,10 +9,7 @@ import {
   StudentRequestDTO,
 } from "../interfaces/classService";
 import IUserService from "../interfaces/userService";
-import {
-  ITestSessionService,
-  TestSessionResponseDTO,
-} from "../interfaces/testSessionService";
+import { ITestSessionService } from "../interfaces/testSessionService";
 
 const Logger = logger(__filename);
 
@@ -32,7 +29,6 @@ class ClassService implements IClassService {
   /* eslint-disable class-methods-use-this */
   async createClass(classObj: ClassRequestDTO): Promise<ClassResponseDTO> {
     let teacherDTO: UserDTO;
-    const testSessions: TestSessionResponseDTO[] = [];
     let newClass: Class | null;
 
     try {
@@ -42,15 +38,6 @@ class ClassService implements IClassService {
       if (!teacherDTO) {
         throw new Error("Teacher ID was not found");
       }
-
-      await Promise.all(
-        classObj.testSessions.map(async (classTestSession) => {
-          const testSession = await this.testSessionService.getTestSessionById(
-            classTestSession,
-          );
-          testSessions.push(testSession);
-        }),
-      );
 
       // create a new class document
       newClass = await MgClass.create({ ...classObj });
@@ -66,7 +53,7 @@ class ClassService implements IClassService {
       schoolYear: newClass.schoolYear,
       gradeLevel: newClass.gradeLevel,
       teacher: teacherDTO,
-      testSessions,
+      testSessions: [],
       students: [],
     };
   }
@@ -233,7 +220,6 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
-      return studentId;
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -242,6 +228,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
+    return studentId;
   }
 }
 
