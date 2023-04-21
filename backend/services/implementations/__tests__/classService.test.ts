@@ -106,9 +106,8 @@ describe("mongo classService", (): void => {
     );
   });
 
-  /* uncomment after adding logic to attach test sessions to class objects
   it("getClassByTestSessionId for valid testSessionId", async () => {
-    const savedClass = await ClassModel.create(testClass[0]);
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
     const res = await classService.getClassByTestSessionId(
       savedClass.testSessions[0],
     );
@@ -125,15 +124,15 @@ describe("mongo classService", (): void => {
   });
 
   it("getClassByTestSessionId for classes with same testSessionId", async () => {
-    await ClassModel.create(testClass[0]);
-    await ClassModel.create(testClass[0]);
-    const testSessionId = testClass[0].testSessions[0];
+    await ClassModel.create(testClassWithTestSessions);
+    await ClassModel.create(testClassWithTestSessions);
+    const testSessionId = testClassWithTestSessions.testSessions[0];
     await expect(async () => {
       await classService.getClassByTestSessionId(testSessionId);
     }).rejects.toThrowError(
       `More than one class has the same Test Session of id ${testSessionId}`,
     );
-  }); */
+  });
 
   it("deleteClass", async () => {
     // execute
