@@ -13,12 +13,18 @@ const StudentLoginPage = (): React.ReactElement => {
   const delayedRedirect = () => {
     setTimeout(() => setShowNameSelection(true), 1000);
   };
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const [testId, setTestId] = useState("");
+  const [testSessionId, setTestSessionId] = useState("");
+
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
-    onCompleted: () => {
-      setError("");
+    onCompleted: (data) => {
       setSuccess(true);
+      setError("");
+      setTestId(data.testSessionByAccessCode.id);
+      setTestSessionId(data.testSessionByAccessCode.id);
       delayedRedirect();
     },
     onError: async () => {
@@ -84,7 +90,7 @@ const StudentLoginPage = (): React.ReactElement => {
   return (
     <>
       {showNameSelection ? (
-        <NameSelection />
+        <NameSelection testId={testId} testSessionId={testSessionId} />
       ) : (
         <AuthWrapper
           error={error}

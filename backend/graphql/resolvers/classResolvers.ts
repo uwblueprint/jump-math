@@ -28,6 +28,14 @@ const classService: IClassService = new ClassService(
 );
 
 const classResolvers = {
+  Query: {
+    classByTestSession: async (
+      _req: undefined,
+      { testSessionId }: { testSessionId: string },
+    ): Promise<ClassResponseDTO> => {
+      return classService.getClassByTestSessionId(testSessionId);
+    },
+  },
   Mutation: {
     createClass: async (
       _req: undefined,

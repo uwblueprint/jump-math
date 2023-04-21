@@ -19,7 +19,6 @@ export type AuthenticatedAdminOrTeacher = BaseUser & {
 
 type AuthenticatedStudent = BaseUser & {
   studentNumber?: string;
-  testId: string;
 };
 
 export type AuthenticatedUser =
