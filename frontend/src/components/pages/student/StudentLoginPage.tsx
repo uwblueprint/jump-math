@@ -4,20 +4,22 @@ import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
+import AuthWrapper from "../../auth/AuthWrapper";
+import NameSelection from "../../auth/student-login/NameSelection";
 import BackButton from "../../common/BackButton";
-import AuthWrapper from "../AuthWrapper";
 
-const StudentLogin = (): React.ReactElement => {
-  const title = "Student Login";
-  const subtitle = "Please enter your classroom's access code";
-  const image = STUDENT_SIGNUP_IMAGE;
-
+const StudentLoginPage = (): React.ReactElement => {
+  const [showNameSelection, setShowNameSelection] = useState(false);
+  const delayedRedirect = () => {
+    setTimeout(() => setShowNameSelection(true), 1000);
+  };
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: () => {
       setError("");
       setSuccess(true);
+      delayedRedirect();
     },
     onError: async () => {
       setError("Please ensure input is correct");
@@ -39,6 +41,9 @@ const StudentLogin = (): React.ReactElement => {
     });
   };
 
+  const title = "Student Login";
+  const subtitle = "Please enter your classroom's access code";
+  const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
       {success && (
@@ -77,14 +82,20 @@ const StudentLogin = (): React.ReactElement => {
   );
 
   return (
-    <AuthWrapper
-      error={error}
-      form={form}
-      image={image}
-      subtitle={subtitle}
-      title={title}
-    />
+    <>
+      {showNameSelection ? (
+        <NameSelection />
+      ) : (
+        <AuthWrapper
+          error={error}
+          form={form}
+          image={image}
+          subtitle={subtitle}
+          title={title}
+        />
+      )}
+    </>
   );
 };
 
-export default StudentLogin;
+export default StudentLoginPage;
