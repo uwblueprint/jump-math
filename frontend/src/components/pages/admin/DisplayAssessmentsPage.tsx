@@ -53,6 +53,8 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
 
+  const [isEmpty, setEmpty] = React.useState(true);
+
   const countryOptions = [
     { value: "Canada", label: "Canada" },
     { value: "USA", label: "USA" },
@@ -83,8 +85,13 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const filteredAssessements = React.useMemo(() => {
     if (!data) return [];
+
     let filteredTests: AssessmentProperties[] = data.tests as AssessmentProperties[];
     const filterProps = [grades, testTypes, countries, regions, status];
+
+    if (filteredTests.length) {
+      setEmpty(false);
+    }
 
     filterProps.forEach((property, i) => {
       filteredTests = filteredTests.filter(
@@ -163,6 +170,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}
           filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
+          noResults={isEmpty}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
           searchLength={assessments.length}

@@ -4,12 +4,14 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { AssessmentProperties } from "../../types/AssessmentTypes";
 import EmptyTableState from "../common/table/EmptyTableState";
 import { FilterMenuProps } from "../common/table/FilterMenu";
+import NoResultsTableState from "../common/table/NoResultsTableState";
 import { SearchBarProps } from "../common/table/SearchBar";
 import { SortMenuProps } from "../common/table/SortMenu";
 
 interface AssessmentsTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
   filterMenuComponent: React.ReactElement<FilterMenuProps>;
+  noResults: boolean;
   searchBarComponent: React.ReactElement<SearchBarProps>;
   assessmentsTable: React.ReactElement<AssessmentProperties[]>;
   search: string;
@@ -19,11 +21,17 @@ interface AssessmentsTabProps {
 const AssessmentsTab = ({
   sortMenuComponent,
   filterMenuComponent,
+  noResults,
   searchBarComponent,
   assessmentsTable,
   search,
   searchLength,
 }: AssessmentsTabProps): React.ReactElement => {
+  const emptyResults = noResults ? (
+    <EmptyTableState />
+  ) : (
+    <NoResultsTableState items="assessments" />
+  );
   return (
     <>
       <VStack pt={4} spacing={6}>
@@ -38,11 +46,7 @@ const AssessmentsTab = ({
             {search}&quot;
           </Text>
         )}
-        {searchLength !== 0 ? (
-          assessmentsTable
-        ) : (
-          <EmptyTableState items="assessments" />
-        )}
+        {searchLength !== 0 ? assessmentsTable : emptyResults}
       </VStack>
     </>
   );
