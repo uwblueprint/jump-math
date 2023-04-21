@@ -79,9 +79,9 @@ export const questionsValidator = (
           );
         }
         if (
-          !validatePrimitive(questionComponent.metadata.answerIndex, "number")
+          !validatePrimitive(questionComponent.metadata.answerIndex, "integer")
         ) {
-          throw new Error("The answerIndex field is not of type number");
+          throw new Error("The answerIndex field is not of type integer");
         }
       } else if (
         questionComponent.type === QuestionComponentType.MULTI_SELECT
@@ -101,9 +101,9 @@ export const questionsValidator = (
           );
         }
         if (
-          !validateArray(questionComponent.metadata.answerIndices, "number")
+          !validateArray(questionComponent.metadata.answerIndices, "integer")
         ) {
-          throw new Error("The answerIndices field is not of type number[]");
+          throw new Error("The answerIndices field is not of type integer[]");
         }
       } else if (
         questionComponent.type === QuestionComponentType.SHORT_ANSWER
@@ -119,17 +119,17 @@ export const questionsValidator = (
           throw new Error("Fraction component is missing a numerator field");
         }
         if (
-          !validatePrimitive(questionComponent.metadata.numerator, "number")
+          !validatePrimitive(questionComponent.metadata.numerator, "integer")
         ) {
-          throw new Error("The numerator field is not of type number");
+          throw new Error("The numerator field is not of type integer");
         }
         if (!("denominator" in questionComponent.metadata)) {
           throw new Error("Fraction component is missing a denominator field");
         }
         if (
-          !validatePrimitive(questionComponent.metadata.denominator, "number")
+          !validatePrimitive(questionComponent.metadata.denominator, "integer")
         ) {
-          throw new Error("The denominator field is not of type number");
+          throw new Error("The denominator field is not of type integer");
         }
       }
     });

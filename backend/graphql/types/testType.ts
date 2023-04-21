@@ -63,22 +63,22 @@ const testType = gql`
 
   input MultipleChoiceMetadataInput {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   type MultipleChoiceMetadata {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   input MultiSelectMetadataInput {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   type MultiSelectMetadata {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   input ShortAnswerMetadataInput {
