@@ -1,9 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
-
 import { Grade, Role } from "../types";
-import { Class } from "./class.model";
+import MgClass, { Class } from "./class.model";
 
 export interface User extends Document {
   id: string;
@@ -55,8 +54,7 @@ const UserSchema: Schema = new Schema({
     required: false,
   },
   class: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Class",
+    type: [MgClass.schema],
     required: false,
   },
 });

@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, model } from "mongoose";
+// eslint-disable-next-line import/no-cycle
 import { Grade } from "../types";
 
 /**

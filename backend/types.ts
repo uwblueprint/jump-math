@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-cycle
+import { Class } from "./models/class.model";
+
 export type Role = "Teacher" | "Admin";
 
 export type Token = {
@@ -25,6 +28,7 @@ export type UserDTO = {
   role: Role;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
+  class?: Class[];
 };
 
 export type TeacherDTO = UserDTO & { school: string };

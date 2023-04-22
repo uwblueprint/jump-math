@@ -1,3 +1,4 @@
+import { Class, Student } from "../../models/class.model";
 import ClassService from "../../services/implementations/classService";
 import SchoolService from "../../services/implementations/schoolService";
 import TestService from "../../services/implementations/testService";
@@ -33,7 +34,31 @@ const classResolvers = {
       _req: undefined,
       { classObj }: { classObj: ClassRequestDTO },
     ): Promise<ClassResponseDTO> => {
-      return classService.createClass(classObj);
+      const createdClass = await classService.createClass(classObj);
+      const teacherToUpdate = await userService.getUserById(classObj.teacher);
+      const classToAdd = {
+        ...createdClass,
+        teacher: createdClass.teacher.id,
+        testSessions: createdClass.testSessions.map(
+          (testSessionDTO) => testSessionDTO.id,
+        ),
+        students: createdClass.students.map(
+          (studentResponseDTO) => studentResponseDTO as Student,
+        ),
+      } as Class;
+      // eslint-disable-next-line no-console
+      console.log(teacherToUpdate);
+      if (teacherToUpdate.class) {
+        teacherToUpdate.class.push(classToAdd);
+      } else {
+        teacherToUpdate.class = [classToAdd];
+      }
+      // eslint-disable-next-line no-console
+      console.log(teacherToUpdate);
+      await userService.updateUserById(classObj.teacher, {
+        ...teacherToUpdate,
+      });
+      return createdClass;
     },
     createStudent: async (
       _req: undefined,
