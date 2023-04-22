@@ -42,9 +42,7 @@ const classResolvers = {
         testSessions: createdClass.testSessions.map(
           (testSessionDTO) => testSessionDTO.id,
         ),
-        students: createdClass.students.map(
-          (studentResponseDTO) => studentResponseDTO as Student,
-        ),
+        students: createdClass.students,
       } as Class;
       if (teacherToUpdate.class) {
         teacherToUpdate.class.push(classToAdd);
