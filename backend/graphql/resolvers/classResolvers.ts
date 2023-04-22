@@ -46,15 +46,11 @@ const classResolvers = {
           (studentResponseDTO) => studentResponseDTO as Student,
         ),
       } as Class;
-      // eslint-disable-next-line no-console
-      console.log(teacherToUpdate);
       if (teacherToUpdate.class) {
         teacherToUpdate.class.push(classToAdd);
       } else {
         teacherToUpdate.class = [classToAdd];
       }
-      // eslint-disable-next-line no-console
-      console.log(teacherToUpdate);
       await userService.updateUserById(classObj.teacher, {
         ...teacherToUpdate,
       });
