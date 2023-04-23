@@ -6,9 +6,9 @@ import {
 } from "../interfaces/statisticService";
 import {
   countTestSubmissions,
-  filterTestsByTestIdQuery,
+  filterTestsByTestId,
   filterUngradedTests,
-  getDocumentsBySchoolId,
+  joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
 } from "../../utilities/pipelineQueryUtils";
@@ -19,20 +19,14 @@ class StatisticService implements IStatisticService {
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
-      // Stage 1: filter out tests that have the requested testId
-      filterTestsByTestIdQuery(testId),
+      filterTestsByTestId(testId),
 
-      // Stage 2: filter out results that are not graded
       filterUngradedTests,
 
-      // Stage 3: unwind on the results field so that there is a do cument for each student result
       unwindResults,
 
-      // Stage 4: get school documents corresponding to the school id
-      getDocumentsBySchoolId,
+      joinSchoolIdWithSchoolDocument,
 
-      // Stage 5: group together documents by the school country and keep track of the
-      // result breakdown array so that the average grade per question can be computed
       groupResultsById("$school.country"),
     ];
 
@@ -45,17 +39,12 @@ class StatisticService implements IStatisticService {
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
-      // Stage 1: match tests that have the requested testId
-      filterTestsByTestIdQuery(testId),
+      filterTestsByTestId(testId),
 
-      // Stage 2: filter out results that are not graded
       filterUngradedTests,
 
-      // Stage 3: unwind on the results field so that there is a document for each student result
       unwindResults,
 
-      // Stage 4: group together documents by the school id and keep track of the
-      // result breakdown array so that the average grade per question can be computed
       groupResultsById("$school"),
     ];
 
@@ -67,16 +56,12 @@ class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
   async getSubmissionCountByTest(testId: string): Promise<number> {
     const pipeline = [
-      // Stage 1: filter out tests that have the requested testId
-      filterTestsByTestIdQuery(testId),
+      filterTestsByTestId(testId),
 
-      // Stage 2: filter out results that are not graded
       filterUngradedTests,
 
-      // Stage 3: unwind on the results field so that there is a document for each student result
       unwindResults,
 
-      // Stage 4: counts number of graded tests
       countTestSubmissions,
     ];
 
