@@ -2,12 +2,10 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
-  Box,
   Button,
   HStack,
   Image,
   SimpleGrid,
-  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -19,10 +17,10 @@ import { HOME_PAGE } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
-import QuestionSummary from "../../assessments/assessment-creation/QuestionSummary";
+import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
+import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
-import QuestionTypeImages from "../../common/QuestionTypeImages";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const { state } = useLocation<string>();
@@ -68,41 +66,9 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 {assessmentMetadata.startTime}
               </Text>
               <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
-                <QuestionSummary
-                  pointCount={assessmentMetadata.totalPoints}
-                  questionCount={data.test.questions.length}
-                >
-                  <VStack align="left" width="100%">
-                    <br />
-                    <Text paddingBottom="2" textStyle="smaller-paragraph">
-                      Question Types:
-                    </Text>
-                    <QuestionTypeImages
-                      questionTypes={assessmentMetadata.questionTypes}
-                    />
-                  </VStack>
-                </QuestionSummary>
-                <Box
-                  backgroundColor="rgba(232, 237, 241, 0.2)"
-                  borderRadius="10px"
-                  padding="2em"
-                >
-                  <Text
-                    color="blue.300"
-                    marginBottom="14px"
-                    textStyle="subtitle2"
-                  >
-                    Rules
-                  </Text>
-                  <Stack gap={3}>
-                    {/* update after test session backend is updated */}
-                    {assessmentMetadata.rules.split("\n").map((line, index) => (
-                      <Text key={index} textStyle="paragraph">
-                        {line}
-                      </Text>
-                    ))}
-                  </Stack>
-                </Box>
+                <AssessmentInfo questions={data.test.questions} />
+                {/* update after test session backend is updated */}
+                <AssessmentRules body={assessmentMetadata.rules} />
               </SimpleGrid>
             </VStack>
             <HStack justifyContent="flex-end" spacing="1%" width="100%">
