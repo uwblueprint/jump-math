@@ -20,13 +20,14 @@ class StatisticService implements IStatisticService {
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       filterTestsByTestId(testId),
-
-      filterUngradedTests,
-
+      {
+        $project: {
+          results: filterUngradedTests,
+          school: 1,
+        },
+      },
       unwindResults,
-
       joinSchoolIdWithSchoolDocument,
-
       groupResultsById("$school.country"),
     ];
 
@@ -40,11 +41,13 @@ class StatisticService implements IStatisticService {
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       filterTestsByTestId(testId),
-
-      filterUngradedTests,
-
+      {
+        $project: {
+          results: filterUngradedTests,
+          school: 1,
+        },
+      },
       unwindResults,
-
       groupResultsById("$school"),
     ];
 
@@ -57,11 +60,12 @@ class StatisticService implements IStatisticService {
   async getSubmissionCountByTest(testId: string): Promise<number> {
     const pipeline = [
       filterTestsByTestId(testId),
-
-      filterUngradedTests,
-
+      {
+        $project: {
+          results: filterUngradedTests,
+        },
+      },
       unwindResults,
-
       countTestSubmissions,
     ];
 

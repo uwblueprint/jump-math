@@ -20,21 +20,16 @@ export const filterTestsByTestId = (
 
 // Filter out results that are not graded
 export const filterUngradedTests = {
-  $project: {
-    results: {
-      $filter: {
-        input: "$results",
-        as: "results",
-        cond: {
-          $eq: ["$$results.gradingStatus", GradingStatus.GRADED.toString()],
-        },
-      },
+  $filter: {
+    input: "$results",
+    as: "results",
+    cond: {
+      $eq: ["$$results.gradingStatus", GradingStatus.GRADED.toString()],
     },
-    school: 1,
   },
 };
 
-// Unwind on the results field so that there is a do cument for each student result
+// Unwind on the results field so that there is a document for each student result
 export const unwindResults = {
   $unwind: "$results",
 };
@@ -63,7 +58,7 @@ export const groupResultsById = (id: string): GroupResultsByIdReturnType => {
   };
 };
 
-// Counts number of graded tests
+// Stores the number of graded tests in "numSubmittedTests" field
 export const countTestSubmissions = {
   $count: "numSubmittedTests",
 };
