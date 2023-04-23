@@ -1,10 +1,17 @@
-import { Types } from "mongoose";
-import MgTestSession, { GradingStatus } from "../../models/testSession.model";
+import MgTestSession from "../../models/testSession.model";
 import {
   IStatisticService,
   QuestionStatistic,
   TestStatistic,
 } from "../interfaces/statisticService";
+import {
+  countTestSubmissions,
+  filterTestsByTestId,
+  filterUngradedTests,
+  joinSchoolIdWithSchoolDocument,
+  groupResultsById,
+  unwindResults,
+} from "../../utilities/pipelineQueryUtils";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -12,52 +19,16 @@ class StatisticService implements IStatisticService {
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
-      // Stage 1: filter out tests that have the requested testId
-      { $match: { test: { $eq: Types.ObjectId(testId) } } },
-
-      // Stage 2: filter out results that are not graded
+      filterTestsByTestId(testId),
       {
         $project: {
-          results: {
-            $filter: {
-              input: "$results",
-              as: "results",
-              cond: {
-                $eq: [
-                  "$$results.gradingStatus",
-                  GradingStatus.GRADED.toString(),
-                ],
-              },
-            },
-          },
+          results: filterUngradedTests,
           school: 1,
         },
       },
-
-      // Stage 3: unwind on the results field so that there is a document for each student result
-      { $unwind: "$results" },
-
-      // Stage 4: get school documents corresponding to the school id
-      {
-        $lookup: {
-          from: "schools",
-          localField: "school",
-          foreignField: "_id",
-          as: "school",
-        },
-      },
-
-      // Stage 5: group together documents by the school country and keep track of the
-      // result breakdown array so that the average grade per question can be computed
-      {
-        $group: {
-          _id: "$school.country",
-          averageScore: { $avg: "$results.score" },
-          resultBreakdowns: {
-            $push: "$results.breakdown",
-          },
-        },
-      },
+      unwindResults,
+      joinSchoolIdWithSchoolDocument,
+      groupResultsById("$school.country"),
     ];
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
@@ -69,47 +40,38 @@ class StatisticService implements IStatisticService {
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
-      // Stage 1: match tests that have the requested testId
-      { $match: { test: { $eq: Types.ObjectId(testId) } } },
-
-      // Stage 2: filter out results that are not graded
+      filterTestsByTestId(testId),
       {
         $project: {
-          results: {
-            $filter: {
-              input: "$results",
-              as: "results",
-              cond: {
-                $eq: [
-                  "$$results.gradingStatus",
-                  GradingStatus.GRADED.toString(),
-                ],
-              },
-            },
-          },
+          results: filterUngradedTests,
           school: 1,
         },
       },
-
-      // Stage 3: unwind on the results field so that there is a document for each student result
-      { $unwind: "$results" },
-
-      // Stage 4: group together documents by the school id and keep track of the
-      // result breakdown array so that the average grade per question can be computed
-      {
-        $group: {
-          _id: "$school",
-          averageScore: { $avg: "$results.score" },
-          resultBreakdowns: {
-            $push: "$results.breakdown",
-          },
-        },
-      },
+      unwindResults,
+      groupResultsById("$school"),
     ];
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
 
     return this.constructTestStatisticsByGroup(aggCursor, "school");
+  }
+
+  /* eslint-disable class-methods-use-this */
+  async getSubmissionCountByTest(testId: string): Promise<number> {
+    const pipeline = [
+      filterTestsByTestId(testId),
+      {
+        $project: {
+          results: filterUngradedTests,
+        },
+      },
+      unwindResults,
+      countTestSubmissions,
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+
+    return aggCursor[0]?.numSubmittedTests ?? 0;
   }
 
   private getAverageScorePerQuestion(
