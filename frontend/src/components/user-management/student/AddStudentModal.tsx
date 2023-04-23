@@ -22,7 +22,6 @@ import {
 import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
 import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
-import AuthContext from "../../../contexts/AuthContext";
 import { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
@@ -36,10 +35,7 @@ const AddStudentModal = (): React.ReactElement => {
     formState: { errors },
   } = useFormContext<StudentForm>();
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [showRequestError, setShowRequestError] = useState(false);
-  const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
-    null,
-  );
+  const [errorMessage, setErrorMessage] = useState("");
   const [createStudent] = useMutation<{ createStudent: StudentResponse }>(
     CREATE_STUDENT,
   );
@@ -72,19 +68,17 @@ const AddStudentModal = (): React.ReactElement => {
     setValue("firstName", "");
     setValue("lastName", "");
     setValue("studentNumber", undefined);
-    setShowRequestError(false);
-    setRequestErrorMessage("");
+    setErrorMessage("");
     onClose();
   };
 
-  const onSave: SubmitHandler<StudentForm> = async (data) => {
+  const onConfirm: SubmitHandler<StudentForm> = async (data) => {
     if (!validateFields()) {
-      setShowRequestError(true);
-      setRequestErrorMessage(
+      setErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
     } else {
-      if (showRequestError) setShowRequestError(false);
+      if (errorMessage) setErrorMessage("");
 
       await createStudent({
         variables: {
@@ -93,6 +87,7 @@ const AddStudentModal = (): React.ReactElement => {
             lastName: watch("lastName"),
             studentNumber: watch("studentNumber"),
           },
+          // We're hardcoding a value as a placeholder until there's a class context to pass in
           classId: "642b8eb6bfc20e04f56c2a46",
         },
       })
@@ -112,7 +107,7 @@ const AddStudentModal = (): React.ReactElement => {
     }
   };
 
-  const handleSave = handleSubmit(onSave);
+  const handleConfirm = handleSubmit(onConfirm);
 
   return (
     <>
@@ -134,10 +129,10 @@ const AddStudentModal = (): React.ReactElement => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {showRequestError && (
-              <ErrorToast errorMessage={requestErrorMessage as string} />
+            {errorMessage && (
+              <ErrorToast errorMessage={errorMessage as string} />
             )}
-            <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
+            <FormControl isRequired marginTop={errorMessage ? "10" : "0"}>
               <HStack direction="row" mt={6}>
                 <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">First Name</FormLabel>
@@ -175,7 +170,10 @@ const AddStudentModal = (): React.ReactElement => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <ModalFooterButtons onDiscard={onModalClose} onSave={handleSave} />
+            <ModalFooterButtons
+              onDiscard={onModalClose}
+              onSave={handleConfirm}
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>

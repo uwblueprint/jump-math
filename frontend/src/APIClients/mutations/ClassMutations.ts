@@ -12,7 +12,7 @@ export const CREATE_CLASS = gql`
 `;
 
 export const CREATE_STUDENT = gql`
-  mutation createStudent($student: StudentRequestDTO!, $classId: String!) {
+  mutation CreateStudent($student: StudentRequestDTO!, $classId: String!) {
     createStudent(student: $student, classId: $classId) {
       id
     }
