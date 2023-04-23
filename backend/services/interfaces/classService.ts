@@ -82,7 +82,7 @@ export interface IClassService {
    */
   createStudent(
     student: StudentRequestDTO,
-    id: string,
+    classId: string,
   ): Promise<ClassResponseDTO>;
 
   /**
