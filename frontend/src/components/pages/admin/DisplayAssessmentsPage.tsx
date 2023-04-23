@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
+import { GET_TESTS } from "../../../APIClients/queries/TestQueries";
 import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import {
   AssessmentProperties,
@@ -79,7 +79,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     { label: "Region", setState: setRegions, options: regionOptions },
   ];
 
-  const { loading, error, data } = useQuery(GET_ALL_TESTS, {
+  const { loading, error, data } = useQuery(GET_TESTS, {
     fetchPolicy: "cache-and-network",
   });
 
