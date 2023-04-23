@@ -41,7 +41,7 @@ export const GET_TEST = gql`
 `;
 
 export const GET_ALL_TESTS = gql`
-  query GetAllTests {
+  query GetTests {
     tests {
       id
       name
