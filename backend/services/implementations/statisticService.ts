@@ -11,6 +11,7 @@ import {
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
+  sumTestSubmissions,
 } from "../../utilities/pipelineQueryUtils";
 
 class StatisticService implements IStatisticService {
@@ -72,6 +73,25 @@ class StatisticService implements IStatisticService {
     const aggCursor = await MgTestSession.aggregate(pipeline);
 
     return aggCursor[0]?.numSubmittedTests ?? 0;
+  }
+
+  async getMeanScoreByTest(testId: string): Promise<number> {
+    const pipeline = [
+      filterTestsByTestId(testId),
+      {
+        $project: {
+          results: filterUngradedTests,
+        },
+      },
+      unwindResults,
+      sumTestSubmissions,
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const sum = aggCursor[0]?.totalScore ?? 0;
+    const count = await this.getSubmissionCountByTest(testId);
+
+    return count !== 0 ? Math.round(100 * (sum / count)) / 100 : 0;
   }
 
   private getAverageScorePerQuestion(
