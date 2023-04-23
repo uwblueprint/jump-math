@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const CREATE_CLASS = gql`
+export const CREATE_CLASS = gql`
   mutation CreateClass($classObj: ClassRequestDTO!) {
     createClass(classObj: $classObj) {
       id
@@ -11,4 +11,10 @@ const CREATE_CLASS = gql`
   }
 `;
 
-export default CREATE_CLASS;
+export const CREATE_STUDENT = gql`
+  mutation createStudent($student: StudentRequestDTO!, $classId: String!) {
+    createStudent(student: $student, classId: $classId) {
+      id
+    }
+  }
+`;

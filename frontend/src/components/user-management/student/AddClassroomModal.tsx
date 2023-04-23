@@ -19,7 +19,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import CREATE_CLASS from "../../../APIClients/mutations/ClassMutations";
+import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
