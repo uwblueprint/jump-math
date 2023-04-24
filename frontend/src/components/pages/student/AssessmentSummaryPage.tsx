@@ -61,7 +61,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
             </HStack>
           </VStack>
         </HStack>
-      )}
+      )}{" "}
     </>
   );
 };
