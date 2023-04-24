@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useContext, useState } from "react";
+import { SubmitHandler, useFormContext } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 import {
   Button,
   FormControl,
@@ -18,61 +19,45 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
+import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
+import Toast from "../../common/Toast";
 
 const AddStudentModal = (): React.ReactElement => {
   const {
+    handleSubmit,
     watch,
     setValue,
     formState: { errors },
   } = useFormContext<StudentForm>();
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [firstNameError, setFirstNameError] = React.useState(false);
-  const [lastNameError, setLastNameError] = React.useState(false);
-  const [studentNumberError, setStudentNumberError] = React.useState(false);
-  const [showRequestError, setShowRequestError] = useState(false);
-  const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
-    null,
+  const [errorMessage, setErrorMessage] = useState("");
+  const [createStudent] = useMutation<{ createStudent: StudentResponse }>(
+    CREATE_STUDENT,
   );
+  const { showToast } = Toast();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     field: StudentInput,
   ) => {
     setValue(field, event.target.value);
-    console.log(`${field}: ${event.target.value}`);
-
-    switch (field) {
-      case "firstName":
-        setFirstNameError(false);
-        break;
-      case "lastName":
-        setLastNameError(false);
-        break;
-      case "studentNumber":
-        setStudentNumberError(false);
-        break;
-      default:
-        break;
-    }
   };
 
   const validateFields = (): boolean => {
     if (!watch("firstName") || !!errors.firstName) {
-      setFirstNameError(true);
       return false;
     }
 
     if (!watch("lastName") || !!errors.lastName) {
-      setLastNameError(true);
       return false;
     }
 
     if (errors.studentNumber) {
-      setStudentNumberError(true);
       return false;
     }
 
@@ -83,23 +68,46 @@ const AddStudentModal = (): React.ReactElement => {
     setValue("firstName", "");
     setValue("lastName", "");
     setValue("studentNumber", undefined);
-    setShowRequestError(false);
-    setRequestErrorMessage("");
+    setErrorMessage("");
     onClose();
   };
 
-  const onSubmit = async () => {
-    if (validateFields()) {
-      console.log(`First Name: ${watch("firstName")}`);
-      console.log(`Last Name: ${watch("lastName")}`);
-      console.log(`Student Number: ${watch("studentNumber")}`);
-    } else {
-      setShowRequestError(true);
-      setRequestErrorMessage(
-        "Please ensure all required components are filled out before submitting your application.",
+  const onConfirm: SubmitHandler<StudentForm> = async (data) => {
+    if (!validateFields()) {
+      setErrorMessage(
+        "Please ensure all required components are filled out before saving changes",
       );
+    } else {
+      setErrorMessage("");
+
+      await createStudent({
+        variables: {
+          student: {
+            firstName: watch("firstName"),
+            lastName: watch("lastName"),
+            studentNumber: watch("studentNumber"),
+          },
+          // We're hardcoding a value as a placeholder until there's a class context to pass in
+          classId: "642b8eb6bfc20e04f56c2a46",
+        },
+      })
+        .then(() => {
+          showToast({
+            message: "New student created.",
+            status: "success",
+          });
+        })
+        .catch(() => {
+          showToast({
+            message: "Failed to create a new student. Please try again.",
+            status: "error",
+          });
+        });
+      onModalClose();
     }
   };
+
+  const handleConfirm = handleSubmit(onConfirm);
 
   return (
     <>
@@ -121,10 +129,10 @@ const AddStudentModal = (): React.ReactElement => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {showRequestError && (
-              <ErrorToast errorMessage={requestErrorMessage as string} />
+            {errorMessage && (
+              <ErrorToast errorMessage={errorMessage as string} />
             )}
-            <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
+            <FormControl isRequired marginTop={errorMessage ? "10" : "0"}>
               <HStack direction="row" mt={6}>
                 <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">First Name</FormLabel>
@@ -162,7 +170,10 @@ const AddStudentModal = (): React.ReactElement => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <ModalFooterButtons onDiscard={onModalClose} onSave={onSubmit} />
+            <ModalFooterButtons
+              onDiscard={onModalClose}
+              onSave={handleConfirm}
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>
