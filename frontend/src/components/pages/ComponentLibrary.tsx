@@ -1,6 +1,6 @@
 import React from "react";
 
-import TestSubmissionMessage from "../assessments/assessment-creation/TestSubmissionMessage";
+import TestSubmissionMessage from "../assessments/TestSubmissionMessage";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (

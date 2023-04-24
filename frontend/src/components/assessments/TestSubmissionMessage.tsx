@@ -1,9 +1,9 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import TestSubmissionIllustration from "../../../assets/illustrations/test-submission.svg";
-import { HOME_PAGE } from "../../../constants/Routes";
-import MessageContainer from "../../common/MessageContainer";
+import TestSubmissionIllustration from "../../assets/illustrations/test-submission.svg";
+import { HOME_PAGE } from "../../constants/Routes";
+import MessageContainer from "../common/MessageContainer";
 
 const TestSubmissionMessage = (): React.ReactElement => {
   return (
