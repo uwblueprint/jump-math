@@ -78,7 +78,7 @@ const AddStudentModal = (): React.ReactElement => {
         "Please ensure all required components are filled out before saving changes",
       );
     } else {
-      if (errorMessage) setErrorMessage("");
+      setErrorMessage("");
 
       await createStudent({
         variables: {
