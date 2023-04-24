@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  GET_ALL_TEACHERS,
+  GET_TEACHERS,
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
 import { TabEnum } from "../../../types/AuthTypes";
@@ -64,7 +64,7 @@ const UsersPage = (): React.ReactElement => {
     loading: teacherLoading,
     error: teacherError,
     data: teacherData,
-  } = useQuery(GET_ALL_TEACHERS, {
+  } = useQuery(GET_TEACHERS, {
     fetchPolicy: "cache-and-network",
     variables: { role: "Teacher" },
   });

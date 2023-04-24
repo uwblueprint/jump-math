@@ -23,8 +23,8 @@ export const GET_USER_BY_EMAIL = gql`
   }
 `;
 
-export const GET_ALL_TEACHERS = gql`
-  query GetAllTeachers {
+export const GET_TEACHERS = gql`
+  query GetTeachers {
     teachers {
       id
       firstName
