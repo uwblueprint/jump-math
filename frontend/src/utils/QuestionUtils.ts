@@ -3,10 +3,7 @@ import { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 
-import {
-  QuestionComponentRequest,
-  QuestionComponentResponse,
-} from "../APIClients/types/TestClientTypes";
+import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
