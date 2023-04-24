@@ -24,7 +24,7 @@ const MessageContainer = ({
     <Container
       borderRadius="3xl"
       centerContent
-      maxW="50%"
+      maxW={["80%", "50%"]}
       mx="auto"
       my={10}
       pt={12}
