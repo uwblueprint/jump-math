@@ -4,7 +4,7 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 
 import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
 import {
-  GET_ALL_TEACHERS,
+  GET_TEACHERS,
   GET_USERS_BY_ROLE,
 } from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
@@ -28,7 +28,7 @@ const RemoveUserModal = ({
     {
       refetchQueries: [
         { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
-        { query: GET_ALL_TEACHERS },
+        { query: GET_TEACHERS },
       ],
     },
   );
