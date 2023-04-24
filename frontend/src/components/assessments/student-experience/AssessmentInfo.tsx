@@ -2,7 +2,10 @@ import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
 import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../../../types/QuestionTypes";
 import QuestionSummary from "../assessment-creation/QuestionSummary";
 
 import QuestionTypeImages from "./QuestionTypeImages";
@@ -14,19 +17,29 @@ interface AssessmentInfoProps {
 const AssessmentInfo = ({
   questions,
 }: AssessmentInfoProps): React.ReactElement => {
+  const pointCount = questions
+    .flat()
+    .filter((question) => question.type === QuestionElementType.QUESTION_TEXT)
+    .length;
+
+  const questionTypes = () => {
+    const types: ResponseElementType[] = [];
+    Object.values(ResponseElementType).forEach((responseType) => {
+      if (questions.flat().some((question) => question.type === responseType)) {
+        types.push(responseType);
+      }
+    });
+    return types;
+  };
+
   return (
-    <QuestionSummary pointCount={10} questionCount={questions.length}>
+    <QuestionSummary pointCount={pointCount} questionCount={questions.length}>
       <VStack align="left" width="100%">
         <br />
         <Text paddingBottom="2" textStyle="smaller-paragraph">
           Question Types:
         </Text>
-        <QuestionTypeImages
-          questionTypes={[
-            QuestionElementType.MULTIPLE_CHOICE,
-            QuestionElementType.MULTI_SELECT,
-          ]}
-        />
+        <QuestionTypeImages questionTypes={questionTypes()} />
       </VStack>
     </QuestionSummary>
   );
