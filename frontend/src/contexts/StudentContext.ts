@@ -5,15 +5,15 @@ import { TestResponse } from "../APIClients/types/TestClientTypes";
 type StudentContextType = {
   test: TestResponse | null;
   setTest: (_test: TestResponse) => void;
-  testSession: string;
-  setTestSession: (_setTestSession: string) => void;
+  testSessionId: string;
+  setTestSessionId: (_setTestSessionId: string) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
   test: null,
   setTest: (_test: TestResponse): void => {},
-  testSession: "",
-  setTestSession: (_setTestSession: string): void => {},
+  testSessionId: "",
+  setTestSessionId: (_setTestSessionId: string): void => {},
 });
 
 export default StudentContext;

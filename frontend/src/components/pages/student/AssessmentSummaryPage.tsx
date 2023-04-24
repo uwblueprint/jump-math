@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   HStack,
@@ -10,8 +9,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { GET_TEST } from "../../../APIClients/queries/TestQueries";
-import { TestResponse } from "../../../APIClients/types/TestClientTypes";
 import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { HOME_PAGE } from "../../../constants/Routes";
 import { assessmentMetadata } from "../../../constants/StudentAssessmentConstants";
@@ -19,31 +16,9 @@ import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
 import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
-  const { state } = useLocation<{ testId: string; testSessionId: string }>();
-  const [testId, setTestId] = useState("");
-  const [testSessionId, setTestSessionId] = useState("");
-
-  const { test, setTest } = useContext(StudentContext);
-
-  useEffect(() => {
-    setTestId(state.testId);
-    setTestSessionId(state.testSessionId);
-  }, [state]);
-
-  const { loading, data, error } = useQuery<{ test: TestResponse }>(GET_TEST, {
-    fetchPolicy: "cache-and-network",
-    variables: { id: testId },
-    skip: !testId,
-    onCompleted: () => {
-      if (data) {
-        setTest(data.test);
-      }
-    },
-  });
+  const { test } = useContext(StudentContext);
 
   const history = useHistory();
   const { setAuthenticatedUser } = useContext(AuthContext);
@@ -54,9 +29,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
 
   return (
     <>
-      {loading && <LoadingState fullPage />}
-      {error && <ErrorState fullPage />}
-      {data && (
+      {test && (
         <HStack alignItems="flex-start" pt="4em">
           <Image
             alt="Jump Math Logo"
@@ -67,7 +40,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
           <VStack height="85vh" justifyContent="space-between" pr="4em">
             <VStack align="left">
               <Text color="blue.300" textStyle="header4">
-                {data.test.name}
+                {test.name}
               </Text>
               <Text color="blue.300" textStyle="paragraph">
                 {/* update after test session backend is updated */}
@@ -75,7 +48,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 {assessmentMetadata.startTime}
               </Text>
               <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
-                <AssessmentInfo questions={data.test.questions} />
+                <AssessmentInfo questions={test.questions} />
                 {/* update after test session backend is updated */}
                 <AssessmentRules body={assessmentMetadata.rules} />
               </SimpleGrid>
@@ -88,7 +61,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
             </HStack>
           </VStack>
         </HStack>
-      )}
+      )}{" "}
     </>
   );
 };
