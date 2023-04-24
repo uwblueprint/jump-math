@@ -36,8 +36,8 @@ export const GET_TEST = gql`
   }
 `;
 
-export const GET_TESTS = gql`
-  query GetTests {
+export const GET_ALL_TESTS = gql`
+  query GetAllTests {
     tests {
       id
       name

@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 
 import { UNARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
-import { GET_TESTS } from "../../../../APIClients/queries/TestQueries";
+import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
 import Modal from "../../../common/Modal";
 import Toast from "../../../common/Toast";
 
@@ -20,7 +20,7 @@ const UnarchiveModal = ({
   const [unarchiveAssessment, { error }] = useMutation<{
     unarchiveAssessment: string;
   }>(UNARCHIVE_TEST, {
-    refetchQueries: [{ query: GET_TESTS }],
+    refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
   const { showToast } = Toast();
