@@ -353,12 +353,7 @@ class TestSessionService implements ITestSessionService {
     // - index (for multiple choice)
     // - list of indices (for multiple select)
     // - null (for no answer)
-    const studentTestAnswers: (
-      | number[]
-      | number
-      | null
-      | FractionMetadata
-    )[][] = result.answers;
+    const studentTestAnswers: (number[] | number | null)[][] = result.answers;
 
     let computedScore = 0.0;
     const computedBreakdown: boolean[][] = [];
@@ -373,31 +368,20 @@ class TestSessionService implements ITestSessionService {
           const { type } = questionComponent;
           const singleResponse =
             type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.SHORT_ANSWER ||
+            type === QuestionComponentType.SHORT_ANSWER;
+          const multiResponse =
+            type === QuestionComponentType.MULTI_SELECT ||
             type === QuestionComponentType.FRACTION;
-          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
           let isCorrect = false;
 
           if (singleResponse) {
-            const actualAnswer:
-              | number
-              | FractionMetadata = this.getCorrectAnswer(questionComponent);
+            const actualAnswer: number = this.getCorrectAnswer(
+              questionComponent,
+            );
             const studentAnswer = studentTestAnswers[i][questionsCount] as
               | number
-              | null
-              | FractionMetadata;
-
-            if (type === QuestionComponentType.FRACTION) {
-              const actualFractionAnswer = actualAnswer as FractionMetadata;
-              const studentFractionAnswer = studentAnswer as FractionMetadata;
-              isCorrect =
-                actualFractionAnswer.numerator ===
-                  studentFractionAnswer?.numerator &&
-                actualFractionAnswer.denominator ===
-                  studentFractionAnswer?.denominator;
-            } else {
-              isCorrect = studentAnswer === actualAnswer;
-            }
+              | null;
+            isCorrect = studentAnswer === actualAnswer;
           } else if (multiResponse) {
             const actualAnswers: number[] = this.getCorrectAnswers(
               questionComponent,
@@ -447,10 +431,8 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private getCorrectAnswer(
-    questionComponent: QuestionComponent,
-  ): number | FractionMetadata {
-    let actualAnswer: number | FractionMetadata;
+  private getCorrectAnswer(questionComponent: QuestionComponent): number {
+    let actualAnswer: number;
 
     if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
       const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
@@ -458,9 +440,6 @@ class TestSessionService implements ITestSessionService {
     } else if (questionComponent.type === QuestionComponentType.SHORT_ANSWER) {
       const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
       actualAnswer = questionMetadata.answer;
-    } else if (questionComponent.type === QuestionComponentType.FRACTION) {
-      const questionMetadata = questionComponent.metadata as FractionMetadata;
-      actualAnswer = questionMetadata;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -468,8 +447,18 @@ class TestSessionService implements ITestSessionService {
   }
 
   private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
-    const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
-    const actualAnswers: number[] = questionMetadata.answerIndices;
+    let actualAnswers: number[];
+
+    if (questionComponent.type === QuestionComponentType.MULTI_SELECT) {
+      const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
+      actualAnswers = questionMetadata.answerIndices;
+    } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+      const questionMetadata = questionComponent.metadata as FractionMetadata;
+      actualAnswers = [
+        questionMetadata.numerator,
+        questionMetadata.denominator,
+      ];
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswers!;
