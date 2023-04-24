@@ -1,13 +1,19 @@
 import { createContext } from "react";
 
+import { TestResponse } from "../APIClients/types/TestClientTypes";
+
 type StudentContextType = {
-  testId: string;
-  setTestId: (_testId: string) => void;
+  test: TestResponse | null;
+  setTest: (_test: TestResponse) => void;
+  testSession: string;
+  setTestSession: (_setTestSession: string) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
-  testId: "",
-  setTestId: (_testId: string): void => {},
+  test: null,
+  setTest: (_test: TestResponse): void => {},
+  testSession: "",
+  setTestSession: (_setTestSession: string): void => {},
 });
 
 export default StudentContext;

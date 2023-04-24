@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
@@ -23,17 +23,26 @@ import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
-  const { state } = useLocation<string>();
-  const { testId, setTestId } = useContext(StudentContext);
+  const { state } = useLocation<{ testId: string; testSessionId: string }>();
+  const [testId, setTestId] = useState("");
+  const [testSessionId, setTestSessionId] = useState("");
+
+  const { test, setTest } = useContext(StudentContext);
 
   useEffect(() => {
-    setTestId(state);
-  }, [state, setTestId]);
+    setTestId(state.testId);
+    setTestSessionId(state.testSessionId);
+  }, [state]);
 
   const { loading, data, error } = useQuery<{ test: TestResponse }>(GET_TEST, {
     fetchPolicy: "cache-and-network",
     variables: { id: testId },
     skip: !testId,
+    onCompleted: () => {
+      if (data) {
+        setTest(data.test);
+      }
+    },
   });
 
   const history = useHistory();

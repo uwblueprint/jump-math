@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 
+import { TestResponse } from "../../../APIClients/types/TestClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
@@ -9,10 +16,13 @@ import NotFound from "../NotFound";
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
 
 const StudentDashboard = (): React.ReactElement => {
-  const [testId, setTestId] = useState("");
+  const [test, setTest] = useState<TestResponse | null>(null);
+  const [testSession, setTestSession] = useState("");
 
   return (
-    <StudentContext.Provider value={{ testId, setTestId }}>
+    <StudentContext.Provider
+      value={{ test, setTest, testSession, setTestSession }}
+    >
       <Switch>
         <PrivateRoute
           component={AssessmentSummaryPage}
