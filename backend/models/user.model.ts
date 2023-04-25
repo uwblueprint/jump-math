@@ -2,7 +2,6 @@ import mongoose, { Schema, Document } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
 import { Grade, Role } from "../types";
-import MgClass, { Class } from "./class.model";
 
 export interface User extends Document {
   id: string;
