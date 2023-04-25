@@ -36,18 +36,10 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       const createdClass = await classService.createClass(classObj);
       const teacherToUpdate = await userService.getUserById(classObj.teacher);
-      const classToAdd = {
-        ...createdClass,
-        teacher: createdClass.teacher.id,
-        testSessions: createdClass.testSessions.map(
-          (testSessionDTO) => testSessionDTO.id,
-        ),
-        students: createdClass.students,
-      } as Class;
       if (teacherToUpdate.class) {
-        teacherToUpdate.class.push(classToAdd);
+        teacherToUpdate.class.push(createdClass.id);
       } else {
-        teacherToUpdate.class = [classToAdd];
+        teacherToUpdate.class = [createdClass.id];
       }
       await userService.updateUserById(classObj.teacher, {
         ...teacherToUpdate,

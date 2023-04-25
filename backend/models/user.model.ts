@@ -13,7 +13,7 @@ export interface User extends Document {
   email: string;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
-  class?: Class[];
+  class?: string[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -54,8 +54,8 @@ const UserSchema: Schema = new Schema({
     required: false,
   },
   class: {
-    type: [MgClass.schema],
-    required: false,
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
+    required: true,
   },
 });
 
