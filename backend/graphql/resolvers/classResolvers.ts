@@ -1,4 +1,3 @@
-import { Class, Student } from "../../models/class.model";
 import ClassService from "../../services/implementations/classService";
 import SchoolService from "../../services/implementations/schoolService";
 import TestService from "../../services/implementations/testService";
