@@ -199,7 +199,7 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} not found`);
       }
       // eslint-disable-next-line no-underscore-dangle
-      test._id = mongoose.Types.ObjectId();
+      test._id = new mongoose.Types.ObjectId();
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();

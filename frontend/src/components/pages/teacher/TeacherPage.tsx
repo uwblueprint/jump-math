@@ -12,7 +12,6 @@ const defaultValues = {
   className: "",
   schoolYear: "",
   gradeLevel: Grade.K,
-  subject: "",
 } as ClassroomForm;
 
 const TeacherPage = (): React.ReactElement => {

@@ -28,6 +28,14 @@ const classService: IClassService = new ClassService(
 );
 
 const classResolvers = {
+  Query: {
+    classByTestSession: async (
+      _req: undefined,
+      { testSessionId }: { testSessionId: string },
+    ): Promise<ClassResponseDTO> => {
+      return classService.getClassByTestSessionId(testSessionId);
+    },
+  },
   Mutation: {
     createClass: async (
       _req: undefined,
@@ -37,8 +45,7 @@ const classResolvers = {
     },
     createStudent: async (
       _req: undefined,
-      { student }: { student: StudentRequestDTO },
-      classId: string,
+      { student, classId }: { student: StudentRequestDTO; classId: string },
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
     },

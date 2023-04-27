@@ -12,7 +12,7 @@ export interface Class extends Document {
   /** the school year of the class */
   schoolYear: number;
   /** the grade level of the class */
-  gradeLevel: Grade[];
+  gradeLevel: Grade;
   /** the id of the teacher that teaches the class  */
   teacher: string;
   /** the ids of the test sessions assigned to the class */
@@ -22,9 +22,13 @@ export interface Class extends Document {
 }
 
 export interface Student {
+  /** the unique identifier for the student */
   id: string;
+  /** the first name of the student */
   firstName: string;
+  /** the last name of the student */
   lastName: string;
+  /** an optional identifier provided by the teacher */
   studentNumber?: string;
 }
 
@@ -53,13 +57,8 @@ const ClassSchema: Schema = new Schema({
     required: true,
   },
   gradeLevel: {
-    type: [
-      {
-        type: String,
-        required: false,
-        enum: Object.keys(Grade),
-      },
-    ],
+    type: String,
+    enum: Object.keys(Grade),
     required: true,
   },
   teacher: {

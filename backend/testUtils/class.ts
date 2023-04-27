@@ -5,8 +5,8 @@ import {
   StudentResponseDTO,
 } from "../services/interfaces/classService";
 import { mockTeacher } from "./users";
-import { mockTestSessionWithId } from "./testSession";
 import { Grade } from "../types";
+import { mockTestSessionWithId } from "./testSession";
 
 // set up test students
 export const testStudents: StudentRequestDTO[] = [
@@ -49,16 +49,14 @@ export const testClass: ClassRequestDTO[] = [
   {
     className: "class1",
     schoolYear: 4,
-    gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+    gradeLevel: Grade.K,
     teacher: mockTeacher.id,
-    testSessions: [mockTestSessionWithId.id],
   },
   {
     className: "class2",
     schoolYear: 5,
-    gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
+    gradeLevel: Grade.GRADE_4,
     teacher: mockTeacher.id,
-    testSessions: [mockTestSessionWithId.id],
   },
 ];
 
@@ -73,20 +71,23 @@ export const testClassWithStudents = {
   students: testStudents,
 };
 
+export const testClassWithTestSessions = {
+  ...testClass[0],
+  testSessions: [mockTestSessionWithId.id],
+};
+
 export const updatedTestClass: ClassRequestDTO = {
   className: "class1changed",
   schoolYear: 4,
-  gradeLevel: [Grade.GRADE_4, Grade.GRADE_5, Grade.GRADE_6, Grade.GRADE_7],
+  gradeLevel: Grade.GRADE_5,
   teacher: mockTeacher.id,
-  testSessions: [mockTestSessionWithId.id],
 };
 
 export const updatedTestClassWithStudent = {
   className: "class1",
   schoolYear: 4,
-  gradeLevel: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+  gradeLevel: Grade.GRADE_1,
   teacher: mockTeacher.id,
-  testSessions: [mockTestSessionWithId.id],
   students: updatedTestStudents,
 };
 
@@ -110,7 +111,11 @@ export const assertResponseMatchesExpected = (
   expect(result.schoolYear).toEqual(expected.schoolYear);
   expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
   expect(result.teacher).toEqual(mockTeacher);
-  expect(result.testSessions).toEqual([mockTestSessionWithId]);
+  if (result.testSessions.length !== 0) {
+    expect(result.testSessions).toEqual([mockTestSessionWithId]);
+  } else {
+    expect(result.testSessions).toEqual([]);
+  }
 };
 
 export const assertStudentResponseMatchesExpected = (

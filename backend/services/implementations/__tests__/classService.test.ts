@@ -12,6 +12,7 @@ import {
   updatedTestClassWithStudent,
   updatedTestStudents,
   assertStudentResponseMatchesExpected,
+  testClassWithTestSessions,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -91,7 +92,7 @@ describe("mongo classService", (): void => {
 
   it("getClassById for valid Id", async () => {
     // execute and assert
-    const savedClass = await ClassModel.create(testClass[0]);
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
   });
@@ -102,6 +103,34 @@ describe("mongo classService", (): void => {
     await ClassModel.create(testClass[0]);
     expect(classService.getClassById(notFoundId)).rejects.toThrowError(
       `Class id ${notFoundId} not found`,
+    );
+  });
+
+  it("getClassByTestSessionId for valid testSessionId", async () => {
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const res = await classService.getClassByTestSessionId(
+      savedClass.testSessions[0],
+    );
+    assertResponseMatchesExpected(savedClass, res);
+  });
+
+  it("getClassByTestSessionId for non-existing testSessionId", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await classService.getClassByTestSessionId(notFoundId);
+    }).rejects.toThrowError(
+      `Class with test session id ${notFoundId} not found`,
+    );
+  });
+
+  it("getClassByTestSessionId for classes with same testSessionId", async () => {
+    await ClassModel.create(testClassWithTestSessions);
+    await ClassModel.create(testClassWithTestSessions);
+    const testSessionId = testClassWithTestSessions.testSessions[0];
+    await expect(async () => {
+      await classService.getClassByTestSessionId(testSessionId);
+    }).rejects.toThrowError(
+      `More than one class has the same Test Session of id ${testSessionId}`,
     );
   });
 
