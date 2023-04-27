@@ -10,11 +10,12 @@ export const uploadDir = "test-bucket";
 export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot.com/${uploadDir}/${filename}`;
 export const invalidImageType = "text/plain";
 
+const filePath = `/assets/${filename}`;
+
 export const imageUpload: ImageMetadataRequest = {
   file: new Promise((r) =>
     r({
-      createReadStream: () =>
-        fs.createReadStream(resolve(__dirname, `assets/${filename}`)),
+      createReadStream: () => fs.createReadStream(resolve(__dirname, filePath)),
       filename,
       mimetype: "image/png",
       encoding: "7bit",
@@ -25,13 +26,17 @@ export const imageUpload: ImageMetadataRequest = {
 export const invalidImageUpload: ImageMetadataRequest = {
   file: new Promise((r) =>
     r({
-      createReadStream: () =>
-        fs.createReadStream(resolve(__dirname, `assets/${filename}`)),
+      createReadStream: () => fs.createReadStream(resolve(__dirname, filePath)),
       filename,
       mimetype: invalidImageType,
       encoding: "7bit",
     }),
   ),
+};
+
+export const imageMetadata: ImageMetadata = {
+  filePath,
+  url: signedUrl,
 };
 
 export const assertResponseMatchesExpected = (result: ImageMetadata): void => {

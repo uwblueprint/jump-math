@@ -3,6 +3,7 @@ import db from "../../../testUtils/testDb";
 import {
   assertResponseMatchesExpected,
   filename,
+  imageMetadata,
   imageUpload,
   invalidImageType,
   invalidImageUpload,
@@ -66,6 +67,11 @@ describe("mongo imageUploadService", (): void => {
   it("getImage", async () => {
     const filePath = `${uploadDir}/${filename}_${uuidv4()}`;
     const res = await imageUploadService.getImage(filePath);
+    assertResponseMatchesExpected(res);
+  });
+
+  it("hydrateImage", async () => {
+    const res = await imageUploadService.hydrateImage(imageMetadata);
     assertResponseMatchesExpected(res);
   });
 });

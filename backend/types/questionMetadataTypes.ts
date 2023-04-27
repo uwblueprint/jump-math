@@ -61,6 +61,9 @@ export interface ImageMetadataRequest {
   file: Promise<FileUpload>;
 }
 
+/** A union of all metadata types for an image component */
+export type ImageMetadataTypes = ImageMetadata | ImageMetadataRequest;
+
 /**
  * This interface contains additional information about a multiple choice component
  */
@@ -88,5 +91,3 @@ export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
 }
-
-export type ImageMetadataTypes = ImageMetadata | ImageMetadataRequest;

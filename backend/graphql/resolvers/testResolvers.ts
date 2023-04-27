@@ -82,7 +82,7 @@ const resolveQuestions = (
 };
 
 const testResolvers = {
-  QuestionComponentMetadataResponse: {
+  QuestionComponentMetadata: {
     // eslint-disable-next-line no-underscore-dangle
     __resolveType: (
       obj: QuestionComponentMetadata,

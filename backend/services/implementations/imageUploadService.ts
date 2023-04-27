@@ -65,6 +65,11 @@ class ImageUploadService implements IImageUploadService {
     }
   }
 
+  async hydrateImage(image: ImageMetadata): Promise<ImageMetadata> {
+    const { filePath } = image;
+    return this.getImage(filePath);
+  }
+
   async getImage(filePath: string): Promise<ImageMetadata> {
     const signedUrl = await this.storageService.getFile(filePath);
     return { url: signedUrl, filePath };

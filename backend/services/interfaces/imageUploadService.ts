@@ -6,7 +6,7 @@ import {
 interface IImageUploadService {
   /**
    * Upload an image to Firebase
-   * @param image the file to upload
+   * @param image the image to upload
    * @returns a url and file path for the requested image
    */
   uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata>;
@@ -17,6 +17,13 @@ interface IImageUploadService {
    * @returns a url and file path for the requested image
    */
   getImage(filePath: string): Promise<ImageMetadata>;
+
+  /**
+   * Hydrate an image stored in Firebase
+   * @param image the image to hydrate
+   * @returns a url and file path for the requested image
+   */
+  hydrateImage(image: ImageMetadata): Promise<ImageMetadata>;
 }
 
 export default IImageUploadService;

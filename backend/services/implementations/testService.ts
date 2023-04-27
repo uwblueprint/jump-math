@@ -313,11 +313,10 @@ class TestService implements ITestService {
   private async hydrateImages(
     questions: QuestionComponent[][],
   ): Promise<QuestionComponent[][]> {
-    return this.processImages<ImageMetadata>(questions, this.getImage);
-  }
-
-  private async getImage(imageMetadata: ImageMetadata): Promise<ImageMetadata> {
-    return this.imageUploadService.getImage(imageMetadata.filePath);
+    return this.processImages<ImageMetadata>(
+      questions,
+      this.imageUploadService.hydrateImage,
+    );
   }
 
   private async uploadImages(
