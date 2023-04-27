@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-cycle
-import { Class } from "./models/class.model";
-
 export type Role = "Teacher" | "Admin";
 
 export type Token = {

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
+import { CREATE_NEW_TEST } from "../../../APIClients/mutations/TestMutations";
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
@@ -29,7 +29,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
-  }>(CREATE_NEW_ASSESSMENT);
+  }>(CREATE_NEW_TEST);
 
   const {
     handleSubmit,

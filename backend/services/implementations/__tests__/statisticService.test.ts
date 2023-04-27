@@ -91,14 +91,14 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestWithId.id,
+      mockTestResponse.id,
     );
     expect(actualResult).toEqual(13);
   });
 
   it("getSubmissionCountByTest with 0 submissions", async () => {
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestWithId.id,
+      mockTestResponse.id,
     );
     expect(actualResult).toEqual(0);
   });
