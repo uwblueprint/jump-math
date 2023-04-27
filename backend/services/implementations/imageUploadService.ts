@@ -67,12 +67,30 @@ class ImageUploadService implements IImageUploadService {
 
   async hydrateImage(image: ImageMetadata): Promise<ImageMetadata> {
     const { filePath } = image;
-    return this.getImage(filePath);
+    try {
+      return await this.getImage(filePath);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to hydrate image with filePath "${filePath}". Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 
   async getImage(filePath: string): Promise<ImageMetadata> {
-    const signedUrl = await this.storageService.getFile(filePath);
-    return { url: signedUrl, filePath };
+    try {
+      const signedUrl = await this.storageService.getFile(filePath);
+      return { url: signedUrl, filePath };
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get image for filePath "${filePath}". Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 
   private async createImage(

@@ -10,12 +10,12 @@ import {
  * An enum containing the types of components that can be added to a question
  */
 export enum QuestionComponentType {
-  QUESTION_TEXT,
-  TEXT,
-  IMAGE,
-  MULTIPLE_CHOICE,
-  MULTI_SELECT,
-  SHORT_ANSWER,
+  QUESTION_TEXT = "QUESTION_TEXT",
+  TEXT = "TEXT",
+  IMAGE = "IMAGE",
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  MULTI_SELECT = "MULTI_SELECT",
+  SHORT_ANSWER = "SHORT_ANSWER",
 }
 
 /**

@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { questionsValidator } from "../middlewares/validators/testValidators";
+import questionsValidator from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
 import { QuestionComponent } from "../types/questionTypes";
 
