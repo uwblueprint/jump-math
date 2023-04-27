@@ -1,6 +1,6 @@
 import React from "react";
 
-import MobileRedirect from "../common/MobileRedirect";
+import MobileRedirect from "./MobileRedirect";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (

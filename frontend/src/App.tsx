@@ -5,7 +5,7 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
 
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
@@ -14,6 +14,7 @@ import TeacherSignup from "./components/auth/teacher-signup";
 import AdminDashboard from "./components/pages/admin/AdminDashboard";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
+import MobileRedirect from "./components/pages/MobileRedirect";
 import NotFound from "./components/pages/NotFound";
 import StudentDashboard from "./components/pages/student/StudentDashboard";
 import StudentLoginPage from "./components/pages/student/StudentLoginPage";
@@ -48,6 +49,8 @@ const App = (): React.ReactElement => {
     DEFAULT_SAMPLE_CONTEXT,
   );
 
+  const [isMobile] = useMediaQuery("(max-width: 480px)");
+
   return (
     <ChakraProvider theme={theme}>
       <SampleContext.Provider value={sampleContext}>
@@ -62,6 +65,10 @@ const App = (): React.ReactElement => {
           >
             <Router>
               <Switch>
+                {/* for mobile devices */}
+                {isMobile && (
+                  <Route component={MobileRedirect} exact path="*" />
+                )}
                 {/* private admin routing */}
                 {authenticatedUser?.role === "Admin" && (
                   <Redirect
