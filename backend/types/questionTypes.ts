@@ -1,11 +1,9 @@
-import { FileUpload } from "graphql-upload";
-import { ImageUpload } from "../services/interfaces/imageUploadService";
 import {
-  ImageTypes,
   BaseQuestionComponentMetadata,
-  ImageMetadata,
-  ImagePreviewMetadata,
   GraphQLQuestionComponentMetadata,
+  ImageMetadata,
+  ImageMetadataRequest,
+  ImageMetadataTypes,
 } from "./questionMetadataTypes";
 
 /**
@@ -23,22 +21,18 @@ export enum QuestionComponentType {
 /**
  * This interface contains information about a single component in a question
  */
-export interface BaseQuestionComponent<Type extends ImageTypes> {
+export interface BaseQuestionComponent<
+  ImageMetadataType extends ImageMetadataTypes
+> {
   /** the type of question component  */
   type: QuestionComponentType;
   /** additional metadata for the question */
-  metadata: BaseQuestionComponentMetadata<Type>;
+  metadata: BaseQuestionComponentMetadata<ImageMetadataType>;
 }
-
-export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
-  GraphQLQuestionComponentMetadata;
-
-export type QuestionComponentRequest = BaseQuestionComponent<
-  Promise<FileUpload>
->;
-
-export type QuestionComponentUploaded = BaseQuestionComponent<ImageUpload>;
 
 export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;
 
-export type QuestionComponentResponse = BaseQuestionComponent<ImagePreviewMetadata>;
+export type QuestionComponentRequest = BaseQuestionComponent<ImageMetadataRequest>;
+
+export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
+  GraphQLQuestionComponentMetadata;

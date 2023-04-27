@@ -16,7 +16,7 @@ import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
 import {
-  QuestionComponentResponse,
+  QuestionComponent,
   QuestionComponentType,
 } from "../../types/questionTypes";
 import {
@@ -363,55 +363,49 @@ class TestSessionService implements ITestSessionService {
 
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
-      test.questions.forEach(
-        (questionComponents: QuestionComponentResponse[], i) => {
-          const computedBreakdownByQuestion: boolean[] = [];
-          questionComponents.forEach(
-            (questionComponent: QuestionComponentResponse) => {
-              const { type } = questionComponent;
-              const singleResponse =
-                type === QuestionComponentType.MULTIPLE_CHOICE ||
-                type === QuestionComponentType.SHORT_ANSWER;
-              const multiResponse = type === QuestionComponentType.MULTI_SELECT;
-              let isCorrect = false;
+      test.questions.forEach((questionComponents: QuestionComponent[], i) => {
+        const computedBreakdownByQuestion: boolean[] = [];
+        questionComponents.forEach((questionComponent: QuestionComponent) => {
+          const { type } = questionComponent;
+          const singleResponse =
+            type === QuestionComponentType.MULTIPLE_CHOICE ||
+            type === QuestionComponentType.SHORT_ANSWER;
+          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
+          let isCorrect = false;
 
-              if (singleResponse) {
-                const actualAnswer: number = this.getCorrectAnswer(
-                  questionComponent,
-                );
-                const studentAnswer = studentTestAnswers[i][questionsCount] as
-                  | number
-                  | null;
+          if (singleResponse) {
+            const actualAnswer: number = this.getCorrectAnswer(
+              questionComponent,
+            );
+            const studentAnswer = studentTestAnswers[i][questionsCount] as
+              | number
+              | null;
 
-                isCorrect = studentAnswer === actualAnswer;
-              } else if (multiResponse) {
-                const actualAnswers: number[] = this.getCorrectAnswers(
-                  questionComponent,
-                );
-                const studentAnswers = studentTestAnswers[i][questionsCount] as
-                  | number[]
-                  | null;
-                isCorrect =
-                  studentAnswers?.length === actualAnswers.length &&
-                  studentAnswers.every(
-                    (val, idx) => val === actualAnswers[idx],
-                  );
-              }
+            isCorrect = studentAnswer === actualAnswer;
+          } else if (multiResponse) {
+            const actualAnswers: number[] = this.getCorrectAnswers(
+              questionComponent,
+            );
+            const studentAnswers = studentTestAnswers[i][questionsCount] as
+              | number[]
+              | null;
+            isCorrect =
+              studentAnswers?.length === actualAnswers.length &&
+              studentAnswers.every((val, idx) => val === actualAnswers[idx]);
+          }
 
-              if (singleResponse || multiResponse) {
-                if (isCorrect) {
-                  questionsCorrect += 1;
-                  computedBreakdownByQuestion.push(true);
-                } else {
-                  computedBreakdownByQuestion.push(false);
-                }
-                questionsCount += 1;
-              }
-            },
-          );
-          computedBreakdown.push(computedBreakdownByQuestion);
-        },
-      );
+          if (singleResponse || multiResponse) {
+            if (isCorrect) {
+              questionsCorrect += 1;
+              computedBreakdownByQuestion.push(true);
+            } else {
+              computedBreakdownByQuestion.push(false);
+            }
+            questionsCount += 1;
+          }
+        });
+        computedBreakdown.push(computedBreakdownByQuestion);
+      });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
       computedScore = parseFloat(
@@ -437,9 +431,7 @@ class TestSessionService implements ITestSessionService {
     return resultResponseDTO;
   }
 
-  private getCorrectAnswer(
-    questionComponent: QuestionComponentResponse,
-  ): number {
+  private getCorrectAnswer(questionComponent: QuestionComponent): number {
     let actualAnswer: number;
 
     if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
@@ -454,9 +446,7 @@ class TestSessionService implements ITestSessionService {
     return actualAnswer!;
   }
 
-  private getCorrectAnswers(
-    questionComponent: QuestionComponentResponse,
-  ): number[] {
+  private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
     const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
     const actualAnswers: number[] = questionMetadata.answerIndices;
 

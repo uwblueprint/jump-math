@@ -50,9 +50,14 @@ const testType = gql`
     text: String!
   }
 
-  scalar ImageMetadataInput
+  scalar FileUpload
 
-  type ImagePreviewMetadata {
+  input ImageMetadataInput {
+    file: FileUpload!
+  }
+
+  type ImageMetadata {
+    filePath: String!
     url: String!
   }
 
@@ -84,17 +89,17 @@ const testType = gql`
     answer: Float!
   }
 
-  union QuestionComponentMetadataResponse =
+  union QuestionComponentMetadata =
       QuestionTextMetadata
     | TextMetadata
-    | ImagePreviewMetadata
+    | ImageMetadata
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
 
-  type QuestionComponentResponse {
+  type QuestionComponent {
     type: QuestionComponentTypeEnum!
-    metadata: QuestionComponentMetadataResponse!
+    metadata: QuestionComponentMetadata!
   }
 
   input QuestionComponentInput {
@@ -110,7 +115,7 @@ const testType = gql`
   type TestResponseDTO {
     id: ID!
     name: String!
-    questions: [[QuestionComponentResponse]]!
+    questions: [[QuestionComponent]]!
     grade: GradeEnum!
     assessmentType: AssessmentTypeEnum!
     curriculumCountry: String!
@@ -135,7 +140,7 @@ const testType = gql`
   extend type Mutation {
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
-    deleteTestById(id: ID!): ID
+    deleteTest(id: ID!): ID
     publishTest(id: ID!): TestResponseDTO!
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!

@@ -6,8 +6,8 @@ import {
 } from "../../services/interfaces/testService";
 import {
   GraphQLQuestionComponentMetadata,
+  QuestionComponentMetadata,
   QuestionComponentMetadataRequest,
-  QuestionComponentMetadataResponse,
 } from "../../types/questionMetadataTypes";
 import {
   GraphQLQuestionComponent,
@@ -19,7 +19,7 @@ const testService: ITestService = new TestService();
 type QuestionMetadataName =
   | "QuestionTextMetadata"
   | "TextMetadata"
-  | "ImagePreviewMetadata"
+  | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
   | "ShortAnswerMetadata";
@@ -85,11 +85,11 @@ const testResolvers = {
   QuestionComponentMetadataResponse: {
     // eslint-disable-next-line no-underscore-dangle
     __resolveType: (
-      obj: QuestionComponentMetadataResponse,
+      obj: QuestionComponentMetadata,
     ): QuestionMetadataName | null => {
       if ("questionText" in obj) return "QuestionTextMetadata";
       if ("text" in obj) return "TextMetadata";
-      if ("url" in obj) return "ImagePreviewMetadata";
+      if ("url" in obj) return "ImageMetadata";
       if ("answerIndex" in obj) return "MultipleChoiceMetadata";
       if ("answerIndices" in obj) return "MultiSelectMetadata";
       if ("answer" in obj) return "ShortAnswerMetadata";
@@ -124,7 +124,7 @@ const testResolvers = {
         questions: resolvedQuestions,
       });
     },
-    deleteTestById: async (
+    deleteTest: async (
       _req: undefined,
       { id }: { id: string },
     ): Promise<string> => {

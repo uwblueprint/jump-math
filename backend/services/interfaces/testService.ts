@@ -3,21 +3,21 @@ import { Grade } from "../../types";
 import {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
-  QuestionComponentResponse,
   QuestionComponent,
 } from "../../types/questionTypes";
 
-export type GenericQuestionComponent =
+export type BaseQuestionComponentType =
   | GraphQLQuestionComponent
   | QuestionComponentRequest
-  | QuestionComponent
-  | QuestionComponentResponse;
+  | QuestionComponent;
 
-export interface BaseTestDTO<Type extends GenericQuestionComponent> {
+export interface BaseTestDTO<
+  QuestionComponentType extends BaseQuestionComponentType
+> {
   /** The name of the test */
   name: string;
   /** An ordered list of questions to be asked when students take the test */
-  questions: Type[][];
+  questions: QuestionComponentType[][];
   /** The intended grade the test was made for */
   grade: Grade;
   /** the type of assessment */
@@ -34,9 +34,7 @@ export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
 
 export type TestRequestDTO = BaseTestDTO<QuestionComponentRequest>;
 
-export type TestDTO = BaseTestDTO<QuestionComponent>;
-
-export type TestResponseDTO = BaseTestDTO<QuestionComponentResponse> & {
+export type TestResponseDTO = BaseTestDTO<QuestionComponent> & {
   /** the unique identifier of the response */
   id: string;
 };

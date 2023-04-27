@@ -17,8 +17,8 @@ export const DUPLICATE_TEST = gql`
 `;
 
 export const DELETE_TEST = gql`
-  mutation DeleteTestById($id: ID!) {
-    deleteTestById(id: $id)
+  mutation DeleteTest($id: ID!) {
+    deleteTest(id: $id)
   }
 `;
 

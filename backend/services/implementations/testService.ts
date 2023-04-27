@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { FileUpload } from "graphql-upload";
 import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
 import {
   TestRequestDTO,
@@ -8,18 +7,19 @@ import {
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import IImageUploadService, {
-  ImageUpload,
-} from "../interfaces/imageUploadService";
+import IImageUploadService from "../interfaces/imageUploadService";
 import ImageUploadService from "./imageUploadService";
 import {
-  QuestionComponentResponse,
   QuestionComponentRequest,
   QuestionComponent,
   QuestionComponentType,
-  QuestionComponentUploaded,
+  BaseQuestionComponent,
 } from "../../types/questionTypes";
-import { ImageMetadata } from "../../types/questionMetadataTypes";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+  ImageMetadataTypes,
+} from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
 
@@ -33,13 +33,13 @@ class TestService implements ITestService {
   /* eslint-disable class-methods-use-this */
   async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
-    let questions: QuestionComponentUploaded[][];
+    let questions: QuestionComponent[][];
 
     try {
       questions = await this.uploadImages(test.questions);
       newTest = await MgTest.create({
         ...test,
-        questions: this.getQuestionComponents(questions),
+        questions,
       });
     } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
@@ -49,7 +49,7 @@ class TestService implements ITestService {
     return {
       id: newTest.id,
       name: newTest.name,
-      questions: this.getQuestionComponentResponses(questions),
+      questions,
       grade: newTest.grade,
       curriculumCountry: newTest.curriculumCountry,
       curriculumRegion: newTest.curriculumRegion,
@@ -93,7 +93,7 @@ class TestService implements ITestService {
 
   async updateTest(id: string, test: TestRequestDTO): Promise<TestResponseDTO> {
     let updatedTest: Test | null;
-    let questions: QuestionComponentUploaded[][];
+    let questions: QuestionComponent[][];
 
     try {
       questions = await this.uploadImages(test.questions);
@@ -101,7 +101,7 @@ class TestService implements ITestService {
         id,
         {
           ...test,
-          questions: this.getQuestionComponents(questions),
+          questions,
         },
         {
           new: true,
@@ -119,7 +119,7 @@ class TestService implements ITestService {
     return {
       id: updatedTest.id,
       name: updatedTest.name,
-      questions: this.getQuestionComponentResponses(questions),
+      questions,
       grade: updatedTest.grade,
       curriculumCountry: updatedTest.curriculumCountry,
       curriculumRegion: updatedTest.curriculumRegion,
@@ -293,7 +293,7 @@ class TestService implements ITestService {
   ): Promise<TestResponseDTO[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const questions: QuestionComponentResponse[][] = await this.hydrateImages(
+        const questions: QuestionComponent[][] = await this.hydrateImages(
           test.questions,
         );
         return {
@@ -310,84 +310,49 @@ class TestService implements ITestService {
     );
   }
 
-  private getQuestionComponents(
-    questions: QuestionComponentUploaded[][],
-  ): QuestionComponent[][] {
-    return questions.map((question: QuestionComponentUploaded[]) => {
-      return question.map((questionComponent: QuestionComponentUploaded) => {
-        if (questionComponent.type === QuestionComponentType.IMAGE) {
-          return {
-            ...questionComponent,
-            metadata: {
-              filePath: (questionComponent.metadata as ImageUpload).filePath,
-            },
-          };
-        }
-        return questionComponent;
-      });
-    });
-  }
-
-  private getQuestionComponentResponses(
-    questions: QuestionComponentUploaded[][],
-  ): QuestionComponentResponse[][] {
-    return questions.map((question: QuestionComponentUploaded[]) => {
-      return question.map((questionComponent: QuestionComponentUploaded) => {
-        if (questionComponent.type === QuestionComponentType.IMAGE) {
-          return {
-            ...questionComponent,
-            metadata: {
-              url: (questionComponent.metadata as ImageUpload).url,
-            },
-          };
-        }
-        return questionComponent;
-      });
-    });
-  }
-
   private async hydrateImages(
     questions: QuestionComponent[][],
-  ): Promise<QuestionComponentResponse[][]> {
-    return Promise.all(
-      questions.map(async (question: QuestionComponent[]) => {
-        return Promise.all(
-          question.map(async (questionComponent: QuestionComponent) => {
-            if (questionComponent.type === QuestionComponentType.IMAGE) {
-              const imageMetadata: ImageUpload = await this.imageUploadService.getImage(
-                (questionComponent.metadata as ImageMetadata).filePath,
-              );
-              return {
-                ...questionComponent,
-                metadata: {
-                  url: imageMetadata.url,
-                },
-              };
-            }
-            return (questionComponent as unknown) as QuestionComponentResponse;
-          }),
-        );
-      }),
-    );
+  ): Promise<QuestionComponent[][]> {
+    return this.processImages<ImageMetadata>(questions, this.getImage);
+  }
+
+  private async getImage(imageMetadata: ImageMetadata): Promise<ImageMetadata> {
+    return this.imageUploadService.getImage(imageMetadata.filePath);
   }
 
   private async uploadImages(
     questions: QuestionComponentRequest[][],
-  ): Promise<QuestionComponentUploaded[][]> {
+  ): Promise<QuestionComponent[][]> {
+    return this.processImages<ImageMetadataRequest>(
+      questions,
+      this.imageUploadService.uploadImage,
+    );
+  }
+
+  private async processImages<ImageMetadataType extends ImageMetadataTypes>(
+    questions: BaseQuestionComponent<ImageMetadataType>[][],
+    process: (imageMetadata: ImageMetadataType) => Promise<ImageMetadata>,
+  ): Promise<QuestionComponent[][]> {
     return Promise.all(
-      questions.map(async (question: QuestionComponentRequest[]) => {
-        return Promise.all(
-          question.map(async (questionComponent: QuestionComponentRequest) => {
-            if (questionComponent.type === QuestionComponentType.IMAGE) {
-              const imageMetadata: ImageUpload = await this.imageUploadService.uploadImage(
-                questionComponent.metadata as Promise<FileUpload>,
-              );
-              return { ...questionComponent, metadata: imageMetadata };
-            }
-            return (questionComponent as unknown) as QuestionComponentUploaded;
-          }),
-        );
-      }),
+      questions.map(
+        async (question: BaseQuestionComponent<ImageMetadataType>[]) => {
+          return Promise.all(
+            question.map(
+              async (
+                questionComponent: BaseQuestionComponent<ImageMetadataType>,
+              ) => {
+                if (questionComponent.type === QuestionComponentType.IMAGE) {
+                  const imageMetadata: ImageMetadata = await process(
+                    questionComponent.metadata as ImageMetadataType,
+                  );
+                  return { ...questionComponent, metadata: imageMetadata };
+                }
+                return questionComponent as QuestionComponent;
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

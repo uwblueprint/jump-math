@@ -1,23 +1,21 @@
 import { AssessmentStatus, AssessmentType } from "../models/test.model";
 import {
-  TestDTO,
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import { ImageTypes } from "../types/questionMetadataTypes";
+import { ImageMetadataTypes } from "../types/questionMetadataTypes";
 import {
   BaseQuestionComponent,
   QuestionComponent,
   QuestionComponentRequest,
-  QuestionComponentResponse,
   QuestionComponentType,
 } from "../types/questionTypes";
 import { imageUpload } from "./imageStorage";
 
-export const getQuestions = <Type extends ImageTypes>(
-  imageMetadata: Type,
-): Array<Array<BaseQuestionComponent<Type>>> => {
+export const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
+  imageMetadata: ImageMetadataType,
+): Array<Array<BaseQuestionComponent<ImageMetadataType>>> => {
   return [
     [
       {
@@ -88,21 +86,14 @@ export const getQuestions = <Type extends ImageTypes>(
 };
 
 export const questions: Array<Array<QuestionComponent>> = getQuestions({
-  filePath: "assessment-images/test.png",
+  filePath: "/assessment-images/test.png",
+  url:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
 });
 
 export const questionsRequest: Array<
   Array<QuestionComponentRequest>
 > = getQuestions(imageUpload);
-
-export const imageUrl =
-  "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png";
-
-export const questionsResponse: Array<
-  Array<QuestionComponentResponse>
-> = getQuestions({
-  url: imageUrl,
-});
 
 export const mockTestRequest: TestRequestDTO = {
   name: "test",
@@ -127,34 +118,14 @@ export const mockTestRequest2: TestRequestDTO = {
 export const mockTestResponse: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTestRequest,
-  questions: questionsResponse,
+  questions,
 };
 
 export const mockTestResponse2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea96",
   ...mockTestRequest2,
-  questions: questionsResponse,
-};
-
-export const mockTest: TestDTO = {
-  ...mockTestRequest,
   questions,
 };
-
-export const mockTestArray: Array<TestDTO> = [
-  {
-    ...mockTest,
-    name: "test1",
-  },
-  {
-    ...mockTest,
-    name: "test2",
-  },
-  {
-    ...mockTest,
-    name: "test3",
-  },
-];
 
 export const mockTestResponseArray: Array<TestResponseDTO> = [
   {
@@ -162,12 +133,8 @@ export const mockTestResponseArray: Array<TestResponseDTO> = [
     name: "test1",
   },
   {
-    ...mockTestResponse,
+    ...mockTestResponse2,
     name: "test2",
-  },
-  {
-    ...mockTestResponse,
-    name: "test3",
   },
 ];
 
@@ -183,18 +150,11 @@ export const assertResponseMatchesExpected = (
   expect(result.status).toEqual(expected.status);
   expect(result.grade).toEqual(expected.grade);
 
-  result.questions.forEach(
-    (questionComponents: QuestionComponentResponse[], i) => {
-      const expectedQuestion: QuestionComponentResponse[] =
-        expected.questions[i];
-      questionComponents.forEach(
-        (questionComponent: QuestionComponentResponse, j) => {
-          expect(questionComponent.type).toEqual(expectedQuestion[j].type);
-          expect(questionComponent.metadata).toEqual(
-            expectedQuestion[j].metadata,
-          );
-        },
-      );
-    },
-  );
+  result.questions.forEach((questionComponents: QuestionComponent[], i) => {
+    const expectedQuestion: QuestionComponent[] = expected.questions[i];
+    questionComponents.forEach((questionComponent: QuestionComponent, j) => {
+      expect(questionComponent.type).toEqual(expectedQuestion[j].type);
+      expect(questionComponent.metadata).toEqual(expectedQuestion[j].metadata);
+    });
+  });
 };
