@@ -1,11 +1,11 @@
 import React from "react";
 
-import TestSubmissionMessage from "../assessments/TestSubmissionMessage";
+import MobileRedirect from "./MobileRedirect";
 
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <div>
-      <TestSubmissionMessage />
+      <MobileRedirect />
     </div>
   );
 };
