@@ -5,11 +5,15 @@ import db from "../../../testUtils/testDb";
 import MgTest, { AssessmentStatus, Test } from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
+  mockArchivedTestResponse,
   mockTestRequest,
   mockTestRequest2,
+  mockDeletedTestResponse,
   mockTestResponse,
-  mockTestResponse2,
+  mockPublishedTestResponse,
   mockTestResponseArray,
+  imageMetadata,
+  mockTestResponse2,
 } from "../../../testUtils/tests";
 import { TestResponseDTO } from "../../interfaces/testService";
 
@@ -26,16 +30,12 @@ describe("mongo testService", (): void => {
 
   beforeEach(async () => {
     testService = new TestService();
-    testService.imageUploadService.uploadImage = jest.fn().mockReturnValue({
-      url:
-        "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-      filePath: "/assessment-images/test.png",
-    });
-    testService.imageUploadService.getImage = jest.fn().mockReturnValue({
-      url:
-        "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-      filePath: "/assessment-images/test.png",
-    });
+    testService.imageUploadService.uploadImage = jest
+      .fn()
+      .mockReturnValue(imageMetadata);
+    testService.imageUploadService.getImage = jest
+      .fn()
+      .mockReturnValue(imageMetadata);
   });
 
   afterEach(async () => {
@@ -83,51 +83,27 @@ describe("mongo testService", (): void => {
     const test = await MgTest.create(mockTestResponse);
 
     const publishedTest = await testService.publishTest(test.id);
-    assertResponseMatchesExpected(
-      {
-        ...mockTestResponse,
-        status: AssessmentStatus.PUBLISHED,
-      },
-      publishedTest,
-    );
+    assertResponseMatchesExpected(mockPublishedTestResponse, publishedTest);
     expect(test.id).toEqual(publishedTest.id);
   });
 
   it("duplicateTest", async () => {
-    const test = await MgTest.create({
-      ...mockTestResponse,
-      status: AssessmentStatus.PUBLISHED,
-    });
+    const test = await MgTest.create(mockPublishedTestResponse);
 
     const duplicateTest = await testService.duplicateTest(test.id);
     assertResponseMatchesExpected(mockTestResponse, duplicateTest);
     expect(test.id).not.toEqual(duplicateTest.id);
 
     const originalTest = await testService.getTestById(test.id);
-    assertResponseMatchesExpected(
-      {
-        ...mockTestResponse,
-        status: AssessmentStatus.PUBLISHED,
-      },
-      originalTest,
-    );
+    assertResponseMatchesExpected(mockPublishedTestResponse, originalTest);
     expect(test.id).toEqual(originalTest.id);
   });
 
   it("unarchiveTest", async () => {
-    const test = await MgTest.create({
-      ...mockTestResponse,
-      status: AssessmentStatus.ARCHIVED,
-    });
+    const test = await MgTest.create(mockArchivedTestResponse);
 
     const unarchivedTest = await testService.unarchiveTest(test.id);
-    assertResponseMatchesExpected(
-      {
-        ...mockTestResponse,
-        status: AssessmentStatus.DRAFT,
-      },
-      unarchivedTest,
-    );
+    assertResponseMatchesExpected(mockTestResponse, unarchivedTest);
     expect(test.id).not.toEqual(unarchivedTest.id);
 
     const originalTest = await MgTest.findById(test.id);
@@ -138,13 +114,7 @@ describe("mongo testService", (): void => {
     const test = await MgTest.create(mockTestResponse);
 
     const archivedTest = await testService.archiveTest(test.id);
-    assertResponseMatchesExpected(
-      {
-        ...mockTestResponse,
-        status: AssessmentStatus.ARCHIVED,
-      },
-      archivedTest,
-    );
+    assertResponseMatchesExpected(mockArchivedTestResponse, archivedTest);
     expect(test.id).toEqual(archivedTest.id);
   });
 
@@ -201,10 +171,7 @@ describe("mongo testService", (): void => {
   describe("invalid status", () => {
     let test: Test;
     beforeEach(async () => {
-      test = await MgTest.create({
-        ...mockTestResponse,
-        status: AssessmentStatus.DELETED,
-      });
+      test = await MgTest.create(mockDeletedTestResponse);
     });
 
     it("publishTest", async () => {

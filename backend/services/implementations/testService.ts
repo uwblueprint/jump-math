@@ -316,7 +316,7 @@ class TestService implements ITestService {
   ): Promise<QuestionComponent[][]> {
     return this.processImages<ImageMetadata>(
       questions,
-      this.imageUploadService.hydrateImage,
+      this.imageUploadService.hydrateImage.bind(this.imageUploadService),
     );
   }
 
@@ -325,7 +325,7 @@ class TestService implements ITestService {
   ): Promise<QuestionComponent[][]> {
     return this.processImages<ImageMetadataRequest>(
       questions,
-      this.imageUploadService.uploadImage,
+      this.imageUploadService.uploadImage.bind(this.imageUploadService),
     );
   }
 

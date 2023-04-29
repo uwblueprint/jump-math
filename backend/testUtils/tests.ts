@@ -4,16 +4,19 @@ import {
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import { ImageMetadataTypes } from "../types/questionMetadataTypes";
+import {
+  ImageMetadata,
+  ImageMetadataTypes,
+} from "../types/questionMetadataTypes";
 import {
   BaseQuestionComponent,
   QuestionComponent,
   QuestionComponentRequest,
   QuestionComponentType,
 } from "../types/questionTypes";
-import { imageUpload } from "./imageStorage";
+import { imageUpload } from "./imageUpload";
 
-export const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
+const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
   imageMetadata: ImageMetadataType,
 ): Array<Array<BaseQuestionComponent<ImageMetadataType>>> => {
   return [
@@ -85,11 +88,15 @@ export const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
   ];
 };
 
-export const questions: Array<Array<QuestionComponent>> = getQuestions({
-  filePath: "/assessment-images/test.png",
+export const imageMetadata: ImageMetadata = {
   url:
     "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-});
+  filePath: "/assessment-images/test.png",
+};
+
+export const questions: Array<Array<QuestionComponent>> = getQuestions(
+  imageMetadata,
+);
 
 export const questionsRequest: Array<
   Array<QuestionComponentRequest>
@@ -127,15 +134,24 @@ export const mockTestResponse2: TestResponseDTO = {
   questions,
 };
 
+export const mockPublishedTestResponse: TestResponseDTO = {
+  ...mockTestResponse,
+  status: AssessmentStatus.PUBLISHED,
+};
+
+export const mockArchivedTestResponse: TestResponseDTO = {
+  ...mockTestResponse,
+  status: AssessmentStatus.ARCHIVED,
+};
+
+export const mockDeletedTestResponse: TestResponseDTO = {
+  ...mockTestResponse,
+  status: AssessmentStatus.DELETED,
+};
+
 export const mockTestResponseArray: Array<TestResponseDTO> = [
-  {
-    ...mockTestResponse,
-    name: "test1",
-  },
-  {
-    ...mockTestResponse2,
-    name: "test2",
-  },
+  mockTestResponse,
+  mockTestResponse2,
 ];
 
 export const assertResponseMatchesExpected = (
