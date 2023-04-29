@@ -12,7 +12,7 @@ import {
 
 import { EditOutlineIcon, UploadOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { ImageMetadata } from "../../../types/QuestionMetadataTypes";
+import { ImagePreviewMetadata } from "../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxFileSize,
   updatedQuestionElement,
@@ -20,11 +20,14 @@ import {
 
 interface ImageElementProps {
   id: string;
-  data: ImageMetadata;
+  data: ImagePreviewMetadata;
 }
 
 const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
-  const [imageMetadata, setImageMetadata] = useState<ImageMetadata>(data);
+  const [
+    imagePreviewMetadata,
+    setImagePreviewMetadata,
+  ] = useState<ImagePreviewMetadata>(data);
   const [error, setError] = useState<string>("");
   const inputFile = useRef<HTMLInputElement>(null);
   const { setQuestionElements } = useContext(QuestionEditorContext);
@@ -36,7 +39,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
       if (e.target?.result) {
-        setImageMetadata({
+        setImagePreviewMetadata({
           previewUrl: e.target.result as string,
           file,
         });
@@ -54,9 +57,14 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
 
   useEffect(() => {
     setQuestionElements((prevElements) => {
-      return updatedQuestionElement(id, imageMetadata, prevElements, error);
+      return updatedQuestionElement(
+        id,
+        imagePreviewMetadata,
+        prevElements,
+        error,
+      );
     });
-  }, [imageMetadata]);
+  }, [imagePreviewMetadata]);
 
   return (
     <Flex pb={6} w="100%">
@@ -67,13 +75,13 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         onChange={updateImageElement}
         type="file"
       />
-      {imageMetadata.previewUrl ? (
+      {imagePreviewMetadata.previewUrl ? (
         <>
           <Image
             h="250px"
             objectFit="contain"
             pt={2}
-            src={imageMetadata.previewUrl}
+            src={imagePreviewMetadata.previewUrl}
             width="90%"
           />
           <Spacer />
