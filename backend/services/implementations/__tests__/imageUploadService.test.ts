@@ -8,7 +8,7 @@ import {
   invalidImageType,
   invalidImageUpload,
   uploadDir,
-} from "../../../testUtils/imageStorage";
+} from "../../../testUtils/imageUpload";
 import IImageUploadService from "../../interfaces/imageUploadService";
 import ImageUploadService from "../imageUploadService";
 
@@ -65,8 +65,7 @@ describe("mongo imageUploadService", (): void => {
   });
 
   it("getImage", async () => {
-    const filePath = `${uploadDir}/${filename}_${uuidv4()}`;
-    const res = await imageUploadService.getImage(filePath);
+    const res = await imageUploadService.getImage(imageMetadata.filePath);
     assertResponseMatchesExpected(res);
   });
 

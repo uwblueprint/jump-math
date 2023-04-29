@@ -11,7 +11,7 @@ import {
   QuestionComponentRequest,
   QuestionComponentType,
 } from "../types/questionTypes";
-import { imageUpload } from "./imageStorage";
+import { imageUpload } from "./imageUpload";
 
 export const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
   imageMetadata: ImageMetadataType,

@@ -1,4 +1,5 @@
 import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path";
 import {
   ImageMetadata,
@@ -35,7 +36,7 @@ export const invalidImageUpload: ImageMetadataRequest = {
 };
 
 export const imageMetadata: ImageMetadata = {
-  filePath: `/${filePath}`,
+  filePath: `${filePath}_${uuidv4()}`,
   url: signedUrl,
 };
 
