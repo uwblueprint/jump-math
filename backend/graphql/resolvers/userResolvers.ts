@@ -19,17 +19,6 @@ import { generateCSV } from "../../utilities/CSVUtils";
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);
 const authService: IAuthService = new AuthService(userService, emailService);
-const testService: ITestService = new TestService();
-const schoolService: ISchoolService = new SchoolService(userService);
-const testSessionService: ITestSessionService = new TestSessionService(
-  testService,
-  userService,
-  schoolService,
-);
-const classService: IClassService = new ClassService(
-  userService,
-  testSessionService,
-);
 
 const userResolvers = {
   Query: {
@@ -82,27 +71,13 @@ const userResolvers = {
       _parent: undefined,
       { id }: { id: string },
     ): Promise<void> => {
-      const teacher = await userService.getUserById(id);
-      const classes = teacher.class;
-      userService.deleteUserById(id);
-      if (classes) {
-        classes.forEach((classId) => {
-          classService.deleteClass(classId);
-        });
-      }
+      return userService.deleteUserById(id);
     },
     deleteUserByEmail: async (
       _parent: undefined,
       { email }: { email: string },
     ): Promise<void> => {
-      const teacher = await userService.getUserByEmail(email);
-      const classes = teacher.class;
-      userService.deleteUserByEmail(email);
-      if (classes) {
-        classes.forEach((classId) => {
-          classService.deleteClass(classId);
-        });
-      }
+      return userService.deleteUserByEmail(email);
     },
   },
 };
