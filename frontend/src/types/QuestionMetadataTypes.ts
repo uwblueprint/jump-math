@@ -13,6 +13,11 @@ export interface ImagePreviewMetadata {
 
 export type ImageMetadata = Omit<ImagePreviewMetadata, "previewUrl">;
 
+export interface ImageMetadataResponse {
+  filePath: string;
+  url: string;
+}
+
 export interface ShortAnswerMetadata {
   answer: number;
 }

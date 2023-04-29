@@ -189,3 +189,75 @@ export const formatQuestionsRequest = (
     });
   });
 };
+
+export const formatQuestionsResponse = (
+  questions: QuestionComponentResponse[][],
+): Question[] => {
+  return questions.map((questionComponents: QuestionComponentResponse[]) => {
+    return {
+      id: uuidv4(),
+      elements: questionComponents.map(
+        (questionComponent: QuestionComponentResponse) => {
+          let data: QuestionElementDataType;
+
+          switch (questionComponent.type) {
+            case QuestionElementType.MULTIPLE_CHOICE: {
+              const {
+                answerIndex,
+              } = questionComponent.metadata as MultipleChoiceMetadata;
+              data = {
+                options: (questionComponent.metadata as MultipleChoiceMetadata).options.map(
+                  (option: string, i) => {
+                    return {
+                      id: uuidv4(),
+                      value: option,
+                      isCorrect: answerIndex === i,
+                    };
+                  },
+                ),
+              };
+              break;
+            }
+            case QuestionElementType.MULTI_SELECT: {
+              const {
+                answerIndices,
+              } = questionComponent.metadata as MultiSelectMetadata;
+              data = {
+                options: (questionComponent.metadata as MultiSelectMetadata).options.map(
+                  (option: string, i) => {
+                    return {
+                      id: uuidv4(),
+                      value: option,
+                      isCorrect: answerIndices.includes(i),
+                    };
+                  },
+                ),
+              };
+              break;
+            }
+            case QuestionElementType.IMAGE: {
+              data = {
+                previewUrl: (questionComponent.metadata as ImagePreviewMetadata)
+                  .url,
+                file: undefined,
+              };
+              break;
+            }
+            default: {
+              /* eslint-disable-next-line @typescript-eslint/naming-convention */
+              const { __typename, ...rest } = questionComponent.metadata;
+              data = rest as QuestionElementDataType;
+              break;
+            }
+          }
+
+          return {
+            id: uuidv4(),
+            type: questionComponent.type,
+            data,
+          };
+        },
+      ),
+    };
+  });
+};

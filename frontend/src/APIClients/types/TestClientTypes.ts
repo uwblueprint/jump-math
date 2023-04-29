@@ -1,6 +1,7 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
   ImageMetadata,
+  ImageMetadataResponse,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
@@ -26,6 +27,31 @@ interface QuestionMetadata {
 
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
 
+type QuestionMetadataName =
+  | "QuestionTextMetadata"
+  | "TextMetadata"
+  | "ImagePreviewMetadata"
+  | "MultipleChoiceMetadata"
+  | "MultiSelectMetadata"
+  | "ShortAnswerMetadata";
+
+type QuestionMetadataTypename = {
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
+  __typename: QuestionMetadataName;
+};
+
+export type QuestionComponentResponse = QuestionType & {
+  metadata: (
+    | QuestionTextMetadata
+    | TextMetadata
+    | ImageMetadataResponse
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata
+  ) &
+    QuestionMetadataTypename;
+};
+
 export type TestRequest = {
   name: string;
   /** an ordered array of questions on the test */
@@ -40,4 +66,9 @@ export type TestRequest = {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+};
+
+export type TestResponse = TestRequest & {
+  id: string;
+  questions: QuestionComponentResponse[][];
 };

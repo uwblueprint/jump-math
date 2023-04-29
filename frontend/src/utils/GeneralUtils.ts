@@ -17,7 +17,7 @@ export const getFirstNumber = (word: string): string => {
   return numbers ? numbers[0] : "";
 };
 
-export const getReadableDate = (): string => {
+export const getCurrentDate = (): string => {
   const date = new Date();
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
