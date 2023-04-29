@@ -1,17 +1,9 @@
 import nodemailerConfig from "../../nodemailer.config";
 import AuthService from "../../services/implementations/authService";
-import ClassService from "../../services/implementations/classService";
 import EmailService from "../../services/implementations/emailService";
-import SchoolService from "../../services/implementations/schoolService";
-import TestService from "../../services/implementations/testService";
-import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
 import IAuthService from "../../services/interfaces/authService";
-import { IClassService } from "../../services/interfaces/classService";
 import IEmailService from "../../services/interfaces/emailService";
-import { ISchoolService } from "../../services/interfaces/schoolService";
-import { ITestService } from "../../services/interfaces/testService";
-import { ITestSessionService } from "../../services/interfaces/testSessionService";
 import IUserService from "../../services/interfaces/userService";
 import { CreateUserDTO, UpdateUserDTO, UserDTO, TeacherDTO } from "../../types";
 import { generateCSV } from "../../utilities/CSVUtils";
