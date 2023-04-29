@@ -12,11 +12,13 @@ export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot
 export const invalidImageType = "text/plain";
 
 const filePath = `assets/${filename}`;
+const createReadStream = () =>
+  fs.createReadStream(resolve(__dirname, filePath));
 
 export const imageUpload: ImageMetadataRequest = {
   file: new Promise((r) =>
     r({
-      createReadStream: () => fs.createReadStream(resolve(__dirname, filePath)),
+      createReadStream,
       filename,
       mimetype: "image/png",
       encoding: "7bit",
@@ -27,7 +29,7 @@ export const imageUpload: ImageMetadataRequest = {
 export const invalidImageUpload: ImageMetadataRequest = {
   file: new Promise((r) =>
     r({
-      createReadStream: () => fs.createReadStream(resolve(__dirname, filePath)),
+      createReadStream,
       filename,
       mimetype: invalidImageType,
       encoding: "7bit",
