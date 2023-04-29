@@ -8,7 +8,7 @@ import { QuestionTagProps } from "../components/assessments/assessment-creation/
 import { DragQuestionItem } from "../types/DragTypes";
 import {
   ImageMetadata,
-  ImageUploadMetadata,
+  ImagePreviewMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
@@ -163,8 +163,8 @@ export const formatQuestionsRequest = (
           return {
             type: QuestionElementType.IMAGE,
             imageMetadata: {
-              file: (element.data as ImageMetadata).file,
-            } as ImageUploadMetadata,
+              file: (element.data as ImagePreviewMetadata).file,
+            } as ImageMetadata,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {

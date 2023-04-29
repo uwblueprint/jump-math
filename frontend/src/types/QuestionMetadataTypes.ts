@@ -6,12 +6,12 @@ export interface TextMetadata {
   text: string;
 }
 
-export interface ImageMetadata {
+export interface ImagePreviewMetadata {
   previewUrl: string;
   file: File | undefined;
 }
 
-export type ImageUploadMetadata = Omit<ImageMetadata, "previewUrl">;
+export type ImageMetadata = Omit<ImagePreviewMetadata, "previewUrl">;
 
 export interface ShortAnswerMetadata {
   answer: number;

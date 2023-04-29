@@ -8,7 +8,7 @@ import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
 import {
-  ImageMetadata,
+  ImagePreviewMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -45,7 +45,9 @@ const renderQuestionContent = (content: QuestionElement) => {
     case QuestionElementType.TEXT:
       return <TextElement key={id} data={data as TextMetadata} id={id} />;
     case QuestionElementType.IMAGE:
-      return <ImageElement key={id} data={data as ImageMetadata} id={id} />;
+      return (
+        <ImageElement key={id} data={data as ImagePreviewMetadata} id={id} />
+      );
     case QuestionElementType.MULTIPLE_CHOICE:
       return (
         <MultiOptionElement
