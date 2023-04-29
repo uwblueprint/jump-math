@@ -47,21 +47,16 @@ class ImageUploadService implements IImageUploadService {
     let filePath;
     try {
       const { createReadStream, mimetype, filename } = await image.file;
-      console.log("file: ", image.file);
       if (!fs.existsSync(this.uploadDir)) {
         fs.mkdirSync(this.uploadDir);
       }
 
       filePath = `${this.uploadDir}/${filename}_${uuidv4()}`;
       const fileContentType = mimetype;
-      console.log("validating image type...");
       if (!validateImageType(fileContentType)) {
         throw new Error(getImageValidationError(fileContentType));
       }
-      console.log("writing file...");
       await writeFile(createReadStream(), filePath);
-      console.log("file written");
-      console.log("creating image...");
       return await this.createImage(filePath, fileContentType);
     } finally {
       if (filePath && fs.existsSync(filePath)) {

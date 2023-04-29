@@ -11,7 +11,7 @@ export const uploadDir = "test-bucket";
 export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot.com/${uploadDir}/${filename}`;
 export const invalidImageType = "text/plain";
 
-const filePath = `${uploadDir}/${filename}`;
+const filePath = `assets/${filename}`;
 
 export const imageUpload: ImageMetadataRequest = {
   file: new Promise((r) =>
@@ -36,7 +36,7 @@ export const invalidImageUpload: ImageMetadataRequest = {
 };
 
 export const imageMetadata: ImageMetadata = {
-  filePath: `${filePath}_${uuidv4()}`,
+  filePath: `${uploadDir}/${filename}_${uuidv4()}`,
   url: signedUrl,
 };
 
