@@ -84,14 +84,17 @@ class StatisticService implements IStatisticService {
         },
       },
       unwindResults,
-      sumTestSubmissions,
+      {
+        $group: {
+          _id: null,
+          averageScore: { $avg: "$results.score" },
+        },
+      },
     ];
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
-    const sum = aggCursor[0]?.totalScore ?? 0;
-    const count = await this.getSubmissionCountByTest(testId);
-
-    return count !== 0 ? Math.round(100 * (sum / count)) / 100 : 0;
+    const mean = aggCursor[0]?.averageScore ?? 0;
+    return Math.round(100 * mean) / 100;
   }
 
   private getAverageScorePerQuestion(
