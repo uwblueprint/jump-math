@@ -13,7 +13,7 @@ import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
 import {
   ImageMetadata,
-  ImageMetadataRequest,
+  ImagePreviewMetadata,
 } from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
@@ -34,18 +34,29 @@ class ImageUploadService implements IImageUploadService {
 
   storageService: IFileStorageService;
 
+  googleStorageUploadUrl: string;
+
   constructor(uploadDir: string) {
     this.uploadDir = uploadDir;
 
     const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
     const storageService = new FileStorageService(defaultBucket);
     this.storageService = storageService;
+
+    this.googleStorageUploadUrl = `https://storage.googleapis.com/${defaultBucket}/${uploadDir}/`;
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata> {
-    let filePath;
+  async uploadImage(image: ImagePreviewMetadata): Promise<ImageMetadata> {
+    let filePath = this.getFilePath(image);
+
     try {
+      if (filePath)
+        return await this.hydrateImage({
+          filePath,
+          url: image.previewUrl,
+        });
+
       const { createReadStream, mimetype, filename } = await image.file;
       if (!fs.existsSync(this.uploadDir)) {
         fs.mkdirSync(this.uploadDir);
@@ -66,6 +77,10 @@ class ImageUploadService implements IImageUploadService {
   }
 
   async hydrateImage(image: ImageMetadata): Promise<ImageMetadata> {
+    if (parseInt(this.getExpirationDate(image), 10) > Date.now()) {
+      return image;
+    }
+
     const { filePath } = image;
     try {
       return await this.getImage(filePath);
@@ -106,6 +121,22 @@ class ImageUploadService implements IImageUploadService {
       );
       throw error;
     }
+  }
+
+  private getExpirationDate(image: ImageMetadata): string {
+    const { url } = image;
+    const regex = `^${this.googleStorageUploadUrl}.+?GoogleAccessId=.+?&Expires=([0-9]+)?&Signature=.+?$`;
+    const match = url.match(regex);
+
+    return match ? match[1] : "";
+  }
+
+  private getFilePath(image: ImagePreviewMetadata): string {
+    const { previewUrl } = image;
+    const regex = `^${this.googleStorageUploadUrl}(.+)?GoogleAccessId=.+?&Expires=[0-9]+?&Signature=.+?$`;
+    const match = previewUrl.match(regex);
+
+    return match ? match[1] : "";
   }
 }
 

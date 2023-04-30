@@ -36,7 +36,7 @@ const resolveQuestions = (
         const {
           questionTextMetadata,
           textMetadata,
-          imageMetadata,
+          imagePreviewMetadata,
           multipleChoiceMetadata,
           multiSelectMetadata,
           shortAnswerMetadata,
@@ -52,7 +52,7 @@ const resolveQuestions = (
             metadata = textMetadata;
             break;
           case "IMAGE":
-            metadata = imageMetadata;
+            metadata = imagePreviewMetadata;
             break;
           case "MULTIPLE_CHOICE":
             metadata = multipleChoiceMetadata;

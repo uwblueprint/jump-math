@@ -14,7 +14,8 @@ export const GET_TEST = gql`
           ... on TextMetadata {
             text
           }
-          ... on ImagePreviewMetadata {
+          ... on ImageMetadata {
+            filePath
             url
           }
           ... on MultipleChoiceMetadata {

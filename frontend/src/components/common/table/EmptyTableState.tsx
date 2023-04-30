@@ -2,7 +2,7 @@ import React from "react";
 import { Center } from "@chakra-ui/react";
 
 import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
-import { ASSESSMENT_PAGE } from "../../../constants/Routes";
+import { ASSESSMENT_EDITOR_PAGE } from "../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
 const EmptyTableState = (): React.ReactElement => {
@@ -15,7 +15,7 @@ const EmptyTableState = (): React.ReactElement => {
       pb={14}
     >
       <MessageContainer
-        buttonRoute={ASSESSMENT_PAGE}
+        buttonRoute={ASSESSMENT_EDITOR_PAGE}
         buttonText="Create assessment"
         image={DisplayAssessmentsIllustration}
         paragraphs={["Create your first assessment"]}

@@ -1,14 +1,14 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
   ImageMetadata,
-  ImageMetadataResponse,
+  ImagePreviewMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
+import { Question, QuestionElementType } from "../../types/QuestionTypes";
 
 import { Grade } from "./UserClientTypes";
 
@@ -19,7 +19,7 @@ interface QuestionType {
 interface QuestionMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
+  imagePreviewMetadata: ImagePreviewMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
@@ -30,7 +30,7 @@ export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
 type QuestionMetadataName =
   | "QuestionTextMetadata"
   | "TextMetadata"
-  | "ImagePreviewMetadata"
+  | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
   | "ShortAnswerMetadata";
@@ -44,7 +44,7 @@ export type QuestionComponentResponse = QuestionType & {
   metadata: (
     | QuestionTextMetadata
     | TextMetadata
-    | ImageMetadataResponse
+    | ImageMetadata
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
@@ -71,4 +71,8 @@ export type TestRequest = {
 export type TestResponse = TestRequest & {
   id: string;
   questions: QuestionComponentResponse[][];
+};
+
+export type Test = TestResponse & {
+  questions: Question[];
 };

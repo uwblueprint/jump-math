@@ -2,8 +2,12 @@ import React from "react";
 import { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
+import { v4 as uuidv4 } from "uuid";
 
-import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
+import {
+  QuestionComponentRequest,
+  QuestionComponentResponse,
+} from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
@@ -162,9 +166,7 @@ export const formatQuestionsRequest = (
         case QuestionElementType.IMAGE:
           return {
             type: QuestionElementType.IMAGE,
-            imageMetadata: {
-              file: (element.data as ImagePreviewMetadata).file,
-            } as ImageMetadata,
+            imageMetadata: element.data as ImagePreviewMetadata,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {
@@ -237,8 +239,7 @@ export const formatQuestionsResponse = (
             }
             case QuestionElementType.IMAGE: {
               data = {
-                previewUrl: (questionComponent.metadata as ImagePreviewMetadata)
-                  .url,
+                previewUrl: (questionComponent.metadata as ImageMetadata).url,
                 file: undefined,
               };
               break;
