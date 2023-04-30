@@ -11,7 +11,6 @@ import {
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
-  sumTestSubmissions,
 } from "../../utilities/pipelineQueryUtils";
 
 class StatisticService implements IStatisticService {

@@ -62,11 +62,3 @@ export const groupResultsById = (id: string): GroupResultsByIdReturnType => {
 export const countTestSubmissions = {
   $count: "numSubmittedTests",
 };
-
-// Stores total score of all graded tests in "sumSubmittedTests" field
-export const sumTestSubmissions = {
-  $group: {
-    _id: null,
-    totalScore: { $sum: "$results.score" },
-  },
-};
