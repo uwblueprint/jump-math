@@ -66,7 +66,6 @@ export const mockTestSession: TestSessionDTO = {
   test: mockTestWithId.id,
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
-  gradeLevel: 4,
   results: [mockGradedTestResult],
   accessCode: "1234",
   startTime: new Date("2021-09-01T09:00:00.000Z"),
@@ -77,7 +76,6 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea95",
     school: "62c248c0f79d6c3c9ebbea97",
-    gradeLevel: 7,
     results: [mockGradedTestResult],
     accessCode: "789",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
@@ -86,7 +84,6 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea94",
     school: "62c248c0f79d6c3c9ebbea93",
-    gradeLevel: 4,
     results: [mockGradedTestResult],
     accessCode: "1234",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
@@ -98,7 +95,6 @@ export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea39",
     teacher: "62c248c0f79d6c3c9ebbea95",
     school: "62c248c0f79d6c3c9ebbea97",
-    gradeLevel: 7,
     results: [mockGradedTestResult],
     accessCode: "1234",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
@@ -107,7 +103,6 @@ export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea94",
     school: "62c248c0f79d6c3c9ebbea93",
-    gradeLevel: 4,
     results: [mockGradedTestResult],
     accessCode: "1234",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
@@ -202,7 +197,6 @@ export const assertResponseMatchesExpected = (
   expect(result.test).toEqual(mockTestWithId);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.school).toEqual(mockSchoolWithId);
-  expect(result.gradeLevel).toEqual(expected.gradeLevel);
   expect(result.accessCode).toEqual(expected.accessCode);
   expect(result.startTime).toEqual(expected.startTime);
 };

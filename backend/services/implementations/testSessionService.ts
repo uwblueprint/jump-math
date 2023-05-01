@@ -77,7 +77,6 @@ class TestSessionService implements ITestSessionService {
       test: testDTO,
       teacher: teacherDTO,
       school: schoolDTO,
-      gradeLevel: newTestSession.gradeLevel,
       results: [],
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
@@ -235,7 +234,6 @@ class TestSessionService implements ITestSessionService {
           test: testDTO,
           teacher: teacherDTO,
           school: schoolDTO,
-          gradeLevel: testSession.gradeLevel,
           results: testSession.results
             ? testSession.results.map((testSessionResult) => {
                 return {

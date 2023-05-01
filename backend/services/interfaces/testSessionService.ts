@@ -14,8 +14,11 @@ export interface TestSessionRequestDTO {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
-  /** the grade level that is being tested */
-  gradeLevel: number;
+  /**
+   * the result of the test session
+   * there should be one entry here per student
+   * */
+  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -35,8 +38,6 @@ export interface TestSessionResponseDTO {
   teacher: UserDTO;
   /** the school that's administering the test from the School collection */
   school: SchoolResponseDTO;
-  /** the grade level that is being tested */
-  gradeLevel: number;
   /**
    * the result of the test session
    * there should be one entry here per student
