@@ -53,7 +53,7 @@ const testType = gql`
   scalar FileUpload
 
   input ImagePreviewMetadataInput {
-    file: FileUpload!
+    file: FileUpload
     previewUrl: String!
   }
 

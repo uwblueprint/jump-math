@@ -98,7 +98,7 @@ const SaveQuestionEditorButton = ({
         (element.type === QuestionElementType.TEXT &&
           (element.data as TextMetadata).text === "") ||
         (element.type === QuestionElementType.IMAGE &&
-          (element.data as ImagePreviewMetadata).file === undefined),
+          (element.data as ImagePreviewMetadata).previewUrl === undefined),
     );
     if (emptyElement) {
       setElementError(emptyElement, emptyElementError);

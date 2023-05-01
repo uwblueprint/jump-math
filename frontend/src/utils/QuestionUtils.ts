@@ -166,7 +166,7 @@ export const formatQuestionsRequest = (
         case QuestionElementType.IMAGE:
           return {
             type: QuestionElementType.IMAGE,
-            imageMetadata: element.data as ImagePreviewMetadata,
+            imagePreviewMetadata: element.data as ImagePreviewMetadata,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {

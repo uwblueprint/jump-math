@@ -91,7 +91,7 @@ const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
 export const imageMetadata: ImageMetadata = {
   url:
     "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-  filePath: "/assessment-images/test.png",
+  filePath: "assessment-images/test.png",
 };
 
 export const questions: Array<Array<QuestionComponent>> = getQuestions(
