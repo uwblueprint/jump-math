@@ -27,7 +27,7 @@ const AdminDashboard = (): React.ReactElement => {
         roles={["Admin"]}
       />
       <VStack align="left" flex="1">
-        <Navbar pages={pages} />
+        <Navbar data={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>
             <PrivateRoute
