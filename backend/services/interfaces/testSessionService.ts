@@ -110,11 +110,13 @@ export interface ResultResponseDTO {
 export interface ITestSessionService {
   /**
    * create a TestSession with the fields given in the DTO, return created TestSession
+   * @param classId id of the class to create the TestSession in
    * @param testSession new testSession
    * @returns the created TestSession
    * @throws Error if creation fails
    */
   createTestSession(
+    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 

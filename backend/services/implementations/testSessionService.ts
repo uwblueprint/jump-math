@@ -2,6 +2,7 @@ import MgTestSession, {
   GradingStatus,
   TestSession,
 } from "../../models/testSession.model";
+import MgClass, { Class } from "../../models/class.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -44,6 +45,7 @@ class TestSessionService implements ITestSessionService {
 
   /* eslint-disable class-methods-use-this */
   async createTestSession(
+    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
     let testDTO: TestResponseDTO;
@@ -57,6 +59,8 @@ class TestSessionService implements ITestSessionService {
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
       newTestSession = await MgTestSession.create(testSession);
+
+      await this.addTestSessionToClass(classId, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
@@ -450,6 +454,39 @@ class TestSessionService implements ITestSessionService {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswers!;
+  }
+
+  private async addTestSessionToClass(
+    id: string,
+    testSessionId: string,
+  ): Promise<void> {
+    try {
+      const classObj: Class | null = await MgClass.findOneAndUpdate(
+        { _id: id },
+        {
+          $push: {
+            testSessions: testSessionId,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!classObj) {
+        throw new Error(
+          `Test session could not be added to class with id ${id}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to add test session to class. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 }
 
