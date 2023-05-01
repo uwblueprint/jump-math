@@ -59,7 +59,7 @@ const testSessionResolvers = {
     ): Promise<TestSessionResponseDTO> => {
       return testSessionService.getTestSessionByAccessCode(accessCode);
     },
-    testSessionByTeacherId: async (
+    testSessionsByTeacherId: async (
       _parent: undefined,
       { teacherId }: { teacherId: string },
     ): Promise<Array<TestSessionResponseDTO>> => {

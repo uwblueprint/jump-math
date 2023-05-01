@@ -51,7 +51,7 @@ const testSessionType = gql`
     testSession(id: String!): TestSessionResponseDTO!
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
-    testSessionByTeacherId(teacherId: String!): [TestSessionResponseDTO!]!
+    testSessionsByTeacherId(teacherId: String!): [TestSessionResponseDTO!]!
   }
 
   extend type Mutation {
