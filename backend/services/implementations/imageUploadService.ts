@@ -13,7 +13,7 @@ import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
 import {
   ImageMetadata,
-  ImageMetadataRequest,
+  ImagePreviewMetadata,
 } from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
@@ -43,7 +43,7 @@ class ImageUploadService implements IImageUploadService {
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata> {
+  async uploadImage(image: ImagePreviewMetadata): Promise<ImageMetadata> {
     let filePath;
     try {
       const { createReadStream, mimetype, filename } = await image.file;

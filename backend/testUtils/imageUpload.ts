@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path";
 import {
   ImageMetadata,
-  ImageMetadataRequest,
+  ImagePreviewMetadata,
 } from "../types/questionMetadataTypes";
 
 export const filename = "test.png";
@@ -15,7 +15,7 @@ const filePath = `assets/${filename}`;
 const createReadStream = () =>
   fs.createReadStream(resolve(__dirname, filePath));
 
-export const imageUpload: ImageMetadataRequest = {
+export const imageUpload: ImagePreviewMetadata = {
   file: new Promise((r) =>
     r({
       createReadStream,
@@ -26,7 +26,7 @@ export const imageUpload: ImageMetadataRequest = {
   ),
 };
 
-export const invalidImageUpload: ImageMetadataRequest = {
+export const invalidImageUpload: ImagePreviewMetadata = {
   file: new Promise((r) =>
     r({
       createReadStream,
