@@ -61,7 +61,6 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                   width={testSessionNotes ? "100%" : "50%"}
                 >
                   <AssessmentInfo questions={test.questions} />
-                  {/* update after test session backend is updated */}
                   {testSessionNotes && (
                     <AssessmentRules body={testSessionNotes} />
                   )}

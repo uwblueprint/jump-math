@@ -79,7 +79,8 @@ class TestSessionService implements ITestSessionService {
       school: schoolDTO,
       results: [],
       accessCode: newTestSession.accessCode,
-      startTime: newTestSession.startTime,
+      startDate: newTestSession.startDate,
+      endDate: newTestSession.endDate,
       notes: newTestSession.notes,
     };
   }
@@ -247,7 +248,8 @@ class TestSessionService implements ITestSessionService {
               })
             : [],
           accessCode: testSession.accessCode,
-          startTime: testSession.startTime,
+          startDate: testSession.startDate,
+          endDate: testSession.endDate,
           notes: testSession.notes,
         };
       }),

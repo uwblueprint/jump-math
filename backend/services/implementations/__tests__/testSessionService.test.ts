@@ -280,7 +280,8 @@ describe("mongo testSessionService", (): void => {
       school: "62c248c0f79d6c3c9ebbea92",
       gradeLevel: 3,
       accessCode: "1235",
-      startTime: new Date("2022-09-10T09:00:00.000Z"),
+      startDate: new Date("2022-09-10T09:00:00.000Z"),
+      endDate: new Date("2022-09-11T09:00:00.000Z"),
     };
 
     // update test and assert

@@ -21,8 +21,10 @@ export interface TestSessionRequestDTO {
   results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
   /** notes inputted by teacher to show students prior to commencing the test */
   notes?: string;
 }
@@ -47,8 +49,10 @@ export interface TestSessionResponseDTO {
   results: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
   /** notes inputted by teacher to show students prior to commencing the test */
   notes?: string;
 }

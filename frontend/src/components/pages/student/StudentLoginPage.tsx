@@ -31,6 +31,8 @@ const StudentLoginPage = (): React.ReactElement => {
       if (result.notes) {
         setTestSessionNotes(result.notes);
       }
+      console.log(result.startDate);
+      console.log(result.endDate);
 
       delayedRedirect();
     },

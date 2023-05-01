@@ -68,7 +68,8 @@ export const mockTestSession: TestSessionDTO = {
   school: mockSchoolWithId.id,
   results: [mockGradedTestResult],
   accessCode: "1234",
-  startTime: new Date("2021-09-01T09:00:00.000Z"),
+  startDate: new Date("2021-09-01T09:00:00.000Z"),
+  endDate: new Date("2021-09-02T09:00:00.000Z"),
   notes:
     "this is a note that a teacher wanted students to see before their test.",
 };
@@ -80,7 +81,8 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     school: "62c248c0f79d6c3c9ebbea97",
     results: [mockGradedTestResult],
     accessCode: "789",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
+    startDate: new Date("2021-09-01T09:00:00.000Z"),
+    endDate: new Date("2021-09-02T09:00:00.000Z"),
   },
   {
     test: "62c248c0f79d6c3c9ebbea95",
@@ -88,7 +90,8 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     school: "62c248c0f79d6c3c9ebbea93",
     results: [mockGradedTestResult],
     accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
+    startDate: new Date("2021-09-01T09:00:00.000Z"),
+    endDate: new Date("2021-09-02T09:00:00.000Z"),
   },
 ];
 
@@ -99,7 +102,8 @@ export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
     school: "62c248c0f79d6c3c9ebbea97",
     results: [mockGradedTestResult],
     accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
+    startDate: new Date("2021-09-01T09:00:00.000Z"),
+    endDate: new Date("2021-09-02T09:00:00.000Z"),
   },
   {
     test: "62c248c0f79d6c3c9ebbea95",
@@ -107,7 +111,8 @@ export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
     school: "62c248c0f79d6c3c9ebbea93",
     results: [mockGradedTestResult],
     accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
+    startDate: new Date("2021-09-01T09:00:00.000Z"),
+    endDate: new Date("2021-09-02T09:00:00.000Z"),
   },
 ];
 
@@ -137,7 +142,8 @@ export const mockTestSessions: TestSessionDTO[] = [
       mockGradedTestResult,
     ],
     accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
+    startDate: new Date("2021-09-01T09:00:00.000Z"),
+    endDate: new Date("2021-09-02T09:00:00.000Z"),
   },
   {
     ...mockTestSession,
@@ -200,7 +206,8 @@ export const assertResponseMatchesExpected = (
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.school).toEqual(mockSchoolWithId);
   expect(result.accessCode).toEqual(expected.accessCode);
-  expect(result.startTime).toEqual(expected.startTime);
+  expect(result.startDate).toEqual(expected.startDate);
+  expect(result.endDate).toEqual(expected.endDate);
 };
 
 export const assertResultsResponseMatchesExpected = (
