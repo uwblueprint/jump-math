@@ -15,6 +15,7 @@ const createReadStream = () =>
   fs.createReadStream(resolve(__dirname, `assets/${filename}`));
 
 export const imageUpload: ImagePreviewMetadata = {
+  previewUrl: "data:image/png;base64,base64",
   file: new Promise((r) =>
     r({
       createReadStream,
@@ -26,6 +27,7 @@ export const imageUpload: ImagePreviewMetadata = {
 };
 
 export const invalidImageUpload: ImagePreviewMetadata = {
+  previewUrl: "data:text/plain;base64,base64",
   file: new Promise((r) =>
     r({
       createReadStream,
