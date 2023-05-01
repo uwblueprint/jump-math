@@ -18,7 +18,7 @@ interface QuestionType {
 interface QuestionMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
+  imagePreviewMetadata: ImagePreviewMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;

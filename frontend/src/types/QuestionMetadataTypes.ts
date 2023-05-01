@@ -11,7 +11,10 @@ export interface ImagePreviewMetadata {
   file: File | undefined;
 }
 
-export type ImageMetadata = Omit<ImagePreviewMetadata, "previewUrl">;
+export interface ImageMetadata {
+  filePath: string | undefined;
+  url: string;
+}
 
 export interface ShortAnswerMetadata {
   answer: number;

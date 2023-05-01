@@ -162,9 +162,7 @@ export const formatQuestionsRequest = (
         case QuestionElementType.IMAGE:
           return {
             type: QuestionElementType.IMAGE,
-            imageMetadata: {
-              file: (element.data as ImagePreviewMetadata).file,
-            } as ImageMetadata,
+            imagePreviewMetadata: element.data as ImagePreviewMetadata,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {
