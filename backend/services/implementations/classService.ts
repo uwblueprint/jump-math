@@ -94,6 +94,22 @@ class ClassService implements IClassService {
     return (await this.mapClassToClassDTOs(classes))[0];
   }
 
+  async getClassesByTeacherId(
+    teacherId: string,
+  ): Promise<Array<ClassResponseDTO>> {
+    let classes: Class[];
+    try {
+      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+      if (!classes.length) {
+        throw new Error(`Class with test session id ${teacherId} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+    return this.mapClassToClassDTOs(classes);
+  }
+
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
   ): Promise<Array<ClassResponseDTO>> {
