@@ -18,13 +18,20 @@ const StudentLoginPage = (): React.ReactElement => {
 
   const [testId, setTestId] = useState("");
   const [testSessionId, setTestSessionId] = useState("");
+  const [testSessionNotes, setTestSessionNotes] = useState("");
 
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: (data) => {
       setSuccess(true);
       setError("");
-      setTestId(data.testSessionByAccessCode.test.id);
-      setTestSessionId(data.testSessionByAccessCode.id);
+
+      const result = data.testSessionByAccessCode;
+      setTestId(result.test.id);
+      setTestSessionId(result.id);
+      if (result.notes) {
+        setTestSessionNotes(result.notes);
+      }
+
       delayedRedirect();
     },
     onError: async () => {
@@ -90,7 +97,11 @@ const StudentLoginPage = (): React.ReactElement => {
   return (
     <>
       {showNameSelection ? (
-        <NameSelection testId={testId} testSessionId={testSessionId} />
+        <NameSelection
+          testId={testId}
+          testSessionId={testSessionId}
+          testSessionNotes={testSessionNotes}
+        />
       ) : (
         <AuthWrapper
           error={error}

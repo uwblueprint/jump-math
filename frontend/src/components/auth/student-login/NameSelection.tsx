@@ -21,11 +21,13 @@ import NavigationButtons from "../teacher-signup/NavigationButtons";
 interface NameSelectionProps {
   testId: string;
   testSessionId: string;
+  testSessionNotes: string;
 }
 
 const NameSelection = ({
   testId,
   testSessionId,
+  testSessionNotes,
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
@@ -92,6 +94,7 @@ const NameSelection = ({
               state: {
                 testId,
                 testSessionId,
+                testSessionNotes,
               },
             });
           }

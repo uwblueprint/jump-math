@@ -18,7 +18,7 @@ import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo"
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
-  const { test } = useContext(StudentContext);
+  const { test, testSessionNotes } = useContext(StudentContext);
 
   const history = useHistory();
   const { setAuthenticatedUser } = useContext(AuthContext);
@@ -37,7 +37,13 @@ const AssessmentSummaryPage = (): React.ReactElement => {
             src={JUMP_MATH_LOGO.src}
             width="15%"
           />
-          <VStack height="85vh" justifyContent="space-between" pr="4em">
+          <VStack
+            align="left"
+            height="85vh"
+            justifyContent="space-between"
+            pr="4em"
+            width="100%"
+          >
             <VStack align="left">
               <Text color="blue.300" textStyle="header4">
                 {test.name}
@@ -47,11 +53,20 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 Start Time: {assessmentMetadata.startDate} at{" "}
                 {assessmentMetadata.startTime}
               </Text>
-              <SimpleGrid columns={{ base: 1, md: 2 }} gap={14} pt="3em">
-                <AssessmentInfo questions={test.questions} />
-                {/* update after test session backend is updated */}
-                <AssessmentRules body={assessmentMetadata.rules} />
-              </SimpleGrid>
+              <VStack align="center">
+                <SimpleGrid
+                  columns={{ base: 1, md: testSessionNotes ? 2 : 1 }}
+                  gap={14}
+                  pt="3em"
+                  width={testSessionNotes ? "100%" : "50%"}
+                >
+                  <AssessmentInfo questions={test.questions} />
+                  {/* update after test session backend is updated */}
+                  {testSessionNotes && (
+                    <AssessmentRules body={testSessionNotes} />
+                  )}
+                </SimpleGrid>
+              </VStack>
             </VStack>
             <HStack justifyContent="flex-end" spacing="1%" width="100%">
               <Button onClick={handleBackToHome} variant="secondary">

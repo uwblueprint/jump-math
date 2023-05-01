@@ -14,14 +14,20 @@ import NotFound from "../NotFound";
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
 
 const StudentDashboard = (): React.ReactElement => {
-  const { state } = useLocation<{ testId: string; testSessionId: string }>();
+  const { state } = useLocation<{
+    testId: string;
+    testSessionId: string;
+    testSessionNotes: string;
+  }>();
   const [testId, setTestId] = useState("");
   const [testSessionId, setTestSessionId] = useState("");
+  const [testSessionNotes, setTestSessionNotes] = useState("");
 
   useEffect(() => {
     if (state) {
       setTestId(state.testId);
       setTestSessionId(state.testSessionId);
+      setTestSessionNotes(state.testSessionNotes);
     }
   }, [state]);
 
@@ -39,7 +45,14 @@ const StudentDashboard = (): React.ReactElement => {
 
   return (
     <StudentContext.Provider
-      value={{ test, setTest, testSessionId, setTestSessionId }}
+      value={{
+        test,
+        setTest,
+        testSessionId,
+        setTestSessionId,
+        testSessionNotes,
+        setTestSessionNotes,
+      }}
     >
       {loading && <LoadingState fullPage />}
       {error && <ErrorState fullPage />}
