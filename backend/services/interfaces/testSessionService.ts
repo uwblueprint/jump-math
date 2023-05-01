@@ -23,6 +23,8 @@ export interface TestSessionRequestDTO {
   accessCode: string;
   /** the time when the test session is started by teacher */
   startTime: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**
@@ -47,6 +49,8 @@ export interface TestSessionResponseDTO {
   accessCode: string;
   /** the time when the test session is started by teacher */
   startTime: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**

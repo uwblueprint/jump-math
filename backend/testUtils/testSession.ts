@@ -69,6 +69,8 @@ export const mockTestSession: TestSessionDTO = {
   results: [mockGradedTestResult],
   accessCode: "1234",
   startTime: new Date("2021-09-01T09:00:00.000Z"),
+  notes:
+    "this is a note that a teacher wanted students to see before their test.",
 };
 
 export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [

@@ -80,6 +80,7 @@ class TestSessionService implements ITestSessionService {
       results: [],
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
+      notes: newTestSession.notes,
     };
   }
 
@@ -247,6 +248,7 @@ class TestSessionService implements ITestSessionService {
             : [],
           accessCode: testSession.accessCode,
           startTime: testSession.startTime,
+          notes: testSession.notes,
         };
       }),
     );
