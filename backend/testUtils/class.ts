@@ -34,14 +34,12 @@ export const updatedTestStudents: StudentRequestDTO[] = [
 
 export const testStudentsWithIds: StudentResponseDTO[] = [
   {
+    ...testStudents[0],
     id: "6421bf4b8c29e57d38efc7bd",
-    firstName: "David",
-    lastName: "Liu",
   },
   {
+    ...testStudents[1],
     id: "6421bf4b8c29e57d38efc7be",
-    firstName: "Calvin",
-    lastName: "Zhang",
   },
 ];
 // set up test classes
@@ -100,6 +98,12 @@ export const mockClassWithId = {
 export const mockClassWithId2 = {
   ...mockClassWithId,
   id: "62c248c0f79d6c3c9ebbea92",
+};
+
+export const testClassAfterCreation = {
+  ...testClass[0],
+  students: [],
+  testSessions: [],
 };
 
 export const assertResponseMatchesExpected = (
