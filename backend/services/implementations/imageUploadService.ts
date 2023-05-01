@@ -71,7 +71,7 @@ class ImageUploadService implements IImageUploadService {
       return await this.getImage(filePath);
     } catch (error: unknown) {
       Logger.error(
-        `Failed to hydrate image with filePath "${filePath}". Reason = ${getErrorMessage(
+        `Failed to hydrate image with filePath: ${filePath}. Reason = ${getErrorMessage(
           error,
         )}`,
       );
@@ -85,7 +85,7 @@ class ImageUploadService implements IImageUploadService {
       return { url: signedUrl, filePath };
     } catch (error: unknown) {
       Logger.error(
-        `Failed to get image for filePath "${filePath}". Reason = ${getErrorMessage(
+        `Failed to get image for filePath: ${filePath}. Reason = ${getErrorMessage(
           error,
         )}`,
       );
