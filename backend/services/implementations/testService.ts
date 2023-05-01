@@ -17,7 +17,7 @@ import {
 } from "../../types/questionTypes";
 import {
   ImageMetadata,
-  ImageMetadataRequest,
+  ImagePreviewMetadata,
   ImageMetadataTypes,
 } from "../../types/questionMetadataTypes";
 
@@ -323,7 +323,7 @@ class TestService implements ITestService {
   private async uploadImages(
     questions: QuestionComponentRequest[][],
   ): Promise<QuestionComponent[][]> {
-    return this.processImages<ImageMetadataRequest>(
+    return this.processImages<ImagePreviewMetadata>(
       questions,
       this.imageUploadService.uploadImage.bind(this.imageUploadService),
     );
