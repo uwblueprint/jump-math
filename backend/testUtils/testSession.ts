@@ -187,10 +187,7 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
 
 export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = [
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
-    school: mockSchoolWithId.id,
-    gradeLevel: 4,
+    ...mockTestSessions[0],
     results: [
       mockGradedTestResult,
       mockGradedTestResult2,
@@ -199,21 +196,14 @@ export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = 
       mockGradedTestResult,
       mockGradedTestResult4,
     ],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
-    school: mockSchoolWithId.id,
-    gradeLevel: 4,
+    ...mockTestSessions[0],
     results: [
       mockGradedTestResult2,
       mockGradedTestResult4,
       mockGradedTestResult3,
     ],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
     test: "62c248c0f79d6c3c9ebbea94", // invalid test (will not be created)

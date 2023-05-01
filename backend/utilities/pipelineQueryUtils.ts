@@ -62,15 +62,3 @@ export const groupResultsById = (id: string): GroupResultsByIdReturnType => {
 export const countTestSubmissions = {
   $count: "numSubmittedTests",
 };
-
-// Calculates median score
-export const calculateMedianScore = (values: number[]): number => {
-  const count = values.length;
-  const mid = Math.floor(count / 2);
-  const odd = count % 2 === 1;
-
-  if (odd) {
-    return values[mid];
-  }
-  return (values[mid] + values[mid - 1]) / 2;
-};

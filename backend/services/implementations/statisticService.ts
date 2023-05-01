@@ -11,9 +11,11 @@ import {
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
-  calculateMedianScore,
 } from "../../utilities/pipelineQueryUtils";
-import { roundTwoDecimals } from "../../utilities/generalUtils";
+import {
+  roundTwoDecimals,
+  calculateMedianScore,
+} from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
