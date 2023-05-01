@@ -22,6 +22,7 @@ import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
+import { roundTwoDecimals } from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -406,8 +407,8 @@ class TestSessionService implements ITestSessionService {
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
-      computedScore = parseFloat(
-        ((questionsCorrect * 100) / questionsCount).toFixed(2),
+      computedScore = roundTwoDecimals(
+        (questionsCorrect * 100) / questionsCount,
       );
 
       resultResponseDTO = {
