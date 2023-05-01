@@ -6,7 +6,7 @@ export const assessmentMetadata = {
   totalPoints: 50,
   questionTypes: Object.values(ResponseElementType),
   rules:
-    "The test WILL be monitored so please close any windows before starting the test. \nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
+    "The test WILL be monitored so please close any windows before starting the test.\nYou will have 1 hour to complete this test. No aids are permitted. \nIf you need clarification or assistance, please raise your hand quietly and I will come to you. \nGood Luck! \n- Mr. Roberts",
   startTime: "2:00pm",
   startDate: "September 15, 2022",
   testName: "Unit 0 Review Test",

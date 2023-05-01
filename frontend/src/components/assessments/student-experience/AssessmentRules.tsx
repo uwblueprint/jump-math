@@ -14,15 +14,11 @@ const AssessmentRules = ({
       borderRadius="10px"
       padding="2em"
     >
-      <Text color="blue.300" marginBottom="14px" textStyle="subtitle2">
+      <Text color="blue.300" marginBottom="3" textStyle="subtitle2">
         Rules
       </Text>
       <Stack gap={3}>
-        {body.split("\n").map((line, index) => (
-          <Text key={index} textStyle="paragraph">
-            {line}
-          </Text>
-        ))}
+        <Text textStyle="paragraph">{body}</Text>
       </Stack>
     </Box>
   );
