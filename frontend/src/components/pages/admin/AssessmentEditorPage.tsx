@@ -93,10 +93,10 @@ const AssessmentEditorPage = (): React.ReactElement => {
   };
 
   const onUpdateTest = async (test: TestRequest) => {
-    if (validateForm()) {
+    if (validateForm() && state?.id) {
       await updateTest({
         variables: {
-          id: state?.id,
+          id: state.id,
           test,
         },
       })

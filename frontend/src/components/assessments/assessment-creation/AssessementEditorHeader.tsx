@@ -20,7 +20,7 @@ import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
-interface AssessementHeaderProps {
+interface AssessementEditorHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
   isEditing: boolean;
@@ -38,7 +38,7 @@ const AssessementEditorHeader = ({
   onSave,
   onError,
   validateForm,
-}: AssessementHeaderProps): React.ReactElement => {
+}: AssessementEditorHeaderProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
