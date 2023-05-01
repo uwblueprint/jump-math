@@ -16,11 +16,6 @@ export interface TestSessionRequestDTO {
   school: string;
   /** the grade level that is being tested */
   gradeLevel: number;
-  /**
-   * the result of the test session
-   * there should be one entry here per student
-   * */
-  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -46,7 +41,7 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    * */
-  results?: ResultResponseDTO[];
+  results: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -58,7 +53,7 @@ export interface TestSessionResponseDTO {
  * session service to create or update a result in a given test session
  */
 export interface ResultRequestDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;
@@ -85,7 +80,7 @@ export interface ResultRequestDTO {
  * the test session service to represent a result in a given test session
  */
 export interface ResultResponseDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;

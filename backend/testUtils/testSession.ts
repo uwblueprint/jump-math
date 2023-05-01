@@ -55,7 +55,7 @@ export const mockGradedTestResult4: ResultResponseDTO = {
 /**
  * Mock Test Sessions
  */
-export const mockTestSession: TestSessionRequestDTO = {
+export const mockTestSession = {
   test: mockTestWithId.id,
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
@@ -65,7 +65,7 @@ export const mockTestSession: TestSessionRequestDTO = {
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
-export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithSameTestId = [
   {
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea95",
@@ -86,7 +86,7 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
   },
 ];
 
-export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithSameAccessCode = [
   {
     test: "62c248c0f79d6c3c9ebbea39",
     teacher: "62c248c0f79d6c3c9ebbea95",
@@ -118,7 +118,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
-export const mockTestSessions: TestSessionRequestDTO[] = [
+export const mockTestSessions = [
   {
     test: mockTestWithId.id,
     teacher: mockTeacher.id,
@@ -199,21 +199,17 @@ export const assertResponseMatchesExpected = (
 };
 
 export const assertResultsResponseMatchesExpected = (
-  expected: TestSessionRequestDTO,
-  result: TestSessionResponseDTO,
+  expected: Array<ResultRequestDTO>,
+  result: Array<ResultResponseDTO>,
 ): void => {
-  const actualResults = result.results != null ? result.results[0] : null;
-  const expectedResults = expected.results != null ? expected.results[0] : null;
-
-  expect(
-    Array.from(actualResults != null ? Array.from(actualResults.answers) : []),
-  ).toEqual(expectedResults?.answers);
-  expect(
-    Array.from(
-      actualResults != null ? Array.from(actualResults.breakdown) : [],
-    ),
-  ).toEqual(expectedResults?.breakdown);
-  expect(actualResults?.score).toEqual(expectedResults?.score);
+  expect(result.length).toEqual(expected.length);
+  result.forEach((res, i) => {
+    expect(res.student).toEqual(expected[i].student);
+    expect(Array.from(res.answers)).toEqual(expected[i].answers);
+    expect(Array.from(res.breakdown)).toEqual(expected[i].breakdown);
+    expect(res.score).toEqual(expected[i].score);
+    expect(Number(res.gradingStatus)).toEqual(expected[i].gradingStatus);
+  });
 };
 
 export const createTestSessionWithSchoolAndResults = async (
