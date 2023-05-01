@@ -11,9 +11,8 @@ export const uploadDir = "test-bucket";
 export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot.com/${uploadDir}/${filename}`;
 export const invalidImageType = "text/plain";
 
-const filePath = `assets/${filename}`;
 const createReadStream = () =>
-  fs.createReadStream(resolve(__dirname, filePath));
+  fs.createReadStream(resolve(__dirname, `assets/${filename}`));
 
 export const imageUpload: ImagePreviewMetadata = {
   previewUrl: "data:image/png;base64,base64",
@@ -46,5 +45,5 @@ export const imageMetadata: ImageMetadata = {
 
 export const assertResponseMatchesExpected = (result: ImageMetadata): void => {
   expect(result.url).toEqual(signedUrl);
-  expect(result.filePath).toMatch(new RegExp(`^${uploadDir}/${filename}.+`));
+  expect(result.filePath).toMatch(new RegExp(`^${uploadDir}/${filename}_.+`));
 };

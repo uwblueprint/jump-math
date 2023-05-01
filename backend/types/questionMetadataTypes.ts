@@ -49,7 +49,7 @@ export interface TextMetadata {
 export interface ImageMetadata {
   /** the unique filePath to the image */
   filePath: string;
-  /** a temporary url to view the image */
+  /** a temporary url to view the image (GCP) */
   url: string;
 }
 
@@ -59,7 +59,7 @@ export interface ImageMetadata {
 export interface ImagePreviewMetadata {
   /** the file to upload */
   file: Promise<FileUpload>;
-  /** a temporary url to view the image */
+  /** a temporary url to view the image (local or GCP) */
   previewUrl: string;
 }
 
