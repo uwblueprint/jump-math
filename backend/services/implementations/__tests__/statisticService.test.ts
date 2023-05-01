@@ -8,6 +8,7 @@ import MgTestSession, {
 import {
   createTestSessionWithSchoolAndResults,
   mockTestSessions,
+  mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
 import { mockTestWithId } from "../../../testUtils/tests";
 import { createSchoolWithCountry } from "../../../testUtils/school";
@@ -103,13 +104,22 @@ describe("mongo statisticService", (): void => {
     expect(actualResult).toEqual(0);
   });
 
-  it("getMedianScoreByTest with multiple submissions", async () => {
+  it("getMedianScoreByTest with odd number of submissions", async () => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getMedianScoreByTest(
       mockTestWithId.id,
     );
     expect(actualResult).toEqual(50);
+  });
+
+  it("getMedianScoreByTest with even number of submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessionsWithEvenNumberOfResults);
+
+    const actualResult = await statisticService.getMedianScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(62.5);
   });
 
   it("getMedianScoreByTest with 0 submissions", async () => {
