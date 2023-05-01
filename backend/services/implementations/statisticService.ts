@@ -12,6 +12,7 @@ import {
   groupResultsById,
   unwindResults,
 } from "../../utilities/pipelineQueryUtils";
+import { roundTwoDecimals } from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -93,7 +94,7 @@ class StatisticService implements IStatisticService {
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
     const mean = aggCursor[0]?.averageScore ?? 0;
-    return Math.round(100 * mean) / 100;
+    return roundTwoDecimals(mean);
   }
 
   private getAverageScorePerQuestion(
