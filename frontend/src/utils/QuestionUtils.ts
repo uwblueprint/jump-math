@@ -7,7 +7,6 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
-  ImageMetadata,
   ImagePreviewMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,

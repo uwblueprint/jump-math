@@ -1,6 +1,6 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
-  ImageMetadata,
+  ImagePreviewMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
