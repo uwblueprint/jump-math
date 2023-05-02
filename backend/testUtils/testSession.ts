@@ -185,6 +185,31 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
   },
 ];
 
+export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = [
+  {
+    ...mockTestSessions[0],
+    results: [
+      mockGradedTestResult,
+      mockGradedTestResult2,
+      mockGradedTestResult3,
+      mockUngradedTestResult,
+      mockGradedTestResult,
+      mockGradedTestResult4,
+    ],
+  },
+  {
+    ...mockTestSessions[0],
+    results: [
+      mockGradedTestResult2,
+      mockGradedTestResult4,
+      mockGradedTestResult3,
+    ],
+  },
+  {
+    ...mockTestSessions[4],
+  },
+];
+
 export const assertResponseMatchesExpected = (
   expected: TestSessionRequestDTO,
   result: TestSessionResponseDTO,
