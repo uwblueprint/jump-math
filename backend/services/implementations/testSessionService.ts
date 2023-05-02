@@ -18,6 +18,7 @@ import {
   ShortAnswerMetadata,
   QuestionComponent,
   QuestionComponentType,
+  FractionMetadata,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
@@ -373,7 +374,9 @@ class TestSessionService implements ITestSessionService {
           const singleResponse =
             type === QuestionComponentType.MULTIPLE_CHOICE ||
             type === QuestionComponentType.SHORT_ANSWER;
-          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
+          const multiResponse =
+            type === QuestionComponentType.MULTI_SELECT ||
+            type === QuestionComponentType.FRACTION;
           let isCorrect = false;
 
           if (singleResponse) {
@@ -383,7 +386,6 @@ class TestSessionService implements ITestSessionService {
             const studentAnswer = studentTestAnswers[i][questionsCount] as
               | number
               | null;
-
             isCorrect = studentAnswer === actualAnswer;
           } else if (multiResponse) {
             const actualAnswers: number[] = this.getCorrectAnswers(
@@ -450,8 +452,18 @@ class TestSessionService implements ITestSessionService {
   }
 
   private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
-    const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
-    const actualAnswers: number[] = questionMetadata.answerIndices;
+    let actualAnswers: number[];
+
+    if (questionComponent.type === QuestionComponentType.MULTI_SELECT) {
+      const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
+      actualAnswers = questionMetadata.answerIndices;
+    } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+      const questionMetadata = questionComponent.metadata as FractionMetadata;
+      actualAnswers = [
+        questionMetadata.numerator,
+        questionMetadata.denominator,
+      ];
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswers!;
