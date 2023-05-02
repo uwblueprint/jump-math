@@ -100,11 +100,12 @@ class ClassService implements IClassService {
     let classes: Class[];
     try {
       classes = await MgClass.find({ teacher: { $eq: teacherId } });
-      if (!classes.length) {
-        throw new Error(`Class with test session id ${teacherId} not found`);
-      }
     } catch (error: unknown) {
-      Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
+      Logger.error(
+        `Failed to get classes by teacher id. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
       throw error;
     }
     return this.mapClassToClassDTOs(classes);
