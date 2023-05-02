@@ -125,12 +125,6 @@ class StatisticService implements IStatisticService {
           scores: { $push: "$score" },
         },
       },
-      {
-        $project: {
-          _id: 0,
-          scores: 1,
-        },
-      },
     ];
 
     const aggCursor = await MgTestSession.aggregate(pipeline);
