@@ -122,6 +122,16 @@ export const assertResponseMatchesExpected = (
   }
 };
 
+export const assertArrayResponseMatchesExpected = (
+  expected: ClassRequestDTO[],
+  result: ClassResponseDTO[],
+): void => {
+  expect(result.length).toEqual(expected.length);
+  for (let i = 0; i < result.length; i += 1) {
+    assertResponseMatchesExpected(expected[i], result[i]);
+  }
+};
+
 export const assertStudentResponseMatchesExpected = (
   expected: StudentRequestDTO[],
   result: StudentResponseDTO[],
