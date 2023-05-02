@@ -1,16 +1,20 @@
 import TestService from "../../services/implementations/testService";
-import {
-  AssessmentStatus,
-  QuestionComponent,
-  QuestionComponentMetadata,
-} from "../../models/test.model";
+import { AssessmentStatus } from "../../models/test.model";
 import {
   ITestService,
-  GraphQLTestRequestDTO,
+  GraphQLTestDTO,
   TestResponseDTO,
-  GraphQLQuestionComponent,
-  GraphQLQuestionComponentMetadata,
 } from "../../services/interfaces/testService";
+import {
+  GraphQLQuestionComponent,
+  QuestionComponent,
+  QuestionComponentRequest,
+} from "../../types/questionTypes";
+import {
+  GraphQLQuestionComponentMetadata,
+  QuestionComponentMetadata,
+  QuestionComponentMetadataRequest,
+} from "../../types/questionMetadataTypes";
 
 const testService: ITestService = new TestService();
 
@@ -25,24 +29,24 @@ type QuestionMetadataName =
 
 const resolveQuestions = (
   questions: GraphQLQuestionComponent[][],
-): QuestionComponent[][] => {
-  const resolvedQuestions: QuestionComponent[][] = [];
+): QuestionComponentRequest[][] => {
+  const resolvedQuestions: QuestionComponentRequest[][] = [];
 
   questions.forEach((questionComponents: GraphQLQuestionComponent[]) => {
-    const resolvedQuestionComponents: QuestionComponent[] = [];
+    const resolvedQuestionComponents: QuestionComponentRequest[] = [];
     questionComponents.forEach(
       (questionComponent: GraphQLQuestionComponent) => {
         const {
           questionTextMetadata,
           textMetadata,
-          imageMetadata,
+          imagePreviewMetadata,
           multipleChoiceMetadata,
           multiSelectMetadata,
           shortAnswerMetadata,
           fractionMetadata,
         }: GraphQLQuestionComponentMetadata = questionComponent;
 
-        let metadata: QuestionComponentMetadata;
+        let metadata: QuestionComponentMetadataRequest;
 
         switch (questionComponent.type.toString()) {
           case "QUESTION_TEXT":
@@ -52,7 +56,7 @@ const resolveQuestions = (
             metadata = textMetadata;
             break;
           case "IMAGE":
-            metadata = imageMetadata;
+            metadata = imagePreviewMetadata;
             break;
           case "MULTIPLE_CHOICE":
             metadata = multipleChoiceMetadata;
@@ -92,7 +96,7 @@ const testResolvers = {
     ): QuestionMetadataName | null => {
       if ("questionText" in obj) return "QuestionTextMetadata";
       if ("text" in obj) return "TextMetadata";
-      if ("src" in obj) return "ImageMetadata";
+      if ("url" in obj) return "ImageMetadata";
       if ("answerIndex" in obj) return "MultipleChoiceMetadata";
       if ("answerIndices" in obj) return "MultiSelectMetadata";
       if ("answer" in obj) return "ShortAnswerMetadata";
@@ -109,18 +113,18 @@ const testResolvers = {
   Mutation: {
     createTest: async (
       _req: undefined,
-      { test }: { test: GraphQLTestRequestDTO },
+      { test }: { test: GraphQLTestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.createTest({ ...test, questions: resolvedQuestions });
     },
     updateTest: async (
       _req: undefined,
-      { id, test }: { id: string; test: GraphQLTestRequestDTO },
+      { id, test }: { id: string; test: GraphQLTestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.updateTest(id, {
