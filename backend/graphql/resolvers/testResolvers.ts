@@ -1,6 +1,5 @@
 import TestService from "../../services/implementations/testService";
 import {
-  AssessmentStatus,
   QuestionComponent,
   QuestionComponentMetadata,
 } from "../../models/test.model";
