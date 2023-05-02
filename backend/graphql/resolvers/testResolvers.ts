@@ -1,6 +1,5 @@
 import TestService from "../../services/implementations/testService";
 import {
-  AssessmentStatus,
   QuestionComponent,
   QuestionComponentMetadata,
 } from "../../models/test.model";
@@ -102,6 +101,12 @@ const testResolvers = {
     },
   },
   Query: {
+    test: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<TestResponseDTO> => {
+      return testService.getTestById(id);
+    },
     tests: async (): Promise<TestResponseDTO[]> => {
       return testService.getAllTests();
     },

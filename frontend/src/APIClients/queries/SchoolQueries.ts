@@ -20,8 +20,8 @@ export const GET_SCHOOL = gql`
   }
 `;
 
-export const GET_SCHOOLS = gql`
-  query GetSchools {
+export const GET_ALL_SCHOOLS = gql`
+  query GetAllSchools {
     schools {
       id
       name
