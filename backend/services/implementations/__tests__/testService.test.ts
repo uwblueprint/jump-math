@@ -127,7 +127,7 @@ describe("mongo testService", (): void => {
       }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
     });
 
-    it("updateTest for non-existing ID", async () => {
+    it("updateTest", async () => {
       await expect(async () => {
         await testService.updateTest(notFoundId, mockTestRequest);
       }).rejects.toThrowError(`Test ID ${notFoundId} not found`);
