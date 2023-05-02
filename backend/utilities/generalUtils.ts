@@ -7,7 +7,7 @@ export const equalArrays = (arr1: number[], arr2: number[]): boolean => {
   return (
     arr1.length === arr2.length && arr1.every((val, idx) => val === arr2[idx])
   );
-}
+};
 
 export const calculateMedianScore = (values: number[]): number => {
   const count = values.length;
