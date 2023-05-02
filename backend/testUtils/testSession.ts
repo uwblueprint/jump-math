@@ -6,7 +6,7 @@ import {
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
-import { mockTestResponse } from "./tests";
+import { mockTest } from "./tests";
 import { mockTeacher } from "./users";
 
 /**
@@ -56,7 +56,7 @@ export const mockGradedTestResult4: ResultResponseDTO = {
  * Mock Test Sessions
  */
 export const mockTestSession: TestSessionRequestDTO = {
-  test: mockTestResponse.id,
+  test: mockTest.id,
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
   gradeLevel: 4,
@@ -109,7 +109,7 @@ export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = 
 
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
-  test: mockTestResponse,
+  test: mockTest,
   teacher: mockTeacher,
   school: mockSchoolWithId,
   gradeLevel: 4,
@@ -120,7 +120,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
 
 export const mockTestSessions: TestSessionRequestDTO[] = [
   {
-    test: mockTestResponse.id,
+    test: mockTest.id,
     teacher: mockTeacher.id,
     school: mockSchoolWithId.id,
     gradeLevel: 4,
@@ -134,7 +134,7 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestResponse.id,
+    test: mockTest.id,
     teacher: mockTeacher.id,
     school: mockSchoolWithId.id,
     gradeLevel: 4,
@@ -147,7 +147,7 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestResponse.id,
+    test: mockTest.id,
     teacher: mockTeacher.id,
     school: mockSchoolWithId2.id,
     gradeLevel: 4,
@@ -161,7 +161,7 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestResponse.id,
+    test: mockTest.id,
     teacher: mockTeacher.id,
     school: mockSchoolWithId2.id,
     gradeLevel: 4,
@@ -190,7 +190,7 @@ export const assertResponseMatchesExpected = (
   result: TestSessionResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.test).toEqual(mockTestResponse);
+  expect(result.test).toEqual(mockTest);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.school).toEqual(mockSchoolWithId);
   expect(result.gradeLevel).toEqual(expected.gradeLevel);
@@ -221,7 +221,7 @@ export const createTestSessionWithSchoolAndResults = async (
   results: ResultRequestDTO[],
 ): Promise<void> => {
   await MgTestSession.create({
-    test: mockTestResponse.id,
+    test: mockTest.id,
     teacher: mockTeacher.id,
     school: schoolId,
     gradeLevel: 4,
