@@ -9,11 +9,11 @@ import {
   mockTestRequest,
   mockTestRequest2,
   mockDeletedTest,
-  mockTest,
+  mockTestWithId,
   mockPublishedTest,
   mockTestArray,
   imageMetadata,
-  mockTest2,
+  mockTestWithId2,
 } from "../../../testUtils/tests";
 import { TestResponseDTO } from "../../interfaces/testService";
 
@@ -44,30 +44,30 @@ describe("mongo testService", (): void => {
 
   it("createTest", async () => {
     const res = await testService.createTest(mockTestRequest);
-    assertResponseMatchesExpected(mockTest, res);
+    assertResponseMatchesExpected(mockTestWithId, res);
   });
 
   it("deleteTest", async () => {
-    const savedTest = await MgTest.create(mockTest);
+    const savedTest = await MgTest.create(mockTestWithId);
     const deletedTestId = await testService.deleteTest(savedTest.id);
     expect(deletedTestId).toBe(savedTest.id);
   });
 
   it("updateTest", async () => {
     // insert test into database
-    const createdTest = await MgTest.create(mockTest);
+    const createdTest = await MgTest.create(mockTestWithId);
 
     // update test and assert
     const res = await testService.updateTest(createdTest.id, mockTestRequest2);
-    assertResponseMatchesExpected(mockTest2, res);
+    assertResponseMatchesExpected(mockTestWithId2, res);
   });
 
   it("getTestById", async () => {
-    const test = await MgTest.create(mockTest);
+    const test = await MgTest.create(mockTestWithId);
     const res = await testService.getTestById(test.id);
 
     expect(res.id).toEqual(test.id);
-    assertResponseMatchesExpected(mockTest, res);
+    assertResponseMatchesExpected(mockTestWithId, res);
   });
 
   it("getAllTests", async () => {
@@ -80,7 +80,7 @@ describe("mongo testService", (): void => {
   });
 
   it("publishTest", async () => {
-    const test = await MgTest.create(mockTest);
+    const test = await MgTest.create(mockTestWithId);
 
     const publishedTest = await testService.publishTest(test.id);
     assertResponseMatchesExpected(mockPublishedTest, publishedTest);
@@ -91,7 +91,7 @@ describe("mongo testService", (): void => {
     const test = await MgTest.create(mockPublishedTest);
 
     const duplicateTest = await testService.duplicateTest(test.id);
-    assertResponseMatchesExpected(mockTest, duplicateTest);
+    assertResponseMatchesExpected(mockTestWithId, duplicateTest);
     expect(test.id).not.toEqual(duplicateTest.id);
 
     const originalTest = await testService.getTestById(test.id);
@@ -103,7 +103,7 @@ describe("mongo testService", (): void => {
     const test = await MgTest.create(mockArchivedTest);
 
     const unarchivedTest = await testService.unarchiveTest(test.id);
-    assertResponseMatchesExpected(mockTest, unarchivedTest);
+    assertResponseMatchesExpected(mockTestWithId, unarchivedTest);
     expect(test.id).not.toEqual(unarchivedTest.id);
 
     const originalTest = await MgTest.findById(test.id);
@@ -111,7 +111,7 @@ describe("mongo testService", (): void => {
   });
 
   it("archiveTest", async () => {
-    const test = await MgTest.create(mockTest);
+    const test = await MgTest.create(mockTestWithId);
 
     const archivedTest = await testService.archiveTest(test.id);
     assertResponseMatchesExpected(mockArchivedTest, archivedTest);

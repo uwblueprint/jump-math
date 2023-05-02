@@ -17,7 +17,7 @@ import {
 import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
-import { mockTest } from "../../../testUtils/tests";
+import { mockTestWithId } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
@@ -49,7 +49,7 @@ describe("mongo testSessionService", (): void => {
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
-    testService.getTestById = jest.fn().mockReturnValue(mockTest);
+    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
   });
@@ -216,7 +216,7 @@ describe("mongo testSessionService", (): void => {
   it("computeTestGrades", async () => {
     const res = await testSessionService.computeTestGrades(
       mockUngradedTestResult,
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });

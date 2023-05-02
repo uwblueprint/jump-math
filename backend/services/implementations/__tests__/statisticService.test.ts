@@ -12,7 +12,7 @@ import {
 import { createSchoolWithCountry } from "../../../testUtils/school";
 import { TestStatistic } from "../../interfaces/statisticService";
 import mockTestStatisticsBySchool from "../../../testUtils/statistics";
-import { mockTest } from "../../../testUtils/tests";
+import { mockTestWithId } from "../../../testUtils/tests";
 
 describe("mongo statisticService", (): void => {
   let statisticService: StatisticService;
@@ -82,7 +82,7 @@ describe("mongo statisticService", (): void => {
       ],
     ]);
     const actualResult = await statisticService.getTestGradeStatisticsByCountry(
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(expectedResult);
   });
@@ -91,14 +91,14 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(13);
   });
 
   it("getSubmissionCountByTest with 0 submissions", async () => {
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(0);
   });
@@ -106,12 +106,16 @@ describe("mongo statisticService", (): void => {
   it("getMeanScoreByTest with multiple submissions", async () => {
     await MgTestSession.insertMany(mockTestSessions);
 
-    const actualResult = await statisticService.getMeanScoreByTest(mockTest.id);
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
     expect(actualResult).toEqual(50.77);
   });
 
   it("getMeanScoreByTest with 0 submissions", async () => {
-    const actualResult = await statisticService.getMeanScoreByTest(mockTest.id);
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
     expect(actualResult).toEqual(0);
   });
 
@@ -119,7 +123,7 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getTestGradeStatisticsBySchool(
-      mockTest.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(mockTestStatisticsBySchool);
   });

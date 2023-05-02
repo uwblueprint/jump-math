@@ -129,34 +129,37 @@ export const mockTestRequest2: TestRequestDTO = {
   status: AssessmentStatus.PUBLISHED,
 };
 
-export const mockTest: TestResponseDTO = {
+export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTestRequest,
   questions,
 };
 
-export const mockTest2: TestResponseDTO = {
+export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea96",
   ...mockTestRequest2,
   questions,
 };
 
 export const mockPublishedTest: TestResponseDTO = {
-  ...mockTest,
+  ...mockTestWithId,
   status: AssessmentStatus.PUBLISHED,
 };
 
 export const mockArchivedTest: TestResponseDTO = {
-  ...mockTest,
+  ...mockTestWithId,
   status: AssessmentStatus.ARCHIVED,
 };
 
 export const mockDeletedTest: TestResponseDTO = {
-  ...mockTest,
+  ...mockTestWithId,
   status: AssessmentStatus.DELETED,
 };
 
-export const mockTestArray: Array<TestResponseDTO> = [mockTest, mockTest2];
+export const mockTestArray: Array<TestResponseDTO> = [
+  mockTestWithId,
+  mockTestWithId2,
+];
 
 export const assertResponseMatchesExpected = (
   expected: TestResponseDTO,
