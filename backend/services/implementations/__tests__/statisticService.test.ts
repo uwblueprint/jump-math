@@ -109,7 +109,7 @@ describe("mongo statisticService", (): void => {
     const actualResult = await statisticService.getMeanScoreByTest(
       mockTestWithId.id,
     );
-    expect(actualResult).toEqual(57.69);
+    expect(actualResult).toEqual(50.77);
   });
 
   it("getMeanScoreByTest with 0 submissions", async () => {

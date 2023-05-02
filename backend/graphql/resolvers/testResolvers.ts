@@ -138,15 +138,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${id} cannot be published.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.PUBLISHED,
-      });
-      return updatedTest;
+      return testService.publishTest(id);
     },
     duplicateTest: async (
       _req: undefined,
@@ -164,18 +156,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (
-        testToUpdate.status !== AssessmentStatus.DRAFT &&
-        testToUpdate.status !== AssessmentStatus.PUBLISHED
-      ) {
-        throw new Error(`Test with id ${id} cannot be archived.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.ARCHIVED,
-      });
-      return updatedTest;
+      return testService.archiveTest(id);
     },
   },
 };
