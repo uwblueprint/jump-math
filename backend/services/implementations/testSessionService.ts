@@ -24,7 +24,7 @@ import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
-import { isEqual, roundTwoDecimals } from "../../utilities/generalUtils";
+import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -367,7 +367,7 @@ class TestSessionService implements ITestSessionService {
           if (actualAnswer) {
             const studentAnswer =
               studentTestAnswers[i][computedBreakdownByQuestion.length];
-            const isCorrect = isEqual(studentAnswer, actualAnswer);
+            const isCorrect = equalArrays(studentAnswer, actualAnswer);
 
             questionsCorrect += +isCorrect;
             computedBreakdownByQuestion.push(isCorrect);
