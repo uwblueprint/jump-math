@@ -23,7 +23,7 @@ const StudentLoginPage = (): React.ReactElement => {
     onCompleted: (data) => {
       setSuccess(true);
       setError("");
-      setTestId(data.testSessionByAccessCode.id);
+      setTestId(data.testSessionByAccessCode.test.id);
       setTestSessionId(data.testSessionByAccessCode.id);
       delayedRedirect();
     },
