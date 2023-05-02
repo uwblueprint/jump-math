@@ -20,12 +20,13 @@ export interface Result {
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
-   *  - number: the numeric answer (for short answer)
-   *  - number: the option's corresponding index (for multiple choice)
-   *  - number[]: a list of option indices (for multi select)
-   *  - null: for no answer
+   * - [numeric answer] for short answer
+   * - [index] for multiple choice
+   * - list of indices for multiple select
+   * - [numerator, denominator] for fraction
+   * - [null] for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: (number[] | null)[][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not

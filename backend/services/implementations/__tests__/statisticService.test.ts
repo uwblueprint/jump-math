@@ -43,14 +43,14 @@ describe("mongo statisticService", (): void => {
       {
         student: "student-1",
         score: 0,
-        answers: [[10.5]],
+        answers: [[[10.5]]],
         breakdown: [[false]],
         gradingStatus: GradingStatus.GRADED,
       },
       {
         student: "some-student-name",
         score: 100,
-        answers: [[11.5]],
+        answers: [[[11.5]]],
         breakdown: [[true]],
         gradingStatus: GradingStatus.GRADED,
       },
@@ -58,7 +58,7 @@ describe("mongo statisticService", (): void => {
       {
         student: "some-student-name",
         score: 0,
-        answers: [],
+        answers: [[]],
         breakdown: [],
         gradingStatus: GradingStatus.UNGRADED,
       },
@@ -109,7 +109,7 @@ describe("mongo statisticService", (): void => {
     const actualResult = await statisticService.getMeanScoreByTest(
       mockTestWithId.id,
     );
-    expect(actualResult).toEqual(57.69);
+    expect(actualResult).toEqual(50.77);
   });
 
   it("getMeanScoreByTest with 0 submissions", async () => {
