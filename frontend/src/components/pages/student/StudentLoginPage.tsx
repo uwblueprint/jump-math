@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
-import GET_TEST_SESSION_BY_ACCESS_CODE from "../../../APIClients/queries/TestSessionQueries";
+import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";

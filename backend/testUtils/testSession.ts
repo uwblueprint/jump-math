@@ -15,40 +15,40 @@ import { mockTeacher } from "./users";
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
   score: null,
-  answers: [[3, 0, [1, 2]], [null]],
+  answers: [[3, 0, [1, 2], [1, 4]], [null]],
   breakdown: [],
   gradingStatus: GradingStatus.UNGRADED,
 };
 
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
-  score: 75.0,
-  answers: [[3, 0, [1, 2]], [null]],
-  breakdown: [[true, true, true], [false]],
+  score: 80.0,
+  answers: [[3, 0, [1, 2], [1, 4]], [null]],
+  breakdown: [[true, true, true, true], [false]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult2: ResultResponseDTO = {
   student: "some-student-name-2",
-  score: 50.0,
-  answers: [[0, 3, [1, 2]], [7]],
-  breakdown: [[false, false, true], [true]],
+  score: 40.0,
+  answers: [[0, 3, [1, 2], [5, 4]], [7]],
+  breakdown: [[false, false, true, false], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult3: ResultResponseDTO = {
   student: "some-student-name-3",
-  score: 100.0,
+  score: 80.0,
   answers: [[3, 0, [1, 2]], [7]],
-  breakdown: [[true, true, true], [true]],
+  breakdown: [[true, true, true, false], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult4: ResultResponseDTO = {
   student: "some-student-name-3",
-  score: 25.0,
+  score: 20.0,
   answers: [[1.5, 1, [3]], [7]],
-  breakdown: [[false, false, false], [true]],
+  breakdown: [[false, false, false, false], [true]],
   gradingStatus: GradingStatus.GRADED,
 };
 
@@ -182,6 +182,31 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     results: [mockGradedTestResult],
     accessCode: "1234",
     startTime: new Date("2021-09-01T09:00:00.000Z"),
+  },
+];
+
+export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = [
+  {
+    ...mockTestSessions[0],
+    results: [
+      mockGradedTestResult,
+      mockGradedTestResult2,
+      mockGradedTestResult3,
+      mockUngradedTestResult,
+      mockGradedTestResult,
+      mockGradedTestResult4,
+    ],
+  },
+  {
+    ...mockTestSessions[0],
+    results: [
+      mockGradedTestResult2,
+      mockGradedTestResult4,
+      mockGradedTestResult3,
+    ],
+  },
+  {
+    ...mockTestSessions[4],
   },
 ];
 

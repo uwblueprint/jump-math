@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
+export const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
   query TestSessionByAccessCode($accessCode: String!) {
     testSessionByAccessCode(accessCode: $accessCode) {
       id
@@ -11,4 +11,13 @@ const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
   }
 `;
 
-export default GET_TEST_SESSION_BY_ACCESS_CODE;
+export const GET_TEST_SESSION_BY_TEACHER_ID = gql`
+  query TestSessionsByTeacherId($teacherId: String!) {
+    testSessionsByTeacherId(teacherId: $teacherId) {
+      id
+      test {
+        id
+      }
+    }
+  }
+`;
