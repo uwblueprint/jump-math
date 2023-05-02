@@ -18,16 +18,22 @@ const StudentDashboard = (): React.ReactElement => {
     testId: string;
     testSessionId: string;
     testSessionNotes: string;
+    startDate: Date | null;
+    endDate: Date | null;
   }>();
   const [testId, setTestId] = useState("");
   const [testSessionId, setTestSessionId] = useState("");
   const [testSessionNotes, setTestSessionNotes] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   useEffect(() => {
     if (state) {
       setTestId(state.testId);
       setTestSessionId(state.testSessionId);
       setTestSessionNotes(state.testSessionNotes);
+      setStartDate(state.startDate);
+      setEndDate(state.endDate);
     }
   }, [state]);
 
@@ -52,6 +58,10 @@ const StudentDashboard = (): React.ReactElement => {
         setTestSessionId,
         testSessionNotes,
         setTestSessionNotes,
+        startDate,
+        setStartDate,
+        endDate,
+        setEndDate,
       }}
     >
       {loading && <LoadingState fullPage />}

@@ -22,12 +22,16 @@ interface NameSelectionProps {
   testId: string;
   testSessionId: string;
   testSessionNotes: string;
+  startDate: Date | null;
+  endDate: Date | null;
 }
 
 const NameSelection = ({
   testId,
   testSessionId,
   testSessionNotes,
+  startDate,
+  endDate,
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
@@ -95,6 +99,8 @@ const NameSelection = ({
                 testId,
                 testSessionId,
                 testSessionNotes,
+                startDate,
+                endDate,
               },
             });
           }

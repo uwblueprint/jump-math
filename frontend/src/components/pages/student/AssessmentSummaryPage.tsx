@@ -18,7 +18,7 @@ import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo"
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
-  const { test, testSessionNotes } = useContext(StudentContext);
+  const { test, testSessionNotes, startDate } = useContext(StudentContext);
 
   const history = useHistory();
   const { setAuthenticatedUser } = useContext(AuthContext);
@@ -50,8 +50,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
               </Text>
               <Text color="blue.300" textStyle="paragraph">
                 {/* update after test session backend is updated */}
-                Start Time: {assessmentMetadata.startDate} at{" "}
-                {assessmentMetadata.startTime}
+                Start Time: {startDate} at {assessmentMetadata.startTime}
               </Text>
               <VStack align="center">
                 <SimpleGrid

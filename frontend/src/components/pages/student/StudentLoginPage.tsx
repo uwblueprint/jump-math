@@ -19,6 +19,8 @@ const StudentLoginPage = (): React.ReactElement => {
   const [testId, setTestId] = useState("");
   const [testSessionId, setTestSessionId] = useState("");
   const [testSessionNotes, setTestSessionNotes] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: (data) => {
@@ -31,8 +33,8 @@ const StudentLoginPage = (): React.ReactElement => {
       if (result.notes) {
         setTestSessionNotes(result.notes);
       }
-      console.log(result.startDate);
-      console.log(result.endDate);
+      setStartDate(result.startDate);
+      setEndDate(result.endDate);
 
       delayedRedirect();
     },
@@ -100,6 +102,8 @@ const StudentLoginPage = (): React.ReactElement => {
     <>
       {showNameSelection ? (
         <NameSelection
+          endDate={endDate}
+          startDate={startDate}
           testId={testId}
           testSessionId={testSessionId}
           testSessionNotes={testSessionNotes}
