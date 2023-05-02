@@ -262,18 +262,14 @@ describe("mongo testSessionService", (): void => {
       startTime: new Date("2022-09-10T09:00:00.000Z"),
     };
 
-    const updatedGradedTestSession = {
-      ...updatedTestSession,
-    };
-
     // update test and assert
     const res = await testSessionService.updateTestSession(
       testSession.id,
       updatedTestSession,
     );
-    assertResponseMatchesExpected(updatedGradedTestSession, res);
+    assertResponseMatchesExpected(updatedTestSession, res);
     assertResultsResponseMatchesExpected(
-      updatedGradedTestSession.results,
+      updatedTestSession.results,
       res.results,
     );
   });
@@ -286,11 +282,28 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 
-  // it("creat for non-existing ID", async () => {
-  //   const invalidId = "62c248c0f79d6c3c9ebbea94";
+  it("createTestSessionResult", async () => {
+    const testSession = await MgTestSession.create(mockTestSession);
+    const res = await testSessionService.createTestSessionResult(
+      testSession.id,
+      mockUngradedTestResult,
+    );
 
-  //   await expect(async () => {
-  //     await testSessionService.createTestSessionResult(invalidId, mockTestSession.results);
-  //   }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
-  // });
+    assertResponseMatchesExpected(mockTestSession, res);
+    assertResultsResponseMatchesExpected(
+      [mockGradedTestResult, mockGradedTestResult],
+      res.results,
+    );
+  });
+
+  it("createTestSessionResult for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.createTestSessionResult(
+        invalidId,
+        mockUngradedTestResult,
+      );
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
 });
