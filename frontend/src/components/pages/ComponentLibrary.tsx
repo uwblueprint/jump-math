@@ -1,15 +1,15 @@
 import React from "react";
 
-import StudentDashboardInfo from "../../types/StudentDashboardInfoTypes";
-import Navbar from "../common/Navbar";
+import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 
 const ComponentLibrary = (): React.ReactElement => {
-  const info: StudentDashboardInfo = {
-    assessmentName: "Unit 0 Review Test",
-    classroomName: "Mathematics 4 - Mr.Roberts",
-    estimatedTime: "1 Hour",
-  };
-  return <Navbar data={info} />;
+  return (
+    <StudentDashboardHeader
+      assessmentName="Unit 0 Review Test"
+      classroomName="Mathematics 4 - Mr. Roberts"
+      estimatedTime="1 Hour"
+    />
+  );
 };
 
 export default ComponentLibrary;
