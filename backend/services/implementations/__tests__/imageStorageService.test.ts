@@ -7,7 +7,7 @@ import {
   invalidImageType,
   invalidImageUpload,
   uploadDir,
-} from "../../../testUtils/imageStorage";
+} from "../../../testUtils/imageUpload";
 import IImageUploadService from "../../interfaces/imageUploadService";
 import ImageUploadService from "../imageUploadService";
 

@@ -10,7 +10,7 @@ import {
   validateImageType,
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import { ImageMetadata } from "../../models/test.model";
+import { ImageMetadata, ImagePreviewMetadata } from "../../models/test.model";
 import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
 
@@ -41,10 +41,10 @@ class ImageUploadService implements IImageUploadService {
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(file: Promise<FileUpload>): Promise<ImageMetadata> {
+  async uploadImage(image: ImagePreviewMetadata): Promise<ImageMetadata> {
     let filePath;
     try {
-      const { createReadStream, mimetype, filename } = await file;
+      const { createReadStream, mimetype, filename } = await image.file;
       if (!fs.existsSync(this.uploadDir)) {
         fs.mkdirSync(this.uploadDir);
       }
@@ -63,9 +63,32 @@ class ImageUploadService implements IImageUploadService {
     }
   }
 
+  async hydrateImage(image: ImageMetadata): Promise<ImageMetadata> {
+    const { filePath } = image;
+    try {
+      return await this.getImage(filePath);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to hydrate image with filePath: ${filePath}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+  }
+
   async getImage(filePath: string): Promise<ImageMetadata> {
-    const signedUrl = await this.storageService.getFile(filePath);
-    return { url: signedUrl, filePath };
+    try {
+      const signedUrl = await this.storageService.getFile(filePath);
+      return { url: signedUrl, filePath };
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get image for filePath: ${filePath}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 
   private async createImage(

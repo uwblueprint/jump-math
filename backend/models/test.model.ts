@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { FileUpload } from "graphql-upload";
 import { questionsValidator } from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
 /**
@@ -55,6 +56,16 @@ export interface TextMetadata {
 export interface ImageMetadata {
   url: string;
   filePath: string;
+}
+
+/**
+ * This interface contains additional information about an image component request
+ */
+export interface ImagePreviewMetadata {
+  /** the file to upload */
+  file: Promise<FileUpload>;
+  /** a temporary url to view the image (local or GCP) */
+  previewUrl: string;
 }
 
 /**
