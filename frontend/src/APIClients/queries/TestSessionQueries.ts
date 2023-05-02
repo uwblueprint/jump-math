@@ -12,8 +12,8 @@ export const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
 `;
 
 export const GET_TEST_SESSION_BY_TEACHER_ID = gql`
-  query TestSessionByTeacherId($teacherId: String!) {
-    testSessionByTeacherId(teacherId: $teacherId) {
+  query TestSessionsByTeacherId($teacherId: String!) {
+    testSessionsByTeacherId(teacherId: $teacherId) {
       id
       test {
         id
