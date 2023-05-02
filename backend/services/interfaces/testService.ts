@@ -80,6 +80,14 @@ export interface ITestService {
   getAllTests(): Promise<TestResponseDTO[]>;
 
   /**
+   * publish a Test given the id
+   * @param id string with the test id to be published
+   * @returns a TestResponseDTO with the published test
+   * @throws Error if Test with given id not found or it is not a draft
+   */
+  publishTest(id: string): Promise<TestResponseDTO>;
+
+  /**
    * duplicate a Test given the id
    * @param id string with the test id to be duplicated
    * @returns a TestResponseDTO with the duplicated test
@@ -94,4 +102,12 @@ export interface ITestService {
    * @throws Error if Test with given id not found or if Test is not archived
    */
   unarchiveTest(id: string): Promise<TestResponseDTO>;
+
+  /**
+   * archive a Test given the id
+   * @param id string with the test id to be archived
+   * @returns a TestResponseDTO with the archived test
+   * @throws Error if Test with given id not found or it is not a draft nor published
+   */
+  archiveTest(id: string): Promise<TestResponseDTO>;
 }
