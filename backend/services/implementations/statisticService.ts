@@ -12,7 +12,10 @@ import {
   groupResultsById,
   unwindResults,
 } from "../../utilities/pipelineQueryUtils";
-import { roundTwoDecimals } from "../../utilities/generalUtils";
+import {
+  roundTwoDecimals,
+  calculateMedianScore,
+} from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -95,6 +98,38 @@ class StatisticService implements IStatisticService {
     const aggCursor = await MgTestSession.aggregate(pipeline);
     const mean = aggCursor[0]?.averageScore ?? 0;
     return roundTwoDecimals(mean);
+  }
+
+  async getMedianScoreByTest(testId: string): Promise<number> {
+    const pipeline = [
+      filterTestsByTestId(testId),
+      {
+        $project: {
+          results: filterUngradedTests,
+        },
+      },
+      unwindResults,
+      {
+        $project: {
+          score: "$results.score",
+        },
+      },
+      {
+        $sort: {
+          score: 1,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          scores: { $push: "$score" },
+        },
+      },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const scores = aggCursor[0]?.scores ?? [0];
+    return calculateMedianScore(scores);
   }
 
   private getAverageScorePerQuestion(
