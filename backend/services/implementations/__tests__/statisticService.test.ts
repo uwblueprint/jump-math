@@ -103,6 +103,22 @@ describe("mongo statisticService", (): void => {
     expect(actualResult).toEqual(0);
   });
 
+  it("getMeanScoreByTest with multiple submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessions);
+
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(50.77);
+  });
+
+  it("getMeanScoreByTest with 0 submissions", async () => {
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(0);
+  });
+
   it("getTestGradeStatisticsBySchool", async () => {
     await MgTestSession.insertMany(mockTestSessions);
 

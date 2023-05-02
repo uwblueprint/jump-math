@@ -16,6 +16,7 @@ export enum QuestionComponentType {
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   MULTI_SELECT = "MULTI_SELECT",
   SHORT_ANSWER = "SHORT_ANSWER",
+  FRACTION = "FRACTION",
 }
 
 /**

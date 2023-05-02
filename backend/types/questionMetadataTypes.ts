@@ -11,7 +11,8 @@ export type BaseQuestionComponentMetadata<
   | ImageMetadataType
   | MultipleChoiceMetadata
   | MultiSelectMetadata
-  | ShortAnswerMetadata;
+  | ShortAnswerMetadata
+  | FractionMetadata;
 
 export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
 
@@ -27,6 +28,7 @@ export interface GraphQLQuestionComponentMetadata {
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
+  fractionMetadata: FractionMetadata;
 }
 
 /**
@@ -92,4 +94,12 @@ export interface MultiSelectMetadata {
 export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
+}
+
+/**
+ * This interface contains additional information about a fraction component
+ */
+export interface FractionMetadata {
+  numerator: number;
+  denominator: number;
 }
