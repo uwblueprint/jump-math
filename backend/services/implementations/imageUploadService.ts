@@ -2,7 +2,6 @@
 import { ReadStream } from "fs-capacitor";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
-import { FileUpload } from "graphql-upload";
 import IFileStorageService from "../interfaces/fileStorageService";
 import logger from "../../utilities/logger";
 import {
