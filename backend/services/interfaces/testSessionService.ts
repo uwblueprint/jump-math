@@ -69,9 +69,9 @@ export interface ResultRequestDTO {
    * - [index] for multiple choice
    * - list of indices for multiple select
    * - [numerator, denominator] for fraction
-   * - null for no answer
+   * - [] for no answer
    */
-  answers: (number[] | null)[][];
+  answers: number[][][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -97,9 +97,9 @@ export interface ResultResponseDTO {
    * - [index] for multiple choice
    * - list of indices for multiple select
    * - [numerator, denominator] for fraction
-   * - [null] for no answer
+   * - [] for no answer
    */
-  answers: (number[] | null)[][];
+  answers: number[][][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not

@@ -358,8 +358,8 @@ class TestSessionService implements ITestSessionService {
     // - index (for multiple choice)
     // - list of indices (for multiple select)
     // - [numerator, denominator] (for fraction)
-    // - null (for no answer)
-    const studentTestAnswers: (number[] | null)[][] = result.answers;
+    // - [] (for no answer)
+    const studentTestAnswers: number[][][] = result.answers;
 
     let computedScore = 0.0;
     const computedBreakdown: boolean[][] = [];
