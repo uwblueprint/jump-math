@@ -2,6 +2,7 @@ import MgTestSession, {
   GradingStatus,
   TestSession,
 } from "../../models/testSession.model";
+import MgClass, { Class } from "../../models/class.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -17,6 +18,7 @@ import {
   ShortAnswerMetadata,
   QuestionComponent,
   QuestionComponentType,
+  FractionMetadata,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
@@ -45,6 +47,7 @@ class TestSessionService implements ITestSessionService {
 
   /* eslint-disable class-methods-use-this */
   async createTestSession(
+    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
     let testDTO: TestResponseDTO;
@@ -58,6 +61,8 @@ class TestSessionService implements ITestSessionService {
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
       newTestSession = await MgTestSession.create(testSession);
+
+      await this.addTestSessionToClass(classId, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
@@ -369,7 +374,9 @@ class TestSessionService implements ITestSessionService {
           const singleResponse =
             type === QuestionComponentType.MULTIPLE_CHOICE ||
             type === QuestionComponentType.SHORT_ANSWER;
-          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
+          const multiResponse =
+            type === QuestionComponentType.MULTI_SELECT ||
+            type === QuestionComponentType.FRACTION;
           let isCorrect = false;
 
           if (singleResponse) {
@@ -379,7 +386,6 @@ class TestSessionService implements ITestSessionService {
             const studentAnswer = studentTestAnswers[i][questionsCount] as
               | number
               | null;
-
             isCorrect = studentAnswer === actualAnswer;
           } else if (multiResponse) {
             const actualAnswers: number[] = this.getCorrectAnswers(
@@ -446,11 +452,54 @@ class TestSessionService implements ITestSessionService {
   }
 
   private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
-    const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
-    const actualAnswers: number[] = questionMetadata.answerIndices;
+    let actualAnswers: number[];
+
+    if (questionComponent.type === QuestionComponentType.MULTI_SELECT) {
+      const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
+      actualAnswers = questionMetadata.answerIndices;
+    } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+      const questionMetadata = questionComponent.metadata as FractionMetadata;
+      actualAnswers = [
+        questionMetadata.numerator,
+        questionMetadata.denominator,
+      ];
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return actualAnswers!;
+  }
+
+  private async addTestSessionToClass(
+    id: string,
+    testSessionId: string,
+  ): Promise<void> {
+    try {
+      const classObj: Class | null = await MgClass.findOneAndUpdate(
+        { _id: id },
+        {
+          $push: {
+            testSessions: testSessionId,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!classObj) {
+        throw new Error(
+          `Test session could not be added to class with id ${id}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to add test session to class. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 }
 

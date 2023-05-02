@@ -8,6 +8,7 @@ import {
   AssessmentType,
   AssessmentStatus,
   ImageMetadata,
+  FractionMetadata,
 } from "../../models/test.model";
 import { Grade } from "../../types";
 
@@ -39,6 +40,7 @@ export interface GraphQLQuestionComponentMetadata {
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
+  fractionMetadata: FractionMetadata;
 }
 
 export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &

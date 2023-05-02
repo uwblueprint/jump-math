@@ -42,7 +42,7 @@ const testSessionType = gql`
     teacher: ID!
     school: ID!
     gradeLevel: Int!
-    results: [ResultRequestDTO]!
+    results: [ResultRequestDTO]
     accessCode: String!
     startTime: Date!
   }
@@ -55,6 +55,7 @@ const testSessionType = gql`
 
   extend type Mutation {
     createTestSession(
+      classId: String!
       testSession: TestSessionRequestDTO!
     ): TestSessionResponseDTO!
   }

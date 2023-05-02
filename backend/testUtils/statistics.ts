@@ -5,7 +5,7 @@ const mockTestStatisticsBySchool = new Map<string, TestStatistic>([
   [
     mockSchoolWithId.id,
     {
-      averageScore: 250 / 4,
+      averageScore: 340 / 6,
       averageQuestionScores: [
         [
           {
@@ -16,6 +16,9 @@ const mockTestStatisticsBySchool = new Map<string, TestStatistic>([
           },
           {
             averageScore: 500 / 6,
+          },
+          {
+            averageScore: 200 / 6,
           },
         ],
         [
@@ -29,7 +32,7 @@ const mockTestStatisticsBySchool = new Map<string, TestStatistic>([
   [
     mockSchoolWithId2.id,
     {
-      averageScore: 375 / 7,
+      averageScore: 320 / 7,
       averageQuestionScores: [
         [
           {
@@ -40,6 +43,9 @@ const mockTestStatisticsBySchool = new Map<string, TestStatistic>([
           },
           {
             averageScore: 500 / 7,
+          },
+          {
+            averageScore: 100 / 7,
           },
         ],
         [
