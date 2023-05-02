@@ -11,6 +11,7 @@ export enum QuestionComponentType {
   MULTIPLE_CHOICE,
   MULTI_SELECT,
   SHORT_ANSWER,
+  FRACTION,
 }
 
 export enum AssessmentType {
@@ -31,7 +32,8 @@ export type QuestionComponentMetadata =
   | ImageMetadata
   | MultipleChoiceMetadata
   | MultiSelectMetadata
-  | ShortAnswerMetadata;
+  | ShortAnswerMetadata
+  | FractionMetadata;
 
 /**
  * This interface contains additional information about a question text component
@@ -81,6 +83,14 @@ export interface MultiSelectMetadata {
 export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
+}
+
+/**
+ * This interface contains additional information about a fraction component
+ */
+export interface FractionMetadata {
+  numerator: number;
+  denominator: number;
 }
 
 /**

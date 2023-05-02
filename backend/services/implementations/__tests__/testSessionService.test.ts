@@ -3,6 +3,7 @@ import TestSessionService from "../testSessionService";
 import db from "../../../testUtils/testDb";
 
 import MgTestSession from "../../../models/testSession.model";
+import MgClass, { Class } from "../../../models/class.model";
 import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
@@ -20,6 +21,7 @@ import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
+import { testClassAfterCreation } from "../../../testUtils/class";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
@@ -56,11 +58,33 @@ describe("mongo testSessionService", (): void => {
     await db.clear();
   });
 
-  it("createTestSession", async () => {
-    const res = await testSessionService.createTestSession(mockTestSession);
+  it("createTestSession for valid class id", async () => {
+    const classObj: Class = await MgClass.create(testClassAfterCreation);
+    const res = await testSessionService.createTestSession(
+      classObj.id,
+      mockTestSession,
+    );
 
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toEqual([]);
+    expect(res.results).toBeUndefined();
+
+    const updatedClass: Class = (await MgClass.findById(classObj.id))!;
+    expect(
+      Array.from(updatedClass.testSessions).map((id) => id.toString()),
+    ).toEqual([res.id]);
+  });
+
+  it("createTestSession for invalid class id", async () => {
+    const invalidClassId = "62c248c0f79d6c3c9ebbea92";
+    await expect(async () => {
+      await testSessionService.createTestSession(
+        invalidClassId,
+        mockTestSession,
+      );
+    }).rejects.toThrowError(
+      `Test session could not be added to class with id ${invalidClassId}`,
+    );
   });
 
   it("getAllTestSessions", async () => {

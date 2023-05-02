@@ -57,6 +57,13 @@ export const questions: Array<Array<QuestionComponent>> = [
         answerIndices: [1, 2],
       },
     },
+    {
+      type: QuestionComponentType.FRACTION,
+      metadata: {
+        numerator: 1,
+        denominator: 4,
+      },
+    },
   ],
   [
     {
