@@ -58,7 +58,7 @@ describe("mongo statisticService", (): void => {
       {
         student: "some-student-name",
         score: 0,
-        answers: [[]],
+        answers: [[[]]],
         breakdown: [],
         gradingStatus: GradingStatus.UNGRADED,
       },

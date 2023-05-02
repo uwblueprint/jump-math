@@ -15,7 +15,7 @@ import { mockTeacher } from "./users";
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
   score: null,
-  answers: [[[3], [0], [1, 2], [1, 4]], []],
+  answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
   breakdown: [],
   gradingStatus: GradingStatus.UNGRADED,
 };
@@ -23,7 +23,7 @@ export const mockUngradedTestResult: ResultRequestDTO = {
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
   score: 80.0,
-  answers: [[[3], [0], [1, 2], [1, 4]], []],
+  answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
   breakdown: [[true, true, true, true], [false]],
   gradingStatus: GradingStatus.GRADED,
 };

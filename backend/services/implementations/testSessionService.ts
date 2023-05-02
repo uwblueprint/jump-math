@@ -24,7 +24,7 @@ import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
-import { roundTwoDecimals } from "../../utilities/generalUtils";
+import { isEqual, roundTwoDecimals } from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -351,54 +351,38 @@ class TestSessionService implements ITestSessionService {
     result: ResultRequestDTO,
     testId: string,
   ): Promise<ResultResponseDTO> {
-    let resultResponseDTO: ResultResponseDTO;
-
-    // the list of a student's answers with each field being either the:
-    // - numeric answer (for short answer)
-    // - index (for multiple choice)
-    // - list of indices (for multiple select)
-    // - [numerator, denominator] (for fraction)
-    // - [] (for no answer)
     const studentTestAnswers: number[][][] = result.answers;
-
-    let computedScore = 0.0;
     const computedBreakdown: boolean[][] = [];
     let questionsCorrect = 0;
-    let questionsCount = 0;
 
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
       test.questions.forEach((questionComponents: QuestionComponent[], i) => {
         const computedBreakdownByQuestion: boolean[] = [];
         questionComponents.forEach((questionComponent: QuestionComponent) => {
-          let isCorrect = false;
-
           const actualAnswer: number[] | null = this.getCorrectAnswer(
             questionComponent,
           );
 
           if (actualAnswer) {
-            const studentAnswer = studentTestAnswers[i][questionsCount] as
-              | number[]
-              | null;
-            isCorrect =
-              studentAnswer?.length === actualAnswer.length &&
-              studentAnswer.every((val, idx) => val === actualAnswer[idx]);
+            const studentAnswer =
+              studentTestAnswers[i][computedBreakdownByQuestion.length];
+            const isCorrect = isEqual(studentAnswer, actualAnswer);
 
             questionsCorrect += +isCorrect;
             computedBreakdownByQuestion.push(isCorrect);
-            questionsCount += 1;
           }
         });
         computedBreakdown.push(computedBreakdownByQuestion);
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
-      computedScore = roundTwoDecimals(
+      const questionsCount = computedBreakdown.flat().length;
+      const computedScore = roundTwoDecimals(
         (questionsCorrect * 100) / questionsCount,
       );
 
-      resultResponseDTO = {
+      return {
         student: result.student,
         score: computedScore,
         answers: result.answers,
@@ -413,8 +397,6 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return resultResponseDTO;
   }
 
   private getCorrectAnswer(
