@@ -13,12 +13,8 @@ import {
 } from "@chakra-ui/react";
 
 import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import {
-  AssessmentProperties,
-  Status,
-  UseCase,
-} from "../../../types/AssessmentTypes";
+import { getTestFilterOptions } from "../../../constants/CreateAssessmentConstants";
+import { AssessmentProperties, Status } from "../../../types/AssessmentTypes";
 import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
 import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
@@ -55,32 +51,44 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const [isEmpty, setEmpty] = React.useState(true);
 
-  const countryOptions = [
-    { value: "Canada", label: "Canada" },
-    { value: "USA", label: "USA" },
-  ];
-
-  const regionOptions = [
-    "Ottawa",
-    "Calfornia",
-    "Ontario",
-    "Texas",
-  ].map((value) => ({ value, label: value }));
-
-  const testTypeOptions = [
-    { value: UseCase.BEGINNING, label: "Beginning" },
-    { value: UseCase.END, label: "End" },
-  ];
-
-  const setFilterProps: FilterProp[] = [
-    { label: "Grade", setState: setGrades, options: gradeOptions },
-    { label: "Type", setState: setTestTypes, options: testTypeOptions },
-    { label: "Country", setState: setCountries, options: countryOptions },
-    { label: "Region", setState: setRegions, options: regionOptions },
-  ];
+  const [filterOptions, setFilterOptions] = React.useState<FilterProp[]>([
+    { label: "Grade", setState: setGrades, options: [] },
+    { label: "Type", setState: setTestTypes, options: [] },
+    { label: "Country", setState: setCountries, options: [] },
+    { label: "Region", setState: setRegions, options: [] },
+  ]);
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
+    onCompleted: () => {
+      const {
+        gradeOptions,
+        testTypeOptions,
+        countryOptions,
+        regionOptions,
+      } = getTestFilterOptions(data.tests);
+
+      setFilterOptions((prev) => {
+        return [
+          {
+            ...prev[0],
+            options: gradeOptions,
+          },
+          {
+            ...prev[1],
+            options: testTypeOptions,
+          },
+          {
+            ...prev[2],
+            options: countryOptions,
+          },
+          {
+            ...prev[3],
+            options: regionOptions,
+          },
+        ];
+      });
+    },
   });
 
   const filteredAssessements = React.useMemo(() => {
@@ -169,7 +177,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         <AssessmentsTab
           key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}
-          filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
+          filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           noResults={isEmpty}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}

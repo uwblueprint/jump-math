@@ -1,6 +1,5 @@
 export const titleCase = (input: string): string => {
-  const words = input.split(" ");
-
+  const words = input.trim().split(/\s+/);
   return words
     .map((word) => {
       return word[0].toUpperCase() + word.substring(1).toLowerCase();

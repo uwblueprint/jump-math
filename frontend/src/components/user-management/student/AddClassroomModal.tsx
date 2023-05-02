@@ -23,7 +23,7 @@ import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { gradeOptions } from "../../../constants/CreateAssessmentConstants";
 import AuthContext from "../../../contexts/AuthContext";
 import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
