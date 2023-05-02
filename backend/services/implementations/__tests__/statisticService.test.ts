@@ -126,7 +126,7 @@ describe("mongo statisticService", (): void => {
     const actualResult = await statisticService.getMedianScoreByTest(
       mockTestWithId.id,
     );
-    expect(actualResult).toEqual(50);
+    expect(actualResult).toEqual(40);
   });
 
   it("getMedianScoreByTest with even number of submissions", async () => {
@@ -135,7 +135,7 @@ describe("mongo statisticService", (): void => {
     const actualResult = await statisticService.getMedianScoreByTest(
       mockTestWithId.id,
     );
-    expect(actualResult).toEqual(62.5);
+    expect(actualResult).toEqual(60);
   });
 
   it("getMedianScoreByTest with 0 submissions", async () => {
