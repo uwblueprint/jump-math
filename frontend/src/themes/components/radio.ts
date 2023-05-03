@@ -9,6 +9,7 @@ const Radio = {
     },
     label: {
       textStyle: "smallerParagraph",
+      pointerEvents: "none",
     },
   },
   variants: {

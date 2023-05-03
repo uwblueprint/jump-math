@@ -39,3 +39,20 @@ export type TestRequest = {
   /** the region that the test is to be administered in */
   curriculumRegion: string;
 };
+
+export type QuestionComponentMetadata =
+  | QuestionTextMetadata
+  | TextMetadata
+  | MultipleChoiceMetadata
+  | MultiSelectMetadata
+  | ShortAnswerMetadata;
+
+/**
+ * This interface contains information about a single component in a question.
+ */
+export interface QuestionComponentResponse {
+  /** the type of question component  */
+  type: QuestionElementType;
+  /** additional metadata for the question */
+  metadata: QuestionComponentMetadata;
+}
