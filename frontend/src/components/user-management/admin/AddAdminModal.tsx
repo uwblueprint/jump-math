@@ -27,6 +27,7 @@ import {
   UserResponse,
 } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
+import { randomNumber } from "../../../utils/GeneralUtils";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 
@@ -93,7 +94,8 @@ const AddAdminModal = (): React.ReactElement => {
     console.log(
       `creating admin with first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
     );
-    const password = Math.random().toString(36).substring(2, 10);
+
+    const password = randomNumber().toString(36).substring(2, 10);
     const user: UserRequest = {
       firstName,
       lastName,

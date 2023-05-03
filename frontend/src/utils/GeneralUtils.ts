@@ -26,3 +26,6 @@ export const getReadableDate = (): string => {
   };
   return date.toLocaleDateString("en-US", options);
 };
+
+export const randomNumber = (): number =>
+  window.crypto.getRandomValues(new Uint32Array(1))[0];
