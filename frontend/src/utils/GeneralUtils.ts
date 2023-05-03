@@ -11,9 +11,8 @@ export const removeUnderscore = (word: string): string => {
   return word.replace(/_/g, " ");
 };
 
-export const getFirstNumber = (word: string): string => {
-  const numbers = word.match(/^\d+/);
-  return numbers ? numbers[0] : "";
+export const includesIgnoreCase = (text: string, pattern: string): boolean => {
+  return text.toLowerCase().includes(pattern.toLowerCase());
 };
 
 export const getReadableDate = (): string => {
@@ -25,3 +24,37 @@ export const getReadableDate = (): string => {
   };
   return date.toLocaleDateString("en-US", options);
 };
+
+export function sortArrayAscending<Type extends Record<string, string>>(
+  array: Type[],
+  sortProperty: string,
+): Type[] {
+  return array?.sort((a, b) =>
+    a[sortProperty as keyof Type].toLowerCase() >
+    b[sortProperty as keyof Type].toLowerCase()
+      ? 1
+      : -1,
+  );
+}
+
+export function sortArrayDescending<Type extends Record<string, string>>(
+  array: Type[],
+  sortProperty: string,
+): Type[] {
+  return array?.sort((a, b) =>
+    a[sortProperty as keyof Type].toLowerCase() <
+    b[sortProperty as keyof Type].toLowerCase()
+      ? 1
+      : -1,
+  );
+}
+
+export function sortArray<Type extends Record<string, string>>(
+  array: Type[],
+  sortProperty: string,
+  order: string,
+): Type[] {
+  return order === "descending"
+    ? sortArrayDescending<Type>(array, sortProperty)
+    : sortArrayAscending<Type>(array, sortProperty);
+}
