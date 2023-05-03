@@ -21,7 +21,7 @@ const theme = extendTheme({
     body: "'DM Sans', sans-serif",
   },
   colors,
-  textStyles: { ...textStyles },
+  textStyles,
   components: {
     Alert,
     Button,
