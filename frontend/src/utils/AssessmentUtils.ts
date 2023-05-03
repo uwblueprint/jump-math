@@ -1,6 +1,6 @@
 import { Grade } from "../APIClients/types/UserClientTypes";
 import { AssessmentProperties } from "../types/AssessmentTypes";
-import { StringOption } from "../types/SelectInputTypes";
+import { GradeOption, StringOption } from "../types/SelectInputTypes";
 
 import {
   includesIgnoreCase,
@@ -22,7 +22,7 @@ export const getAssessments = (
   };
 };
 
-export const gradeOptions: StringOption[] = Object.values(Grade).map(
+export const gradeOptions: GradeOption[] = Object.values(Grade).map(
   (grade) => ({
     value: grade,
     label: titleCase(removeUnderscore(grade)),
