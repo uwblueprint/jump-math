@@ -147,13 +147,47 @@ class TestService implements ITestService {
 
   async getAllTests(): Promise<TestResponseDTO[]> {
     try {
-      let tests = await MgTest.find();
-      tests = tests.filter((test) => test.status !== AssessmentStatus.DELETED);
+      const tests = await MgTest.find({
+        status: { $ne: AssessmentStatus.DELETED },
+      });
       return await this.mapTestsToTestResponseDTOs(tests);
     } catch (error: unknown) {
       Logger.error(`Failed to get tests. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
+  }
+
+  async publishTest(id: string): Promise<TestResponseDTO> {
+    let test: Test | null;
+
+    try {
+      test = await MgTest.findOneAndUpdate(
+        { _id: id, status: AssessmentStatus.DRAFT },
+        {
+          $set: {
+            status: AssessmentStatus.PUBLISHED,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!test) {
+        throw new Error(
+          `Test with ID ${id} is not found or not in draft status`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to publish test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
   async duplicateTest(id: string): Promise<TestResponseDTO> {
@@ -229,6 +263,42 @@ class TestService implements ITestService {
       assessmentType: unarchivedTest.assessmentType,
       status: unarchivedTest.status,
     };
+  }
+
+  async archiveTest(id: string): Promise<TestResponseDTO> {
+    let test: Test | null;
+
+    try {
+      test = await MgTest.findOneAndUpdate(
+        {
+          _id: id,
+          status: { $in: [AssessmentStatus.DRAFT, AssessmentStatus.PUBLISHED] },
+        },
+        {
+          $set: {
+            status: AssessmentStatus.ARCHIVED,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!test) {
+        throw new Error(
+          `Test with ID ${id} is not found or not in draft / published status`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to archive test with ID ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
   async mapTestsToTestResponseDTOs(
