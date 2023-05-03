@@ -100,9 +100,6 @@ class ClassService implements IClassService {
     let classes: Class[];
     try {
       classes = await MgClass.find({ teacher: { $eq: teacherId } });
-      if (!classes.length) {
-        return [];
-      }
     } catch (error: unknown) {
       Logger.error(
         `Failed to get classes by teacher id. Reason = ${getErrorMessage(

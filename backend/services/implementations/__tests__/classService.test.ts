@@ -136,9 +136,9 @@ describe("mongo classService", (): void => {
   });
 
   it("getClassesByTeacherId for valid testSessionId", async () => {
-    const savedClasses = [await ClassModel.create(testClassWithTestSessions)];
-    const res = await classService.getClassesByTeacherId(mockTeacher.id);
-    assertArrayResponseMatchesExpected(savedClasses, res);
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const res = await classService.getClassesByTeacherId(savedClass.teacher);
+    assertArrayResponseMatchesExpected([savedClass], res);
   });
 
   it("getClassesByTeacherId for non-existing testSessionId", async () => {
