@@ -95,12 +95,11 @@ const AddAdminModal = (): React.ReactElement => {
       `creating admin with first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
     );
 
-    const password = randomNumber().toString(36).substring(2, 10);
     const user: UserRequest = {
       firstName,
       lastName,
       email,
-      password,
+      password: randomNumber().toString(),
       role: "Admin",
     };
     await addAdmin({ variables: { user } })
