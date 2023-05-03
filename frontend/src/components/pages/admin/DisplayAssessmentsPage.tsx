@@ -12,9 +12,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { Status } from "../../../types/AssessmentTypes";
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { Status } from "../../../types/AssessmentTypes";
 import {
   assessmentFilterOptions,
   filterAssessments,
