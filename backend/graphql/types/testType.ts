@@ -148,6 +148,7 @@ const testType = gql`
   }
 
   extend type Query {
+    test(id: ID!): TestResponseDTO!
     tests: [TestResponseDTO]!
   }
 

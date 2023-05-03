@@ -8,11 +8,11 @@ import {
   mockArchivedTest,
   mockTestRequest,
   mockTestRequest2,
-  mockDeletedTest,
   mockTestWithId,
+  imageMetadata,
+  mockDeletedTest,
   mockPublishedTest,
   mockTestArray,
-  imageMetadata,
   mockTestWithId2,
 } from "../../../testUtils/tests";
 import { TestResponseDTO } from "../../interfaces/testService";

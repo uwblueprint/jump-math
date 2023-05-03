@@ -33,6 +33,7 @@ const classType = gql`
 
   extend type Query {
     classByTestSession(testSessionId: ID!): ClassResponseDTO!
+    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
   }
 
   extend type Mutation {
