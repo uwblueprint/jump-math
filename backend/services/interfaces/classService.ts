@@ -57,6 +57,14 @@ export interface IClassService {
   getClassByTestSessionId(testSessionId: string): Promise<ClassResponseDTO>;
 
   /**
+   * This method retrieves the classes associated with given teacher id.
+   * @param id teacher id
+   * @returns list of requested classes
+   * @throws Error if retrieval fails
+   */
+  getClassesByTeacherId(teacherId: string): Promise<Array<ClassResponseDTO>>;
+
+  /**
    * This method updates the class with given id.
    * @param id The unique identifier of the class to update
    * @param classObj The request object containing information about the updated class

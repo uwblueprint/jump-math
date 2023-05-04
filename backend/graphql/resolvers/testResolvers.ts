@@ -1,6 +1,5 @@
 import TestService from "../../services/implementations/testService";
 import {
-  AssessmentStatus,
   QuestionComponent,
   QuestionComponentMetadata,
 } from "../../models/test.model";
@@ -102,6 +101,12 @@ const testResolvers = {
     },
   },
   Query: {
+    test: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<TestResponseDTO> => {
+      return testService.getTestById(id);
+    },
     tests: async (): Promise<TestResponseDTO[]> => {
       return testService.getAllTests();
     },
@@ -138,15 +143,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${id} cannot be published.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.PUBLISHED,
-      });
-      return updatedTest;
+      return testService.publishTest(id);
     },
     duplicateTest: async (
       _req: undefined,
@@ -164,18 +161,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (
-        testToUpdate.status !== AssessmentStatus.DRAFT &&
-        testToUpdate.status !== AssessmentStatus.PUBLISHED
-      ) {
-        throw new Error(`Test with id ${id} cannot be archived.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.ARCHIVED,
-      });
-      return updatedTest;
+      return testService.archiveTest(id);
     },
   },
 };

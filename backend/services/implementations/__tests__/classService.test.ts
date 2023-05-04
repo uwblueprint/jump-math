@@ -13,6 +13,7 @@ import {
   updatedTestStudents,
   assertStudentResponseMatchesExpected,
   testClassWithTestSessions,
+  assertArrayResponseMatchesExpected,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -132,6 +133,18 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(
       `More than one class has the same Test Session of id ${testSessionId}`,
     );
+  });
+
+  it("getClassesByTeacherId for valid testSessionId", async () => {
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const res = await classService.getClassesByTeacherId(savedClass.teacher);
+    assertArrayResponseMatchesExpected([savedClass], res);
+  });
+
+  it("getClassesByTeacherId for non-existing testSessionId", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    const res = await classService.getClassesByTeacherId(notFoundId);
+    expect(res).toEqual([]);
   });
 
   it("deleteClass", async () => {
