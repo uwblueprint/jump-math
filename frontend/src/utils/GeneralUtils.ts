@@ -58,3 +58,6 @@ export function sortArray<Type extends Record<string, string>>(
     ? sortArrayDescending<Type>(array, sortProperty)
     : sortArrayAscending<Type>(array, sortProperty);
 }
+
+export const randomNumber = (): number =>
+  window.crypto.getRandomValues(new Uint32Array(1))[0];
