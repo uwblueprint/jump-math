@@ -295,8 +295,8 @@ class TestSessionService implements ITestSessionService {
         id,
       );
 
-      updatedTestSession = await MgTestSession.findOneAndUpdate(
-        { _id: id },
+      updatedTestSession = await MgTestSession.findByIdAndUpdate(
+        id,
         {
           $push: { results: gradedResult },
         },
