@@ -3,6 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
+import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
@@ -17,10 +18,9 @@ const StudentLoginPage = (): React.ReactElement => {
   const [error, setError] = useState("");
 
   const [testId, setTestId] = useState("");
-  const [testSessionId, setTestSessionId] = useState("");
-  const [testSessionNotes, setTestSessionNotes] = useState("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [testSession, setTestSession] = useState<TestSessionMetadata | null>(
+    null,
+  );
 
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: (data) => {
@@ -29,12 +29,12 @@ const StudentLoginPage = (): React.ReactElement => {
 
       const result = data.testSessionByAccessCode;
       setTestId(result.test.id);
-      setTestSessionId(result.id);
-      if (result.notes) {
-        setTestSessionNotes(result.notes);
-      }
-      setStartDate(result.startDate);
-      setEndDate(result.endDate);
+      setTestSession({
+        id: result.id,
+        startDate: result.startDate,
+        endDate: result.endDate,
+        notes: result.notes ?? "",
+      });
 
       delayedRedirect();
     },
@@ -100,14 +100,8 @@ const StudentLoginPage = (): React.ReactElement => {
 
   return (
     <>
-      {showNameSelection ? (
-        <NameSelection
-          endDate={endDate}
-          startDate={startDate}
-          testId={testId}
-          testSessionId={testSessionId}
-          testSessionNotes={testSessionNotes}
-        />
+      {showNameSelection && testSession ? (
+        <NameSelection testId={testId} testSession={testSession} />
       ) : (
         <AuthWrapper
           error={error}

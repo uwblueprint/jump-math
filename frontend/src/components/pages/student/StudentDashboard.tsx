@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
 import { TestResponse } from "../../../APIClients/types/TestClientTypes";
+import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
@@ -16,24 +17,17 @@ import AssessmentSummaryPage from "./AssessmentSummaryPage";
 const StudentDashboard = (): React.ReactElement => {
   const { state } = useLocation<{
     testId: string;
-    testSessionId: string;
-    testSessionNotes: string;
-    startDate: Date | null;
-    endDate: Date | null;
+    testSession: TestSessionMetadata;
   }>();
   const [testId, setTestId] = useState("");
-  const [testSessionId, setTestSessionId] = useState("");
-  const [testSessionNotes, setTestSessionNotes] = useState("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [testSession, setTestSession] = useState<TestSessionMetadata | null>(
+    null,
+  );
 
   useEffect(() => {
     if (state) {
       setTestId(state.testId);
-      setTestSessionId(state.testSessionId);
-      setTestSessionNotes(state.testSessionNotes);
-      setStartDate(state.startDate);
-      setEndDate(state.endDate);
+      setTestSession(state.testSession);
     }
   }, [state]);
 
@@ -54,14 +48,8 @@ const StudentDashboard = (): React.ReactElement => {
       value={{
         test,
         setTest,
-        testSessionId,
-        setTestSessionId,
-        testSessionNotes,
-        setTestSessionNotes,
-        startDate,
-        setStartDate,
-        endDate,
-        setEndDate,
+        testSession,
+        setTestSession,
       }}
     >
       {loading && <LoadingState fullPage />}
