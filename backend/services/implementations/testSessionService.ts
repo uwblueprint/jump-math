@@ -263,7 +263,7 @@ class TestSessionService implements ITestSessionService {
     try {
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
-        testSession,
+        { $set: testSession },
         {
           new: true,
           runValidators: true,
