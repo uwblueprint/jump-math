@@ -20,7 +20,7 @@ import { getReadableDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
-interface CreateAssessementHeaderProps {
+interface CreateAssessmentHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
   onConfirmPublish: (data: TestRequest) => Promise<void>;
@@ -29,14 +29,14 @@ interface CreateAssessementHeaderProps {
   validateForm: () => boolean;
 }
 
-const CreateAssessementHeader = ({
+const CreateAssessmentHeader = ({
   name,
   handleSubmit,
   onConfirmPublish,
   onSave,
   onError,
   validateForm,
-}: CreateAssessementHeaderProps): React.ReactElement => {
+}: CreateAssessmentHeaderProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
@@ -99,4 +99,4 @@ const CreateAssessementHeader = ({
   );
 };
 
-export default CreateAssessementHeader;
+export default CreateAssessmentHeader;
