@@ -61,7 +61,7 @@ export interface ImageMetadata {
 /**
  * This interface contains additional information about an image component request
  */
-export interface ImagePreviewMetadata {
+export interface ImageMetadataRequest {
   /** the file to upload */
   file: Promise<FileUpload>;
   /** a temporary url to view the image (local or GCP) */
