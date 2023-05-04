@@ -102,7 +102,12 @@ export const filterAssessmentsBySearch = (
     filteredTests = filteredTests.filter(
       (assessment: AssessmentProperties) =>
         includesIgnoreCase(assessment.name, search) ||
-        includesIgnoreCase(removeUnderscore(assessment.grade), search) ||
+        includesIgnoreCase(
+          assessment.grade === "K"
+            ? "Kindergarten"
+            : removeUnderscore(assessment.grade),
+          search,
+        ) ||
         includesIgnoreCase(assessment.curriculumCountry, search) ||
         includesIgnoreCase(assessment.curriculumRegion, search) ||
         includesIgnoreCase(assessment.assessmentType, search),
