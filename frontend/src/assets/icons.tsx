@@ -447,7 +447,7 @@ export const BookOpenIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const BarChart2Icon = (): React.ReactElement => (
+export const BarChartIcon = (): React.ReactElement => (
   <Icon color="blue.300" viewBox="0 0 24 24">
     <path
       d="M12 8C11.7348 8 11.4804 8.10536 11.2929 8.29289C11.1054 8.48043 11 8.73478 11 9V20C11 20.2652 11.1054 20.5196 11.2929 20.7071C11.4804 20.8946 11.7348 21 12 21C12.2652 21 12.5196 20.8946 12.7071 20.7071C12.8946 20.5196 13 20.2652 13 20V9C13 8.73478 12.8946 8.48043 12.7071 8.29289C12.5196 8.10536 12.2652 8 12 8Z"

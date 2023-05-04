@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, HStack, Tag, Text } from "@chakra-ui/react";
+import { Box, HStack, Tag, Text, VStack } from "@chakra-ui/react";
 
 import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import {
-  BarChart2Icon,
+  BarChartIcon,
   BookOpenIcon,
   MoreVerticalOutlineIcon,
   PeopleIcon,
@@ -40,29 +40,31 @@ const ClassroomCard = ({
       text: `${assessmentCount} Assessments`,
     },
     {
-      icon: <BarChart2Icon />,
+      icon: <BarChartIcon />,
       text: `${titleCase(removeUnderscore(grade))}`,
     },
   ];
 
   return (
-    <Box
+    <VStack
+      alignItems="flex-start"
       border="2.5px solid"
       borderColor="blue.50"
       borderRadius="16px"
       h="256px"
       p="1em"
+      spacing="12px"
       w="240px"
     >
       <HStack alignItems="flex-start">
-        <Text color="grey.400" pb="0.2em" textStyle="mobileHeader3">
+        <Text color="grey.400" textStyle="mobileHeader3">
           {name}
         </Text>
         <MoreVerticalOutlineIcon boxSize="1.5em" />
       </HStack>
       {classroomCardBody.map(({ icon, text }, i) => {
         return (
-          <HStack key={i} pt="0.65em">
+          <HStack key={i}>
             {icon}
             <Text color="blue.300" textStyle="mobileParagraph">
               {text}
@@ -71,19 +73,13 @@ const ClassroomCard = ({
         );
       })}
       {!!activeAssessments && (
-        <Tag
-          bg="grey.100"
-          borderRadius="1000px"
-          color="grey.300"
-          mt="0.65em"
-          p="0.5em 1em"
-        >
+        <Tag bgColor="grey.100" color="grey.300" size="lg">
           <Text textStyle="mobileParagraph">
             {activeAssessments} Coming Tests
           </Text>
         </Tag>
       )}
-    </Box>
+    </VStack>
   );
 };
 

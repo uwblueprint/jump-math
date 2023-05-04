@@ -11,6 +11,7 @@ import Input from "./components/input";
 import Radio from "./components/radio";
 import Select from "./components/select";
 import Table from "./components/table";
+import Tag from "./components/tag";
 import Textarea from "./components/textarea";
 import colors from "./colors";
 import textStyles from "./typography";
@@ -32,6 +33,7 @@ const theme = extendTheme({
     Radio,
     Select,
     Table,
+    Tag,
     Textarea,
   },
 });
