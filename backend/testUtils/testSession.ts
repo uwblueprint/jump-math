@@ -122,7 +122,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   school: mockSchoolWithId,
 };
 
-export const mockTestSessions = [
+export const mockTestSessions: TestSessionDTO[] = [
   {
     ...mockTestSession,
     results: [
@@ -169,7 +169,7 @@ export const mockTestSessions = [
   },
 ];
 
-export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = [
+export const mockTestSessionsWithEvenNumberOfResults: TestSessionDTO[] = [
   {
     ...mockTestSessions[0],
     results: [

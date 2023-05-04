@@ -146,14 +146,10 @@ class ClassService implements IClassService {
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
     try {
-      updatedClass = await MgClass.findByIdAndUpdate(
-        id,
-        { $set: classObj },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
+      updatedClass = await MgClass.findByIdAndUpdate(id, classObj, {
+        new: true,
+        runValidators: true,
+      });
 
       if (!updatedClass) {
         throw new Error(`Class id ${id} not found`);

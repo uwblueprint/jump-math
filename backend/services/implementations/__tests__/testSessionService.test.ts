@@ -14,7 +14,10 @@ import {
   mockTestSessionWithId,
   mockTestSessionsWithSameAccessCode,
 } from "../../../testUtils/testSession";
-import { TestSessionResponseDTO } from "../../interfaces/testSessionService";
+import {
+  TestSessionRequestDTO,
+  TestSessionResponseDTO,
+} from "../../interfaces/testSessionService";
 import TestService from "../testService";
 import UserService from "../userService";
 import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
@@ -275,12 +278,11 @@ describe("mongo testSessionService", (): void => {
     const testSession = await MgTestSession.create(mockTestSession);
 
     // create DTO object to update to
-    const updatedTestSession = {
+    const updatedTestSession: TestSessionRequestDTO = {
       test: mockTestWithId2.id,
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
       gradeLevel: 3,
-      results: [],
       accessCode: "1235",
       startTime: new Date("2022-09-10T09:00:00.000Z"),
     };
@@ -291,10 +293,7 @@ describe("mongo testSessionService", (): void => {
       updatedTestSession,
     );
     assertResponseMatchesExpected(updatedTestSession, res);
-    assertResultsResponseMatchesExpected(
-      updatedTestSession.results,
-      res.results,
-    );
+    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
   });
 
   it("updateTestSession for non-existing ID", async () => {
