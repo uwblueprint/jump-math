@@ -455,8 +455,8 @@ class TestSessionService implements ITestSessionService {
     testSessionId: string,
   ): Promise<void> {
     try {
-      const classObj: Class | null = await MgClass.findOneAndUpdate(
-        { _id: id },
+      const classObj: Class | null = await MgClass.findByIdAndUpdate(
+        id,
         {
           $push: {
             testSessions: testSessionId,
