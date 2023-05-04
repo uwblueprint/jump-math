@@ -20,7 +20,7 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+import CreateAssessmentButton from "../../assessments/assessment-creation/CreateAssessmentButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
@@ -93,13 +93,13 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return filterAssessments(data.tests, filterProps);
   }, [data, grades, testTypes, countries, regions, status]);
 
-  const searchedAssessements = React.useMemo(() => {
+  const searchedAssessments = React.useMemo(() => {
     return filterAssessmentsBySearch(filteredAssessments, search);
   }, [filteredAssessments, search]);
 
   const assessments = React.useMemo(() => {
-    return sortArray(searchedAssessements, sortProperty, sortOrder);
-  }, [searchedAssessements, sortProperty, sortOrder]);
+    return sortArray(searchedAssessments, sortProperty, sortOrder);
+  }, [searchedAssessments, sortProperty, sortOrder]);
 
   const AssessmentTabPanels = [...Array(4)].map((i) => {
     return (
@@ -144,7 +144,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          <CreateAssessementButton />
+          <CreateAssessmentButton />
         </HStack>
       </Box>
       {loading && (
