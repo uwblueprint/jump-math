@@ -105,19 +105,21 @@ class TestSessionService implements ITestSessionService {
     accessCode: string,
   ): Promise<TestSessionResponseDTO> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
+    const currentDate = new Date();
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         accessCode: { $eq: accessCode },
+        startDate: { $lte: currentDate },
+        endDate: { $gte: currentDate },
       });
 
       if (!testSessions.length) {
         throw new Error(
-          `Test Session with access code ${accessCode} not found`,
+          `Valid Test Session with access code ${accessCode} not found`,
         );
       } else if (testSessions.length > 1) {
         throw new Error(
-          `More than one Test Session uses the access code ${accessCode}`,
+          `More than one valid Test Session uses the access code ${accessCode}`,
         );
       }
 

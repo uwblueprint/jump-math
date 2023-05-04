@@ -30,14 +30,13 @@ const NameSelection = ({
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
+  const [className, setClassName] = useState("");
   const { loading, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
     variables: { testSessionId: testSession.id },
     onCompleted: () => {
-      setStudents(
-        data.classByTestSession.students.map(
-          (student: StudentResponse) => student,
-        ),
-      );
+      const result = data.classByTestSession;
+      setStudents(result.students.map((student: StudentResponse) => student));
+      setClassName(result.className);
     },
   });
 
@@ -93,6 +92,7 @@ const NameSelection = ({
               state: {
                 testId,
                 testSession,
+                className,
               },
             });
           }

@@ -18,16 +18,19 @@ const StudentDashboard = (): React.ReactElement => {
   const { state } = useLocation<{
     testId: string;
     testSession: TestSessionMetadata;
+    className: string;
   }>();
   const [testId, setTestId] = useState("");
   const [testSession, setTestSession] = useState<TestSessionMetadata | null>(
     null,
   );
+  const [className, setClassName] = useState("");
 
   useEffect(() => {
     if (state) {
       setTestId(state.testId);
       setTestSession(state.testSession);
+      setClassName(state.className);
     }
   }, [state]);
 
@@ -50,6 +53,8 @@ const StudentDashboard = (): React.ReactElement => {
         setTest,
         testSession,
         setTestSession,
+        className,
+        setClassName,
       }}
     >
       {loading && <LoadingState fullPage />}
