@@ -16,7 +16,7 @@ export type BaseQuestionComponentMetadata<
 
 export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
 
-export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImagePreviewMetadata>;
+export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImageMetadataRequest>;
 
 /**
  * This interface contains the metadata for a GraphQL question component
@@ -24,7 +24,7 @@ export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<Ima
 export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imagePreviewMetadata: ImagePreviewMetadata;
+  imageMetadataRequest: ImageMetadataRequest;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
@@ -58,7 +58,7 @@ export interface ImageMetadata {
 /**
  * This interface contains additional information about an image component request
  */
-export interface ImagePreviewMetadata {
+export interface ImageMetadataRequest {
   /** the file to upload */
   file: Promise<FileUpload>;
   /** a temporary url to view the image (local or GCP) */
@@ -66,7 +66,7 @@ export interface ImagePreviewMetadata {
 }
 
 /** A union of all metadata types for an image component */
-export type ImageMetadataTypes = ImageMetadata | ImagePreviewMetadata;
+export type ImageMetadataTypes = ImageMetadata | ImageMetadataRequest;
 
 /**
  * This interface contains additional information about a multiple choice component

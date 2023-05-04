@@ -53,7 +53,7 @@ const testType = gql`
 
   scalar FileUpload
 
-  input ImagePreviewMetadataInput {
+  input ImageMetadataRequestInput {
     file: FileUpload
     previewUrl: String!
   }
@@ -119,7 +119,7 @@ const testType = gql`
     type: QuestionComponentTypeEnum!
     questionTextMetadata: QuestionTextMetadataInput
     textMetadata: TextMetadataInput
-    imagePreviewMetadata: ImagePreviewMetadataInput
+    imageMetadataRequest: ImageMetadataRequestInput
     multipleChoiceMetadata: MultipleChoiceMetadataInput
     multiSelectMetadata: MultiSelectMetadataInput
     shortAnswerMetadata: ShortAnswerMetadataInput
