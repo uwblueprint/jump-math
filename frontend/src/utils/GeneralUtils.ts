@@ -15,7 +15,7 @@ export const includesIgnoreCase = (text: string, pattern: string): boolean => {
   return text.toLowerCase().includes(pattern.toLowerCase());
 };
 
-export const getReadableDate = (): string => {
+export const getCurrentDate = (): string => {
   const date = new Date();
   const options: Intl.DateTimeFormatOptions = {
     month: "long",

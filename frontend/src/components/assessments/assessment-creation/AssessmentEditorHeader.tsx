@@ -16,27 +16,29 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
-import { getReadableDate } from "../../../utils/GeneralUtils";
+import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
-interface CreateAssessmentHeaderProps {
+interface AssessmentEditorHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
+  isEditing: boolean;
   onConfirmPublish: (data: TestRequest) => Promise<void>;
   onSave: (data: TestRequest) => Promise<void>;
   onError: () => void;
   validateForm: () => boolean;
 }
 
-const CreateAssessmentHeader = ({
+const AssessmentEditorHeader = ({
   name,
   handleSubmit,
+  isEditing,
   onConfirmPublish,
   onSave,
   onError,
   validateForm,
-}: CreateAssessmentHeaderProps): React.ReactElement => {
+}: AssessmentEditorHeaderProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
@@ -62,7 +64,8 @@ const CreateAssessmentHeader = ({
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
               <Text textStyle="smallerParagraph">
-                Created {getReadableDate()}
+                {/* TODO: Populate last edited date with last updated field */}
+                {isEditing ? "Last edited" : "Created"} {getCurrentDate()}
               </Text>
             </VStack>
           </HStack>
@@ -99,4 +102,4 @@ const CreateAssessmentHeader = ({
   );
 };
 
-export default CreateAssessmentHeader;
+export default AssessmentEditorHeader;

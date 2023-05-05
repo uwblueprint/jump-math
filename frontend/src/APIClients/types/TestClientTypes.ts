@@ -1,5 +1,6 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
+  ImageMetadata,
   ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
@@ -7,7 +8,7 @@ import {
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
+import { Question, QuestionElementType } from "../../types/QuestionTypes";
 
 import { Grade } from "./UserClientTypes";
 
@@ -59,6 +60,7 @@ export type QuestionComponentResponse = QuestionType & {
   metadata: (
     | QuestionTextMetadata
     | TextMetadata
+    | ImageMetadata
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
@@ -69,4 +71,8 @@ export type QuestionComponentResponse = QuestionType & {
 export type TestResponse = TestRequest & {
   id: string;
   questions: QuestionComponentResponse[][];
+};
+
+export type Test = TestResponse & {
+  questions: Question[];
 };
