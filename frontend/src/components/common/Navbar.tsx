@@ -14,13 +14,15 @@ interface NavbarProps {
 const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
   return (
     <HeaderWrapper>
-      <Spacer />
-      <HStack>
-        {pages.map((page, index) => (
-          <NavbarItem key={index} page={page} />
-        ))}
-        <Logout />
-      </HStack>
+      <>
+        <Spacer />
+        <HStack>
+          {pages.map((page, index) => (
+            <NavbarItem key={index} page={page} />
+          ))}
+          <Logout />
+        </HStack>
+      </>
     </HeaderWrapper>
   );
 };
