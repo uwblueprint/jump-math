@@ -11,23 +11,22 @@ export type BaseQuestionComponentMetadata<
   | ImageMetadataType
   | MultipleChoiceMetadata
   | MultiSelectMetadata
-  | ShortAnswerMetadata;
+  | ShortAnswerMetadata
+  | FractionMetadata;
 
-export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
-
-export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImagePreviewMetadata>;
-
-/**
- * This interface contains the metadata for a GraphQL question component
- */
 export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imagePreviewMetadata: ImagePreviewMetadata;
+  imageMetadataRequest: ImageMetadataRequest;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
   shortAnswerMetadata: ShortAnswerMetadata;
+  fractionMetadata: FractionMetadata;
 }
+
+export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImageMetadataRequest>;
+
+export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
 
 /**
  * This interface contains additional information about a question text component
@@ -56,7 +55,7 @@ export interface ImageMetadata {
 /**
  * This interface contains additional information about an image component request
  */
-export interface ImagePreviewMetadata {
+export interface ImageMetadataRequest {
   /** the file to upload */
   file: Promise<FileUpload>;
   /** a temporary url to view the image (local or GCP) */
@@ -64,7 +63,7 @@ export interface ImagePreviewMetadata {
 }
 
 /** A union of all metadata types for an image component */
-export type ImageMetadataTypes = ImageMetadata | ImagePreviewMetadata;
+export type ImageMetadataTypes = ImageMetadata | ImageMetadataRequest;
 
 /**
  * This interface contains additional information about a multiple choice component
@@ -92,4 +91,12 @@ export interface MultiSelectMetadata {
 export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
+}
+
+/**
+ * This interface contains additional information about a fraction component
+ */
+export interface FractionMetadata {
+  numerator: number;
+  denominator: number;
 }

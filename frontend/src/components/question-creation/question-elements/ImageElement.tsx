@@ -12,7 +12,7 @@ import {
 
 import { EditOutlineIcon, UploadOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { ImagePreviewMetadata } from "../../../types/QuestionMetadataTypes";
+import { ImageMetadataRequest } from "../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxFileSize,
   updatedQuestionElement,
@@ -20,14 +20,14 @@ import {
 
 interface ImageElementProps {
   id: string;
-  data: ImagePreviewMetadata;
+  data: ImageMetadataRequest;
 }
 
 const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
   const [
-    imagePreviewMetadata,
-    setImagePreviewMetadata,
-  ] = useState<ImagePreviewMetadata>(data);
+    imageMetadataRequest,
+    setImageMetadataRequest,
+  ] = useState<ImageMetadataRequest>(data);
   const [error, setError] = useState<string>("");
   const inputFile = useRef<HTMLInputElement>(null);
   const { setQuestionElements } = useContext(QuestionEditorContext);
@@ -39,7 +39,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
       if (e.target?.result) {
-        setImagePreviewMetadata({
+        setImageMetadataRequest({
           previewUrl: e.target.result as string,
           file,
         });
@@ -59,12 +59,12 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(
         id,
-        imagePreviewMetadata,
+        imageMetadataRequest,
         prevElements,
         error,
       );
     });
-  }, [imagePreviewMetadata]);
+  }, [imageMetadataRequest]);
 
   return (
     <Flex pb={6} w="100%">
@@ -75,13 +75,13 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         onChange={updateImageElement}
         type="file"
       />
-      {imagePreviewMetadata.previewUrl ? (
+      {imageMetadataRequest.previewUrl ? (
         <>
           <Image
             h="250px"
             objectFit="contain"
             pt={2}
-            src={imagePreviewMetadata.previewUrl}
+            src={imageMetadataRequest.previewUrl}
             width="90%"
           />
           <Spacer />

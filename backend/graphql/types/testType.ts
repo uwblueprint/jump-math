@@ -8,6 +8,7 @@ const testType = gql`
     MULTIPLE_CHOICE
     MULTI_SELECT
     SHORT_ANSWER
+    FRACTION
   }
 
   enum AssessmentTypeEnum {
@@ -52,7 +53,7 @@ const testType = gql`
 
   scalar FileUpload
 
-  input ImagePreviewMetadataInput {
+  input ImageMetadataRequestInput {
     file: FileUpload
     previewUrl: String!
   }
@@ -64,22 +65,22 @@ const testType = gql`
 
   input MultipleChoiceMetadataInput {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   type MultipleChoiceMetadata {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   input MultiSelectMetadataInput {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   type MultiSelectMetadata {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   input ShortAnswerMetadataInput {
@@ -90,6 +91,16 @@ const testType = gql`
     answer: Float!
   }
 
+  input FractionMetadataInput {
+    numerator: Int!
+    denominator: Int!
+  }
+
+  type FractionMetadata {
+    numerator: Int!
+    denominator: Int!
+  }
+
   union QuestionComponentMetadata =
       QuestionTextMetadata
     | TextMetadata
@@ -97,6 +108,7 @@ const testType = gql`
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
+    | FractionMetadata
 
   type QuestionComponent {
     type: QuestionComponentTypeEnum!
@@ -107,10 +119,11 @@ const testType = gql`
     type: QuestionComponentTypeEnum!
     questionTextMetadata: QuestionTextMetadataInput
     textMetadata: TextMetadataInput
-    imagePreviewMetadata: ImagePreviewMetadataInput
+    imageMetadataRequest: ImageMetadataRequestInput
     multipleChoiceMetadata: MultipleChoiceMetadataInput
     multiSelectMetadata: MultiSelectMetadataInput
     shortAnswerMetadata: ShortAnswerMetadataInput
+    fractionMetadata: FractionMetadataInput
   }
 
   type TestResponseDTO {

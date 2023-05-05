@@ -13,7 +13,7 @@ import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
 import {
   ImageMetadata,
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
 } from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
@@ -47,7 +47,7 @@ class ImageUploadService implements IImageUploadService {
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(image: ImagePreviewMetadata): Promise<ImageMetadata> {
+  async uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata> {
     let filePath = this.getFilePath(image);
 
     try {
@@ -131,7 +131,7 @@ class ImageUploadService implements IImageUploadService {
     return match ? parseInt(match[1], 10) * 1000 : 0;
   }
 
-  private getFilePath(image: ImagePreviewMetadata): string {
+  private getFilePath(image: ImageMetadataRequest): string {
     const { previewUrl } = image;
     const regex = `^${this.googleStorageUploadUrl}/(${this.uploadDir}/.+)\\?GoogleAccessId=.+&Expires=[0-9]+&Signature=.+$`;
     const match = previewUrl.match(regex);

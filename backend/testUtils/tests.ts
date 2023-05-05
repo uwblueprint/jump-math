@@ -66,6 +66,13 @@ const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
           answerIndices: [1, 2],
         },
       },
+      {
+        type: QuestionComponentType.FRACTION,
+        metadata: {
+          numerator: 1,
+          denominator: 4,
+        },
+      },
     ],
     [
       {
@@ -122,36 +129,36 @@ export const mockTestRequest2: TestRequestDTO = {
   status: AssessmentStatus.PUBLISHED,
 };
 
-export const mockTestResponse: TestResponseDTO = {
+export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
   ...mockTestRequest,
   questions,
 };
 
-export const mockTestResponse2: TestResponseDTO = {
+export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea96",
   ...mockTestRequest2,
   questions,
 };
 
-export const mockPublishedTestResponse: TestResponseDTO = {
-  ...mockTestResponse,
+export const mockPublishedTest: TestResponseDTO = {
+  ...mockTestWithId,
   status: AssessmentStatus.PUBLISHED,
 };
 
-export const mockArchivedTestResponse: TestResponseDTO = {
-  ...mockTestResponse,
+export const mockArchivedTest: TestResponseDTO = {
+  ...mockTestWithId,
   status: AssessmentStatus.ARCHIVED,
 };
 
-export const mockDeletedTestResponse: TestResponseDTO = {
-  ...mockTestResponse,
+export const mockDeletedTest: TestResponseDTO = {
+  ...mockTestWithId,
   status: AssessmentStatus.DELETED,
 };
 
-export const mockTestResponseArray: Array<TestResponseDTO> = [
-  mockTestResponse,
-  mockTestResponse2,
+export const mockTestArray: Array<TestResponseDTO> = [
+  mockTestWithId,
+  mockTestWithId2,
 ];
 
 export const assertResponseMatchesExpected = (

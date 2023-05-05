@@ -6,7 +6,7 @@ export interface TextMetadata {
   text: string;
 }
 
-export interface ImagePreviewMetadata {
+export interface ImageMetadataRequest {
   previewUrl: string;
   file: File | undefined;
 }

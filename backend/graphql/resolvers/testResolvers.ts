@@ -22,7 +22,8 @@ type QuestionMetadataName =
   | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
-  | "ShortAnswerMetadata";
+  | "ShortAnswerMetadata"
+  | "FractionMetadata";
 
 const resolveQuestions = (
   questions: GraphQLQuestionComponent[][],
@@ -36,10 +37,11 @@ const resolveQuestions = (
         const {
           questionTextMetadata,
           textMetadata,
-          imagePreviewMetadata,
+          imageMetadataRequest,
           multipleChoiceMetadata,
           multiSelectMetadata,
           shortAnswerMetadata,
+          fractionMetadata,
         }: GraphQLQuestionComponentMetadata = questionComponent;
 
         let metadata: QuestionComponentMetadataRequest;
@@ -52,7 +54,7 @@ const resolveQuestions = (
             metadata = textMetadata;
             break;
           case "IMAGE":
-            metadata = imagePreviewMetadata;
+            metadata = imageMetadataRequest;
             break;
           case "MULTIPLE_CHOICE":
             metadata = multipleChoiceMetadata;
@@ -62,6 +64,9 @@ const resolveQuestions = (
             break;
           case "SHORT_ANSWER":
             metadata = shortAnswerMetadata;
+            break;
+          case "FRACTION":
+            metadata = fractionMetadata;
             break;
           default:
             metadata = questionTextMetadata; // placeholder
@@ -93,6 +98,7 @@ const testResolvers = {
       if ("answerIndex" in obj) return "MultipleChoiceMetadata";
       if ("answerIndices" in obj) return "MultiSelectMetadata";
       if ("answer" in obj) return "ShortAnswerMetadata";
+      if ("numerator" in obj) return "FractionMetadata";
 
       return null;
     },

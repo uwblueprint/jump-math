@@ -35,6 +35,12 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       return classService.getClassByTestSessionId(testSessionId);
     },
+    classesByTeacher: async (
+      _req: undefined,
+      { teacherId }: { teacherId: string },
+    ): Promise<Array<ClassResponseDTO>> => {
+      return classService.getClassesByTeacherId(teacherId);
+    },
   },
   Mutation: {
     createClass: async (

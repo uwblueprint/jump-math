@@ -8,7 +8,8 @@ const AddQuestionButton = (): React.ReactElement => {
   const { setShowQuestionEditor } = useContext(AssessmentContext);
   return (
     <Button
-      border="1px dashed #636363"
+      border="1px dashed"
+      borderColor="grey.300"
       borderRadius="16px"
       color="grey.300"
       leftIcon={<PlusOutlineIcon />}

@@ -1,6 +1,6 @@
 import {
   ImageMetadata,
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
 } from "../../types/questionMetadataTypes";
 
 interface IImageUploadService {
@@ -9,7 +9,7 @@ interface IImageUploadService {
    * @param image the image to upload
    * @returns a url and file path for the requested image
    */
-  uploadImage(image: ImagePreviewMetadata): Promise<ImageMetadata>;
+  uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata>;
 
   /**
    * Get an image stored in Firebase
