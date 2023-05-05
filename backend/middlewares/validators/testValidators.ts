@@ -1,19 +1,10 @@
-import type { QuestionComponent } from "../../models/test.model";
+import {
+  QuestionComponent,
+  QuestionComponentType,
+} from "../../types/questionTypes";
 import { validateArray, validatePrimitive } from "./util";
 
-export enum QuestionComponentType {
-  QUESTION_TEXT,
-  TEXT,
-  IMAGE,
-  MULTIPLE_CHOICE,
-  MULTI_SELECT,
-  SHORT_ANSWER,
-  FRACTION,
-}
-
-export const questionsValidator = (
-  questions: QuestionComponent[][],
-): boolean => {
+const questionsValidator = (questions: QuestionComponent[][]): boolean => {
   questions?.forEach((questionComponents: QuestionComponent[]) => {
     questionComponents?.forEach((questionComponent: QuestionComponent) => {
       if (!("type" in questionComponent)) {
@@ -137,3 +128,5 @@ export const questionsValidator = (
 
   return true;
 };
+
+export default questionsValidator;

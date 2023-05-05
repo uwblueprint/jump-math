@@ -2,7 +2,7 @@
 import { ReadStream } from "fs-capacitor";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
-import { FileUpload } from "graphql-upload";
+import { escapeRegExp } from "lodash";
 import IFileStorageService from "../interfaces/fileStorageService";
 import logger from "../../utilities/logger";
 import {
@@ -10,9 +10,12 @@ import {
   validateImageType,
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import { ImageMetadata } from "../../models/test.model";
 import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+} from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
 
@@ -32,19 +35,32 @@ class ImageUploadService implements IImageUploadService {
 
   storageService: IFileStorageService;
 
+  googleStorageUploadUrl: string;
+
   constructor(uploadDir: string) {
-    this.uploadDir = uploadDir;
+    this.uploadDir = escapeRegExp(uploadDir);
 
     const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
     const storageService = new FileStorageService(defaultBucket);
     this.storageService = storageService;
+
+    this.googleStorageUploadUrl = escapeRegExp(
+      `https://storage.googleapis.com/${defaultBucket}`,
+    );
   }
 
   /* eslint-disable class-methods-use-this */
-  async uploadImage(file: Promise<FileUpload>): Promise<ImageMetadata> {
-    let filePath;
+  async uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata> {
+    let filePath = this.getFilePath(image);
+
     try {
-      const { createReadStream, mimetype, filename } = await file;
+      if (filePath)
+        return await this.hydrateImage({
+          filePath,
+          url: image.previewUrl,
+        });
+
+      const { createReadStream, mimetype, filename } = await image.file;
       if (!fs.existsSync(this.uploadDir)) {
         fs.mkdirSync(this.uploadDir);
       }
@@ -63,9 +79,36 @@ class ImageUploadService implements IImageUploadService {
     }
   }
 
+  async hydrateImage(image: ImageMetadata): Promise<ImageMetadata> {
+    if (this.getExpirationDate(image) > Date.now()) {
+      return image;
+    }
+
+    const { filePath } = image;
+    try {
+      return await this.getImage(filePath);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to hydrate image with filePath: ${filePath}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+  }
+
   async getImage(filePath: string): Promise<ImageMetadata> {
-    const signedUrl = await this.storageService.getFile(filePath);
-    return { url: signedUrl, filePath };
+    try {
+      const signedUrl = await this.storageService.getFile(filePath);
+      return { url: signedUrl, filePath };
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get image for filePath: ${filePath}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 
   private async createImage(
@@ -81,6 +124,22 @@ class ImageUploadService implements IImageUploadService {
       );
       throw error;
     }
+  }
+
+  private getExpirationDate(image: ImageMetadata): number {
+    const { url } = image;
+    const regex = `^${this.googleStorageUploadUrl}/${this.uploadDir}/.+\\?GoogleAccessId=.+&Expires=([0-9]+)&Signature=.+$`;
+    const match = url.match(regex);
+
+    return match ? parseInt(match[1], 10) * 1000 : 0;
+  }
+
+  private getFilePath(image: ImageMetadataRequest): string {
+    const { previewUrl } = image;
+    const regex = `^${this.googleStorageUploadUrl}/(${this.uploadDir}/.+)\\?GoogleAccessId=.+&Expires=[0-9]+&Signature=.+$`;
+    const match = previewUrl.match(regex);
+
+    return match ? match[1] : "";
   }
 }
 

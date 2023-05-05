@@ -10,10 +10,10 @@ import {
   mockTestSessions,
   mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
-import { mockTestWithId } from "../../../testUtils/tests";
 import { createSchoolWithCountry } from "../../../testUtils/school";
 import { TestStatistic } from "../../interfaces/statisticService";
 import mockTestStatisticsBySchool from "../../../testUtils/statistics";
+import { mockTestWithId } from "../../../testUtils/tests";
 
 describe("mongo statisticService", (): void => {
   let statisticService: StatisticService;

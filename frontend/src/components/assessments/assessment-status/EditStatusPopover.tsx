@@ -16,6 +16,7 @@ import { Status } from "../../../types/AssessmentTypes";
 import ArchiveButton from "./EditStatusButtons/ArchiveButton";
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
+import EditButton from "./EditStatusButtons/EditButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
 import UnarchiveButton from "./EditStatusButtons/UnarchiveButton";
 
@@ -53,10 +54,17 @@ const EditStatusPopover = ({
         <PopoverBody>
           <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
             {assessmentStatus === Status.DRAFT && (
-              <PublishButton
-                assessmentId={assessmentId}
-                closePopover={onClose}
-              />
+              <>
+                <PublishButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+                <Divider borderColor="grey.200" />
+                <EditButton
+                  assessmentId={assessmentId}
+                  closePopover={onClose}
+                />
+              </>
             )}
             {assessmentStatus === Status.ARCHIVED ? (
               <UnarchiveButton

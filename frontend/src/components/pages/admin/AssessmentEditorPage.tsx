@@ -2,34 +2,43 @@ import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
-import { CREATE_NEW_ASSESSMENT } from "../../../APIClients/mutations/TestMutations";
-import { TestRequest } from "../../../APIClients/types/TestClientTypes";
+import {
+  CREATE_NEW_TEST,
+  UPDATE_TEST,
+} from "../../../APIClients/mutations/TestMutations";
+import { Test, TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
+import AssessmentEditorHeader from "../../assessments/assessment-creation/AssessmentEditorHeader";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
-import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
-const CreateAssessmentPage = (): React.ReactElement => {
+const AssessmentEditorPage = (): React.ReactElement => {
+  const { state } = useLocation<Test>();
   const history = useHistory();
 
-  const [name, setName] = useState("");
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<Question[]>(
+    state?.questions || [],
+  );
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
-  }>(CREATE_NEW_ASSESSMENT);
+  }>(CREATE_NEW_TEST);
+
+  const [updateTest] = useMutation<{
+    updateTest: { updateTest: { id: string } };
+  }>(UPDATE_TEST);
 
   const {
     handleSubmit,
@@ -39,7 +48,17 @@ const CreateAssessmentPage = (): React.ReactElement => {
     setValue,
     watch,
     clearErrors,
-  } = useForm<TestRequest>();
+  } = useForm<TestRequest>({
+    defaultValues: {
+      name: state?.name,
+      questions: state?.questions,
+      grade: state?.grade,
+      assessmentType: state?.assessmentType,
+      status: state?.status,
+      curriculumCountry: state?.curriculumCountry,
+      curriculumRegion: state?.curriculumRegion,
+    },
+  });
 
   const noQuestionError =
     "Please add at least one question to the assessment before saving";
@@ -73,6 +92,23 @@ const CreateAssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const onUpdateTest = async (test: TestRequest) => {
+    if (validateForm() && state?.id) {
+      await updateTest({
+        variables: {
+          id: state.id,
+          test,
+        },
+      })
+        .then(() => {
+          history.push(ASSESSMENTS_PAGE);
+        })
+        .catch(() => {
+          setErrorMessage("Assessment failed to update. Please try again.");
+        });
+    }
+  };
+
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     onCreateTest({
       ...data,
@@ -83,6 +119,25 @@ const CreateAssessmentPage = (): React.ReactElement => {
 
   const onPublish: SubmitHandler<TestRequest> = async (data: TestRequest) => {
     onCreateTest({
+      ...data,
+      status: Status.PUBLISHED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onSaveChanges: SubmitHandler<TestRequest> = async (
+    data: TestRequest,
+  ) => {
+    onUpdateTest({
+      ...data,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
+  const onPublishChanges: SubmitHandler<TestRequest> = async (
+    data: TestRequest,
+  ) => {
+    onUpdateTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
@@ -109,12 +164,13 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <CreateAssessementHeader
+            <AssessmentEditorHeader
               handleSubmit={handleSubmit}
-              name={name}
-              onConfirmPublish={onPublish}
+              isEditing={!!state}
+              name={watch("name")}
+              onConfirmPublish={state ? onPublishChanges : onPublish}
               onError={onError}
-              onSave={onSave}
+              onSave={state ? onSaveChanges : onSave}
               validateForm={validateForm}
             />
             <VStack spacing="8" width="92%">
@@ -124,7 +180,6 @@ const CreateAssessmentPage = (): React.ReactElement => {
                 errorMessage={errorMessage}
                 errors={errors}
                 register={register}
-                setName={setName}
                 setValue={setValue}
                 watch={watch}
               />
@@ -138,4 +193,4 @@ const CreateAssessmentPage = (): React.ReactElement => {
   );
 };
 
-export default CreateAssessmentPage;
+export default AssessmentEditorPage;
