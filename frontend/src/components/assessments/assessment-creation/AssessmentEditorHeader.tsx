@@ -5,21 +5,21 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import {
   EyeOutlineIcon,
-  MoreVerticalOutlineIcon,
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
 import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
+import Popover from "../../common/Popover";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
@@ -51,6 +51,8 @@ const AssessmentEditorHeader = ({
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
+
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -92,12 +94,9 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </Button>
-            <IconButton
-              aria-label="more-vertical-outline"
-              color="blue.700"
-              icon={<MoreVerticalOutlineIcon />}
-              minWidth="10"
-            />
+            <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+              <Text>hi</Text>
+            </Popover>
           </HStack>
         </Flex>
       </Box>
