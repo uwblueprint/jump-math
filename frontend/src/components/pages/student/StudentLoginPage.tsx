@@ -100,7 +100,7 @@ const StudentLoginPage = (): React.ReactElement => {
 
   return (
     <>
-      {showNameSelection && testSession ? (
+      {showNameSelection && testId && testSession ? (
         <NameSelection testId={testId} testSession={testSession} />
       ) : (
         <AuthWrapper

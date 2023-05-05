@@ -132,7 +132,6 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for invalid code", async () => {
     await MgTestSession.create(mockTestSession);
-    // school id that's different than the created test session
     const accessCode = "123456";
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(accessCode);
@@ -143,7 +142,6 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for repeated code", async () => {
     await MgTestSession.create(mockTestSessionsWithSameAccessCode);
-    // school id that's different than the created test session
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(
         mockTestSession.accessCode,
@@ -155,7 +153,6 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for expired start date", async () => {
     await MgTestSession.create(mockTestSessionWithExpiredStartDate);
-    // school id that's different than the created test session
     const accessCode = "123456";
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(accessCode);
@@ -166,7 +163,6 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for expired end date", async () => {
     await MgTestSession.create(mockTestSessionWithExpiredEndDate);
-    // school id that's different than the created test session
     const accessCode = "123456";
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(accessCode);
@@ -177,7 +173,6 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for repeated code but only one valid", async () => {
     await MgTestSession.create(mockTestSessionsWithOneValid);
-    // school id that's different than the created test session
     const res = await testSessionService.getTestSessionByAccessCode(
       mockTestSessionsWithOneValid[0].accessCode,
     );
