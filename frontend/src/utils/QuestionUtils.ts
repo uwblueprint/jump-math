@@ -7,7 +7,7 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
@@ -161,7 +161,7 @@ export const formatQuestionsRequest = (
         case QuestionElementType.IMAGE:
           return {
             type: QuestionElementType.IMAGE,
-            imagePreviewMetadata: element.data as ImagePreviewMetadata,
+            imageMetadataRequest: element.data as ImageMetadataRequest,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {

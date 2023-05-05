@@ -6,14 +6,9 @@ export interface TextMetadata {
   text: string;
 }
 
-export interface ImagePreviewMetadata {
+export interface ImageMetadataRequest {
   previewUrl: string;
   file: File | undefined;
-}
-
-export interface ImageMetadata {
-  filePath: string | undefined;
-  url: string;
 }
 
 export interface ShortAnswerMetadata {

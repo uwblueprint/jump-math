@@ -1,6 +1,6 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
@@ -18,7 +18,7 @@ interface QuestionType {
 interface QuestionMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
-  imagePreviewMetadata: ImagePreviewMetadata;
+  imageMetadataRequest: ImageMetadataRequest;
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;

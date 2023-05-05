@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
   QuestionTextMetadata,
   TextMetadata,
 } from "../../../types/QuestionMetadataTypes";
@@ -98,7 +98,7 @@ const SaveQuestionEditorButton = ({
         (element.type === QuestionElementType.TEXT &&
           (element.data as TextMetadata).text === "") ||
         (element.type === QuestionElementType.IMAGE &&
-          (element.data as ImagePreviewMetadata).previewUrl === undefined),
+          (element.data as ImageMetadataRequest).previewUrl === undefined),
     );
     if (emptyElement) {
       setElementError(emptyElement, emptyElementError);
