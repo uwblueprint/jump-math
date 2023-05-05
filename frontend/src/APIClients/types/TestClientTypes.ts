@@ -27,6 +27,22 @@ interface QuestionMetadata {
 
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
 
+export type TestRequest = {
+  name: string;
+  /** an ordered array of questions on the test */
+  questions: QuestionComponentRequest[][];
+  /** the grade of the student */
+  grade: Grade;
+  /** the type of assessment */
+  assessmentType: UseCase;
+  /** the status of the assessment */
+  status: Status;
+  /** the country that the test is to be administered in */
+  curriculumCountry: string;
+  /** the region that the test is to be administered in */
+  curriculumRegion: string;
+};
+
 type QuestionMetadataName =
   | "QuestionTextMetadata"
   | "TextMetadata"
@@ -50,22 +66,6 @@ export type QuestionComponentResponse = QuestionType & {
     | ShortAnswerMetadata
   ) &
     QuestionMetadataTypename;
-};
-
-export type TestRequest = {
-  name: string;
-  /** an ordered array of questions on the test */
-  questions: QuestionComponentRequest[][];
-  /** the grade of the student */
-  grade: Grade;
-  /** the type of assessment */
-  assessmentType: UseCase;
-  /** the status of the assessment */
-  status: Status;
-  /** the country that the test is to be administered in */
-  curriculumCountry: string;
-  /** the region that the test is to be administered in */
-  curriculumRegion: string;
 };
 
 export type TestResponse = TestRequest & {
