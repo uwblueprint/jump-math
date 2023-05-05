@@ -58,7 +58,11 @@ const AssessmentEditorHeader = ({
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
 
-  const { onOpen, isOpen, onClose } = useDisclosure();
+  const {
+    onOpen: onOpenPopover,
+    isOpen: popoverIsOpen,
+    onClose: onClosePopover,
+  } = useDisclosure();
 
   return (
     <>
@@ -100,7 +104,11 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </Button>
-            <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+            <Popover
+              isOpen={popoverIsOpen}
+              onClose={onClosePopover}
+              onOpen={onOpenPopover}
+            >
               <VStack
                 divider={<Divider borderColor="grey.200" />}
                 spacing="0em"
@@ -108,7 +116,7 @@ const AssessmentEditorHeader = ({
                 <EditStatusButton
                   name="Delete"
                   onClick={() => {
-                    onClose();
+                    onClosePopover();
                     setShowDeleteModal(true);
                   }}
                 />
