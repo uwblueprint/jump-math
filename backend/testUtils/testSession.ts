@@ -95,7 +95,19 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
   },
 ];
 
-export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
+export const mockTestSessionWithInvalidDates: TestSessionRequestDTO = {
+  test: mockTestWithId.id,
+  teacher: mockTeacher.id,
+  school: mockSchoolWithId.id,
+  results: [mockGradedTestResult],
+  accessCode: "123456",
+  startDate: new Date("2021-09-01T09:00:00.000Z"),
+  endDate: new Date("2020-09-02T09:00:00.000Z"),
+  notes:
+    "this is a note that a teacher wanted students to see before their test.",
+};
+
+export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = [
   {
     test: "62c248c0f79d6c3c9ebbea39",
     teacher: "62c248c0f79d6c3c9ebbea95",

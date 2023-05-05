@@ -62,9 +62,13 @@ class TestSessionService implements ITestSessionService {
       teacherDTO = await this.userService.getUserById(testSession.teacher);
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
-      newTestSession = await MgTestSession.create(testSession);
+      if (testSession.startDate > testSession.endDate) {
+        throw new Error(`Test session start and end dates are not valid`);
+      }
 
+      newTestSession = await MgTestSession.create(testSession);
       await this.addTestSessionToClass(classId, newTestSession.id);
+      
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
