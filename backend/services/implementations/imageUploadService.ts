@@ -2,6 +2,7 @@
 import { ReadStream } from "fs-capacitor";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import { escapeRegExp } from "lodash";
 import IFileStorageService from "../interfaces/fileStorageService";
 import logger from "../../utilities/logger";
 import {
@@ -37,13 +38,15 @@ class ImageUploadService implements IImageUploadService {
   googleStorageUploadUrl: string;
 
   constructor(uploadDir: string) {
-    this.uploadDir = uploadDir;
+    this.uploadDir = escapeRegExp(uploadDir);
 
     const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
     const storageService = new FileStorageService(defaultBucket);
     this.storageService = storageService;
 
-    this.googleStorageUploadUrl = `https://storage.googleapis.com/${defaultBucket}`;
+    this.googleStorageUploadUrl = escapeRegExp(
+      `https://storage.googleapis.com/${defaultBucket}`,
+    );
   }
 
   /* eslint-disable class-methods-use-this */
