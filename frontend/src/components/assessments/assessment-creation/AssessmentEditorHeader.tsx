@@ -1,8 +1,10 @@
 import React from "react";
 import { UseFormHandleSubmit } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
   Spacer,
@@ -20,6 +22,8 @@ import {
 import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import Popover from "../../common/Popover";
+import EditStatusButton from "../assessment-status/EditStatusButton";
+import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
@@ -41,7 +45,9 @@ const AssessmentEditorHeader = ({
   onError,
   validateForm,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
+  const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
@@ -95,7 +101,18 @@ const AssessmentEditorHeader = ({
               Publish
             </Button>
             <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-              <Text>hi</Text>
+              <VStack
+                divider={<Divider borderColor="grey.200" />}
+                spacing="0em"
+              >
+                <EditStatusButton
+                  name="Delete"
+                  onClick={() => {
+                    onClose();
+                    setShowDeleteModal(true);
+                  }}
+                />
+              </VStack>
             </Popover>
           </HStack>
         </Flex>
@@ -104,6 +121,11 @@ const AssessmentEditorHeader = ({
         isOpen={showPublishModal}
         onClose={() => setShowPublishModal(false)}
         publishAssessment={handleConfirmPublish}
+      />
+      <DeleteModal
+        deleteAssessment={() => history.goBack()}
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
       />
     </>
   );
