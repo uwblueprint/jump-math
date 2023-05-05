@@ -5,6 +5,7 @@ import {
   Button,
   Flex,
   HStack,
+  IconButton,
   Spacer,
   Text,
   VStack,
@@ -13,6 +14,7 @@ import {
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import {
   EyeOutlineIcon,
+  MoreVerticalOutlineIcon,
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
@@ -90,6 +92,12 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </Button>
+            <IconButton
+              aria-label="more-vertical-outline"
+              color="blue.700"
+              icon={<MoreVerticalOutlineIcon />}
+              minWidth="10"
+            />
           </HStack>
         </Flex>
       </Box>
