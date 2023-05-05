@@ -16,7 +16,7 @@ import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
-import AssessementEditorHeader from "../../assessments/assessment-creation/AssessementEditorHeader";
+import AssessmentEditorHeader from "../../assessments/assessment-creation/AssessmentEditorHeader";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import QuestionEditor from "../../question-creation/QuestionEditor";
@@ -164,7 +164,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <AssessementEditorHeader
+            <AssessmentEditorHeader
               handleSubmit={handleSubmit}
               isEditing={!!state}
               name={watch("name")}
