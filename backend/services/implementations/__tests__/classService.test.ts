@@ -74,13 +74,17 @@ describe("mongo classService", (): void => {
 
   it("update class", async () => {
     // add test class
-    const classObj = await ClassModel.create(testClass[0]);
+    const classObj = await ClassModel.create(testClassWithStudents);
 
     // execute
     const res = await classService.updateClass(classObj.id, updatedTestClass);
 
     // assert
     assertResponseMatchesExpected(updatedTestClass, res);
+    assertStudentResponseMatchesExpected(
+      testClassWithStudents.students,
+      res.students,
+    );
   });
 
   it("update class for class not found", async () => {

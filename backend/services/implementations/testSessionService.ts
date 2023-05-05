@@ -76,6 +76,7 @@ class TestSessionService implements ITestSessionService {
       teacher: teacherDTO,
       school: schoolDTO,
       gradeLevel: newTestSession.gradeLevel,
+      results: [],
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
     };
@@ -233,15 +234,17 @@ class TestSessionService implements ITestSessionService {
           teacher: teacherDTO,
           school: schoolDTO,
           gradeLevel: testSession.gradeLevel,
-          results: testSession.results?.map((testSessionResult) => {
-            return {
-              student: testSessionResult.student,
-              score: testSessionResult.score,
-              answers: testSessionResult.answers,
-              breakdown: testSessionResult.breakdown,
-              gradingStatus: testSessionResult.gradingStatus,
-            };
-          }),
+          results: testSession.results
+            ? testSession.results.map((testSessionResult) => {
+                return {
+                  student: testSessionResult.student,
+                  score: testSessionResult.score,
+                  answers: testSessionResult.answers,
+                  breakdown: testSessionResult.breakdown,
+                  gradingStatus: testSessionResult.gradingStatus,
+                };
+              })
+            : [],
           accessCode: testSession.accessCode,
           startTime: testSession.startTime,
         };
@@ -258,21 +261,6 @@ class TestSessionService implements ITestSessionService {
     let updatedTestSession: TestSession | null;
 
     try {
-      const { results } = testSession;
-      if (results) {
-        await Promise.all(
-          results.map(async (result: ResultRequestDTO, i) => {
-            if (result.gradingStatus === GradingStatus.UNGRADED) {
-              const gradedResult: ResultResponseDTO = await this.gradeTestResult(
-                result,
-                id,
-              );
-              results[i] = gradedResult;
-            }
-          }),
-        );
-      }
-
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
         testSession,
@@ -291,6 +279,43 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
+    return (
+      await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
+    )[0];
+  }
+
+  async createTestSessionResult(
+    id: string,
+    result: ResultRequestDTO,
+  ): Promise<TestSessionResponseDTO> {
+    let updatedTestSession: TestSession | null;
+    try {
+      const gradedResult: ResultResponseDTO = await this.gradeTestResult(
+        result,
+        id,
+      );
+
+      updatedTestSession = await MgTestSession.findByIdAndUpdate(
+        id,
+        {
+          $push: { results: gradedResult },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!updatedTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update test session. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
     return (
       await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
     )[0];
@@ -430,8 +455,8 @@ class TestSessionService implements ITestSessionService {
     testSessionId: string,
   ): Promise<void> {
     try {
-      const classObj: Class | null = await MgClass.findOneAndUpdate(
-        { _id: id },
+      const classObj: Class | null = await MgClass.findByIdAndUpdate(
+        id,
         {
           $push: {
             testSessions: testSessionId,
