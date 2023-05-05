@@ -43,7 +43,7 @@ export type TestRequest = {
 type QuestionMetadataName =
   | "QuestionTextMetadata"
   | "TextMetadata"
-  | "ImagePreviewMetadata"
+  | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
   | "ShortAnswerMetadata";

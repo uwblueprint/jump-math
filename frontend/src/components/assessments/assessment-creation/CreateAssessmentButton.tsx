@@ -5,7 +5,7 @@ import { Button } from "@chakra-ui/react";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { CREATE_ASSESSMENT_PAGE } from "../../../constants/Routes";
 
-const CreateAssessementButton = (): React.ReactElement => {
+const CreateAssessmentButton = (): React.ReactElement => {
   const history = useHistory();
   return (
     <Button
@@ -19,4 +19,4 @@ const CreateAssessementButton = (): React.ReactElement => {
   );
 };
 
-export default CreateAssessementButton;
+export default CreateAssessmentButton;

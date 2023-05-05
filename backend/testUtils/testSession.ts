@@ -1,4 +1,7 @@
-import MgTestSession, { GradingStatus } from "../models/testSession.model";
+import MgTestSession, {
+  GradingStatus,
+  Result,
+} from "../models/testSession.model";
 import {
   ResultRequestDTO,
   ResultResponseDTO,
@@ -8,6 +11,10 @@ import {
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
+
+type TestSessionDTO = TestSessionRequestDTO & {
+  results: Result[];
+};
 
 /**
  * Mock Test Results
@@ -55,7 +62,7 @@ export const mockGradedTestResult4: ResultResponseDTO = {
 /**
  * Mock Test Sessions
  */
-export const mockTestSession: TestSessionRequestDTO = {
+export const mockTestSession: TestSessionDTO = {
   test: mockTestWithId.id,
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
@@ -65,7 +72,7 @@ export const mockTestSession: TestSessionRequestDTO = {
   startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
-export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
   {
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea95",
@@ -86,7 +93,7 @@ export const mockTestSessionsWithSameTestId: Array<TestSessionRequestDTO> = [
   },
 ];
 
-export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
   {
     test: "62c248c0f79d6c3c9ebbea39",
     teacher: "62c248c0f79d6c3c9ebbea95",
@@ -108,36 +115,25 @@ export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = 
 ];
 
 export const mockTestSessionWithId: TestSessionResponseDTO = {
+  ...mockTestSession,
   id: "62c248c0f79d6c3c9ebbea90",
   test: mockTestWithId,
   teacher: mockTeacher,
   school: mockSchoolWithId,
-  gradeLevel: 4,
-  results: [mockGradedTestResult],
-  accessCode: "1234",
-  startTime: new Date("2021-09-01T09:00:00.000Z"),
 };
 
-export const mockTestSessions: TestSessionRequestDTO[] = [
+export const mockTestSessions: TestSessionDTO[] = [
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
-    school: mockSchoolWithId.id,
-    gradeLevel: 4,
+    ...mockTestSession,
     results: [
       mockGradedTestResult,
       mockGradedTestResult2,
       mockGradedTestResult3,
       mockUngradedTestResult,
     ],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
-    school: mockSchoolWithId.id,
-    gradeLevel: 4,
+    ...mockTestSession,
     results: [
       mockGradedTestResult2,
       mockGradedTestResult4,
@@ -147,45 +143,33 @@ export const mockTestSessions: TestSessionRequestDTO[] = [
     startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
+    ...mockTestSession,
     school: mockSchoolWithId2.id,
-    gradeLevel: 4,
     results: [
       mockGradedTestResult3,
       mockUngradedTestResult,
       mockGradedTestResult4,
       mockGradedTestResult,
     ],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
+    ...mockTestSession,
     school: mockSchoolWithId2.id,
-    gradeLevel: 4,
     results: [
       mockGradedTestResult4,
       mockGradedTestResult2,
       mockGradedTestResult2,
       mockGradedTestResult2,
     ],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
   {
+    ...mockTestSession,
     test: "62c248c0f79d6c3c9ebbea94", // invalid test (will not be created)
-    teacher: mockTeacher.id,
-    school: mockSchoolWithId.id,
-    gradeLevel: 4,
     results: [mockGradedTestResult],
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   },
 ];
 
-export const mockTestSessionsWithEvenNumberOfResults: TestSessionRequestDTO[] = [
+export const mockTestSessionsWithEvenNumberOfResults: TestSessionDTO[] = [
   {
     ...mockTestSessions[0],
     results: [
@@ -224,21 +208,17 @@ export const assertResponseMatchesExpected = (
 };
 
 export const assertResultsResponseMatchesExpected = (
-  expected: TestSessionRequestDTO,
-  result: TestSessionResponseDTO,
+  expected: Array<ResultRequestDTO>,
+  result: Array<ResultResponseDTO>,
 ): void => {
-  const actualResults = result.results != null ? result.results[0] : null;
-  const expectedResults = expected.results != null ? expected.results[0] : null;
-
-  expect(
-    Array.from(actualResults != null ? Array.from(actualResults.answers) : []),
-  ).toEqual(expectedResults?.answers);
-  expect(
-    Array.from(
-      actualResults != null ? Array.from(actualResults.breakdown) : [],
-    ),
-  ).toEqual(expectedResults?.breakdown);
-  expect(actualResults?.score).toEqual(expectedResults?.score);
+  expect(result.length).toEqual(expected.length);
+  result.forEach((res, i) => {
+    expect(res.student).toEqual(expected[i].student);
+    expect(Array.from(res.answers)).toEqual(expected[i].answers);
+    expect(Array.from(res.breakdown)).toEqual(expected[i].breakdown);
+    expect(res.score).toEqual(expected[i].score);
+    expect(Number(res.gradingStatus)).toEqual(expected[i].gradingStatus);
+  });
 };
 
 export const createTestSessionWithSchoolAndResults = async (
@@ -246,12 +226,8 @@ export const createTestSessionWithSchoolAndResults = async (
   results: ResultRequestDTO[],
 ): Promise<void> => {
   await MgTestSession.create({
-    test: mockTestWithId.id,
-    teacher: mockTeacher.id,
+    ...mockTestSession,
     school: schoolId,
-    gradeLevel: 4,
     results,
-    accessCode: "1234",
-    startTime: new Date("2021-09-01T09:00:00.000Z"),
   });
 };

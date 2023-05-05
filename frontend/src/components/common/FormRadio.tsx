@@ -15,8 +15,9 @@ const FormRadio = ({
   return (
     <Box
       alignItems="center"
-      border={isSelected ? "2px solid #154472" : "1px solid #BEBEBE"}
+      border={isSelected ? "2px" : "1px"}
       borderRadius="12px"
+      color={isSelected ? "blue.300" : "grey.200"}
     >
       <Radio
         marginBottom={0}
