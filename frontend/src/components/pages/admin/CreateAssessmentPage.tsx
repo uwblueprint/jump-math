@@ -15,7 +15,7 @@ import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
-import CreateAssessementHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
+import CreateAssessmentHeader from "../../assessments/assessment-creation/CreateAssessmentHeader";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const CreateAssessmentPage = (): React.ReactElement => {
@@ -109,7 +109,7 @@ const CreateAssessmentPage = (): React.ReactElement => {
           <QuestionEditor />
         ) : (
           <VStack spacing="8" width="100%">
-            <CreateAssessementHeader
+            <CreateAssessmentHeader
               handleSubmit={handleSubmit}
               name={name}
               onConfirmPublish={onPublish}

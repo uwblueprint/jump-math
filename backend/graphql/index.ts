@@ -92,6 +92,7 @@ const graphQLMiddlewares = {
     archiveTest: authorizedByAdmin(),
     createClass: authorizedByAllRoles(),
     createStudent: authorizedByAllRoles(),
+    createTestSession: authorizedByAllRoles(),
   },
 };
 

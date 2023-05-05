@@ -12,15 +12,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import GET_ALL_TESTS from "../../../APIClients/queries/TestQueries";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
+import { Status } from "../../../types/AssessmentTypes";
 import {
-  AssessmentProperties,
-  Status,
-  UseCase,
-} from "../../../types/AssessmentTypes";
-import { getFirstNumber, removeUnderscore } from "../../../utils/GeneralUtils";
-import CreateAssessementButton from "../../assessments/assessment-creation/CreateAssessementButton";
+  assessmentFilterOptions,
+  filterAssessments,
+  filterAssessmentsBySearch,
+} from "../../../utils/AssessmentUtils";
+import { sortArray } from "../../../utils/GeneralUtils";
+import CreateAssessmentButton from "../../assessments/assessment-creation/CreateAssessmentButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
@@ -28,18 +28,6 @@ import LoadingState from "../../common/LoadingState";
 import FilterMenu, { FilterProp } from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
-
-const getAssessments = (assessment: AssessmentProperties) => {
-  return {
-    id: assessment.id,
-    status: assessment.status,
-    name: assessment.name,
-    grade: assessment.grade,
-    assessmentType: assessment.assessmentType,
-    curriculumCountry: assessment.curriculumCountry,
-    curriculumRegion: assessment.curriculumRegion,
-  };
-};
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
@@ -55,113 +43,63 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const [isEmpty, setEmpty] = React.useState(true);
 
-  const countryOptions = [
-    { value: "Canada", label: "Canada" },
-    { value: "USA", label: "USA" },
-  ];
-
-  const regionOptions = [
-    "Ottawa",
-    "Calfornia",
-    "Ontario",
-    "Texas",
-  ].map((value) => ({ value, label: value }));
-
-  const testTypeOptions = [
-    { value: UseCase.BEGINNING, label: "Beginning" },
-    { value: UseCase.END, label: "End" },
-  ];
-
-  const setFilterProps: FilterProp[] = [
-    { label: "Grade", setState: setGrades, options: gradeOptions },
-    { label: "Type", setState: setTestTypes, options: testTypeOptions },
-    { label: "Country", setState: setCountries, options: countryOptions },
-    { label: "Region", setState: setRegions, options: regionOptions },
-  ];
+  const [filterOptions, setFilterOptions] = React.useState<FilterProp[]>([
+    { label: "Grade", setState: setGrades, options: [] },
+    { label: "Type", setState: setTestTypes, options: [] },
+    { label: "Country", setState: setCountries, options: [] },
+    { label: "Region", setState: setRegions, options: [] },
+  ]);
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
+    onCompleted: () => {
+      const {
+        gradeOptions,
+        testTypeOptions,
+        countryOptions,
+        regionOptions,
+      } = assessmentFilterOptions(data.tests);
+
+      setFilterOptions((prev) => {
+        return [
+          {
+            ...prev[0],
+            options: gradeOptions,
+          },
+          {
+            ...prev[1],
+            options: testTypeOptions,
+          },
+          {
+            ...prev[2],
+            options: countryOptions,
+          },
+          {
+            ...prev[3],
+            options: regionOptions,
+          },
+        ];
+      });
+    },
   });
 
-  const filteredAssessements = React.useMemo(() => {
+  const filteredAssessments = React.useMemo(() => {
     if (!data) return [];
-
-    let filteredTests: AssessmentProperties[] = data.tests as AssessmentProperties[];
-    const filterProps = [grades, testTypes, countries, regions, status];
-
-    if (filteredTests.length) {
+    if (data.tests.length) {
       setEmpty(false);
     }
 
-    filterProps.forEach((property, i) => {
-      filteredTests = filteredTests.filter(
-        (assessment: AssessmentProperties) => {
-          const assessmentProperties = [
-            assessment.grade,
-            assessment.assessmentType,
-            assessment.curriculumCountry,
-            assessment.curriculumRegion,
-            assessment.status,
-          ];
-          if (property.length === 0) {
-            return true;
-          }
-          return property.includes(assessmentProperties[i]);
-        },
-      );
-    });
-
-    return filteredTests;
+    const filterProps = [grades, testTypes, countries, regions, status];
+    return filterAssessments(data.tests, filterProps);
   }, [data, grades, testTypes, countries, regions, status]);
 
-  const searchedAssessements = React.useMemo(() => {
-    let filteredTests = filteredAssessements;
-    if (search) {
-      filteredTests = filteredTests.filter(
-        (assessment: AssessmentProperties) =>
-          assessment.name.toLowerCase().includes(search.toLowerCase()) ||
-          removeUnderscore(assessment.grade)
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          getFirstNumber(assessment.grade)
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          removeUnderscore(assessment.grade)
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          assessment.curriculumCountry
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          assessment.curriculumRegion
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          assessment.assessmentType
-            .toLowerCase()
-            .includes(search.toLowerCase()),
-      );
-    }
-    return filteredTests?.map(getAssessments);
-  }, [filteredAssessements, search]);
+  const searchedAssessments = React.useMemo(() => {
+    return filterAssessmentsBySearch(filteredAssessments, search);
+  }, [filteredAssessments, search]);
 
   const assessments = React.useMemo(() => {
-    let sortedAssessments: AssessmentProperties[] = searchedAssessements as AssessmentProperties[];
-    if (sortOrder === "descending") {
-      sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentProperties].toLowerCase() <
-        b[sortProperty as keyof AssessmentProperties].toLowerCase()
-          ? 1
-          : -1,
-      );
-    } else if (sortOrder === "ascending") {
-      sortedAssessments = sortedAssessments?.sort((a, b) =>
-        a[sortProperty as keyof AssessmentProperties].toLowerCase() >
-        b[sortProperty as keyof AssessmentProperties].toLowerCase()
-          ? 1
-          : -1,
-      );
-    }
-    return sortedAssessments;
-  }, [searchedAssessements, sortProperty, sortOrder]);
+    return sortArray(searchedAssessments, sortProperty, sortOrder);
+  }, [searchedAssessments, sortProperty, sortOrder]);
 
   const AssessmentTabPanels = [...Array(4)].map((i) => {
     return (
@@ -169,7 +107,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         <AssessmentsTab
           key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}
-          filterMenuComponent={<FilterMenu filterProps={setFilterProps} />}
+          filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           noResults={isEmpty}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
@@ -206,7 +144,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          <CreateAssessementButton />
+          <CreateAssessmentButton />
         </HStack>
       </Box>
       {loading && (

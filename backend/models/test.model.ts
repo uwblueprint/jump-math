@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { FileUpload } from "graphql-upload";
 import { questionsValidator } from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
 /**
@@ -11,6 +12,7 @@ export enum QuestionComponentType {
   MULTIPLE_CHOICE,
   MULTI_SELECT,
   SHORT_ANSWER,
+  FRACTION,
 }
 
 export enum AssessmentType {
@@ -31,7 +33,8 @@ export type QuestionComponentMetadata =
   | ImageMetadata
   | MultipleChoiceMetadata
   | MultiSelectMetadata
-  | ShortAnswerMetadata;
+  | ShortAnswerMetadata
+  | FractionMetadata;
 
 /**
  * This interface contains additional information about a question text component
@@ -53,6 +56,16 @@ export interface TextMetadata {
 export interface ImageMetadata {
   url: string;
   filePath: string;
+}
+
+/**
+ * This interface contains additional information about an image component request
+ */
+export interface ImageMetadataRequest {
+  /** the file to upload */
+  file: Promise<FileUpload>;
+  /** a temporary url to view the image (local or GCP) */
+  previewUrl: string;
 }
 
 /**
@@ -81,6 +94,14 @@ export interface MultiSelectMetadata {
 export interface ShortAnswerMetadata {
   /** the numerical answer to the question */
   answer: number;
+}
+
+/**
+ * This interface contains additional information about a fraction component
+ */
+export interface FractionMetadata {
+  numerator: number;
+  denominator: number;
 }
 
 /**

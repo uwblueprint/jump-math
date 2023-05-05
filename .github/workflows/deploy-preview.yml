@@ -4,7 +4,7 @@
 name: Deploy frontend to Firebase Hosting Preview Channel
 
 on:
-  pull_request:
+  pull_request_target:
     paths:
       - 'frontend/**'
 
@@ -14,10 +14,13 @@ defaults:
 
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+   if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout PR
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - run: echo "REACT_APP_BACKEND_URL=${{ secrets.PREVIEW_BACKEND_URL }}" > .env
       - run: rm -rf node_modules && yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0

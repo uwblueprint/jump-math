@@ -57,6 +57,13 @@ export const questions: Array<Array<QuestionComponent>> = [
         answerIndices: [1, 2],
       },
     },
+    {
+      type: QuestionComponentType.FRACTION,
+      metadata: {
+        numerator: 1,
+        denominator: 4,
+      },
+    },
   ],
   [
     {
@@ -92,35 +99,15 @@ export const mockTest: TestRequestDTO = {
   status: AssessmentStatus.DRAFT,
 };
 
-export const mockTestArray: Array<TestRequestDTO> = [
-  {
-    name: "test1",
-    questions,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country1",
-    curriculumRegion: "region1",
-    status: AssessmentStatus.DRAFT,
-  },
-  {
-    name: "test2",
-    questions,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country2",
-    curriculumRegion: "region1",
-    status: AssessmentStatus.DRAFT,
-  },
-  {
-    name: "test3",
-    questions,
-    grade: Grade.GRADE_8,
-    assessmentType: AssessmentType.END,
-    curriculumCountry: "country2",
-    curriculumRegion: "region2",
-    status: AssessmentStatus.DRAFT,
-  },
-];
+export const mockTest2: TestRequestDTO = {
+  name: "newTest",
+  questions,
+  grade: Grade.GRADE_7,
+  assessmentType: AssessmentType.END,
+  curriculumCountry: "newCountry",
+  curriculumRegion: "newRegion",
+  status: AssessmentStatus.PUBLISHED,
+};
 
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
@@ -129,8 +116,28 @@ export const mockTestWithId: TestResponseDTO = {
 
 export const mockTestWithId2: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea90",
-  ...mockTest,
+  ...mockTest2,
 };
+
+export const mockPublishedTest: TestResponseDTO = {
+  ...mockTestWithId,
+  status: AssessmentStatus.PUBLISHED,
+};
+
+export const mockArchivedTest: TestResponseDTO = {
+  ...mockTestWithId,
+  status: AssessmentStatus.ARCHIVED,
+};
+
+export const mockDeletedTest: TestResponseDTO = {
+  ...mockTestWithId,
+  status: AssessmentStatus.DELETED,
+};
+
+export const mockTestArray: Array<TestResponseDTO> = [
+  mockTestWithId,
+  mockTestWithId2,
+];
 
 export const assertResponseMatchesExpected = (
   expected: TestRequestDTO,

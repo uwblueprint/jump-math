@@ -2,6 +2,7 @@ import MgTestSession, {
   GradingStatus,
   TestSession,
 } from "../../models/testSession.model";
+import MgClass, { Class } from "../../models/class.model";
 import {
   ITestSessionService,
   ResultRequestDTO,
@@ -17,11 +18,13 @@ import {
   ShortAnswerMetadata,
   QuestionComponent,
   QuestionComponentType,
+  FractionMetadata,
 } from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
+import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -44,6 +47,7 @@ class TestSessionService implements ITestSessionService {
 
   /* eslint-disable class-methods-use-this */
   async createTestSession(
+    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
     let testDTO: TestResponseDTO;
@@ -57,6 +61,8 @@ class TestSessionService implements ITestSessionService {
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
       newTestSession = await MgTestSession.create(testSession);
+
+      await this.addTestSessionToClass(classId, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
@@ -70,6 +76,7 @@ class TestSessionService implements ITestSessionService {
       teacher: teacherDTO,
       school: schoolDTO,
       gradeLevel: newTestSession.gradeLevel,
+      results: [],
       accessCode: newTestSession.accessCode,
       startTime: newTestSession.startTime,
     };
@@ -227,15 +234,17 @@ class TestSessionService implements ITestSessionService {
           teacher: teacherDTO,
           school: schoolDTO,
           gradeLevel: testSession.gradeLevel,
-          results: testSession.results?.map((testSessionResult) => {
-            return {
-              student: testSessionResult.student,
-              score: testSessionResult.score,
-              answers: testSessionResult.answers,
-              breakdown: testSessionResult.breakdown,
-              gradingStatus: testSessionResult.gradingStatus,
-            };
-          }),
+          results: testSession.results
+            ? testSession.results.map((testSessionResult) => {
+                return {
+                  student: testSessionResult.student,
+                  score: testSessionResult.score,
+                  answers: testSessionResult.answers,
+                  breakdown: testSessionResult.breakdown,
+                  gradingStatus: testSessionResult.gradingStatus,
+                };
+              })
+            : [],
           accessCode: testSession.accessCode,
           startTime: testSession.startTime,
         };
@@ -252,21 +261,6 @@ class TestSessionService implements ITestSessionService {
     let updatedTestSession: TestSession | null;
 
     try {
-      const { results } = testSession;
-      if (results) {
-        await Promise.all(
-          results.map(async (result: ResultRequestDTO, i) => {
-            if (result.gradingStatus === GradingStatus.UNGRADED) {
-              const gradedResult: ResultResponseDTO = await this.gradeTestResult(
-                result,
-                id,
-              );
-              results[i] = gradedResult;
-            }
-          }),
-        );
-      }
-
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
         testSession,
@@ -285,6 +279,43 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
+    return (
+      await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
+    )[0];
+  }
+
+  async createTestSessionResult(
+    id: string,
+    result: ResultRequestDTO,
+  ): Promise<TestSessionResponseDTO> {
+    let updatedTestSession: TestSession | null;
+    try {
+      const gradedResult: ResultResponseDTO = await this.gradeTestResult(
+        result,
+        id,
+      );
+
+      updatedTestSession = await MgTestSession.findByIdAndUpdate(
+        id,
+        {
+          $push: { results: gradedResult },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!updatedTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to update test session. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
     return (
       await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
     )[0];
@@ -345,72 +376,38 @@ class TestSessionService implements ITestSessionService {
     result: ResultRequestDTO,
     testId: string,
   ): Promise<ResultResponseDTO> {
-    let resultResponseDTO: ResultResponseDTO;
-
-    // the list of a student's answers with each field being either the:
-    // - numeric answer (for short answer)
-    // - index (for multiple choice)
-    // - list of indices (for multiple select)
-    // - null (for no answer)
-    const studentTestAnswers: (number[] | number | null)[][] = result.answers;
-
-    let computedScore = 0.0;
+    const studentTestAnswers: number[][][] = result.answers;
     const computedBreakdown: boolean[][] = [];
     let questionsCorrect = 0;
-    let questionsCount = 0;
 
     try {
       const test: TestResponseDTO = await this.testService.getTestById(testId);
       test.questions.forEach((questionComponents: QuestionComponent[], i) => {
         const computedBreakdownByQuestion: boolean[] = [];
         questionComponents.forEach((questionComponent: QuestionComponent) => {
-          const { type } = questionComponent;
-          const singleResponse =
-            type === QuestionComponentType.MULTIPLE_CHOICE ||
-            type === QuestionComponentType.SHORT_ANSWER;
-          const multiResponse = type === QuestionComponentType.MULTI_SELECT;
-          let isCorrect = false;
+          const actualAnswer: number[] | null = this.getCorrectAnswer(
+            questionComponent,
+          );
 
-          if (singleResponse) {
-            const actualAnswer: number = this.getCorrectAnswer(
-              questionComponent,
-            );
-            const studentAnswer = studentTestAnswers[i][questionsCount] as
-              | number
-              | null;
+          if (actualAnswer) {
+            const studentAnswer =
+              studentTestAnswers[i][computedBreakdownByQuestion.length];
+            const isCorrect = equalArrays(studentAnswer, actualAnswer);
 
-            isCorrect = studentAnswer === actualAnswer;
-          } else if (multiResponse) {
-            const actualAnswers: number[] = this.getCorrectAnswers(
-              questionComponent,
-            );
-            const studentAnswers = studentTestAnswers[i][questionsCount] as
-              | number[]
-              | null;
-            isCorrect =
-              studentAnswers?.length === actualAnswers.length &&
-              studentAnswers.every((val, idx) => val === actualAnswers[idx]);
-          }
-
-          if (singleResponse || multiResponse) {
-            if (isCorrect) {
-              questionsCorrect += 1;
-              computedBreakdownByQuestion.push(true);
-            } else {
-              computedBreakdownByQuestion.push(false);
-            }
-            questionsCount += 1;
+            questionsCorrect += +isCorrect;
+            computedBreakdownByQuestion.push(isCorrect);
           }
         });
         computedBreakdown.push(computedBreakdownByQuestion);
       });
 
       // compute student's score as a percentage to two decimal places (e.g. 1/3 => 33.33)
-      computedScore = parseFloat(
-        ((questionsCorrect * 100) / questionsCount).toFixed(2),
+      const questionsCount = computedBreakdown.flat().length;
+      const computedScore = roundTwoDecimals(
+        (questionsCorrect * 100) / questionsCount,
       );
 
-      resultResponseDTO = {
+      return {
         student: result.student,
         score: computedScore,
         answers: result.answers,
@@ -425,31 +422,65 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return resultResponseDTO;
   }
 
-  private getCorrectAnswer(questionComponent: QuestionComponent): number {
-    let actualAnswer: number;
-
-    if (questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE) {
-      const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
-      actualAnswer = questionMetadata.answerIndex;
-    } else if (questionComponent.type === QuestionComponentType.SHORT_ANSWER) {
-      const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
-      actualAnswer = questionMetadata.answer;
+  private getCorrectAnswer(
+    questionComponent: QuestionComponent,
+  ): number[] | null {
+    switch (questionComponent.type) {
+      case QuestionComponentType.MULTIPLE_CHOICE: {
+        const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
+        return [questionMetadata.answerIndex];
+      }
+      case QuestionComponentType.MULTI_SELECT: {
+        const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
+        return questionMetadata.answerIndices;
+      }
+      case QuestionComponentType.FRACTION: {
+        const questionMetadata = questionComponent.metadata as FractionMetadata;
+        return [questionMetadata.numerator, questionMetadata.denominator];
+      }
+      case QuestionComponentType.SHORT_ANSWER: {
+        const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
+        return [questionMetadata.answer];
+      }
+      default: {
+        return null;
+      }
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return actualAnswer!;
   }
 
-  private getCorrectAnswers(questionComponent: QuestionComponent): number[] {
-    const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
-    const actualAnswers: number[] = questionMetadata.answerIndices;
+  private async addTestSessionToClass(
+    id: string,
+    testSessionId: string,
+  ): Promise<void> {
+    try {
+      const classObj: Class | null = await MgClass.findByIdAndUpdate(
+        id,
+        {
+          $push: {
+            testSessions: testSessionId,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return actualAnswers!;
+      if (!classObj) {
+        throw new Error(
+          `Test session could not be added to class with id ${id}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to add test session to class. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
   }
 }
 
