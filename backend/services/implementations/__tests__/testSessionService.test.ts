@@ -94,8 +94,10 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("create test session with invalid dates", async () => {
+    const classObj: Class = await MgClass.create(testClassAfterCreation);
     await expect(async () => {
       await testSessionService.createTestSession(
+        classObj.id,
         mockTestSessionWithInvalidDates,
       );
     }).rejects.toThrowError(`Test session start and end dates are not valid`);
@@ -176,7 +178,11 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.getTestSessionByAccessCode(
       mockTestSessionsWithOneValid[0].accessCode,
     );
-    assertResultsResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
+    assertResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
+    assertResultsResponseMatchesExpected(
+      mockTestSessionsWithOneValid[1].results,
+      res.results,
+    );
   });
 
   it("get test sessions by school id for valid id", async () => {
@@ -316,7 +322,6 @@ describe("mongo testSessionService", (): void => {
       test: mockTestWithId2.id,
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
-      gradeLevel: 3,
       accessCode: "1235",
       startDate: new Date("2022-09-10T09:00:00.000Z"),
       endDate: new Date("2022-09-11T09:00:00.000Z"),

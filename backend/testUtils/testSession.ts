@@ -95,11 +95,8 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
   },
 ];
 
-export const mockTestSessionWithInvalidDates: TestSessionRequestDTO = {
-  test: mockTestWithId.id,
-  teacher: mockTeacher.id,
-  school: mockSchoolWithId.id,
-  results: [mockGradedTestResult],
+export const mockTestSessionWithInvalidDates: TestSessionDTO = {
+  ...mockTestSession,
   accessCode: "123456",
   startDate: new Date("2021-09-01T09:00:00.000Z"),
   endDate: new Date("2020-09-02T09:00:00.000Z"),
@@ -107,53 +104,38 @@ export const mockTestSessionWithInvalidDates: TestSessionRequestDTO = {
     "this is a note that a teacher wanted students to see before their test.",
 };
 
-export const mockTestSessionsWithSameAccessCode: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithSameAccessCode: Array<TestSessionDTO> = [
   {
-    test: "62c248c0f79d6c3c9ebbea39",
-    teacher: "62c248c0f79d6c3c9ebbea95",
-    school: "62c248c0f79d6c3c9ebbea97",
-    results: [mockGradedTestResult],
+    ...mockTestSession,
     accessCode: "1234",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
     endDate: new Date("2055-09-02T09:00:00.000Z"),
   },
   {
-    test: "62c248c0f79d6c3c9ebbea95",
-    teacher: "62c248c0f79d6c3c9ebbea94",
-    school: "62c248c0f79d6c3c9ebbea93",
-    results: [mockGradedTestResult],
+    ...mockTestSession,
     accessCode: "1234",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
     endDate: new Date("2055-09-02T09:00:00.000Z"),
   },
 ];
 
-export const mockTestSessionsWithOneValid: Array<TestSessionRequestDTO> = [
+export const mockTestSessionsWithOneValid: Array<TestSessionDTO> = [
   {
-    test: "62c248c0f79d6c3c9ebbea39",
-    teacher: "62c248c0f79d6c3c9ebbea95",
-    school: "62c248c0f79d6c3c9ebbea97",
-    results: [mockGradedTestResult],
+    ...mockTestSession,
     accessCode: "123456",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
     endDate: new Date("2022-09-02T09:00:00.000Z"),
   },
   {
-    test: "62c248c0f79d6c3c9ebbea95",
-    teacher: "62c248c0f79d6c3c9ebbea94",
-    school: "62c248c0f79d6c3c9ebbea93",
-    results: [mockGradedTestResult],
+    ...mockTestSession,
     accessCode: "123456",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
     endDate: new Date("2055-09-02T09:00:00.000Z"),
   },
 ];
 
-export const mockTestSessionWithExpiredStartDate: TestSessionRequestDTO = {
-  test: mockTestWithId.id,
-  teacher: mockTeacher.id,
-  school: mockSchoolWithId.id,
-  results: [mockGradedTestResult],
+export const mockTestSessionWithExpiredStartDate: TestSessionDTO = {
+  ...mockTestSession,
   accessCode: "123456",
   startDate: new Date("2055-09-01T09:00:00.000Z"),
   endDate: new Date("2056-09-02T09:00:00.000Z"),
@@ -161,11 +143,8 @@ export const mockTestSessionWithExpiredStartDate: TestSessionRequestDTO = {
     "this is a note that a teacher wanted students to see before their test.",
 };
 
-export const mockTestSessionWithExpiredEndDate: TestSessionRequestDTO = {
-  test: mockTestWithId.id,
-  teacher: mockTeacher.id,
-  school: mockSchoolWithId.id,
-  results: [mockGradedTestResult],
+export const mockTestSessionWithExpiredEndDate: TestSessionDTO = {
+  ...mockTestSession,
   accessCode: "123456",
   startDate: new Date("2020-09-01T09:00:00.000Z"),
   endDate: new Date("2021-09-02T09:00:00.000Z"),

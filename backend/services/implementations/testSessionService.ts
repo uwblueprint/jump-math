@@ -68,7 +68,6 @@ class TestSessionService implements ITestSessionService {
 
       newTestSession = await MgTestSession.create(testSession);
       await this.addTestSessionToClass(classId, newTestSession.id);
-      
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,

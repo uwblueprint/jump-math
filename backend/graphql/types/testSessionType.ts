@@ -42,7 +42,7 @@ const testSessionType = gql`
     test: ID!
     teacher: ID!
     school: ID!
-    results: [ResultRequestDTO]!
+    results: [ResultRequestDTO]
     accessCode: String!
     startDate: Date!
     endDate: Date!

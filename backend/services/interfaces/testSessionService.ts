@@ -14,11 +14,6 @@ export interface TestSessionRequestDTO {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
-  /**
-   * the result of the test session
-   * there should be one entry here per student
-   * */
-  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** on this date, the test becomes available to students */
