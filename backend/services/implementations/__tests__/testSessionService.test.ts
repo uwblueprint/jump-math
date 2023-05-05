@@ -13,6 +13,9 @@ import {
   mockGradedTestResult,
   mockTestSessionWithId,
   mockTestSessionsWithSameAccessCode,
+  mockTestSessionWithExpiredStartDate,
+  mockTestSessionWithExpiredEndDate,
+  mockTestSessionsWithOneValid,
 } from "../../../testUtils/testSession";
 import {
   TestSessionRequestDTO,
@@ -125,7 +128,7 @@ describe("mongo testSessionService", (): void => {
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(accessCode);
     }).rejects.toThrowError(
-      `Test Session with access code ${accessCode} not found`,
+      `Valid Test Session with access code ${accessCode} not found`,
     );
   });
 
@@ -137,8 +140,39 @@ describe("mongo testSessionService", (): void => {
         mockTestSession.accessCode,
       );
     }).rejects.toThrowError(
-      `More than one Test Session uses the access code ${mockTestSession.accessCode}`,
+      `More than one valid Test Session uses the access code ${mockTestSession.accessCode}`,
     );
+  });
+
+  it("get test sessions by access code for expired start date", async () => {
+    await MgTestSession.create(mockTestSessionWithExpiredStartDate);
+    // school id that's different than the created test session
+    const accessCode = "123456";
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(accessCode);
+    }).rejects.toThrowError(
+      `Valid Test Session with access code ${mockTestSessionWithExpiredStartDate.accessCode} not found`,
+    );
+  });
+
+  it("get test sessions by access code for expired end date", async () => {
+    await MgTestSession.create(mockTestSessionWithExpiredEndDate);
+    // school id that's different than the created test session
+    const accessCode = "123456";
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(accessCode);
+    }).rejects.toThrowError(
+      `Valid Test Session with access code ${mockTestSessionWithExpiredStartDate.accessCode} not found`,
+    );
+  });
+
+  it("get test sessions by access code for repeated code but only one valid", async () => {
+    await MgTestSession.create(mockTestSessionsWithOneValid);
+    // school id that's different than the created test session
+    const res = await testSessionService.getTestSessionByAccessCode(
+      mockTestSessionsWithOneValid[0].accessCode,
+    );
+    assertResultsResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
   });
 
   it("get test sessions by school id for valid id", async () => {
