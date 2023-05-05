@@ -7,6 +7,7 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
+  ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
@@ -84,6 +85,9 @@ export const updatedMultiOption = (
 
 export const exceedsMaxLength = (input: string): boolean => input.length > 800;
 
+export const exceedsMaxFileSize = (file: File): boolean =>
+  file.size / 1024 / 1024 > 5;
+
 export const generateQuestionCardTags = (
   question: QuestionElement[],
 ): QuestionTagProps[] => {
@@ -153,6 +157,11 @@ export const formatQuestionsRequest = (
           return {
             type: QuestionElementType.TEXT,
             textMetadata: element.data as TextMetadata,
+          };
+        case QuestionElementType.IMAGE:
+          return {
+            type: QuestionElementType.IMAGE,
+            imageMetadataRequest: element.data as ImageMetadataRequest,
           };
         case QuestionElementType.SHORT_ANSWER:
           return {

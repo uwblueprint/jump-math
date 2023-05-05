@@ -31,9 +31,9 @@ export interface BaseQuestionComponent<
   metadata: BaseQuestionComponentMetadata<ImageMetadataType>;
 }
 
-export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;
+export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
+  GraphQLQuestionComponentMetadata;
 
 export type QuestionComponentRequest = BaseQuestionComponent<ImageMetadataRequest>;
 
-export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
-  GraphQLQuestionComponentMetadata;
+export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;

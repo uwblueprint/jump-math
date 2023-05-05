@@ -14,13 +14,6 @@ export type BaseQuestionComponentMetadata<
   | ShortAnswerMetadata
   | FractionMetadata;
 
-export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
-
-export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImageMetadataRequest>;
-
-/**
- * This interface contains the metadata for a GraphQL question component
- */
 export interface GraphQLQuestionComponentMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
@@ -30,6 +23,10 @@ export interface GraphQLQuestionComponentMetadata {
   shortAnswerMetadata: ShortAnswerMetadata;
   fractionMetadata: FractionMetadata;
 }
+
+export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImageMetadataRequest>;
+
+export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
 
 /**
  * This interface contains additional information about a question text component
