@@ -1,7 +1,10 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path";
-import { ImageMetadataRequest, ImageMetadata } from "../models/test.model";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+} from "../types/questionMetadataTypes";
 
 export const filename = "test.png";
 export const uploadDir = "test-bucket";

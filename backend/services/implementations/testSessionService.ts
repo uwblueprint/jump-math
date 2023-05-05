@@ -12,18 +12,20 @@ import {
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import {
-  MultiSelectMetadata,
-  MultipleChoiceMetadata,
-  ShortAnswerMetadata,
-  QuestionComponent,
-  QuestionComponentType,
-  FractionMetadata,
-} from "../../models/test.model";
 import { ITestService, TestResponseDTO } from "../interfaces/testService";
 import IUserService from "../interfaces/userService";
 import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
 import { UserDTO } from "../../types";
+import {
+  QuestionComponent,
+  QuestionComponentType,
+} from "../../types/questionTypes";
+import {
+  MultipleChoiceMetadata,
+  ShortAnswerMetadata,
+  MultiSelectMetadata,
+  FractionMetadata,
+} from "../../types/questionMetadataTypes";
 import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);

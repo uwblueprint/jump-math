@@ -9,9 +9,12 @@ import {
   validateImageType,
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import { ImageMetadata, ImageMetadataRequest } from "../../models/test.model";
 import IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+} from "../../types/questionMetadataTypes";
 
 const Logger = logger(__filename);
 

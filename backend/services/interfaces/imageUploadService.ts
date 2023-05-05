@@ -1,4 +1,7 @@
-import { ImageMetadata, ImageMetadataRequest } from "../../models/test.model";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+} from "../../types/questionMetadataTypes";
 
 interface IImageUploadService {
   /**

@@ -51,14 +51,16 @@ const testType = gql`
     text: String!
   }
 
-  input ImageMetadataInput {
-    url: String!
-    filePath: String!
+  scalar FileUpload
+
+  input ImageMetadataRequestInput {
+    file: FileUpload
+    previewUrl: String!
   }
 
   type ImageMetadata {
-    url: String!
     filePath: String!
+    url: String!
   }
 
   input MultipleChoiceMetadataInput {
@@ -117,7 +119,7 @@ const testType = gql`
     type: QuestionComponentTypeEnum!
     questionTextMetadata: QuestionTextMetadataInput
     textMetadata: TextMetadataInput
-    imageMetadata: ImageMetadataInput
+    imageMetadataRequest: ImageMetadataRequestInput
     multipleChoiceMetadata: MultipleChoiceMetadataInput
     multiSelectMetadata: MultiSelectMetadataInput
     shortAnswerMetadata: ShortAnswerMetadataInput
@@ -153,7 +155,7 @@ const testType = gql`
   extend type Mutation {
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
-    deleteTestById(id: ID!): ID
+    deleteTest(id: ID!): ID
     publishTest(id: ID!): TestResponseDTO!
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!

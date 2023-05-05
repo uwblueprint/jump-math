@@ -222,14 +222,12 @@ describe("mongo testSessionService", (): void => {
 
   it("deleteTestSession not found", async () => {
     const notFoundId = "62cf26998b7308f775a572aa";
-    expect(
-      testSessionService.deleteTestSession(notFoundId),
-    ).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
+    await expect(async () => {
+      await testSessionService.deleteTestSession(notFoundId);
+    }).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
   });
 
   it("computeTestGrades", async () => {
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
-
     const res = await testSessionService.computeTestGrades(
       mockUngradedTestResult,
       mockTestWithId.id,
@@ -252,7 +250,6 @@ describe("mongo testSessionService", (): void => {
     testSessionService.getTestSessionById = jest
       .fn()
       .mockReturnValue(mockTestSessionWithId);
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
 
     const res = await testSessionService.gradeTestResult(
       mockUngradedTestResult,
@@ -274,7 +271,6 @@ describe("mongo testSessionService", (): void => {
 
   it("updateTestSession", async () => {
     // insert test session into database
-    testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     const testSession = await MgTestSession.create(mockTestSession);
 
     // create DTO object to update to
