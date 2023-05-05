@@ -9,7 +9,7 @@ import {
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
-import { mockTestResponse } from "./tests";
+import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
 
 type TestSessionDTO = TestSessionRequestDTO & {
@@ -117,7 +117,7 @@ export const mockTestSessionsWithSameAccessCode: TestSessionDTO[] = [
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   ...mockTestSession,
   id: "62c248c0f79d6c3c9ebbea90",
-  test: mockTestResponse,
+  test: mockTestWithId,
   teacher: mockTeacher,
   school: mockSchoolWithId,
 };
@@ -199,7 +199,7 @@ export const assertResponseMatchesExpected = (
   result: TestSessionResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.test).toEqual(mockTestResponse);
+  expect(result.test).toEqual(mockTestWithId);
   expect(result.teacher).toEqual(mockTeacher);
   expect(result.school).toEqual(mockSchoolWithId);
   expect(result.gradeLevel).toEqual(expected.gradeLevel);
