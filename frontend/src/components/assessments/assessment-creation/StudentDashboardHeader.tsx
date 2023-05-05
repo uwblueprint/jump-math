@@ -1,31 +1,25 @@
 import React from "react";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 
 import HeaderWrapper from "../../common/HeaderWrapper";
 
 interface StudentDashboardHeaderProps {
   assessmentName: string;
   classroomName: string;
-  estimatedTime: string;
 }
 
 const StudentDashboardHeader = ({
   assessmentName,
   classroomName,
-  estimatedTime,
 }: StudentDashboardHeaderProps): React.ReactElement => {
-  const content: React.ReactElement = (
-    <VStack align="left" marginLeft="2rem">
-      <Box>
+  return (
+    <HeaderWrapper>
+      <VStack align="left" marginLeft="2rem">
         <Text textStyle="subtitle1">{assessmentName}</Text>
-      </Box>
-      <HStack gap={16}>
         <Text textStyle="smallerParagraph">{classroomName}</Text>
-        <Text textStyle="smallerParagraph">Est. Length: {estimatedTime}</Text>
-      </HStack>
-    </VStack>
+      </VStack>
+    </HeaderWrapper>
   );
-  return <HeaderWrapper content={content} />;
 };
 
 export default StudentDashboardHeader;

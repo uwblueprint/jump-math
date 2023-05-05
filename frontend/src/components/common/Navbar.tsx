@@ -12,8 +12,8 @@ interface NavbarProps {
 }
 
 const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
-  const content: React.ReactElement = (
-    <>
+  return (
+    <HeaderWrapper>
       <Spacer />
       <HStack>
         {pages.map((page, index) => (
@@ -21,9 +21,8 @@ const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
         ))}
         <Logout />
       </HStack>
-    </>
+    </HeaderWrapper>
   );
-  return <HeaderWrapper content={content} />;
 };
 
 export default Navbar;
