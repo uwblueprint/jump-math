@@ -2,7 +2,7 @@ import {
   BaseQuestionComponentMetadata,
   GraphQLQuestionComponentMetadata,
   ImageMetadata,
-  ImagePreviewMetadata,
+  ImageMetadataRequest,
   ImageMetadataTypes,
 } from "./questionMetadataTypes";
 
@@ -16,6 +16,7 @@ export enum QuestionComponentType {
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   MULTI_SELECT = "MULTI_SELECT",
   SHORT_ANSWER = "SHORT_ANSWER",
+  FRACTION = "FRACTION",
 }
 
 /**
@@ -30,9 +31,9 @@ export interface BaseQuestionComponent<
   metadata: BaseQuestionComponentMetadata<ImageMetadataType>;
 }
 
-export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;
-
-export type QuestionComponentRequest = BaseQuestionComponent<ImagePreviewMetadata>;
-
 export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
   GraphQLQuestionComponentMetadata;
+
+export type QuestionComponentRequest = BaseQuestionComponent<ImageMetadataRequest>;
+
+export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;

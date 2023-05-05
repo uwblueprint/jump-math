@@ -94,6 +94,23 @@ class ClassService implements IClassService {
     return (await this.mapClassToClassDTOs(classes))[0];
   }
 
+  async getClassesByTeacherId(
+    teacherId: string,
+  ): Promise<Array<ClassResponseDTO>> {
+    let classes: Class[];
+    try {
+      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get classes by teacher id. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return this.mapClassToClassDTOs(classes);
+  }
+
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
   ): Promise<Array<ClassResponseDTO>> {
@@ -168,8 +185,8 @@ class ClassService implements IClassService {
     let classObj: Class | null;
 
     try {
-      classObj = await MgClass.findOneAndUpdate(
-        { _id: classId },
+      classObj = await MgClass.findByIdAndUpdate(
+        classId,
         {
           $push: { students: student },
         },

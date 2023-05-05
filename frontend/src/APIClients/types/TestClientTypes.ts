@@ -41,3 +41,32 @@ export type TestRequest = {
   /** the region that the test is to be administered in */
   curriculumRegion: string;
 };
+
+type QuestionMetadataName =
+  | "QuestionTextMetadata"
+  | "TextMetadata"
+  | "ImageMetadata"
+  | "MultipleChoiceMetadata"
+  | "MultiSelectMetadata"
+  | "ShortAnswerMetadata";
+
+type QuestionMetadataTypename = {
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
+  __typename: QuestionMetadataName;
+};
+
+export type QuestionComponentResponse = QuestionType & {
+  metadata: (
+    | QuestionTextMetadata
+    | TextMetadata
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata
+  ) &
+    QuestionMetadataTypename;
+};
+
+export type TestResponse = TestRequest & {
+  id: string;
+  questions: QuestionComponentResponse[][];
+};

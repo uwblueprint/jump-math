@@ -8,11 +8,12 @@ import MgTestSession, {
 import {
   createTestSessionWithSchoolAndResults,
   mockTestSessions,
+  mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
 import { createSchoolWithCountry } from "../../../testUtils/school";
 import { TestStatistic } from "../../interfaces/statisticService";
 import mockTestStatisticsBySchool from "../../../testUtils/statistics";
-import { mockTestResponse } from "../../../testUtils/tests";
+import { mockTestWithId } from "../../../testUtils/tests";
 
 describe("mongo statisticService", (): void => {
   let statisticService: StatisticService;
@@ -43,14 +44,14 @@ describe("mongo statisticService", (): void => {
       {
         student: "student-1",
         score: 0,
-        answers: [[10.5]],
+        answers: [[[10.5]]],
         breakdown: [[false]],
         gradingStatus: GradingStatus.GRADED,
       },
       {
         student: "some-student-name",
         score: 100,
-        answers: [[11.5]],
+        answers: [[[11.5]]],
         breakdown: [[true]],
         gradingStatus: GradingStatus.GRADED,
       },
@@ -58,7 +59,7 @@ describe("mongo statisticService", (): void => {
       {
         student: "some-student-name",
         score: 0,
-        answers: [],
+        answers: [[[]]],
         breakdown: [],
         gradingStatus: GradingStatus.UNGRADED,
       },
@@ -82,7 +83,7 @@ describe("mongo statisticService", (): void => {
       ],
     ]);
     const actualResult = await statisticService.getTestGradeStatisticsByCountry(
-      mockTestResponse.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(expectedResult);
   });
@@ -91,14 +92,55 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestResponse.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(13);
   });
 
   it("getSubmissionCountByTest with 0 submissions", async () => {
     const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestResponse.id,
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(0);
+  });
+
+  it("getMeanScoreByTest with multiple submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessions);
+
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(50.77);
+  });
+
+  it("getMeanScoreByTest with 0 submissions", async () => {
+    const actualResult = await statisticService.getMeanScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(0);
+  });
+
+  it("getMedianScoreByTest with odd number of submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessions);
+
+    const actualResult = await statisticService.getMedianScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(40);
+  });
+
+  it("getMedianScoreByTest with even number of submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessionsWithEvenNumberOfResults);
+
+    const actualResult = await statisticService.getMedianScoreByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(60);
+  });
+
+  it("getMedianScoreByTest with 0 submissions", async () => {
+    const actualResult = await statisticService.getMedianScoreByTest(
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(0);
   });
@@ -107,7 +149,7 @@ describe("mongo statisticService", (): void => {
     await MgTestSession.insertMany(mockTestSessions);
 
     const actualResult = await statisticService.getTestGradeStatisticsBySchool(
-      mockTestResponse.id,
+      mockTestWithId.id,
     );
     expect(actualResult).toEqual(mockTestStatisticsBySchool);
   });
