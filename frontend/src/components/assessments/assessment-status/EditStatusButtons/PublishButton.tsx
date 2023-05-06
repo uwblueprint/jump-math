@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 
 import { PUBLISH_TEST } from "../../../../APIClients/mutations/TestMutations";
-import GET_ALL_TESTS from "../../../../APIClients/queries/TestQueries";
+import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
 import Toast from "../../../common/Toast";
 import EditStatusButton from "../EditStatusButton";
 import PublishModal from "../EditStatusModals/PublishModal";

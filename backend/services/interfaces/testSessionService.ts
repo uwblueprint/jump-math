@@ -16,11 +16,6 @@ export interface TestSessionRequestDTO {
   school: string;
   /** the grade level that is being tested */
   gradeLevel: number;
-  /**
-   * the result of the test session
-   * there should be one entry here per student
-   * */
-  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -45,8 +40,8 @@ export interface TestSessionResponseDTO {
   /**
    * the result of the test session
    * there should be one entry here per student
-   * */
-  results?: ResultResponseDTO[];
+   */
+  results: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** the time when the test session is started by teacher */
@@ -58,19 +53,20 @@ export interface TestSessionResponseDTO {
  * session service to create or update a result in a given test session
  */
 export interface ResultRequestDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
-   *  - number: the numeric answer (for short answer)
-   *  - number: the option's corresponding index (for multiple choice)
-   *  - number[]: a list of option indices (for multi select)
-   *  - null: for no answer
+   * - [numeric answer] for short answer
+   * - [index] for multiple choice
+   * - list of indices for multiple select
+   * - [numerator, denominator] for fraction
+   * - [] for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: number[][][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -85,19 +81,20 @@ export interface ResultRequestDTO {
  * the test session service to represent a result in a given test session
  */
 export interface ResultResponseDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
-   *  - number: the numeric answer (for short answer)
-   *  - number: the option's corresponding index (for multiple choice)
-   *  - number[]: a list of option indices (for multi select)
-   *  - null: for no answer
+   * - [numeric answer] for short answer
+   * - [index] for multiple choice
+   * - list of indices for multiple select
+   * - [numerator, denominator] for fraction
+   * - [] for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: number[][][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
@@ -110,11 +107,13 @@ export interface ResultResponseDTO {
 export interface ITestSessionService {
   /**
    * create a TestSession with the fields given in the DTO, return created TestSession
+   * @param id of the class taking the test session
    * @param testSession new testSession
    * @returns the created TestSession
    * @throws Error if creation fails
    */
   createTestSession(
+    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 

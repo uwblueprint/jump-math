@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Checkbox,
@@ -14,15 +14,12 @@ import { QuestionComponentResponse } from "../../../APIClients/types/TestClientT
 import { QuestionElementType } from "../../../types/QuestionTypes";
 
 interface DisplayQuestionProps {
-  questionComponents?: QuestionComponentResponse[];
+  questionComponents: QuestionComponentResponse[];
 }
 
 const DisplayQuestion = ({
   questionComponents,
 }: DisplayQuestionProps): React.ReactElement => {
-  const [answer, setAnswer] = useState([]);
-  // add type (number | number[] | null)[]
-
   const stackProps = {
     alignItems: "left",
     gap: "1",
@@ -30,8 +27,6 @@ const DisplayQuestion = ({
     paddingTop: "2",
     ml: "5",
   };
-
-  const handleInput = (e) => setAnswer(e.target.value);
 
   return (
     <>
@@ -56,16 +51,14 @@ const DisplayQuestion = ({
                       borderColor="grey.300"
                       borderRadius="8px"
                       focusBorderColor="grey.300"
-                      onChange={handleInput}
                       placeholder="Write your answer here"
-                      value={answer}
                       variant="outline"
                       width="34%"
                     />
                   );
                 case QuestionElementType.MULTIPLE_CHOICE:
                   return (
-                    <RadioGroup onChange={setAnswer} value={answer}>
+                    <RadioGroup>
                       <VStack {...stackProps}>
                         {question.metadata.options.map((option, index) => {
                           return (
@@ -79,7 +72,7 @@ const DisplayQuestion = ({
                   );
                 case QuestionElementType.MULTI_SELECT:
                   return (
-                    <CheckboxGroup onChange={setAnswer} value={answer}>
+                    <CheckboxGroup>
                       <VStack {...stackProps}>
                         {question.metadata.options.map((option, index) => {
                           return (

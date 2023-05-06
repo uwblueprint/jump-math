@@ -13,6 +13,7 @@ import {
   updatedTestStudents,
   assertStudentResponseMatchesExpected,
   testClassWithTestSessions,
+  assertArrayResponseMatchesExpected,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -73,13 +74,17 @@ describe("mongo classService", (): void => {
 
   it("update class", async () => {
     // add test class
-    const classObj = await ClassModel.create(testClass[0]);
+    const classObj = await ClassModel.create(testClassWithStudents);
 
     // execute
     const res = await classService.updateClass(classObj.id, updatedTestClass);
 
     // assert
     assertResponseMatchesExpected(updatedTestClass, res);
+    assertStudentResponseMatchesExpected(
+      testClassWithStudents.students,
+      res.students,
+    );
   });
 
   it("update class for class not found", async () => {
@@ -132,6 +137,18 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(
       `More than one class has the same Test Session of id ${testSessionId}`,
     );
+  });
+
+  it("getClassesByTeacherId for valid testSessionId", async () => {
+    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const res = await classService.getClassesByTeacherId(savedClass.teacher);
+    assertArrayResponseMatchesExpected([savedClass], res);
+  });
+
+  it("getClassesByTeacherId for non-existing testSessionId", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    const res = await classService.getClassesByTeacherId(notFoundId);
+    expect(res).toEqual([]);
   });
 
   it("deleteClass", async () => {

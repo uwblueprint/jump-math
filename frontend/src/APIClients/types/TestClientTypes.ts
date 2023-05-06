@@ -1,12 +1,14 @@
 import { Status, UseCase } from "../../types/AssessmentTypes";
 import {
+  ImageMetadata,
+  ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
+import { Question, QuestionElementType } from "../../types/QuestionTypes";
 
 import { Grade } from "./UserClientTypes";
 
@@ -17,6 +19,7 @@ interface QuestionType {
 interface QuestionMetadata {
   questionTextMetadata: QuestionTextMetadata;
   textMetadata: TextMetadata;
+  imageMetadataRequest: ImageMetadataRequest;
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
@@ -40,19 +43,36 @@ export type TestRequest = {
   curriculumRegion: string;
 };
 
-export type QuestionComponentMetadata =
-  | QuestionTextMetadata
-  | TextMetadata
-  | MultipleChoiceMetadata
-  | MultiSelectMetadata
-  | ShortAnswerMetadata;
+type QuestionMetadataName =
+  | "QuestionTextMetadata"
+  | "TextMetadata"
+  | "ImageMetadata"
+  | "MultipleChoiceMetadata"
+  | "MultiSelectMetadata"
+  | "ShortAnswerMetadata";
 
-/**
- * This interface contains information about a single component in a question.
- */
-export interface QuestionComponentResponse {
-  /** the type of question component  */
-  type: QuestionElementType;
-  /** additional metadata for the question */
-  metadata: QuestionComponentMetadata;
-}
+type QuestionMetadataTypename = {
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
+  __typename: QuestionMetadataName;
+};
+
+export type QuestionComponentResponse = QuestionType & {
+  metadata: (
+    | QuestionTextMetadata
+    | TextMetadata
+    | ImageMetadata
+    | MultipleChoiceMetadata
+    | MultiSelectMetadata
+    | ShortAnswerMetadata
+  ) &
+    QuestionMetadataTypename;
+};
+
+export type TestResponse = TestRequest & {
+  id: string;
+  questions: QuestionComponentResponse[][];
+};
+
+export type Test = TestResponse & {
+  questions: Question[];
+};

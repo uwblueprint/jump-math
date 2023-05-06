@@ -11,18 +11,21 @@ const MOCK_DATA: QuestionComponentResponse[] = [
     metadata: {
       questionText:
         "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples. How much do they each have left now?",
+      __typename: "QuestionTextMetadata",
     },
   },
   {
     type: QuestionElementType.TEXT,
     metadata: {
       text: "How many apples can you eat?",
+      __typename: "TextMetadata",
     },
   },
   {
     type: QuestionElementType.SHORT_ANSWER,
     metadata: {
       answer: 5,
+      __typename: "ShortAnswerMetadata",
     },
   },
   {
@@ -30,12 +33,14 @@ const MOCK_DATA: QuestionComponentResponse[] = [
     metadata: {
       options: ["First", "Second", "Third", "Fourth"],
       answerIndex: 2,
+      __typename: "MultipleChoiceMetadata",
     },
   },
   {
     type: QuestionElementType.TEXT,
     metadata: {
       text: "How many pears can you eat?",
+      __typename: "TextMetadata",
     },
   },
   {
@@ -43,9 +48,11 @@ const MOCK_DATA: QuestionComponentResponse[] = [
     metadata: {
       options: ["One", "Two", "Three", "Four", "Five"],
       answerIndex: 0,
+      __typename: "MultiSelectMetadata",
     },
   },
 ];
+
 const ComponentLibrary = (): React.ReactElement => {
   return (
     <Center>

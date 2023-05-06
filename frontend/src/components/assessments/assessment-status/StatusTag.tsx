@@ -35,12 +35,7 @@ const StatusTag = ({ status }: StatusTagProps): React.ReactElement => {
     }
   }
   return (
-    <Tag
-      backgroundColor={backgroundColor}
-      borderRadius="full"
-      color={color}
-      size="lg"
-    >
+    <Tag bgColor={backgroundColor} color={color} size="lg">
       {titleCase(status.valueOf())}
     </Tag>
   );

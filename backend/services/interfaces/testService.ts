@@ -1,24 +1,24 @@
-import {
-  QuestionTextMetadata,
-  TextMetadata,
-  MultipleChoiceMetadata,
-  MultiSelectMetadata,
-  ShortAnswerMetadata,
-  QuestionComponent,
-  AssessmentType,
-  AssessmentStatus,
-  ImageMetadata,
-} from "../../models/test.model";
+import { AssessmentType, AssessmentStatus } from "../../models/test.model";
 import { Grade } from "../../types";
+import {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
+  QuestionComponent,
+} from "../../types/questionTypes";
 
-export type TestResponseDTO = {
-  /** the unique identifier of the response */
-  id: string;
-  /** the name of the test */
+export type BaseQuestionComponentType =
+  | GraphQLQuestionComponent
+  | QuestionComponentRequest
+  | QuestionComponent;
+
+export interface BaseTestDTO<
+  QuestionComponentType extends BaseQuestionComponentType
+> {
+  /** The name of the test */
   name: string;
-  /** an array of questions on the test */
-  questions: QuestionComponent[][];
-  /** the grade of the student */
+  /** An ordered list of questions to be asked when students take the test */
+  questions: QuestionComponentType[][];
+  /** The intended grade the test was made for */
   grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
@@ -28,24 +28,15 @@ export type TestResponseDTO = {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
-};
-
-export type TestRequestDTO = Omit<TestResponseDTO, "id">;
-
-export interface GraphQLQuestionComponentMetadata {
-  questionTextMetadata: QuestionTextMetadata;
-  textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
-  multipleChoiceMetadata: MultipleChoiceMetadata;
-  multiSelectMetadata: MultiSelectMetadata;
-  shortAnswerMetadata: ShortAnswerMetadata;
 }
 
-export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
-  GraphQLQuestionComponentMetadata;
+export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
 
-export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
-  questions: GraphQLQuestionComponent[][];
+export type TestRequestDTO = BaseTestDTO<QuestionComponentRequest>;
+
+export type TestResponseDTO = BaseTestDTO<QuestionComponent> & {
+  /** the unique identifier of the response */
+  id: string;
 };
 
 export interface ITestService {
@@ -89,6 +80,14 @@ export interface ITestService {
   getAllTests(): Promise<TestResponseDTO[]>;
 
   /**
+   * publish a Test given the id
+   * @param id string with the test id to be published
+   * @returns a TestResponseDTO with the published test
+   * @throws Error if Test with given id not found or it is not a draft
+   */
+  publishTest(id: string): Promise<TestResponseDTO>;
+
+  /**
    * duplicate a Test given the id
    * @param id string with the test id to be duplicated
    * @returns a TestResponseDTO with the duplicated test
@@ -103,4 +102,12 @@ export interface ITestService {
    * @throws Error if Test with given id not found or if Test is not archived
    */
   unarchiveTest(id: string): Promise<TestResponseDTO>;
+
+  /**
+   * archive a Test given the id
+   * @param id string with the test id to be archived
+   * @returns a TestResponseDTO with the archived test
+   * @throws Error if Test with given id not found or it is not a draft nor published
+   */
+  archiveTest(id: string): Promise<TestResponseDTO>;
 }

@@ -8,6 +8,7 @@ const testType = gql`
     MULTIPLE_CHOICE
     MULTI_SELECT
     SHORT_ANSWER
+    FRACTION
   }
 
   enum AssessmentTypeEnum {
@@ -50,34 +51,36 @@ const testType = gql`
     text: String!
   }
 
-  input ImageMetadataInput {
-    url: String!
-    filePath: String!
+  scalar FileUpload
+
+  input ImageMetadataRequestInput {
+    file: FileUpload
+    previewUrl: String!
   }
 
   type ImageMetadata {
-    url: String!
     filePath: String!
+    url: String!
   }
 
   input MultipleChoiceMetadataInput {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   type MultipleChoiceMetadata {
     options: [String!]!
-    answerIndex: Float!
+    answerIndex: Int!
   }
 
   input MultiSelectMetadataInput {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   type MultiSelectMetadata {
     options: [String!]!
-    answerIndices: [Float!]!
+    answerIndices: [Int!]!
   }
 
   input ShortAnswerMetadataInput {
@@ -88,6 +91,16 @@ const testType = gql`
     answer: Float!
   }
 
+  input FractionMetadataInput {
+    numerator: Int!
+    denominator: Int!
+  }
+
+  type FractionMetadata {
+    numerator: Int!
+    denominator: Int!
+  }
+
   union QuestionComponentMetadata =
       QuestionTextMetadata
     | TextMetadata
@@ -95,6 +108,7 @@ const testType = gql`
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
+    | FractionMetadata
 
   type QuestionComponent {
     type: QuestionComponentTypeEnum!
@@ -105,10 +119,11 @@ const testType = gql`
     type: QuestionComponentTypeEnum!
     questionTextMetadata: QuestionTextMetadataInput
     textMetadata: TextMetadataInput
-    imageMetadata: ImageMetadataInput
+    imageMetadataRequest: ImageMetadataRequestInput
     multipleChoiceMetadata: MultipleChoiceMetadataInput
     multiSelectMetadata: MultiSelectMetadataInput
     shortAnswerMetadata: ShortAnswerMetadataInput
+    fractionMetadata: FractionMetadataInput
   }
 
   type TestResponseDTO {
@@ -133,13 +148,14 @@ const testType = gql`
   }
 
   extend type Query {
+    test(id: ID!): TestResponseDTO!
     tests: [TestResponseDTO]!
   }
 
   extend type Mutation {
     createTest(test: TestRequestDTO!): TestResponseDTO!
     updateTest(id: ID!, test: TestRequestDTO!): TestResponseDTO!
-    deleteTestById(id: ID!): ID
+    deleteTest(id: ID!): ID
     publishTest(id: ID!): TestResponseDTO!
     duplicateTest(id: ID!): TestResponseDTO!
     unarchiveTest(id: ID!): TestResponseDTO!

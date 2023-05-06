@@ -85,13 +85,14 @@ const graphQLMiddlewares = {
     logout: isAuthorizedByUserId("userId"),
     createTest: authorizedByAdmin(),
     updateTest: authorizedByAdmin(),
-    deleteTestById: authorizedByAdmin(),
+    deleteTest: authorizedByAdmin(),
     publishTest: authorizedByAdmin(),
     duplicateTest: authorizedByAdmin(),
     unarchiveTest: authorizedByAdmin(),
     archiveTest: authorizedByAdmin(),
     createClass: authorizedByAllRoles(),
     createStudent: authorizedByAllRoles(),
+    createTestSession: authorizedByAllRoles(),
   },
 };
 
