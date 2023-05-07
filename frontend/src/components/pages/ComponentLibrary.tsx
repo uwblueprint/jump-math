@@ -4,6 +4,7 @@ import { HStack } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../types/ClassroomTypes";
+import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import ClassroomCard from "../classrooms/ClassroomCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
@@ -23,6 +24,10 @@ const ComponentLibrary = (): React.ReactElement => {
   });
   return (
     <FormProvider {...methods}>
+      <StudentDashboardHeader
+        assessmentName="Unit 0 Review Test"
+        classroomName="Mathematics 4 - Mr. Roberts"
+      />
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
@@ -39,7 +44,6 @@ const ComponentLibrary = (): React.ReactElement => {
           name="Sorting and Classifying"
           studentCount={14}
         />
-
         <AddClassroomModal />
         <AddStudentModal />
       </HStack>
