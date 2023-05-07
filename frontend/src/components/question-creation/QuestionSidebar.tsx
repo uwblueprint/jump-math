@@ -23,6 +23,7 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import confirmUnsavedChangesText from "../../constants/GeneralConstants";
 import AssessmentContext from "../../contexts/AssessmentContext";
 import { QuestionElementType } from "../../types/QuestionTypes";
 
@@ -79,8 +80,11 @@ const QuestionSidebar = (): React.ReactElement => {
   );
 
   const closeQuestionEditor = () => {
-    setEditorQuestion(null);
-    setShowQuestionEditor(false);
+    /* eslint-disable-next-line no-alert */
+    if (window.confirm(confirmUnsavedChangesText)) {
+      setEditorQuestion(null);
+      setShowQuestionEditor(false);
+    }
   };
 
   return (
