@@ -2,8 +2,8 @@ import React from "react";
 import { HStack } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
+import ClassroomCard from "../classrooms/ClassroomCard";
 
-import ClassroomCard from "./teacher/classroom/ClassroomCard";
 import MobileRedirect from "./MobileRedirect";
 
 const ComponentLibrary = (): React.ReactElement => {
