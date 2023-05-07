@@ -80,10 +80,14 @@ const QuestionSidebar = (): React.ReactElement => {
   );
 
   const closeQuestionEditor = () => {
+    setEditorQuestion(null);
+    setShowQuestionEditor(false);
+  };
+
+  const confirmCloseQuestionEditor = () => {
     /* eslint-disable-next-line no-alert */
     if (window.confirm(confirmUnsavedChangesText)) {
-      setEditorQuestion(null);
-      setShowQuestionEditor(false);
+      closeQuestionEditor();
     }
   };
 
@@ -98,7 +102,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Box justifyContent="flex-start" paddingLeft="0">
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={closeQuestionEditor}
+            onClick={confirmCloseQuestionEditor}
             size="sm"
             variant="tertiary"
           >
