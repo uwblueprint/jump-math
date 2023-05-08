@@ -1,12 +1,15 @@
 import React from "react";
 import { UseFormHandleSubmit } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -18,6 +21,9 @@ import {
 } from "../../../assets/icons";
 import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
+import Popover from "../../common/Popover";
+import EditStatusButton from "../assessment-status/EditStatusButton";
+import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
@@ -39,7 +45,9 @@ const AssessmentEditorHeader = ({
   onError,
   validateForm,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
+  const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
@@ -49,6 +57,12 @@ const AssessmentEditorHeader = ({
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
+
+  const {
+    onOpen: onOpenPopover,
+    isOpen: popoverIsOpen,
+    onClose: onClosePopover,
+  } = useDisclosure();
 
   return (
     <>
@@ -90,6 +104,24 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </Button>
+            <Popover
+              isOpen={popoverIsOpen}
+              onClose={onClosePopover}
+              onOpen={onOpenPopover}
+            >
+              <VStack
+                divider={<Divider borderColor="grey.200" />}
+                spacing="0em"
+              >
+                <EditStatusButton
+                  name="Delete"
+                  onClick={() => {
+                    onClosePopover();
+                    setShowDeleteModal(true);
+                  }}
+                />
+              </VStack>
+            </Popover>
           </HStack>
         </Flex>
       </Box>
@@ -97,6 +129,11 @@ const AssessmentEditorHeader = ({
         isOpen={showPublishModal}
         onClose={() => setShowPublishModal(false)}
         publishAssessment={handleConfirmPublish}
+      />
+      <DeleteModal
+        deleteAssessment={() => history.goBack()}
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
       />
     </>
   );
