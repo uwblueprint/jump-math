@@ -14,6 +14,7 @@ const userType = gql`
     role: Role!
     grades: [GradeEnum]
     currentlyTeachingJM: Boolean
+    class: [String]
   }
 
   type TeacherDTO {
@@ -24,6 +25,7 @@ const userType = gql`
     grades: [GradeEnum]
     currentlyTeachingJM: Boolean
     school: String!
+    class: [String]
   }
 
   input CreateUserDTO {
@@ -34,6 +36,7 @@ const userType = gql`
     password: String!
     grades: [GradeEnum]
     currentlyTeachingJM: Boolean
+    class: [String]
   }
 
   input UpdateUserDTO {
@@ -43,6 +46,7 @@ const userType = gql`
     role: Role!
     grades: [GradeEnum]
     currentlyTeachingJM: Boolean
+    class: [String]
   }
 
   extend type Query {
