@@ -77,7 +77,6 @@ const AssessmentSummaryPage = (): React.ReactElement => {
         body="Once you start, you may not exit the browser or it will end the test automatically."
         header="Begin the test?"
         isOpen={showBeginTestModal}
-        onCancel={() => setShowBeginTestModal(false)}
         onClose={() => setShowBeginTestModal(false)}
         onSubmit={handleStartTest}
       />

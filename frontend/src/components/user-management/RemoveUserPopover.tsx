@@ -42,11 +42,7 @@ const RemoveUserPopover = ({
       <PopoverContent borderColor="grey.300" borderRadius="12px" width="3xs">
         <PopoverBody>
           <VStack spacing="0em">
-            <RemoveUserModal
-              email={email}
-              name={name}
-              onCloseParent={onClose}
-            />
+            <RemoveUserModal email={email} name={name} />
             <Button
               bg="blue.200"
               mb={2}
