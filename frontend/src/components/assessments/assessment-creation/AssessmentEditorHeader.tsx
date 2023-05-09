@@ -1,5 +1,5 @@
 import React from "react";
-import { UseFormHandleSubmit } from "react-hook-form";
+import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
   Box,
@@ -23,6 +23,7 @@ import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import Popover from "../../common/Popover";
 import EditStatusButton from "../assessment-status/EditStatusButton";
+import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
 import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
@@ -30,8 +31,9 @@ interface AssessmentEditorHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
   isEditing: boolean;
-  onConfirmPublish: (data: TestRequest) => Promise<void>;
-  onSave: (data: TestRequest) => Promise<void>;
+  onConfirmArchive: SubmitHandler<TestRequest>;
+  onConfirmPublish: SubmitHandler<TestRequest>;
+  onSave: SubmitHandler<TestRequest>;
   onError: () => void;
   validateForm: () => boolean;
 }
@@ -40,6 +42,7 @@ const AssessmentEditorHeader = ({
   name,
   handleSubmit,
   isEditing,
+  onConfirmArchive,
   onConfirmPublish,
   onSave,
   onError,
@@ -48,15 +51,24 @@ const AssessmentEditorHeader = ({
   const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showArchiveModal, setShowArchiveModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
     }
   };
 
+  const onArchive = () => {
+    if (validateForm()) {
+      setShowArchiveModal(true);
+    }
+  };
+
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
+  const handleArchive = handleSubmit(onArchive, onError);
+  const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
 
   const {
     onOpen: onOpenPopover,
@@ -120,6 +132,15 @@ const AssessmentEditorHeader = ({
                     setShowDeleteModal(true);
                   }}
                 />
+                {isEditing && (
+                  <EditStatusButton
+                    name="Archive"
+                    onClick={() => {
+                      onClosePopover();
+                      handleArchive();
+                    }}
+                  />
+                )}
               </VStack>
             </Popover>
           </HStack>
@@ -134,6 +155,11 @@ const AssessmentEditorHeader = ({
         deleteAssessment={() => history.goBack()}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
+      />
+      <ArchiveModal
+        archiveAssessment={handleConfirmArchive}
+        isOpen={showArchiveModal}
+        onClose={() => setShowArchiveModal(false)}
       />
     </>
   );

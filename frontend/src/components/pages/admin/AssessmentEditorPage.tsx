@@ -144,6 +144,16 @@ const AssessmentEditorPage = (): React.ReactElement => {
     });
   };
 
+  const onArchiveChanges: SubmitHandler<TestRequest> = async (
+    data: TestRequest,
+  ) => {
+    onUpdateTest({
+      ...data,
+      status: Status.ARCHIVED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
@@ -168,6 +178,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
               handleSubmit={handleSubmit}
               isEditing={!!state}
               name={watch("name")}
+              onConfirmArchive={onArchiveChanges}
               onConfirmPublish={state ? onPublishChanges : onPublish}
               onError={onError}
               onSave={state ? onSaveChanges : onSave}
