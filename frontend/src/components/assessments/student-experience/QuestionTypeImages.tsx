@@ -30,11 +30,12 @@ const QuestionTypeImages = ({
                 _hover={{ outline: "1px solid #154472" }}
                 backgroundColor="blue.50"
                 borderRadius="10px"
-                padding="1.7em"
+                padding="20%"
               >
                 <Image
                   alt={typeToImageMetadata[type].alt}
                   src={typeToImageMetadata[type].src}
+                  width="100px"
                 />
               </Box>
             </Tooltip>

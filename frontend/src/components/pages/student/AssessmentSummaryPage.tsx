@@ -16,7 +16,6 @@ import StudentContext from "../../../contexts/StudentContext";
 import { getReadableDateTime } from "../../../utils/GeneralUtils";
 import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
-import ErrorState from "../../common/ErrorState";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const { test, testSession } = useContext(StudentContext);

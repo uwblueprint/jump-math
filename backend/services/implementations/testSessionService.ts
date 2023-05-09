@@ -62,7 +62,12 @@ class TestSessionService implements ITestSessionService {
       teacherDTO = await this.userService.getUserById(testSession.teacher);
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
-      if (testSession.startDate > testSession.endDate) {
+      const currentDate = new Date();
+
+      if (
+        testSession.startDate > testSession.endDate ||
+        currentDate > testSession.endDate
+      ) {
         throw new Error(`Test session start and end dates are not valid`);
       }
 

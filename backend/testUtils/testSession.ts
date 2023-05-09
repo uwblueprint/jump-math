@@ -95,11 +95,20 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
   },
 ];
 
-export const mockTestSessionWithInvalidDates: TestSessionDTO = {
+export const mockTestSessionWithInvalidStartDate: TestSessionDTO = {
   ...mockTestSession,
   accessCode: "123456",
-  startDate: new Date("2021-09-01T09:00:00.000Z"),
-  endDate: new Date("2020-09-02T09:00:00.000Z"),
+  startDate: new Date("2026-09-01T09:00:00.000Z"),
+  endDate: new Date("2024-09-02T09:00:00.000Z"),
+  notes:
+    "this is a note that a teacher wanted students to see before their test.",
+};
+
+export const mockTestSessionWithInvalidEndDate: TestSessionDTO = {
+  ...mockTestSession,
+  accessCode: "123456",
+  startDate: new Date("2020-08-01T09:00:00.000Z"),
+  endDate: new Date("2022-09-02T09:00:00.000Z"),
   notes:
     "this is a note that a teacher wanted students to see before their test.",
 };

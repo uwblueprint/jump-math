@@ -16,7 +16,8 @@ import {
   mockTestSessionWithExpiredStartDate,
   mockTestSessionWithExpiredEndDate,
   mockTestSessionsWithOneValid,
-  mockTestSessionWithInvalidDates,
+  mockTestSessionWithInvalidStartDate,
+  mockTestSessionWithInvalidEndDate,
 } from "../../../testUtils/testSession";
 import {
   TestSessionRequestDTO,
@@ -93,12 +94,22 @@ describe("mongo testSessionService", (): void => {
     );
   });
 
-  it("create test session with invalid dates", async () => {
+  it("create test session with invalid start date", async () => {
     const classObj: Class = await MgClass.create(testClassAfterCreation);
     await expect(async () => {
       await testSessionService.createTestSession(
         classObj.id,
-        mockTestSessionWithInvalidDates,
+        mockTestSessionWithInvalidStartDate,
+      );
+    }).rejects.toThrowError(`Test session start and end dates are not valid`);
+  });
+
+  it("create test session with invalid end date", async () => {
+    const classObj: Class = await MgClass.create(testClassAfterCreation);
+    await expect(async () => {
+      await testSessionService.createTestSession(
+        classObj.id,
+        mockTestSessionWithInvalidEndDate,
       );
     }).rejects.toThrowError(`Test session start and end dates are not valid`);
   });
