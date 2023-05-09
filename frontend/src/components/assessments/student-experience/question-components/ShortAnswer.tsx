@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@chakra-ui/react";
 
-const ShortAnswer = () => {
+const ShortAnswer = (): React.ReactElement => {
   return (
     <Input
       borderColor="grey.300"

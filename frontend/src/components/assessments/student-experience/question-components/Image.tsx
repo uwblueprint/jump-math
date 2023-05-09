@@ -1,8 +1,11 @@
 import React from "react";
-import { Image as Img } from "@chakra-ui/react";
+import { Image as ChakraImage } from "@chakra-ui/react";
 
-const Image = ({ url }: { url: string }) => {
-  return <Img m="auto" maxHeight="50vh" src={url} />;
+interface ImageProps {
+  url: string;
+}
+const Image = ({ url }: ImageProps): React.ReactElement => {
+  return <ChakraImage m="auto" maxHeight="50vh" src={url} />;
 };
 
 export default Image;

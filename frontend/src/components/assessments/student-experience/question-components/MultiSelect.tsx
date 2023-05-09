@@ -1,7 +1,10 @@
 import React from "react";
 import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
-const MultiSelect = ({ options }: { options: string[] }) => {
+interface MultiSelectProps {
+  options: string[];
+}
+const MultiSelect = ({ options }: MultiSelectProps): React.ReactElement => {
   return (
     <CheckboxGroup>
       <VStack alignItems="left" gap={3} ml={5}>

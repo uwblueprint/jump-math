@@ -1,7 +1,12 @@
 import React from "react";
 import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
 
-const MultipleChoice = ({ options }: { options: string[] }) => {
+interface MultipleChoiceProps {
+  options: string[];
+}
+const MultipleChoice = ({
+  options,
+}: MultipleChoiceProps): React.ReactElement => {
   return (
     <RadioGroup>
       <VStack alignItems="left" gap={3} ml={5}>
