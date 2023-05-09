@@ -1,7 +1,4 @@
-import MgTestSession, {
-  GradingStatus,
-  Result,
-} from "../models/testSession.model";
+import MgTestSession, { Result } from "../models/testSession.model";
 import {
   ResultRequestDTO,
   ResultResponseDTO,
@@ -21,10 +18,7 @@ type TestSessionDTO = TestSessionRequestDTO & {
  */
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
-  score: null,
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
-  breakdown: [],
-  gradingStatus: GradingStatus.UNGRADED,
 };
 
 export const mockGradedTestResult: ResultResponseDTO = {
@@ -32,7 +26,6 @@ export const mockGradedTestResult: ResultResponseDTO = {
   score: 80.0,
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
   breakdown: [[true, true, true, true], [false]],
-  gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult2: ResultResponseDTO = {
@@ -40,7 +33,6 @@ export const mockGradedTestResult2: ResultResponseDTO = {
   score: 40.0,
   answers: [[[0], [3], [1, 2], [5, 4]], [[7]]],
   breakdown: [[false, false, true, false], [true]],
-  gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult3: ResultResponseDTO = {
@@ -48,7 +40,6 @@ export const mockGradedTestResult3: ResultResponseDTO = {
   score: 80.0,
   answers: [[[3], [0], [1, 2]], [[7]]],
   breakdown: [[true, true, true, false], [true]],
-  gradingStatus: GradingStatus.GRADED,
 };
 
 export const mockGradedTestResult4: ResultResponseDTO = {
@@ -56,7 +47,6 @@ export const mockGradedTestResult4: ResultResponseDTO = {
   score: 20.0,
   answers: [[[1.5], [1], [3]], [[7]]],
   breakdown: [[false, false, false, false], [true]],
-  gradingStatus: GradingStatus.GRADED,
 };
 
 /**
@@ -129,7 +119,6 @@ export const mockTestSessions: TestSessionDTO[] = [
       mockGradedTestResult,
       mockGradedTestResult2,
       mockGradedTestResult3,
-      mockUngradedTestResult,
     ],
   },
   {
@@ -147,7 +136,6 @@ export const mockTestSessions: TestSessionDTO[] = [
     school: mockSchoolWithId2.id,
     results: [
       mockGradedTestResult3,
-      mockUngradedTestResult,
       mockGradedTestResult4,
       mockGradedTestResult,
     ],
@@ -176,7 +164,6 @@ export const mockTestSessionsWithEvenNumberOfResults: TestSessionDTO[] = [
       mockGradedTestResult,
       mockGradedTestResult2,
       mockGradedTestResult3,
-      mockUngradedTestResult,
       mockGradedTestResult,
       mockGradedTestResult4,
     ],
@@ -208,7 +195,7 @@ export const assertResponseMatchesExpected = (
 };
 
 export const assertResultsResponseMatchesExpected = (
-  expected: Array<ResultRequestDTO>,
+  expected: Array<ResultResponseDTO>,
   result: Array<ResultResponseDTO>,
 ): void => {
   expect(result.length).toEqual(expected.length);
@@ -217,7 +204,6 @@ export const assertResultsResponseMatchesExpected = (
     expect(Array.from(res.answers)).toEqual(expected[i].answers);
     expect(Array.from(res.breakdown)).toEqual(expected[i].breakdown);
     expect(res.score).toEqual(expected[i].score);
-    expect(Number(res.gradingStatus)).toEqual(expected[i].gradingStatus);
   });
 };
 

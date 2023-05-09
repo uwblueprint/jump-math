@@ -1,7 +1,4 @@
-import MgTestSession, {
-  GradingStatus,
-  TestSession,
-} from "../../models/testSession.model";
+import MgTestSession, { TestSession } from "../../models/testSession.model";
 import MgClass, { Class } from "../../models/class.model";
 import {
   ITestSessionService,
@@ -243,7 +240,6 @@ class TestSessionService implements ITestSessionService {
                   score: testSessionResult.score,
                   answers: testSessionResult.answers,
                   breakdown: testSessionResult.breakdown,
-                  gradingStatus: testSessionResult.gradingStatus,
                 };
               })
             : [],
@@ -414,7 +410,6 @@ class TestSessionService implements ITestSessionService {
         score: computedScore,
         answers: result.answers,
         breakdown: computedBreakdown,
-        gradingStatus: GradingStatus.GRADED,
       };
     } catch (error: unknown) {
       Logger.error(

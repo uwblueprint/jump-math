@@ -27,18 +27,14 @@ const testSessionService: ITestSessionService = new TestSessionService(
 
 const testSessionResolvers = {
   NumberOrArrayOrNull: new GraphQLScalarType({
-    name: "NumberOrArrayOrNull",
-    description: "A Number or An Array or Null",
+    name: "NumberArray",
+    description: "An array of numbers",
     serialize(value) {
-      if (
-        typeof value === null ||
-        validatePrimitive(value, "number") ||
-        validateArray(value, "number")
-      ) {
+      if (validateArray(value, "number")) {
         return value;
       }
       throw new Error(
-        "The 'answers' field under 'results' must be an array containing only numbers, number arrays, and/or nulls.",
+        "The 'answers' field under 'results' must be an array containing only numbers.",
       );
     },
     // parseValue and parseLiteral will need to be created for creating test sessions mutation

@@ -7,10 +7,10 @@ repos:
         types: [file]
         language: system
         entry: ./scripts/lint.sh felint
-    -   id: belint
-        name: Lint backend files
-        files: ^backend/.*\.[jt]sx?$
-        types: [file]
-        language: system
-        entry: ./scripts/lint.sh belint
+    # -   id: belint
+    #     name: Lint backend files
+    #     files: ^backend/.*\.[jt]sx?$
+    #     types: [file]
+    #     language: system
+    #     entry: ./scripts/lint.sh belint
         

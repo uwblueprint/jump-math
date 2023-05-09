@@ -1,29 +1,20 @@
 import { gql } from "apollo-server-express";
 
 const testSessionType = gql`
-  enum GradingStatus {
-    GRADED
-    UNGRADED
-  }
-
   scalar Date
 
-  scalar NumberOrArrayOrNull
+  scalar NumberArray
 
   type ResultResponseDTO {
     student: String!
     score: Float
     answers: [NumberOrArrayOrNull]!
     breakdown: [[Boolean]]!
-    gradingStatus: GradingStatus!
   }
 
   input ResultRequestDTO {
     student: String!
-    score: Float
-    answers: NumberOrArrayOrNull
-    breakdown: [[Boolean]]!
-    gradingStatus: GradingStatus!
+    answers: [NumberArray]!
   }
 
   type TestSessionResponseDTO {
@@ -42,7 +33,6 @@ const testSessionType = gql`
     teacher: ID!
     school: ID!
     gradeLevel: Int!
-    results: [ResultRequestDTO]
     accessCode: String!
     startTime: Date!
   }

@@ -1,4 +1,3 @@
-import { GradingStatus } from "../../models/testSession.model";
 import { UserDTO } from "../../types";
 import { SchoolResponseDTO } from "./schoolService";
 import { TestResponseDTO } from "./testService";
@@ -55,8 +54,6 @@ export interface TestSessionResponseDTO {
 export interface ResultRequestDTO {
   /** the id of the student */
   student: string;
-  /** the score of the student */
-  score: number | null;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
@@ -67,13 +64,6 @@ export interface ResultRequestDTO {
    * - [] for no answer
    */
   answers: number[][][];
-  /**
-   * a list corresponding to the question list with each fielding indicating
-   * whether the student got the question right or not
-   * */
-  breakdown: boolean[][];
-  /** the grading status of a result - either graded or ungraded (default) */
-  gradingStatus: GradingStatus;
 }
 
 /**
@@ -84,7 +74,7 @@ export interface ResultResponseDTO {
   /** the id of the student */
   student: string;
   /** the score of the student */
-  score: number | null;
+  score: number;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
@@ -100,8 +90,6 @@ export interface ResultResponseDTO {
    * whether the student got the question right or not
    * */
   breakdown: boolean[][];
-  /** the grading status of a result - either graded or ungraded (default) */
-  gradingStatus: GradingStatus;
 }
 
 export interface ITestSessionService {
