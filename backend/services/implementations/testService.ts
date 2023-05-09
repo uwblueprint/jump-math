@@ -33,7 +33,7 @@ class TestService implements ITestService {
   /* eslint-disable class-methods-use-this */
   async createTest(test: TestRequestDTO): Promise<TestResponseDTO> {
     let newTest: Test | null;
-    let questions: QuestionComponent[][];
+    let questions: QuestionComponent[][] = [];
 
     try {
       questions = await this.uploadImages(test.questions);
@@ -42,6 +42,16 @@ class TestService implements ITestService {
         questions,
       });
     } catch (error) {
+      // rollback image upload in GCP
+      try {
+        await this.deleteImages(questions);
+      } catch (error) {
+        Logger.error(
+          `Failed to rollback image upload after test creation failure. Reason = ${getErrorMessage(
+            error,
+          )}`,
+        );
+      }
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
@@ -326,6 +336,15 @@ class TestService implements ITestService {
     return this.processImages<ImageMetadataRequest>(
       questions,
       this.imageUploadService.uploadImage.bind(this.imageUploadService),
+    );
+  }
+
+  private async deleteImages(
+    questions: QuestionComponent[][],
+  ): Promise<QuestionComponent[][]> {
+    return this.processImages<ImageMetadata>(
+      questions,
+      this.imageUploadService.deleteImage.bind(this.imageUploadService),
     );
   }
 
