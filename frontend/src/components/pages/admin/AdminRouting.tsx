@@ -17,7 +17,7 @@ const pages: Page[] = [
   { title: "Database", url: Routes.USER_DATABASE_PAGE },
 ];
 
-const AdminDashboard = (): React.ReactElement => {
+const AdminRouting = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
@@ -55,4 +55,4 @@ const AdminDashboard = (): React.ReactElement => {
   );
 };
 
-export default AdminDashboard;
+export default AdminRouting;

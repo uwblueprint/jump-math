@@ -22,19 +22,21 @@ const testSessionType = gql`
     test: TestResponseDTO!
     teacher: UserDTO!
     school: SchoolResponseDTO!
-    gradeLevel: Int!
     results: [ResultResponseDTO]
     accessCode: String!
-    startTime: Date!
+    startDate: Date!
+    endDate: Date!
+    notes: String
   }
 
   input TestSessionRequestDTO {
     test: ID!
     teacher: ID!
     school: ID!
-    gradeLevel: Int!
     accessCode: String!
-    startTime: Date!
+    startDate: Date!
+    endDate: Date!
+    notes: String
   }
 
   extend type Query {

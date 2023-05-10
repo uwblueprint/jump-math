@@ -14,13 +14,11 @@ import Toast from "../common/Toast";
 interface RemoveUserModalProps {
   name: string;
   email: string;
-  onCloseParent: () => void;
 }
 
 const RemoveUserModal = ({
   name,
   email,
-  onCloseParent,
 }: RemoveUserModalProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [removeUser, { error }] = useMutation<{ removeUser: null }>(
@@ -65,10 +63,6 @@ const RemoveUserModal = ({
         body={`Are you sure you want to remove ${name}?`}
         header="Remove User"
         isOpen={isOpen}
-        onCancel={() => {
-          onCloseParent();
-          onClose();
-        }}
         onClose={onClose}
         onSubmit={onRemoveUserClick}
       />

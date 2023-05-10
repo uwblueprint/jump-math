@@ -11,6 +11,7 @@ import { Select, SingleValue } from "chakra-react-select";
 
 import { GET_CLASS_BY_TEST_SESSION } from "../../../APIClients/queries/ClassQueries";
 import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
+import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { HOME_PAGE, STUDENT_LANDING_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
@@ -20,23 +21,22 @@ import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 interface NameSelectionProps {
   testId: string;
-  testSessionId: string;
+  testSession: TestSessionMetadata;
 }
 
 const NameSelection = ({
   testId,
-  testSessionId,
+  testSession,
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
   const [students, setStudents] = useState<StudentResponse[]>([]);
+  const [className, setClassName] = useState("");
   const { loading, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
-    variables: { testSessionId },
+    variables: { testSessionId: testSession.id },
     onCompleted: () => {
-      setStudents(
-        data.classByTestSession.students.map(
-          (student: StudentResponse) => student,
-        ),
-      );
+      const result = data.classByTestSession;
+      setStudents(result.students.map((student: StudentResponse) => student));
+      setClassName(result.className);
     },
   });
 
@@ -91,7 +91,8 @@ const NameSelection = ({
               pathname: STUDENT_LANDING_PAGE,
               state: {
                 testId,
-                testSessionId,
+                testSession,
+                className,
               },
             });
           }
