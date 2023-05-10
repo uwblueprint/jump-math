@@ -1,6 +1,6 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { HStack } from "@chakra-ui/react";
+import { Box, Center, HStack } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../types/ClassroomTypes";
@@ -8,6 +8,10 @@ import StudentDashboardHeader from "../assessments/assessment-creation/StudentDa
 import ClassroomCard from "../classrooms/ClassroomCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
+import { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
+import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
+import DisplayQuestion from "../assessments/student-experience/Question";
 
 import MobileRedirect from "./MobileRedirect";
 
@@ -16,6 +20,62 @@ const defaultValues = {
   schoolYear: "",
   gradeLevel: Grade.K,
 } as ClassroomForm;
+
+const MOCK_DATA: QuestionComponentResponse[] = [
+  {
+    type: QuestionElementType.QUESTION_TEXT,
+    metadata: {
+      questionText:
+        "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples. How much do they each have left now?",
+      __typename: "QuestionTextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.IMAGE,
+    metadata: {
+      filePath: "",
+      url: "https://wallpapers.com/images/featured/brtwwfga72pilv0j.jpg",
+      __typename: "ImageMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.TEXT,
+    metadata: {
+      text: "How many apples can you eat?",
+      __typename: "TextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.SHORT_ANSWER,
+    metadata: {
+      answer: 5,
+      __typename: "ShortAnswerMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.MULTIPLE_CHOICE,
+    metadata: {
+      options: ["First", "Second", "Third", "Fourth"],
+      answerIndex: 2,
+      __typename: "MultipleChoiceMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.TEXT,
+    metadata: {
+      text: "How many pears can you eat?",
+      __typename: "TextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.MULTI_SELECT,
+    metadata: {
+      options: ["One", "Two", "Three", "Four", "Five"],
+      answerIndex: 0,
+      __typename: "MultiSelectMetadata",
+    },
+  },
+];
 
 const ComponentLibrary = (): React.ReactElement => {
   const methods = useForm<ClassroomForm>({
@@ -47,7 +107,12 @@ const ComponentLibrary = (): React.ReactElement => {
         <AddClassroomModal />
         <AddStudentModal />
       </HStack>
-    </FormProvider>
+      <Center>
+        <Box w="60%">
+          <DisplayQuestion questionComponents={MOCK_DATA} />
+        </Box>
+      </Center>
+   </FormProvider>
   );
 };
 
