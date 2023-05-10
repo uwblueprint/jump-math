@@ -5,7 +5,7 @@ const testSessionType = gql`
 
   type ResultResponseDTO {
     student: String!
-    score: Float
+    score: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
