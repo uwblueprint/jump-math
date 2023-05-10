@@ -46,7 +46,6 @@ const UnarchiveModal = ({
       body="View this assessment under drafts once you unarchive it"
       header="Unarchive Assessment"
       isOpen={isOpen}
-      onCancel={onClose}
       onClose={onClose}
       onSubmit={onUnarchiveAssessment}
       submitButtonText="Unarchive"

@@ -14,7 +14,7 @@ import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
 
-const StudentDashboard = (): React.ReactElement => {
+const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{
     testId: string;
     testSession: TestSessionMetadata;
@@ -79,4 +79,4 @@ const StudentDashboard = (): React.ReactElement => {
   );
 };
 
-export default StudentDashboard;
+export default StudentRouting;

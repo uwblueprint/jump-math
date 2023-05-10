@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -16,6 +16,7 @@ import StudentContext from "../../../contexts/StudentContext";
 import { getReadableDateTime } from "../../../utils/GeneralUtils";
 import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
+import Modal from "../../common/Modal";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const { test, testSession } = useContext(StudentContext);
@@ -25,6 +26,11 @@ const AssessmentSummaryPage = (): React.ReactElement => {
   const handleBackToHome = () => {
     setAuthenticatedUser(null);
     history.push(HOME_PAGE);
+  };
+
+  const [showBeginTestModal, setShowBeginTestModal] = useState(false);
+  const handleStartTest = () => {
+    console.log("placeholder");
   };
 
   return (
@@ -69,11 +75,23 @@ const AssessmentSummaryPage = (): React.ReactElement => {
               <Button onClick={handleBackToHome} variant="secondary">
                 Back to Home
               </Button>
-              <Button variant="primary">Start Test</Button>
+              <Button
+                onClick={() => setShowBeginTestModal(true)}
+                variant="primary"
+              >
+                Start Test
+              </Button>
             </HStack>
           </VStack>
         </HStack>
       )}
+      <Modal
+        body="Once you start, you may not exit the browser or it will end the test automatically."
+        header="Begin the test?"
+        isOpen={showBeginTestModal}
+        onClose={() => setShowBeginTestModal(false)}
+        onSubmit={handleStartTest}
+      />
     </>
   );
 };
