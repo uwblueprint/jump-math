@@ -3,18 +3,16 @@ import { gql } from "apollo-server-express";
 const testSessionType = gql`
   scalar Date
 
-  scalar NumberArray
-
   type ResultResponseDTO {
     student: String!
     score: Float
-    answers: [NumberOrArrayOrNull]!
+    answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
 
   input ResultRequestDTO {
     student: String!
-    answers: [NumberArray]!
+    answers: [[[Float]]]!
   }
 
   type TestSessionResponseDTO {
