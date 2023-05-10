@@ -24,7 +24,6 @@ const DeleteModal = ({
       cancelButtonVariant="deleteCancel"
       header="Delete Assessment"
       isOpen={isOpen}
-      onCancel={onClose}
       onClose={onClose}
       onSubmit={onDeleteAssessment}
       submitButtonText="Delete"
