@@ -173,6 +173,29 @@ class TestSessionService implements ITestSessionService {
     return testSessionDtos;
   }
 
+  async getTestSessionsBySchoolId(
+    schoolId: string,
+  ): Promise<TestSessionResponseDTO[]> {
+    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+
+    try {
+      const testSessions: TestSession[] = await MgTestSession.find({
+        school: { $eq: schoolId },
+      });
+
+      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
+        testSessions,
+      );
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return testSessionDtos;
+  }
+
   async getTestSessionsByTeacherId(
     teacherId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
@@ -219,47 +242,6 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return testSessionDtos;
-  }
-
-  private async mapTestSessionsToTestSessionDTOs(
-    testSessions: Array<TestSession>,
-  ): Promise<Array<TestSessionResponseDTO>> {
-    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
-      testSessions.map(async (testSession) => {
-        const testDTO: TestResponseDTO = await this.testService.getTestById(
-          testSession.test,
-        );
-        const teacherDTO: UserDTO = await this.userService.getUserById(
-          testSession.teacher,
-        );
-        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
-          testSession.school,
-        );
-
-        return {
-          id: testSession.id,
-          test: testDTO,
-          teacher: teacherDTO,
-          school: schoolDTO,
-          results: testSession.results
-            ? testSession.results.map((testSessionResult) => {
-                return {
-                  student: testSessionResult.student,
-                  score: testSessionResult.score,
-                  answers: testSessionResult.answers,
-                  breakdown: testSessionResult.breakdown,
-                };
-              })
-            : [],
-          accessCode: testSession.accessCode,
-          startDate: testSession.startDate,
-          endDate: testSession.endDate,
-          notes: testSession.notes,
-        };
-      }),
-    );
 
     return testSessionDtos;
   }
@@ -331,25 +313,43 @@ class TestSessionService implements ITestSessionService {
     )[0];
   }
 
-  async getTestSessionsBySchoolId(
-    schoolId: string,
-  ): Promise<TestSessionResponseDTO[]> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+  private async mapTestSessionsToTestSessionDTOs(
+    testSessions: Array<TestSession>,
+  ): Promise<Array<TestSessionResponseDTO>> {
+    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
+      testSessions.map(async (testSession) => {
+        const testDTO: TestResponseDTO = await this.testService.getTestById(
+          testSession.test,
+        );
+        const teacherDTO: UserDTO = await this.userService.getUserById(
+          testSession.teacher,
+        );
+        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
+          testSession.school,
+        );
 
-    try {
-      const testSessions: TestSession[] = await MgTestSession.find({
-        school: { $eq: schoolId },
-      });
-
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
+        return {
+          id: testSession.id,
+          test: testDTO,
+          teacher: teacherDTO,
+          school: schoolDTO,
+          results: testSession.results
+            ? testSession.results.map((testSessionResult) => {
+                return {
+                  student: testSessionResult.student,
+                  score: testSessionResult.score,
+                  answers: testSessionResult.answers,
+                  breakdown: testSessionResult.breakdown,
+                };
+              })
+            : [],
+          accessCode: testSession.accessCode,
+          startDate: testSession.startDate,
+          endDate: testSession.endDate,
+          notes: testSession.notes,
+        };
+      }),
+    );
 
     return testSessionDtos;
   }
@@ -357,7 +357,7 @@ class TestSessionService implements ITestSessionService {
   /*
    * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
    */
-  async gradeTestResult(
+  private async gradeTestResult(
     result: ResultRequestDTO,
     testSessionId: string,
   ): Promise<ResultResponseDTO> {
@@ -382,7 +382,7 @@ class TestSessionService implements ITestSessionService {
    * computeTestGrades computes the breakdown and score of a given
    * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
    */
-  async computeTestGrades(
+  private async computeTestGrades(
     result: ResultRequestDTO,
     testId: string,
   ): Promise<ResultResponseDTO> {
