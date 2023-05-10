@@ -13,7 +13,7 @@ import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
 
-const StudentDashboard = (): React.ReactElement => {
+const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{ testId: string; testSessionId: string }>();
   const [testId, setTestId] = useState("");
   const [testSessionId, setTestSessionId] = useState("");
@@ -63,4 +63,4 @@ const StudentDashboard = (): React.ReactElement => {
   );
 };
 
-export default StudentDashboard;
+export default StudentRouting;
