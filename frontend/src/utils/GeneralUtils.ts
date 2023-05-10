@@ -25,6 +25,18 @@ export const getCurrentDate = (): string => {
   return date.toLocaleDateString("en-US", options);
 };
 
+export const getReadableDateTime = (input: Date): string => {
+  const date = new Date(input);
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  return `${date.toLocaleString("en-US", options)} at ${date.toLocaleTimeString(
+    "en-US",
+  )}`;
+};
+
 export function sortArrayAscending<Type extends Record<string, string>>(
   array: Type[],
   sortProperty: string,
