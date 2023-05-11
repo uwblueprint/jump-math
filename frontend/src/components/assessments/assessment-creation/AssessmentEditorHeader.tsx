@@ -125,13 +125,6 @@ const AssessmentEditorHeader = ({
                 divider={<Divider borderColor="grey.200" />}
                 spacing="0em"
               >
-                <EditStatusButton
-                  name="Delete"
-                  onClick={() => {
-                    onClosePopover();
-                    setShowDeleteModal(true);
-                  }}
-                />
                 {isEditing && (
                   <EditStatusButton
                     name="Archive"
@@ -141,6 +134,13 @@ const AssessmentEditorHeader = ({
                     }}
                   />
                 )}
+                <EditStatusButton
+                  name="Delete"
+                  onClick={() => {
+                    onClosePopover();
+                    setShowDeleteModal(true);
+                  }}
+                />
               </VStack>
             </Popover>
           </HStack>
