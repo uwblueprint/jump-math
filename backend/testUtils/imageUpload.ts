@@ -17,6 +17,7 @@ const createReadStream = () =>
 export const imageUpload: ImageMetadataRequest = {
   previewUrl: "data:image/png;base64,base64",
   file: new Promise((r) =>
+    /* eslint-disable-next-line no-promise-executor-return */
     r({
       createReadStream,
       filename,
@@ -29,6 +30,7 @@ export const imageUpload: ImageMetadataRequest = {
 export const invalidImageUpload: ImageMetadataRequest = {
   previewUrl: "data:text/plain;base64,base64",
   file: new Promise((r) =>
+    /* eslint-disable-next-line no-promise-executor-return */
     r({
       createReadStream,
       filename,
