@@ -42,7 +42,7 @@
     "sequelize": "^6.29.0",
     "sequelize-typescript": "^2.1.0",
     "swagger-ui-express": "^4.1.6",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.8.1",
     "umzug": "^3.0.0-beta.16",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
@@ -74,7 +74,7 @@
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.1.5"
+    "typescript": "^4.9.5"
   },
   "resolutions": {
     "fs-capacitor": "^6.2.0",
