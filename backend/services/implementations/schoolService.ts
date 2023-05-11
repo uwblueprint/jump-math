@@ -96,9 +96,8 @@ class SchoolService implements ISchoolService {
   ): Promise<Array<SchoolResponseDTO>> {
     return Promise.all(
       schools.map(async (school) => {
-        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
-          school.teachers,
-        );
+        const teacherDTOs: Array<UserDTO> =
+          await this.userService.findAllUsersByIds(school.teachers);
 
         return {
           id: school.id,
