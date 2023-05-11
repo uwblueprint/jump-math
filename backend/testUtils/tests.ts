@@ -24,8 +24,7 @@ const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
       {
         type: QuestionComponentType.TEXT,
         metadata: {
-          text:
-            "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+          text: "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
         },
       },
       {
@@ -96,18 +95,15 @@ const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
 };
 
 export const imageMetadata: ImageMetadata = {
-  url:
-    "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
+  url: "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
   filePath: "assessment-images/test.png",
 };
 
-export const questions: Array<Array<QuestionComponent>> = getQuestions(
-  imageMetadata,
-);
+export const questions: Array<Array<QuestionComponent>> =
+  getQuestions(imageMetadata);
 
-export const questionsRequest: Array<
-  Array<QuestionComponentRequest>
-> = getQuestions(imageUpload);
+export const questionsRequest: Array<Array<QuestionComponentRequest>> =
+  getQuestions(imageUpload);
 
 export const mockTestRequest: TestRequestDTO = {
   name: "test",

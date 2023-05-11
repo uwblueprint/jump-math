@@ -1,4 +1,3 @@
-import { GradingStatus } from "../../models/testSession.model";
 import { UserDTO } from "../../types";
 import { SchoolResponseDTO } from "./schoolService";
 import { TestResponseDTO } from "./testService";
@@ -14,12 +13,14 @@ export interface TestSessionRequestDTO {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
-  /** the grade level that is being tested */
-  gradeLevel: number;
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**
@@ -35,8 +36,6 @@ export interface TestSessionResponseDTO {
   teacher: UserDTO;
   /** the school that's administering the test from the School collection */
   school: SchoolResponseDTO;
-  /** the grade level that is being tested */
-  gradeLevel: number;
   /**
    * the result of the test session
    * there should be one entry here per student
@@ -44,8 +43,12 @@ export interface TestSessionResponseDTO {
   results: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**
@@ -55,8 +58,6 @@ export interface TestSessionResponseDTO {
 export interface ResultRequestDTO {
   /** the id of the student */
   student: string;
-  /** the score of the student */
-  score: number | null;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
@@ -67,13 +68,6 @@ export interface ResultRequestDTO {
    * - [] for no answer
    */
   answers: number[][][];
-  /**
-   * a list corresponding to the question list with each fielding indicating
-   * whether the student got the question right or not
-   * */
-  breakdown: boolean[][];
-  /** the grading status of a result - either graded or ungraded (default) */
-  gradingStatus: GradingStatus;
 }
 
 /**
@@ -84,7 +78,7 @@ export interface ResultResponseDTO {
   /** the id of the student */
   student: string;
   /** the score of the student */
-  score: number | null;
+  score: number;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
@@ -100,8 +94,6 @@ export interface ResultResponseDTO {
    * whether the student got the question right or not
    * */
   breakdown: boolean[][];
-  /** the grading status of a result - either graded or ungraded (default) */
-  gradingStatus: GradingStatus;
 }
 
 export interface ITestSessionService {
@@ -124,6 +116,7 @@ export interface ITestSessionService {
    * @throws Error if retrieval fails
    */
   getTestSessionById(id: string): Promise<TestSessionResponseDTO>;
+
   /**
    * get a TestSession with the given access code
    * @param accessCode TestSession access code
@@ -133,13 +126,15 @@ export interface ITestSessionService {
   getTestSessionByAccessCode(
     accessCode: string,
   ): Promise<TestSessionResponseDTO>;
-  /*
+
+  /**
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id
    * @throws Error if deletion fails
    */
   deleteTestSession(id: string): Promise<string>;
+
   /**
    * This method fetches all the test sessions from the database.
    */
@@ -152,7 +147,7 @@ export interface ITestSessionService {
     schoolId: string,
   ): Promise<TestSessionResponseDTO[]>;
 
-  /* This method fetches all the test sessions that have the provided test ID.
+  /**
    * This method retrieves all TestSessions associated with the given teacherId
    * @param teacherId the teacher id associated with the test session
    * @returns returns array of requested TestSessionResponseDTO
@@ -181,5 +176,17 @@ export interface ITestSessionService {
   updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
+  ): Promise<TestSessionResponseDTO>;
+
+  /**
+   * Create and add a result to the given test session
+   * @param id The unique identifier of the test session to update
+   * @param result The object containing the result to create
+   * @returns The updated test session
+   * @throws Error if test session is not found or update fails
+   */
+  createTestSessionResult(
+    id: string,
+    result: ResultRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 }
