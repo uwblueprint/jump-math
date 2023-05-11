@@ -1,12 +1,15 @@
 import React from "react";
-import { UseFormHandleSubmit } from "react-hook-form";
+import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -18,14 +21,20 @@ import {
 } from "../../../assets/icons";
 import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
+import Popover from "../../common/Popover";
+import EditStatusButton from "../assessment-status/EditStatusButton";
+import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
+import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
   isEditing: boolean;
-  onConfirmPublish: (data: TestRequest) => Promise<void>;
-  onSave: (data: TestRequest) => Promise<void>;
+  onConfirmArchive: SubmitHandler<TestRequest>;
+  onConfirmPublish: SubmitHandler<TestRequest>;
+  onDelete: SubmitHandler<TestRequest>;
+  onSave: SubmitHandler<TestRequest>;
   onError: () => void;
   validateForm: () => boolean;
 }
@@ -34,21 +43,43 @@ const AssessmentEditorHeader = ({
   name,
   handleSubmit,
   isEditing,
+  onConfirmArchive,
   onConfirmPublish,
+  onDelete,
   onSave,
   onError,
   validateForm,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
+  const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showArchiveModal, setShowArchiveModal] = React.useState(false);
+
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
     }
   };
 
+  const onArchive = () => {
+    if (validateForm()) {
+      setShowArchiveModal(true);
+    }
+  };
+
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
+  const handleArchive = handleSubmit(onArchive, onError);
+  const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
+  const handleDelete = handleSubmit(onDelete, onError);
+  const handleCloseEditor = () => history.goBack();
+
+  const {
+    onOpen: onOpenPopover,
+    isOpen: popoverIsOpen,
+    onClose: onClosePopover,
+  } = useDisclosure();
 
   return (
     <>
@@ -90,6 +121,33 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </Button>
+            <Popover
+              isOpen={popoverIsOpen}
+              onClose={onClosePopover}
+              onOpen={onOpenPopover}
+            >
+              <VStack
+                divider={<Divider borderColor="grey.200" />}
+                spacing="0em"
+              >
+                {isEditing && (
+                  <EditStatusButton
+                    name="Archive"
+                    onClick={() => {
+                      onClosePopover();
+                      handleArchive();
+                    }}
+                  />
+                )}
+                <EditStatusButton
+                  name="Delete"
+                  onClick={() => {
+                    onClosePopover();
+                    setShowDeleteModal(true);
+                  }}
+                />
+              </VStack>
+            </Popover>
           </HStack>
         </Flex>
       </Box>
@@ -97,6 +155,16 @@ const AssessmentEditorHeader = ({
         isOpen={showPublishModal}
         onClose={() => setShowPublishModal(false)}
         publishAssessment={handleConfirmPublish}
+      />
+      <ArchiveModal
+        archiveAssessment={handleConfirmArchive}
+        isOpen={showArchiveModal}
+        onClose={() => setShowArchiveModal(false)}
+      />
+      <DeleteModal
+        deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
       />
     </>
   );

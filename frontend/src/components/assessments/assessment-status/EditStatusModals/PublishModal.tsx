@@ -23,7 +23,6 @@ const PublishModal = ({
       body="Once this is published, teachers will be able to distribute this assessment to their students."
       header="Publish Assessment"
       isOpen={isOpen}
-      onCancel={onClose}
       onClose={onClose}
       onSubmit={onPublishAssessment}
       submitButtonText="Publish"

@@ -1,5 +1,4 @@
 import { FilterQuery, Types } from "mongoose";
-import { GradingStatus } from "../models/testSession.model";
 
 type GroupResultsByIdReturnType = {
   $group: {
@@ -16,17 +15,6 @@ export const filterTestsByTestId = (
   return {
     $match: { test: { $eq: Types.ObjectId(testId) } },
   };
-};
-
-// Filter out results that are not graded
-export const filterUngradedTests = {
-  $filter: {
-    input: "$results",
-    as: "results",
-    cond: {
-      $eq: ["$$results.gradingStatus", GradingStatus.GRADED.toString()],
-    },
-  },
 };
 
 // Unwind on the results field so that there is a document for each student result
