@@ -2,9 +2,7 @@ import StatisticService from "../statisticService";
 
 import db from "../../../testUtils/testDb";
 
-import MgTestSession, {
-  GradingStatus,
-} from "../../../models/testSession.model";
+import MgTestSession from "../../../models/testSession.model";
 import {
   createTestSessionWithSchoolAndResults,
   mockTestSessions,
@@ -46,22 +44,12 @@ describe("mongo statisticService", (): void => {
         score: 0,
         answers: [[[10.5]]],
         breakdown: [[false]],
-        gradingStatus: GradingStatus.GRADED,
       },
       {
         student: "some-student-name",
         score: 100,
         answers: [[[11.5]]],
         breakdown: [[true]],
-        gradingStatus: GradingStatus.GRADED,
-      },
-      // ungraded results get filtered out
-      {
-        student: "some-student-name",
-        score: 0,
-        answers: [[[]]],
-        breakdown: [],
-        gradingStatus: GradingStatus.UNGRADED,
       },
     ];
     // create test session with specified school and results

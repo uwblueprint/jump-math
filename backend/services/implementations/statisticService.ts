@@ -7,7 +7,6 @@ import {
 import {
   countTestSubmissions,
   filterTestsByTestId,
-  filterUngradedTests,
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
@@ -24,12 +23,6 @@ class StatisticService implements IStatisticService {
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-          school: 1,
-        },
-      },
       unwindResults,
       joinSchoolIdWithSchoolDocument,
       groupResultsById("$school.country"),
@@ -45,12 +38,6 @@ class StatisticService implements IStatisticService {
   ): Promise<Map<string, TestStatistic>> {
     const pipeline = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-          school: 1,
-        },
-      },
       unwindResults,
       groupResultsById("$school"),
     ];
@@ -64,11 +51,6 @@ class StatisticService implements IStatisticService {
   async getSubmissionCountByTest(testId: string): Promise<number> {
     const pipeline = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       countTestSubmissions,
     ];
@@ -81,11 +63,6 @@ class StatisticService implements IStatisticService {
   async getMeanScoreByTest(testId: string): Promise<number> {
     const pipeline = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       {
         $group: {
@@ -103,11 +80,6 @@ class StatisticService implements IStatisticService {
   async getMedianScoreByTest(testId: string): Promise<number> {
     const pipeline = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       {
         $project: {
