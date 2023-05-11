@@ -17,8 +17,8 @@ export const DUPLICATE_TEST = gql`
 `;
 
 export const DELETE_TEST = gql`
-  mutation DeleteTestById($id: ID!) {
-    deleteTestById(id: $id)
+  mutation DeleteTest($id: ID!) {
+    deleteTest(id: $id)
   }
 `;
 
@@ -38,9 +38,17 @@ export const ARCHIVE_TEST = gql`
   }
 `;
 
-export const CREATE_NEW_ASSESSMENT = gql`
-  mutation Create_Test($test: TestRequestDTO!) {
+export const CREATE_NEW_TEST = gql`
+  mutation CreateTest($test: TestRequestDTO!) {
     createTest(test: $test) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_TEST = gql`
+  mutation UpdateTest($id: ID!, $test: TestRequestDTO!) {
+    updateTest(id: $id, test: $test) {
       id
     }
   }

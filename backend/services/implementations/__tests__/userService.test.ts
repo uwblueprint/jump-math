@@ -3,10 +3,12 @@ import UserService from "../userService";
 import SchoolModel, { School } from "../../../models/school.model";
 import TestSessionModel from "../../../models/testSession.model";
 import { UserDTO, TeacherDTO, Grade } from "../../../types";
+import ClassModel from "../../../models/class.model";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
 import { mockTestSessions } from "../../../testUtils/testSession";
+import { testClass } from "../../../testUtils/class";
 
 const testUsers = [
   {
@@ -154,6 +156,18 @@ describe("mongo userService", (): void => {
         },
       ];
       await TestSessionModel.insertMany(updatedTestSessions);
+
+      const updatedClasses = [
+        {
+          ...testClass[0],
+          teacher: teacher.id,
+        },
+        {
+          ...testClass[1],
+          teacher: teacher.id,
+        },
+      ];
+      await ClassModel.insertMany(updatedClasses);
     });
 
     describe("on success", () => {
@@ -162,11 +176,15 @@ describe("mongo userService", (): void => {
         const associatedTestSession = await TestSessionModel.find({
           teacher: teacher.id,
         });
+        const associatedClasses = await ClassModel.find({
+          teacher: teacher.id,
+        });
         /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
         expect(associatedSchool!.teachers.map(String)).toEqual(
           testSchools[1].teachers,
         );
         expect(associatedTestSession).toEqual([]);
+        expect(associatedClasses).toEqual([]);
       });
 
       it("deleteUserById", async () => {

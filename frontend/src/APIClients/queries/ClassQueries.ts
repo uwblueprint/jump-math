@@ -4,6 +4,7 @@ export const GET_CLASS_BY_TEST_SESSION = gql`
   query ClassByTestSession($testSessionId: ID!) {
     classByTestSession(testSessionId: $testSessionId) {
       id
+      className
       students {
         id
         firstName

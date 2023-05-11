@@ -1,97 +1,117 @@
-import {
-  QuestionComponent,
-  QuestionComponentType,
-  AssessmentStatus,
-  AssessmentType,
-} from "../models/test.model";
+import { AssessmentStatus, AssessmentType } from "../models/test.model";
 import {
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
+import {
+  ImageMetadata,
+  ImageMetadataTypes,
+} from "../types/questionMetadataTypes";
+import {
+  BaseQuestionComponent,
+  QuestionComponent,
+  QuestionComponentRequest,
+  QuestionComponentType,
+} from "../types/questionTypes";
+import { imageUpload } from "./imageUpload";
 
-export const questions: Array<Array<QuestionComponent>> = [
-  [
-    {
-      type: QuestionComponentType.TEXT,
-      metadata: {
-        text:
-          "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
+  imageMetadata: ImageMetadataType,
+): Array<Array<BaseQuestionComponent<ImageMetadataType>>> => {
+  return [
+    [
+      {
+        type: QuestionComponentType.TEXT,
+        metadata: {
+          text:
+            "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples.",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Thomas have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Thomas have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.SHORT_ANSWER,
-      metadata: {
-        answer: 3,
+      {
+        type: QuestionComponentType.SHORT_ANSWER,
+        metadata: {
+          answer: 3,
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Rick have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Rick have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.MULTIPLE_CHOICE,
-      metadata: {
-        options: ["3", "4", "5", "6"],
-        answerIndex: 0,
+      {
+        type: QuestionComponentType.MULTIPLE_CHOICE,
+        metadata: {
+          options: ["3", "4", "5", "6"],
+          answerIndex: 0,
+        },
       },
-    },
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many apples does Mike have left?",
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many apples does Mike have left?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.MULTI_SELECT,
-      metadata: {
-        options: ["3", "6", "3 + 3", "0"],
-        answerIndices: [1, 2],
+      {
+        type: QuestionComponentType.MULTI_SELECT,
+        metadata: {
+          options: ["3", "6", "3 + 3", "0"],
+          answerIndices: [1, 2],
+        },
       },
-    },
-    {
-      type: QuestionComponentType.FRACTION,
-      metadata: {
-        numerator: 1,
-        denominator: 4,
+      {
+        type: QuestionComponentType.FRACTION,
+        metadata: {
+          numerator: 1,
+          denominator: 4,
+        },
       },
-    },
-  ],
-  [
-    {
-      type: QuestionComponentType.QUESTION_TEXT,
-      metadata: {
-        questionText: "How many children are in the image below?",
+    ],
+    [
+      {
+        type: QuestionComponentType.QUESTION_TEXT,
+        metadata: {
+          questionText: "How many children are in the image below?",
+        },
       },
-    },
-    {
-      type: QuestionComponentType.IMAGE,
-      metadata: {
-        url:
-          "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
-        filePath: "/assessment-images/test.png",
+      {
+        type: QuestionComponentType.IMAGE,
+        metadata: imageMetadata,
       },
-    },
-    {
-      type: QuestionComponentType.SHORT_ANSWER,
-      metadata: {
-        answer: 7,
+      {
+        type: QuestionComponentType.SHORT_ANSWER,
+        metadata: {
+          answer: 7,
+        },
       },
-    },
-  ],
-];
+    ],
+  ];
+};
 
-export const mockTest: TestRequestDTO = {
+export const imageMetadata: ImageMetadata = {
+  url:
+    "https://storage.googleapis.com/jump-math-98edf.appspot.com/assessment-images/test.png",
+  filePath: "assessment-images/test.png",
+};
+
+export const questions: Array<Array<QuestionComponent>> = getQuestions(
+  imageMetadata,
+);
+
+export const questionsRequest: Array<
+  Array<QuestionComponentRequest>
+> = getQuestions(imageUpload);
+
+export const mockTestRequest: TestRequestDTO = {
   name: "test",
-  questions,
+  questions: questionsRequest,
   grade: Grade.GRADE_8,
   assessmentType: AssessmentType.BEGINNING,
   curriculumCountry: "country",
@@ -99,9 +119,9 @@ export const mockTest: TestRequestDTO = {
   status: AssessmentStatus.DRAFT,
 };
 
-export const mockTest2: TestRequestDTO = {
+export const mockTestRequest2: TestRequestDTO = {
   name: "newTest",
-  questions,
+  questions: questionsRequest,
   grade: Grade.GRADE_7,
   assessmentType: AssessmentType.END,
   curriculumCountry: "newCountry",
@@ -111,12 +131,14 @@ export const mockTest2: TestRequestDTO = {
 
 export const mockTestWithId: TestResponseDTO = {
   id: "62c248c0f79d6c3c9ebbea95",
-  ...mockTest,
+  ...mockTestRequest,
+  questions,
 };
 
 export const mockTestWithId2: TestResponseDTO = {
-  id: "62c248c0f79d6c3c9ebbea90",
-  ...mockTest2,
+  id: "62c248c0f79d6c3c9ebbea96",
+  ...mockTestRequest2,
+  questions,
 };
 
 export const mockPublishedTest: TestResponseDTO = {
@@ -140,7 +162,7 @@ export const mockTestArray: Array<TestResponseDTO> = [
 ];
 
 export const assertResponseMatchesExpected = (
-  expected: TestRequestDTO,
+  expected: TestResponseDTO,
   result: TestResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
@@ -154,7 +176,7 @@ export const assertResponseMatchesExpected = (
   result.questions.forEach((questionComponents: QuestionComponent[], i) => {
     const expectedQuestion: QuestionComponent[] = expected.questions[i];
     questionComponents.forEach((questionComponent: QuestionComponent, j) => {
-      expect(Number(questionComponent.type)).toEqual(expectedQuestion[j].type);
+      expect(questionComponent.type).toEqual(expectedQuestion[j].type);
       expect(questionComponent.metadata).toEqual(expectedQuestion[j].metadata);
     });
   });

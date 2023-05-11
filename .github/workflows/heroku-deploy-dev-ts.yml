@@ -19,9 +19,7 @@ on:
 jobs:
   deploy:
     # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]"
-    if: |
-      ((github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]'))
+    if: ${{ github.actor == 'dependabot[bot]' || !github.event.pull_request.head.repo.fork }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

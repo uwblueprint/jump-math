@@ -8,7 +8,7 @@ import PrivateRoute from "../../auth/PrivateRoute";
 import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
 
-import CreateAssessmentPage from "./CreateAssessmentPage";
+import AssessmentEditorPage from "./AssessmentEditorPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
@@ -17,13 +17,13 @@ const pages: Page[] = [
   { title: "Database", url: Routes.USER_DATABASE_PAGE },
 ];
 
-const AdminDashboard = (): React.ReactElement => {
+const AdminRouting = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
-        component={CreateAssessmentPage}
+        component={AssessmentEditorPage}
         exact
-        path={Routes.CREATE_ASSESSMENT_PAGE}
+        path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
       <VStack align="left" flex="1">
@@ -55,4 +55,4 @@ const AdminDashboard = (): React.ReactElement => {
   );
 };
 
-export default AdminDashboard;
+export default AdminRouting;
