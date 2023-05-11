@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
+import MgClass from "./class.model";
 import { Grade, Role } from "../types";
 
 export interface User extends Document {
@@ -70,7 +71,7 @@ UserSchema.pre("findOneAndDelete", async function (next) {
     { new: true },
   );
   await MgTestSession.deleteMany({ teacher: doc._id });
-
+  await MgClass.deleteMany({ teacher: doc._id });
   next();
 });
 

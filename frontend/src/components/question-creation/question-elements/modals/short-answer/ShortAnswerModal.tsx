@@ -54,7 +54,6 @@ const ShortAnswerModal = ({
     <Modal
       header="Create short answer question"
       isOpen={isOpen}
-      onCancel={handleClose}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >
