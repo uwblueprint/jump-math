@@ -357,7 +357,7 @@ class TestSessionService implements ITestSessionService {
   /*
    * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
    */
-  private async gradeTestResult(
+  async gradeTestResult(
     result: ResultRequestDTO,
     testSessionId: string,
   ): Promise<ResultResponseDTO> {
@@ -382,7 +382,7 @@ class TestSessionService implements ITestSessionService {
    * computeTestGrades computes the breakdown and score of a given
    * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
    */
-  private async computeTestGrades(
+  async computeTestGrades(
     result: ResultRequestDTO,
     testId: string,
   ): Promise<ResultResponseDTO> {
