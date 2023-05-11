@@ -73,7 +73,7 @@ const AssessmentEditorHeader = ({
   const handleArchive = handleSubmit(onArchive, onError);
   const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
   const handleDelete = handleSubmit(onDelete, onError);
-  const handleCancel = () => history.goBack();
+  const handleCloseEditor = () => history.goBack();
 
   const {
     onOpen: onOpenPopover,
@@ -162,7 +162,7 @@ const AssessmentEditorHeader = ({
         onClose={() => setShowArchiveModal(false)}
       />
       <DeleteModal
-        deleteAssessment={isEditing ? handleDelete : handleCancel}
+        deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
       />
