@@ -10,6 +10,7 @@ const Checkbox = {
     label: {
       color: "grey.300",
       textStyle: "paragraph",
+      pointerEvents: "none",
     },
   },
 };

@@ -1,7 +1,4 @@
-import MgTestSession, {
-  GradingStatus,
-  TestSession,
-} from "../../models/testSession.model";
+import MgTestSession, { TestSession } from "../../models/testSession.model";
 import MgClass, { Class } from "../../models/class.model";
 import {
   ITestSessionService,
@@ -62,8 +59,16 @@ class TestSessionService implements ITestSessionService {
       teacherDTO = await this.userService.getUserById(testSession.teacher);
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
-      newTestSession = await MgTestSession.create(testSession);
+      const currentDate = new Date();
 
+      if (
+        testSession.startDate > testSession.endDate ||
+        currentDate > testSession.endDate
+      ) {
+        throw new Error(`Test session start and end dates are not valid`);
+      }
+
+      newTestSession = await MgTestSession.create(testSession);
       await this.addTestSessionToClass(classId, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
@@ -77,10 +82,11 @@ class TestSessionService implements ITestSessionService {
       test: testDTO,
       teacher: teacherDTO,
       school: schoolDTO,
-      gradeLevel: newTestSession.gradeLevel,
       results: [],
       accessCode: newTestSession.accessCode,
-      startTime: newTestSession.startTime,
+      startDate: newTestSession.startDate,
+      endDate: newTestSession.endDate,
+      notes: newTestSession.notes,
     };
   }
 
@@ -104,19 +110,21 @@ class TestSessionService implements ITestSessionService {
     accessCode: string,
   ): Promise<TestSessionResponseDTO> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
+    const currentDate = new Date();
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         accessCode: { $eq: accessCode },
+        startDate: { $lte: currentDate },
+        endDate: { $gte: currentDate },
       });
 
       if (!testSessions.length) {
         throw new Error(
-          `Test Session with access code ${accessCode} not found`,
+          `Valid Test Session with access code ${accessCode} not found`,
         );
       } else if (testSessions.length > 1) {
         throw new Error(
-          `More than one Test Session uses the access code ${accessCode}`,
+          `More than one valid Test Session uses the access code ${accessCode}`,
         );
       }
 
@@ -152,6 +160,29 @@ class TestSessionService implements ITestSessionService {
 
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find();
+      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
+        testSessions,
+      );
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+
+    return testSessionDtos;
+  }
+
+  async getTestSessionsBySchoolId(
+    schoolId: string,
+  ): Promise<TestSessionResponseDTO[]> {
+    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+
+    try {
+      const testSessions: TestSession[] = await MgTestSession.find({
+        school: { $eq: schoolId },
+      });
+
       testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
         testSessions,
       );
@@ -211,47 +242,6 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return testSessionDtos;
-  }
-
-  private async mapTestSessionsToTestSessionDTOs(
-    testSessions: Array<TestSession>,
-  ): Promise<Array<TestSessionResponseDTO>> {
-    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
-      testSessions.map(async (testSession) => {
-        const testDTO: TestResponseDTO = await this.testService.getTestById(
-          testSession.test,
-        );
-        const teacherDTO: UserDTO = await this.userService.getUserById(
-          testSession.teacher,
-        );
-        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
-          testSession.school,
-        );
-
-        return {
-          id: testSession.id,
-          test: testDTO,
-          teacher: teacherDTO,
-          school: schoolDTO,
-          gradeLevel: testSession.gradeLevel,
-          results: testSession.results
-            ? testSession.results.map((testSessionResult) => {
-                return {
-                  student: testSessionResult.student,
-                  score: testSessionResult.score,
-                  answers: testSessionResult.answers,
-                  breakdown: testSessionResult.breakdown,
-                  gradingStatus: testSessionResult.gradingStatus,
-                };
-              })
-            : [],
-          accessCode: testSession.accessCode,
-          startTime: testSession.startTime,
-        };
-      }),
-    );
 
     return testSessionDtos;
   }
@@ -323,25 +313,43 @@ class TestSessionService implements ITestSessionService {
     )[0];
   }
 
-  async getTestSessionsBySchoolId(
-    schoolId: string,
-  ): Promise<TestSessionResponseDTO[]> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
+  private async mapTestSessionsToTestSessionDTOs(
+    testSessions: Array<TestSession>,
+  ): Promise<Array<TestSessionResponseDTO>> {
+    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
+      testSessions.map(async (testSession) => {
+        const testDTO: TestResponseDTO = await this.testService.getTestById(
+          testSession.test,
+        );
+        const teacherDTO: UserDTO = await this.userService.getUserById(
+          testSession.teacher,
+        );
+        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
+          testSession.school,
+        );
 
-    try {
-      const testSessions: TestSession[] = await MgTestSession.find({
-        school: { $eq: schoolId },
-      });
-
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
+        return {
+          id: testSession.id,
+          test: testDTO,
+          teacher: teacherDTO,
+          school: schoolDTO,
+          results: testSession.results
+            ? testSession.results.map((testSessionResult) => {
+                return {
+                  student: testSessionResult.student,
+                  score: testSessionResult.score,
+                  answers: testSessionResult.answers,
+                  breakdown: testSessionResult.breakdown,
+                };
+              })
+            : [],
+          accessCode: testSession.accessCode,
+          startDate: testSession.startDate,
+          endDate: testSession.endDate,
+          notes: testSession.notes,
+        };
+      }),
+    );
 
     return testSessionDtos;
   }
@@ -414,7 +422,6 @@ class TestSessionService implements ITestSessionService {
         score: computedScore,
         answers: result.answers,
         breakdown: computedBreakdown,
-        gradingStatus: GradingStatus.GRADED,
       };
     } catch (error: unknown) {
       Logger.error(

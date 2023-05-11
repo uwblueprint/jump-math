@@ -1,14 +1,14 @@
 import React from "react";
-import { Box, HStack, Tag, Text, VStack } from "@chakra-ui/react";
+import { HStack, Tag, Text, VStack } from "@chakra-ui/react";
 
-import { Grade } from "../../../../APIClients/types/UserClientTypes";
+import { Grade } from "../../APIClients/types/UserClientTypes";
 import {
   BarChartIcon,
   BookOpenIcon,
   MoreVerticalOutlineIcon,
   PeopleIcon,
-} from "../../../../assets/icons";
-import { removeUnderscore, titleCase } from "../../../../utils/GeneralUtils";
+} from "../../assets/icons";
+import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 
 interface ClassroomCardProps {
   name: string;

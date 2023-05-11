@@ -85,7 +85,6 @@ const MultiOptionModal = ({
           : "Create multi-select question"
       }
       isOpen={isOpen}
-      onCancel={handleClose}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >
