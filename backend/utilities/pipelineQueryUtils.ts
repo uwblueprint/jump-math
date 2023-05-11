@@ -14,7 +14,7 @@ export const filterTestsByTestId = (
   testId: string,
 ): FilterQuery<Record<string, unknown>> => {
   return {
-    $match: { test: { $eq: Types.ObjectId(testId) } },
+    $match: { test: { $eq: new Types.ObjectId(testId) } },
   };
 };
 
