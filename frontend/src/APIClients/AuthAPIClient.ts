@@ -13,11 +13,14 @@ import { Grade } from "./types/UserClientTypes";
 
 type LoginFunction = (
   options?:
-    | MutationFunctionOptions<{ login: AuthenticatedUser }, OperationVariables>
+    | MutationFunctionOptions<
+        { login: AuthenticatedUser & { emailVerified: boolean } },
+        OperationVariables
+      >
     | undefined,
 ) => Promise<
   FetchResult<
-    { login: AuthenticatedUser },
+    { login: AuthenticatedUser & { emailVerified: boolean } },
     Record<string, unknown>,
     Record<string, unknown>
   >
@@ -27,12 +30,12 @@ const login = async (
   email: string,
   password: string,
   loginFunction: LoginFunction,
-): Promise<AuthenticatedUser | null> => {
-  let user: AuthenticatedUser = null;
+): Promise<(AuthenticatedUser & { emailVerified: boolean }) | null> => {
+  let user: (AuthenticatedUser & { emailVerified: boolean }) | null = null;
   try {
     const result = await loginFunction({ variables: { email, password } });
     user = result.data?.login ?? null;
-    if (user) {
+    if (user && user.emailVerified) {
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {

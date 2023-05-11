@@ -8,6 +8,7 @@ const authType = gql`
     email: String!
     role: Role!
     accessToken: String!
+    emailVerified: Boolean
   }
 
   input SchoolMetadataInput {
@@ -39,6 +40,7 @@ const authType = gql`
     verifyEmail(oobCode: String!): String!
     verifyPasswordReset(oobCode: String!): String!
     confirmPasswordReset(newPassword: String!, oobCode: String!): Boolean!
+    sendEmailVerificationLink(email: String!): Boolean!
   }
 `;
 

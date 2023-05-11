@@ -324,8 +324,9 @@ class TestSessionService implements ITestSessionService {
         const teacherDTO: UserDTO = await this.userService.getUserById(
           testSession.teacher,
         );
-        const schoolDTO: SchoolResponseDTO =
-          await this.schoolService.getSchoolById(testSession.school);
+        const schoolDTO: SchoolResponseDTO = await this.schoolService.getSchoolById(
+          testSession.school,
+        );
 
         return {
           id: testSession.id,
@@ -394,8 +395,9 @@ class TestSessionService implements ITestSessionService {
       test.questions.forEach((questionComponents: QuestionComponent[], i) => {
         const computedBreakdownByQuestion: boolean[] = [];
         questionComponents.forEach((questionComponent: QuestionComponent) => {
-          const actualAnswer: number[] | null =
-            this.getCorrectAnswer(questionComponent);
+          const actualAnswer: number[] | null = this.getCorrectAnswer(
+            questionComponent,
+          );
 
           if (actualAnswer) {
             const studentAnswer =
@@ -436,13 +438,11 @@ class TestSessionService implements ITestSessionService {
   ): number[] | null {
     switch (questionComponent.type) {
       case QuestionComponentType.MULTIPLE_CHOICE: {
-        const questionMetadata =
-          questionComponent.metadata as MultipleChoiceMetadata;
+        const questionMetadata = questionComponent.metadata as MultipleChoiceMetadata;
         return [questionMetadata.answerIndex];
       }
       case QuestionComponentType.MULTI_SELECT: {
-        const questionMetadata =
-          questionComponent.metadata as MultiSelectMetadata;
+        const questionMetadata = questionComponent.metadata as MultiSelectMetadata;
         return questionMetadata.answerIndices;
       }
       case QuestionComponentType.FRACTION: {
@@ -450,8 +450,7 @@ class TestSessionService implements ITestSessionService {
         return [questionMetadata.numerator, questionMetadata.denominator];
       }
       case QuestionComponentType.SHORT_ANSWER: {
-        const questionMetadata =
-          questionComponent.metadata as ShortAnswerMetadata;
+        const questionMetadata = questionComponent.metadata as ShortAnswerMetadata;
         return [questionMetadata.answer];
       }
       default: {

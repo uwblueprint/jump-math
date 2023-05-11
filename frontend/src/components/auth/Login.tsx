@@ -15,6 +15,7 @@ import RouterLink from "../common/RouterLink";
 
 import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";
+import UnverifiedUsers from "./UnverifiedUsers";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -28,19 +29,25 @@ const Login = (): React.ReactElement => {
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(false);
 
-  const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
+  const [login] = useMutation<{
+    login: AuthenticatedUser & { emailVerified: boolean };
+  }>(LOGIN);
 
   const onLogInClick = async () => {
     if (!(email && password)) {
       setLoginError(true);
       return;
     }
-    const user: AuthenticatedUser = await authAPIClient.login(
-      email,
-      password,
-      login,
-    );
+    const user:
+      | (AuthenticatedUser & { emailVerified: boolean })
+      | null = await authAPIClient.login(email, password, login);
+
+    if (user?.emailVerified === false) {
+      setUnverifiedUser(true);
+      return;
+    }
     setAuthenticatedUser(user);
   };
 
@@ -104,6 +111,7 @@ const Login = (): React.ReactElement => {
   const error = loginError ? "Please ensure fields are filled" : "";
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
+  if (unverifiedUser) return <UnverifiedUsers email={email} />;
   return (
     <AuthWrapper
       error={error}

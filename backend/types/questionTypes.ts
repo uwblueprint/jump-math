@@ -23,7 +23,7 @@ export enum QuestionComponentType {
  * This interface contains information about a single component in a question
  */
 export interface BaseQuestionComponent<
-  ImageMetadataType extends ImageMetadataTypes,
+  ImageMetadataType extends ImageMetadataTypes
 > {
   /** the type of question component  */
   type: QuestionComponentType;
@@ -34,7 +34,6 @@ export interface BaseQuestionComponent<
 export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
   GraphQLQuestionComponentMetadata;
 
-export type QuestionComponentRequest =
-  BaseQuestionComponent<ImageMetadataRequest>;
+export type QuestionComponentRequest = BaseQuestionComponent<ImageMetadataRequest>;
 
 export type QuestionComponent = BaseQuestionComponent<ImageMetadata>;
