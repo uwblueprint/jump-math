@@ -8,6 +8,7 @@ import { Divider, VStack } from "@chakra-ui/react";
 
 import {
   CREATE_NEW_TEST,
+  DELETE_TEST,
   UPDATE_TEST,
 } from "../../../APIClients/mutations/TestMutations";
 import { Test, TestRequest } from "../../../APIClients/types/TestClientTypes";
@@ -42,6 +43,10 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [updateTest] = useMutation<{
     updateTest: { updateTest: { id: string } };
   }>(UPDATE_TEST);
+
+  const [deleteTest] = useMutation<{
+    deleteTest: string;
+  }>(DELETE_TEST);
 
   const {
     handleSubmit,
@@ -114,6 +119,18 @@ const AssessmentEditorPage = (): React.ReactElement => {
     }
   };
 
+  const onDeleteTest = async () => {
+    if (state?.id) {
+      await deleteTest({ variables: { id: state.id } })
+        .then(() => {
+          history.push(ASSESSMENTS_PAGE);
+        })
+        .catch(() => {
+          setErrorMessage("Assessment failed to delete. Please try again.");
+        });
+    }
+  };
+
   const onSave: SubmitHandler<TestRequest> = async (data) => {
     onCreateTest({
       ...data,
@@ -149,6 +166,16 @@ const AssessmentEditorPage = (): React.ReactElement => {
     });
   };
 
+  const onArchiveChanges: SubmitHandler<TestRequest> = async (
+    data: TestRequest,
+  ) => {
+    onUpdateTest({
+      ...data,
+      status: Status.ARCHIVED,
+      questions: formatQuestionsRequest(questions),
+    });
+  };
+
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
@@ -175,7 +202,9 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 handleSubmit={handleSubmit}
                 isEditing={!!state}
                 name={watch("name")}
+                onConfirmArchive={onArchiveChanges}
                 onConfirmPublish={state ? onPublishChanges : onPublish}
+                onDelete={onDeleteTest}
                 onError={onError}
                 onSave={state ? onSaveChanges : onSave}
                 validateForm={validateForm}
