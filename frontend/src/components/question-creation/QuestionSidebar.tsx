@@ -23,6 +23,7 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import confirmUnsavedChangesText from "../../constants/GeneralConstants";
 import AssessmentContext from "../../contexts/AssessmentContext";
 import { QuestionElementType } from "../../types/QuestionTypes";
 
@@ -83,6 +84,13 @@ const QuestionSidebar = (): React.ReactElement => {
     setShowQuestionEditor(false);
   };
 
+  const confirmCloseQuestionEditor = () => {
+    /* eslint-disable-next-line no-alert */
+    if (window.confirm(confirmUnsavedChangesText)) {
+      closeQuestionEditor();
+    }
+  };
+
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -94,7 +102,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Box justifyContent="flex-start" paddingLeft="0">
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={closeQuestionEditor}
+            onClick={confirmCloseQuestionEditor}
             size="sm"
             variant="tertiary"
           >

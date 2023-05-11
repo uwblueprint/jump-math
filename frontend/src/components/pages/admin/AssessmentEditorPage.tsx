@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { Prompt, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
 
@@ -12,6 +12,7 @@ import {
   UPDATE_TEST,
 } from "../../../APIClients/mutations/TestMutations";
 import { Test, TestRequest } from "../../../APIClients/types/TestClientTypes";
+import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
@@ -25,6 +26,7 @@ import QuestionEditor from "../../question-creation/QuestionEditor";
 const AssessmentEditorPage = (): React.ReactElement => {
   const { state } = useLocation<Test>();
   const history = useHistory();
+  window.onbeforeunload = () => true;
 
   const [questions, setQuestions] = useState<Question[]>(
     state?.questions || [],
@@ -32,6 +34,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [completedForm, setCompletedForm] = useState(false);
 
   const [createTest] = useMutation<{
     createTest: { createTest: { id: string } };
@@ -89,6 +92,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
         },
       })
         .then(() => {
+          setCompletedForm(true);
           history.push(ASSESSMENTS_PAGE);
         })
         .catch(() => {
@@ -106,6 +110,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
         },
       })
         .then(() => {
+          setCompletedForm(true);
           history.push(ASSESSMENTS_PAGE);
         })
         .catch(() => {
@@ -176,49 +181,52 @@ const AssessmentEditorPage = (): React.ReactElement => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <AssessmentContext.Provider
-        value={{
-          questions,
-          setQuestions,
-          showQuestionEditor,
-          setShowQuestionEditor,
-          editorQuestion,
-          setEditorQuestion,
-        }}
-      >
-        {showQuestionEditor ? (
-          <QuestionEditor />
-        ) : (
-          <VStack spacing="8" width="100%">
-            <AssessmentEditorHeader
-              handleSubmit={handleSubmit}
-              isEditing={!!state}
-              name={watch("name")}
-              onConfirmArchive={onArchiveChanges}
-              onConfirmPublish={state ? onPublishChanges : onPublish}
-              onDelete={onDeleteTest}
-              onError={onError}
-              onSave={state ? onSaveChanges : onSave}
-              validateForm={validateForm}
-            />
-            <VStack spacing="8" width="92%">
-              <BasicInformation
-                clearErrors={clearErrors}
-                control={control}
-                errorMessage={errorMessage}
-                errors={errors}
-                register={register}
-                setValue={setValue}
-                watch={watch}
+    <>
+      <Prompt message={confirmUnsavedChangesText} when={!completedForm} />
+      <DndProvider backend={HTML5Backend}>
+        <AssessmentContext.Provider
+          value={{
+            questions,
+            setQuestions,
+            showQuestionEditor,
+            setShowQuestionEditor,
+            editorQuestion,
+            setEditorQuestion,
+          }}
+        >
+          {showQuestionEditor ? (
+            <QuestionEditor />
+          ) : (
+            <VStack spacing="8" width="100%">
+              <AssessmentEditorHeader
+                handleSubmit={handleSubmit}
+                isEditing={!!state}
+                name={watch("name")}
+                onConfirmArchive={onArchiveChanges}
+                onConfirmPublish={state ? onPublishChanges : onPublish}
+                onDelete={onDeleteTest}
+                onError={onError}
+                onSave={state ? onSaveChanges : onSave}
+                validateForm={validateForm}
               />
-              <Divider borderColor="grey.200" />
-              <AssessmentQuestions />
+              <VStack spacing="8" width="92%">
+                <BasicInformation
+                  clearErrors={clearErrors}
+                  control={control}
+                  errorMessage={errorMessage}
+                  errors={errors}
+                  register={register}
+                  setValue={setValue}
+                  watch={watch}
+                />
+                <Divider borderColor="grey.200" />
+                <AssessmentQuestions />
+              </VStack>
             </VStack>
-          </VStack>
-        )}
-      </AssessmentContext.Provider>
-    </DndProvider>
+          )}
+        </AssessmentContext.Provider>
+      </DndProvider>
+    </>
   );
 };
 

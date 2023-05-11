@@ -13,6 +13,11 @@ import {
   mockGradedTestResult,
   mockTestSessionWithId,
   mockTestSessionsWithSameAccessCode,
+  mockTestSessionWithExpiredStartDate,
+  mockTestSessionWithExpiredEndDate,
+  mockTestSessionsWithOneValid,
+  mockTestSessionWithInvalidStartDate,
+  mockTestSessionWithInvalidEndDate,
 } from "../../../testUtils/testSession";
 import {
   TestSessionRequestDTO,
@@ -89,6 +94,26 @@ describe("mongo testSessionService", (): void => {
     );
   });
 
+  it("create test session with invalid start date", async () => {
+    const classObj: Class = await MgClass.create(testClassAfterCreation);
+    await expect(async () => {
+      await testSessionService.createTestSession(
+        classObj.id,
+        mockTestSessionWithInvalidStartDate,
+      );
+    }).rejects.toThrowError(`Test session start and end dates are not valid`);
+  });
+
+  it("create test session with invalid end date", async () => {
+    const classObj: Class = await MgClass.create(testClassAfterCreation);
+    await expect(async () => {
+      await testSessionService.createTestSession(
+        classObj.id,
+        mockTestSessionWithInvalidEndDate,
+      );
+    }).rejects.toThrowError(`Test session start and end dates are not valid`);
+  });
+
   it("getAllTestSessions", async () => {
     await MgTestSession.create(mockTestSession);
 
@@ -120,24 +145,54 @@ describe("mongo testSessionService", (): void => {
 
   it("get test sessions by access code for invalid code", async () => {
     await MgTestSession.create(mockTestSession);
-    // school id that's different than the created test session
     const accessCode = "123456";
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(accessCode);
     }).rejects.toThrowError(
-      `Test Session with access code ${accessCode} not found`,
+      `Valid Test Session with access code ${accessCode} not found`,
     );
   });
 
   it("get test sessions by access code for repeated code", async () => {
     await MgTestSession.create(mockTestSessionsWithSameAccessCode);
-    // school id that's different than the created test session
     await expect(async () => {
       await testSessionService.getTestSessionByAccessCode(
         mockTestSession.accessCode,
       );
     }).rejects.toThrowError(
-      `More than one Test Session uses the access code ${mockTestSession.accessCode}`,
+      `More than one valid Test Session uses the access code ${mockTestSession.accessCode}`,
+    );
+  });
+
+  it("get test sessions by access code for expired start date", async () => {
+    await MgTestSession.create(mockTestSessionWithExpiredStartDate);
+    const accessCode = "123456";
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(accessCode);
+    }).rejects.toThrowError(
+      `Valid Test Session with access code ${mockTestSessionWithExpiredStartDate.accessCode} not found`,
+    );
+  });
+
+  it("get test sessions by access code for expired end date", async () => {
+    await MgTestSession.create(mockTestSessionWithExpiredEndDate);
+    const accessCode = "123456";
+    await expect(async () => {
+      await testSessionService.getTestSessionByAccessCode(accessCode);
+    }).rejects.toThrowError(
+      `Valid Test Session with access code ${mockTestSessionWithExpiredStartDate.accessCode} not found`,
+    );
+  });
+
+  it("get test sessions by access code for repeated code but only one valid", async () => {
+    await MgTestSession.create(mockTestSessionsWithOneValid);
+    const res = await testSessionService.getTestSessionByAccessCode(
+      mockTestSessionsWithOneValid[0].accessCode,
+    );
+    assertResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
+    assertResultsResponseMatchesExpected(
+      mockTestSessionsWithOneValid[1].results,
+      res.results,
     );
   });
 
@@ -278,9 +333,9 @@ describe("mongo testSessionService", (): void => {
       test: mockTestWithId2.id,
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
-      gradeLevel: 3,
       accessCode: "1235",
-      startTime: new Date("2022-09-10T09:00:00.000Z"),
+      startDate: new Date("2022-09-10T09:00:00.000Z"),
+      endDate: new Date("2022-09-11T09:00:00.000Z"),
     };
 
     // update test and assert

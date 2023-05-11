@@ -62,8 +62,16 @@ class TestSessionService implements ITestSessionService {
       teacherDTO = await this.userService.getUserById(testSession.teacher);
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
 
-      newTestSession = await MgTestSession.create(testSession);
+      const currentDate = new Date();
 
+      if (
+        testSession.startDate > testSession.endDate ||
+        currentDate > testSession.endDate
+      ) {
+        throw new Error(`Test session start and end dates are not valid`);
+      }
+
+      newTestSession = await MgTestSession.create(testSession);
       await this.addTestSessionToClass(classId, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
@@ -77,10 +85,11 @@ class TestSessionService implements ITestSessionService {
       test: testDTO,
       teacher: teacherDTO,
       school: schoolDTO,
-      gradeLevel: newTestSession.gradeLevel,
       results: [],
       accessCode: newTestSession.accessCode,
-      startTime: newTestSession.startTime,
+      startDate: newTestSession.startDate,
+      endDate: newTestSession.endDate,
+      notes: newTestSession.notes,
     };
   }
 
@@ -104,19 +113,21 @@ class TestSessionService implements ITestSessionService {
     accessCode: string,
   ): Promise<TestSessionResponseDTO> {
     let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
+    const currentDate = new Date();
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         accessCode: { $eq: accessCode },
+        startDate: { $lte: currentDate },
+        endDate: { $gte: currentDate },
       });
 
       if (!testSessions.length) {
         throw new Error(
-          `Test Session with access code ${accessCode} not found`,
+          `Valid Test Session with access code ${accessCode} not found`,
         );
       } else if (testSessions.length > 1) {
         throw new Error(
-          `More than one Test Session uses the access code ${accessCode}`,
+          `More than one valid Test Session uses the access code ${accessCode}`,
         );
       }
 
@@ -235,7 +246,6 @@ class TestSessionService implements ITestSessionService {
           test: testDTO,
           teacher: teacherDTO,
           school: schoolDTO,
-          gradeLevel: testSession.gradeLevel,
           results: testSession.results
             ? testSession.results.map((testSessionResult) => {
                 return {
@@ -248,7 +258,9 @@ class TestSessionService implements ITestSessionService {
               })
             : [],
           accessCode: testSession.accessCode,
-          startTime: testSession.startTime,
+          startDate: testSession.startDate,
+          endDate: testSession.endDate,
+          notes: testSession.notes,
         };
       }),
     );

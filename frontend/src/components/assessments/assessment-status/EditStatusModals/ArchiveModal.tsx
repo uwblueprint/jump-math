@@ -23,7 +23,6 @@ const ArchiveModal = ({
       body="Once this assessment is archived it is not visible to other teachers. This can be recovered as a draft on the assessments page."
       header="Archive Assessment"
       isOpen={isOpen}
-      onCancel={onClose}
       onClose={onClose}
       onSubmit={onArchiveAssessment}
       submitButtonText="Archive"
