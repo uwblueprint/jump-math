@@ -24,6 +24,13 @@ interface IImageUploadService {
    * @returns a url and file path for the requested image
    */
   hydrateImage(image: ImageMetadata): Promise<ImageMetadata>;
+
+  /**
+   * Delete an image stored in Firebase
+   * @param image the image to delete
+   * @returns a url and file path for the requested image
+   */
+  deleteImage(image: ImageMetadata): Promise<ImageMetadata>;
 }
 
 export default IImageUploadService;

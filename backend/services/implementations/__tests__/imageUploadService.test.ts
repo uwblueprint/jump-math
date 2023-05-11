@@ -13,17 +13,21 @@ import ImageUploadService from "../imageUploadService";
 jest.mock("firebase-admin", () => {
   const storage = jest.fn().mockReturnValue({
     bucket: jest.fn().mockReturnValue({
-      file: jest.fn().mockReturnValue({
-        exists: jest
-          .fn()
-          .mockReturnValueOnce([false]) // initial upload
-          .mockReturnValue([true]), // retrieval of image
-        getSignedUrl: jest
-          .fn()
-          .mockReturnValue([
-            "https://storage.googleapis.com/jump-math-98edf.appspot.com/test-bucket/test.png",
-          ]),
-      }),
+      file: jest
+        .fn()
+        .mockReturnValueOnce(undefined)
+        .mockReturnValue({
+          exists: jest
+            .fn()
+            .mockReturnValueOnce([false]) // initial upload
+            .mockReturnValue([true]), // retrieval of image
+          getSignedUrl: jest
+            .fn()
+            .mockReturnValue([
+              "https://storage.googleapis.com/jump-math-98edf.appspot.com/test-bucket/test.png",
+            ]),
+          delete: jest.fn().mockReturnValue({}),
+        }),
       upload: jest.fn(),
     }),
   });
@@ -49,8 +53,19 @@ describe("mongo imageUploadService", (): void => {
     await db.clear();
   });
 
-  it("uploadImage", async () => {
-    const res = await imageUploadService.uploadImage(imageUpload);
+  it("deleteImage - invalid filePath", async () => {
+    await expect(async () => {
+      await imageUploadService.deleteImage(imageMetadata);
+    }).rejects.toThrowError(
+      `File name ${imageMetadata.filePath} does not exist`,
+    );
+  });
+
+  it("uploadImage and deleteImage", async () => {
+    const uploadedImage = await imageUploadService.uploadImage(imageUpload);
+    assertResponseMatchesExpected(uploadedImage);
+
+    const res = await imageUploadService.deleteImage(uploadedImage);
     assertResponseMatchesExpected(res);
   });
 
