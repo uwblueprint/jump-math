@@ -37,21 +37,27 @@ class TestService implements ITestService {
 
     try {
       questions = await this.uploadImages(test.questions);
-      newTest = await MgTest.create({
-        ...test,
-        questions,
-      });
-    } catch (error) {
-      // rollback image upload in GCP
+
       try {
-        await this.deleteImages(questions);
-      } catch (error) {
-        Logger.error(
-          `Failed to rollback image upload after test creation failure. Reason = ${getErrorMessage(
-            error,
-          )}`,
-        );
+        newTest = await MgTest.create({
+          ...test,
+          questions,
+        });
+      } catch (mongoDbError) {
+        // rollback image upload in GCP
+        try {
+          await this.deleteImages(questions);
+        } catch (imageError) {
+          Logger.error(
+            `Failed to rollback image upload after test creation failure. Reason = ${getErrorMessage(
+              imageError,
+            )}`,
+          );
+        }
+
+        throw mongoDbError;
       }
+    } catch (error) {
       Logger.error(`Failed to create test. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
