@@ -1,43 +1,20 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
 
-import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
-import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
 import Modal from "../../../common/Modal";
-import Toast from "../../../common/Toast";
 
 interface ArchiveModalProps {
   isOpen: boolean;
   onClose: () => void;
-  assessmentId: string;
+  archiveAssessment: () => void;
 }
 
 const ArchiveModal = ({
   isOpen,
   onClose,
-  assessmentId,
+  archiveAssessment,
 }: ArchiveModalProps): React.ReactElement => {
-  const [archiveAssessment, { error }] = useMutation<{
-    archiveAssessment: string;
-  }>(ARCHIVE_TEST, {
-    refetchQueries: [{ query: GET_ALL_TESTS }],
-  });
-
-  const { showToast } = Toast();
-
-  const onArchiveAssessment = async () => {
-    await archiveAssessment({ variables: { id: assessmentId } });
-    if (error) {
-      showToast({
-        message: "Assessment failed to archive. Please try again.",
-        status: "error",
-      });
-    } else {
-      showToast({
-        message: "Assessment archived.",
-        status: "success",
-      });
-    }
+  const onArchiveAssessment = () => {
+    archiveAssessment();
     onClose();
   };
 
