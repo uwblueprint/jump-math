@@ -3,14 +3,14 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import { CREATE_ASSESSMENT_PAGE } from "../../../constants/Routes";
+import { ASSESSMENT_EDITOR_PAGE } from "../../../constants/Routes";
 
-const CreateAssessementButton = (): React.ReactElement => {
+const CreateAssessmentButton = (): React.ReactElement => {
   const history = useHistory();
   return (
     <Button
       my={2}
-      onClick={() => history.push(CREATE_ASSESSMENT_PAGE)}
+      onClick={() => history.push(ASSESSMENT_EDITOR_PAGE)}
       rightIcon={<PlusOutlineIcon />}
       variant="primary"
     >
@@ -19,4 +19,4 @@ const CreateAssessementButton = (): React.ReactElement => {
   );
 };
 
-export default CreateAssessementButton;
+export default CreateAssessmentButton;

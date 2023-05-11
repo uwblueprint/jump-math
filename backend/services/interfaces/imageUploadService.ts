@@ -1,13 +1,15 @@
-import { FileUpload } from "graphql-upload";
-import { ImageMetadata } from "../../models/test.model";
+import {
+  ImageMetadata,
+  ImageMetadataRequest,
+} from "../../types/questionMetadataTypes";
 
 interface IImageUploadService {
   /**
    * Upload an image to Firebase
-   * @param file the file to upload
+   * @param image the image to upload
    * @returns a url and file path for the requested image
    */
-  uploadImage(file: Promise<FileUpload>): Promise<ImageMetadata>;
+  uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata>;
 
   /**
    * Get an image stored in Firebase
@@ -15,6 +17,13 @@ interface IImageUploadService {
    * @returns a url and file path for the requested image
    */
   getImage(filePath: string): Promise<ImageMetadata>;
+
+  /**
+   * Hydrate an image stored in Firebase
+   * @param image the image to hydrate
+   * @returns a url and file path for the requested image
+   */
+  hydrateImage(image: ImageMetadata): Promise<ImageMetadata>;
 }
 
 export default IImageUploadService;

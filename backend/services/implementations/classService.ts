@@ -185,8 +185,8 @@ class ClassService implements IClassService {
     let classObj: Class | null;
 
     try {
-      classObj = await MgClass.findOneAndUpdate(
-        { _id: classId },
+      classObj = await MgClass.findByIdAndUpdate(
+        classId,
         {
           $push: { students: student },
         },

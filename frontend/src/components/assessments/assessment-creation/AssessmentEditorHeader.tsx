@@ -1,12 +1,15 @@
 import React from "react";
 import { UseFormHandleSubmit } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -16,28 +19,35 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
-import { getReadableDate } from "../../../utils/GeneralUtils";
+import { getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
+import Popover from "../../common/Popover";
+import EditStatusButton from "../assessment-status/EditStatusButton";
+import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
-interface CreateAssessementHeaderProps {
+interface AssessmentEditorHeaderProps {
   name: string;
   handleSubmit: UseFormHandleSubmit<TestRequest>;
+  isEditing: boolean;
   onConfirmPublish: (data: TestRequest) => Promise<void>;
   onSave: (data: TestRequest) => Promise<void>;
   onError: () => void;
   validateForm: () => boolean;
 }
 
-const CreateAssessementHeader = ({
+const AssessmentEditorHeader = ({
   name,
   handleSubmit,
+  isEditing,
   onConfirmPublish,
   onSave,
   onError,
   validateForm,
-}: CreateAssessementHeaderProps): React.ReactElement => {
+}: AssessmentEditorHeaderProps): React.ReactElement => {
+  const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
@@ -47,6 +57,12 @@ const CreateAssessementHeader = ({
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
+
+  const {
+    onOpen: onOpenPopover,
+    isOpen: popoverIsOpen,
+    onClose: onClosePopover,
+  } = useDisclosure();
 
   return (
     <>
@@ -62,7 +78,8 @@ const CreateAssessementHeader = ({
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
               <Text textStyle="smallerParagraph">
-                Created {getReadableDate()}
+                {/* TODO: Populate last edited date with last updated field */}
+                {isEditing ? "Last edited" : "Created"} {getCurrentDate()}
               </Text>
             </VStack>
           </HStack>
@@ -87,6 +104,24 @@ const CreateAssessementHeader = ({
             >
               Publish
             </Button>
+            <Popover
+              isOpen={popoverIsOpen}
+              onClose={onClosePopover}
+              onOpen={onOpenPopover}
+            >
+              <VStack
+                divider={<Divider borderColor="grey.200" />}
+                spacing="0em"
+              >
+                <EditStatusButton
+                  name="Delete"
+                  onClick={() => {
+                    onClosePopover();
+                    setShowDeleteModal(true);
+                  }}
+                />
+              </VStack>
+            </Popover>
           </HStack>
         </Flex>
       </Box>
@@ -95,8 +130,13 @@ const CreateAssessementHeader = ({
         onClose={() => setShowPublishModal(false)}
         publishAssessment={handleConfirmPublish}
       />
+      <DeleteModal
+        deleteAssessment={() => history.goBack()}
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+      />
     </>
   );
 };
 
-export default CreateAssessementHeader;
+export default AssessmentEditorHeader;

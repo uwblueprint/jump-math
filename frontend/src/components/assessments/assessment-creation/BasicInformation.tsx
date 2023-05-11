@@ -23,14 +23,13 @@ import {
 import { Select, SingleValue } from "chakra-react-select";
 
 import { TestRequest } from "../../../APIClients/types/TestClientTypes";
-import { Grade } from "../../../APIClients/types/UserClientTypes";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
 import { UseCase } from "../../../types/AssessmentTypes";
+import { GradeOption, StringOption } from "../../../types/SelectInputTypes";
+import { gradeOptions } from "../../../utils/AssessmentUtils";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
-  setName: React.Dispatch<React.SetStateAction<string>>;
   register: UseFormRegister<TestRequest>;
   setValue: UseFormSetValue<TestRequest>;
   watch: UseFormWatch<TestRequest>;
@@ -41,7 +40,6 @@ interface BasicInformationProps {
 }
 
 const BasicInformation = ({
-  setName,
   register,
   setValue,
   watch,
@@ -50,18 +48,14 @@ const BasicInformation = ({
   errorMessage,
   clearErrors,
 }: BasicInformationProps): React.ReactElement => {
-  const handleGradeChange = (
-    option: SingleValue<{ value: Grade; label: string }>,
-  ) => {
+  const handleGradeChange = (option: SingleValue<GradeOption>) => {
     if (option) {
       setValue("grade", option.value);
       clearErrors("grade");
     }
   };
 
-  const handleCountryChange = (
-    option: SingleValue<{ value: string; label: string }>,
-  ) => {
+  const handleCountryChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue("curriculumCountry", option.value);
       clearErrors("curriculumCountry");
@@ -80,9 +74,6 @@ const BasicInformation = ({
           <Input
             placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
             {...register("name", {
-              onChange: (e) => {
-                setName(e.target.value);
-              },
               required: "Please enter a name for the assessment",
             })}
           />

@@ -14,17 +14,14 @@ export interface TestSessionRequestDTO {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
-  /** the grade level that is being tested */
-  gradeLevel: number;
-  /**
-   * the result of the test session
-   * there should be one entry here per student
-   * */
-  results?: ResultRequestDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**
@@ -40,17 +37,19 @@ export interface TestSessionResponseDTO {
   teacher: UserDTO;
   /** the school that's administering the test from the School collection */
   school: SchoolResponseDTO;
-  /** the grade level that is being tested */
-  gradeLevel: number;
   /**
    * the result of the test session
    * there should be one entry here per student
-   * */
-  results?: ResultResponseDTO[];
+   */
+  results: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 /**
@@ -58,7 +57,7 @@ export interface TestSessionResponseDTO {
  * session service to create or update a result in a given test session
  */
 export interface ResultRequestDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;
@@ -86,7 +85,7 @@ export interface ResultRequestDTO {
  * the test session service to represent a result in a given test session
  */
 export interface ResultResponseDTO {
-  /** the name of the student */
+  /** the id of the student */
   student: string;
   /** the score of the student */
   score: number | null;
