@@ -156,15 +156,15 @@ const AssessmentEditorHeader = ({
         onClose={() => setShowPublishModal(false)}
         publishAssessment={handleConfirmPublish}
       />
-      <DeleteModal
-        deleteAssessment={isEditing ? handleDelete : handleCancel}
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-      />
       <ArchiveModal
         archiveAssessment={handleConfirmArchive}
         isOpen={showArchiveModal}
         onClose={() => setShowArchiveModal(false)}
+      />
+      <DeleteModal
+        deleteAssessment={isEditing ? handleDelete : handleCancel}
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
       />
     </>
   );
