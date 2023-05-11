@@ -33,6 +33,7 @@ interface AssessmentEditorHeaderProps {
   isEditing: boolean;
   onConfirmArchive: SubmitHandler<TestRequest>;
   onConfirmPublish: SubmitHandler<TestRequest>;
+  onDelete: SubmitHandler<TestRequest>;
   onSave: SubmitHandler<TestRequest>;
   onError: () => void;
   validateForm: () => boolean;
@@ -44,6 +45,7 @@ const AssessmentEditorHeader = ({
   isEditing,
   onConfirmArchive,
   onConfirmPublish,
+  onDelete,
   onSave,
   onError,
   validateForm,
@@ -52,6 +54,7 @@ const AssessmentEditorHeader = ({
   const [showPublishModal, setShowPublishModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [showArchiveModal, setShowArchiveModal] = React.useState(false);
+
   const onPublish = () => {
     if (validateForm()) {
       setShowPublishModal(true);
@@ -69,6 +72,8 @@ const AssessmentEditorHeader = ({
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
   const handleArchive = handleSubmit(onArchive, onError);
   const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
+  const handleDelete = handleSubmit(onDelete, onError);
+  const handleCancel = () => history.goBack();
 
   const {
     onOpen: onOpenPopover,
@@ -152,7 +157,7 @@ const AssessmentEditorHeader = ({
         publishAssessment={handleConfirmPublish}
       />
       <DeleteModal
-        deleteAssessment={() => history.goBack()}
+        deleteAssessment={isEditing ? handleDelete : handleCancel}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
       />
