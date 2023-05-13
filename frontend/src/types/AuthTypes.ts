@@ -3,6 +3,8 @@ export type Role = "Admin" | "Teacher" | "Student";
 export enum TabEnum {
   ADMIN,
   TEACHER,
+  ACTIVE,
+  ARCHIVED,
 }
 
 type BaseUser = {
