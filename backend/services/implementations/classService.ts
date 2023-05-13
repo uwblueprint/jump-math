@@ -117,6 +117,7 @@ class ClassService implements IClassService {
           teacher: teacherDTO,
           testSessions: testSessionDTOs,
           students: classObj.students,
+          isActive: classObj.isActive,
         };
       }),
     );
@@ -159,6 +160,32 @@ class ClassService implements IClassService {
       );
       throw error;
     }
+  }
+
+  async archiveClass(id: string): Promise<ClassResponseDTO> {
+    let archivedClass: Class | null;
+    try {
+      archivedClass = await MgClass.findOneAndUpdate(
+        { _id: id },
+        { isActive: false },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!archivedClass) {
+        throw new Error(`Class with id ${id} not found`);
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return (await this.mapClassToClassDTOs([archivedClass]))[0];
   }
 
   async createStudent(
