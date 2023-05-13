@@ -111,6 +111,20 @@ class ImageUploadService implements IImageUploadService {
     }
   }
 
+  async deleteImage(image: ImageMetadata): Promise<ImageMetadata> {
+    try {
+      await this.storageService.deleteFile(image.filePath);
+      return image;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get delete image for filePath: ${
+          image.filePath
+        }. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
+
   private async createImage(
     filePath: string,
     fileContentType: string,

@@ -4,7 +4,7 @@ import { FileUpload } from "graphql-upload";
  * A union of all types of metadata for a question component
  */
 export type BaseQuestionComponentMetadata<
-  ImageMetadataType extends ImageMetadataTypes
+  ImageMetadataType extends ImageMetadataTypes,
 > =
   | QuestionTextMetadata
   | TextMetadata
@@ -24,9 +24,11 @@ export interface GraphQLQuestionComponentMetadata {
   fractionMetadata: FractionMetadata;
 }
 
-export type QuestionComponentMetadataRequest = BaseQuestionComponentMetadata<ImageMetadataRequest>;
+export type QuestionComponentMetadataRequest =
+  BaseQuestionComponentMetadata<ImageMetadataRequest>;
 
-export type QuestionComponentMetadata = BaseQuestionComponentMetadata<ImageMetadata>;
+export type QuestionComponentMetadata =
+  BaseQuestionComponentMetadata<ImageMetadata>;
 
 /**
  * This interface contains additional information about a question text component
