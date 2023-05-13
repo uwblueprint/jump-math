@@ -12,7 +12,7 @@ export type BaseQuestionComponentType =
   | QuestionComponent;
 
 export interface BaseTestDTO<
-  QuestionComponentType extends BaseQuestionComponentType
+  QuestionComponentType extends BaseQuestionComponentType,
 > {
   /** The name of the test */
   name: string;
