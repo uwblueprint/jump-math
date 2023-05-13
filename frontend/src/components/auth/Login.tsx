@@ -9,7 +9,7 @@ import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import { AuthenticatedUser, VerifiableUser } from "../../types/AuthTypes";
+import { VerifiableUser } from "../../types/AuthTypes";
 import BackButton from "../common/BackButton";
 import RouterLink from "../common/RouterLink";
 
