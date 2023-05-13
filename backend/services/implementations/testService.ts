@@ -81,6 +81,15 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} not found`);
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
+        try {
+          await this.deleteImages(testToDelete.questions);
+        } catch (imageError) {
+          Logger.error(
+            `Failed to delete test images. Reason = ${getErrorMessage(
+              imageError,
+            )}`,
+          );
+        }
         await MgTest.findByIdAndDelete(id);
       } else {
         await MgTest.findByIdAndUpdate(
