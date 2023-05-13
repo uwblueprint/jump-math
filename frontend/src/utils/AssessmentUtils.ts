@@ -19,6 +19,7 @@ export const getAssessments = (
     assessmentType: assessment.assessmentType,
     curriculumCountry: assessment.curriculumCountry,
     curriculumRegion: assessment.curriculumRegion,
+    updatedAt: assessment.updatedAt,
   };
 };
 

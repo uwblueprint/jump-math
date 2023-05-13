@@ -32,8 +32,8 @@ import SortMenu from "../../common/table/SortMenu";
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState("name");
-  const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [sortProperty, setSortProperty] = React.useState("updatedAt");
+  const [sortOrder, setSortOrder] = React.useState("descending");
 
   const [grades, setGrades] = React.useState<Array<string>>([]);
   const [testTypes, setTestTypes] = React.useState<Array<string>>([]);
@@ -114,10 +114,20 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           searchLength={assessments.length}
           sortMenuComponent={
             <SortMenu
-              labels={["name", "status", "grade", "type", "country", "region"]}
+              initialSortOrder="descending"
+              labels={[
+                "last updated",
+                "name",
+                "status",
+                "grade",
+                "type",
+                "country",
+                "region",
+              ]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
               properties={[
+                "updatedAt",
                 "name",
                 "status",
                 "grade",

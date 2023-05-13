@@ -35,6 +35,8 @@ export interface Test extends Document {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+  /** the time the assessment was last updated */
+  updatedAt: Date;
 }
 
 const TestSchema: Schema = new Schema(

@@ -23,6 +23,7 @@ export interface SortMenuProps {
   labels: string[];
   onSortProperty: React.Dispatch<React.SetStateAction<string>>;
   onSortOrder: React.Dispatch<React.SetStateAction<string>>;
+  initialSortOrder?: string;
 }
 
 const SortMenu = ({
@@ -30,9 +31,10 @@ const SortMenu = ({
   labels,
   onSortProperty,
   onSortOrder,
+  initialSortOrder = "ascending",
 }: SortMenuProps): React.ReactElement => {
   const [sortProperty, setSortProperty] = React.useState(properties[0]);
-  const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [sortOrder, setSortOrder] = React.useState(initialSortOrder);
 
   const propertyList = (
     <RadioGroup
