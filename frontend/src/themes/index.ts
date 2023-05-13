@@ -36,6 +36,10 @@ const theme = extendTheme({
     Tag,
     Textarea,
   },
+  config: {
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
 });
 
 export default theme;
