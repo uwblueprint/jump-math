@@ -81,6 +81,7 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} not found`);
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
+        await MgTest.findByIdAndDelete(id);
         try {
           await this.deleteImages(testToDelete.questions);
         } catch (imageError) {
@@ -90,7 +91,6 @@ class TestService implements ITestService {
             )}`,
           );
         }
-        await MgTest.findByIdAndDelete(id);
       } else {
         await MgTest.findByIdAndUpdate(
           id,
