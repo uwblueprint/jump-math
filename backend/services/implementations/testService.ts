@@ -71,6 +71,7 @@ class TestService implements ITestService {
       curriculumRegion: newTest.curriculumRegion,
       assessmentType: newTest.assessmentType,
       status: newTest.status,
+      updatedAt: newTest.updatedAt,
     };
   }
 
@@ -141,6 +142,7 @@ class TestService implements ITestService {
       curriculumRegion: updatedTest.curriculumRegion,
       assessmentType: updatedTest.assessmentType,
       status: updatedTest.status,
+      updatedAt: updatedTest.updatedAt,
     };
   }
 
@@ -266,6 +268,7 @@ class TestService implements ITestService {
       curriculumRegion: unarchivedTest.curriculumRegion,
       assessmentType: unarchivedTest.assessmentType,
       status: unarchivedTest.status,
+      updatedAt: unarchivedTest.updatedAt,
     };
   }
 
@@ -322,6 +325,7 @@ class TestService implements ITestService {
           curriculumRegion: test.curriculumRegion,
           assessmentType: test.assessmentType,
           status: test.status,
+          updatedAt: test.updatedAt,
         };
       }),
     );

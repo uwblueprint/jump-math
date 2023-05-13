@@ -1,8 +1,6 @@
 import { gql } from "apollo-server-express";
 
 const testSessionType = gql`
-  scalar Date
-
   type ResultResponseDTO {
     student: String!
     score: Float!

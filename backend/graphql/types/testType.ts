@@ -51,8 +51,6 @@ const testType = gql`
     text: String!
   }
 
-  scalar FileUpload
-
   input ImageMetadataRequestInput {
     file: FileUpload
     previewUrl: String!
@@ -135,6 +133,7 @@ const testType = gql`
     curriculumCountry: String!
     curriculumRegion: String!
     status: StatusEnum!
+    updatedAt: Date!
   }
 
   input TestRequestDTO {

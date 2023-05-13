@@ -28,6 +28,8 @@ export interface BaseTestDTO<
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+  /** the time the assessment was last updated */
+  updatedAt: Date;
 }
 
 export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
