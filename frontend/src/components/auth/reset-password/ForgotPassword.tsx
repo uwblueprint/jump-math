@@ -9,7 +9,6 @@ import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
-import LoadingState from "../../common/LoadingState";
 import ResendEmail from "../../common/ResendEmail";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
