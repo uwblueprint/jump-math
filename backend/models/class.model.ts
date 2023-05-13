@@ -20,6 +20,8 @@ export interface Class extends Document {
   testSessions: string[];
   /** the students of the class */
   students: Student[];
+  /** the status of the class */
+  isActive: boolean;
 }
 
 export interface Student {
@@ -74,6 +76,10 @@ const ClassSchema: Schema = new Schema({
   students: {
     type: [StudentSchema],
     required: false,
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
   },
 });
 
