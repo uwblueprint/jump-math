@@ -26,6 +26,8 @@ export type AuthenticatedUser =
   | AuthenticatedStudent
   | null;
 
+export type VerifiableUser = AuthenticatedUser & { emailVerified: boolean };
+
 export type DecodedJWT =
   | string
   | null

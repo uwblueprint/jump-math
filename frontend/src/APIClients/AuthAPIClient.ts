@@ -5,7 +5,7 @@ import {
 } from "@apollo/client";
 
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
-import { AuthenticatedUser } from "../types/AuthTypes";
+import { AuthenticatedUser, VerifiableUser } from "../types/AuthTypes";
 import { SchoolMetadata } from "../types/TeacherSignupTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
 
@@ -13,14 +13,11 @@ import { Grade } from "./types/UserClientTypes";
 
 type LoginFunction = (
   options?:
-    | MutationFunctionOptions<
-        { login: AuthenticatedUser & { emailVerified: boolean } },
-        OperationVariables
-      >
+    | MutationFunctionOptions<{ login: VerifiableUser }, OperationVariables>
     | undefined,
 ) => Promise<
   FetchResult<
-    { login: AuthenticatedUser & { emailVerified: boolean } },
+    { login: VerifiableUser },
     Record<string, unknown>,
     Record<string, unknown>
   >
@@ -30,8 +27,8 @@ const login = async (
   email: string,
   password: string,
   loginFunction: LoginFunction,
-): Promise<(AuthenticatedUser & { emailVerified: boolean }) | null> => {
-  let user: (AuthenticatedUser & { emailVerified: boolean }) | null = null;
+): Promise<VerifiableUser | null> => {
+  let user: VerifiableUser | null = null;
   try {
     const result = await loginFunction({ variables: { email, password } });
     user = result.data?.login ?? null;

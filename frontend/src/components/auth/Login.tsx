@@ -9,7 +9,7 @@ import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import { AuthenticatedUser } from "../../types/AuthTypes";
+import { AuthenticatedUser, VerifiableUser } from "../../types/AuthTypes";
 import BackButton from "../common/BackButton";
 import RouterLink from "../common/RouterLink";
 
@@ -32,7 +32,7 @@ const Login = (): React.ReactElement => {
   const [unverifiedUser, setUnverifiedUser] = useState(false);
 
   const [login] = useMutation<{
-    login: AuthenticatedUser & { emailVerified: boolean };
+    login: VerifiableUser;
   }>(LOGIN);
 
   const onLogInClick = async () => {
@@ -40,9 +40,11 @@ const Login = (): React.ReactElement => {
       setLoginError(true);
       return;
     }
-    const user:
-      | (AuthenticatedUser & { emailVerified: boolean })
-      | null = await authAPIClient.login(email, password, login);
+    const user: VerifiableUser | null = await authAPIClient.login(
+      email,
+      password,
+      login,
+    );
 
     if (user?.emailVerified === false) {
       setUnverifiedUser(true);
