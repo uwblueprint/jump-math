@@ -97,7 +97,7 @@ const AssessmentEditorHeader = ({
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
               <Text textStyle="smallerParagraph">
-                {isEditing ? `Last edited` : "Created"}{" "}
+                {isEditing ? "Last edited " : "Created "}
                 {updatedAt ? formatDate(new Date(updatedAt)) : getCurrentDate()}
               </Text>
             </VStack>
