@@ -4,7 +4,13 @@ set -e
 
 # https://stackoverflow.com/a/32981392/3761440
 faketty () {
-    script -qefc "$(printf "%q " "$@")" /dev/null
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        script -q /dev/null bash -c "$(printf "%q " "$@")"
+    else
+        # Linux
+        script -qefc "$(printf "%q " "$@")" /dev/null
+    fi
 }
 
 
