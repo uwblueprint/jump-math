@@ -18,6 +18,16 @@ import Copyable from "../common/Copyable";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
 
+export const STATUSES = ["active", "upcoming", "past"] as const;
+export type TestSessionStatus = typeof STATUSES[number];
+
+type TestSessionItemStats = {
+  mean: number;
+  median: number;
+  completionRate: number;
+  submissions: number;
+};
+
 export type TestSessionListItemProps = {
   classroomName: string;
   testSessionName: string;
@@ -25,15 +35,8 @@ export type TestSessionListItemProps = {
   // the session is active, in which case it should be the end date
   targetDate: Date;
   accessCode: string;
-  status: "active" | "upcoming" | "past";
+  status: TestSessionStatus;
   stats?: TestSessionItemStats;
-};
-
-type TestSessionItemStats = {
-  mean: number;
-  median: number;
-  completionRate: number;
-  submissions: number;
 };
 
 const STATUS_LABELS = {
