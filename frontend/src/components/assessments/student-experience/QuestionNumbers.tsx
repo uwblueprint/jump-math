@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GridItem, SimpleGrid, Text } from "@chakra-ui/react";
+import { GridItem, SimpleGrid } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
 import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
@@ -12,7 +12,6 @@ const QuestionNumbers = (): React.ReactElement => {
   );
   return (
     <>
-      <Text textStyle="subtitle1">Questions</Text>
       {test && (
         <SimpleGrid columns={3} spacing={4}>
           {test.questions.map((_, index) => {

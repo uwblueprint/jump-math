@@ -17,8 +17,8 @@ import {
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
 import { getReadableDateTime } from "../../../utils/GeneralUtils";
-import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
-import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
+import AssessmentInfo from "../../assessments/student-experience/pre-assessment/AssessmentInfo";
+import AssessmentRules from "../../assessments/student-experience/pre-assessment/AssessmentRules";
 import Modal from "../../common/Modal";
 
 const AssessmentSummaryPage = (): React.ReactElement => {

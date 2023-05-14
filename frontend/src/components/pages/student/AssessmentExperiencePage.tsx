@@ -1,27 +1,15 @@
-import React, { useContext, useMemo } from "react";
-import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
-import { QuestionElementType } from "../../../types/QuestionTypes";
 import StudentDashboardHeader from "../../assessments/assessment-creation/StudentDashboardHeader";
+import NavButtons from "../../assessments/student-experience/NavButtons";
 import Question from "../../assessments/student-experience/Question";
 import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
+import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
 
 const AssessmentExperiencePage = (): React.ReactElement => {
-  const { test, className, currentQuestion, setCurrentQuestion } = useContext(
-    StudentContext,
-  );
-
-  const questionPoints = useMemo(() => {
-    if (!test) {
-      return 0;
-    }
-    const question = test.questions[currentQuestion];
-    return question.filter(
-      (questionElement) =>
-        questionElement.type === QuestionElementType.QUESTION_TEXT,
-    ).length;
-  }, [test, currentQuestion]);
+  const { test, className, currentQuestion } = useContext(StudentContext);
 
   return (
     <>
@@ -33,48 +21,21 @@ const AssessmentExperiencePage = (): React.ReactElement => {
           />
           <Box width="90%">
             <HStack align="top" spacing="10%">
-              <VStack align="left" spacing="6" width="25%">
+              <VStack align="left" minWidth="233" spacing="6">
+                <Text textStyle="subtitle1">Questions</Text>
                 <QuestionNumbers />
               </VStack>
-              <VStack align="left" spacing={4}>
+              <VStack align="left" minHeight="80vh" spacing={8}>
                 <Text color="grey.300" textStyle="subtitle1">
                   All responses will be autosaved. Make sure you answer all the
                   questions before submitting your test. You can also do the
                   questions in ANY order meaning that can skip a question and
                   come back to it later!
                 </Text>
-                <HStack>
-                  <Text textStyle="mobileHeader2">
-                    Question {currentQuestion + 1}
-                  </Text>
-                  <Text textStyle="subtitle1">
-                    ({questionPoints} Point{questionPoints > 1 ? "s" : ""})
-                  </Text>
-                </HStack>
-                <Question
-                  questionComponents={test.questions[currentQuestion]}
-                />
-                <HStack>
-                  {currentQuestion !== 0 && (
-                    <Button
-                      onClick={() => setCurrentQuestion(currentQuestion - 1)}
-                      variant="secondary"
-                    >
-                      Previous Question
-                    </Button>
-                  )}
-                  <Spacer />
-                  {currentQuestion === test.questions.length - 1 ? (
-                    <Button variant="primary">Submit</Button>
-                  ) : (
-                    <Button
-                      onClick={() => setCurrentQuestion(currentQuestion + 1)}
-                      variant="primary"
-                    >
-                      Next Question
-                    </Button>
-                  )}
-                </HStack>
+                <QuestionTitle />
+                <Question components={test.questions[currentQuestion]} />
+                <Spacer />
+                <NavButtons />
               </VStack>
             </HStack>
           </Box>

@@ -108,7 +108,7 @@ const ComponentLibrary = (): React.ReactElement => {
       </HStack>
       <Center>
         <Box w="60%">
-          <Question questionComponents={MOCK_DATA} />
+          <Question components={MOCK_DATA} />
         </Box>
       </Center>
     </FormProvider>
