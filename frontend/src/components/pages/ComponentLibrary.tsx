@@ -7,7 +7,7 @@ import { Grade } from "../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../types/ClassroomTypes";
 import { QuestionElementType } from "../../types/QuestionTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import DisplayQuestion from "../assessments/student-experience/Question";
+import Question from "../assessments/student-experience/Question";
 import ClassroomCard from "../classrooms/ClassroomCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
@@ -108,7 +108,7 @@ const ComponentLibrary = (): React.ReactElement => {
       </HStack>
       <Center>
         <Box w="60%">
-          <DisplayQuestion questionComponents={MOCK_DATA} />
+          <Question questionComponents={MOCK_DATA} />
         </Box>
       </Center>
     </FormProvider>

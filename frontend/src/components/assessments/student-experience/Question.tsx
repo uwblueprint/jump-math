@@ -18,13 +18,13 @@ import QuestionText from "./question-components/QuestionText";
 import ShortAnswer from "./question-components/ShortAnswer";
 import Text from "./question-components/Text";
 
-interface DisplayQuestionProps {
+interface QuestionProps {
   questionComponents: QuestionComponentResponse[];
 }
 
 const Question = ({
   questionComponents,
-}: DisplayQuestionProps): React.ReactElement => {
+}: QuestionProps): React.ReactElement => {
   return (
     <>
       {questionComponents.map((question, i) => {
