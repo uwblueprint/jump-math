@@ -18,9 +18,9 @@ import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
-import AssessmentEditorHeader from "../../assessments/assessment-editor/AssessmentEditorHeader";
-import AssessmentQuestions from "../../assessments/assessment-editor/AssessmentQuestions";
-import BasicInformation from "../../assessments/assessment-editor/BasicInformation";
+import AssessmentEditorHeader from "../../assessment-management/editor/AssessmentEditorHeader";
+import AssessmentQuestions from "../../assessment-management/editor/AssessmentQuestions";
+import BasicInformation from "../../assessment-management/editor/BasicInformation";
 import QuestionEditor from "../../question-creation/QuestionEditor";
 
 const AssessmentEditorPage = (): React.ReactElement => {

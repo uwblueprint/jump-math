@@ -23,9 +23,9 @@ import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
-import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
-import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
-import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
+import ArchiveModal from "../status/EditStatusModals/ArchiveModal";
+import DeleteModal from "../status/EditStatusModals/DeleteModal";
+import PublishModal from "../status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
   name: string;

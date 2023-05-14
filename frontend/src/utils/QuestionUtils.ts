@@ -8,7 +8,7 @@ import {
   QuestionComponentRequest,
   QuestionComponentResponse,
 } from "../APIClients/types/TestClientTypes";
-import { QuestionTagProps } from "../components/assessments/assessment-editor/QuestionTag";
+import { QuestionTagProps } from "../components/assessment-management/editor/QuestionTag";
 import { DragQuestionItem } from "../types/DragTypes";
 import {
   ImageMetadata,
