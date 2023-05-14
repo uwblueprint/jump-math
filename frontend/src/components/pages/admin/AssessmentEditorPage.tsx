@@ -207,6 +207,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 onDelete={onDeleteTest}
                 onError={onError}
                 onSave={state ? onSaveChanges : onSave}
+                updatedAt={state?.updatedAt}
                 validateForm={validateForm}
               />
               <VStack spacing="8" width="92%">

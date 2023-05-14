@@ -19,7 +19,7 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
-import { getCurrentDate } from "../../../utils/GeneralUtils";
+import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import Popover from "../../common/Popover";
 import EditStatusButton from "../assessment-status/EditStatusButton";
@@ -37,6 +37,7 @@ interface AssessmentEditorHeaderProps {
   onSave: SubmitHandler<TestRequest>;
   onError: () => void;
   validateForm: () => boolean;
+  updatedAt?: string;
 }
 
 const AssessmentEditorHeader = ({
@@ -49,6 +50,7 @@ const AssessmentEditorHeader = ({
   onSave,
   onError,
   validateForm,
+  updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
   const history = useHistory();
   const [showPublishModal, setShowPublishModal] = React.useState(false);
@@ -95,8 +97,8 @@ const AssessmentEditorHeader = ({
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
               <Text textStyle="smallerParagraph">
-                {/* TODO: Populate last edited date with last updated field */}
-                {isEditing ? "Last edited" : "Created"} {getCurrentDate()}
+                {isEditing ? "Last edited " : "Created "}
+                {updatedAt ? formatDate(new Date(updatedAt)) : getCurrentDate()}
               </Text>
             </VStack>
           </HStack>
