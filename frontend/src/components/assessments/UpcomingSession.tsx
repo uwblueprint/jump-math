@@ -30,7 +30,7 @@ const UpcomingSession = ({
 }: UpcomingSessionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <HStack gap={2}>
+    <HStack gap={2} pb={8}>
       <Tag bg="blue.50" borderRadius="full" overflow="hidden" size="lg" w={36}>
         <TagLeftIcon as={BookIcon} color="blue.300" />
         <TagLabel>
