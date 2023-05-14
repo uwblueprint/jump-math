@@ -21,6 +21,7 @@ export const CLASSROOMS_PAGE = "/teacher/classrooms";
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
 export const ASSESSMENT_SUMMARY_PAGE = "/student/assessment-summary";
+export const ASSESSMENT_EXPERIENCE_PAGE = "/student/assessment-experience";
 
 // TO DELETE BEFORE DEPLOYMENT
 export const COMPONENT_LIBRARY_PAGE = "/component-library";
