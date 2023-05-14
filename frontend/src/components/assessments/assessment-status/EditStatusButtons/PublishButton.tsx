@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 
 import { PUBLISH_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
+import PopoverButton from "../../../common/PopoverButton";
 import Toast from "../../../common/Toast";
-import EditStatusButton from "../EditStatusButton";
 import PublishModal from "../EditStatusModals/PublishModal";
 
 interface PublishButtonProps {
@@ -42,7 +42,7 @@ const PublishButton = ({
 
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Publish"
         onClick={() => {
           closePopover();

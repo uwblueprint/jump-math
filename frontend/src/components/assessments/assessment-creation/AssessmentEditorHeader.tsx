@@ -22,7 +22,7 @@ import {
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/BackButton";
 import Popover from "../../common/Popover";
-import EditStatusButton from "../assessment-status/EditStatusButton";
+import PopoverButton from "../../common/PopoverButton";
 import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
 import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
@@ -133,7 +133,7 @@ const AssessmentEditorHeader = ({
                 spacing="0em"
               >
                 {isEditing && (
-                  <EditStatusButton
+                  <PopoverButton
                     name="Archive"
                     onClick={() => {
                       onClosePopover();
@@ -141,7 +141,7 @@ const AssessmentEditorHeader = ({
                     }}
                   />
                 )}
-                <EditStatusButton
+                <PopoverButton
                   name="Delete"
                   onClick={() => {
                     onClosePopover();
