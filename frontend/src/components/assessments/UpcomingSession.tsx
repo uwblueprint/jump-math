@@ -7,6 +7,7 @@ import {
   TagLabel,
   TagLeftIcon,
   Text,
+  Tooltip,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -33,20 +34,35 @@ const UpcomingSession = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <HStack gap={2} pb={8}>
-      <Tag bg="blue.50" borderRadius="full" overflow="hidden" size="lg" w={36}>
-        <TagLeftIcon as={BookIcon} color="blue.300" />
-        <TagLabel>
-          <Text
-            color="blue.300"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            textStyle="smallerParagraph"
-            whiteSpace="nowrap"
-          >
-            {classroomName}
-          </Text>
-        </TagLabel>
-      </Tag>
+      <Tooltip
+        bg="blue.300"
+        borderRadius={4}
+        hasArrow
+        label={classroomName}
+        p={2}
+        placement="left"
+      >
+        <Tag
+          bg="blue.50"
+          borderRadius="full"
+          overflow="hidden"
+          size="lg"
+          w={36}
+        >
+          <TagLeftIcon as={BookIcon} color="blue.300" />
+          <TagLabel>
+            <Text
+              color="blue.300"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              textStyle="smallerParagraph"
+              whiteSpace="nowrap"
+            >
+              {classroomName}
+            </Text>
+          </TagLabel>
+        </Tag>
+      </Tooltip>
       <VStack align="start">
         <Text color="blue.300" textStyle="subtitle2">
           {sessionName}
