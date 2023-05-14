@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Divider,
   HStack,
   Spacer,
   Tag,
@@ -14,6 +15,7 @@ import { BookIcon } from "../../assets/icons";
 import { formatDate } from "../../utils/GeneralUtils";
 import Copyable from "../common/Copyable";
 import Popover from "../common/Popover";
+import PopoverButton from "../common/PopoverButton";
 
 export type UpcomingSessionProps = {
   classroomName: string;
@@ -56,7 +58,10 @@ const UpcomingSession = ({
       <Copyable label="Access Code" value={accessCode} />
       <Spacer />
       <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-        .
+        <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
+          <PopoverButton name="Edit" onClick={() => {}} />
+          <PopoverButton name="Delete" onClick={() => {}} />
+        </VStack>
       </Popover>
     </HStack>
   );
