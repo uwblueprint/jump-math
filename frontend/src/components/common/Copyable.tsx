@@ -31,6 +31,7 @@ const Copyable = ({
   };
   return (
     <Button
+      aria-label="Click to copy"
       cursor={isClipboardSupported ? "pointer" : "text"}
       display="flex"
       flexDirection="column"
@@ -42,6 +43,7 @@ const Copyable = ({
     >
       <HStack gap={1} userSelect={isClipboardSupported ? "none" : "all"}>
         <CopyIcon
+          aria-hidden="true"
           boxSize="20px"
           cursor={isClipboardSupported ? "inherit" : "default"}
         />

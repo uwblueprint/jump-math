@@ -59,7 +59,7 @@ const UpcomingSession = ({
           size="lg"
           w={36}
         >
-          <TagLeftIcon as={BookIcon} color="blue.300" />
+          <TagLeftIcon aria-hidden="true" as={BookIcon} color="blue.300" />
           <TagLabel>
             <Text
               color="blue.300"
