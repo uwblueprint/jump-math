@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button, ButtonProps, HStack, Text } from "@chakra-ui/react";
 
 import { CopyIcon } from "../../assets/icons";
@@ -8,7 +8,11 @@ export type CopyableProps = {
   label: string;
 } & ButtonProps;
 
-const Copyable = ({ value, label, ...props }: CopyableProps) => {
+const Copyable = ({
+  value,
+  label,
+  ...props
+}: CopyableProps): React.ReactElement => {
   const [isClipboardSupported, setClipboardSupported] = useState(
     typeof navigator !== "undefined" && navigator.clipboard !== undefined,
   );

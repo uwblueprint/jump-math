@@ -40,7 +40,7 @@ const UpcomingSession = ({
   targetDate,
   accessCode,
   status,
-}: UpcomingSessionProps) => {
+}: UpcomingSessionProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <HStack gap={2} pb={8}>
