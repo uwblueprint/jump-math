@@ -6,7 +6,7 @@ import { JUMP_MATH_LOGO } from "../../assets/images";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import ImageType from "../../types/ImageTypes";
-import FormError from "../common/FormError";
+import FormFieldError from "../common/state/FormFieldError";
 
 interface AuthWrapperInputProps {
   title: string;
@@ -55,7 +55,7 @@ const AuthWrapper = ({
           >
             {subtitle}
           </Text>
-          {error && <FormError message={error} />}
+          {error && <FormFieldError message={error} />}
           {form}
         </VStack>
       </Flex>

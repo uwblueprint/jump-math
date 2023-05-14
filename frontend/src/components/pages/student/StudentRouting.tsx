@@ -8,8 +8,8 @@ import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClient
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/state/ErrorState";
+import LoadingState from "../../common/state/LoadingState";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";

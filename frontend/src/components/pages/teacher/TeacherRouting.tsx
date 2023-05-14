@@ -5,12 +5,12 @@ import { Box, VStack } from "@chakra-ui/react";
 import * as Routes from "../../../constants/Routes";
 import Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
-import Navbar from "../../common/Navbar";
+import Navbar from "../../common/navbar/Navbar";
 import NotFound from "../NotFound";
 
 import ClassroomsPage from "./ClassroomsPage";
+import TeacherDashboardPage from "./DashboardPage";
 import DistributeAssessmentPage from "./DistributeAssessmentPage";
-import TeacherDashboardPage from "./TeacherDashboardPage";
 
 const pages: Page[] = [
   { title: "Dashboard", url: Routes.TEACHER_DASHBOARD_PAGE },

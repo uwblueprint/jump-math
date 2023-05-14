@@ -1,6 +1,6 @@
 import React from "react";
 
-import LoadingState from "../../common/LoadingState";
+import LoadingState from "../../common/state/LoadingState";
 import NotFound from "../../pages/NotFound";
 
 import ResetPasswordHandler from "./ResetPasswordHandler";

@@ -26,8 +26,8 @@ import { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { UseCase } from "../../../types/AssessmentTypes";
 import { GradeOption, StringOption } from "../../../types/SelectInputTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
-import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
+import FormError from "../../common/state/FormError";
 
 interface BasicInformationProps {
   register: UseFormRegister<TestRequest>;
@@ -67,7 +67,7 @@ const BasicInformation = ({
   return (
     <Box width="100%">
       <VStack align="left" spacing={8} width="75%">
-        {errorMessage && <ErrorToast errorMessage={errorMessage} />}
+        {errorMessage && <FormError message={errorMessage} />}
         <Text textStyle="eyebrow">Basic Information</Text>
         <FormControl isInvalid={Boolean(errors.name)} isRequired>
           <FormLabel color="grey.400">Assessment Name</FormLabel>

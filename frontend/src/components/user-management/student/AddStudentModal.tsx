@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
@@ -23,9 +23,9 @@ import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
 import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
-import ErrorToast from "../../common/ErrorToast";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-import Toast from "../../common/Toast";
+import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
+import FormError from "../../common/state/FormError";
+import Toast from "../../common/state/Toast";
 
 const AddStudentModal = (): React.ReactElement => {
   const {
@@ -129,9 +129,7 @@ const AddStudentModal = (): React.ReactElement => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {errorMessage && (
-              <ErrorToast errorMessage={errorMessage as string} />
-            )}
+            {errorMessage && <FormError message={errorMessage as string} />}
             <FormControl isRequired marginTop={errorMessage ? "10" : "0"}>
               <HStack direction="row" mt={6}>
                 <VStack align="left" direction="column" width="320px">

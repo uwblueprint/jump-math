@@ -6,10 +6,10 @@ import { QuestionComponentResponse } from "../../APIClients/types/TestClientType
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../types/ClassroomTypes";
 import { QuestionElementType } from "../../types/QuestionTypes";
-import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import DisplayQuestion from "../assessments/student-experience/Question";
+import DisplayQuestion from "../assessment-experience/Question";
+import StudentDashboardHeader from "../assessment-experience/StudentDashboardHeader";
+import AddClassroomModal from "../classrooms/AddClassroomModal";
 import ClassroomCard from "../classrooms/ClassroomCard";
-import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
 
 import MobileRedirect from "./MobileRedirect";

@@ -8,8 +8,8 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../assets/icons";
-import Modal from "../common/Modal";
-import Toast from "../common/Toast";
+import Modal from "../common/modal/Modal";
+import Toast from "../common/state/Toast";
 
 interface RemoveUserModalProps {
   name: string;

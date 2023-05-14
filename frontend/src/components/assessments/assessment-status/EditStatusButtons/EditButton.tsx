@@ -6,8 +6,8 @@ import { GET_TEST } from "../../../../APIClients/queries/TestQueries";
 import { TestResponse } from "../../../../APIClients/types/TestClientTypes";
 import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
 import { formatQuestionsResponse } from "../../../../utils/QuestionUtils";
-import PopoverButton from "../../../common/PopoverButton";
-import Toast from "../../../common/Toast";
+import PopoverButton from "../../../common/popover/PopoverButton";
+import Toast from "../../../common/state/Toast";
 
 interface EditButtonProps {
   assessmentId: string;

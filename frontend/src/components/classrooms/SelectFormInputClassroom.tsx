@@ -2,8 +2,8 @@ import React from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { GroupBase, Select, SingleValue } from "chakra-react-select";
 
-import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
-import { StringOption } from "../../../types/SelectInputTypes";
+import { ClassroomForm, ClassroomInput } from "../../types/ClassroomTypes";
+import { StringOption } from "../../types/SelectInputTypes";
 
 interface SelectFormInputClassroomProps {
   setValue: UseFormSetValue<ClassroomForm>;

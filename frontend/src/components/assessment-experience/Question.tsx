@@ -1,22 +1,22 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
+import { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
 import {
   ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
   TextMetadata,
-} from "../../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+} from "../../types/QuestionMetadataTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 
-import Image from "./question-components/Image";
-import MultipleChoice from "./question-components/MultipleChoice";
-import MultiSelect from "./question-components/MultiSelect";
-import QuestionText from "./question-components/QuestionText";
-import ShortAnswer from "./question-components/ShortAnswer";
-import Text from "./question-components/Text";
+import Image from "./question-elements/Image";
+import MultipleChoice from "./question-elements/MultipleChoice";
+import MultiSelect from "./question-elements/MultiSelect";
+import QuestionText from "./question-elements/QuestionText";
+import ShortAnswer from "./question-elements/ShortAnswer";
+import Text from "./question-elements/Text";
 
 interface DisplayQuestionProps {
   questionComponents: QuestionComponentResponse[];

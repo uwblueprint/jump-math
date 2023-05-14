@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { VERIFY_EMAIL } from "../../../APIClients/mutations/AuthMutations";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import { Role } from "../../../types/AuthTypes";
-import LoadingState from "../../common/LoadingState";
+import LoadingState from "../../common/state/LoadingState";
 import AdminSignupConfirmation from "../AdminSignupConfirmation";
 import TeacherSignupConfirmation from "../teacher-signup/steps/TeacherSignupConfirmation";
 

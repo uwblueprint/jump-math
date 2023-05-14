@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
 
-interface EditStatusButtonProps {
+interface PopoverButtonProps {
   name: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
-const EditStatusButton = ({
+const PopoverButton = ({
   name,
   onClick,
-}: EditStatusButtonProps): React.ReactElement => {
+}: PopoverButtonProps): React.ReactElement => {
   return (
     <Button
       color="black"
@@ -24,4 +24,4 @@ const EditStatusButton = ({
   );
 };
 
-export default EditStatusButton;
+export default PopoverButton;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, IconButton } from "@chakra-ui/react";
 
-import { CheckmarkIcon } from "../../../assets/icons";
-import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
+import { CheckmarkIcon } from "../../assets/icons";
+import QuestionNumberTypes from "../../types/QuestionNumberTypes";
 
 interface QuestionNumberProps {
   num: number;

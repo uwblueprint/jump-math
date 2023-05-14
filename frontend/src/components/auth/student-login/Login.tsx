@@ -5,11 +5,12 @@ import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
 import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
-import AuthWrapper from "../../auth/AuthWrapper";
-import NameSelection from "../../auth/student-login/NameSelection";
 import BackButton from "../../common/BackButton";
+import AuthWrapper from "../AuthWrapper";
 
-const StudentLoginPage = (): React.ReactElement => {
+import NameSelection from "./NameSelection";
+
+const Login = (): React.ReactElement => {
   const [showNameSelection, setShowNameSelection] = useState(false);
   const delayedRedirect = () => {
     setTimeout(() => setShowNameSelection(true), 1000);
@@ -115,4 +116,4 @@ const StudentLoginPage = (): React.ReactElement => {
   );
 };
 
-export default StudentLoginPage;
+export default Login;

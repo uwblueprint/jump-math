@@ -23,8 +23,8 @@ import {
   filterAdminUsersBySearch,
   filterTeacherUsersBySearch,
 } from "../../../utils/UserUtils";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/state/ErrorState";
+import LoadingState from "../../common/state/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
 import AddAdminModal from "../../user-management/admin/AddAdminModal";

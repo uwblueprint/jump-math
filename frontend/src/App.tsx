@@ -10,13 +10,13 @@ import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
 import EmailActionHandler from "./components/auth/email-action/EmailActionHandler";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import StudentLogin from "./components/auth/student-login/Login";
 import TeacherSignup from "./components/auth/teacher-signup";
 import AdminRouting from "./components/pages/admin/AdminRouting";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
 import MobileRedirect from "./components/pages/MobileRedirect";
 import NotFound from "./components/pages/NotFound";
-import StudentLoginPage from "./components/pages/student/StudentLoginPage";
 import StudentRouting from "./components/pages/student/StudentRouting";
 import TeacherRouting from "./components/pages/teacher/TeacherRouting";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
@@ -125,7 +125,7 @@ const App = (): React.ReactElement => {
                   path={Routes.TEACHER_SIGNUP_PAGE}
                 />
                 <Route
-                  component={StudentLoginPage}
+                  component={StudentLogin}
                   exact
                   path={Routes.STUDENT_LOGIN_PAGE}
                 />

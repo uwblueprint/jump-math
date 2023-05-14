@@ -28,8 +28,8 @@ import {
 } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import { randomNumber } from "../../../utils/GeneralUtils";
-import ErrorToast from "../../common/ErrorToast";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
+import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
+import FormError from "../../common/state/FormError";
 
 import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
 
@@ -154,7 +154,7 @@ const AddAdminModal = (): React.ReactElement => {
               <ModalCloseButton />
               <ModalBody>
                 {showRequestError && (
-                  <ErrorToast errorMessage={requestErrorMessage as string} />
+                  <FormError message={requestErrorMessage as string} />
                 )}
                 <FormControl
                   isRequired

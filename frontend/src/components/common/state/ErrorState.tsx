@@ -1,7 +1,7 @@
 import React from "react";
 import { Center, Text, VStack } from "@chakra-ui/react";
 
-import { AlertIcon } from "../../assets/icons";
+import { AlertIcon } from "../../../assets/icons";
 
 const ErrorState = ({
   fullPage,

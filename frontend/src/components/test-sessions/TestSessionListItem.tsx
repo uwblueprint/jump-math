@@ -15,8 +15,8 @@ import {
 import { BookIcon } from "../../assets/icons";
 import { formatDate } from "../../utils/GeneralUtils";
 import Copyable from "../common/Copyable";
-import Popover from "../common/Popover";
-import PopoverButton from "../common/PopoverButton";
+import Popover from "../common/popover/Popover";
+import PopoverButton from "../common/popover/PopoverButton";
 
 export type TestSessionListItemProps = {
   classroomName: string;

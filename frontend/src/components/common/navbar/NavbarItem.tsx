@@ -11,10 +11,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ChevronDownIcon, ChevronUpIcon } from "../../assets/icons";
-import Page from "../../types/PageTypes";
-
-import RouterLink from "./RouterLink";
+import { ChevronDownIcon, ChevronUpIcon } from "../../../assets/icons";
+import Page from "../../../types/PageTypes";
+import RouterLink from "../RouterLink";
 
 interface NavbarItemProps extends FlexProps {
   page: Page;

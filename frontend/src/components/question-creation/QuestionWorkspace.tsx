@@ -4,7 +4,7 @@ import { Box, Divider, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
-import ErrorToast from "../common/ErrorToast";
+import FormError from "../common/state/FormError";
 
 import QuestionElementItem from "./QuestionElementItem";
 import WelcomeMessage from "./WelcomeMessage";
@@ -32,7 +32,7 @@ const QuestionWorkspace = (): React.ReactElement => {
       <VStack align="left" margin="3em 5em">
         {showEditorError && (
           <Box paddingBottom="4">
-            <ErrorToast errorMessage={emptyEditorError} />
+            <FormError message={emptyEditorError} />
           </Box>
         )}
         {!isHovering && !questionElements.length && <WelcomeMessage />}

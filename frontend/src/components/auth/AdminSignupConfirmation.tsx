@@ -9,7 +9,7 @@ import {
 } from "../../APIClients/mutations/AuthMutations";
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
 import { ADMIN_LOGIN_PAGE } from "../../constants/Routes";
-import LoadingState from "../common/LoadingState";
+import LoadingState from "../common/state/LoadingState";
 
 import EmailActionError from "./email-action/EmailActionError";
 import PasswordForm from "./password/PasswordForm";

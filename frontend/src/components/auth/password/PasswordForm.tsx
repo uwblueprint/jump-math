@@ -13,7 +13,7 @@ import {
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
-import FormError from "../../common/FormError";
+import FormFieldError from "../../common/state/FormFieldError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 import PasswordRequirement from "./PasswordRequirement";
@@ -103,10 +103,10 @@ const PasswordForm = ({
   return (
     <VStack width="100%">
       {displayMatchError && (
-        <FormError message="Please ensure passwords match" />
+        <FormFieldError message="Please ensure passwords match" />
       )}
       {displayRequirementError && (
-        <FormError message="Password does not meet all of the requirements" />
+        <FormFieldError message="Password does not meet all of the requirements" />
       )}
       {version === "AdminSignup" && (
         <FormControl isRequired pb={6}>

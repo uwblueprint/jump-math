@@ -20,11 +20,11 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import CreateAssessmentButton from "../../assessments/assessment-creation/CreateAssessmentButton";
+import CreateAssessmentButton from "../../assessments/assessment-editor/CreateAssessmentButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/state/ErrorState";
+import LoadingState from "../../common/state/LoadingState";
 import FilterMenu, { FilterProp } from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";

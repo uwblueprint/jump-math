@@ -3,13 +3,11 @@ import { Box, Flex } from "@chakra-ui/react";
 
 import HomeButton from "./HomeButton";
 
-interface HeaderWrapperProps {
+interface HeaderProps {
   children: React.ReactChild;
 }
 
-const HeaderWrapper = ({
-  children,
-}: HeaderWrapperProps): React.ReactElement => {
+const Header = ({ children }: HeaderProps): React.ReactElement => {
   return (
     <Box borderBottom="2px" borderColor="grey.100">
       <Flex margin="1em 2em 1em 2em">
@@ -20,4 +18,4 @@ const HeaderWrapper = ({
   );
 };
 
-export default HeaderWrapper;
+export default Header;

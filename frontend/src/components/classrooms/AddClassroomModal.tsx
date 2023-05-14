@@ -19,16 +19,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
-import { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
-import { Grade } from "../../../APIClients/types/UserClientTypes";
-import { PlusOutlineIcon } from "../../../assets/icons";
-import AuthContext from "../../../contexts/AuthContext";
-import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
-import { gradeOptions } from "../../../utils/AssessmentUtils";
-import ErrorToast from "../../common/ErrorToast";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-import Toast from "../../common/Toast";
+import { CREATE_CLASS } from "../../APIClients/mutations/ClassMutations";
+import { ClassResponse } from "../../APIClients/types/ClassClientTypes";
+import { Grade } from "../../APIClients/types/UserClientTypes";
+import { PlusOutlineIcon } from "../../assets/icons";
+import AuthContext from "../../contexts/AuthContext";
+import { ClassroomForm, ClassroomInput } from "../../types/ClassroomTypes";
+import { gradeOptions } from "../../utils/AssessmentUtils";
+import ModalFooterButtons from "../common/modal/ModalFooterButtons";
+import FormError from "../common/state/FormError";
+import Toast from "../common/state/Toast";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
@@ -137,7 +137,7 @@ const AddClassroomModal = (): React.ReactElement => {
           <ModalCloseButton />
           <ModalBody>
             {showRequestError && (
-              <ErrorToast errorMessage={requestErrorMessage as string} />
+              <FormError message={requestErrorMessage as string} />
             )}
             <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
               <HStack direction="row" mt={6}>

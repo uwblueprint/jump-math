@@ -7,8 +7,8 @@ import {
   QuestionElementType,
 } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
-import ErrorToast from "../../../../common/ErrorToast";
-import Modal from "../../../../common/Modal";
+import Modal from "../../../../common/modal/Modal";
+import FormError from "../../../../common/state/FormError";
 
 import MultipleChoiceOption from "./MultiOption";
 import SelectOptionCount from "./SelectOptionCount";
@@ -90,13 +90,13 @@ const MultiOptionModal = ({
     >
       <VStack spacing="10" width="100%">
         {noCorrectOptionError && (
-          <ErrorToast errorMessage="Mark a correct answer before confirming" />
+          <FormError message="Mark a correct answer before confirming" />
         )}
         {manyCorrectOptionsError && (
-          <ErrorToast errorMessage="Please mark only ONE correct answer before confirming" />
+          <FormError message="Please mark only ONE correct answer before confirming" />
         )}
         {emptyOptionError && (
-          <ErrorToast errorMessage="Please ensure all fields are filled before confirming" />
+          <FormError message="Please ensure all fields are filled before confirming" />
         )}
         <SelectOptionCount
           optionCount={optionCount}

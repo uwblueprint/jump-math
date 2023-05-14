@@ -6,7 +6,7 @@ import {
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
-import QuestionSummary from "../assessment-creation/QuestionSummary";
+import QuestionSummary from "../../assessments/assessment-editor/QuestionSummary";
 
 import QuestionTypeImages from "./QuestionTypeImages";
 
