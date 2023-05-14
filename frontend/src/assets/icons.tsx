@@ -56,12 +56,19 @@ export const ChevronDownIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const BookIcon = (): React.ReactElement => (
-  <Icon viewBox="0 0 24 24">
-    <path
-      d="M20.62 4.22a1 1 0 0 0-.84-.2L12 5.77 4.22 4A1 1 0 0 0 3 5v12.2a1 1 0 0 0 .78 1l8 1.8h.44l8-1.8a1 1 0 0 0 .78-1V5a1 1 0 0 0-.38-.78zM5 6.25l6 1.35v10.15L5 16.4zM19 16.4l-6 1.35V7.6l6-1.35z"
-      fill="currentColor"
-    />
+export const BookIcon = (props: IconProps): React.ReactElement => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#clip0_46_2452)">
+      <path
+        d="M19 3H7C6.20435 3 5.44129 3.31607 4.87868 3.87868C4.31607 4.44129 4 5.20435 4 6V18C4 18.7956 4.31607 19.5587 4.87868 20.1213C5.44129 20.6839 6.20435 21 7 21H19C19.2652 21 19.5196 20.8946 19.7071 20.7071C19.8946 20.5196 20 20.2652 20 20V4C20 3.73478 19.8946 3.48043 19.7071 3.29289C19.5196 3.10536 19.2652 3 19 3ZM7 19C6.73478 19 6.48043 18.8946 6.29289 18.7071C6.10536 18.5196 6 18.2652 6 18C6 17.7348 6.10536 17.4804 6.29289 17.2929C6.48043 17.1054 6.73478 17 7 17H18V19H7Z"
+        fill="black"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_46_2452">
+        <rect fill="white" height="24" width="24" />
+      </clipPath>
+    </defs>
   </Icon>
 );
 
