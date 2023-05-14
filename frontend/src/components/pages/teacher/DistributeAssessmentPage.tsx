@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
@@ -23,6 +24,8 @@ import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
+
+const CREATE_ASSESSMENT_PATH = "/teacher/assessments/create";
 
 const mockData: {
   id: string;
@@ -101,6 +104,8 @@ const mockData: {
 ];
 
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const history = useHistory();
+
   const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
     "active",
   );
@@ -108,8 +113,15 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   // const data = useQuery(...);
-  const [loading, error] = [false, false];
-  const data: typeof mockData = mockData;
+  const {
+    data,
+    loading,
+    error,
+  }: { data: typeof mockData; loading: boolean; error: boolean } = {
+    data: mockData,
+    loading: false,
+    error: false,
+  };
 
   const dataWithStatus = useMemo(() => {
     const now = new Date();
@@ -160,8 +172,13 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          {sortedData?.length && !loading && !error && (
-            <Button mt={10} rightIcon={<PlusOutlineIcon />} variant="primary">
+          {!!data?.length && !loading && !error && (
+            <Button
+              mt={10}
+              onClick={() => history.push(CREATE_ASSESSMENT_PATH)}
+              rightIcon={<PlusOutlineIcon />}
+              variant="primary"
+            >
               Add Assessment
             </Button>
           )}
@@ -213,6 +230,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       {!data?.length && !loading && !error && (
         <MessageContainer
           buttonIcon={<PlusOutlineIcon />}
+          buttonRoute={CREATE_ASSESSMENT_PATH}
           buttonText="Create new assessment"
           image={DistributeAssessmentsIllustration}
           paragraphs={[
