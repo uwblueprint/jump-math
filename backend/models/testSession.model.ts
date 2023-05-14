@@ -57,6 +57,8 @@ export interface TestSession extends Document {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
+  /** the ID of the class that's taking the test from the Class collection */
+  class: string;
   /**
    * the result of the test session
    * there should be one entry here per student
@@ -87,6 +89,11 @@ const TestSessionSchema: Schema = new Schema(
     school: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "School",
+      required: true,
+    },
+    class: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
       required: true,
     },
     results: {

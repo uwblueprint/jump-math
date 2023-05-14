@@ -1,3 +1,4 @@
+import { ClassResponse } from "./ClassClientTypes";
 import { Test } from "./TestClientTypes";
 
 export interface TestSessionMetadata {
@@ -14,6 +15,8 @@ export interface TestSessionMetadata {
 export interface TestSession extends TestSessionMetadata {
   /** the name of the test that this test session is for */
   test: Pick<Test, "name">;
+  /** the name of the class that this test session is for */
+  class: Pick<ClassResponse, "className">;
   /** the access code that students use to access the test session */
   accessCode: string;
 }

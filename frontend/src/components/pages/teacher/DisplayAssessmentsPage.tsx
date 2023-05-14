@@ -47,10 +47,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const formattedData = useMemo(() => {
     const now = new Date();
     return data?.testSessionsByTeacherId?.map(
-      ({ startDate, endDate, test, ...session }) => ({
+      ({ startDate, endDate, test, class: classroom, ...session }) => ({
         ...session,
         testName: test.name,
-        classroomName: "<tbd>",
+        classroomName: classroom.className,
         status: getSessionStatus(startDate, endDate, now),
         targetDate: getSessionTargetDate(startDate, endDate, now),
       }),

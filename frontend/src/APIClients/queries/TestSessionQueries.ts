@@ -21,6 +21,9 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
       test {
         name
       }
+      class {
+        className
+      }
       startDate
       endDate
       accessCode
