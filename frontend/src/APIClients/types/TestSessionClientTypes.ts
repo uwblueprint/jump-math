@@ -1,3 +1,5 @@
+import { Test } from "./TestClientTypes";
+
 export interface TestSessionMetadata {
   /** the unique identifier for the test session */
   id: string;
@@ -7,4 +9,11 @@ export interface TestSessionMetadata {
   endDate: Date;
   /** notes inputted by teacher to show students prior to commencing the test */
   notes?: string;
+}
+
+export interface TestSession extends TestSessionMetadata {
+  /** the name of the test that this test session is for */
+  test: Pick<Test, "name">;
+  /** the access code that students use to access the test session */
+  accessCode: string;
 }

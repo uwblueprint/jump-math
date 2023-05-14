@@ -1,21 +1,21 @@
 import { TestSessionStatus } from "../types/TestSessionTypes";
 
 export const getSessionStatus = (
-  startDate: Date,
-  endDate: Date,
+  startDate: string | Date,
+  endDate: string | Date,
   now?: Date,
 ): TestSessionStatus => {
   const nowDate = now ?? new Date();
-  if (endDate < nowDate) return "past";
-  if (startDate > nowDate) return "upcoming";
+  if (new Date(endDate) < nowDate) return "past";
+  if (new Date(startDate) > nowDate) return "upcoming";
   return "active";
 };
 
 export const getSessionTargetDate = (
-  startDate: Date,
-  endDate: Date,
+  startDate: string | Date,
+  endDate: string | Date,
   now?: Date,
-): Date => {
-  const status = getSessionStatus(startDate, endDate, now);
-  return status === "active" ? endDate : startDate;
-};
+): Date =>
+  getSessionStatus(startDate, endDate, now) === "active"
+    ? new Date(endDate)
+    : new Date(startDate);

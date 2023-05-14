@@ -14,13 +14,16 @@ export const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
   }
 `;
 
-export const GET_TEST_SESSION_BY_TEACHER_ID = gql`
+export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
   query TestSessionsByTeacherId($teacherId: String!) {
     testSessionsByTeacherId(teacherId: $teacherId) {
       id
       test {
-        id
+        name
       }
+      startDate
+      endDate
+      accessCode
     }
   }
 `;
