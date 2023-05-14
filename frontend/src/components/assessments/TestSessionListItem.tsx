@@ -30,7 +30,7 @@ type TestSessionItemStats = {
 
 export type TestSessionListItemProps = {
   classroomName: string;
-  testSessionName: string;
+  testName: string;
   // Target date should be the start date of the session UNLESS
   // the session is active, in which case it should be the end date
   targetDate: Date;
@@ -47,7 +47,7 @@ const STATUS_LABELS = {
 
 const TestSessionListItem = ({
   classroomName,
-  testSessionName,
+  testName,
   targetDate,
   accessCode,
   status,
@@ -90,7 +90,7 @@ const TestSessionListItem = ({
           color={status === "past" ? "grey.300" : "blue.300"}
           textStyle="subtitle2"
         >
-          {testSessionName}
+          {testName}
         </Text>
         <Text
           color={status === "past" ? "grey.200" : "blue.200"}

@@ -39,7 +39,7 @@ const mockData: {
   };
   startDate: Date;
   endDate: Date;
-  testSessionName: string;
+  testName: string;
 }[] = [
   ...[...Array(20)].map((_, i) => ({
     id: i.toString(),
@@ -47,7 +47,7 @@ const mockData: {
     classroomName: "Counting and More",
     startDate: new Date("2023-05-01"),
     endDate: new Date("2023-08-31"),
-    testSessionName: "Number Recognition Assessment",
+    testName: "Number Recognition Assessment",
   })),
   {
     id: "20",
@@ -55,7 +55,7 @@ const mockData: {
     classroomName: "Counting and More 2",
     startDate: new Date("2023-04-01"),
     endDate: new Date("2023-06-31"),
-    testSessionName: "Number Recognition Assessment 2",
+    testName: "Number Recognition Assessment 2",
   },
   {
     id: "21",
@@ -63,7 +63,7 @@ const mockData: {
     classroomName: "Classroom Name",
     startDate: new Date("2023-08-01"),
     endDate: new Date("2023-08-31"),
-    testSessionName: "Counting Assessment",
+    testName: "Counting Assessment",
   },
   {
     id: "22",
@@ -71,7 +71,7 @@ const mockData: {
     classroomName: "Classroom Name 2",
     startDate: new Date("2023-07-01"),
     endDate: new Date("2023-07-31"),
-    testSessionName: "Counting Assessment 2",
+    testName: "Counting Assessment 2",
   },
   {
     id: "23",
@@ -85,7 +85,7 @@ const mockData: {
     },
     startDate: new Date("2021-08-01"),
     endDate: new Date("2021-08-31"),
-    testSessionName: "Assessment Name",
+    testName: "Assessment Name",
   },
   {
     id: "24",
@@ -99,7 +99,7 @@ const mockData: {
     },
     startDate: new Date("2022-08-01"),
     endDate: new Date("2022-08-31"),
-    testSessionName: "Assessment Name 2",
+    testName: "Assessment Name 2",
   },
 ];
 
