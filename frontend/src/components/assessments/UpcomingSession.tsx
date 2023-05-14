@@ -21,15 +21,25 @@ import PopoverButton from "../common/PopoverButton";
 export type UpcomingSessionProps = {
   classroomName: string;
   sessionName: string;
-  startDate: Date;
+  // Target date should be the start date of the session UNLESS
+  // the session is active, in which case it should be the end date
+  targetDate: Date;
   accessCode: string;
+  status: "active" | "upcoming" | "past";
+};
+
+const STATUS_LABELS = {
+  active: "Until",
+  upcoming: "Scheduled",
+  past: "Assigned",
 };
 
 const UpcomingSession = ({
   classroomName,
   sessionName,
-  startDate,
+  targetDate,
   accessCode,
+  status,
 }: UpcomingSessionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -64,14 +74,20 @@ const UpcomingSession = ({
         </Tag>
       </Tooltip>
       <VStack align="start">
-        <Text color="blue.300" textStyle="subtitle2">
+        <Text
+          color={status === "past" ? "grey.300" : "blue.300"}
+          textStyle="subtitle2"
+        >
           {sessionName}
         </Text>
-        <Text color="blue.200" textStyle="mobileParagraph">
-          Scheduled {formatDate(startDate)}
+        <Text
+          color={status === "past" ? "grey.200" : "blue.200"}
+          textStyle="mobileParagraph"
+        >
+          {STATUS_LABELS[status]} {formatDate(targetDate)}
         </Text>
       </VStack>
-      <Copyable label="Access Code" value={accessCode} />
+      {status !== "past" && <Copyable label="Access Code" value={accessCode} />}
       <Spacer />
       <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
         <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
