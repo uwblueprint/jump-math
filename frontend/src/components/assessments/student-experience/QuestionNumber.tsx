@@ -7,11 +7,13 @@ import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
 interface QuestionNumberProps {
   number: number;
   status: QuestionNumberTypes;
+  onClick: () => void;
 }
 
 const QuestionNumber = ({
   number,
   status,
+  onClick,
 }: QuestionNumberProps): React.ReactElement => {
   return (
     <>
@@ -22,11 +24,13 @@ const QuestionNumber = ({
           icon={<CheckmarkIcon />}
           isActive
           minWidth="3.7rem"
+          onClick={onClick}
           variant="primary"
         />
       ) : (
         <Button
           minWidth="3.7rem"
+          onClick={onClick}
           variant={
             status === QuestionNumberTypes.CURRENT ? "primary" : "outline"
           }

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
@@ -8,8 +8,9 @@ import Question from "../../assessments/student-experience/Question";
 import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
 
 const AssessmentExperiencePage = (): React.ReactElement => {
-  const { test, className } = useContext(StudentContext);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const { test, className, currentQuestion, setCurrentQuestion } = useContext(
+    StudentContext,
+  );
 
   const questionPoints = useMemo(() => {
     if (!test) {
@@ -55,13 +56,23 @@ const AssessmentExperiencePage = (): React.ReactElement => {
                 />
                 <HStack>
                   {currentQuestion !== 0 && (
-                    <Button variant="secondary">Previous Question</Button>
+                    <Button
+                      onClick={() => setCurrentQuestion(currentQuestion - 1)}
+                      variant="secondary"
+                    >
+                      Previous Question
+                    </Button>
                   )}
                   <Spacer />
-                  {currentQuestion === test.questions.length ? (
+                  {currentQuestion === test.questions.length - 1 ? (
                     <Button variant="primary">Submit</Button>
                   ) : (
-                    <Button variant="primary">Next Question</Button>
+                    <Button
+                      onClick={() => setCurrentQuestion(currentQuestion + 1)}
+                      variant="primary"
+                    >
+                      Next Question
+                    </Button>
                   )}
                 </HStack>
               </VStack>

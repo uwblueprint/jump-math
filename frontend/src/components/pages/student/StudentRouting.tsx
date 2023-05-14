@@ -12,7 +12,7 @@ import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../NotFound";
 
-import AssessmentExperiencePage from "./AssessmentExperience";
+import AssessmentExperiencePage from "./AssessmentExperiencePage";
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
 
 const StudentRouting = (): React.ReactElement => {
@@ -26,6 +26,7 @@ const StudentRouting = (): React.ReactElement => {
     null,
   );
   const [className, setClassName] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
   useEffect(() => {
     if (state) {
@@ -56,6 +57,8 @@ const StudentRouting = (): React.ReactElement => {
         setTestSession,
         className,
         setClassName,
+        currentQuestion,
+        setCurrentQuestion,
       }}
     >
       {loading && <LoadingState fullPage />}
