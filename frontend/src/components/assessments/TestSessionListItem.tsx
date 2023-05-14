@@ -32,7 +32,7 @@ export type TestSessionListItemProps = {
 type TestSessionItemStats = {
   mean: number;
   median: number;
-  completeRate: number;
+  completionRate: number;
   submissions: number;
 };
 
@@ -107,7 +107,7 @@ const TestSessionListItem = ({
             Median: {stats.median}%
           </Text>
           <Text color="grey.300" textStyle="mobileParagraph">
-            Complete Rate: {(stats.completeRate * 100).toFixed(0)}%
+            Completion Rate: {stats.completionRate}%
           </Text>
           <Text color="grey.300" textStyle="mobileParagraph">
             Submissions: {stats.submissions}
