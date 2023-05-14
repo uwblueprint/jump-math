@@ -18,14 +18,22 @@ import Copyable from "../common/Copyable";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
 
-export type UpcomingSessionProps = {
+export type TestSessionListItemProps = {
   classroomName: string;
-  sessionName: string;
+  testSessionName: string;
   // Target date should be the start date of the session UNLESS
   // the session is active, in which case it should be the end date
   targetDate: Date;
   accessCode: string;
   status: "active" | "upcoming" | "past";
+  stats?: TestSessionItemStats;
+};
+
+type TestSessionItemStats = {
+  mean: number;
+  median: number;
+  completeRate: number;
+  submissions: number;
 };
 
 const STATUS_LABELS = {
@@ -34,16 +42,17 @@ const STATUS_LABELS = {
   past: "Assigned",
 };
 
-const UpcomingSession = ({
+const TestSessionListItem = ({
   classroomName,
-  sessionName,
+  testSessionName,
   targetDate,
   accessCode,
   status,
-}: UpcomingSessionProps): React.ReactElement => {
+  stats,
+}: TestSessionListItemProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <HStack gap={2} pb={8}>
+    <HStack gap={2} pb={8} w="100%">
       <Tooltip
         bg="blue.300"
         borderRadius={4}
@@ -78,7 +87,7 @@ const UpcomingSession = ({
           color={status === "past" ? "grey.300" : "blue.300"}
           textStyle="subtitle2"
         >
-          {sessionName}
+          {testSessionName}
         </Text>
         <Text
           color={status === "past" ? "grey.200" : "blue.200"}
@@ -89,6 +98,22 @@ const UpcomingSession = ({
       </VStack>
       {status !== "past" && <Copyable label="Access Code" value={accessCode} />}
       <Spacer />
+      {stats && (
+        <>
+          <Text color="grey.300" textStyle="mobileParagraph">
+            Mean: {stats.mean}%
+          </Text>
+          <Text color="grey.300" textStyle="mobileParagraph">
+            Median: {stats.median}%
+          </Text>
+          <Text color="grey.300" textStyle="mobileParagraph">
+            Complete Rate: {(stats.completeRate * 100).toFixed(0)}%
+          </Text>
+          <Text color="grey.300" textStyle="mobileParagraph">
+            Submissions: {stats.submissions}
+          </Text>
+        </>
+      )}
       <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
         <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
           <PopoverButton name="Edit" onClick={() => {}} />
@@ -99,4 +124,4 @@ const UpcomingSession = ({
   );
 };
 
-export default UpcomingSession;
+export default TestSessionListItem;
