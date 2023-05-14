@@ -26,8 +26,7 @@ export const formatDate = (date: Date): string => {
 
 export const getCurrentDate = (): string => formatDate(new Date());
 
-export const getReadableDateTime = (input: Date): string => {
-  const date = new Date(input);
+export const formatDateTime = (date: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "numeric",
