@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import {
   Box,
+  Button,
   Center,
   HStack,
   Tab,
@@ -11,6 +12,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+import { PlusOutlineIcon } from "../../../assets/icons";
+import DistributeAssessmentsIllustration from "../../../assets/illustrations/distribute-assessments.svg";
 import { titleCase } from "../../../utils/GeneralUtils";
 import TestSessionListItem, {
   STATUSES,
@@ -18,6 +21,7 @@ import TestSessionListItem, {
 } from "../../assessments/TestSessionListItem";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
+import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
 
 const mockData: {
@@ -73,7 +77,7 @@ const mockData: {
     stats: {
       mean: 3.5,
       median: 3,
-      completionRate: 0.5,
+      completionRate: 30,
       submissions: 10,
     },
     startDate: new Date("2021-08-01"),
@@ -85,10 +89,10 @@ const mockData: {
     accessCode: "123 456",
     classroomName: "Classroom Name 2",
     stats: {
-      mean: 3.5,
+      mean: 97.3,
       median: 3,
-      completionRate: 0.5,
-      submissions: 10,
+      completionRate: 37.1,
+      submissions: 4930,
     },
     startDate: new Date("2022-08-01"),
     endDate: new Date("2022-08-31"),
@@ -105,11 +109,11 @@ const DistributeAssessmentPage = (): React.ReactElement => {
 
   // const data = useQuery(...);
   const [loading, error] = [false, false];
-  const data = mockData;
+  const data: typeof mockData = mockData;
 
-  const now = new Date();
-  const dataWithStatus = mockData.map(
-    (session) => {
+  const dataWithStatus = useMemo(() => {
+    const now = new Date();
+    return data.map((session) => {
       const status: TestSessionStatus = (() => {
         if (session.endDate < now) return "past";
         if (session.startDate > now) return "upcoming";
@@ -124,9 +128,8 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         status,
         targetDate,
       };
-    },
-    [data],
-  );
+    });
+  }, [data]);
 
   const filteredData = useMemo(() => {
     return dataWithStatus.filter((session) => session.status === currentTab);
@@ -142,6 +145,9 @@ const DistributeAssessmentPage = (): React.ReactElement => {
     });
   }, [filteredData, currentTab]);
 
+  const pageSize = 8;
+  const numPages = Math.ceil(sortedData.length / pageSize);
+
   return (
     <>
       <Box>
@@ -154,7 +160,11 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          {/* TODO button */}
+          {sortedData?.length && !loading && !error && (
+            <Button mt={10} rightIcon={<PlusOutlineIcon />} variant="primary">
+              Add Assessment
+            </Button>
+          )}
         </HStack>
       </Box>
       {loading && (
@@ -167,7 +177,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           <ErrorState />
         </Center>
       )}
-      {sortedData && !loading && !error && (
+      {!!data?.length && !loading && !error && (
         <>
           <Tabs mt={3}>
             <TabList>
@@ -189,16 +199,28 @@ const DistributeAssessmentPage = (): React.ReactElement => {
               ))}
             </TabPanels>
           </Tabs>
-          {sortedData.length > 8 && (
+          {sortedData.length > pageSize && (
             <Center>
               <Pagination
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
-                pagesCount={Math.ceil(sortedData.length / 8)}
+                pagesCount={numPages}
               />
             </Center>
           )}
         </>
+      )}
+      {!data?.length && !loading && !error && (
+        <MessageContainer
+          buttonIcon={<PlusOutlineIcon />}
+          buttonText="Create new assessment"
+          image={DistributeAssessmentsIllustration}
+          paragraphs={[
+            "Click on the button below to create your first assessment.",
+          ]}
+          subtitle="You currently have no assessments."
+          textColor="blue.300"
+        />
       )}
     </>
   );
