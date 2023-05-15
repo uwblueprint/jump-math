@@ -15,11 +15,9 @@ import {
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import DistributeAssessmentsIllustration from "../../../assets/illustrations/distribute-assessments.svg";
+import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
-import TestSessionListItem, {
-  STATUSES,
-  TestSessionStatus,
-} from "../../assessments/TestSessionListItem";
+import TestSessionListItem from "../../assessments/TestSessionListItem";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import MessageContainer from "../../common/MessageContainer";

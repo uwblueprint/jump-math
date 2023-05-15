@@ -13,20 +13,14 @@ import {
 } from "@chakra-ui/react";
 
 import { BookIcon } from "../../assets/icons";
+import {
+  TestSessionItemStats,
+  TestSessionStatus,
+} from "../../types/TestSessionTypes";
 import { formatDate } from "../../utils/GeneralUtils";
 import Copyable from "../common/Copyable";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
-
-export const STATUSES = ["active", "upcoming", "past"] as const;
-export type TestSessionStatus = typeof STATUSES[number];
-
-type TestSessionItemStats = {
-  mean: number;
-  median: number;
-  completionRate: number;
-  submissions: number;
-};
 
 export type TestSessionListItemProps = {
   classroomName: string;
