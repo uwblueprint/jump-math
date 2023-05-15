@@ -38,6 +38,7 @@ const STATUS_LABELS = {
   upcoming: "Scheduled",
   past: "Assigned",
 };
+const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
   classroomName,
@@ -48,6 +49,11 @@ const TestSessionListItem = ({
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const formattedAccessCode = `${accessCode.slice(
+    0,
+    ACCESS_CODE_GROUP_SIZE,
+  )} ${accessCode.slice(ACCESS_CODE_GROUP_SIZE)}`;
+
   return (
     <HStack gap={2} pb={8} w="100%">
       <Tooltip
@@ -93,7 +99,9 @@ const TestSessionListItem = ({
           {STATUS_LABELS[status]} {formatDate(targetDate)}
         </Text>
       </VStack>
-      {status !== "past" && <Copyable label="Access Code" value={accessCode} />}
+      {status !== "past" && (
+        <Copyable label="Access Code" value={formattedAccessCode} />
+      )}
       <Spacer />
       {stats && (
         <>

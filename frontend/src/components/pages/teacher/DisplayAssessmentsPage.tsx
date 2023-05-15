@@ -44,7 +44,7 @@ const mockData: {
 }[] = [
   ...[...Array(20)].map((_, i) => ({
     id: i.toString(),
-    accessCode: "086 731",
+    accessCode: "086731",
     classroomName: "Counting and More",
     startDate: new Date("2023-05-01"),
     endDate: new Date("2023-08-31"),
@@ -52,7 +52,7 @@ const mockData: {
   })),
   {
     id: "20",
-    accessCode: "086 731",
+    accessCode: "086731",
     classroomName: "Counting and More 2",
     startDate: new Date("2023-04-01"),
     endDate: new Date("2023-06-31"),
@@ -60,7 +60,7 @@ const mockData: {
   },
   {
     id: "21",
-    accessCode: "123 456",
+    accessCode: "123456",
     classroomName: "Classroom Name",
     startDate: new Date("2023-08-01"),
     endDate: new Date("2023-08-31"),
@@ -68,7 +68,7 @@ const mockData: {
   },
   {
     id: "22",
-    accessCode: "123 456",
+    accessCode: "123456",
     classroomName: "Classroom Name 2",
     startDate: new Date("2023-07-01"),
     endDate: new Date("2023-07-31"),
@@ -76,7 +76,7 @@ const mockData: {
   },
   {
     id: "23",
-    accessCode: "123 456",
+    accessCode: "123456",
     classroomName: "Classroom Name",
     stats: {
       mean: 3.5,
@@ -90,7 +90,7 @@ const mockData: {
   },
   {
     id: "24",
-    accessCode: "123 456",
+    accessCode: "123456",
     classroomName: "Classroom Name 2",
     stats: {
       mean: 97.3,
