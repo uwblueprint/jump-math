@@ -169,7 +169,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           >
             Assessments
           </Text>
-          {!!data?.length && !loading && !error && (
+          {!!data?.length && (
             <Button
               mt={10}
               onClick={() => history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE)}
