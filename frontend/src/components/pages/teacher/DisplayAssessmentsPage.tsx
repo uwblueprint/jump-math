@@ -1,19 +1,13 @@
 import React, { useMemo } from "react";
-import { useHistory } from "react-router-dom";
 import {
-  Box,
-  Button,
   Center,
-  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 
-import { PlusOutlineIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
 import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
@@ -22,6 +16,7 @@ import {
   getSessionTargetDate,
 } from "../../../utils/TestSessionUtils";
 import ErrorState from "../../common/ErrorState";
+import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
 import Pagination from "../../common/table/Pagination";
 import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
@@ -104,8 +99,6 @@ const mockData: {
 ];
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const history = useHistory();
-
   const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
     "active",
   );
@@ -157,28 +150,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   return (
     <>
-      <Box>
-        <HStack justifyContent="space-between">
-          <Text
-            color="blue.300"
-            marginBottom="0.5em"
-            style={{ textAlign: "left" }}
-            textStyle="header4"
-          >
-            Assessments
-          </Text>
-          {!!data?.length && (
-            <Button
-              mt={10}
-              onClick={() => history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE)}
-              rightIcon={<PlusOutlineIcon />}
-              variant="primary"
-            >
-              Add Assessment
-            </Button>
-          )}
-        </HStack>
-      </Box>
+      <HeaderWithButton
+        buttonText="Add Assessment"
+        showButton={!!data?.length}
+        targetRoute={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
+        title="Assessments"
+      />
       {loading && (
         <Center flex="1" margin="15%">
           <LoadingState />
