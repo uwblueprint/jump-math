@@ -145,15 +145,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     });
   }, [filteredData, currentTab]);
 
-  const pageSize = 8;
-  const numPages = Math.ceil(sortedData.length / pageSize);
-
   const {
     paginatedData,
     totalPages,
     currentPage,
     setCurrentPage,
-  } = usePaginatedData(sortedData, pageSize);
+  } = usePaginatedData(sortedData);
 
   return (
     <>
@@ -209,12 +206,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               ))}
             </TabPanels>
           </Tabs>
-          {sortedData.length > pageSize && (
+          {totalPages > 1 && (
             <Center>
               <Pagination
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
-                pagesCount={numPages}
+                pagesCount={totalPages}
               />
             </Center>
           )}
