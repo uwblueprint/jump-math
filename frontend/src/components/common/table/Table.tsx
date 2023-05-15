@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import Pagination from "./Pagination";
+import usePaginatedData from "./usePaginatedData";
 
 export interface TableRow {
   values: any[];
@@ -23,14 +24,12 @@ interface TableProps {
 }
 
 export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalItems = rows.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-  const itemsToShow = rows.slice(startIndex, endIndex);
+  const {
+    paginatedData,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = usePaginatedData(rows);
 
   return (
     <VStack alignItems="center" paddingBottom="6" spacing="6" width="100%">
@@ -50,7 +49,7 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
             </Tr>
           </Thead>
           <Tbody>
-            {itemsToShow.map((row, rowIndex) => (
+            {paginatedData.map((row, rowIndex) => (
               <Tr
                 key={rowIndex}
                 backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
