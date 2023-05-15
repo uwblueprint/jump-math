@@ -150,6 +150,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const pageSize = 8;
   const numPages = Math.ceil(sortedData.length / pageSize);
 
+  const currentPageData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    return sortedData.slice(start, end);
+  }, [sortedData, currentPage]);
+
   return (
     <>
       <Box>
@@ -197,11 +203,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             <TabPanels>
               {STATUSES.map((status) => (
                 <TabPanel key={status}>
-                  {sortedData
-                    .slice((currentPage - 1) * 8, currentPage * 8)
-                    .map((session) => (
-                      <TestSessionListItem key={session.id} {...session} />
-                    ))}
+                  {currentPageData.map((session) => (
+                    <TestSessionListItem key={session.id} {...session} />
+                  ))}
                 </TabPanel>
               ))}
             </TabPanels>
