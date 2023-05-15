@@ -19,6 +19,7 @@ import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
 import Pagination from "../../common/table/Pagination";
+import usePaginatedData from "../../common/table/usePaginatedData";
 import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
 import TestSessionListItem from "../../sessions/TestSessionListItem";
 
@@ -103,8 +104,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     "active",
   );
 
-  const [currentPage, setCurrentPage] = React.useState(1);
-
   // const data = useQuery(...);
   const {
     data,
@@ -139,14 +138,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     });
   }, [filteredData, currentTab]);
 
-  const pageSize = 8;
-  const numPages = Math.ceil(sortedData.length / pageSize);
-
-  const currentPageData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+  const {
+    paginatedData,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = usePaginatedData(sortedData);
 
   return (
     <>
@@ -179,19 +176,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             <TabPanels>
               {STATUSES.map((status) => (
                 <TabPanel key={status}>
-                  {currentPageData.map((session) => (
+                  {paginatedData.map((session) => (
                     <TestSessionListItem key={session.id} {...session} />
                   ))}
                 </TabPanel>
               ))}
             </TabPanels>
           </Tabs>
-          {sortedData.length > pageSize && (
+          {totalPages > 1 && (
             <Center>
               <Pagination
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
-                pagesCount={numPages}
+                pagesCount={totalPages}
               />
             </Center>
           )}
