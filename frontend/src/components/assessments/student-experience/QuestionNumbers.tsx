@@ -7,9 +7,20 @@ import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
 import QuestionNumber from "./QuestionNumber";
 
 const QuestionNumbers = (): React.ReactElement => {
-  const { test, currentQuestion, setCurrentQuestion } = useContext(
+  const { test, answers, currentQuestion, setCurrentQuestion } = useContext(
     StudentContext,
   );
+
+  const getStatus = (index: number) => {
+    if (index === currentQuestion) {
+      return QuestionNumberTypes.CURRENT;
+    }
+    if (answers[index]) {
+      return QuestionNumberTypes.COMPLETED; // come back to this
+    }
+    return QuestionNumberTypes.UNATTEMPTED;
+  };
+
   return (
     <>
       {test && (
@@ -20,11 +31,7 @@ const QuestionNumbers = (): React.ReactElement => {
                 <QuestionNumber
                   number={index + 1}
                   onClick={() => setCurrentQuestion(index)}
-                  status={
-                    index === currentQuestion
-                      ? QuestionNumberTypes.CURRENT
-                      : QuestionNumberTypes.UNATTEMPTED
-                  }
+                  status={getStatus(index)}
                 />
               </GridItem>
             );

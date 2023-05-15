@@ -12,6 +12,8 @@ type StudentContextType = {
   setClassName: (_className: string) => void;
   currentQuestion: number;
   setCurrentQuestion: (_currentQuestion: number) => void;
+  answers: number[][][];
+  setAnswers: (_answers: (prevAnswers: number[][][]) => number[][][]) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
@@ -23,6 +25,10 @@ const StudentContext = createContext<StudentContextType>({
   setClassName: (_className: string): void => {},
   currentQuestion: 0,
   setCurrentQuestion: (_currentQuestion: number): void => {},
+  answers: [],
+  setAnswers: (
+    _answers: (prevAnswers: number[][][]) => number[][][],
+  ): void => {},
 });
 
 export default StudentContext;
