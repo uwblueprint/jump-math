@@ -13,6 +13,10 @@ import {
 } from "@chakra-ui/react";
 
 import { BookIcon } from "../../assets/icons";
+import {
+  TestSessionItemStats,
+  TestSessionStatus,
+} from "../../types/TestSessionTypes";
 import { formatDate } from "../../utils/GeneralUtils";
 import Copyable from "../common/Copyable";
 import Popover from "../common/Popover";
@@ -20,20 +24,13 @@ import PopoverButton from "../common/PopoverButton";
 
 export type TestSessionListItemProps = {
   classroomName: string;
-  testSessionName: string;
+  testName: string;
   // Target date should be the start date of the session UNLESS
   // the session is active, in which case it should be the end date
   targetDate: Date;
   accessCode: string;
-  status: "active" | "upcoming" | "past";
+  status: TestSessionStatus;
   stats?: TestSessionItemStats;
-};
-
-type TestSessionItemStats = {
-  mean: number;
-  median: number;
-  completionRate: number;
-  submissions: number;
 };
 
 const STATUS_LABELS = {
@@ -41,16 +38,22 @@ const STATUS_LABELS = {
   upcoming: "Scheduled",
   past: "Assigned",
 };
+const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
   classroomName,
-  testSessionName,
+  testName,
   targetDate,
   accessCode,
   status,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const formattedAccessCode = `${accessCode.slice(
+    0,
+    ACCESS_CODE_GROUP_SIZE,
+  )} ${accessCode.slice(ACCESS_CODE_GROUP_SIZE)}`;
+
   return (
     <HStack gap={2} pb={8} w="100%">
       <Tooltip
@@ -87,7 +90,7 @@ const TestSessionListItem = ({
           color={status === "past" ? "grey.300" : "blue.300"}
           textStyle="subtitle2"
         >
-          {testSessionName}
+          {testName}
         </Text>
         <Text
           color={status === "past" ? "grey.200" : "blue.200"}
@@ -96,7 +99,9 @@ const TestSessionListItem = ({
           {STATUS_LABELS[status]} {formatDate(targetDate)}
         </Text>
       </VStack>
-      {status !== "past" && <Copyable label="Access Code" value={accessCode} />}
+      {status !== "past" && (
+        <Copyable label="Access Code" value={formattedAccessCode} />
+      )}
       <Spacer />
       {stats && (
         <>
