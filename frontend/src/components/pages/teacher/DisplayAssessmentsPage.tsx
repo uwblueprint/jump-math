@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
-import DistributeAssessmentsIllustration from "../../../assets/illustrations/distribute-assessments.svg";
 import * as Routes from "../../../constants/Routes";
 import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
@@ -22,11 +21,11 @@ import {
   getSessionStatus,
   getSessionTargetDate,
 } from "../../../utils/TestSessionUtils";
-import TestSessionListItem from "../../assessments/TestSessionListItem";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
-import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
+import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
+import TestSessionListItem from "../../sessions/TestSessionListItem";
 
 const mockData: {
   id: string;
@@ -221,19 +220,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           )}
         </>
       )}
-      {!data?.length && !loading && !error && (
-        <MessageContainer
-          buttonIcon={<PlusOutlineIcon />}
-          buttonRoute={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
-          buttonText="Create new assessment"
-          image={DistributeAssessmentsIllustration}
-          paragraphs={[
-            "Click on the button below to create your first assessment.",
-          ]}
-          subtitle="You currently have no assessments."
-          textColor="blue.300"
-        />
-      )}
+      {!data?.length && !loading && !error && <EmptySessionsTableState />}
     </>
   );
 };
