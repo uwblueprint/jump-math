@@ -18,6 +18,10 @@ import DistributeAssessmentsIllustration from "../../../assets/illustrations/dis
 import * as Routes from "../../../constants/Routes";
 import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
+import {
+  getSessionStatus,
+  getSessionTargetDate,
+} from "../../../utils/TestSessionUtils";
 import TestSessionListItem from "../../assessments/TestSessionListItem";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
@@ -122,22 +126,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const dataWithStatus = useMemo(() => {
     const now = new Date();
-    return data.map((session) => {
-      const status: TestSessionStatus = (() => {
-        if (session.endDate < now) return "past";
-        if (session.startDate > now) return "upcoming";
-        return "active";
-      })();
-
-      const targetDate =
-        status === "active" ? session.endDate : session.startDate;
-
-      return {
-        ...session,
-        status,
-        targetDate,
-      };
-    });
+    return data.map(({ startDate, endDate, ...session }) => ({
+      ...session,
+      status: getSessionStatus(startDate, endDate, now),
+      targetDate: getSessionTargetDate(startDate, endDate, now),
+    }));
   }, [data]);
 
   const filteredData = useMemo(() => {
