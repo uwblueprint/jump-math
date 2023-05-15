@@ -9,12 +9,13 @@ import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
 
 import ClassroomsPage from "./ClassroomsPage";
+import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import DistributeAssessmentPage from "./DistributeAssessmentPage";
 import TeacherDashboardPage from "./TeacherDashboardPage";
 
 const pages: Page[] = [
   { title: "Dashboard", url: Routes.TEACHER_DASHBOARD_PAGE },
-  { title: "Assessments", url: Routes.DISTRIBUTE_ASSESSMENT_PAGE },
+  { title: "Assessments", url: Routes.DISPLAY_ASSESSMENTS_PAGE },
   { title: "Classrooms", url: Routes.CLASSROOMS_PAGE },
 ];
 
@@ -29,6 +30,12 @@ const TeacherRouting = (): React.ReactElement => {
               component={TeacherDashboardPage}
               exact
               path={Routes.TEACHER_DASHBOARD_PAGE}
+              roles={["Teacher"]}
+            />
+            <PrivateRoute
+              component={DisplayAssessmentsPage}
+              exact
+              path={Routes.DISPLAY_ASSESSMENTS_PAGE}
               roles={["Teacher"]}
             />
             <PrivateRoute
