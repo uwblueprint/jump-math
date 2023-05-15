@@ -1,6 +1,16 @@
 import { useMemo, useState } from "react";
 
-const usePaginatedData = <T>(data: T[], pageSize = 8) => {
+type PaginatedDataResult<T> = {
+  paginatedData: T[];
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  totalPages: number;
+};
+
+const usePaginatedData = <T>(
+  data: T[],
+  pageSize = 8,
+): PaginatedDataResult<T> => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const paginatedData = useMemo(() => {
