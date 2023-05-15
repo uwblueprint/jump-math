@@ -5,22 +5,28 @@ import db from "../../../testUtils/testDb";
 import {
   testClass,
   testClassInvalidTeacher,
-  assertResponseMatchesExpected,
   updatedTestClass,
   testStudents,
   testClassWithStudents,
   updatedTestClassWithStudent,
   updatedTestStudents,
-  assertStudentResponseMatchesExpected,
-  testClassWithTestSessions,
-  assertArrayResponseMatchesExpected,
 } from "../../../testUtils/class";
+import {
+  assertResponseMatchesExpected,
+  assertArrayResponseMatchesExpected,
+  assertStudentResponseMatchesExpected,
+} from "../../../testUtils/classAssertions";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
 import TestSessionService from "../testSessionService";
 import TestService from "../testService";
 import SchoolService from "../schoolService";
 import { mockTestSessionWithId } from "../../../testUtils/testSession";
+
+const testClassWithTestSessions = {
+  ...testClass[0],
+  testSessions: [mockTestSessionWithId.id],
+};
 
 describe("mongo classService", (): void => {
   let classService: ClassService;
