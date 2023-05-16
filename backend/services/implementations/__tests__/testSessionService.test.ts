@@ -76,9 +76,9 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toEqual([]);
 
-    const updatedClass: Class = (await MgClass.findById(classObj.id))!;
+    const updatedClass = await MgClass.findById(classObj.id);
     expect(
-      Array.from(updatedClass.testSessions).map((id) => id.toString()),
+      Array.from(updatedClass?.testSessions ?? []).map((id) => id.toString()),
     ).toEqual([res.id]);
   });
 
