@@ -1,4 +1,4 @@
-import { type UserDTO, type Grade } from "../../types";
+import type { UserDTO, Grade } from "../../types";
 import { type TestSessionResponseDTO } from "./testSessionService";
 
 export interface StudentRequestDTO {
