@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
@@ -72,7 +72,7 @@ const AddStudentModal = (): React.ReactElement => {
     onClose();
   };
 
-  const onConfirm: SubmitHandler<StudentForm> = async (data) => {
+  const onConfirm: SubmitHandler<StudentForm> = async () => {
     if (!validateFields()) {
       setErrorMessage(
         "Please ensure all required components are filled out before saving changes",

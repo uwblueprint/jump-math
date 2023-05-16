@@ -105,7 +105,7 @@ const AddAdminModal = ({
       role: "Admin",
     };
     await addAdmin({ variables: { user } })
-      .then((data) => {
+      .then(() => {
         if (showRequestError) setShowRequestError(false);
         setShowRequestConfirmation(true);
       })
