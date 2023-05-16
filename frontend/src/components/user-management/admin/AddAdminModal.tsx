@@ -96,9 +96,6 @@ const AddAdminModal = ({
     if (isInvalidEmail || isInvalidConfirmationEmail) {
       return;
     }
-    console.log(
-      `creating admin with first name: ${firstName}\nlast name: ${lastName}\nemail: ${email}`,
-    );
 
     const user: UserRequest = {
       firstName,
@@ -109,7 +106,6 @@ const AddAdminModal = ({
     };
     await addAdmin({ variables: { user } })
       .then((data) => {
-        console.log("response data: ", data);
         if (showRequestError) setShowRequestError(false);
         setShowRequestConfirmation(true);
       })
