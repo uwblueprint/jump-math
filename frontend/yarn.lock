@@ -4259,10 +4259,10 @@
     "@webassemblyjs/ast" "1.11.6"
     "@xtuc/long" "4.2.2"
 
-"@wry/context@^0.7.0":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@wry/context/-/context-0.7.1.tgz#d56c955ac81bf5ee4647aeaf76306cbf891818fd"
-  integrity sha512-nEWMz5t7VPcQU7aMImt9ReZgv18ZJREIH03YpFLGtGLj91Ulf0YROhYVc5J/hUaHXL2NuwRJdZvq+piNLN23kA==
+"@wry/context@0.7.3", "@wry/context@^0.7.0":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@wry/context/-/context-0.7.3.tgz#240f6dfd4db5ef54f81f6597f6714e58d4f476a1"
+  integrity sha512-Nl8WTesHp89RF803Se9X3IiHjdmLBrIvPMaJkl+rKVJAYyPsz1TEUbu89943HpvujtSJgDUx9W4vZw3K1Mr3sA==
   dependencies:
     tslib "^2.3.0"
 

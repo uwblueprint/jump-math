@@ -97,5 +97,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.2.1",
     "react-test-renderer": "^18.2.0"
+  },
+  "resolutions": {
+    "@wry/context": "0.7.3"
   }
 }
