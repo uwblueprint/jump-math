@@ -17,7 +17,7 @@ const QuestionNumbers = (): React.ReactElement => {
     );
   };
 
-  const getQuestionStatus = (index: number) => {
+  const questionStatus = (index: number) => {
     if (index === currentQuestion) {
       return QuestionNumberTypes.CURRENT;
     }
@@ -35,7 +35,7 @@ const QuestionNumbers = (): React.ReactElement => {
             <QuestionNumber
               number={index + 1}
               onClick={() => setCurrentQuestion(index)}
-              status={getQuestionStatus(index)}
+              status={questionStatus(index)}
             />
           </GridItem>
         );

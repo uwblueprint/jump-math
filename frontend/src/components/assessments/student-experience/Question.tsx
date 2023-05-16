@@ -9,7 +9,10 @@ import {
   QuestionTextMetadata,
   TextMetadata,
 } from "../../../types/QuestionMetadataTypes";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../../../types/QuestionTypes";
 
 import Image from "./question-components/Image";
 import MultipleChoice from "./question-components/MultipleChoice";
@@ -23,6 +26,15 @@ interface QuestionProps {
 }
 
 const Question = ({ components }: QuestionProps): React.ReactElement => {
+  let counter = -1;
+  const answerIndices = components.map((component) => {
+    if (component.type in ResponseElementType) {
+      counter += 1;
+      return counter;
+    }
+    return 0;
+  });
+
   return (
     <>
       {components.map((component, i) => {
@@ -44,7 +56,7 @@ const Question = ({ components }: QuestionProps): React.ReactElement => {
                     <Text text={(component.metadata as TextMetadata).text} />
                   );
                 case QuestionElementType.SHORT_ANSWER:
-                  return <ShortAnswer number={1} />;
+                  return <ShortAnswer answerIndex={answerIndices[i]} />;
                 case QuestionElementType.MULTIPLE_CHOICE:
                   return (
                     <MultipleChoice

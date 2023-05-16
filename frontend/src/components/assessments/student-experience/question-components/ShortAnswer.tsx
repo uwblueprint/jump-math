@@ -5,19 +5,21 @@ import update from "immutability-helper";
 import StudentContext from "../../../../contexts/StudentContext";
 
 interface ShortAnswersProps {
-  number: number;
+  answerIndex: number;
 }
 
-const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
+const ShortAnswer = ({
+  answerIndex,
+}: ShortAnswersProps): React.ReactElement => {
   const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
   const currentAnswer = useMemo(() => {
     const answer = answers.find((a) => a.index === currentQuestion);
-    const answerElement = answer?.elements[0].elementAnswers;
+    const answerElement = answer?.elements[answerIndex].elementAnswers;
     if (answer && answerElement && answerElement.length) {
       return answerElement[0];
     }
     return undefined;
-  }, [currentQuestion, answers]);
+  }, [currentQuestion, answers, answerIndex]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = parseFloat(event.target.value);
@@ -26,7 +28,7 @@ const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
       return update(prevAnswers, {
         [currentQuestion]: {
           elements: {
-            0: {
+            [answerIndex]: {
               elementAnswers: { $set: updatedAnswer ?? [] },
             },
           },

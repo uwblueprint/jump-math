@@ -2,7 +2,7 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { Answers } from "../types/AnswerTypes";
 import { QuestionElementType } from "../types/QuestionTypes";
 
-export const getAnswerElements = (
+export const answerElements = (
   question: QuestionComponentRequest[],
 ): QuestionComponentRequest[] => {
   return question.filter(
@@ -16,7 +16,7 @@ export const initializeAnswers = (
 ): Answers[] => {
   return questions.map((question, index) => ({
     index,
-    elements: getAnswerElements(question).map((_, elementIndex) => ({
+    elements: answerElements(question).map((_, elementIndex) => ({
       index: elementIndex,
       elementAnswers: [],
     })),

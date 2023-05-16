@@ -2,16 +2,13 @@ import React, { useContext, useMemo } from "react";
 import { HStack, Text } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import { answerElements } from "../../../utils/StudentUtils";
 
 const QuestionTitle = (): React.ReactElement => {
   const { test, currentQuestion } = useContext(StudentContext);
   const points = useMemo(() => {
     const question = test!.questions[currentQuestion];
-    return question.filter(
-      (questionElement) =>
-        questionElement.type === QuestionElementType.QUESTION_TEXT,
-    ).length; // refactor ?
+    return answerElements(question).length;
   }, [test, currentQuestion]);
 
   return (
