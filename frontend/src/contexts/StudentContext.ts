@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createContext } from "react";
 
 import { TestResponse } from "../APIClients/types/TestClientTypes";

@@ -13,17 +13,22 @@ import {
 import Pagination from "./Pagination";
 import usePaginatedData from "./usePaginatedData";
 
-export interface TableRow {
-  values: any[];
+type Nodes = React.ReactNode[];
+
+export interface TableRow<T extends Nodes = Nodes> {
+  values: [...T];
   menu: React.ReactElement;
 }
 
-interface TableProps {
+interface TableProps<T extends Nodes = Nodes> {
   headers: string[];
-  rows: TableRow[];
+  rows: TableRow<T>[];
 }
 
-export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
+export const Table = <T extends Nodes = Nodes>({
+  headers,
+  rows,
+}: TableProps<T>): React.ReactElement => {
   const {
     paginatedData,
     totalPages,
@@ -55,7 +60,10 @@ export const Table = ({ headers, rows }: TableProps): React.ReactElement => {
                 backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
               >
                 {row.values.map((value, cellIndex) => (
-                  <Td key={value} fontWeight={cellIndex === 0 ? "bold" : ""}>
+                  <Td
+                    key={String(value)}
+                    fontWeight={cellIndex === 0 ? "bold" : ""}
+                  >
                     {value}
                   </Td>
                 ))}

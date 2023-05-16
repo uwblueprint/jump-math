@@ -5,7 +5,7 @@ import HeaderWithButton from "../common/HeaderWithButton";
 
 import AddAdminModal from "./admin/AddAdminModal";
 
-const UsersPageHeader = () => {
+const UsersPageHeader = (): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
 
   return (

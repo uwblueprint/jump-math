@@ -30,7 +30,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
 
   const [showBeginTestModal, setShowBeginTestModal] = useState(false);
   const handleStartTest = () => {
-    console.log("placeholder");
+    // TODO fill in
   };
 
   return (
