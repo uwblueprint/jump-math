@@ -2,7 +2,6 @@
 
 set -e
 
-# https://stackoverflow.com/a/32981392/3761440
 faketty () {
     if [[ "$(uname)" == "Darwin" ]]; then
         # macOS
