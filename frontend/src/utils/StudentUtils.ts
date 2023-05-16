@@ -1,3 +1,5 @@
+import update from "immutability-helper";
+
 import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { Answers } from "../types/AnswerTypes";
 import { QuestionElementType } from "../types/QuestionTypes";
@@ -21,4 +23,21 @@ export const initializeAnswers = (
       elementAnswers: [],
     })),
   }));
+};
+
+export const updateAnswer = (
+  answerIndex: number,
+  currentQuestion: number,
+  value: number[] | undefined,
+  prevAnswers: Answers[],
+): Answers[] => {
+  return update(prevAnswers, {
+    [currentQuestion]: {
+      elements: {
+        [answerIndex]: {
+          elementAnswers: { $set: value ?? [] },
+        },
+      },
+    },
+  });
 };

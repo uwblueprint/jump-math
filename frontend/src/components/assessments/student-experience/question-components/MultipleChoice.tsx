@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from "react";
 import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
-import update from "immutability-helper";
 
 import StudentContext from "../../../../contexts/StudentContext";
+import { updateAnswer } from "../../../../utils/StudentUtils";
 
 interface MultipleChoiceProps {
   answerIndex: number;
@@ -22,19 +22,16 @@ const MultipleChoice = ({
     return undefined;
   }, [currentQuestion, answers, answerIndex]);
 
-  const handleInputChange = (event: string) => {
-    const input = parseFloat(event);
+  const handleInputChange = (value: string) => {
+    const input = parseFloat(value);
     const updatedAnswer = Number.isNaN(input) ? undefined : [input];
     setAnswers((prevAnswers) => {
-      return update(prevAnswers, {
-        [currentQuestion]: {
-          elements: {
-            [answerIndex]: {
-              elementAnswers: { $set: updatedAnswer ?? [] },
-            },
-          },
-        },
-      });
+      return updateAnswer(
+        answerIndex,
+        currentQuestion,
+        updatedAnswer,
+        prevAnswers,
+      );
     });
   };
 
