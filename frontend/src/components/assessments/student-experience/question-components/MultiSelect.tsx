@@ -10,7 +10,7 @@ const MultiSelect = ({ options }: MultiSelectProps): React.ReactElement => {
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {
           return (
-            <Checkbox key={index} size="lg" value={option}>
+            <Checkbox key={index} size="lg" value={index.toString()}>
               {option}
             </Checkbox>
           );
