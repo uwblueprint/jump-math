@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 import { TestResponse } from "../APIClients/types/TestClientTypes";
 import { TestSessionMetadata } from "../APIClients/types/TestSessionClientTypes";
+import { Answers } from "../types/AnswerTypes";
 
 type StudentContextType = {
   test: TestResponse | null;
@@ -12,8 +13,8 @@ type StudentContextType = {
   setClassName: (_className: string) => void;
   currentQuestion: number;
   setCurrentQuestion: (_currentQuestion: number) => void;
-  answers: number[][][];
-  setAnswers: (_answers: (prevAnswers: number[][][]) => number[][][]) => void;
+  answers: Answers[];
+  setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
@@ -26,9 +27,7 @@ const StudentContext = createContext<StudentContextType>({
   currentQuestion: 0,
   setCurrentQuestion: (_currentQuestion: number): void => {},
   answers: [],
-  setAnswers: (
-    _answers: (prevAnswers: number[][][]) => number[][][],
-  ): void => {},
+  setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]): void => {},
 });
 
 export default StudentContext;

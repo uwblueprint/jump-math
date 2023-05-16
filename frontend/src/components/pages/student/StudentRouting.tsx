@@ -7,6 +7,7 @@ import { TestResponse } from "../../../APIClients/types/TestClientTypes";
 import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
+import { Answers } from "../../../types/AnswerTypes";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import ErrorState from "../../common/ErrorState";
@@ -28,7 +29,7 @@ const StudentRouting = (): React.ReactElement => {
   );
   const [className, setClassName] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<number[][][]>([]);
+  const [answers, setAnswers] = useState<Answers[]>([]);
 
   useEffect(() => {
     if (state) {
@@ -47,17 +48,22 @@ const StudentRouting = (): React.ReactElement => {
       if (data) {
         setTest(data.test);
 
-        const questionCount = data.test.questions.length; // # of questions
-        const initialArray = new Array(questionCount).fill(null);
-        data.test.questions.forEach((question, index) => {
-          initialArray[index] = Array(
-            question.filter(
-              (element) => element.type === QuestionElementType.QUESTION_TEXT,
-            ).length,
-          ).fill(null);
-        });
-        setAnswers(initialArray);
-        console.log(initialArray);
+        const emptyAnswers: Answers[] = data.test.questions.map(
+          (question, index) => {
+            const answerElements = question.filter(
+              (questionElement) =>
+                questionElement.type === QuestionElementType.QUESTION_TEXT,
+            );
+            return {
+              index,
+              answers: answerElements.map((_, elementIndex) => ({
+                index: elementIndex,
+                elementAnswers: [],
+              })),
+            };
+          },
+        );
+        setAnswers(emptyAnswers);
       }
     },
   });
