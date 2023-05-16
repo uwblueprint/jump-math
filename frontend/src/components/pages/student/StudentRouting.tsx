@@ -56,7 +56,7 @@ const StudentRouting = (): React.ReactElement => {
             );
             return {
               index,
-              answers: answerElements.map((_, elementIndex) => ({
+              elements: answerElements.map((_, elementIndex) => ({
                 index: elementIndex,
                 elementAnswers: [],
               })),

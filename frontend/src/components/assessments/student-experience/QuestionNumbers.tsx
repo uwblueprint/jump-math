@@ -15,7 +15,11 @@ const QuestionNumbers = (): React.ReactElement => {
     if (index === currentQuestion) {
       return QuestionNumberTypes.CURRENT;
     }
-    if (answers[index]) {
+    if (
+      answers[index].elements.every(
+        (element) => element.elementAnswers.length !== 0,
+      )
+    ) {
       return QuestionNumberTypes.COMPLETED; // come back to this
     }
     return QuestionNumberTypes.UNATTEMPTED;

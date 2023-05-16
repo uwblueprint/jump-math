@@ -17,17 +17,11 @@ const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
     const input = parseFloat(event.target.value);
     const updatedAnswer = Number.isNaN(input) ? undefined : [input];
     if (updatedAnswer) {
-      console.log(number);
-      console.log(answers);
-      console.log(answers[currentQuestion]);
-      console.log(answers[currentQuestion].answers);
-      console.log(answers[currentQuestion].answers[1]);
-      console.log(answers[currentQuestion].answers[1].elementAnswers);
       setAnswers((prevAnswers) => {
         return update(prevAnswers, {
           [currentQuestion]: {
-            answers: {
-              1: {
+            elements: {
+              0: {
                 elementAnswers: { $set: updatedAnswer },
               },
             },
@@ -38,8 +32,8 @@ const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
       setAnswers((prevAnswers) => {
         return update(prevAnswers, {
           [currentQuestion]: {
-            answers: {
-              1: {
+            elements: {
+              0: {
                 elementAnswers: { $set: [] },
               },
             },
@@ -50,9 +44,10 @@ const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
   };
 
   const getValue = () => {
+    console.log(currentAnswer);
     if (currentAnswer) {
-      if (currentAnswer.answers[1]) {
-        return currentAnswer.answers[1].elementAnswers[0];
+      if (currentAnswer.elements[0]) {
+        return currentAnswer.elements[0].elementAnswers[0];
       }
       return undefined;
     }
