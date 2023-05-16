@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { Input } from "@chakra-ui/react";
 import update from "immutability-helper";
 
@@ -10,48 +10,29 @@ interface ShortAnswersProps {
 
 const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
   const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
-  const currentAnswer = answers.find(
-    (answer) => answer.index === currentQuestion,
-  );
+  const currentAnswer = useMemo(() => {
+    const answer = answers.find((a) => a.index === currentQuestion);
+    const answerElement = answer?.elements[0].elementAnswers;
+    if (answer && answerElement && answerElement.length) {
+      return answerElement[0];
+    }
+    return undefined;
+  }, [currentQuestion, answers]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = parseFloat(event.target.value);
     const updatedAnswer = Number.isNaN(input) ? undefined : [input];
-    if (updatedAnswer) {
-      setAnswers((prevAnswers) => {
-        return update(prevAnswers, {
-          [currentQuestion]: {
-            elements: {
-              0: {
-                elementAnswers: { $set: updatedAnswer },
-              },
+    setAnswers((prevAnswers) => {
+      return update(prevAnswers, {
+        [currentQuestion]: {
+          elements: {
+            0: {
+              elementAnswers: { $set: updatedAnswer ?? [] },
             },
           },
-        });
+        },
       });
-    } else {
-      setAnswers((prevAnswers) => {
-        return update(prevAnswers, {
-          [currentQuestion]: {
-            elements: {
-              0: {
-                elementAnswers: { $set: [] },
-              },
-            },
-          },
-        });
-      });
-    }
-  };
-
-  const getValue = () => {
-    console.log(currentAnswer);
-    if (currentAnswer) {
-      if (currentAnswer.elements[0]) {
-        return currentAnswer.elements[0].elementAnswers[0];
-      }
-      return undefined;
-    }
-    return undefined;
+    });
   };
 
   return (
@@ -62,7 +43,7 @@ const ShortAnswer = ({ number }: ShortAnswersProps): React.ReactElement => {
       onChange={(e) => handleInputChange(e)}
       placeholder="Write your answer here"
       type="number"
-      value={getValue()}
+      value={currentAnswer}
       variant="outline"
       width="34%"
     />

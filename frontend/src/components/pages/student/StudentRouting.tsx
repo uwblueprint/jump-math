@@ -8,7 +8,7 @@ import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClient
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import { Answers } from "../../../types/AnswerTypes";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import { initializeAnswers } from "../../../utils/StudentUtils";
 import PrivateRoute from "../../auth/PrivateRoute";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
@@ -47,23 +47,7 @@ const StudentRouting = (): React.ReactElement => {
     onCompleted: () => {
       if (data) {
         setTest(data.test);
-
-        const emptyAnswers: Answers[] = data.test.questions.map(
-          (question, index) => {
-            const answerElements = question.filter(
-              (questionElement) =>
-                questionElement.type === QuestionElementType.QUESTION_TEXT,
-            );
-            return {
-              index,
-              elements: answerElements.map((_, elementIndex) => ({
-                index: elementIndex,
-                elementAnswers: [],
-              })),
-            };
-          },
-        );
-        setAnswers(emptyAnswers);
+        setAnswers(initializeAnswers(data.test.questions));
       }
     },
   });

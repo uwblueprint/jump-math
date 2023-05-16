@@ -7,14 +7,11 @@ import { QuestionElementType } from "../../../types/QuestionTypes";
 const QuestionTitle = (): React.ReactElement => {
   const { test, currentQuestion } = useContext(StudentContext);
   const points = useMemo(() => {
-    if (!test) {
-      return 0;
-    }
-    const question = test.questions[currentQuestion];
+    const question = test!.questions[currentQuestion];
     return question.filter(
       (questionElement) =>
         questionElement.type === QuestionElementType.QUESTION_TEXT,
-    ).length;
+    ).length; // refactor ?
   }, [test, currentQuestion]);
 
   return (

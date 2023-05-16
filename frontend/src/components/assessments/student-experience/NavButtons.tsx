@@ -8,32 +8,34 @@ const NavButtons = (): React.ReactElement => {
     StudentContext,
   );
 
+  const onFirstQuestion = currentQuestion === 0;
+  const onLastQuestion = currentQuestion === test!.questions.length - 1;
+
+  const previousQuestion = currentQuestion - 1;
+  const nextQuestion = currentQuestion + 1;
+
   return (
-    <>
-      {test && (
-        <HStack paddingBottom="12">
-          {currentQuestion !== 0 && (
-            <Button
-              onClick={() => setCurrentQuestion(currentQuestion - 1)}
-              variant="secondary"
-            >
-              Previous Question
-            </Button>
-          )}
-          <Spacer />
-          {currentQuestion === test.questions.length - 1 ? (
-            <Button variant="primary">Submit</Button>
-          ) : (
-            <Button
-              onClick={() => setCurrentQuestion(currentQuestion + 1)}
-              variant="primary"
-            >
-              Next Question
-            </Button>
-          )}
-        </HStack>
+    <HStack paddingBottom="12">
+      {!onFirstQuestion && (
+        <Button
+          onClick={() => setCurrentQuestion(previousQuestion)}
+          variant="secondary"
+        >
+          Previous Question
+        </Button>
       )}
-    </>
+      <Spacer />
+      {onLastQuestion ? (
+        <Button variant="primary">Submit</Button>
+      ) : (
+        <Button
+          onClick={() => setCurrentQuestion(nextQuestion)}
+          variant="primary"
+        >
+          Next Question
+        </Button>
+      )}
+    </HStack>
   );
 };
 

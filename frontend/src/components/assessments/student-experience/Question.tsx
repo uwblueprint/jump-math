@@ -44,7 +44,7 @@ const Question = ({ components }: QuestionProps): React.ReactElement => {
                     <Text text={(component.metadata as TextMetadata).text} />
                   );
                 case QuestionElementType.SHORT_ANSWER:
-                  return <ShortAnswer number={i} />;
+                  return <ShortAnswer number={1} />;
                 case QuestionElementType.MULTIPLE_CHOICE:
                   return (
                     <MultipleChoice

@@ -12,36 +12,32 @@ const AssessmentExperiencePage = (): React.ReactElement => {
   const { test, className, currentQuestion } = useContext(StudentContext);
 
   return (
-    <>
-      {test && className && (
-        <VStack align="center" flex="1" spacing="8">
-          <StudentDashboardHeader
-            assessmentName={test.name}
-            classroomName={className}
-          />
-          <Box width="90%">
-            <HStack align="top" spacing="10%">
-              <VStack align="left" minWidth="233" spacing="6">
-                <Text textStyle="subtitle1">Questions</Text>
-                <QuestionNumbers />
-              </VStack>
-              <VStack align="left" minHeight="80vh" spacing={8}>
-                <Text color="grey.300" textStyle="subtitle1">
-                  All responses will be autosaved. Make sure you answer all the
-                  questions before submitting your test. You can also do the
-                  questions in ANY order meaning that can skip a question and
-                  come back to it later!
-                </Text>
-                <QuestionTitle />
-                <Question components={test.questions[currentQuestion]} />
-                <Spacer />
-                <NavButtons />
-              </VStack>
-            </HStack>
-          </Box>
-        </VStack>
-      )}
-    </>
+    <VStack align="center" flex="1" spacing="8">
+      <StudentDashboardHeader
+        assessmentName={test!.name}
+        classroomName={className}
+      />
+      <Box width="90%">
+        <HStack align="top" spacing="10%">
+          <VStack align="left" minWidth="233" spacing="6">
+            <Text textStyle="subtitle1">Questions</Text>
+            <QuestionNumbers />
+          </VStack>
+          <VStack align="left" minHeight="83vh" spacing={8}>
+            <Text color="grey.300" textStyle="subtitle1">
+              All responses will be autosaved. Make sure you answer all the
+              questions before submitting your test. You can also do the
+              questions in ANY order meaning that can skip a question and come
+              back to it later!
+            </Text>
+            <QuestionTitle />
+            <Question components={test!.questions[currentQuestion]} />
+            <Spacer />
+            <NavButtons />
+          </VStack>
+        </HStack>
+      </Box>
+    </VStack>
   );
 };
 

@@ -11,38 +11,36 @@ const QuestionNumbers = (): React.ReactElement => {
     StudentContext,
   );
 
-  const getStatus = (index: number) => {
+  const isCompletedQuestion = (index: number) => {
+    return answers[index].elements.every(
+      (element) => element.elementAnswers.length !== 0,
+    );
+  };
+
+  const getQuestionStatus = (index: number) => {
     if (index === currentQuestion) {
       return QuestionNumberTypes.CURRENT;
     }
-    if (
-      answers[index].elements.every(
-        (element) => element.elementAnswers.length !== 0,
-      )
-    ) {
-      return QuestionNumberTypes.COMPLETED; // come back to this
+    if (isCompletedQuestion(index)) {
+      return QuestionNumberTypes.COMPLETED;
     }
     return QuestionNumberTypes.UNATTEMPTED;
   };
 
   return (
-    <>
-      {test && (
-        <SimpleGrid columns={3} spacing={4}>
-          {test.questions.map((_, index) => {
-            return (
-              <GridItem key={index}>
-                <QuestionNumber
-                  number={index + 1}
-                  onClick={() => setCurrentQuestion(index)}
-                  status={getStatus(index)}
-                />
-              </GridItem>
-            );
-          })}
-        </SimpleGrid>
-      )}
-    </>
+    <SimpleGrid columns={3} spacing={4}>
+      {test!.questions.map((_, index) => {
+        return (
+          <GridItem key={index}>
+            <QuestionNumber
+              number={index + 1}
+              onClick={() => setCurrentQuestion(index)}
+              status={getQuestionStatus(index)}
+            />
+          </GridItem>
+        );
+      })}
+    </SimpleGrid>
   );
 };
 
