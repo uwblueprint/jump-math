@@ -69,6 +69,7 @@ const Question = ({ components }: QuestionProps): React.ReactElement => {
                 case QuestionElementType.MULTI_SELECT:
                   return (
                     <MultiSelect
+                      answerIndex={answerIndices[i]}
                       options={
                         (component.metadata as MultiSelectMetadata).options
                       }

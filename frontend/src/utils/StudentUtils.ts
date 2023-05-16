@@ -41,3 +41,16 @@ export const updateAnswer = (
     },
   });
 };
+
+export const getCurrentAnswer = (
+  currentQuestion: number,
+  answerIndex: number,
+  answers: Answers[],
+): number[] | undefined => {
+  const answer = answers.find((a) => a.index === currentQuestion);
+  const answerElement = answer?.elements[answerIndex].elementAnswers;
+  if (answer && answerElement && answerElement.length) {
+    return answerElement;
+  }
+  return undefined;
+};

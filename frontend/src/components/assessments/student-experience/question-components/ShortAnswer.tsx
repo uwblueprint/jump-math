@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 import { Input } from "@chakra-ui/react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { updateAnswer } from "../../../../utils/StudentUtils";
+import { getCurrentAnswer, updateAnswer } from "../../../../utils/StudentUtils";
 
 interface ShortAnswersProps {
   answerIndex: number;
@@ -13,12 +13,7 @@ const ShortAnswer = ({
 }: ShortAnswersProps): React.ReactElement => {
   const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
   const currentAnswer = useMemo(() => {
-    const answer = answers.find((a) => a.index === currentQuestion);
-    const answerElement = answer?.elements[answerIndex].elementAnswers;
-    if (answer && answerElement && answerElement.length) {
-      return answerElement[0];
-    }
-    return undefined;
+    return getCurrentAnswer(currentQuestion, answerIndex, answers);
   }, [currentQuestion, answers, answerIndex]);
 
   const handleInputChange = (value: string) => {
@@ -42,7 +37,7 @@ const ShortAnswer = ({
       onChange={(e) => handleInputChange(e.target.value)}
       placeholder="Write your answer here"
       type="number"
-      value={currentAnswer}
+      value={currentAnswer ? currentAnswer[0] : undefined}
       variant="outline"
       width="34%"
     />
