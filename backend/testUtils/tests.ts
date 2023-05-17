@@ -162,9 +162,12 @@ export const mockTestArray: Array<TestResponseDTO> = [
 export const assertResponseMatchesExpected = (
   expected: TestResponseDTO,
   result: TestResponseDTO,
+  omitNameMatch = false,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.name).toEqual(expected.name);
+  if (!omitNameMatch) {
+    expect(result.name).toEqual(expected.name);
+  }
   expect(result.assessmentType).toEqual(expected.assessmentType);
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);
