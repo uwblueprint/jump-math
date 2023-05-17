@@ -36,7 +36,7 @@ const ResendEmail = ({
         <Button
           color="blue.300"
           display="contents"
-          isLoading
+          isLoading={isResending}
           loadingText="Resending"
           onClick={onResendClick}
           style={{ font: "inherit", display: "flex" }}
