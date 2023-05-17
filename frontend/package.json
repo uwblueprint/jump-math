@@ -9,7 +9,7 @@
     "@chakra-ui/theme-tools": "^2.0.16",
     "@chakra-ui/utils": "^2.0.14",
     "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/styled": "^11.11.0",
     "@fontsource/dm-sans": "^4.5.9",
     "@rjsf/bootstrap-4": "^3.0.0",
     "@rjsf/core": "^2.5.1",
