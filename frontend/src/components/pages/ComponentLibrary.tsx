@@ -1,13 +1,10 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, Center, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { ClassroomForm } from "../../types/ClassroomTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import Question from "../assessments/student-experience/Question";
 import ClassroomCard from "../classrooms/ClassroomCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
