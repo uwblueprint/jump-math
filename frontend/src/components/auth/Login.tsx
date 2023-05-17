@@ -9,12 +9,13 @@ import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import { AuthenticatedUser } from "../../types/AuthTypes";
+import { VerifiableUser } from "../../types/AuthTypes";
 import BackButton from "../common/BackButton";
 import RouterLink from "../common/RouterLink";
 
 import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";
+import UnverifiedUsers from "./UnverifiedUsers";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -28,19 +29,27 @@ const Login = (): React.ReactElement => {
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(false);
 
-  const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
+  const [login] = useMutation<{
+    login: VerifiableUser;
+  }>(LOGIN);
 
   const onLogInClick = async () => {
     if (!(email && password)) {
       setLoginError(true);
       return;
     }
-    const user: AuthenticatedUser = await authAPIClient.login(
+    const user: VerifiableUser | null = await authAPIClient.login(
       email,
       password,
       login,
     );
+
+    if (user?.emailVerified === false) {
+      setUnverifiedUser(true);
+      return;
+    }
     setAuthenticatedUser(user);
   };
 
@@ -104,6 +113,7 @@ const Login = (): React.ReactElement => {
   const error = loginError ? "Please ensure fields are filled" : "";
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
+  if (unverifiedUser) return <UnverifiedUsers email={email} />;
   return (
     <AuthWrapper
       error={error}

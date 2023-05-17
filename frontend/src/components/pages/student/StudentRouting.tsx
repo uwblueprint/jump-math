@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
 import { TestResponse } from "../../../APIClients/types/TestClientTypes";
-import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
+import { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import { Answers } from "../../../types/AnswerTypes";
@@ -20,11 +20,11 @@ import AssessmentSummaryPage from "./AssessmentSummaryPage";
 const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{
     testId: string;
-    testSession: TestSessionMetadata;
+    testSession: TestSessionSetupData;
     className: string;
   }>();
   const [testId, setTestId] = useState("");
-  const [testSession, setTestSession] = useState<TestSessionMetadata | null>(
+  const [testSession, setTestSession] = useState<TestSessionSetupData | null>(
     null,
   );
   const [className, setClassName] = useState("");

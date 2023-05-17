@@ -3,7 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
-import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
+import { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
@@ -18,7 +18,7 @@ const StudentLoginPage = (): React.ReactElement => {
   const [error, setError] = useState("");
 
   const [testId, setTestId] = useState("");
-  const [testSession, setTestSession] = useState<TestSessionMetadata | null>(
+  const [testSession, setTestSession] = useState<TestSessionSetupData | null>(
     null,
   );
 
@@ -31,8 +31,7 @@ const StudentLoginPage = (): React.ReactElement => {
       setTestId(result.test.id);
       setTestSession({
         id: result.id,
-        startDate: result.startDate,
-        endDate: result.endDate,
+        startDate: new Date(result.startDate),
         notes: result.notes ?? "",
       });
 

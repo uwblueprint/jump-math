@@ -1,5 +1,5 @@
-import { UserDTO, Grade } from "../../types";
-import { TestSessionResponseDTO } from "./testSessionService";
+import type { UserDTO, Grade } from "../../types";
+import { type TestSessionResponseDTO } from "./testSessionService";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -43,10 +43,14 @@ export interface IClassService {
   /**
    * This method retrieves the class with given id.
    * @param id class id
+   * @param populateTestSessions if true, test sessions will be populated
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassById(id: string): Promise<ClassResponseDTO>;
+  getClassById(
+    id: string,
+    populateTestSessions?: boolean,
+  ): Promise<ClassResponseDTO>;
 
   /**
    * This method retrieves the class with given test session id.

@@ -10,6 +10,8 @@ import {
 import { ITestService } from "../../services/interfaces/testService";
 import IUserService from "../../services/interfaces/userService";
 import { ISchoolService } from "../../services/interfaces/schoolService";
+import ClassService from "../../services/implementations/classService";
+import { IClassService } from "../../services/interfaces/classService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -19,6 +21,11 @@ const testSessionService: ITestSessionService = new TestSessionService(
   userService,
   schoolService,
 );
+const classService: IClassService = new ClassService(
+  userService,
+  testSessionService,
+);
+testSessionService.bindClassService(classService);
 
 const testSessionResolvers = {
   Query: {
@@ -47,12 +54,9 @@ const testSessionResolvers = {
   Mutation: {
     createTestSession: async (
       _req: undefined,
-      {
-        classId,
-        testSession,
-      }: { classId: string; testSession: TestSessionRequestDTO },
+      { testSession }: { classId: string; testSession: TestSessionRequestDTO },
     ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.createTestSession(classId, testSession);
+      return testSessionService.createTestSession(testSession);
     },
   },
 };

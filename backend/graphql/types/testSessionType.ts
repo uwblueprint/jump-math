@@ -18,6 +18,7 @@ const testSessionType = gql`
     test: TestResponseDTO!
     teacher: UserDTO!
     school: SchoolResponseDTO!
+    class: ClassResponseDTO!
     results: [ResultResponseDTO]
     accessCode: String!
     startDate: Date!
@@ -29,6 +30,7 @@ const testSessionType = gql`
     test: ID!
     teacher: ID!
     school: ID!
+    class: ID!
     accessCode: String!
     startDate: Date!
     endDate: Date!
@@ -44,7 +46,6 @@ const testSessionType = gql`
 
   extend type Mutation {
     createTestSession(
-      classId: String!
       testSession: TestSessionRequestDTO!
     ): TestSessionResponseDTO!
   }
