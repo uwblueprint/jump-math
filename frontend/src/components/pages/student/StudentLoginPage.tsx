@@ -32,7 +32,6 @@ const StudentLoginPage = (): React.ReactElement => {
       setTestSession({
         id: result.id,
         startDate: result.startDate,
-        endDate: result.endDate,
         notes: result.notes ?? "",
       });
 

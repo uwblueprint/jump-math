@@ -9,7 +9,6 @@ export const GET_TEST_SESSION_BY_ACCESS_CODE = gql`
       }
       notes
       startDate
-      endDate
     }
   }
 `;
