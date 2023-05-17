@@ -40,6 +40,7 @@ export const LOGIN = gql`
       email
       role
       accessToken
+      emailVerified
     }
   }
 `;
@@ -83,5 +84,11 @@ export const VERIFY_PASSWORD_RESET = gql`
 export const CONFIRM_PASSWORD_RESET = gql`
   mutation ConfirmPasswordReset($newPassword: String!, $oobCode: String!) {
     confirmPasswordReset(newPassword: $newPassword, oobCode: $oobCode)
+  }
+`;
+
+export const SEND_EMAIL_VERIFICATION_LINK = gql`
+  mutation SendEmailVerificationLink($email: String!) {
+    sendEmailVerificationLink(email: $email)
   }
 `;
