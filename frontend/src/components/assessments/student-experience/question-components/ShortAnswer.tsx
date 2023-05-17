@@ -2,28 +2,31 @@ import React, { useContext, useMemo } from "react";
 import { Input } from "@chakra-ui/react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { getCurrentAnswer, updateAnswer } from "../../../../utils/StudentUtils";
+import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
 
 interface ShortAnswersProps {
-  answerIndex: number;
+  answerElementIndex: number;
 }
 
 const ShortAnswer = ({
-  answerIndex,
+  answerElementIndex,
 }: ShortAnswersProps): React.ReactElement => {
-  const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
-  const currentAnswer = useMemo(() => {
-    return getCurrentAnswer(currentQuestion, answerIndex, answers);
-  }, [currentQuestion, answers, answerIndex]);
+  const { currentQuestionIndex, answers, setAnswers } = useContext(
+    StudentContext,
+  );
 
-  const handleInputChange = (value: string) => {
-    const input = parseFloat(value);
-    const updatedAnswer = Number.isNaN(input) ? undefined : [input];
+  const currentAnswer = useMemo(() => {
+    return answerValues(currentQuestionIndex, answerElementIndex, answers);
+  }, [currentQuestionIndex, answers, answerElementIndex]);
+
+  const updateAnswer = (input: string) => {
+    const value = parseFloat(input);
+    const validValue = Number.isNaN(value) ? [] : [value];
     setAnswers((prevAnswers) => {
-      return updateAnswer(
-        answerIndex,
-        currentQuestion,
-        updatedAnswer,
+      return updatedAnswer(
+        answerElementIndex,
+        currentQuestionIndex,
+        validValue,
         prevAnswers,
       );
     });
@@ -34,10 +37,10 @@ const ShortAnswer = ({
       borderColor="grey.300"
       borderRadius="8px"
       focusBorderColor="grey.300"
-      onChange={(e) => handleInputChange(e.target.value)}
+      onChange={(e) => updateAnswer(e.target.value)}
       placeholder="Write your answer here"
       type="number"
-      value={currentAnswer ? currentAnswer[0] : undefined}
+      value={currentAnswer[0] ?? undefined}
       variant="outline"
       width="34%"
     />

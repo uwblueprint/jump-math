@@ -28,7 +28,7 @@ const StudentRouting = (): React.ReactElement => {
     null,
   );
   const [className, setClassName] = useState("");
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers[]>([]);
 
   useEffect(() => {
@@ -61,8 +61,8 @@ const StudentRouting = (): React.ReactElement => {
         setTestSession,
         className,
         setClassName,
-        currentQuestion,
-        setCurrentQuestion,
+        currentQuestionIndex,
+        setCurrentQuestionIndex,
         answers,
         setAnswers,
       }}

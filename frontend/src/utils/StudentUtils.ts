@@ -2,15 +2,24 @@ import update from "immutability-helper";
 
 import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { Answers } from "../types/AnswerTypes";
-import { QuestionElementType } from "../types/QuestionTypes";
+import { ResponseElementType } from "../types/QuestionTypes";
 
 export const answerElements = (
   question: QuestionComponentRequest[],
 ): QuestionComponentRequest[] => {
   return question.filter(
-    (questionElement) =>
-      questionElement.type === QuestionElementType.QUESTION_TEXT,
+    (questionElement) => questionElement.type in ResponseElementType,
   );
+};
+
+export const answerValues = (
+  currentQuestionIndex: number,
+  answerElementIndex: number,
+  answers: Answers[],
+): number[] => {
+  const answer = answers.find((a) => a.index === currentQuestionIndex);
+  const answerElement = answer?.elements[answerElementIndex];
+  return answerElement?.elementAnswers ?? [];
 };
 
 export const initializeAnswers = (
@@ -25,14 +34,14 @@ export const initializeAnswers = (
   }));
 };
 
-export const updateAnswer = (
+export const updatedAnswer = (
   answerIndex: number,
-  currentQuestion: number,
+  currentQuestionIndex: number,
   value: number[] | undefined,
   prevAnswers: Answers[],
 ): Answers[] => {
   return update(prevAnswers, {
-    [currentQuestion]: {
+    [currentQuestionIndex]: {
       elements: {
         [answerIndex]: {
           elementAnswers: { $set: value ?? [] },
@@ -40,17 +49,4 @@ export const updateAnswer = (
       },
     },
   });
-};
-
-export const getCurrentAnswer = (
-  currentQuestion: number,
-  answerIndex: number,
-  answers: Answers[],
-): number[] | undefined => {
-  const answer = answers.find((a) => a.index === currentQuestion);
-  const answerElement = answer?.elements[answerIndex].elementAnswers;
-  if (answer && answerElement && answerElement.length) {
-    return answerElement;
-  }
-  return undefined;
 };

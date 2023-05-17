@@ -22,13 +22,13 @@ import ShortAnswer from "./question-components/ShortAnswer";
 import Text from "./question-components/Text";
 
 interface QuestionProps {
-  components: QuestionComponentResponse[];
+  elements: QuestionComponentResponse[];
 }
 
-const Question = ({ components }: QuestionProps): React.ReactElement => {
+const Question = ({ elements }: QuestionProps): React.ReactElement => {
   let counter = -1;
-  const answerIndices = components.map((component) => {
-    if (component.type in ResponseElementType) {
+  const answerElementIndex = elements.map((element) => {
+    if (element.type in ResponseElementType) {
       counter += 1;
       return counter;
     }
@@ -37,47 +37,48 @@ const Question = ({ components }: QuestionProps): React.ReactElement => {
 
   return (
     <>
-      {components.map((component, i) => {
+      {elements.map((element, i) => {
         return (
           <Box key={i} my={10}>
             {(() => {
-              switch (component.type) {
+              switch (element.type) {
                 case QuestionElementType.QUESTION_TEXT:
                   return (
                     <QuestionText
                       questionText={
-                        (component.metadata as QuestionTextMetadata)
-                          .questionText
+                        (element.metadata as QuestionTextMetadata).questionText
                       }
                     />
                   );
                 case QuestionElementType.TEXT:
                   return (
-                    <Text text={(component.metadata as TextMetadata).text} />
+                    <Text text={(element.metadata as TextMetadata).text} />
                   );
                 case QuestionElementType.SHORT_ANSWER:
-                  return <ShortAnswer answerIndex={answerIndices[i]} />;
+                  return (
+                    <ShortAnswer answerElementIndex={answerElementIndex[i]} />
+                  );
                 case QuestionElementType.MULTIPLE_CHOICE:
                   return (
                     <MultipleChoice
-                      answerIndex={answerIndices[i]}
+                      answerElementIndex={answerElementIndex[i]}
                       options={
-                        (component.metadata as MultipleChoiceMetadata).options
+                        (element.metadata as MultipleChoiceMetadata).options
                       }
                     />
                   );
                 case QuestionElementType.MULTI_SELECT:
                   return (
                     <MultiSelect
-                      answerIndex={answerIndices[i]}
+                      answerElementIndex={answerElementIndex[i]}
                       options={
-                        (component.metadata as MultiSelectMetadata).options
+                        (element.metadata as MultiSelectMetadata).options
                       }
                     />
                   );
                 case QuestionElementType.IMAGE:
                   return (
-                    <Image url={(component.metadata as ImageMetadata).url} />
+                    <Image url={(element.metadata as ImageMetadata).url} />
                   );
                 default:
                   return null;

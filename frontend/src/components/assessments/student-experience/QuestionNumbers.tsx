@@ -7,9 +7,12 @@ import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
 import QuestionNumber from "./QuestionNumber";
 
 const QuestionNumbers = (): React.ReactElement => {
-  const { test, answers, currentQuestion, setCurrentQuestion } = useContext(
-    StudentContext,
-  );
+  const {
+    test,
+    answers,
+    currentQuestionIndex,
+    setCurrentQuestionIndex,
+  } = useContext(StudentContext);
 
   const isCompletedQuestion = (index: number) => {
     return answers[index].elements.every(
@@ -18,7 +21,7 @@ const QuestionNumbers = (): React.ReactElement => {
   };
 
   const questionStatus = (index: number) => {
-    if (index === currentQuestion) {
+    if (index === currentQuestionIndex) {
       return QuestionNumberTypes.CURRENT;
     }
     if (isCompletedQuestion(index)) {
@@ -29,12 +32,12 @@ const QuestionNumbers = (): React.ReactElement => {
 
   return (
     <SimpleGrid columns={3} spacing={4}>
-      {test!.questions.map((_, index) => {
+      {test?.questions.map((_, index) => {
         return (
           <GridItem key={index}>
             <QuestionNumber
               number={index + 1}
-              onClick={() => setCurrentQuestion(index)}
+              onClick={() => setCurrentQuestionIndex(index)}
               status={questionStatus(index)}
             />
           </GridItem>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createContext } from "react";
 
 import { TestResponse } from "../APIClients/types/TestClientTypes";
@@ -11,10 +13,10 @@ type StudentContextType = {
   setTestSession: (_testSession: TestSessionMetadata) => void;
   className: string;
   setClassName: (_className: string) => void;
-  currentQuestion: number;
-  setCurrentQuestion: (_currentQuestion: number) => void;
   answers: Answers[];
   setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]) => void;
+  currentQuestionIndex: number;
+  setCurrentQuestionIndex: (_currentQuestionIndex: number) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
@@ -24,10 +26,10 @@ const StudentContext = createContext<StudentContextType>({
   setTestSession: (_testSession: TestSessionMetadata): void => {},
   className: "",
   setClassName: (_className: string): void => {},
-  currentQuestion: 0,
-  setCurrentQuestion: (_currentQuestion: number): void => {},
   answers: [],
   setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]): void => {},
+  currentQuestionIndex: 0,
+  setCurrentQuestionIndex: (_currentQuestionIndex: number): void => {},
 });
 
 export default StudentContext;

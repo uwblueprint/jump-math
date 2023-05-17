@@ -2,31 +2,39 @@ import React, { useContext, useMemo } from "react";
 import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { getCurrentAnswer, updateAnswer } from "../../../../utils/StudentUtils";
+import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
 
 interface MultiSelectProps {
-  answerIndex: number;
+  answerElementIndex: number;
   options: string[];
 }
+
 const MultiSelect = ({
-  answerIndex,
+  answerElementIndex,
   options,
 }: MultiSelectProps): React.ReactElement => {
-  const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
+  const { currentQuestionIndex, answers, setAnswers } = useContext(
+    StudentContext,
+  );
 
   const currentAnswer = useMemo(() => {
-    return getCurrentAnswer(currentQuestion, answerIndex, answers);
-  }, [currentQuestion, answers, answerIndex]);
+    return answerValues(currentQuestionIndex, answerElementIndex, answers);
+  }, [currentQuestionIndex, answers, answerElementIndex]);
 
-  const handleInputChange = (value: number[]) => {
+  const updateAnswer = (value: number[]) => {
     setAnswers((prevAnswers) => {
-      return updateAnswer(answerIndex, currentQuestion, value, prevAnswers);
+      return updatedAnswer(
+        answerElementIndex,
+        currentQuestionIndex,
+        value,
+        prevAnswers,
+      );
     });
   };
 
   return (
     <CheckboxGroup
-      onChange={(e) => handleInputChange(e as number[])}
+      onChange={(e) => updateAnswer(e as number[])}
       value={currentAnswer}
     >
       <VStack alignItems="left" gap={3} ml={5}>

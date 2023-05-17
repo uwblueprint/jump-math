@@ -17,7 +17,7 @@ interface AssessmentInfoProps {
 const AssessmentInfo = ({
   questions,
 }: AssessmentInfoProps): React.ReactElement => {
-  const pointCount = questions
+  const totalPointCount = questions
     .flat()
     .filter((question) => question.type === QuestionElementType.QUESTION_TEXT)
     .length;
@@ -33,7 +33,10 @@ const AssessmentInfo = ({
   };
 
   return (
-    <QuestionSummary pointCount={pointCount} questionCount={questions.length}>
+    <QuestionSummary
+      pointCount={totalPointCount}
+      questionCount={questions.length}
+    >
       <VStack align="left" width="100%">
         <br />
         <Text paddingBottom="2" textStyle="smaller-paragraph">

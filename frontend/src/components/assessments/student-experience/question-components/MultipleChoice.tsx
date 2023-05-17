@@ -2,29 +2,33 @@ import React, { useContext, useMemo } from "react";
 import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { getCurrentAnswer, updateAnswer } from "../../../../utils/StudentUtils";
+import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
 
 interface MultipleChoiceProps {
-  answerIndex: number;
+  answerElementIndex: number;
   options: string[];
 }
+
 const MultipleChoice = ({
-  answerIndex,
+  answerElementIndex,
   options,
 }: MultipleChoiceProps): React.ReactElement => {
-  const { currentQuestion, answers, setAnswers } = useContext(StudentContext);
-  const currentAnswer = useMemo(() => {
-    return getCurrentAnswer(currentQuestion, answerIndex, answers);
-  }, [currentQuestion, answers, answerIndex]);
+  const { currentQuestionIndex, answers, setAnswers } = useContext(
+    StudentContext,
+  );
 
-  const handleInputChange = (value: string) => {
-    const input = parseFloat(value);
-    const updatedAnswer = Number.isNaN(input) ? undefined : [input];
+  const currentAnswer = useMemo(() => {
+    return answerValues(currentQuestionIndex, answerElementIndex, answers);
+  }, [currentQuestionIndex, answers, answerElementIndex]);
+
+  const updateAnswer = (input: string) => {
+    const value = parseFloat(input);
+    const validValue = Number.isNaN(value) ? [] : [value];
     setAnswers((prevAnswers) => {
-      return updateAnswer(
-        answerIndex,
-        currentQuestion,
-        updatedAnswer,
+      return updatedAnswer(
+        answerElementIndex,
+        currentQuestionIndex,
+        validValue,
         prevAnswers,
       );
     });
@@ -32,13 +36,13 @@ const MultipleChoice = ({
 
   return (
     <RadioGroup
-      onChange={(e) => handleInputChange(e)}
-      value={currentAnswer ? currentAnswer[0].toString() : undefined}
+      onChange={(e) => updateAnswer(e)}
+      value={currentAnswer[0] ?? undefined}
     >
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {
           return (
-            <Radio key={index} size="lg" value={index.toString()}>
+            <Radio key={index} size="lg" value={index}>
               {option}
             </Radio>
           );

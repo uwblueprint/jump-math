@@ -9,12 +9,12 @@ import QuestionNumbers from "../../assessments/student-experience/QuestionNumber
 import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
 
 const AssessmentExperiencePage = (): React.ReactElement => {
-  const { test, className, currentQuestion } = useContext(StudentContext);
+  const { test, className, currentQuestionIndex } = useContext(StudentContext);
 
   return (
     <VStack align="center" flex="1" spacing="8">
       <StudentDashboardHeader
-        assessmentName={test!.name}
+        assessmentName={test?.name ?? ""}
         classroomName={className}
       />
       <Box width="90%">
@@ -31,7 +31,7 @@ const AssessmentExperiencePage = (): React.ReactElement => {
               back to it later!
             </Text>
             <QuestionTitle />
-            <Question components={test!.questions[currentQuestion]} />
+            <Question elements={test?.questions[currentQuestionIndex] ?? []} />
             <Spacer />
             <NavButtons />
           </VStack>
