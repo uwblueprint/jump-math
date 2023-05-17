@@ -31,7 +31,7 @@ const StudentLoginPage = (): React.ReactElement => {
       setTestId(result.test.id);
       setTestSession({
         id: result.id,
-        startDate: result.startDate,
+        startDate: new Date(result.startDate),
         notes: result.notes ?? "",
       });
 
