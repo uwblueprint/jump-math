@@ -1,3 +1,4 @@
+import { PipelineStage } from "mongoose";
 import MgTestSession from "../../models/testSession.model";
 import type {
   IStatisticService,
@@ -22,7 +23,7 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsByCountry(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       joinSchoolIdWithSchoolDocument,
@@ -38,7 +39,7 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsBySchool(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       groupResultsById("$school"),
@@ -51,7 +52,7 @@ class StatisticService implements IStatisticService {
 
   /* eslint-disable class-methods-use-this */
   async getSubmissionCountByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       countTestSubmissions,
@@ -63,7 +64,7 @@ class StatisticService implements IStatisticService {
   }
 
   async getMeanScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       {
@@ -80,7 +81,7 @@ class StatisticService implements IStatisticService {
   }
 
   async getMedianScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       {
