@@ -27,7 +27,7 @@ export const formatDate = (date: Date): string => {
 export const getCurrentDate = (): string => formatDate(new Date());
 
 export const formatDateTime = (date: Date): string => {
-  return `${formatDate(new Date())} at ${date.toLocaleTimeString("en-US")}`;
+  return `${formatDate(new Date(date))} at ${date.toLocaleTimeString("en-US")}`;
 };
 
 export function sortArrayAscending<Type extends Record<string, string>>(
