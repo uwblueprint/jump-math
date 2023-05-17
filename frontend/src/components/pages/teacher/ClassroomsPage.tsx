@@ -169,11 +169,13 @@ const ClassroomsPage = (): React.ReactElement => {
                     spacing="6"
                     width="100%"
                   >
-                    <Pagination
-                      currentPage={currentPage}
-                      onPageChange={setCurrentPage}
-                      pagesCount={totalPages}
-                    />
+                    {classrooms.length > 8 && (
+                      <Pagination
+                        currentPage={currentPage}
+                        onPageChange={setCurrentPage}
+                        pagesCount={totalPages}
+                      />
+                    )}
                   </VStack>
                 </TabPanel>
                 <TabPanel padding="0">
