@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { DragSourceMonitor, useDrag, useDrop } from "react-dnd";
 import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
 import update from "immutability-helper";
@@ -135,7 +135,7 @@ const QuestionElementItem = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

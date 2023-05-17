@@ -7,7 +7,7 @@ import RemoveUserPopover from "../RemoveUserPopover";
 const TeacherUserTable = ({ users }: TeacherTableProps): React.ReactElement => {
   const headers = ["Name", "School", "Email"];
   const rows: TableRow[] = users.map((user) => ({
-    values: [`${user.firstName} ${user.lastName}`, user.school!, user.email],
+    values: [`${user.firstName} ${user.lastName}`, user.school, user.email],
     menu: (
       <RemoveUserPopover
         email={user.email}

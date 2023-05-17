@@ -9,7 +9,10 @@ import {
   StudentRequestDTO,
 } from "../interfaces/classService";
 import IUserService from "../interfaces/userService";
-import { ITestSessionService } from "../interfaces/testSessionService";
+import {
+  ITestSessionService,
+  TestSessionResponseDTO,
+} from "../interfaces/testSessionService";
 
 const Logger = logger(__filename);
 
@@ -58,7 +61,10 @@ class ClassService implements IClassService {
     };
   }
 
-  async getClassById(id: string): Promise<ClassResponseDTO> {
+  async getClassById(
+    id: string,
+    populateTestSessions = true,
+  ): Promise<ClassResponseDTO> {
     let classObj: Class | null;
     try {
       classObj = await MgClass.findById(id);
@@ -69,7 +75,9 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return (await this.mapClassToClassDTOs([classObj]))[0];
+    return (
+      await this.mapClassToClassDTOs([classObj], populateTestSessions)
+    )[0];
   }
 
   async getClassByTestSessionId(
@@ -113,6 +121,7 @@ class ClassService implements IClassService {
 
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
+    populateTestSessions = true,
   ): Promise<Array<ClassResponseDTO>> {
     const classDtos: Array<ClassResponseDTO> = await Promise.all(
       classObjs.map(async (classObj) => {
@@ -120,11 +129,14 @@ class ClassService implements IClassService {
           classObj.teacher,
         );
 
-        const testSessionIds = classObj.testSessions;
-        const testSessionPromises = testSessionIds.map((id) =>
-          this.testSessionService.getTestSessionById(id),
-        );
-        const testSessionDTOs = await Promise.all(testSessionPromises);
+        let testSessionDTOs: Array<TestSessionResponseDTO> = [];
+        if (populateTestSessions) {
+          const testSessionIds = classObj.testSessions;
+          const testSessionPromises = testSessionIds.map((id) =>
+            this.testSessionService.getTestSessionById(id),
+          );
+          testSessionDTOs = await Promise.all(testSessionPromises);
+        }
 
         return {
           id: classObj.id,

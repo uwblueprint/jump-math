@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Text } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon } from "../../assets/icons";
@@ -13,13 +13,16 @@ const ResendEmail = ({
   resendFunction,
 }: ResendEmailProps): React.ReactElement => {
   const { showToast } = Toast();
+  const [isResending, setIsResending] = useState(false);
 
   const onResendClick = async () => {
+    setIsResending(true);
     await resendFunction();
     showToast({
       message: "Email resent! Check your email to reset your password.",
       status: "success",
     });
+    setIsResending(false);
   };
 
   return (
@@ -28,6 +31,7 @@ const ResendEmail = ({
         Didn’t receive the email?{" "}
         <Button
           color="blue.300"
+          disabled={isResending}
           display="contents"
           onClick={onResendClick}
           style={{ font: "inherit" }}

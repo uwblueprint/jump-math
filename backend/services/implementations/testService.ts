@@ -71,6 +71,7 @@ class TestService implements ITestService {
       curriculumRegion: newTest.curriculumRegion,
       assessmentType: newTest.assessmentType,
       status: newTest.status,
+      updatedAt: newTest.updatedAt,
     };
   }
 
@@ -82,6 +83,15 @@ class TestService implements ITestService {
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
         await MgTest.findByIdAndDelete(id);
+        try {
+          await this.deleteImages(testToDelete.questions);
+        } catch (imageError) {
+          Logger.error(
+            `Failed to delete test images. Reason = ${getErrorMessage(
+              imageError,
+            )}`,
+          );
+        }
       } else {
         await MgTest.findByIdAndUpdate(
           id,
@@ -141,6 +151,7 @@ class TestService implements ITestService {
       curriculumRegion: updatedTest.curriculumRegion,
       assessmentType: updatedTest.assessmentType,
       status: updatedTest.status,
+      updatedAt: updatedTest.updatedAt,
     };
   }
 
@@ -266,6 +277,7 @@ class TestService implements ITestService {
       curriculumRegion: unarchivedTest.curriculumRegion,
       assessmentType: unarchivedTest.assessmentType,
       status: unarchivedTest.status,
+      updatedAt: unarchivedTest.updatedAt,
     };
   }
 
@@ -322,6 +334,7 @@ class TestService implements ITestService {
           curriculumRegion: test.curriculumRegion,
           assessmentType: test.assessmentType,
           status: test.status,
+          updatedAt: test.updatedAt,
         };
       }),
     );

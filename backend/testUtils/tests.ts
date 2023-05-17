@@ -113,6 +113,7 @@ export const mockTestRequest: TestRequestDTO = {
   curriculumCountry: "country",
   curriculumRegion: "region",
   status: AssessmentStatus.DRAFT,
+  updatedAt: new Date(),
 };
 
 export const mockTestRequest2: TestRequestDTO = {
@@ -123,6 +124,7 @@ export const mockTestRequest2: TestRequestDTO = {
   curriculumCountry: "newCountry",
   curriculumRegion: "newRegion",
   status: AssessmentStatus.PUBLISHED,
+  updatedAt: new Date(),
 };
 
 export const mockTestWithId: TestResponseDTO = {

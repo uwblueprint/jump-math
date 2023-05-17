@@ -25,13 +25,16 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
   ],
-  plugins: ["simple-import-sort"],
+  plugins: ["import", "simple-import-sort"],
   rules: {
     "prettier/prettier": ["warn", { endOfLine: "auto" }],
     "react/require-default-props": "off",
     "react/no-array-index-key": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/jsx-sort-props": "error",
+    "react/jsx-sort-props": [
+      "error",
+      { reservedFirst: true, ignoreCase: true },
+    ],
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "simple-import-sort/imports": "error",

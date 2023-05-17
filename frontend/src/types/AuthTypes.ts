@@ -28,7 +28,8 @@ export type AuthenticatedUser =
 
 export type VerifiableUser = AuthenticatedUser & { emailVerified: boolean };
 
-export type DecodedJWT =
-  | string
-  | null
-  | { [key: string]: unknown; exp: number };
+export type DecodedJWT = {
+  payload: {
+    exp?: number;
+  };
+};

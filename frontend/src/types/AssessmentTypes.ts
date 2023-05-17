@@ -20,4 +20,5 @@ export type AssessmentProperties = {
   assessmentType: UseCase;
   curriculumCountry: string;
   curriculumRegion: string;
+  updatedAt: string;
 };

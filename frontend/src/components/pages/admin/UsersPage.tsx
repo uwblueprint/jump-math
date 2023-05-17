@@ -3,13 +3,11 @@ import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
-  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 
 import {
@@ -27,10 +25,10 @@ import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
-import AddAdminModal from "../../user-management/admin/AddAdminModal";
 import AdminTab from "../../user-management/admin/AdminTab";
 import AdminUserTable from "../../user-management/admin/AdminUserTable";
 import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
+import UsersPageHeader from "../../user-management/UsersPageHeader";
 
 const UsersPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
@@ -98,19 +96,7 @@ const UsersPage = (): React.ReactElement => {
 
   return (
     <>
-      <Box>
-        <HStack justifyContent="space-between">
-          <Text
-            color="blue.300"
-            marginBottom="0.5em"
-            style={{ textAlign: "left" }}
-            textStyle="header4"
-          >
-            Database
-          </Text>
-          <AddAdminModal />
-        </HStack>
-      </Box>
+      <UsersPageHeader />
       {loading && (
         <Center flex="1" margin="15%">
           <LoadingState />

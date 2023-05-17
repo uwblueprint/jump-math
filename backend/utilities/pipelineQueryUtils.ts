@@ -1,4 +1,11 @@
 import { FilterQuery, Types } from "mongoose";
+import { Result } from "../models/testSession.model";
+
+export type GroupResultsByIdResultType = {
+  _id: string;
+  averageScore: number;
+  resultBreakdowns: Result["breakdown"][];
+};
 
 type GroupResultsByIdReturnType = {
   $group: {

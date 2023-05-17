@@ -3,16 +3,15 @@ import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
-  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
+import * as Routes from "../../../constants/Routes";
 import { Status } from "../../../types/AssessmentTypes";
 import {
   assessmentFilterOptions,
@@ -20,10 +19,10 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import CreateAssessmentButton from "../../assessments/assessment-creation/CreateAssessmentButton";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
+import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
 import FilterMenu, { FilterProp } from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
@@ -32,8 +31,8 @@ import SortMenu from "../../common/table/SortMenu";
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState("name");
-  const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [sortProperty, setSortProperty] = React.useState("updatedAt");
+  const [sortOrder, setSortOrder] = React.useState("descending");
 
   const [grades, setGrades] = React.useState<Array<string>>([]);
   const [testTypes, setTestTypes] = React.useState<Array<string>>([]);
@@ -114,10 +113,20 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           searchLength={assessments.length}
           sortMenuComponent={
             <SortMenu
-              labels={["name", "status", "grade", "type", "country", "region"]}
+              initialSortOrder="descending"
+              labels={[
+                "last updated",
+                "name",
+                "status",
+                "grade",
+                "type",
+                "country",
+                "region",
+              ]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
               properties={[
+                "updatedAt",
                 "name",
                 "status",
                 "grade",
@@ -134,19 +143,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   return (
     <>
-      <Box>
-        <HStack justifyContent="space-between">
-          <Text
-            color="blue.300"
-            marginBottom="0.5em"
-            style={{ textAlign: "left" }}
-            textStyle="header4"
-          >
-            Assessments
-          </Text>
-          <CreateAssessmentButton />
-        </HStack>
-      </Box>
+      <HeaderWithButton
+        buttonText="Create Assessment"
+        targetRoute={Routes.ASSESSMENT_EDITOR_PAGE}
+        title="Assessments"
+      />
       {loading && (
         <Center flex="1" margin="15%">
           <LoadingState />

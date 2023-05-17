@@ -29,13 +29,18 @@ import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
-import { testClassAfterCreation } from "../../../testUtils/class";
+import {
+  mockClassWithId,
+  testClassAfterCreation,
+} from "../../../testUtils/class";
+import ClassService from "../classService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
   let testService: TestService;
   let userService: UserService;
   let schoolService: SchoolService;
+  let classService: ClassService;
 
   beforeAll(async () => {
     await db.connect();
@@ -54,12 +59,15 @@ describe("mongo testSessionService", (): void => {
       userService,
       schoolService,
     );
+    classService = new ClassService(userService, testSessionService);
+    testSessionService.bindClassService(classService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
     testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
+    classService.getClassById = jest.fn().mockReturnValue(mockClassWithId);
   });
 
   afterEach(async () => {
@@ -68,27 +76,27 @@ describe("mongo testSessionService", (): void => {
 
   it("createTestSession for valid class id", async () => {
     const classObj: Class = await MgClass.create(testClassAfterCreation);
-    const res = await testSessionService.createTestSession(
-      classObj.id,
-      mockTestSession,
-    );
+    const res = await testSessionService.createTestSession({
+      ...mockTestSession,
+      class: classObj.id,
+    });
 
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toEqual([]);
 
-    const updatedClass: Class = (await MgClass.findById(classObj.id))!;
+    const updatedClass = await MgClass.findById(classObj.id);
     expect(
-      Array.from(updatedClass.testSessions).map((id) => id.toString()),
+      Array.from(updatedClass?.testSessions ?? []).map((id) => id.toString()),
     ).toEqual([res.id]);
   });
 
   it("createTestSession for invalid class id", async () => {
     const invalidClassId = "62c248c0f79d6c3c9ebbea92";
     await expect(async () => {
-      await testSessionService.createTestSession(
-        invalidClassId,
-        mockTestSession,
-      );
+      await testSessionService.createTestSession({
+        ...mockTestSession,
+        class: invalidClassId,
+      });
     }).rejects.toThrowError(
       `Test session could not be added to class with id ${invalidClassId}`,
     );
@@ -97,20 +105,20 @@ describe("mongo testSessionService", (): void => {
   it("create test session with invalid start date", async () => {
     const classObj: Class = await MgClass.create(testClassAfterCreation);
     await expect(async () => {
-      await testSessionService.createTestSession(
-        classObj.id,
-        mockTestSessionWithInvalidStartDate,
-      );
+      await testSessionService.createTestSession({
+        ...mockTestSessionWithInvalidStartDate,
+        class: classObj.id,
+      });
     }).rejects.toThrowError(`Test session start and end dates are not valid`);
   });
 
   it("create test session with invalid end date", async () => {
     const classObj: Class = await MgClass.create(testClassAfterCreation);
     await expect(async () => {
-      await testSessionService.createTestSession(
-        classObj.id,
-        mockTestSessionWithInvalidEndDate,
-      );
+      await testSessionService.createTestSession({
+        ...mockTestSessionWithInvalidEndDate,
+        class: classObj.id,
+      });
     }).rejects.toThrowError(`Test session start and end dates are not valid`);
   });
 
@@ -333,6 +341,7 @@ describe("mongo testSessionService", (): void => {
       test: mockTestWithId2.id,
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
+      class: mockClassWithId.id,
       accessCode: "1235",
       startDate: new Date("2022-09-10T09:00:00.000Z"),
       endDate: new Date("2022-09-11T09:00:00.000Z"),

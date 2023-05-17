@@ -13,7 +13,7 @@ import { JUMP_MATH_LOGO } from "../../../assets/images";
 import { HOME_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
-import { getReadableDateTime } from "../../../utils/GeneralUtils";
+import { formatDateTime } from "../../../utils/GeneralUtils";
 import AssessmentInfo from "../../assessments/student-experience/AssessmentInfo";
 import AssessmentRules from "../../assessments/student-experience/AssessmentRules";
 import Modal from "../../common/Modal";
@@ -30,7 +30,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
 
   const [showBeginTestModal, setShowBeginTestModal] = useState(false);
   const handleStartTest = () => {
-    console.log("placeholder");
+    // TODO fill in
   };
 
   return (
@@ -55,7 +55,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 {test.name}
               </Text>
               <Text color="blue.300" textStyle="paragraph">
-                Start Time: {getReadableDateTime(testSession.startDate)}
+                Start Time: {formatDateTime(testSession.startDate)}
               </Text>
               <VStack align="center">
                 <SimpleGrid
