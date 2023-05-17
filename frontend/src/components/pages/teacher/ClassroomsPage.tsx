@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Box,
+  Center,
   Grid,
   GridItem,
   HStack,
@@ -15,8 +16,10 @@ import {
 } from "@chakra-ui/react";
 
 import { Grade } from "../../../APIClients/types/UserClientTypes";
+import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
 import { TabEnum } from "../../../types/AuthTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
+import MessageContainerClassroom from "../../common/MessageContainerClassroom";
 import Pagination from "../../common/table/Pagination";
 import AddClassroomModal from "../../user-management/student/AddClassroomModal";
 
@@ -24,6 +27,7 @@ const ClassroomsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ACTIVE);
   const methods = useForm();
+
   const classrooms = [
     {
       id: "1",
@@ -131,50 +135,71 @@ const ClassroomsPage = (): React.ReactElement => {
           >
             Classroom
           </Text>
-          <AddClassroomModal />
+          {classrooms.length === 0 && <AddClassroomModal />}
         </HStack>
       </Box>
       <Box flex="1">
-        <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
-          <TabList>
-            <Tab color={unselectedTabColor}>Active</Tab>
-            <Tab color={unselectedTabColor}>Archived</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel padding="0">
-              <Grid gap={4} templateColumns="repeat(5, 1fr)">
-                {itemsToShow.map((classroom) => (
-                  <GridItem key={classroom.id} flex="1" paddingTop="4">
-                    <ClassroomCard
-                      key={classroom.id}
-                      activeAssessments={classroom.activeAssessments}
-                      assessmentCount={classroom.assessmentCount}
-                      grade={classroom.grade}
-                      name={classroom.name}
-                      studentCount={classroom.studentCount}
+        {classrooms.length !== 0 ? (
+          <>
+            <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
+              <TabList>
+                <Tab color={unselectedTabColor}>Active</Tab>
+                <Tab color={unselectedTabColor}>Archived</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel padding="0">
+                  <Grid gap={4} templateColumns="repeat(4, 1fr)">
+                    {itemsToShow.map((classroom) => (
+                      <GridItem key={classroom.id} flex="1" paddingTop="4">
+                        <ClassroomCard
+                          key={classroom.id}
+                          activeAssessments={classroom.activeAssessments}
+                          assessmentCount={classroom.assessmentCount}
+                          grade={classroom.grade}
+                          name={classroom.name}
+                          studentCount={classroom.studentCount}
+                        />
+                      </GridItem>
+                    ))}
+                  </Grid>
+                  <VStack
+                    alignItems="center"
+                    paddingBottom="6"
+                    paddingTop="6"
+                    spacing="6"
+                    width="100%"
+                  >
+                    <Pagination
+                      currentPage={currentPage}
+                      onPageChange={setCurrentPage}
+                      pagesCount={totalPages}
                     />
-                  </GridItem>
-                ))}
-              </Grid>
-              <VStack
-                alignItems="center"
-                paddingBottom="6"
-                paddingTop="6"
-                spacing="6"
-                width="100%"
-              >
-                <Pagination
-                  currentPage={currentPage}
-                  onPageChange={setCurrentPage}
-                  pagesCount={totalPages}
-                />
-              </VStack>
-            </TabPanel>
-            <TabPanel padding="0">
-              <h1>Coming soon!</h1>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+                  </VStack>
+                </TabPanel>
+                <TabPanel padding="0">
+                  <h1>Coming soon!</h1>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </>
+        ) : (
+          <Center
+            backgroundColor="blue.50"
+            borderRadius="1rem"
+            color="blue.300"
+            minWidth="100%"
+            pb={14}
+          >
+            <MessageContainerClassroom
+              image={DisplayAssessmentsIllustration}
+              paragraphs={[
+                "Click on the below button to create your first classroom",
+              ]}
+              subtitle="You currently have no classrooom."
+              textColor="blue.300"
+            />
+          </Center>
+        )}
       </Box>
     </FormProvider>
   );
