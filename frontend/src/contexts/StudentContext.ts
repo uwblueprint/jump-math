@@ -2,8 +2,8 @@
 
 import { createContext } from "react";
 
-import { TestResponse } from "../APIClients/types/TestClientTypes";
-import { TestSessionSetupData } from "../APIClients/types/TestSessionClientTypes";
+import type { TestResponse } from "../APIClients/types/TestClientTypes";
+import type { TestSessionSetupData } from "../APIClients/types/TestSessionClientTypes";
 
 type StudentContextType = {
   test: TestResponse | null;

@@ -1,5 +1,6 @@
-import { FilterQuery, Types } from "mongoose";
-import { Result } from "../models/testSession.model";
+import type { FilterQuery } from "mongoose";
+import { Types } from "mongoose";
+import type { Result } from "../models/testSession.model";
 
 export type GroupResultsByIdResultType = {
   _id: string;

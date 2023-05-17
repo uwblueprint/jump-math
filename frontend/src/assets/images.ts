@@ -1,4 +1,4 @@
-import ImageType from "../types/ImageTypes";
+import type ImageType from "../types/ImageTypes";
 
 export const JUMP_MATH_LOGO: ImageType = {
   src:

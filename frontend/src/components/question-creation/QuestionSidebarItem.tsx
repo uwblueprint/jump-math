@@ -6,10 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import editorTooltips from "../../constants/QuestionConstants";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
-import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import type { QuestionElement } from "../../types/QuestionTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 
 interface QuestionSidebarItemProps {

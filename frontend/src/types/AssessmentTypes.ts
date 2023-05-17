@@ -1,4 +1,4 @@
-import { Grade } from "../APIClients/types/UserClientTypes";
+import type { Grade } from "../APIClients/types/UserClientTypes";
 
 export enum Status {
   DRAFT = "DRAFT",

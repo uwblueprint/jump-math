@@ -1,9 +1,10 @@
 import React from "react";
-import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { GroupBase, Select, SingleValue } from "chakra-react-select";
+import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
+import type { GroupBase, SingleValue } from "chakra-react-select";
+import { Select } from "chakra-react-select";
 
-import { StringOrBoolOption } from "../../../types/SelectInputTypes";
-import {
+import type { StringOrBoolOption } from "../../../types/SelectInputTypes";
+import type {
   TeacherInput,
   TeacherSignupForm,
 } from "../../../types/TeacherSignupTypes";

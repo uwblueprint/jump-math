@@ -12,10 +12,10 @@ import {
   useCheckboxGroup,
 } from "@chakra-ui/react";
 
-import { Grade } from "../../../../APIClients/types/UserClientTypes";
+import type { Grade } from "../../../../APIClients/types/UserClientTypes";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
 import { TEACHER_LOGIN_PAGE } from "../../../../constants/Routes";
-import {
+import type {
   TeacherInput,
   TeacherSignupForm,
   TeacherSignupProps,

@@ -1,7 +1,7 @@
 import fs from "fs";
-import { FileUpload } from "graphql-upload";
+import type { FileUpload } from "graphql-upload";
 /* eslint-disable-next-line import/no-extraneous-dependencies */
-import { ReadStream } from "fs-capacitor";
+import type { ReadStream } from "fs-capacitor";
 import multer from "multer";
 import {
   validateFileType,
@@ -9,7 +9,7 @@ import {
 } from "../../middlewares/validators/util";
 import EntityService from "../../services/implementations/entityService";
 import FileStorageService from "../../services/implementations/fileStorageService";
-import {
+import type {
   EntityRequestDTO,
   EntityResponseDTO,
 } from "../../services/interfaces/IEntityService";

@@ -1,4 +1,4 @@
-import { FileUpload } from "graphql-upload";
+import type { FileUpload } from "graphql-upload";
 
 /**
  * A union of all types of metadata for a question component

@@ -9,7 +9,7 @@ import {
   mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
 import { createSchoolWithCountry } from "../../../testUtils/school";
-import { TestStatistic } from "../../interfaces/statisticService";
+import type { TestStatistic } from "../../interfaces/statisticService";
 import mockTestStatisticsBySchool from "../../../testUtils/statistics";
 import { mockTestWithId } from "../../../testUtils/tests";
 

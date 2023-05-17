@@ -4,7 +4,7 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
-import { UserResponse } from "../../../APIClients/types/UserClientTypes";
+import type { UserResponse } from "../../../APIClients/types/UserClientTypes";
 import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,

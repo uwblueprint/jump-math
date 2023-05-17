@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import Page from "../../../types/PageTypes";
+import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";

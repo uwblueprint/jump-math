@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Table, TableRow } from "../../common/table/Table";
-import { TeacherTableProps } from "../admin/AdminTab";
+import type { TableRow } from "../../common/table/Table";
+import { Table } from "../../common/table/Table";
+import type { TeacherTableProps } from "../admin/AdminTab";
 import RemoveUserPopover from "../RemoveUserPopover";
 
 const TeacherUserTable = ({ users }: TeacherTableProps): React.ReactElement => {

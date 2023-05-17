@@ -1,19 +1,19 @@
 import { AssessmentStatus, AssessmentType } from "../models/test.model";
-import {
+import type {
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import {
+import type {
   ImageMetadata,
   ImageMetadataTypes,
 } from "../types/questionMetadataTypes";
-import {
+import type {
   BaseQuestionComponent,
   QuestionComponent,
   QuestionComponentRequest,
-  QuestionComponentType,
 } from "../types/questionTypes";
+import { QuestionComponentType } from "../types/questionTypes";
 import { imageUpload } from "./imageUpload";
 
 const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(

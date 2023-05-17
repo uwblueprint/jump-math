@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { SampleContextAction } from "../types/SampleContextTypes";
+import type { SampleContextAction } from "../types/SampleContextTypes";
 
 const SampleContextDispatcherContext = createContext<
   React.Dispatch<SampleContextAction>

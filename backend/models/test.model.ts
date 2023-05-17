@@ -1,7 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import questionsValidator from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
-import { QuestionComponent } from "../types/questionTypes";
+import type { QuestionComponent } from "../types/questionTypes";
 
 export enum AssessmentType {
   BEGINNING = "BEGINNING",

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Flex, IconButton, Input, Spacer } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import { ShortAnswerMetadata } from "../../../types/QuestionMetadataTypes";
+import type { ShortAnswerMetadata } from "../../../types/QuestionMetadataTypes";
 
 import EditShortAnswerModal from "./modals/short-answer/EditShortAnswerModal";
 

@@ -1,10 +1,10 @@
 import SchoolService from "../../services/implementations/schoolService";
-import {
+import type {
   ISchoolService,
   SchoolResponseDTO,
 } from "../../services/interfaces/schoolService";
 import UserService from "../../services/implementations/userService";
-import IUserService from "../../services/interfaces/userService";
+import type IUserService from "../../services/interfaces/userService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);

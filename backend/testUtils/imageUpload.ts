@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path";
-import {
+import type {
   ImageMetadata,
   ImageMetadataRequest,
 } from "../types/questionMetadataTypes";

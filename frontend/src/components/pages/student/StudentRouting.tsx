@@ -3,8 +3,8 @@ import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
-import { TestResponse } from "../../../APIClients/types/TestClientTypes";
-import { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
+import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
+import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";

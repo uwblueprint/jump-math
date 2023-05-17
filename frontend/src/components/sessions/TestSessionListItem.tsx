@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import { BookIcon } from "../../assets/icons";
-import {
+import type {
   TestSessionItemStats,
   TestSessionStatus,
 } from "../../types/TestSessionTypes";

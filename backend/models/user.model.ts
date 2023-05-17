@@ -1,8 +1,10 @@
-import mongoose, { Schema, Document } from "mongoose";
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
 import MgClass from "./class.model";
-import { Grade, Role } from "../types";
+import type { Role } from "../types";
+import { Grade } from "../types";
 
 export interface User extends Document {
   id: string;

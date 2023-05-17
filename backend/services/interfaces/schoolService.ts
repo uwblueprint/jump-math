@@ -1,4 +1,4 @@
-import { UserDTO } from "../../types";
+import type { UserDTO } from "../../types";
 
 /**
  * This interface contains the request object that is fed into
