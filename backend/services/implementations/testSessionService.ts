@@ -24,6 +24,7 @@ import {
   FractionMetadata,
 } from "../../types/questionMetadataTypes";
 import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
+import { IClassService, ClassResponseDTO } from "../interfaces/classService";
 
 const Logger = logger(__filename);
 
@@ -34,6 +35,8 @@ class TestSessionService implements ITestSessionService {
 
   schoolService: ISchoolService;
 
+  classService: IClassService | null;
+
   constructor(
     testService: ITestService,
     userService: IUserService,
@@ -42,22 +45,32 @@ class TestSessionService implements ITestSessionService {
     this.testService = testService;
     this.userService = userService;
     this.schoolService = schoolService;
+    this.classService = null;
   }
 
   /* eslint-disable class-methods-use-this */
+  bindClassService(classService: IClassService): void {
+    this.classService = classService;
+  }
+
   async createTestSession(
-    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
+    if (!this.classService) {
+      throw new Error("Class service not bound to test session service");
+    }
+
     let testDTO: TestResponseDTO;
     let teacherDTO: UserDTO;
     let schoolDTO: SchoolResponseDTO;
+    let classDTO: ClassResponseDTO;
     let newTestSession: TestSession | null;
 
     try {
       testDTO = await this.testService.getTestById(testSession.test);
       teacherDTO = await this.userService.getUserById(testSession.teacher);
       schoolDTO = await this.schoolService.getSchoolById(testSession.school);
+      classDTO = await this.classService.getClassById(testSession.class);
 
       const currentDate = new Date();
 
@@ -69,7 +82,7 @@ class TestSessionService implements ITestSessionService {
       }
 
       newTestSession = await MgTestSession.create(testSession);
-      await this.addTestSessionToClass(classId, newTestSession.id);
+      await this.addTestSessionToClass(testSession.class, newTestSession.id);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
@@ -82,6 +95,7 @@ class TestSessionService implements ITestSessionService {
       test: testDTO,
       teacher: teacherDTO,
       school: schoolDTO,
+      class: classDTO,
       results: [],
       accessCode: newTestSession.accessCode,
       startDate: newTestSession.startDate,
@@ -318,6 +332,10 @@ class TestSessionService implements ITestSessionService {
   ): Promise<Array<TestSessionResponseDTO>> {
     const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
       testSessions.map(async (testSession) => {
+        if (!this.classService) {
+          throw new Error("Class service not bound to test session service");
+        }
+
         const testDTO: TestResponseDTO = await this.testService.getTestById(
           testSession.test,
         );
@@ -326,12 +344,17 @@ class TestSessionService implements ITestSessionService {
         );
         const schoolDTO: SchoolResponseDTO =
           await this.schoolService.getSchoolById(testSession.school);
+        const classDTO: ClassResponseDTO = await this.classService.getClassById(
+          testSession.class,
+          false,
+        );
 
         return {
           id: testSession.id,
           test: testDTO,
           teacher: teacherDTO,
           school: schoolDTO,
+          class: classDTO,
           results: testSession.results
             ? testSession.results.map((testSessionResult) => {
                 return {

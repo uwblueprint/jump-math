@@ -1,6 +1,7 @@
-import { UserDTO } from "../../types";
-import { SchoolResponseDTO } from "./schoolService";
-import { TestResponseDTO } from "./testService";
+import { type UserDTO } from "../../types";
+import { type ClassResponseDTO, type IClassService } from "./classService";
+import { type SchoolResponseDTO } from "./schoolService";
+import { type TestResponseDTO } from "./testService";
 
 /**
  * This interface contains the request object that is fed into
@@ -13,6 +14,8 @@ export interface TestSessionRequestDTO {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
+  /** the ID of the class taking the test session */
+  class: string;
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** on this date, the test becomes available to students */
@@ -36,6 +39,8 @@ export interface TestSessionResponseDTO {
   teacher: UserDTO;
   /** the school that's administering the test from the School collection */
   school: SchoolResponseDTO;
+  /** the class taking the test session */
+  class: ClassResponseDTO;
   /**
    * the result of the test session
    * there should be one entry here per student
@@ -98,6 +103,13 @@ export interface ResultResponseDTO {
 
 export interface ITestSessionService {
   /**
+   * This method binds the class service to the test session service.
+   * @param classService The class service to bind to the test session service
+   * @returns void
+   */
+  bindClassService(classService: IClassService): void;
+
+  /**
    * create a TestSession with the fields given in the DTO, return created TestSession
    * @param id of the class taking the test session
    * @param testSession new testSession
@@ -105,7 +117,6 @@ export interface ITestSessionService {
    * @throws Error if creation fails
    */
   createTestSession(
-    classId: string,
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO>;
 
