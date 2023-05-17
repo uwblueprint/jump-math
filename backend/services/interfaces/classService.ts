@@ -29,6 +29,7 @@ export interface ClassResponseDTO {
   teacher: UserDTO;
   testSessions: TestSessionResponseDTO[];
   students: StudentResponseDTO[];
+  isActive: boolean;
 }
 
 export interface IClassService {

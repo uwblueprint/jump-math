@@ -40,7 +40,7 @@ class ClassService implements IClassService {
       }
 
       // create a new class document
-      newClass = await MgClass.create({ ...classObj });
+      newClass = await MgClass.create({ ...classObj, isActive: true });
     } catch (error: unknown) {
       Logger.error(
         `Failed to create class. Reason = ${getErrorMessage(error)}`,
@@ -55,6 +55,7 @@ class ClassService implements IClassService {
       teacher: teacherDTO,
       testSessions: [],
       students: [],
+      isActive: newClass.isActive,
     };
   }
 

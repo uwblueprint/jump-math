@@ -13,6 +13,7 @@ import {
   updatedTestStudents,
   assertStudentResponseMatchesExpected,
   testClassWithTestSessions,
+  mockTestClass,
 } from "../../../testUtils/class";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -73,7 +74,7 @@ describe("mongo classService", (): void => {
 
   it("update class", async () => {
     // add test class
-    const classObj = await ClassModel.create(testClass[0]);
+    const classObj = await ClassModel.create(mockTestClass);
 
     // execute
     const res = await classService.updateClass(classObj.id, updatedTestClass);
@@ -100,7 +101,7 @@ describe("mongo classService", (): void => {
   it("getClassById for invalid Id", async () => {
     // execute and assert
     const notFoundId = "56cb91bdc3464f14678934cd";
-    await ClassModel.create(testClass[0]);
+    await ClassModel.create(mockTestClass);
     expect(classService.getClassById(notFoundId)).rejects.toThrowError(
       `Class id ${notFoundId} not found`,
     );
@@ -136,7 +137,7 @@ describe("mongo classService", (): void => {
 
   it("deleteClass", async () => {
     // execute
-    const savedClass = await ClassModel.create(testClass[0]);
+    const savedClass = await ClassModel.create(mockTestClass);
 
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
@@ -151,8 +152,19 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 
+  it("archive class", async () => {
+    // add test class
+    const classObj = await ClassModel.create(mockTestClass);
+
+    // execute
+    const res = await classService.archiveClass(classObj.id);
+
+    // assert
+    expect(res.isActive).toEqual(false);
+  });
+
   it("create student", async () => {
-    const createdClass = await ClassModel.create(testClass[0]);
+    const createdClass = await ClassModel.create(mockTestClass);
     // execute
     const createdClassWithStudent = await classService.createStudent(
       testStudents[0],

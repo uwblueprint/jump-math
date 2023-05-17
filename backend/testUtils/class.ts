@@ -58,6 +58,8 @@ export const testClass: ClassRequestDTO[] = [
   },
 ];
 
+export const mockTestClass = { ...testClass[0], isActive: true };
+
 // set up test class with invalid teacher id
 export const testClassInvalidTeacher: ClassRequestDTO = {
   ...testClass[0],
@@ -67,11 +69,13 @@ export const testClassInvalidTeacher: ClassRequestDTO = {
 export const testClassWithStudents = {
   ...testClass[0],
   students: testStudents,
+  isActive: true,
 };
 
 export const testClassWithTestSessions = {
   ...testClass[0],
   testSessions: [mockTestSessionWithId.id],
+  isActive: true,
 };
 
 export const updatedTestClass: ClassRequestDTO = {
@@ -104,6 +108,7 @@ export const testClassAfterCreation = {
   ...testClass[0],
   students: [],
   testSessions: [],
+  isActive: true,
 };
 
 export const assertResponseMatchesExpected = (
