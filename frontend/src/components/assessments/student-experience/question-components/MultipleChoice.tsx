@@ -1,8 +1,7 @@
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
 
-import StudentContext from "../../../../contexts/StudentContext";
-import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
+import useAnswerState from "./useAnswerState";
 
 interface MultipleChoiceProps {
   answerElementIndex: number;
@@ -13,31 +12,12 @@ const MultipleChoice = ({
   answerElementIndex,
   options,
 }: MultipleChoiceProps): React.ReactElement => {
-  const { currentQuestionIndex, answers, setAnswers } = useContext(
-    StudentContext,
-  );
-
-  const currentAnswer = useMemo(() => {
-    return answerValues(currentQuestionIndex, answerElementIndex, answers);
-  }, [currentQuestionIndex, answers, answerElementIndex]);
-
-  const updateAnswer = (input: string) => {
-    const value = parseFloat(input);
-    const validValue = Number.isNaN(value) ? [] : [value];
-    setAnswers((prevAnswers) => {
-      return updatedAnswer(
-        answerElementIndex,
-        currentQuestionIndex,
-        validValue,
-        prevAnswers,
-      );
-    });
-  };
+  const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
 
   return (
     <RadioGroup
       onChange={(e) => updateAnswer(e)}
-      value={currentAnswer[0] ? currentAnswer[0].toString() : undefined}
+      value={currentAnswer.length > 0 ? currentAnswer[0].toString() : ""}
     >
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {
