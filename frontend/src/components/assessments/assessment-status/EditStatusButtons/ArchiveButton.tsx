@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 
 import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
+import PopoverButton from "../../../common/PopoverButton";
 import Toast from "../../../common/Toast";
-import EditStatusButton from "../EditStatusButton";
 import ArchiveModal from "../EditStatusModals/ArchiveModal";
 
 interface ArchiveModalProps {
@@ -41,7 +41,7 @@ const ArchiveButton = ({
   };
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Archive"
         onClick={() => {
           closePopover();

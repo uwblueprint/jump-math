@@ -1,6 +1,6 @@
 import React from "react";
 
-import EditStatusButton from "../EditStatusButton";
+import PopoverButton from "../../../common/PopoverButton";
 import UnarchiveModal from "../EditStatusModals/UnarchiveModal";
 
 interface UnarchiveButtonProps {
@@ -16,7 +16,7 @@ const UnarchiveButton = ({
 
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Unarchive"
         onClick={() => {
           closePopover();

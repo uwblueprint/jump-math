@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createContext } from "react";
 
 import { QuestionElement } from "../types/QuestionTypes";
@@ -19,7 +21,6 @@ type QuestionEditorContextType = {
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
   questionElements: [],
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   setQuestionElements: (
     _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
   ): void => {},

@@ -16,7 +16,7 @@ import {
 } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
-import { getReadableDateTime } from "../../../utils/GeneralUtils";
+import { formatDateTime } from "../../../utils/GeneralUtils";
 import AssessmentInfo from "../../assessments/student-experience/pre-assessment/AssessmentInfo";
 import AssessmentRules from "../../assessments/student-experience/pre-assessment/AssessmentRules";
 import Modal from "../../common/Modal";
@@ -58,7 +58,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 {test.name}
               </Text>
               <Text color="blue.300" textStyle="paragraph">
-                Start Time: {getReadableDateTime(testSession.startDate)}
+                Start Time: {formatDateTime(new Date(testSession.startDate))}
               </Text>
               <VStack align="center">
                 <SimpleGrid

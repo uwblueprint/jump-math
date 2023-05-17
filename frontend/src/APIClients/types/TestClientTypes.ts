@@ -71,6 +71,7 @@ export type QuestionComponentResponse = QuestionType & {
 export type TestResponse = TestRequest & {
   id: string;
   questions: QuestionComponentResponse[][];
+  updatedAt: string;
 };
 
 export type Test = TestResponse & {

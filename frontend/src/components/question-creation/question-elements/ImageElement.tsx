@@ -64,7 +64,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         error,
       );
     });
-  }, [imageMetadataRequest]);
+  }, [imageMetadataRequest, setQuestionElements, error, id]);
 
   return (
     <Flex pb={6} w="100%">

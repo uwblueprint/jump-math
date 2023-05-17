@@ -4,7 +4,7 @@ import { Center, Text } from "@chakra-ui/react";
 const EmailActionError = ({ mode }: { mode: string }): React.ReactElement => {
   const header =
     mode === "verifyEmail"
-      ? "Try verifying your email again"
+      ? "Try logging in"
       : "Try resetting your password again";
   const subtitle = `Your request to ${
     mode === "verifyEmail" ? "verify your email" : "reset your password"

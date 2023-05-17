@@ -1,6 +1,6 @@
 import React from "react";
 
-import EditStatusButton from "../EditStatusButton";
+import PopoverButton from "../../../common/PopoverButton";
 import DuplicateModal from "../EditStatusModals/DuplicateModal";
 
 interface DuplicateButtonProps {
@@ -16,7 +16,7 @@ const DuplicateButton = ({
 
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Duplicate"
         onClick={() => {
           closePopover();

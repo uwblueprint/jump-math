@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "@chakra-ui/react";
+import { Icon, IconProps } from "@chakra-ui/react";
 
 // svg paths are from Eva, our icon pack: https://akveo.github.io/eva-icons/#/
 
@@ -21,7 +21,9 @@ export const ArrowBackOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const MoreVerticalOutlineIcon = (props: any): React.ReactElement => (
+export const MoreVerticalOutlineIcon = (
+  props: IconProps,
+): React.ReactElement => (
   <Icon viewBox="0 0 24 24" {...props}>
     <circle cx="12" cy="12" fill="currentColor" r="2" />
     <circle cx="12" cy="5" fill="currentColor" r="2" />
@@ -56,12 +58,19 @@ export const ChevronDownIcon = (): React.ReactElement => (
   </Icon>
 );
 
-export const BookIcon = (): React.ReactElement => (
-  <Icon viewBox="0 0 24 24">
-    <path
-      d="M20.62 4.22a1 1 0 0 0-.84-.2L12 5.77 4.22 4A1 1 0 0 0 3 5v12.2a1 1 0 0 0 .78 1l8 1.8h.44l8-1.8a1 1 0 0 0 .78-1V5a1 1 0 0 0-.38-.78zM5 6.25l6 1.35v10.15L5 16.4zM19 16.4l-6 1.35V7.6l6-1.35z"
-      fill="currentColor"
-    />
+export const BookIcon = (props: IconProps): React.ReactElement => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#clip0_46_2452)">
+      <path
+        d="M19 3H7C6.20435 3 5.44129 3.31607 4.87868 3.87868C4.31607 4.44129 4 5.20435 4 6V18C4 18.7956 4.31607 19.5587 4.87868 20.1213C5.44129 20.6839 6.20435 21 7 21H19C19.2652 21 19.5196 20.8946 19.7071 20.7071C19.8946 20.5196 20 20.2652 20 20V4C20 3.73478 19.8946 3.48043 19.7071 3.29289C19.5196 3.10536 19.2652 3 19 3ZM7 19C6.73478 19 6.48043 18.8946 6.29289 18.7071C6.10536 18.5196 6 18.2652 6 18C6 17.7348 6.10536 17.4804 6.29289 17.2929C6.48043 17.1054 6.73478 17 7 17H18V19H7Z"
+        fill="currentColor"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_46_2452">
+        <rect fill="white" height="24" width="24" />
+      </clipPath>
+    </defs>
   </Icon>
 );
 
@@ -486,5 +495,21 @@ export const UploadOutlineIcon = (): React.ReactElement => (
       d="M12 21C11.7348 21 11.4804 20.8946 11.2929 20.7071C11.1054 20.5196 11 20.2652 11 20V12C11 11.7348 11.1054 11.4804 11.2929 11.2929C11.4804 11.1054 11.7348 11 12 11C12.2652 11 12.5196 11.1054 12.7071 11.2929C12.8946 11.4804 13 11.7348 13 12V20C13 20.2652 12.8946 20.5196 12.7071 20.7071C12.5196 20.8946 12.2652 21 12 21Z"
       fill="currentColor"
     />
+  </Icon>
+);
+
+export const CopyIcon = (props: IconProps): React.ReactElement => (
+  <Icon color="blue.300" viewBox="0 1 24 25" {...props}>
+    <g clipPath="url(#clip0_46_2644)">
+      <path
+        d="M18 9H15V5.67C14.9974 4.96268 14.7152 4.28509 14.2151 3.78494C13.7149 3.28478 13.0373 3.00263 12.33 3H5.67C4.96268 3.00263 4.28509 3.28478 3.78494 3.78494C3.28478 4.28509 3.00263 4.96268 3 5.67V12.33C3.00263 13.0373 3.28478 13.7149 3.78494 14.2151C4.28509 14.7152 4.96268 14.9974 5.67 15H9V18C9 18.7956 9.31607 19.5587 9.87868 20.1213C10.4413 20.6839 11.2044 21 12 21H18C18.7956 21 19.5587 20.6839 20.1213 20.1213C20.6839 19.5587 21 18.7956 21 18V12C21 11.2044 20.6839 10.4413 20.1213 9.87868C19.5587 9.31607 18.7956 9 18 9ZM9 12V13H5.67C5.49231 13 5.32189 12.9294 5.19624 12.8038C5.07059 12.6781 5 12.5077 5 12.33V5.67C5 5.49231 5.07059 5.32189 5.19624 5.19624C5.32189 5.07059 5.49231 5 5.67 5H12.33C12.5077 5 12.6781 5.07059 12.8038 5.19624C12.9294 5.32189 13 5.49231 13 5.67V9H12C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z"
+        fill="currentColor"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_46_2644">
+        <rect fill="white" height="24" width="24" />
+      </clipPath>
+    </defs>
   </Icon>
 );

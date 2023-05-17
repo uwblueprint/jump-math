@@ -37,12 +37,12 @@ const MultipleChoice = ({
   return (
     <RadioGroup
       onChange={(e) => updateAnswer(e)}
-      value={currentAnswer[0] ?? undefined}
+      value={currentAnswer[0] ? currentAnswer[0].toString() : undefined}
     >
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {
           return (
-            <Radio key={index} size="lg" value={index}>
+            <Radio key={index} size="lg" value={index.toString()}>
               {option}
             </Radio>
           );

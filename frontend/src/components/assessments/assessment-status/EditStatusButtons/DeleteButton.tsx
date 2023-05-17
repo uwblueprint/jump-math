@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 
 import { DELETE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
+import PopoverButton from "../../../common/PopoverButton";
 import Toast from "../../../common/Toast";
-import EditStatusButton from "../EditStatusButton";
 import DeleteModal from "../EditStatusModals/DeleteModal";
 
 interface DeleteButtonProps {
@@ -43,7 +43,7 @@ const DeleteButton = ({
 
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Delete"
         onClick={() => {
           closePopover();

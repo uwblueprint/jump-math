@@ -40,12 +40,8 @@ const VerifyEmailHandler = ({
   });
 
   useEffect(() => {
-    const handleVerifyEmail = async () => {
-      await verifyEmail({ variables: { oobCode } });
-    };
-
-    handleVerifyEmail();
-  }, [oobCode]);
+    verifyEmail({ variables: { oobCode } });
+  }, [oobCode, verifyEmail]);
 
   return (
     <>

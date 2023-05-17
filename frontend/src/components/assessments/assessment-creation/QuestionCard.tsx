@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { DragSourceMonitor, useDrag, useDrop } from "react-dnd";
 import {
   Box,
   Button,
@@ -96,7 +96,7 @@ const QuestionCard = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

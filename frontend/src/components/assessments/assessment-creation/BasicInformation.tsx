@@ -33,8 +33,8 @@ interface BasicInformationProps {
   register: UseFormRegister<TestRequest>;
   setValue: UseFormSetValue<TestRequest>;
   watch: UseFormWatch<TestRequest>;
-  control: Control<TestRequest, any>;
-  errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
+  control: Control<TestRequest, unknown>;
+  errors: Partial<FieldErrorsImpl<TestRequest>>;
   errorMessage: string;
   clearErrors: UseFormClearErrors<TestRequest>;
 }

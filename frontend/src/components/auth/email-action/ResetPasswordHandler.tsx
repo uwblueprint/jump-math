@@ -42,12 +42,8 @@ const ResetPasswordHandler = ({
   );
 
   useEffect(() => {
-    const handleResetPassword = async () => {
-      await verifyPasswordReset({ variables: { oobCode } });
-    };
-
-    handleResetPassword();
-  }, [oobCode]);
+    verifyPasswordReset({ variables: { oobCode } });
+  }, [oobCode, verifyPasswordReset]);
 
   return (
     <>

@@ -10,6 +10,7 @@ import {
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
+  GroupResultsByIdResultType,
 } from "../../utilities/pipelineQueryUtils";
 import {
   roundTwoDecimals,
@@ -28,7 +29,8 @@ class StatisticService implements IStatisticService {
       groupResultsById("$school.country"),
     ];
 
-    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const aggCursor: GroupResultsByIdResultType[] =
+      await MgTestSession.aggregate(pipeline);
 
     return this.constructTestStatisticsByGroup(aggCursor, "country");
   }
@@ -132,12 +134,12 @@ class StatisticService implements IStatisticService {
   }
 
   private constructTestStatisticsByGroup(
-    aggCursor: any[],
+    aggCursor: GroupResultsByIdResultType[],
     group: string,
   ): Map<string, TestStatistic> {
     const testStatistics = new Map<string, TestStatistic>();
 
-    aggCursor.forEach((statistic: any) => {
+    aggCursor.forEach((statistic: GroupResultsByIdResultType) => {
       let key = "";
 
       switch (group) {

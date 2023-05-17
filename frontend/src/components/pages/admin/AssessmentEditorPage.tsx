@@ -56,7 +56,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     setValue,
     watch,
     clearErrors,
-  } = useForm<TestRequest>({
+  } = useForm<TestRequest, unknown>({
     defaultValues: {
       name: state?.name,
       questions: state?.questions,
@@ -207,6 +207,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 onDelete={onDeleteTest}
                 onError={onError}
                 onSave={state ? onSaveChanges : onSave}
+                updatedAt={state?.updatedAt}
                 validateForm={validateForm}
               />
               <VStack spacing="8" width="92%">
