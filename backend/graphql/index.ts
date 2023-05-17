@@ -19,7 +19,8 @@ import testSessionResolvers from "./resolvers/testSessionResolvers";
 import testSessionType from "./types/testSessionType";
 import classResolvers from "./resolvers/classResolvers";
 import classType from "./types/classType";
-import commonType from "./types/commonType";
+import commonType from "./types/customType";
+import customTypeResolvers from "./resolvers/customTypeResolvers";
 
 const query = gql`
   type Query {
@@ -48,6 +49,7 @@ const executableSchema = makeExecutableSchema({
     classType,
   ],
   resolvers: merge(
+    customTypeResolvers,
     authResolvers,
     entityResolvers,
     schoolResolvers,

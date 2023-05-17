@@ -1,8 +1,8 @@
 import { gql } from "apollo-server-express";
 
-const commonType = gql`
+const customType = gql`
   scalar Date
   scalar FileUpload
 `;
 
-export default commonType;
+export default customType;
