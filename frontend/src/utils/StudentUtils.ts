@@ -4,7 +4,7 @@ import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { Answers } from "../types/AnswerTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
 
-export const answerElements = (
+export const getAnswerElements = (
   question: QuestionComponentRequest[],
 ): QuestionComponentRequest[] => {
   return question.filter(
@@ -12,7 +12,7 @@ export const answerElements = (
   );
 };
 
-export const answerValues = (
+export const getAnswerValues = (
   currentQuestionIndex: number,
   answerElementIndex: number,
   answers: Answers[],
@@ -27,7 +27,7 @@ export const initializeAnswers = (
 ): Answers[] => {
   return questions.map((question, index) => ({
     index,
-    elements: answerElements(question).map((_, elementIndex) => ({
+    elements: getAnswerElements(question).map((_, elementIndex) => ({
       index: elementIndex,
       elementAnswers: [],
     })),

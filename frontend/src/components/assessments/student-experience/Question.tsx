@@ -14,12 +14,12 @@ import {
   ResponseElementType,
 } from "../../../types/QuestionTypes";
 
-import Image from "./question-components/Image";
-import MultipleChoice from "./question-components/MultipleChoice";
-import MultiSelect from "./question-components/MultiSelect";
-import QuestionText from "./question-components/QuestionText";
-import ShortAnswer from "./question-components/ShortAnswer";
-import Text from "./question-components/Text";
+import Image from "./question-elements/Image";
+import MultipleChoice from "./question-elements/MultipleChoice";
+import MultiSelect from "./question-elements/MultiSelect";
+import QuestionText from "./question-elements/QuestionText";
+import ShortAnswer from "./question-elements/ShortAnswer";
+import Text from "./question-elements/Text";
 
 interface QuestionProps {
   elements: QuestionComponentResponse[];

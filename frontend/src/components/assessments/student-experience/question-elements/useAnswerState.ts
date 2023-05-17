@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
+import { getAnswerValues, updatedAnswer } from "../../../../utils/StudentUtils";
 
 type AnswerStateResult = {
   currentAnswer: number[];
@@ -14,7 +14,7 @@ const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
   );
 
   const currentAnswer = useMemo(() => {
-    return answerValues(currentQuestionIndex, answerElementIndex, answers);
+    return getAnswerValues(currentQuestionIndex, answerElementIndex, answers);
   }, [currentQuestionIndex, answers, answerElementIndex]);
 
   const updateAnswer = (value: number[]) => {
