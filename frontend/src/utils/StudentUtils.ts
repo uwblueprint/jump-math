@@ -50,3 +50,8 @@ export const updatedAnswer = (
     },
   });
 };
+
+export const stringToNumberArray = (input: string): number[] => {
+  const value = parseFloat(input);
+  return Number.isNaN(value) ? [] : [value];
+};

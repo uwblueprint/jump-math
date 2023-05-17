@@ -1,8 +1,7 @@
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
-import StudentContext from "../../../../contexts/StudentContext";
-import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
+import useAnswerState from "./useAnswerState";
 
 interface MultiSelectProps {
   answerElementIndex: number;
@@ -13,24 +12,7 @@ const MultiSelect = ({
   answerElementIndex,
   options,
 }: MultiSelectProps): React.ReactElement => {
-  const { currentQuestionIndex, answers, setAnswers } = useContext(
-    StudentContext,
-  );
-
-  const currentAnswer = useMemo(() => {
-    return answerValues(currentQuestionIndex, answerElementIndex, answers);
-  }, [currentQuestionIndex, answers, answerElementIndex]);
-
-  const updateAnswer = (value: number[]) => {
-    setAnswers((prevAnswers) => {
-      return updatedAnswer(
-        answerElementIndex,
-        currentQuestionIndex,
-        value,
-        prevAnswers,
-      );
-    });
-  };
+  const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
 
   return (
     <CheckboxGroup

@@ -5,7 +5,7 @@ import { answerValues, updatedAnswer } from "../../../../utils/StudentUtils";
 
 type AnswerStateResult = {
   currentAnswer: number[];
-  updateAnswer: (input: string) => void;
+  updateAnswer: (value: number[]) => void;
 };
 
 const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
@@ -17,14 +17,12 @@ const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
     return answerValues(currentQuestionIndex, answerElementIndex, answers);
   }, [currentQuestionIndex, answers, answerElementIndex]);
 
-  const updateAnswer = (input: string) => {
-    const value = parseFloat(input);
-    const validValue = Number.isNaN(value) ? [] : [value];
+  const updateAnswer = (value: number[]) => {
     setAnswers((prevAnswers) => {
       return updatedAnswer(
         answerElementIndex,
         currentQuestionIndex,
-        validValue,
+        value,
         prevAnswers,
       );
     });
