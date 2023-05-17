@@ -27,14 +27,19 @@ const ResendEmail = ({
 
   return (
     <>
-      <Text textAlign="center" textStyle="subtitle2">
+      <Text
+        style={{ display: "flex", flexDirection: "column" }}
+        textAlign="center"
+        textStyle="subtitle2"
+      >
         Didn’t receive the email?{" "}
         <Button
           color="blue.300"
-          disabled={isResending}
           display="contents"
+          isLoading
+          loadingText="Resending"
           onClick={onResendClick}
-          style={{ font: "inherit" }}
+          style={{ font: "inherit", display: "flex" }}
         >
           Click to resend
         </Button>
