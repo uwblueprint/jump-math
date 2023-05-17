@@ -91,20 +91,23 @@ describe("mongo testService", (): void => {
     const test = await MgTest.create(mockPublishedTest);
 
     const duplicateTest = await testService.duplicateTest(test.id);
-    assertResponseMatchesExpected(mockTestWithId, duplicateTest);
+    assertResponseMatchesExpected(mockTestWithId, duplicateTest, true);
     expect(test.id).not.toEqual(duplicateTest.id);
+    expect(`${test.name} [COPY]`).toEqual(duplicateTest.name);
 
     const originalTest = await testService.getTestById(test.id);
     assertResponseMatchesExpected(mockPublishedTest, originalTest);
     expect(test.id).toEqual(originalTest.id);
+    expect(test.name).toEqual(originalTest.name);
   });
 
   it("unarchiveTest", async () => {
     const test = await MgTest.create(mockArchivedTest);
 
     const unarchivedTest = await testService.unarchiveTest(test.id);
-    assertResponseMatchesExpected(mockTestWithId, unarchivedTest);
+    assertResponseMatchesExpected(mockTestWithId, unarchivedTest, true);
     expect(test.id).not.toEqual(unarchivedTest.id);
+    expect(`${test.name} [COPY]`).toEqual(unarchivedTest.name);
 
     const originalTest = await MgTest.findById(test.id);
     expect(originalTest?.status).toBe(AssessmentStatus.DELETED);
