@@ -1,7 +1,7 @@
 import { ClassResponse } from "./ClassClientTypes";
 import { Test } from "./TestClientTypes";
 
-export interface TestSessionMetadata {
+interface TestSessionMetadata {
   /** the unique identifier for the test session */
   id: string;
   /** on this date, the test becomes available to students */
@@ -10,7 +10,9 @@ export interface TestSessionMetadata {
   notes?: string;
 }
 
-export interface TestSession extends TestSessionMetadata {
+export type TestSessionSetupData = TestSessionMetadata;
+
+export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the name of the test that this test session is for */
   test: Pick<Test, "name">;
   /** the name of the class that this test session is for */

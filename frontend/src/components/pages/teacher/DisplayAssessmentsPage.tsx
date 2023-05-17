@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import { TestSession } from "../../../APIClients/types/TestSessionClientTypes";
+import { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
@@ -37,7 +37,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const { id: teacherId } = authenticatedUser ?? {};
 
   const { loading, error, data } = useQuery<{
-    testSessionsByTeacherId: TestSession[];
+    testSessionsByTeacherId: TestSessionOverviewData[];
   }>(GET_TEST_SESSIONS_BY_TEACHER_ID, {
     fetchPolicy: "cache-and-network",
     variables: { teacherId },
