@@ -82,7 +82,7 @@
     ]
   },
   "devDependencies": {
-    "@types/humps": "^2.0.0",
+    "@types/humps": "^2.0.2",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-test-renderer": "^18.0.0",

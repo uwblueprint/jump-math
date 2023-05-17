@@ -3945,10 +3945,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/humps@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/humps/-/humps-2.0.0.tgz"
-  integrity sha512-bP/s9HUT2oTJ0c3XGcHGISwTNs6r8eUPNfU6DuOSU8EHgtHqwvoDEyj76jPhKT/0MszS1PF/hHolxRrHSLYUPQ==
+"@types/humps@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/humps/-/humps-2.0.2.tgz#6643e2beb13e0e7a22c65b2128b4315a727ecbe0"
+  integrity sha512-FuyQoVNSW6mjSLxLVRq8YK1pi8P5zyL2pahEuCtMqlbmV4jyWYITz4eE2fZIErNovIfKU32tPbCl44VbOUaEiw==
 
 "@types/invariant@^2.2.33":
   version "2.2.34"
