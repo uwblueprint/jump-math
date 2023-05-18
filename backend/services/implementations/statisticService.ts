@@ -1,4 +1,4 @@
-import { PipelineStage } from "mongoose";
+import type { PipelineStage } from "mongoose";
 import MgTestSession from "../../models/testSession.model";
 import type {
   IStatisticService,
