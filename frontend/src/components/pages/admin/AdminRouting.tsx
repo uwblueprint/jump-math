@@ -26,7 +26,7 @@ const AdminRouting = (): React.ReactElement => {
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
-      <VStack align="left" flex="1">
+      <VStack align="left" flex="1" height="100vh">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>

@@ -22,7 +22,7 @@ const pages: Page[] = [
 const TeacherRouting = (): React.ReactElement => {
   return (
     <Switch>
-      <VStack align="left" flex="1">
+      <VStack align="left" flex="1" height="100vh">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>
