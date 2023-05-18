@@ -1,6 +1,5 @@
 import fs from "fs";
 import type { FileUpload } from "graphql-upload";
-/* eslint-disable-next-line import/no-extraneous-dependencies */
 import type { ReadStream } from "fs-capacitor";
 import multer from "multer";
 import {
