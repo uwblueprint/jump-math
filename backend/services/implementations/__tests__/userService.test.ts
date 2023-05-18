@@ -1,8 +1,11 @@
-import UserModel, { User } from "../../../models/user.model";
+import type { User } from "../../../models/user.model";
+import UserModel from "../../../models/user.model";
 import UserService from "../userService";
-import SchoolModel, { School } from "../../../models/school.model";
+import type { School } from "../../../models/school.model";
+import SchoolModel from "../../../models/school.model";
 import TestSessionModel from "../../../models/testSession.model";
-import { UserDTO, TeacherDTO, Grade } from "../../../types";
+import type { UserDTO, TeacherDTO } from "../../../types";
+import { Grade } from "../../../types";
 import ClassModel from "../../../models/class.model";
 
 import db from "../../../testUtils/testDb";

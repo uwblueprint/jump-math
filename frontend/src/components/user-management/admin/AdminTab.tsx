@@ -1,10 +1,10 @@
 import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import type { AdminUser, TeacherUser } from "../../../types/UserTypes";
 import NoResultsTableState from "../../common/table/NoResultsTableState";
-import { SearchBarProps } from "../../common/table/SearchBar";
-import { SortMenuProps } from "../../common/table/SortMenu";
+import type { SearchBarProps } from "../../common/table/SearchBar";
+import type { SortMenuProps } from "../../common/table/SortMenu";
 
 interface AdminTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;

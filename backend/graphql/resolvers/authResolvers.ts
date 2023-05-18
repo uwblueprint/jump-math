@@ -1,15 +1,15 @@
-import { CookieOptions, Request, Response } from "express";
+import type { CookieOptions, Request, Response } from "express";
 
 import nodemailerConfig from "../../nodemailer.config";
 import AuthService from "../../services/implementations/authService";
 import EmailService from "../../services/implementations/emailService";
 import SchoolService from "../../services/implementations/schoolService";
 import UserService from "../../services/implementations/userService";
-import IAuthService from "../../services/interfaces/authService";
-import IEmailService from "../../services/interfaces/emailService";
-import { ISchoolService } from "../../services/interfaces/schoolService";
-import IUserService from "../../services/interfaces/userService";
-import { AuthDTO, RegisterTeacherDTO } from "../../types";
+import type IAuthService from "../../services/interfaces/authService";
+import type IEmailService from "../../services/interfaces/emailService";
+import type { ISchoolService } from "../../services/interfaces/schoolService";
+import type IUserService from "../../services/interfaces/userService";
+import type { AuthDTO, RegisterTeacherDTO } from "../../types";
 
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);

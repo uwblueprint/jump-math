@@ -1,15 +1,15 @@
-import {
+import type {
   FetchResult,
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
 
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
-import { AuthenticatedUser, VerifiableUser } from "../types/AuthTypes";
-import { SchoolMetadata } from "../types/TeacherSignupTypes";
+import type { AuthenticatedUser, VerifiableUser } from "../types/AuthTypes";
+import type { SchoolMetadata } from "../types/TeacherSignupTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
 
-import { Grade } from "./types/UserClientTypes";
+import type { Grade } from "./types/UserClientTypes";
 
 type LoginFunction = (
   options?:

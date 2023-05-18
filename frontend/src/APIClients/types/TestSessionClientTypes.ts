@@ -1,5 +1,5 @@
-import { ClassResponse } from "./ClassClientTypes";
-import { Test } from "./TestClientTypes";
+import type { ClassResponse } from "./ClassClientTypes";
+import type { Test } from "./TestClientTypes";
 
 interface TestSessionMetadata {
   /** the unique identifier for the test session */

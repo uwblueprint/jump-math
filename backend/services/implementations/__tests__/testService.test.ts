@@ -2,7 +2,8 @@ import TestService from "../testService";
 
 import db from "../../../testUtils/testDb";
 
-import MgTest, { AssessmentStatus, Test } from "../../../models/test.model";
+import type { Test } from "../../../models/test.model";
+import MgTest, { AssessmentStatus } from "../../../models/test.model";
 import {
   assertResponseMatchesExpected,
   mockArchivedTest,
@@ -15,7 +16,7 @@ import {
   mockTestArray,
   mockTestWithId2,
 } from "../../../testUtils/tests";
-import { TestResponseDTO } from "../../interfaces/testService";
+import type { TestResponseDTO } from "../../interfaces/testService";
 
 describe("mongo testService", (): void => {
   let testService: TestService;

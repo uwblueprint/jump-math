@@ -1,4 +1,4 @@
-import { TestStatistic } from "../services/interfaces/statisticService";
+import type { TestStatistic } from "../services/interfaces/statisticService";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 
 const mockTestStatisticsBySchool = new Map<string, TestStatistic>([

@@ -1,11 +1,12 @@
-import { Request } from "express";
-import { AuthenticationError, ExpressContext } from "apollo-server-express";
-import { GraphQLResolveInfo } from "graphql";
+import type { Request } from "express";
+import type { ExpressContext } from "apollo-server-express";
+import { AuthenticationError } from "apollo-server-express";
+import type { GraphQLResolveInfo } from "graphql";
 
 import AuthService from "../services/implementations/authService";
 import UserService from "../services/implementations/userService";
-import IAuthService from "../services/interfaces/authService";
-import { Role } from "../types";
+import type IAuthService from "../services/interfaces/authService";
+import type { Role } from "../types";
 
 const authService: IAuthService = new AuthService(new UserService());
 

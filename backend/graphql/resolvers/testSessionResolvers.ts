@@ -2,16 +2,16 @@ import TestSessionService from "../../services/implementations/testSessionServic
 import UserService from "../../services/implementations/userService";
 import TestService from "../../services/implementations/testService";
 import SchoolService from "../../services/implementations/schoolService";
-import {
+import type {
   ITestSessionService,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
-import { ITestService } from "../../services/interfaces/testService";
-import IUserService from "../../services/interfaces/userService";
-import { ISchoolService } from "../../services/interfaces/schoolService";
+import type { ITestService } from "../../services/interfaces/testService";
+import type IUserService from "../../services/interfaces/userService";
+import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
-import { IClassService } from "../../services/interfaces/classService";
+import type { IClassService } from "../../services/interfaces/classService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);

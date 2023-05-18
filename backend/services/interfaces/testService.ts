@@ -1,6 +1,6 @@
-import { AssessmentType, AssessmentStatus } from "../../models/test.model";
-import { Grade } from "../../types";
-import {
+import type { AssessmentType, AssessmentStatus } from "../../models/test.model";
+import type { Grade } from "../../types";
+import type {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
   QuestionComponent,

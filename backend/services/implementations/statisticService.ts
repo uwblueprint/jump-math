@@ -1,16 +1,16 @@
 import MgTestSession from "../../models/testSession.model";
-import {
+import type {
   IStatisticService,
   QuestionStatistic,
   TestStatistic,
 } from "../interfaces/statisticService";
+import type { GroupResultsByIdResultType } from "../../utilities/pipelineQueryUtils";
 import {
   countTestSubmissions,
   filterTestsByTestId,
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
-  GroupResultsByIdResultType,
 } from "../../utilities/pipelineQueryUtils";
 import {
   roundTwoDecimals,

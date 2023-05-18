@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import {
+import type {
   ImageMetadataRequest,
   QuestionTextMetadata,
   TextMetadata,
 } from "../../../types/QuestionMetadataTypes";
+import type { QuestionElement } from "../../../types/QuestionTypes";
 import {
-  QuestionElement,
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";

@@ -1,18 +1,17 @@
-/* eslint-disable-next-line import/no-extraneous-dependencies */
-import { ReadStream } from "fs-capacitor";
+import type { ReadStream } from "fs-capacitor";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import { escapeRegExp } from "lodash";
-import IFileStorageService from "../interfaces/fileStorageService";
+import type IFileStorageService from "../interfaces/fileStorageService";
 import logger from "../../utilities/logger";
 import {
   getImageValidationError,
   validateImageType,
 } from "../../middlewares/validators/util";
 import { getErrorMessage } from "../../utilities/errorUtils";
-import IImageUploadService from "../interfaces/imageUploadService";
+import type IImageUploadService from "../interfaces/imageUploadService";
 import FileStorageService from "./fileStorageService";
-import {
+import type {
   ImageMetadata,
   ImageMetadataRequest,
 } from "../../types/questionMetadataTypes";

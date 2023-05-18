@@ -2,9 +2,9 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, Center, HStack } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
+import type { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
 import { Grade } from "../../APIClients/types/UserClientTypes";
-import { ClassroomForm } from "../../types/ClassroomTypes";
+import type { ClassroomForm } from "../../types/ClassroomTypes";
 import { QuestionElementType } from "../../types/QuestionTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import DisplayQuestion from "../assessments/student-experience/Question";

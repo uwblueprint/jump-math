@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { SubmitHandler, useFormContext } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
   Button,
@@ -20,11 +21,14 @@ import {
 } from "@chakra-ui/react";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
-import { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
+import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import AuthContext from "../../../contexts/AuthContext";
-import { ClassroomForm, ClassroomInput } from "../../../types/ClassroomTypes";
+import type {
+  ClassroomForm,
+  ClassroomInput,
+} from "../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";

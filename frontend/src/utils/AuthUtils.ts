@@ -1,6 +1,6 @@
 import IdTokenVerifier from "idtoken-verifier";
 
-import { DecodedJWT } from "../types/AuthTypes";
+import type { DecodedJWT } from "../types/AuthTypes";
 
 // No need to fill in the issuer and audience fields since we're not validating
 // the token, just decoding it.

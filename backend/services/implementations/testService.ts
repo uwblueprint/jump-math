@@ -1,21 +1,22 @@
 import mongoose from "mongoose";
-import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
-import {
+import type { Test } from "../../models/test.model";
+import MgTest, { AssessmentStatus } from "../../models/test.model";
+import type {
   TestRequestDTO,
   TestResponseDTO,
   ITestService,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import IImageUploadService from "../interfaces/imageUploadService";
+import type IImageUploadService from "../interfaces/imageUploadService";
 import ImageUploadService from "./imageUploadService";
-import {
+import type {
   QuestionComponentRequest,
   QuestionComponent,
-  QuestionComponentType,
   BaseQuestionComponent,
 } from "../../types/questionTypes";
-import {
+import { QuestionComponentType } from "../../types/questionTypes";
+import type {
   ImageMetadata,
   ImageMetadataRequest,
   ImageMetadataTypes,

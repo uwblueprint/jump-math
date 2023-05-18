@@ -1,13 +1,14 @@
-import {
+import type {
   ISchoolService,
   SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../interfaces/schoolService";
-import MgSchool, { School } from "../../models/school.model";
+import type { School } from "../../models/school.model";
+import MgSchool from "../../models/school.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import { UserDTO } from "../../types";
-import IUserService from "../interfaces/userService";
+import type { UserDTO } from "../../types";
+import type IUserService from "../interfaces/userService";
 
 const Logger = logger(__filename);
 

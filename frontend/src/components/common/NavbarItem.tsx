@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import type { FlexProps } from "@chakra-ui/react";
 import {
   Box,
   Flex,
-  FlexProps,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon, ChevronUpIcon } from "../../assets/icons";
-import Page from "../../types/PageTypes";
+import type Page from "../../types/PageTypes";
 
 import RouterLink from "./RouterLink";
 
