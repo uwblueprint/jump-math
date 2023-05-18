@@ -67,9 +67,9 @@ const TestSessionListItem = ({
         <Tag
           bg="blue.50"
           borderRadius="full"
+          maxWidth={36}
           overflow="hidden"
           size="lg"
-          w={36}
         >
           <TagLeftIcon aria-hidden="true" as={BookIcon} color="blue.300" />
           <TagLabel>
