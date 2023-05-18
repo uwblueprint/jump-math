@@ -228,6 +228,7 @@ class TestService implements ITestService {
       }
       // eslint-disable-next-line no-underscore-dangle
       test._id = new mongoose.Types.ObjectId();
+      test.name += " [COPY]";
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
