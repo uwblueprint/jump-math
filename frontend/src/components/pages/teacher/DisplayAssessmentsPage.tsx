@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import {
+  Box,
   Center,
   Tab,
   TabList,
@@ -92,9 +93,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         </Center>
       )}
       {error && (
-        <Center flex="1" margin="15%">
+        <Box height="100%" mt={10}>
           <ErrorState />
-        </Center>
+        </Box>
       )}
       {!!formattedData?.length && !loading && !error && (
         <>

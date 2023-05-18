@@ -11,11 +11,11 @@ const ErrorState = ({
   fullPage?: boolean;
 }): React.ReactElement => (
   <Center
-    backgroundColor="blue.50"
+    backgroundColor={fullPage ? "" : "blue.50"}
     borderRadius="1rem"
     color="blue.300"
-    height={fullPage ? "100vh" : "auto"}
-    mt={14}
+    height={fullPage ? "100vh" : "100%"}
+    minWidth="100%"
     pb={14}
   >
     <MessageContainer

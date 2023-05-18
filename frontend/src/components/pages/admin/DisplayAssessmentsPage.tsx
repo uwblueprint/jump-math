@@ -153,8 +153,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <LoadingState />
         </Center>
       )}
-      {assessments && !error && !loading && <ErrorState />}
       {error && (
+        <Box height="100%" mt={10}>
+          <ErrorState />
+        </Box>
+      )}
+      {assessments && !error && !loading && (
         <Box flex="1">
           <Tabs marginTop={3}>
             <TabList>
