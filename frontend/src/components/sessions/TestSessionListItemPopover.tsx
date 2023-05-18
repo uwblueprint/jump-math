@@ -34,6 +34,10 @@ const TestSessionListItemPopover = ({
     try {
       await deleteTestSessionMutation();
       onClose();
+      showToast({
+        message: "Assessment deleted.",
+        status: "success",
+      });
     } catch (e) {
       showToast({
         message: "Failed to delete the assessment. Please try again later.",
