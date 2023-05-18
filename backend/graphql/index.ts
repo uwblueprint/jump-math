@@ -1,4 +1,5 @@
-import { makeExecutableSchema, gql } from "apollo-server-express";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import gql from "graphql-tag";
 import { applyMiddleware } from "graphql-middleware";
 import { merge } from "lodash";
 
