@@ -1,5 +1,4 @@
 import fs from "fs";
-import type { FileUpload } from "graphql-upload";
 import type { ReadStream } from "fs-capacitor";
 import multer from "multer";
 import {
@@ -13,6 +12,7 @@ import type {
   EntityResponseDTO,
 } from "../../services/interfaces/IEntityService";
 import { generateCSV } from "../../utilities/CSVUtils";
+import type { FileUpload } from "../../lib/graphqlUpload.cjs";
 
 const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
 const fileStorageService = new FileStorageService(defaultBucket);

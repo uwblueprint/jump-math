@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { json } from "express";
+import http from "http";
 import * as firebaseAdmin from "firebase-admin";
 
 import { ApolloServer } from "@apollo/server";
@@ -9,8 +10,10 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from "@apollo/server/plugin/landingPage/default";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { mongo } from "./models";
-import schema from "./graphql";
+import buildSchema from "./graphql";
+import { graphqlUploadExpress } from "./lib/graphqlUpload.cjs";
 
 export type ExpressContext = {
   req: express.Request;
@@ -49,22 +52,31 @@ const runServer = async () => {
   });
 
   const app = express();
-  app.use(cookieParser());
-  app.use(cors(CORS_OPTIONS));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
+  const httpServer = http.createServer(app);
   const server = new ApolloServer<ExpressContext>({
-    schema,
+    schema: await buildSchema(),
     plugins: [
       process.env.NODE_ENV === "production"
         ? ApolloServerPluginLandingPageProductionDefault({
             footer: false,
           })
         : ApolloServerPluginLandingPageLocalDefault(),
+      ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
   });
+
   await server.start();
+
+  app.use(cookieParser());
+  app.use(cors(CORS_OPTIONS));
+  app.use(
+    await graphqlUploadExpress({
+      maxFileSize: 10 * 1024 * 1024, // 10 MB
+      maxFiles: 20,
+    }),
+  );
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   app.use(
     "/graphql",
@@ -76,12 +88,11 @@ const runServer = async () => {
   );
 
   await new Promise<void>((resolve) => {
-    app.listen({ port: process.env.PORT || 5000 }, () => {
-      /* eslint-disable-next-line no-console */
-      console.info(`Server is listening on port ${process.env.PORT || 5000}!`);
-      resolve();
-    });
+    httpServer.listen({ port: process.env.PORT || 5000 }, resolve);
   });
+
+  /* eslint-disable-next-line no-console */
+  console.info(`Server is listening on port ${process.env.PORT || 5000}!`);
 };
 
 runServer().catch((err) => {

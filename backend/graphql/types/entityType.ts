@@ -8,8 +8,6 @@ const entityType = gql`
     D
   }
 
-  scalar Upload
-
   type EntityResponseDTO {
     id: ID!
     stringField: String!
@@ -38,11 +36,14 @@ const entityType = gql`
   }
 
   extend type Mutation {
-    createEntity(entity: EntityRequestDTO!, file: Upload): EntityResponseDTO!
+    createEntity(
+      entity: EntityRequestDTO!
+      file: FileUpload
+    ): EntityResponseDTO!
     updateEntity(
       id: ID!
       entity: EntityRequestDTO!
-      file: Upload
+      file: FileUpload
     ): EntityResponseDTO!
     deleteEntity(id: ID!): ID
   }
