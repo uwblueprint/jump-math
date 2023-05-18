@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
-import { DragSourceMonitor, useDrag, useDrop } from "react-dnd";
+import type { DragSourceMonitor } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
   Button,
@@ -20,8 +21,9 @@ import {
   HamburgerMenuIcon,
 } from "../../../assets/icons";
 import AssessmentContext from "../../../contexts/AssessmentContext";
-import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
-import { Question } from "../../../types/QuestionTypes";
+import type { DragQuestionItem } from "../../../types/DragTypes";
+import { DragTypes } from "../../../types/DragTypes";
+import type { Question } from "../../../types/QuestionTypes";
 import {
   generateQuestionCardTags,
   getQuestionTexts,

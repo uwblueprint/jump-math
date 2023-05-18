@@ -15,7 +15,7 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
 import { TabEnum } from "../../../types/AuthTypes";
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import type { AdminUser, TeacherUser } from "../../../types/UserTypes";
 import { sortArray } from "../../../utils/GeneralUtils";
 import {
   filterAdminUsersBySearch,

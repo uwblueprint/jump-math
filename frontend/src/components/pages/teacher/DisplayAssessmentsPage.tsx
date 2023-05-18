@@ -11,10 +11,11 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
+import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
+import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import {
   getSessionStatus,

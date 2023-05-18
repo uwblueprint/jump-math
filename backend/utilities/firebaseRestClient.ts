@@ -1,6 +1,7 @@
-import fetch, { Response } from "node-fetch";
+import type { Response } from "node-fetch";
+import fetch from "node-fetch";
 
-import { Token } from "../types";
+import type { Token } from "../types";
 import logger from "./logger";
 
 const Logger = logger(__filename);

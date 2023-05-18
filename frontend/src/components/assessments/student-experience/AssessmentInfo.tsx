@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
+import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
 import {
   QuestionElementType,
   ResponseElementType,

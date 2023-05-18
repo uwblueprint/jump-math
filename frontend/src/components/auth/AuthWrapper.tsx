@@ -5,7 +5,7 @@ import { Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { JUMP_MATH_LOGO } from "../../assets/images";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import ImageType from "../../types/ImageTypes";
+import type ImageType from "../../types/ImageTypes";
 import FormError from "../common/FormError";
 
 interface AuthWrapperInputProps {

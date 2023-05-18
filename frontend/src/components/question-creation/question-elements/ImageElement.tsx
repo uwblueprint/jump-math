@@ -12,7 +12,7 @@ import {
 
 import { EditOutlineIcon, UploadOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { ImageMetadataRequest } from "../../../types/QuestionMetadataTypes";
+import type { ImageMetadataRequest } from "../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxFileSize,
   updatedQuestionElement,

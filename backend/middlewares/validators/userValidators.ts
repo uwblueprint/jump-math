@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { getApiValidationError, validatePrimitive } from "./util";
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */

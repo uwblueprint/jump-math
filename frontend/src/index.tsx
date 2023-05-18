@@ -6,7 +6,7 @@ import { createUploadLink } from "apollo-upload-client";
 import axios from "axios";
 
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
-import { AuthenticatedUser } from "./types/AuthTypes";
+import type { AuthenticatedUser } from "./types/AuthTypes";
 import * as auth from "./utils/AuthUtils";
 import {
   getLocalStorageObjProperty,

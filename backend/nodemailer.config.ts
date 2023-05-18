@@ -1,4 +1,4 @@
-import { NodemailerConfig } from "./types";
+import type { NodemailerConfig } from "./types";
 
 const config: NodemailerConfig = {
   service: "gmail",

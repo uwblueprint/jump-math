@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack, Tag, Text, VStack } from "@chakra-ui/react";
 
-import { Grade } from "../../APIClients/types/UserClientTypes";
+import type { Grade } from "../../APIClients/types/UserClientTypes";
 import {
   BarChartIcon,
   BookOpenIcon,

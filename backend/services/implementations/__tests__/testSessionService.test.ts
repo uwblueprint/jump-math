@@ -3,7 +3,8 @@ import TestSessionService from "../testSessionService";
 import db from "../../../testUtils/testDb";
 
 import MgTestSession from "../../../models/testSession.model";
-import MgClass, { Class } from "../../../models/class.model";
+import type { Class } from "../../../models/class.model";
+import MgClass from "../../../models/class.model";
 import {
   assertResponseMatchesExpected,
   assertResultsResponseMatchesExpected,
@@ -19,7 +20,7 @@ import {
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
 } from "../../../testUtils/testSession";
-import {
+import type {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../interfaces/testSessionService";

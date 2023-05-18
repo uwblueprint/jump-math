@@ -10,7 +10,7 @@ import {
   ADMIN_LOGIN_PAGE,
   TEACHER_LOGIN_PAGE,
 } from "../../../constants/Routes";
-import { Role } from "../../../types/AuthTypes";
+import type { Role } from "../../../types/AuthTypes";
 import AuthWrapper from "../AuthWrapper";
 import PasswordForm from "../password/PasswordForm";
 
