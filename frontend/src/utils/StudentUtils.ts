@@ -18,7 +18,7 @@ export const getAnswerValues = (
   answerElementIndex: number,
   answers: Answers[],
 ): number[] => {
-  const answer = answers.find((a) => a.index === currentQuestionIndex);
+  const answer = answers[currentQuestionIndex];
   const answerElement = answer?.elements[answerElementIndex];
   return answerElement?.elementAnswers ?? [];
 };
@@ -29,8 +29,7 @@ export const initializeAnswers = (
   return questions.map((question, index) => ({
     index,
     isCompleted: false,
-    elements: getAnswerElements(question).map((_, elementIndex) => ({
-      index: elementIndex,
+    elements: getAnswerElements(question).map(() => ({
       elementAnswers: [],
     })),
   }));
@@ -41,7 +40,7 @@ const isCompleted = (
   value: number[],
   currentQuestionIndex: number,
 ): boolean =>
-  value?.length === prevAnswers[currentQuestionIndex].elements.length;
+  value?.length >= prevAnswers[currentQuestionIndex].elements.length;
 
 export const updatedAnswer = (
   answerIndex: number,
