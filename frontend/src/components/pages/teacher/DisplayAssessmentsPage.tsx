@@ -110,7 +110,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             </TabList>
             <TabPanels>
               {STATUSES.map((status) => (
-                <TabPanel key={status}>
+                <TabPanel key={status} pl={0} pr={0}>
                   {paginatedData?.map((session) => (
                     <TestSessionListItem key={session.id} {...session} />
                   ))}

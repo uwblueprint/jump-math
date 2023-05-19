@@ -55,77 +55,94 @@ const TestSessionListItem = ({
   )} ${accessCode.slice(ACCESS_CODE_GROUP_SIZE)}`;
 
   return (
-    <HStack gap={2} pb={8} w="100%">
-      <Tooltip
-        bg="blue.300"
-        borderRadius={4}
-        hasArrow
-        label={classroomName}
-        p={2}
-        placement="left"
+    <Tooltip
+      bg="blue.300"
+      borderRadius={4}
+      hasArrow
+      isDisabled={status !== "past"}
+      label="Click to view statistics of this assessment and each student's performance."
+      p={2}
+      placement="bottom"
+    >
+      <HStack
+        _hover={{ bg: status === "past" ? "grey.100" : undefined }}
+        as={status === "past" ? "button" : undefined}
+        borderRadius={16}
+        gap={2}
+        p={4}
+        w="100%"
       >
-        <Tag
-          bg="blue.50"
-          borderRadius="full"
-          overflow="hidden"
-          size="lg"
-          w={36}
+        <Tooltip
+          bg="blue.300"
+          borderRadius={4}
+          hasArrow
+          label={classroomName}
+          p={2}
+          placement="left"
         >
-          <TagLeftIcon aria-hidden="true" as={BookIcon} color="blue.300" />
-          <TagLabel>
-            <Text
-              color="blue.300"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              textStyle="smallerParagraph"
-              whiteSpace="nowrap"
-            >
-              {classroomName}
-            </Text>
-          </TagLabel>
-        </Tag>
-      </Tooltip>
-      <VStack align="start">
-        <Text
-          color={status === "past" ? "grey.300" : "blue.300"}
-          textStyle="subtitle2"
-        >
-          {testName}
-        </Text>
-        <Text
-          color={status === "past" ? "grey.200" : "blue.200"}
-          textStyle="mobileParagraph"
-        >
-          {STATUS_LABELS[status]} {formatDate(targetDate)}
-        </Text>
-      </VStack>
-      {status !== "past" && (
-        <Copyable label="Access Code" value={formattedAccessCode} />
-      )}
-      <Spacer />
-      {stats && (
-        <>
-          <Text color="grey.300" textStyle="mobileParagraph">
-            Mean: {stats.mean}%
+          <Tag
+            bg="blue.50"
+            borderRadius="full"
+            maxWidth={40}
+            overflow="hidden"
+            size="lg"
+          >
+            <TagLeftIcon aria-hidden="true" as={BookIcon} color="blue.300" />
+            <TagLabel>
+              <Text
+                color="blue.300"
+                overflow="hidden"
+                textOverflow="ellipsis"
+                textStyle="smallerParagraph"
+                whiteSpace="nowrap"
+              >
+                {classroomName}
+              </Text>
+            </TagLabel>
+          </Tag>
+        </Tooltip>
+        <VStack align="start">
+          <Text
+            color={status === "past" ? "grey.300" : "blue.300"}
+            textStyle="subtitle2"
+          >
+            {testName}
           </Text>
-          <Text color="grey.300" textStyle="mobileParagraph">
-            Median: {stats.median}%
+          <Text
+            color={status === "past" ? "grey.200" : "blue.200"}
+            textStyle="mobileParagraph"
+          >
+            {STATUS_LABELS[status]} {formatDate(targetDate)}
           </Text>
-          <Text color="grey.300" textStyle="mobileParagraph">
-            Completion Rate: {stats.completionRate}%
-          </Text>
-          <Text color="grey.300" textStyle="mobileParagraph">
-            Submissions: {stats.submissions}
-          </Text>
-        </>
-      )}
-      <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-        <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
-          <PopoverButton name="Edit" onClick={() => {}} />
-          <PopoverButton name="Delete" onClick={() => {}} />
         </VStack>
-      </Popover>
-    </HStack>
+        {status !== "past" && (
+          <Copyable label="Access Code" value={formattedAccessCode} />
+        )}
+        <Spacer />
+        {stats && (
+          <>
+            <Text color="grey.300" textStyle="mobileParagraph">
+              Mean: {stats.mean}%
+            </Text>
+            <Text color="grey.300" textStyle="mobileParagraph">
+              Median: {stats.median}%
+            </Text>
+            <Text color="grey.300" textStyle="mobileParagraph">
+              Completion Rate: {stats.completionRate}%
+            </Text>
+            <Text color="grey.300" textStyle="mobileParagraph">
+              Submissions: {stats.submissions}
+            </Text>
+          </>
+        )}
+        <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+          <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
+            <PopoverButton name="Edit" onClick={() => {}} />
+            <PopoverButton name="Delete" onClick={() => {}} />
+          </VStack>
+        </Popover>
+      </HStack>
+    </Tooltip>
   );
 };
 
