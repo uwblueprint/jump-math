@@ -2,6 +2,7 @@ import update from "immutability-helper";
 
 import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import { Answers } from "../types/AnswerTypes";
+import QuestionNumberTypes from "../types/QuestionNumberTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
 
 export const getAnswerElements = (
@@ -54,4 +55,24 @@ export const updatedAnswer = (
 export const stringToNumberArray = (input: string): number[] => {
   const value = parseFloat(input);
   return Number.isNaN(value) ? [] : [value];
+};
+
+const isCompletedQuestion = (answers: Answers[], index: number) => {
+  return answers[index].elements.every(
+    (element) => element.elementAnswers.length !== 0,
+  );
+};
+
+export const questionStatus = (
+  index: number,
+  currentQuestionIndex: number,
+  answers: Answers[],
+): QuestionNumberTypes => {
+  if (index === currentQuestionIndex) {
+    return QuestionNumberTypes.CURRENT;
+  }
+  if (isCompletedQuestion(answers, index)) {
+    return QuestionNumberTypes.COMPLETED;
+  }
+  return QuestionNumberTypes.UNATTEMPTED;
 };
