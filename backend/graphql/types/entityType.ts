@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import gql from "graphql-tag";
 
 const entityType = gql`
   enum Enum {
@@ -7,8 +7,6 @@ const entityType = gql`
     C
     D
   }
-
-  scalar Upload
 
   type EntityResponseDTO {
     id: ID!
@@ -38,11 +36,14 @@ const entityType = gql`
   }
 
   extend type Mutation {
-    createEntity(entity: EntityRequestDTO!, file: Upload): EntityResponseDTO!
+    createEntity(
+      entity: EntityRequestDTO!
+      file: FileUpload
+    ): EntityResponseDTO!
     updateEntity(
       id: ID!
       entity: EntityRequestDTO!
-      file: Upload
+      file: FileUpload
     ): EntityResponseDTO!
     deleteEntity(id: ID!): ID
   }

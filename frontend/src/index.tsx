@@ -26,6 +26,9 @@ const REFRESH_MUTATION = `
 const link = createUploadLink({
   uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`,
   credentials: "include",
+  headers: {
+    "Apollo-Require-Preflight": "true",
+  },
 });
 
 const authLink = setContext(async (_, { headers }) => {
