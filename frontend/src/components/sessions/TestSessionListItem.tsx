@@ -134,7 +134,10 @@ const TestSessionListItem = ({
             </Text>
           </>
         )}
-        <TestSessionListItemPopover testSessionId={testSessionId} />
+        <TestSessionListItemPopover
+          status={status}
+          testSessionId={testSessionId}
+        />
       </HStack>
     </Tooltip>
   );

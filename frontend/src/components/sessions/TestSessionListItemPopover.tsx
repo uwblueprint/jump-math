@@ -5,16 +5,19 @@ import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 import { DELETE_TEST_SESSION } from "../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../APIClients/queries/TestSessionQueries";
 import AuthContext from "../../contexts/AuthContext";
+import type { TestSessionStatus } from "../../types/TestSessionTypes";
 import Modal from "../common/Modal";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
 import Toast from "../common/Toast";
 
 type TestSessionPopoverProps = {
+  status: TestSessionStatus;
   testSessionId: string;
 };
 
 const TestSessionListItemPopover = ({
+  status,
   testSessionId,
 }: TestSessionPopoverProps): React.ReactElement => {
   const {
@@ -64,8 +67,12 @@ const TestSessionListItemPopover = ({
       onOpen={onPopoverOpen}
     >
       <VStack spacing={0}>
-        <PopoverButton name="Edit" onClick={() => {}} />
-        <Divider borderColor="grey.200" />
+        {status !== "past" && (
+          <>
+            <PopoverButton name="Edit" onClick={() => {}} />
+            <Divider borderColor="grey.200" />
+          </>
+        )}
         <PopoverButton name="Delete" onClick={openDeleteModal} />
         <Modal
           body="Are you sure you want to delete this assessment? You will not be able to undo this action."
