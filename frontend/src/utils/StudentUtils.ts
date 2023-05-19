@@ -28,12 +28,20 @@ export const initializeAnswers = (
 ): Answers[] => {
   return questions.map((question, index) => ({
     index,
+    isCompleted: false,
     elements: getAnswerElements(question).map((_, elementIndex) => ({
       index: elementIndex,
       elementAnswers: [],
     })),
   }));
 };
+
+const isCompleted = (
+  prevAnswers: Answers[],
+  value: number[],
+  currentQuestionIndex: number,
+): boolean =>
+  value?.length === prevAnswers[currentQuestionIndex].elements.length;
 
 export const updatedAnswer = (
   answerIndex: number,
@@ -43,6 +51,9 @@ export const updatedAnswer = (
 ): Answers[] => {
   return update(prevAnswers, {
     [currentQuestionIndex]: {
+      isCompleted: {
+        $set: isCompleted(prevAnswers, value || [], currentQuestionIndex),
+      },
       elements: {
         [answerIndex]: {
           elementAnswers: { $set: value ?? [] },
@@ -57,22 +68,12 @@ export const stringToNumberArray = (input: string): number[] => {
   return Number.isNaN(value) ? [] : [value];
 };
 
-const isCompletedQuestion = (answers: Answers[], index: number) => {
-  return answers[index].elements.every(
-    (element) => element.elementAnswers.length !== 0,
-  );
-};
-
 export const questionStatus = (
   index: number,
   currentQuestionIndex: number,
   answers: Answers[],
 ): QuestionNumberTypes => {
-  if (index === currentQuestionIndex) {
-    return QuestionNumberTypes.CURRENT;
-  }
-  if (isCompletedQuestion(answers, index)) {
-    return QuestionNumberTypes.COMPLETED;
-  }
+  if (index === currentQuestionIndex) return QuestionNumberTypes.CURRENT;
+  if (answers[index].isCompleted) return QuestionNumberTypes.COMPLETED;
   return QuestionNumberTypes.UNATTEMPTED;
 };

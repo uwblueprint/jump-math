@@ -6,4 +6,5 @@ export interface ElementAnswers {
 export interface Answers {
   index: number;
   elements: ElementAnswers[];
+  isCompleted: boolean;
 }
