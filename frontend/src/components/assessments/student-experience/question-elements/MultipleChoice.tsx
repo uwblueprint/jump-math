@@ -19,7 +19,7 @@ const MultipleChoice = ({
   return (
     <RadioGroup
       onChange={(e) => updateAnswer(stringToNumberArray(e))}
-      value={currentAnswer.length > 0 ? currentAnswer[0].toString() : ""}
+      value={currentAnswer[0]?.toString() ?? ""}
     >
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {

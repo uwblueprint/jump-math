@@ -58,7 +58,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
                 {test.name}
               </Text>
               <Text color="blue.300" textStyle="paragraph">
-                Start Time: {formatDateTime(new Date(testSession.startDate))}
+                Start Time: {formatDateTime(testSession.startDate)}
               </Text>
               <VStack align="center">
                 <SimpleGrid

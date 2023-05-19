@@ -10,15 +10,15 @@ const NavButtons = (): React.ReactElement => {
 
   const questionCount = test?.questions.length ?? 0;
 
-  const onFirstQuestion = currentQuestionIndex === 0;
-  const onLastQuestion = currentQuestionIndex === questionCount - 1;
+  const isFirstQuestion = currentQuestionIndex === 0;
+  const isLastQuestion = currentQuestionIndex === questionCount - 1;
 
   const previousQuestion = currentQuestionIndex - 1;
   const nextQuestion = currentQuestionIndex + 1;
 
   return (
     <HStack paddingBottom="12">
-      {!onFirstQuestion && (
+      {!isFirstQuestion && (
         <Button
           onClick={() => setCurrentQuestionIndex(previousQuestion)}
           variant="secondary"
@@ -27,7 +27,7 @@ const NavButtons = (): React.ReactElement => {
         </Button>
       )}
       <Spacer />
-      {onLastQuestion ? (
+      {isLastQuestion ? (
         <Button variant="primary">Submit</Button>
       ) : (
         <Button
