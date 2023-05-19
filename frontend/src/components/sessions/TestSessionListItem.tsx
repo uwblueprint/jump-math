@@ -83,7 +83,7 @@ const TestSessionListItem = ({
           <Tag
             bg="blue.50"
             borderRadius="full"
-            maxWidth={36}
+            maxWidth={40}
             overflow="hidden"
             size="lg"
           >
