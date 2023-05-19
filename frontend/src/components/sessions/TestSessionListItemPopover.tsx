@@ -5,6 +5,7 @@ import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 import { DELETE_TEST_SESSION } from "../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../APIClients/queries/TestSessionQueries";
 import AuthContext from "../../contexts/AuthContext";
+import Modal from "../common/Modal";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
 import Toast from "../common/Toast";
@@ -16,7 +17,16 @@ type TestSessionPopoverProps = {
 const TestSessionListItemPopover = ({
   testSessionId,
 }: TestSessionPopoverProps): React.ReactElement => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isPopoverOpen,
+    onOpen: onPopoverOpen,
+    onClose: onPopoverClose,
+  } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: openDeleteModal,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
 
   const { showToast } = Toast();
 
@@ -33,7 +43,8 @@ const TestSessionListItemPopover = ({
   const deleteTestSession = async () => {
     try {
       await deleteTestSessionMutation();
-      onClose();
+      onPopoverClose();
+      onDeleteModalClose();
       showToast({
         message: "Assessment deleted.",
         status: "success",
@@ -47,10 +58,22 @@ const TestSessionListItemPopover = ({
   };
 
   return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
+    <Popover
+      isOpen={isPopoverOpen}
+      onClose={onPopoverClose}
+      onOpen={onPopoverOpen}
+    >
+      <VStack spacing={0}>
         <PopoverButton name="Edit" onClick={() => {}} />
-        <PopoverButton name="Delete" onClick={deleteTestSession} />
+        <Divider borderColor="grey.200" />
+        <PopoverButton name="Delete" onClick={openDeleteModal} />
+        <Modal
+          body="Are you sure you want to delete this assessment? You will not be able to undo this action."
+          header="Confirmation"
+          isOpen={isDeleteModalOpen}
+          onClose={onDeleteModalClose}
+          onSubmit={deleteTestSession}
+        />
       </VStack>
     </Popover>
   );
