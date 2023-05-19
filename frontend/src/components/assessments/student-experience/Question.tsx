@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 
 import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
@@ -26,14 +26,13 @@ interface QuestionProps {
 }
 
 const Question = ({ elements }: QuestionProps): React.ReactElement => {
-  let counter = -1;
-  const answerElementIndex = elements.map((element) => {
-    if (element.type in ResponseElementType) {
-      counter += 1;
-      return counter;
-    }
-    return 0;
-  });
+  const answerElementIndex = useMemo(() => {
+    let answersSoFar = 0;
+    return elements.map((element) =>
+      // eslint-disable-next-line no-plusplus
+      element.type in ResponseElementType ? answersSoFar++ : 0,
+    );
+  }, [elements]);
 
   return (
     <>
