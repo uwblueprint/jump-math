@@ -139,14 +139,14 @@ const ClassroomsPage = (): React.ReactElement => {
           showButton={classrooms.length !== 0}
           title="Classroom"
         />
+        <AddClassroomModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </Box>
       <Box flex="1">
         {classrooms.length !== 0 ? (
           <>
-            <AddClassroomModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
             <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
               <TabList>
                 <Tab color={unselectedTabColor}>Active</Tab>
@@ -192,10 +192,6 @@ const ClassroomsPage = (): React.ReactElement => {
           </>
         ) : (
           <>
-            <AddClassroomModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
             <Center
               backgroundColor="blue.50"
               borderRadius="1rem"
