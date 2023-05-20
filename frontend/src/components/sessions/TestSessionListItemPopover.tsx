@@ -6,7 +6,7 @@ import { DELETE_TEST_SESSION } from "../../APIClients/mutations/TestSessionMutat
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../APIClients/queries/TestSessionQueries";
 import AuthContext from "../../contexts/AuthContext";
 import type { TestSessionStatus } from "../../types/TestSessionTypes";
-import Modal from "../common/Modal";
+import DeleteModal from "../assessments/assessment-status/EditStatusModals/DeleteModal";
 import Popover from "../common/Popover";
 import PopoverButton from "../common/PopoverButton";
 import Toast from "../common/Toast";
@@ -47,7 +47,6 @@ const TestSessionListItemPopover = ({
     try {
       await deleteTestSessionMutation();
       onPopoverClose();
-      onDeleteModalClose();
       showToast({
         message: "Assessment deleted.",
         status: "success",
@@ -74,12 +73,10 @@ const TestSessionListItemPopover = ({
           </>
         )}
         <PopoverButton name="Delete" onClick={openDeleteModal} />
-        <Modal
-          body="Are you sure you want to delete this assessment? You will not be able to undo this action."
-          header="Confirmation"
+        <DeleteModal
+          deleteAssessment={deleteTestSession}
           isOpen={isDeleteModalOpen}
           onClose={onDeleteModalClose}
-          onSubmit={deleteTestSession}
         />
       </VStack>
     </Popover>
