@@ -3,7 +3,6 @@ import type { SubmitHandler } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -23,7 +22,6 @@ import {
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
-import { PlusOutlineIcon } from "../../../assets/icons";
 import AuthContext from "../../../contexts/AuthContext";
 import type {
   ClassroomForm,
@@ -52,7 +50,6 @@ const AddClassroomModal = ({
     formState: { errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
-  const { onOpen } = useDisclosure();
   const [showRequestError, setShowRequestError] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
