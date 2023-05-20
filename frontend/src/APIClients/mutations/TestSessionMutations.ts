@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const CREATE_TEST_SESSION = gql`
+export const CREATE_TEST_SESSION = gql`
   mutation CreateTestSession($testSession: TestSessionRequestDTO!) {
     createTestSession(testSession: $testSession) {
       id
@@ -8,4 +8,10 @@ const CREATE_TEST_SESSION = gql`
   }
 `;
 
-export default CREATE_TEST_SESSION;
+export const SUBMIT_TEST = gql`
+  mutation CreateTestSessionResult($id: ID!, $result: ResultRequestDTO!) {
+    createTestSessionResult(id: $id, result: $result) {
+      id
+    }
+  }
+`;
