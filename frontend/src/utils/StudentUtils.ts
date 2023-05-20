@@ -76,3 +76,13 @@ export const questionStatus = (
   if (answers[index].isCompleted) return QuestionNumberTypes.COMPLETED;
   return QuestionNumberTypes.UNATTEMPTED;
 };
+
+export const mapAnswersToResultsArray = (answers: Answers[]): number[][][] => {
+  return answers.map((answer) => {
+    const row: number[][] = [];
+    answer.elements.map((element) => {
+      return row.push(element.elementAnswers);
+    });
+    return row;
+  });
+};
