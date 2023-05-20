@@ -6,7 +6,11 @@ import type {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
-import { mockClassWithId, mockClassWithId2 } from "./class";
+import {
+  mockClassWithId,
+  mockClassWithId2,
+  testStudentsWithIds,
+} from "./class";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
@@ -23,28 +27,35 @@ export const mockUngradedTestResult: ResultRequestDTO = {
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
 };
 
-export const mockGradedTestResult: ResultResponseDTO = {
+export const mockGradedTestResult: Result = {
   student: "some-student-name",
   score: 80.0,
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
   breakdown: [[true, true, true, true], [false]],
 };
 
-export const mockGradedTestResult2: ResultResponseDTO = {
+export const mockGradedTestResultResponse: ResultResponseDTO = {
+  student: testStudentsWithIds[0],
+  score: 80.0,
+  answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
+  breakdown: [[true, true, true, true], [false]],
+};
+
+export const mockGradedTestResult2: Result = {
   student: "some-student-name-2",
   score: 40.0,
   answers: [[[0], [3], [1, 2], [5, 4]], [[7]]],
   breakdown: [[false, false, true, false], [true]],
 };
 
-export const mockGradedTestResult3: ResultResponseDTO = {
+export const mockGradedTestResult3: Result = {
   student: "some-student-name-3",
   score: 80.0,
   answers: [[[3], [0], [1, 2]], [[7]]],
   breakdown: [[true, true, true, false], [true]],
 };
 
-export const mockGradedTestResult4: ResultResponseDTO = {
+export const mockGradedTestResult4: Result = {
   student: "some-student-name-3",
   score: 20.0,
   answers: [[[1.5], [1], [3]], [[7]]],
@@ -163,6 +174,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   teacher: mockTeacher,
   school: mockSchoolWithId,
   class: { ...mockClassWithId, teacher: mockTeacher, testSessions: [] },
+  results: [mockGradedTestResultResponse],
 };
 
 export const mockTestSessions: TestSessionDTO[] = [

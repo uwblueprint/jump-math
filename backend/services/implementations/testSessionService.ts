@@ -1,11 +1,10 @@
-import type { TestSession } from "../../models/testSession.model";
+import type { Result, TestSession } from "../../models/testSession.model";
 import MgTestSession from "../../models/testSession.model";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
 import type {
   ITestSessionService,
   ResultRequestDTO,
-  ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
@@ -30,6 +29,7 @@ import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
 import type {
   IClassService,
   ClassResponseDTO,
+  StudentResponseDTO,
 } from "../interfaces/classService";
 
 const Logger = logger(__filename);
@@ -302,10 +302,7 @@ class TestSessionService implements ITestSessionService {
   ): Promise<TestSessionResponseDTO> {
     let updatedTestSession: TestSession | null;
     try {
-      const gradedResult: ResultResponseDTO = await this.gradeTestResult(
-        result,
-        id,
-      );
+      const gradedResult: Result = await this.gradeTestResult(result, id);
 
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
@@ -355,6 +352,14 @@ class TestSessionService implements ITestSessionService {
           false,
         );
 
+        const studentIdToDTO: Map<string, StudentResponseDTO> = new Map<
+          string,
+          StudentResponseDTO
+        >();
+        classDTO.students.forEach((student) => {
+          studentIdToDTO.set(student.id, student);
+        });
+
         return {
           id: testSession.id,
           test: testDTO,
@@ -362,9 +367,17 @@ class TestSessionService implements ITestSessionService {
           school: schoolDTO,
           class: classDTO,
           results: testSession.results
-            ? testSession.results.map((testSessionResult) => {
+            ? testSession.results.map((testSessionResult: Result) => {
+                const studentDTO: StudentResponseDTO | undefined =
+                  studentIdToDTO.get(testSessionResult.student);
+                if (!studentDTO) {
+                  throw new Error(
+                    `Student id ${testSessionResult.student} not found in class ${classDTO.id}`,
+                  );
+                }
+
                 return {
-                  student: testSessionResult.student,
+                  student: studentDTO,
                   score: testSessionResult.score,
                   answers: testSessionResult.answers,
                   breakdown: testSessionResult.breakdown,
@@ -383,13 +396,13 @@ class TestSessionService implements ITestSessionService {
   }
 
   /*
-   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded ResultResponseDTO
+   * gradeTestResult takes in a ResultRequestDTO and returns the corresponding graded Result
    */
   async gradeTestResult(
     result: ResultRequestDTO,
     testSessionId: string,
-  ): Promise<ResultResponseDTO> {
-    let newResult: ResultResponseDTO;
+  ): Promise<Result> {
+    let newResult: Result;
 
     try {
       const testSession: TestSessionResponseDTO = await this.getTestSessionById(
@@ -408,12 +421,12 @@ class TestSessionService implements ITestSessionService {
 
   /*
    * computeTestGrades computes the breakdown and score of a given
-   * ungraded ResultRequestDTO and returns the graded ResultResponseDTO
+   * ungraded ResultRequestDTO and returns the graded Result
    */
   async computeTestGrades(
     result: ResultRequestDTO,
     testId: string,
-  ): Promise<ResultResponseDTO> {
+  ): Promise<Result> {
     const studentTestAnswers: number[][][] = result.answers;
     const computedBreakdown: boolean[][] = [];
     let questionsCorrect = 0;

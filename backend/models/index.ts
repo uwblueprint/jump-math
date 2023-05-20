@@ -9,7 +9,9 @@ export const mongo = {
       return;
     }
     try {
-      await mongoose.connect(encodeURI(process.env.MG_DATABASE_URL));
+      await mongoose.connect(encodeURI(process.env.MG_DATABASE_URL), {
+        useNewUrlParser: true,
+      });
       // eslint-disable-next-line no-console
       console.info("Successfully connected to MongoDB!");
     } catch (error) {

@@ -1,5 +1,9 @@
 import { type UserDTO } from "../../types";
-import { type ClassResponseDTO, type IClassService } from "./classService";
+import type {
+  StudentResponseDTO,
+  ClassResponseDTO,
+  IClassService,
+} from "./classService";
 import { type SchoolResponseDTO } from "./schoolService";
 import { type TestResponseDTO } from "./testService";
 
@@ -81,7 +85,7 @@ export interface ResultRequestDTO {
  */
 export interface ResultResponseDTO {
   /** the id of the student */
-  student: string;
+  student: StudentResponseDTO;
   /** the score of the student */
   score: number;
   /**

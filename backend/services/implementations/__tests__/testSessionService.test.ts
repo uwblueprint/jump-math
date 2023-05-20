@@ -19,6 +19,7 @@ import {
   mockTestSessionsWithOneValid,
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
+  mockGradedTestResultResponse,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -129,7 +130,7 @@ describe("mongo testSessionService", (): void => {
     const res = await testSessionService.getAllTestSessions();
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
-      mockTestSession.results,
+      mockTestSessionWithId.results,
       res[0].results,
     );
   });
@@ -140,7 +141,10 @@ describe("mongo testSessionService", (): void => {
       savedTestSession.id,
     );
     assertResponseMatchesExpected(mockTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSessionWithId.results,
+      res.results,
+    );
   });
 
   it("get test sessions by access code for valid code", async () => {
@@ -149,7 +153,10 @@ describe("mongo testSessionService", (): void => {
       mockTestSession.accessCode,
     );
     assertResponseMatchesExpected(mockTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSessionWithId.results,
+      res.results,
+    );
   });
 
   it("get test sessions by access code for invalid code", async () => {
@@ -200,7 +207,7 @@ describe("mongo testSessionService", (): void => {
     );
     assertResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
     assertResultsResponseMatchesExpected(
-      mockTestSessionsWithOneValid[1].results,
+      mockTestSessionWithId.results,
       res.results,
     );
   });
@@ -212,7 +219,7 @@ describe("mongo testSessionService", (): void => {
     );
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
-      mockTestSession.results,
+      mockTestSessionWithId.results,
       res[0].results,
     );
   });
@@ -236,7 +243,7 @@ describe("mongo testSessionService", (): void => {
     // assert
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
-      mockTestSession.results,
+      mockTestSessionWithId.results,
       res[0].results,
     );
   });
@@ -261,7 +268,7 @@ describe("mongo testSessionService", (): void => {
         testSession,
       );
       assertResultsResponseMatchesExpected(
-        mockTestSessionsWithSameTestId[i].results,
+        mockTestSessionWithId.results,
         testSession.results,
       );
     });
@@ -354,7 +361,10 @@ describe("mongo testSessionService", (): void => {
       updatedTestSession,
     );
     assertResponseMatchesExpected(updatedTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSessionWithId.results,
+      res.results,
+    );
   });
 
   it("updateTestSession for non-existing ID", async () => {
@@ -374,7 +384,7 @@ describe("mongo testSessionService", (): void => {
 
     assertResponseMatchesExpected(mockTestSession, res);
     assertResultsResponseMatchesExpected(
-      [mockGradedTestResult, mockGradedTestResult],
+      [mockGradedTestResultResponse, mockGradedTestResultResponse],
       res.results,
     );
   });

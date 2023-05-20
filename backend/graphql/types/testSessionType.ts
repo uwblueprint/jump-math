@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 const testSessionType = gql`
   type ResultResponseDTO {
-    student: String!
+    student: StudentResponseDTO!
     score: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
