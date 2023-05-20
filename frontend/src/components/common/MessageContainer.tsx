@@ -10,6 +10,7 @@ interface MessageContainerProps {
   paragraphs: string[];
   subtitle: string;
   textColor: string;
+  buttonComponent?: React.ReactElement;
 }
 
 const MessageContainer = ({
@@ -20,6 +21,7 @@ const MessageContainer = ({
   paragraphs,
   textColor,
   subtitle,
+  buttonComponent,
 }: MessageContainerProps): React.ReactElement => {
   const history = useHistory();
   return (
@@ -46,7 +48,7 @@ const MessageContainer = ({
           {paragraph}
         </Text>
       ))}
-      {buttonText && (
+      {buttonText && !buttonComponent && (
         <Button
           mt={10}
           onClick={() => history.push(buttonRoute)}
@@ -56,6 +58,7 @@ const MessageContainer = ({
           {buttonText}
         </Button>
       )}
+      {buttonComponent && <>{buttonComponent}</>}
     </Container>
   );
 };

@@ -3,6 +3,9 @@ export type Role = "Admin" | "Teacher" | "Student";
 export enum TabEnum {
   ADMIN,
   TEACHER,
+}
+
+export enum TabEnumClassroom {
   ACTIVE,
   ARCHIVED,
 }

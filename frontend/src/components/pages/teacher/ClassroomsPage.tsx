@@ -1,31 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Box,
   Center,
   Grid,
   GridItem,
-  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
-import { TabEnum } from "../../../types/AuthTypes";
+import { TabEnumClassroom } from "../../../types/AuthTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
-import MessageContainerClassroom from "../../common/MessageContainerClassroom";
+import HeaderWithButton from "../../common/HeaderWithButton";
+import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
+import usePaginatedData from "../../common/table/usePaginatedData";
 import AddClassroomModal from "../../user-management/student/AddClassroomModal";
 
 const ClassroomsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
-  const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ACTIVE);
+  const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
+    TabEnumClassroom.ACTIVE,
+  );
   const methods = useForm();
 
   const classrooms = [
@@ -110,33 +112,26 @@ const ClassroomsPage = (): React.ReactElement => {
       activeAssessments: 200,
     },
   ];
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalItems = classrooms.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-  const itemsToShow = classrooms.slice(startIndex, endIndex);
+  const {
+    paginatedData,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = usePaginatedData(classrooms, 8);
 
-  const handleTabChange = (index: TabEnum) => {
+  const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
   };
 
   return (
     <FormProvider {...methods}>
       <Box>
-        <HStack justifyContent="space-between">
-          <Text
-            color="blue.300"
-            marginBottom="0.5em"
-            style={{ textAlign: "left" }}
-            textStyle="header4"
-          >
-            Classroom
-          </Text>
-          {classrooms.length === 0 && <AddClassroomModal />}
-        </HStack>
+        <HeaderWithButton
+          buttonComponent={<AddClassroomModal />}
+          showButton={classrooms.length !== 0}
+          title="Classroom"
+        />
       </Box>
       <Box flex="1">
         {classrooms.length !== 0 ? (
@@ -149,7 +144,7 @@ const ClassroomsPage = (): React.ReactElement => {
               <TabPanels>
                 <TabPanel padding="0">
                   <Grid gap={4} templateColumns="repeat(4, 1fr)">
-                    {itemsToShow.map((classroom) => (
+                    {paginatedData.map((classroom) => (
                       <GridItem key={classroom.id} flex="1" paddingTop="4">
                         <ClassroomCard
                           key={classroom.id}
@@ -192,7 +187,8 @@ const ClassroomsPage = (): React.ReactElement => {
             minWidth="100%"
             pb={14}
           >
-            <MessageContainerClassroom
+            <MessageContainer
+              buttonComponent={<AddClassroomModal />}
               image={DisplayAssessmentsIllustration}
               paragraphs={[
                 "Click on the below button to create your first classroom",
