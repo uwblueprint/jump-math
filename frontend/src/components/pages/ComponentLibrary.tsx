@@ -1,6 +1,6 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, Center, HStack } from "@chakra-ui/react";
+import { Box, Center, HStack, useDisclosure } from "@chakra-ui/react";
 
 import type { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
 import { Grade } from "../../APIClients/types/UserClientTypes";
@@ -77,6 +77,7 @@ const MOCK_DATA: QuestionComponentResponse[] = [
 ];
 
 const ComponentLibrary = (): React.ReactElement => {
+  const { onClose, isOpen } = useDisclosure();
   const methods = useForm<ClassroomForm>({
     defaultValues,
     mode: "onChange",
@@ -103,7 +104,7 @@ const ComponentLibrary = (): React.ReactElement => {
           name="Sorting and Classifying"
           studentCount={14}
         />
-        <AddClassroomModal />
+        <AddClassroomModal isOpen={isOpen} onClose={onClose} />
         <AddStudentModal />
       </HStack>
       <Center>

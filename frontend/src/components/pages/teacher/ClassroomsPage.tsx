@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Box,
@@ -29,6 +29,8 @@ const ClassroomsPage = (): React.ReactElement => {
     TabEnumClassroom.ACTIVE,
   );
   const methods = useForm();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const classrooms = [
     {
@@ -124,11 +126,16 @@ const ClassroomsPage = (): React.ReactElement => {
     setTabIndex(index);
   };
 
+  const handleAddClassroom = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <FormProvider {...methods}>
       <Box>
         <HeaderWithButton
-          buttonComponent={<AddClassroomModal />}
+          buttonText="Add New Classroom"
+          onClick={handleAddClassroom}
           showButton={classrooms.length !== 0}
           title="Classroom"
         />
@@ -136,6 +143,10 @@ const ClassroomsPage = (): React.ReactElement => {
       <Box flex="1">
         {classrooms.length !== 0 ? (
           <>
+            <AddClassroomModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
             <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
               <TabList>
                 <Tab color={unselectedTabColor}>Active</Tab>
@@ -180,23 +191,30 @@ const ClassroomsPage = (): React.ReactElement => {
             </Tabs>
           </>
         ) : (
-          <Center
-            backgroundColor="blue.50"
-            borderRadius="1rem"
-            color="blue.300"
-            minWidth="100%"
-            pb={14}
-          >
-            <MessageContainer
-              buttonComponent={<AddClassroomModal />}
-              image={DisplayAssessmentsIllustration}
-              paragraphs={[
-                "Click on the below button to create your first classroom",
-              ]}
-              subtitle="You currently have no classrooom."
-              textColor="blue.300"
+          <>
+            <AddClassroomModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
             />
-          </Center>
+            <Center
+              backgroundColor="blue.50"
+              borderRadius="1rem"
+              color="blue.300"
+              minWidth="100%"
+              pb={14}
+            >
+              <MessageContainer
+                buttonText="Add New Classroom"
+                image={DisplayAssessmentsIllustration}
+                onClick={handleAddClassroom}
+                paragraphs={[
+                  "Click on the below button to create your first classroom",
+                ]}
+                subtitle="You currently have no classrooom."
+                textColor="blue.300"
+              />
+            </Center>
+          </>
         )}
       </Box>
     </FormProvider>

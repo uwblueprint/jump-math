@@ -11,7 +11,6 @@ type HeaderWithButtonProps = {
   showButton?: boolean;
   targetRoute?: string;
   title?: string;
-  buttonComponent?: React.ReactElement;
 };
 
 const HeaderWithButton = ({
@@ -21,7 +20,6 @@ const HeaderWithButton = ({
   showButton = true,
   targetRoute,
   title,
-  buttonComponent,
 }: HeaderWithButtonProps): React.ReactElement => {
   const history = useHistory();
 
@@ -31,7 +29,7 @@ const HeaderWithButton = ({
         <Text color="blue.300" mb="0.5em" textAlign="left" textStyle="header4">
           {title}
         </Text>
-        {showButton && !buttonComponent && (
+        {showButton && (
           <Button
             mt={10}
             onClick={targetRoute ? () => history.push(targetRoute) : onClick}
@@ -41,7 +39,6 @@ const HeaderWithButton = ({
             {buttonText}
           </Button>
         )}
-        {showButton && buttonComponent && <>{buttonComponent}</>}
       </HStack>
     </Box>
   );

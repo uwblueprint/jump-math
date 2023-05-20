@@ -36,7 +36,15 @@ import Toast from "../../common/Toast";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
-const AddClassroomModal = (): React.ReactElement => {
+type AddClassroomModalProps = {
+  onClose: () => void;
+  isOpen: boolean;
+};
+
+const AddClassroomModal = ({
+  onClose,
+  isOpen,
+}: AddClassroomModalProps): React.ReactElement => {
   const {
     handleSubmit,
     watch,
@@ -44,7 +52,7 @@ const AddClassroomModal = (): React.ReactElement => {
     formState: { errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
-  const { onOpen, onClose, isOpen } = useDisclosure();
+  const { onOpen } = useDisclosure();
   const [showRequestError, setShowRequestError] = useState(false);
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
@@ -122,14 +130,6 @@ const AddClassroomModal = (): React.ReactElement => {
 
   return (
     <>
-      <Button
-        my={2}
-        onClick={onOpen}
-        rightIcon={<PlusOutlineIcon />}
-        variant="primary"
-      >
-        Add New Classroom
-      </Button>
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
         <ModalOverlay />
         <ModalContent borderRadius="12px" maxW="80vw" p={2}>
