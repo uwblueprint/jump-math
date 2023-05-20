@@ -14,8 +14,8 @@ import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../NotFound";
 
-import AssessmentExperiencePage from "./AssessmentExperiencePage";
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
+import WriteAssessmentPage from "./WriteAssessmentPage";
 
 const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{
@@ -78,9 +78,9 @@ const StudentRouting = (): React.ReactElement => {
             roles={["Student"]}
           />
           <PrivateRoute
-            component={AssessmentExperiencePage}
+            component={WriteAssessmentPage}
             exact
-            path={Routes.ASSESSMENT_EXPERIENCE_PAGE}
+            path={Routes.WRITE_ASSESSMENT_PAGE}
             roles={["Student"]}
           />
           <Redirect
