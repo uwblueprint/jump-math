@@ -58,6 +58,12 @@ const testSessionResolvers = {
     ): Promise<TestSessionResponseDTO> => {
       return testSessionService.createTestSession(testSession);
     },
+    deleteTestSession: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<string> => {
+      return testSessionService.deleteTestSession(id);
+    },
   },
 };
 export default testSessionResolvers;

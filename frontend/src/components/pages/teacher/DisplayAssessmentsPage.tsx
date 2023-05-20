@@ -49,8 +49,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const formattedData = useMemo(() => {
     const now = new Date();
     return data?.testSessionsByTeacherId?.map(
-      ({ startDate, endDate, test, class: classroom, ...session }) => ({
+      ({ id, startDate, endDate, test, class: classroom, ...session }) => ({
         ...session,
+        testSessionId: id,
         testName: test.name,
         classroomName: classroom.className,
         status: getSessionStatus(startDate, endDate, now),
@@ -112,7 +113,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               {STATUSES.map((status) => (
                 <TabPanel key={status} pl={0} pr={0}>
                   {paginatedData?.map((session) => (
-                    <TestSessionListItem key={session.id} {...session} />
+                    <TestSessionListItem
+                      key={session.testSessionId}
+                      {...session}
+                    />
                   ))}
                 </TabPanel>
               ))}
