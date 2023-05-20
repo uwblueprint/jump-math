@@ -42,7 +42,7 @@ const isCompleted = (
 ): boolean =>
   value?.length >= prevAnswers[currentQuestionIndex].elements.length;
 
-export const updatedAnswer = (
+export const getUpdatedAnswer = (
   answerIndex: number,
   currentQuestionIndex: number,
   value: number[] | undefined,
