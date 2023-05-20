@@ -2,14 +2,14 @@ import { gql } from "apollo-server-express";
 
 const testSessionType = gql`
   type ResultResponseDTO {
-    student: String!
+    student: ID!
     score: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
 
   input ResultRequestDTO {
-    student: String!
+    student: ID!
     answers: [[[Float]]]!
   }
 
