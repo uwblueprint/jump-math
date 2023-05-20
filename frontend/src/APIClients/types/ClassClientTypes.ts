@@ -2,7 +2,7 @@ import type { Grade, UserResponse } from "./UserClientTypes";
 
 export type ClassRequest = {
   className: string;
-  schoolYear: number;
+  startDate: number;
   gradeLevel: Grade;
   teacher: string;
 };
@@ -10,7 +10,7 @@ export type ClassRequest = {
 export type ClassResponse = {
   id: string;
   className: string;
-  schoolYear: number;
+  startDate: number;
   gradeLevel: Grade;
   teacher: UserResponse;
 };

@@ -16,7 +16,7 @@ import MobileRedirect from "./MobileRedirect";
 
 const defaultValues = {
   className: "",
-  schoolYear: "",
+  startDate: "",
   gradeLevel: Grade.K,
 } as ClassroomForm;
 

@@ -44,13 +44,13 @@ export const testStudentsWithIds: StudentResponseDTO[] = [
 export const testClass: ClassRequestDTO[] = [
   {
     className: "class1",
-    schoolYear: 4,
+    startDate: 4,
     gradeLevel: Grade.K,
     teacher: mockTeacher.id,
   },
   {
     className: "class2",
-    schoolYear: 5,
+    startDate: 5,
     gradeLevel: Grade.GRADE_4,
     teacher: mockTeacher.id,
   },
@@ -69,14 +69,14 @@ export const testClassWithStudents = {
 
 export const updatedTestClass: ClassRequestDTO = {
   className: "class1changed",
-  schoolYear: 4,
+  startDate: 4,
   gradeLevel: Grade.GRADE_5,
   teacher: mockTeacher.id,
 };
 
 export const updatedTestClassWithStudent = {
   className: "class1",
-  schoolYear: 4,
+  startDate: 4,
   gradeLevel: Grade.GRADE_1,
   teacher: mockTeacher.id,
   students: updatedTestStudents,

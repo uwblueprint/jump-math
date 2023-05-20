@@ -66,7 +66,7 @@ const AddClassroomModal = (): React.ReactElement => {
       return false;
     }
 
-    if (!watch("schoolYear") || !!errors.schoolYear) {
+    if (!watch("startDate") || !!errors.startDate) {
       return false;
     }
 
@@ -78,7 +78,7 @@ const AddClassroomModal = (): React.ReactElement => {
 
   const onModalClose = () => {
     setValue("className", "");
-    setValue("schoolYear", "");
+    setValue("startDate", "");
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
@@ -97,7 +97,7 @@ const AddClassroomModal = (): React.ReactElement => {
         variables: {
           classObj: {
             ...data,
-            schoolYear: parseInt(data.schoolYear, 10),
+            startDate: parseInt(data.startDate, 10),
             teacher: authenticatedUser?.id,
           },
         },
@@ -158,10 +158,10 @@ const AddClassroomModal = (): React.ReactElement => {
                   <FormLabel color="blue.300">School Year</FormLabel>
                   <Input
                     defaultValue="2023"
-                    onChange={(e) => handleChange(e, "schoolYear")}
+                    onChange={(e) => handleChange(e, "startDate")}
                     placeholder="Type in School Year"
                     type="number"
-                    value={watch("schoolYear")}
+                    value={watch("startDate")}
                   />
                 </VStack>
               </HStack>

@@ -54,7 +54,7 @@ class ClassService implements IClassService {
     return {
       id: newClass.id,
       className: newClass.className,
-      schoolYear: newClass.schoolYear,
+      startDate: newClass.startDate,
       gradeLevel: newClass.gradeLevel,
       teacher: teacherDTO,
       testSessions: [],
@@ -142,7 +142,7 @@ class ClassService implements IClassService {
         return {
           id: classObj.id,
           className: classObj.className,
-          schoolYear: classObj.schoolYear,
+          startDate: classObj.startDate,
           gradeLevel: classObj.gradeLevel,
           teacher: teacherDTO,
           testSessions: testSessionDTOs,
