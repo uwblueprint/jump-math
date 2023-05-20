@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import gql from "graphql-tag";
 
 const testType = gql`
   enum QuestionComponentTypeEnum {
@@ -50,8 +50,6 @@ const testType = gql`
   type TextMetadata {
     text: String!
   }
-
-  scalar FileUpload
 
   input ImageMetadataRequestInput {
     file: FileUpload
@@ -135,6 +133,7 @@ const testType = gql`
     curriculumCountry: String!
     curriculumRegion: String!
     status: StatusEnum!
+    updatedAt: Date!
   }
 
   input TestRequestDTO {

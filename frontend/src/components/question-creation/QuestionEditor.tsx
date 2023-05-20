@@ -3,7 +3,7 @@ import { Flex } from "@chakra-ui/react";
 
 import AssessmentContext from "../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { QuestionElement } from "../../types/QuestionTypes";
+import type { QuestionElement } from "../../types/QuestionTypes";
 
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";

@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from "react";
+import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
 import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
@@ -6,18 +7,16 @@ import update from "immutability-helper";
 
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
-import {
+import type { DragQuestionItem } from "../../types/DragTypes";
+import { DragTypes } from "../../types/DragTypes";
+import type {
   ImageMetadataRequest,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import {
-  MultiData,
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import type { MultiData, QuestionElement } from "../../types/QuestionTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
 import ImageElement from "./question-elements/ImageElement";
@@ -135,7 +134,7 @@ const QuestionElementItem = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

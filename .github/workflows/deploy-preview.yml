@@ -4,9 +4,9 @@
 name: Deploy frontend to Firebase Hosting Preview Channel
 
 on:
-  pull_request:
-    paths:
-      - 'frontend/**'
+  # pull_request_target grants read/write permissions, needed by
+  # the firebase deployment action
+  # this is safe because we explicitly disable running checks on forks
   pull_request_target:
     paths:
       - 'frontend/**'

@@ -1,13 +1,14 @@
-import { AlertProps } from "@chakra-ui/react";
+import type { AlertProps, ComponentStyleConfig } from "@chakra-ui/react";
+import type { PartsStyleObject } from "@chakra-ui/theme-tools";
 
-const Alert = {
+const Alert: Partial<ComponentStyleConfig> = {
   baseStyle: {
     container: {
       textStyle: "mobileSubtitle1",
     },
   },
   variants: {
-    "top-accent": (props: AlertProps) => {
+    "top-accent": (props: AlertProps): PartsStyleObject => {
       const { status } = props;
       if (status === "error") {
         return {
@@ -23,7 +24,7 @@ const Alert = {
       }
       return {};
     },
-    "no-background": (props: AlertProps) => {
+    "no-background": (props: AlertProps): PartsStyleObject => {
       const { status } = props;
       if (status === "error") {
         return {
@@ -46,8 +47,8 @@ const Alert = {
       },
     },
     errorToast: {
-      fontWeight: "400",
       container: {
+        fontWeight: "400",
         margin: "4",
         backgroundColor: "red.50",
         color: "red.200",

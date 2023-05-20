@@ -1,4 +1,4 @@
 {
-    "ext": "ts,js,json",
+    "ext": "ts,js,cjs,json",
     "exec": "ts-node -r dotenv/config server"
 }

@@ -52,12 +52,8 @@ const AdminSignupConfirmation = ({
   );
 
   useEffect(() => {
-    const handleResetPassword = async () => {
-      await resetPasswordCode({ variables: { email } });
-    };
-
-    handleResetPassword();
-  }, [email]);
+    resetPasswordCode({ variables: { email } });
+  }, [email, resetPasswordCode]);
 
   const subtitle =
     step === 1

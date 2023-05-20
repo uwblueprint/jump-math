@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UseFormSetValue } from "react-hook-form";
+import type { UseFormSetValue } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
-import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import FormError from "../../common/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 

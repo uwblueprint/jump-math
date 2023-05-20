@@ -12,7 +12,7 @@ import {
 
 import { EditOutlineIcon, UploadOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { ImageMetadataRequest } from "../../../types/QuestionMetadataTypes";
+import type { ImageMetadataRequest } from "../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxFileSize,
   updatedQuestionElement,
@@ -64,7 +64,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         error,
       );
     });
-  }, [imageMetadataRequest]);
+  }, [imageMetadataRequest, setQuestionElements, error, id]);
 
   return (
     <Flex pb={6} w="100%">

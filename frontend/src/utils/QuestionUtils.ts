@@ -1,16 +1,16 @@
-import React from "react";
-import { DropTargetMonitor } from "react-dnd";
+import type React from "react";
+import type { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
 import { v4 as uuidv4 } from "uuid";
 
-import {
+import type {
   QuestionComponentRequest,
   QuestionComponentResponse,
 } from "../APIClients/types/TestClientTypes";
-import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
-import { DragQuestionItem } from "../types/DragTypes";
-import {
+import type { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
+import type { DragQuestionItem } from "../types/DragTypes";
+import type {
   ImageMetadata,
   ImageMetadataRequest,
   MultipleChoiceMetadata,
@@ -19,12 +19,14 @@ import {
   ShortAnswerMetadata,
   TextMetadata,
 } from "../types/QuestionMetadataTypes";
-import {
+import type {
   MultiData,
   MultiOptionData,
   Question,
   QuestionElement,
   QuestionElementDataType,
+} from "../types/QuestionTypes";
+import {
   QuestionElementType,
   ResponseElementType,
 } from "../types/QuestionTypes";

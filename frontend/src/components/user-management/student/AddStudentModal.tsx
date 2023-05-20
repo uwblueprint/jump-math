@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
-import { SubmitHandler, useFormContext } from "react-hook-form";
+import React, { useState } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
   Button,
@@ -20,9 +21,9 @@ import {
 } from "@chakra-ui/react";
 
 import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
-import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
+import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
-import { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
+import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import Toast from "../../common/Toast";
@@ -72,7 +73,7 @@ const AddStudentModal = (): React.ReactElement => {
     onClose();
   };
 
-  const onConfirm: SubmitHandler<StudentForm> = async (data) => {
+  const onConfirm: SubmitHandler<StudentForm> = async () => {
     if (!validateFields()) {
       setErrorMessage(
         "Please ensure all required components are filled out before saving changes",

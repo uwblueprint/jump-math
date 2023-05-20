@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Prompt, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, VStack } from "@chakra-ui/react";
@@ -11,12 +12,15 @@ import {
   DELETE_TEST,
   UPDATE_TEST,
 } from "../../../APIClients/mutations/TestMutations";
-import { Test, TestRequest } from "../../../APIClients/types/TestClientTypes";
+import type {
+  Test,
+  TestRequest,
+} from "../../../APIClients/types/TestClientTypes";
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
-import { Question } from "../../../types/QuestionTypes";
+import type { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../assessments/assessment-creation/AssessmentEditorHeader";
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
@@ -56,7 +60,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     setValue,
     watch,
     clearErrors,
-  } = useForm<TestRequest>({
+  } = useForm<TestRequest, unknown>({
     defaultValues: {
       name: state?.name,
       questions: state?.questions,
@@ -207,6 +211,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 onDelete={onDeleteTest}
                 onError={onError}
                 onSave={state ? onSaveChanges : onSave}
+                updatedAt={state?.updatedAt}
                 validateForm={validateForm}
               />
               <VStack spacing="8" width="92%">

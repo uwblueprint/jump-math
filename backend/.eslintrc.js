@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "@typescript-eslint/consistent-type-imports": "error",
   },
   ignorePatterns: ["build/"],
 };

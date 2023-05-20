@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
+import type { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
 import ShortAnswerModal from "./ShortAnswerModal";

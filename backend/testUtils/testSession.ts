@@ -1,10 +1,12 @@
-import MgTestSession, { Result } from "../models/testSession.model";
-import {
+import type { Result } from "../models/testSession.model";
+import MgTestSession from "../models/testSession.model";
+import type {
   ResultRequestDTO,
   ResultResponseDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
+import { mockClassWithId, mockClassWithId2 } from "./class";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
@@ -56,6 +58,7 @@ export const mockTestSession: TestSessionDTO = {
   test: mockTestWithId.id,
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
+  class: mockClassWithId.id,
   results: [mockGradedTestResult],
   accessCode: "1234",
   startDate: new Date("2021-09-01T09:00:00.000Z"),
@@ -69,6 +72,7 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea95",
     school: "62c248c0f79d6c3c9ebbea97",
+    class: mockClassWithId.id,
     results: [mockGradedTestResult],
     accessCode: "789",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
@@ -78,6 +82,7 @@ export const mockTestSessionsWithSameTestId: TestSessionDTO[] = [
     test: "62c248c0f79d6c3c9ebbea95",
     teacher: "62c248c0f79d6c3c9ebbea94",
     school: "62c248c0f79d6c3c9ebbea93",
+    class: mockClassWithId2.id,
     results: [mockGradedTestResult],
     accessCode: "1234",
     startDate: new Date("2021-09-01T09:00:00.000Z"),
@@ -157,6 +162,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   test: mockTestWithId,
   teacher: mockTeacher,
   school: mockSchoolWithId,
+  class: { ...mockClassWithId, teacher: mockTeacher, testSessions: [] },
 };
 
 export const mockTestSessions: TestSessionDTO[] = [

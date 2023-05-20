@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Container, Image, Text } from "@chakra-ui/react";
 
 interface MessageContainerProps {
+  buttonIcon?: React.ReactElement;
   buttonRoute?: string;
   buttonText?: string;
   image: string;
@@ -12,6 +13,7 @@ interface MessageContainerProps {
 }
 
 const MessageContainer = ({
+  buttonIcon,
   buttonRoute = "",
   buttonText,
   image,
@@ -48,6 +50,7 @@ const MessageContainer = ({
         <Button
           mt={10}
           onClick={() => history.push(buttonRoute)}
+          rightIcon={buttonIcon}
           variant="primary"
         >
           {buttonText}

@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { VERIFY_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
-import { Role } from "../../../types/AuthTypes";
+import type { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import SetNewPassword from "../reset-password/SetNewPassword";
 
@@ -42,12 +42,8 @@ const ResetPasswordHandler = ({
   );
 
   useEffect(() => {
-    const handleResetPassword = async () => {
-      await verifyPasswordReset({ variables: { oobCode } });
-    };
-
-    handleResetPassword();
-  }, [oobCode]);
+    verifyPasswordReset({ variables: { oobCode } });
+  }, [oobCode, verifyPasswordReset]);
 
   return (
     <>

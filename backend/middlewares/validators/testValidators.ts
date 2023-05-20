@@ -1,7 +1,5 @@
-import {
-  QuestionComponent,
-  QuestionComponentType,
-} from "../../types/questionTypes";
+import type { QuestionComponent } from "../../types/questionTypes";
+import { QuestionComponentType } from "../../types/questionTypes";
 import { validateArray, validatePrimitive } from "./util";
 
 const questionsValidator = (questions: QuestionComponent[][]): boolean => {

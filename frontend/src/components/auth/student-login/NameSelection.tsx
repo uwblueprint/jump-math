@@ -7,21 +7,22 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
-import { Select, SingleValue } from "chakra-react-select";
+import type { SingleValue } from "chakra-react-select";
+import { Select } from "chakra-react-select";
 
 import { GET_CLASS_BY_TEST_SESSION } from "../../../APIClients/queries/ClassQueries";
-import { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
-import { TestSessionMetadata } from "../../../APIClients/types/TestSessionClientTypes";
+import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
+import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { HOME_PAGE, STUDENT_LANDING_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import { StudentOption } from "../../../types/SelectInputTypes";
+import type { StudentOption } from "../../../types/SelectInputTypes";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 interface NameSelectionProps {
   testId: string;
-  testSession: TestSessionMetadata;
+  testSession: TestSessionSetupData;
 }
 
 const NameSelection = ({

@@ -4,7 +4,7 @@ import countryList from "react-select-country-list";
 import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import {
+import type {
   TeacherInput,
   TeacherSignupForm,
   TeacherSignupProps,

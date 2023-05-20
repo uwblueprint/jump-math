@@ -1,21 +1,22 @@
 import mongoose from "mongoose";
-import MgTest, { AssessmentStatus, Test } from "../../models/test.model";
-import {
+import type { Test } from "../../models/test.model";
+import MgTest, { AssessmentStatus } from "../../models/test.model";
+import type {
   TestRequestDTO,
   TestResponseDTO,
   ITestService,
 } from "../interfaces/testService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import IImageUploadService from "../interfaces/imageUploadService";
+import type IImageUploadService from "../interfaces/imageUploadService";
 import ImageUploadService from "./imageUploadService";
-import {
+import type {
   QuestionComponentRequest,
   QuestionComponent,
-  QuestionComponentType,
   BaseQuestionComponent,
 } from "../../types/questionTypes";
-import {
+import { QuestionComponentType } from "../../types/questionTypes";
+import type {
   ImageMetadata,
   ImageMetadataRequest,
   ImageMetadataTypes,
@@ -71,6 +72,7 @@ class TestService implements ITestService {
       curriculumRegion: newTest.curriculumRegion,
       assessmentType: newTest.assessmentType,
       status: newTest.status,
+      updatedAt: newTest.updatedAt,
     };
   }
 
@@ -82,6 +84,15 @@ class TestService implements ITestService {
       }
       if (testToDelete.status === AssessmentStatus.DRAFT) {
         await MgTest.findByIdAndDelete(id);
+        try {
+          await this.deleteImages(testToDelete.questions);
+        } catch (imageError) {
+          Logger.error(
+            `Failed to delete test images. Reason = ${getErrorMessage(
+              imageError,
+            )}`,
+          );
+        }
       } else {
         await MgTest.findByIdAndUpdate(
           id,
@@ -141,6 +152,7 @@ class TestService implements ITestService {
       curriculumRegion: updatedTest.curriculumRegion,
       assessmentType: updatedTest.assessmentType,
       status: updatedTest.status,
+      updatedAt: updatedTest.updatedAt,
     };
   }
 
@@ -216,6 +228,7 @@ class TestService implements ITestService {
       }
       // eslint-disable-next-line no-underscore-dangle
       test._id = new mongoose.Types.ObjectId();
+      test.name += " [COPY]";
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
@@ -266,6 +279,7 @@ class TestService implements ITestService {
       curriculumRegion: unarchivedTest.curriculumRegion,
       assessmentType: unarchivedTest.assessmentType,
       status: unarchivedTest.status,
+      updatedAt: unarchivedTest.updatedAt,
     };
   }
 
@@ -322,6 +336,7 @@ class TestService implements ITestService {
           curriculumRegion: test.curriculumRegion,
           assessmentType: test.assessmentType,
           status: test.status,
+          updatedAt: test.updatedAt,
         };
       }),
     );

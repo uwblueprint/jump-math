@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { DeleteOutlineIcon } from "../../../../../assets/icons";
-import { MultiOptionData } from "../../../../../types/QuestionTypes";
+import type { MultiOptionData } from "../../../../../types/QuestionTypes";
 import {
   exceedsMaxLength,
   updatedMultiOption,

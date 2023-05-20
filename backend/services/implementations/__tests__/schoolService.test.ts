@@ -10,7 +10,7 @@ import {
   updatedTestSchool,
 } from "../../../testUtils/school";
 import UserService from "../userService";
-import { SchoolResponseDTO } from "../../interfaces/schoolService";
+import type { SchoolResponseDTO } from "../../interfaces/schoolService";
 import { testUsers } from "../../../testUtils/users";
 
 jest.mock("firebase-admin", () => {

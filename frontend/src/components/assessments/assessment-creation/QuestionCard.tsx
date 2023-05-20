@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from "react";
+import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
@@ -20,8 +21,9 @@ import {
   HamburgerMenuIcon,
 } from "../../../assets/icons";
 import AssessmentContext from "../../../contexts/AssessmentContext";
-import { DragQuestionItem, DragTypes } from "../../../types/DragTypes";
-import { Question } from "../../../types/QuestionTypes";
+import type { DragQuestionItem } from "../../../types/DragTypes";
+import { DragTypes } from "../../../types/DragTypes";
+import type { Question } from "../../../types/QuestionTypes";
 import {
   generateQuestionCardTags,
   getQuestionTexts,
@@ -96,7 +98,7 @@ const QuestionCard = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

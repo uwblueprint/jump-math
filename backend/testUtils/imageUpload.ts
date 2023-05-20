@@ -1,7 +1,8 @@
 import fs from "fs";
+import type { ReadStream } from "fs-capacitor";
 import { v4 as uuidv4 } from "uuid";
 import { resolve } from "path";
-import {
+import type {
   ImageMetadata,
   ImageMetadataRequest,
 } from "../types/questionMetadataTypes";
@@ -11,8 +12,10 @@ export const uploadDir = "test-bucket";
 export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot.com/${uploadDir}/${filename}`;
 export const invalidImageType = "text/plain";
 
-const createReadStream = () =>
-  fs.createReadStream(resolve(__dirname, `assets/${filename}`));
+const createReadStream = (): ReadStream =>
+  fs.createReadStream(
+    resolve(__dirname, `assets/${filename}`),
+  ) as unknown as ReadStream;
 
 export const imageUpload: ImageMetadataRequest = {
   previewUrl: "data:image/png;base64,base64",

@@ -1,4 +1,4 @@
-import { Grade, UserResponse } from "./UserClientTypes";
+import type { Grade, UserResponse } from "./UserClientTypes";
 
 export type ClassRequest = {
   className: string;

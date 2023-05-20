@@ -36,6 +36,7 @@ export const GET_TEST = gql`
       curriculumCountry
       curriculumRegion
       status
+      updatedAt
     }
   }
 `;
@@ -50,6 +51,7 @@ export const GET_ALL_TESTS = gql`
       curriculumCountry
       curriculumRegion
       status
+      updatedAt
     }
   }
 `;

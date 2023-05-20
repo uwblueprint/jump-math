@@ -6,10 +6,8 @@ import {
   MultiSelectTagIcon,
   ShortAnswerTagIcon,
 } from "../../../assets/icons";
-import {
-  QuestionElementType,
-  ResponseElementType,
-} from "../../../types/QuestionTypes";
+import type { ResponseElementType } from "../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../types/QuestionTypes";
 import { removeUnderscore, titleCase } from "../../../utils/GeneralUtils";
 
 export type QuestionTagProps = {

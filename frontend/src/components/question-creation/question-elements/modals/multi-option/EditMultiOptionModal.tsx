@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import {
+import type {
   MultiData,
   QuestionElementType,
 } from "../../../../../types/QuestionTypes";

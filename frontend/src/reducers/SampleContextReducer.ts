@@ -1,4 +1,4 @@
-import {
+import type {
   SampleContextAction,
   SampleContextType,
 } from "../types/SampleContextTypes";

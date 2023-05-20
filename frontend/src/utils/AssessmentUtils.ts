@@ -1,6 +1,6 @@
 import { Grade } from "../APIClients/types/UserClientTypes";
-import { AssessmentProperties } from "../types/AssessmentTypes";
-import { GradeOption, StringOption } from "../types/SelectInputTypes";
+import type { AssessmentProperties } from "../types/AssessmentTypes";
+import type { GradeOption, StringOption } from "../types/SelectInputTypes";
 
 import {
   includesIgnoreCase,
@@ -19,6 +19,7 @@ export const getAssessments = (
     assessmentType: assessment.assessmentType,
     curriculumCountry: assessment.curriculumCountry,
     curriculumRegion: assessment.curriculumRegion,
+    updatedAt: assessment.updatedAt,
   };
 };
 

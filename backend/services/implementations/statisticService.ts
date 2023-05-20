@@ -1,9 +1,11 @@
+import type { PipelineStage } from "mongoose";
 import MgTestSession from "../../models/testSession.model";
-import {
+import type {
   IStatisticService,
   QuestionStatistic,
   TestStatistic,
 } from "../interfaces/statisticService";
+import type { GroupResultsByIdResultType } from "../../utilities/pipelineQueryUtils";
 import {
   countTestSubmissions,
   filterTestsByTestId,
@@ -21,14 +23,15 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsByCountry(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       joinSchoolIdWithSchoolDocument,
       groupResultsById("$school.country"),
     ];
 
-    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const aggCursor: GroupResultsByIdResultType[] =
+      await MgTestSession.aggregate(pipeline);
 
     return this.constructTestStatisticsByGroup(aggCursor, "country");
   }
@@ -36,7 +39,7 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsBySchool(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       groupResultsById("$school"),
@@ -49,7 +52,7 @@ class StatisticService implements IStatisticService {
 
   /* eslint-disable class-methods-use-this */
   async getSubmissionCountByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       countTestSubmissions,
@@ -61,7 +64,7 @@ class StatisticService implements IStatisticService {
   }
 
   async getMeanScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       {
@@ -78,7 +81,7 @@ class StatisticService implements IStatisticService {
   }
 
   async getMedianScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
       unwindResults,
       {
@@ -132,12 +135,12 @@ class StatisticService implements IStatisticService {
   }
 
   private constructTestStatisticsByGroup(
-    aggCursor: any[],
+    aggCursor: GroupResultsByIdResultType[],
     group: string,
   ): Map<string, TestStatistic> {
     const testStatistics = new Map<string, TestStatistic>();
 
-    aggCursor.forEach((statistic: any) => {
+    aggCursor.forEach((statistic: GroupResultsByIdResultType) => {
       let key = "";
 
       switch (group) {

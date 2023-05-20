@@ -15,7 +15,8 @@ export const ASSESSMENT_EDITOR_PAGE = "/admin/assessment-editor";
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";
 export const TEACHER_DASHBOARD_PAGE = "/teacher/dashboard";
-export const DISTRIBUTE_ASSESSMENT_PAGE = "/teacher/assessments";
+export const DISPLAY_ASSESSMENTS_PAGE = "/teacher/assessments";
+export const DISTRIBUTE_ASSESSMENT_PAGE = "/teacher/assessments/create";
 export const CLASSROOMS_PAGE = "/teacher/classrooms";
 
 // Private Student Routes

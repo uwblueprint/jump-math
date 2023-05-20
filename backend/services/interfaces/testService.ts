@@ -1,6 +1,6 @@
-import { AssessmentType, AssessmentStatus } from "../../models/test.model";
-import { Grade } from "../../types";
-import {
+import type { AssessmentType, AssessmentStatus } from "../../models/test.model";
+import type { Grade } from "../../types";
+import type {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
   QuestionComponent,
@@ -28,6 +28,8 @@ export interface BaseTestDTO<
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+  /** the time the assessment was last updated */
+  updatedAt: Date;
 }
 
 export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;

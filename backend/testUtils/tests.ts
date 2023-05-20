@@ -1,19 +1,19 @@
 import { AssessmentStatus, AssessmentType } from "../models/test.model";
-import {
+import type {
   TestRequestDTO,
   TestResponseDTO,
 } from "../services/interfaces/testService";
 import { Grade } from "../types";
-import {
+import type {
   ImageMetadata,
   ImageMetadataTypes,
 } from "../types/questionMetadataTypes";
-import {
+import type {
   BaseQuestionComponent,
   QuestionComponent,
   QuestionComponentRequest,
-  QuestionComponentType,
 } from "../types/questionTypes";
+import { QuestionComponentType } from "../types/questionTypes";
 import { imageUpload } from "./imageUpload";
 
 const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
@@ -113,6 +113,7 @@ export const mockTestRequest: TestRequestDTO = {
   curriculumCountry: "country",
   curriculumRegion: "region",
   status: AssessmentStatus.DRAFT,
+  updatedAt: new Date(),
 };
 
 export const mockTestRequest2: TestRequestDTO = {
@@ -123,6 +124,7 @@ export const mockTestRequest2: TestRequestDTO = {
   curriculumCountry: "newCountry",
   curriculumRegion: "newRegion",
   status: AssessmentStatus.PUBLISHED,
+  updatedAt: new Date(),
 };
 
 export const mockTestWithId: TestResponseDTO = {
@@ -160,9 +162,12 @@ export const mockTestArray: Array<TestResponseDTO> = [
 export const assertResponseMatchesExpected = (
   expected: TestResponseDTO,
   result: TestResponseDTO,
+  omitNameMatch = false,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.name).toEqual(expected.name);
+  if (!omitNameMatch) {
+    expect(result.name).toEqual(expected.name);
+  }
   expect(result.assessmentType).toEqual(expected.assessmentType);
   expect(result.curriculumCountry).toEqual(expected.curriculumCountry);
   expect(result.curriculumRegion).toEqual(expected.curriculumRegion);

@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import { MultiOptionData } from "../../../../../types/QuestionTypes";
+import type { MultiOptionData } from "../../../../../types/QuestionTypes";
 
 interface SelectOptionCountProps {
   optionCount: number;

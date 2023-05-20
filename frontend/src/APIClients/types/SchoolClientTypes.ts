@@ -1,4 +1,4 @@
-import { UserResponse } from "./UserClientTypes";
+import type { UserResponse } from "./UserClientTypes";
 
 export interface SchoolRequest {
   /** the name of the school */

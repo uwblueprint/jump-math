@@ -1,12 +1,12 @@
 import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import { AssessmentProperties } from "../../types/AssessmentTypes";
+import type { AssessmentProperties } from "../../types/AssessmentTypes";
 import EmptyTableState from "../common/table/EmptyTableState";
-import { FilterMenuProps } from "../common/table/FilterMenu";
+import type { FilterMenuProps } from "../common/table/FilterMenu";
 import NoResultsTableState from "../common/table/NoResultsTableState";
-import { SearchBarProps } from "../common/table/SearchBar";
-import { SortMenuProps } from "../common/table/SortMenu";
+import type { SearchBarProps } from "../common/table/SearchBar";
+import type { SortMenuProps } from "../common/table/SortMenu";
 
 interface AssessmentsTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;

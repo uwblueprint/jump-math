@@ -1,6 +1,6 @@
 import { storage } from "firebase-admin";
 
-import IFileStorageService from "../interfaces/fileStorageService";
+import type IFileStorageService from "../interfaces/fileStorageService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 

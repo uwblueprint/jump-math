@@ -1,4 +1,5 @@
-import React, { SetStateAction } from "react";
+import type { SetStateAction } from "react";
+import React from "react";
 import {
   Button,
   Popover,
@@ -11,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { FunnelIcon } from "../../../assets/icons";
-import { StringOption } from "../../../types/SelectInputTypes";
+import type { StringOption } from "../../../types/SelectInputTypes";
 
 import FilterRow from "./FilterRow";
 

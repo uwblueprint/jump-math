@@ -3,11 +3,11 @@ import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../../APIClients/queries/TestQueries";
-import { TestResponse } from "../../../../APIClients/types/TestClientTypes";
+import type { TestResponse } from "../../../../APIClients/types/TestClientTypes";
 import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
 import { formatQuestionsResponse } from "../../../../utils/QuestionUtils";
+import PopoverButton from "../../../common/PopoverButton";
 import Toast from "../../../common/Toast";
-import EditStatusButton from "../EditStatusButton";
 
 interface EditButtonProps {
   assessmentId: string;
@@ -26,7 +26,7 @@ const EditButton = ({
   const { showToast } = Toast();
 
   return (
-    <EditStatusButton
+    <PopoverButton
       name="Edit"
       onClick={async () => {
         closePopover();

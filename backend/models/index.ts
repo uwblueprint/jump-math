@@ -2,24 +2,20 @@ import mongoose from "mongoose";
 
 /* eslint-disable-next-line import/prefer-default-export */
 export const mongo = {
-  connect: (): void => {
-    mongoose.connect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      encodeURI(process.env.MG_DATABASE_URL!),
-      {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useFindAndModify: false,
-      },
-      (error) => {
-        if (error) {
-          /* eslint-disable-next-line no-console */
-          console.error(`Error connecting to MongoDB: ${error.message}`);
-        } else {
-          /* eslint-disable-next-line no-console */
-          console.info("Successfully connected to MongoDB!");
-        }
-      },
-    );
+  connect: async (): Promise<void> => {
+    if (!process.env.MG_DATABASE_URL) {
+      // eslint-disable-next-line no-console
+      console.error("MG_DATABASE_URL is not defined");
+      return;
+    }
+    try {
+      await mongoose.connect(encodeURI(process.env.MG_DATABASE_URL));
+      // eslint-disable-next-line no-console
+      console.info("Successfully connected to MongoDB!");
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      // eslint-disable-next-line no-console
+      console.error(`Error connecting to MongoDB: ${error.message}`);
+    }
   },
 };
