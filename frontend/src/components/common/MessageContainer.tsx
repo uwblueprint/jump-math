@@ -6,19 +6,19 @@ interface MessageContainerProps {
   buttonIcon?: React.ReactElement;
   buttonRoute?: string;
   buttonText?: string;
+  onClick?: () => void;
   image: string;
   paragraphs: string[];
   subtitle: string;
   textColor: string;
-  onClick?: () => void;
 }
 
 const MessageContainer = ({
   buttonIcon,
-  onClick,
   buttonRoute = "",
   buttonText,
   image,
+  onClick,
   paragraphs,
   textColor,
   subtitle,
