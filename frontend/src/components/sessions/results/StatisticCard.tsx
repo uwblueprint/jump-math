@@ -34,9 +34,7 @@ const StatisticCard = ({ title, value }: StatisticCardProps) => (
         {title}
       </Text>
     </CardBody>
-    <VisuallyHidden>
-      {value} {title}
-    </VisuallyHidden>
+    <VisuallyHidden>{`${value} ${title}`}</VisuallyHidden>
   </Card>
 );
 
