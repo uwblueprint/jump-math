@@ -16,12 +16,12 @@ type StatisticCardProps = {
 const VARIANT_STYLES = {
   blue: {
     bg: "blue.50",
-    borderWidth: 0,
+    borderColor: "blue.50",
     color: "blue.300",
   },
   default: {
     bg: "white",
-    borderWidth: 1,
+    borderColor: "grey.200",
     color: "black",
   },
 };
@@ -32,8 +32,8 @@ const StatisticCard = ({
   variant = "default",
 }: StatisticCardProps) => (
   <Card
-    borderColor="grey.200"
     borderRadius={8}
+    borderWidth={1}
     boxShadow="none"
     display="inline-flex"
     flexDirection="column"
