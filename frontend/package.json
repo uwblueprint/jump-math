@@ -46,6 +46,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-focus-lock": "^2.9.4",
     "react-hook-form": "^7.40.0",
     "react-json-schema": "^1.2.2",
     "react-jsonschema-form": "^1.8.1",

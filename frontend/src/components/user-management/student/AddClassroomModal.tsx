@@ -19,7 +19,8 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
+
+import "@fontsource/dm-sans";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -31,6 +32,7 @@ import type {
   ClassroomInput,
 } from "../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
+import { SingleDatepicker } from "../../classrooms/Calendar";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import Toast from "../../common/Toast";
