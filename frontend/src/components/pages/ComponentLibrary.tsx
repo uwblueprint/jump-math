@@ -90,6 +90,8 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <StatisticCard title="total score" value="87%" />
       <StatisticCard title="percentile" value="25th" />
+      <StatisticCard title="submissions" value="1087" variant="blue" />
+      <StatisticCard title="completion rate" value="78%" variant="blue" />
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
