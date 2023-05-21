@@ -10,7 +10,6 @@ import type {
 
 interface DayOfMonthProps extends DatepickerProps {
   renderProps: RenderProps;
-  isInRange?: boolean | null;
   disabledDates?: Set<number>;
   dateObj: DateObj;
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -25,19 +24,14 @@ const halfGap = 0.125; //default Chakra-gap-space-1 is 0.25rem
 export const DayOfMonth: React.FC<DayOfMonthProps> = ({
   dateObj,
   propsConfigs,
-  isInRange,
   disabledDates,
   renderProps,
   onMouseEnter,
 }) => {
   const { date, selected, selectable, today } = dateObj;
   const { getDateProps } = renderProps;
-  const {
-    defaultBtnProps,
-    isInRangeBtnProps,
-    selectedBtnProps,
-    todayBtnProps,
-  } = propsConfigs?.dayOfMonthBtnProps || {};
+  const { defaultBtnProps, selectedBtnProps, todayBtnProps } =
+    propsConfigs?.dayOfMonthBtnProps || {};
   const disabled = !selectable || disabledDates?.has(date.getTime());
   const styleBtnProps: DayOfMonthBtnStyleProps = useMemo(
     () => ({
@@ -73,10 +67,6 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
           },
         },
       },
-      isInRangeBtnProps: {
-        background: "purple.200",
-        ...isInRangeBtnProps,
-      },
       selectedBtnProps: {
         background: "blue.300",
         borderRadius: 20,
@@ -90,7 +80,7 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
         ...todayBtnProps,
       },
     }),
-    [defaultBtnProps, isInRangeBtnProps, selectedBtnProps, todayBtnProps],
+    [defaultBtnProps, selectedBtnProps, todayBtnProps],
   );
 
   return (
@@ -102,7 +92,6 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
       })}
       isDisabled={disabled}
       {...styleBtnProps.defaultBtnProps}
-      {...(isInRange && !disabled && styleBtnProps.isInRangeBtnProps)}
       {...(selected && !disabled && styleBtnProps.selectedBtnProps)}
       {...(today && styleBtnProps.todayBtnProps)}
     >
