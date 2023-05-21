@@ -4,7 +4,7 @@ export type ClassroomInput = "className" | "startDate" | "gradeLevel";
 
 export interface ClassroomForm {
   className: string;
-  startDate: string;
+  startDate: Date;
   gradeLevel: Grade;
 }
 

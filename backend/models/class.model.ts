@@ -12,7 +12,7 @@ export interface Class extends Document {
   /** the name of the class */
   className: string;
   /** the school year of the class */
-  startDate: number;
+  startDate: Date;
   /** the grade level of the class */
   gradeLevel: Grade;
   /** the id of the teacher that teaches the class  */
@@ -55,7 +55,7 @@ const ClassSchema: Schema = new Schema({
     required: true,
   },
   startDate: {
-    type: Number,
+    type: Date,
     required: true,
   },
   gradeLevel: {

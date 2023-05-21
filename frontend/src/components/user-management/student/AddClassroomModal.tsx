@@ -19,6 +19,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -78,7 +79,7 @@ const AddClassroomModal = (): React.ReactElement => {
 
   const onModalClose = () => {
     setValue("className", "");
-    setValue("startDate", "");
+    setValue("startDate", new Date());
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
@@ -93,11 +94,12 @@ const AddClassroomModal = (): React.ReactElement => {
       );
     } else {
       if (showRequestError) setShowRequestError(false);
+      console.log("yuh", data);
       await createClass({
         variables: {
           classObj: {
             ...data,
-            startDate: parseInt(data.startDate, 10),
+            startDate: data.startDate,
             teacher: authenticatedUser?.id,
           },
         },
@@ -155,13 +157,11 @@ const AddClassroomModal = (): React.ReactElement => {
                   />
                 </VStack>
                 <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">School Year</FormLabel>
-                  <Input
-                    defaultValue="2023"
-                    onChange={(e) => handleChange(e, "startDate")}
-                    placeholder="Type in School Year"
-                    type="number"
-                    value={watch("startDate")}
+                  <FormLabel color="blue.300">Start Date</FormLabel>
+                  <SingleDatepicker
+                    date={watch("startDate")}
+                    name="date-input"
+                    onDateChange={(date) => setValue("startDate", date)}
                   />
                 </VStack>
               </HStack>

@@ -16,7 +16,7 @@ const classType = gql`
 
   input ClassRequestDTO {
     className: String!
-    startDate: Int!
+    startDate: Date!
     gradeLevel: GradeEnum!
     teacher: String!
   }
@@ -24,7 +24,7 @@ const classType = gql`
   type ClassResponseDTO {
     id: String!
     className: String!
-    startDate: Int!
+    startDate: Date!
     gradeLevel: GradeEnum!
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
