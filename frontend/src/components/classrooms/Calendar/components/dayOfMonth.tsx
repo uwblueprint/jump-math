@@ -41,6 +41,7 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
         fontWeight: 400,
         borderRadius: 20,
         color: "grey.400",
+        width: "2rem",
         // this intends to fill the visual gap from Grid to improve the UX
         // so the button active area is actually larger than what it's seen
         ...defaultBtnProps,
@@ -74,7 +75,7 @@ export const DayOfMonth: React.FC<DayOfMonthProps> = ({
         ...selectedBtnProps,
       },
       todayBtnProps: {
-        borderColor: "grey.300",
+        borderColor: "grey.400",
         borderRadius: 20,
         border: "1px solid grey",
         ...todayBtnProps,

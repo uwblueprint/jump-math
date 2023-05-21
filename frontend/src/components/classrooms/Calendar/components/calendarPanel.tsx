@@ -100,7 +100,8 @@ export const CalendarPanel: React.FC<CalendarPanelProps> = ({
                 propsConfigs={propsConfigs}
               />
               <Heading
-                fontWeight="400"
+                color="grey.300"
+                fontWeight="500"
                 minWidth={"5rem"}
                 size="sm"
                 textAlign="center"
