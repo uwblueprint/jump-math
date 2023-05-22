@@ -44,7 +44,7 @@
     "sequelize-typescript": "^2.1.0",
     "swagger-ui-express": "^4.1.6",
     "ts-node": "^10.8.1",
-    "umzug": "^3.0.0-beta.16",
+    "umzug": "^3.2.1",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "yamljs": "^0.3.0"
