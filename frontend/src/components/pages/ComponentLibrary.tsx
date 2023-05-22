@@ -9,6 +9,7 @@ import { QuestionElementType } from "../../types/QuestionTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import DisplayQuestion from "../assessments/student-experience/Question";
 import ClassroomCard from "../classrooms/ClassroomCard";
+import StatisticCard from "../sessions/results/StatisticCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
 
@@ -87,6 +88,10 @@ const ComponentLibrary = (): React.ReactElement => {
         assessmentName="Unit 0 Review Test"
         classroomName="Mathematics 4 - Mr. Roberts"
       />
+      <StatisticCard title="total score" value="87%" />
+      <StatisticCard title="percentile" value="25th" />
+      <StatisticCard title="submissions" value="1087" variant="blue" />
+      <StatisticCard title="completion rate" value="78%" variant="blue" />
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
