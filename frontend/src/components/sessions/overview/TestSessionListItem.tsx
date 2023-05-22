@@ -10,13 +10,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { BookIcon } from "../../assets/icons";
+import { BookIcon } from "../../../assets/icons";
 import type {
   TestSessionItemStats,
   TestSessionStatus,
-} from "../../types/TestSessionTypes";
-import { formatDate } from "../../utils/GeneralUtils";
-import Copyable from "../common/Copyable";
+} from "../../../types/TestSessionTypes";
+import { formatDate } from "../../../utils/GeneralUtils";
+import Copyable from "../../common/Copyable";
 
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
