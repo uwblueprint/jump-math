@@ -119,4 +119,11 @@ export interface IClassService {
    * @throws Error if deletion fails
    */
   deleteStudent(studentId: string, classId: string): Promise<string>;
+
+  /**
+   * This method retrieves a map of student id to student
+   * @returns map of student id to student
+   * @throws Error if retrieval fails
+   */
+  getStudentIdToDTOMap(): Map<string, StudentResponseDTO>;
 }

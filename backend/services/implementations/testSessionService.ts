@@ -352,13 +352,8 @@ class TestSessionService implements ITestSessionService {
           false,
         );
 
-        const studentIdToDTO: Map<string, StudentResponseDTO> = new Map<
-          string,
-          StudentResponseDTO
-        >();
-        classDTO.students.forEach((student) => {
-          studentIdToDTO.set(student.id, student);
-        });
+        const studentIdToDTO: Map<string, StudentResponseDTO> =
+          this.classService.getStudentIdToDTOMap();
 
         return {
           id: testSession.id,

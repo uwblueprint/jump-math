@@ -40,6 +40,11 @@ export const testStudentsWithIds: StudentResponseDTO[] = [
     id: "6421bf4b8c29e57d38efc7be",
   },
 ];
+
+export const mockStudentIdToDTO: Map<string, StudentResponseDTO> = new Map(
+  testStudentsWithIds.map((student) => [student.id, student]),
+);
+
 // set up test classes
 export const testClass: ClassRequestDTO[] = [
   {

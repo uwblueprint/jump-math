@@ -8,6 +8,7 @@ import type {
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
+  StudentResponseDTO,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type {
@@ -21,6 +22,8 @@ class ClassService implements IClassService {
   userService: IUserService;
 
   testSessionService: ITestSessionService;
+
+  studentIdToDTOMap: Map<string, StudentResponseDTO> = new Map();
 
   constructor(
     userService: IUserService,
@@ -212,6 +215,13 @@ class ClassService implements IClassService {
       if (!classObj) {
         throw new Error(`Class with id ${classId} not found`);
       }
+
+      const studentId: string =
+        classObj.students[classObj.students.length - 1].id;
+      this.studentIdToDTOMap.set(studentId, {
+        ...student,
+        id: studentId,
+      });
     } catch (error: unknown) {
       Logger.error(
         `Failed to create student in class ${classId}. Reason = ${getErrorMessage(
@@ -248,6 +258,11 @@ class ClassService implements IClassService {
           `Student with id ${studentId} could not be updated for class with id ${classId}`,
         );
       }
+
+      this.studentIdToDTOMap.set(studentId, {
+        ...student,
+        id: studentId,
+      });
     } catch (error: unknown) {
       Logger.error(
         `Failed to update student. Reason = ${getErrorMessage(error)}`,
@@ -272,6 +287,8 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
+
+      this.studentIdToDTOMap.delete(studentId);
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -281,6 +298,10 @@ class ClassService implements IClassService {
       throw error;
     }
     return studentId;
+  }
+
+  getStudentIdToDTOMap(): Map<string, StudentResponseDTO> {
+    return this.studentIdToDTOMap;
   }
 }
 

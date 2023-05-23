@@ -33,6 +33,7 @@ import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
 import {
   mockClassWithId,
+  mockStudentIdToDTO,
   testClassAfterCreation,
 } from "../../../testUtils/class";
 import ClassService from "../classService";
@@ -70,6 +71,9 @@ describe("mongo testSessionService", (): void => {
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
     classService.getClassById = jest.fn().mockReturnValue(mockClassWithId);
+    classService.getStudentIdToDTOMap = jest
+      .fn()
+      .mockReturnValue(mockStudentIdToDTO);
   });
 
   afterEach(async () => {
