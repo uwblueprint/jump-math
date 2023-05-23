@@ -1,20 +1,17 @@
-import { GraphQLScalarType } from "graphql";
 import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
 import TestService from "../../services/implementations/testService";
 import SchoolService from "../../services/implementations/schoolService";
-import {
+import type {
   ITestSessionService,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
-import { ITestService } from "../../services/interfaces/testService";
-import IUserService from "../../services/interfaces/userService";
-import { ISchoolService } from "../../services/interfaces/schoolService";
-import {
-  validatePrimitive,
-  validateArray,
-} from "../../middlewares/validators/util";
+import type { ITestService } from "../../services/interfaces/testService";
+import type IUserService from "../../services/interfaces/userService";
+import type { ISchoolService } from "../../services/interfaces/schoolService";
+import ClassService from "../../services/implementations/classService";
+import type { IClassService } from "../../services/interfaces/classService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -24,25 +21,13 @@ const testSessionService: ITestSessionService = new TestSessionService(
   userService,
   schoolService,
 );
+const classService: IClassService = new ClassService(
+  userService,
+  testSessionService,
+);
+testSessionService.bindClassService(classService);
 
 const testSessionResolvers = {
-  NumberOrArrayOrNull: new GraphQLScalarType({
-    name: "NumberOrArrayOrNull",
-    description: "A Number or An Array or Null",
-    serialize(value) {
-      if (
-        typeof value === null ||
-        validatePrimitive(value, "number") ||
-        validateArray(value, "number")
-      ) {
-        return value;
-      }
-      throw new Error(
-        "The 'answers' field under 'results' must be an array containing only numbers, number arrays, and/or nulls.",
-      );
-    },
-    // parseValue and parseLiteral will need to be created for creating test sessions mutation
-  }),
   Query: {
     testSession: async (
       _parent: undefined,
@@ -59,13 +44,25 @@ const testSessionResolvers = {
     ): Promise<TestSessionResponseDTO> => {
       return testSessionService.getTestSessionByAccessCode(accessCode);
     },
+    testSessionsByTeacherId: async (
+      _parent: undefined,
+      { teacherId }: { teacherId: string },
+    ): Promise<Array<TestSessionResponseDTO>> => {
+      return testSessionService.getTestSessionsByTeacherId(teacherId);
+    },
   },
   Mutation: {
     createTestSession: async (
       _req: undefined,
-      { testSession }: { testSession: TestSessionRequestDTO },
+      { testSession }: { classId: string; testSession: TestSessionRequestDTO },
     ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.createTestSession({ ...testSession });
+      return testSessionService.createTestSession(testSession);
+    },
+    deleteTestSession: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<string> => {
+      return testSessionService.deleteTestSession(id);
     },
   },
 };

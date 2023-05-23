@@ -1,15 +1,16 @@
-import { UserDTO } from "../../types";
-import MgClass, { Class } from "../../models/class.model";
+import type { UserDTO } from "../../types";
+import type { Class } from "../../models/class.model";
+import MgClass from "../../models/class.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import {
+import type {
   IClassService,
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
 } from "../interfaces/classService";
-import IUserService from "../interfaces/userService";
-import {
+import type IUserService from "../interfaces/userService";
+import type {
   ITestSessionService,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";
@@ -32,7 +33,6 @@ class ClassService implements IClassService {
   /* eslint-disable class-methods-use-this */
   async createClass(classObj: ClassRequestDTO): Promise<ClassResponseDTO> {
     let teacherDTO: UserDTO;
-    const testSessions: TestSessionResponseDTO[] = [];
     let newClass: Class | null;
 
     try {
@@ -43,13 +43,6 @@ class ClassService implements IClassService {
         throw new Error("Teacher ID was not found");
       }
 
-      // get the test session details for each test session
-      classObj.testSessions.forEach(async (classTestSession) => {
-        testSessions.push(
-          await this.testSessionService.getTestSessionById(classTestSession),
-        );
-      });
-
       // create a new class document
       newClass = await MgClass.create({ ...classObj });
     } catch (error: unknown) {
@@ -58,19 +51,21 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-
     return {
       id: newClass.id,
       className: newClass.className,
       schoolYear: newClass.schoolYear,
       gradeLevel: newClass.gradeLevel,
       teacher: teacherDTO,
-      testSessions,
+      testSessions: [],
       students: [],
     };
   }
 
-  async getClassById(id: string): Promise<ClassResponseDTO> {
+  async getClassById(
+    id: string,
+    populateTestSessions = true,
+  ): Promise<ClassResponseDTO> {
     let classObj: Class | null;
     try {
       classObj = await MgClass.findById(id);
@@ -81,11 +76,53 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return (await this.mapClassToClassDTOs([classObj]))[0];
+    return (
+      await this.mapClassToClassDTOs([classObj], populateTestSessions)
+    )[0];
+  }
+
+  async getClassByTestSessionId(
+    testSessionId: string,
+  ): Promise<ClassResponseDTO> {
+    let classes: Class[];
+    try {
+      classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
+      if (!classes.length) {
+        throw new Error(
+          `Class with test session id ${testSessionId} not found`,
+        );
+      } else if (classes.length > 1) {
+        throw new Error(
+          `More than one class has the same Test Session of id ${testSessionId}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+    return (await this.mapClassToClassDTOs(classes))[0];
+  }
+
+  async getClassesByTeacherId(
+    teacherId: string,
+  ): Promise<Array<ClassResponseDTO>> {
+    let classes: Class[];
+    try {
+      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get classes by teacher id. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return this.mapClassToClassDTOs(classes);
   }
 
   private async mapClassToClassDTOs(
     classObjs: Array<Class>,
+    populateTestSessions = true,
   ): Promise<Array<ClassResponseDTO>> {
     const classDtos: Array<ClassResponseDTO> = await Promise.all(
       classObjs.map(async (classObj) => {
@@ -93,11 +130,14 @@ class ClassService implements IClassService {
           classObj.teacher,
         );
 
-        const testSessionIds = classObj.testSessions;
-        const testSessionPromises = testSessionIds.map((id) =>
-          this.testSessionService.getTestSessionById(id),
-        );
-        const testSessionDTOs = await Promise.all(testSessionPromises);
+        let testSessionDTOs: Array<TestSessionResponseDTO> = [];
+        if (populateTestSessions) {
+          const testSessionIds = classObj.testSessions;
+          const testSessionPromises = testSessionIds.map((id) =>
+            this.testSessionService.getTestSessionById(id),
+          );
+          testSessionDTOs = await Promise.all(testSessionPromises);
+        }
 
         return {
           id: classObj.id,
@@ -158,8 +198,8 @@ class ClassService implements IClassService {
     let classObj: Class | null;
 
     try {
-      classObj = await MgClass.findOneAndUpdate(
-        { _id: classId },
+      classObj = await MgClass.findByIdAndUpdate(
+        classId,
         {
           $push: { students: student },
         },
@@ -232,7 +272,6 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
-      return studentId;
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -241,6 +280,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
+    return studentId;
   }
 }
 

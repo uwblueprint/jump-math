@@ -1,4 +1,5 @@
-import { Grade, UserDTO } from "../types";
+import type { UserDTO } from "../types";
+import { Grade } from "../types";
 
 // set up test users to return from mock user service
 export const mockAdmin: UserDTO = {

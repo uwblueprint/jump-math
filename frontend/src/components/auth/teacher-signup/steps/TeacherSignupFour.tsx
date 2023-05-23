@@ -2,7 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import {
+import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
@@ -13,15 +13,20 @@ const TeacherSignupFour = ({
   setPage,
   handleSubmitCallback,
 }: TeacherSignupProps): React.ReactElement => {
-  const { setValue } = useFormContext<TeacherSignupForm>();
-
+  const { setValue, watch } = useFormContext<TeacherSignupForm>();
   const title = "Teacher Sign Up";
   const subtitle = "Please set a secure password for your account";
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <PasswordForm
       handleSubmitCallback={handleSubmitCallback}
-      setStep={setPage}
+      setStep={() => {
+        if (watch("school.name")) {
+          setPage(3);
+        } else {
+          setPage(2);
+        }
+      }}
       setValue={setValue}
       version="TeacherSignup"
     />

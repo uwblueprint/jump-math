@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UseFormSetValue } from "react-hook-form";
+import type { UseFormSetValue } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
-import { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
 import FormError from "../../common/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -101,7 +101,7 @@ const PasswordForm = ({
   }, [password]);
 
   return (
-    <VStack>
+    <VStack width="100%">
       {displayMatchError && (
         <FormError message="Please ensure passwords match" />
       )}
@@ -134,8 +134,8 @@ const PasswordForm = ({
           type="password"
         />
       </FormControl>
-      <HStack alignItems="top" pb={6}>
-        <VStack alignItems="left" mr={4}>
+      <HStack alignItems="top" pb={8} width="100%">
+        <VStack alignItems="left" mr={16}>
           <PasswordRequirement
             isFulfilled={minNineChars}
             requirement="minimum of 9 characters"

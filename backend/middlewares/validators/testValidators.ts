@@ -1,18 +1,8 @@
-import type { QuestionComponent } from "../../models/test.model";
+import type { QuestionComponent } from "../../types/questionTypes";
+import { QuestionComponentType } from "../../types/questionTypes";
 import { validateArray, validatePrimitive } from "./util";
 
-export enum QuestionComponentType {
-  QUESTION_TEXT,
-  TEXT,
-  IMAGE,
-  MULTIPLE_CHOICE,
-  MULTI_SELECT,
-  SHORT_ANSWER,
-}
-
-export const questionsValidator = (
-  questions: QuestionComponent[][],
-): boolean => {
+const questionsValidator = (questions: QuestionComponent[][]): boolean => {
   questions?.forEach((questionComponents: QuestionComponent[]) => {
     questionComponents?.forEach((questionComponent: QuestionComponent) => {
       if (!("type" in questionComponent)) {
@@ -47,11 +37,18 @@ export const questionsValidator = (
           throw new Error("The text field is not of type string");
         }
       } else if (questionComponent.type === QuestionComponentType.IMAGE) {
-        if (!("src" in questionComponent.metadata)) {
-          throw new Error("Image component is missing a src field");
+        if (!("url" in questionComponent.metadata)) {
+          throw new Error("Image component is missing a url field");
         }
-        if (!validatePrimitive(questionComponent.metadata.src, "string")) {
+        if (!validatePrimitive(questionComponent.metadata.url, "string")) {
           throw new Error("The src field is not of type string");
+        }
+
+        if (!("filePath" in questionComponent.metadata)) {
+          throw new Error("Image component is missing a filePath field");
+        }
+        if (!validatePrimitive(questionComponent.metadata.filePath, "string")) {
+          throw new Error("The filePath field is not of type string");
         }
       } else if (
         questionComponent.type === QuestionComponentType.MULTIPLE_CHOICE
@@ -71,9 +68,9 @@ export const questionsValidator = (
           );
         }
         if (
-          !validatePrimitive(questionComponent.metadata.answerIndex, "number")
+          !validatePrimitive(questionComponent.metadata.answerIndex, "integer")
         ) {
-          throw new Error("The answerIndex field is not of type number");
+          throw new Error("The answerIndex field is not of type integer");
         }
       } else if (
         questionComponent.type === QuestionComponentType.MULTI_SELECT
@@ -93,9 +90,9 @@ export const questionsValidator = (
           );
         }
         if (
-          !validateArray(questionComponent.metadata.answerIndices, "number")
+          !validateArray(questionComponent.metadata.answerIndices, "integer")
         ) {
-          throw new Error("The answerIndices field is not of type number[]");
+          throw new Error("The answerIndices field is not of type integer[]");
         }
       } else if (
         questionComponent.type === QuestionComponentType.SHORT_ANSWER
@@ -106,9 +103,28 @@ export const questionsValidator = (
         if (!validatePrimitive(questionComponent.metadata.answer, "number")) {
           throw new Error("The answer field is not of type number");
         }
+      } else if (questionComponent.type === QuestionComponentType.FRACTION) {
+        if (!("numerator" in questionComponent.metadata)) {
+          throw new Error("Fraction component is missing a numerator field");
+        }
+        if (
+          !validatePrimitive(questionComponent.metadata.numerator, "integer")
+        ) {
+          throw new Error("The numerator field is not of type integer");
+        }
+        if (!("denominator" in questionComponent.metadata)) {
+          throw new Error("Fraction component is missing a denominator field");
+        }
+        if (
+          !validatePrimitive(questionComponent.metadata.denominator, "integer")
+        ) {
+          throw new Error("The denominator field is not of type integer");
+        }
       }
     });
   });
 
   return true;
 };
+
+export default questionsValidator;

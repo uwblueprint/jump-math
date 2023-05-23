@@ -1,10 +1,13 @@
 import React from "react";
-import {
+import type {
   Control,
-  Controller,
   FieldErrorsImpl,
+  UseFormClearErrors,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import countryList from "react-select-country-list";
 import {
   Box,
@@ -17,70 +20,89 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import type { SingleValue } from "chakra-react-select";
 import { Select } from "chakra-react-select";
 
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
-import { AssessmentData, UseCase } from "../../../types/AssessmentTypes";
+import type { TestRequest } from "../../../APIClients/types/TestClientTypes";
+import { UseCase } from "../../../types/AssessmentTypes";
+import type {
+  GradeOption,
+  StringOption,
+} from "../../../types/SelectInputTypes";
+import { gradeOptions } from "../../../utils/AssessmentUtils";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
-  setAssessmentName: React.Dispatch<React.SetStateAction<string>>;
-  register: UseFormRegister<AssessmentData>;
-  control: Control<AssessmentData, any>;
-  errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
-  validSubmit: boolean;
+  register: UseFormRegister<TestRequest>;
+  setValue: UseFormSetValue<TestRequest>;
+  watch: UseFormWatch<TestRequest>;
+  control: Control<TestRequest, unknown>;
+  errors: Partial<FieldErrorsImpl<TestRequest>>;
+  errorMessage: string;
+  clearErrors: UseFormClearErrors<TestRequest>;
 }
 
 const BasicInformation = ({
-  setAssessmentName,
   register,
+  setValue,
+  watch,
   control,
   errors,
-  validSubmit,
+  errorMessage,
+  clearErrors,
 }: BasicInformationProps): React.ReactElement => {
+  const handleGradeChange = (option: SingleValue<GradeOption>) => {
+    if (option) {
+      setValue("grade", option.value);
+      clearErrors("grade");
+    }
+  };
+
+  const handleCountryChange = (option: SingleValue<StringOption>) => {
+    if (option) {
+      setValue("curriculumCountry", option.value);
+      clearErrors("curriculumCountry");
+    }
+  };
+
   const countryOptions = React.useMemo(() => countryList().getData(), []);
 
   return (
     <Box width="100%">
       <VStack align="left" spacing={8} width="75%">
+        {errorMessage && <ErrorToast errorMessage={errorMessage} />}
         <Text textStyle="eyebrow">Basic Information</Text>
-
-        {!validSubmit && (
-          <ErrorToast errorMessage="Please resolve all issues before publishing or saving" />
-        )}
-
-        <FormControl isInvalid={Boolean(errors.assessmentName)} isRequired>
+        <FormControl isInvalid={Boolean(errors.name)} isRequired>
           <FormLabel color="grey.400">Assessment Name</FormLabel>
           <Input
             placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
-            {...register("assessmentName", {
-              onChange: (e) => {
-                setAssessmentName(e.target.value);
-              },
+            {...register("name", {
               required: "Please enter a name for the assessment",
             })}
           />
-          <FormErrorMessage>{errors.assessmentName?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
 
         <Box width="50%">
           <Controller
             control={control}
             name="grade"
-            render={({
-              field: { onChange, value, name },
-              fieldState: { error },
-            }) => (
+            render={({ field: { name }, fieldState: { error } }) => (
               <FormControl isInvalid={Boolean(error)} isRequired>
                 <FormLabel color="grey.400">Grade Level</FormLabel>
                 <Select
                   name={name}
-                  onChange={onChange}
+                  onChange={handleGradeChange}
                   options={gradeOptions}
-                  placeholder=""
+                  placeholder="Select a grade"
+                  selectedOptionStyle="check"
                   useBasicStyles
-                  value={value}
+                  value={
+                    gradeOptions.find(
+                      (option) => option.value === watch("grade"),
+                    ) || undefined
+                  }
                 />
                 <FormErrorMessage>{error?.message}</FormErrorMessage>
               </FormControl>
@@ -92,7 +114,7 @@ const BasicInformation = ({
         <Box width="50%">
           <Controller
             control={control}
-            name="type"
+            name="assessmentType"
             render={({
               field: { onChange, value, name, ref },
               fieldState: { error },
@@ -132,11 +154,8 @@ const BasicInformation = ({
           <HStack alignItems="flex-start" width="100%">
             <Controller
               control={control}
-              name="country"
-              render={({
-                field: { onChange, value, name },
-                fieldState: { error },
-              }) => (
+              name="curriculumCountry"
+              render={({ field: { name }, fieldState: { error } }) => (
                 <FormControl
                   isInvalid={Boolean(error)}
                   isRequired
@@ -146,11 +165,15 @@ const BasicInformation = ({
                   <FormLabel color="grey.400">Country</FormLabel>
                   <Select
                     name={name}
-                    onChange={onChange}
+                    onChange={handleCountryChange}
                     options={countryOptions}
-                    placeholder=""
+                    placeholder="Select a country"
                     useBasicStyles
-                    value={value}
+                    value={
+                      countryOptions.find(
+                        (option) => option.value === watch("curriculumCountry"),
+                      ) || undefined
+                    }
                   />
                   <FormErrorMessage>{error?.message}</FormErrorMessage>
                 </FormControl>
@@ -159,15 +182,20 @@ const BasicInformation = ({
             />
 
             <FormControl
-              isInvalid={Boolean(errors.region)}
+              isInvalid={Boolean(errors.curriculumRegion)}
               isRequired
               variant="paragraph"
             >
               <FormLabel color="grey.400">Region</FormLabel>
               <Input
-                {...register("region", { required: "Please enter a region" })}
+                placeholder="Enter a region"
+                {...register("curriculumRegion", {
+                  required: "Please enter a region",
+                })}
               />
-              <FormErrorMessage> {errors.region?.message} </FormErrorMessage>
+              <FormErrorMessage>
+                {errors.curriculumRegion?.message}
+              </FormErrorMessage>
             </FormControl>
           </HStack>
         </FormControl>

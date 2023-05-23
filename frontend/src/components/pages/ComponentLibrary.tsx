@@ -1,27 +1,123 @@
 import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { Box, Center, HStack, useDisclosure } from "@chakra-ui/react";
 
+import type { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
+import { Grade } from "../../APIClients/types/UserClientTypes";
+import type { ClassroomForm } from "../../types/ClassroomTypes";
 import { QuestionElementType } from "../../types/QuestionTypes";
-import QuestionCard from "../assessments/assessment-creation/QuestionCard";
-import ArchiveModal from "../assessments/assessment-status/EditStatusModals/ArchiveModal";
+import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
+import DisplayQuestion from "../assessments/student-experience/Question";
+import ClassroomCard from "../classrooms/ClassroomCard";
+import StatisticCard from "../sessions/results/StatisticCard";
+import AddClassroomModal from "../user-management/student/AddClassroomModal";
+import AddStudentModal from "../user-management/student/AddStudentModal";
+
+import MobileRedirect from "./MobileRedirect";
+
+const defaultValues = {
+  className: "",
+  schoolYear: "",
+  gradeLevel: Grade.K,
+} as ClassroomForm;
+
+const MOCK_DATA: QuestionComponentResponse[] = [
+  {
+    type: QuestionElementType.QUESTION_TEXT,
+    metadata: {
+      questionText:
+        "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples. How much do they each have left now?",
+      __typename: "QuestionTextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.IMAGE,
+    metadata: {
+      filePath: "",
+      url: "https://wallpapers.com/images/featured/brtwwfga72pilv0j.jpg",
+      __typename: "ImageMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.TEXT,
+    metadata: {
+      text: "How many apples can you eat?",
+      __typename: "TextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.SHORT_ANSWER,
+    metadata: {
+      answer: 5,
+      __typename: "ShortAnswerMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.MULTIPLE_CHOICE,
+    metadata: {
+      options: ["First", "Second", "Third", "Fourth"],
+      answerIndex: 2,
+      __typename: "MultipleChoiceMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.TEXT,
+    metadata: {
+      text: "How many pears can you eat?",
+      __typename: "TextMetadata",
+    },
+  },
+  {
+    type: QuestionElementType.MULTI_SELECT,
+    metadata: {
+      options: ["One", "Two", "Three", "Four", "Five"],
+      answerIndex: 0,
+      __typename: "MultiSelectMetadata",
+    },
+  },
+];
 
 const ComponentLibrary = (): React.ReactElement => {
+  const { onClose, isOpen } = useDisclosure();
+  const methods = useForm<ClassroomForm>({
+    defaultValues,
+    mode: "onChange",
+  });
   return (
-    <div>
-      <QuestionCard
-        questionNumber={1}
-        questions={[
-          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
-          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley.",
-          "Thomas has 3 apples, 4 apples and 7 pears. Thomas also has 3 other friends, Andrian, Mariah, and Carley, who like to eat apples.",
-        ]}
-        tags={[
-          { type: QuestionElementType.MULTIPLE_CHOICE, count: 2 },
-          { type: QuestionElementType.SHORT_ANSWER, count: 1 },
-          { type: QuestionElementType.MULTI_SELECT, count: 1 },
-        ]}
+    <FormProvider {...methods}>
+      <StudentDashboardHeader
+        assessmentName="Unit 0 Review Test"
+        classroomName="Mathematics 4 - Mr. Roberts"
       />
-      <ArchiveModal isOpen onClose={() => {}} />
-    </div>
+      <StatisticCard title="total score" value="87%" />
+      <StatisticCard title="percentile" value="25th" />
+      <StatisticCard title="submissions" value="1087" variant="blue" />
+      <StatisticCard title="completion rate" value="78%" variant="blue" />
+      <MobileRedirect />
+      <HStack justifyContent="center">
+        <ClassroomCard
+          activeAssessments={2}
+          assessmentCount={1}
+          grade={Grade.GRADE_4}
+          name="Counting and Numbers"
+          studentCount={23}
+        />
+        <ClassroomCard
+          activeAssessments={0}
+          assessmentCount={3}
+          grade={Grade.GRADE_8}
+          name="Sorting and Classifying"
+          studentCount={14}
+        />
+        <AddClassroomModal isOpen={isOpen} onClose={onClose} />
+        <AddStudentModal />
+      </HStack>
+      <Center>
+        <Box w="60%">
+          <DisplayQuestion questionComponents={MOCK_DATA} />
+        </Box>
+      </Center>
+    </FormProvider>
   );
 };
 

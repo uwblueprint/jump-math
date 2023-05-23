@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
+import type { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
 import { updatedQuestionElement } from "../../../../../utils/QuestionUtils";
 
 import ShortAnswerModal from "./ShortAnswerModal";
@@ -26,7 +27,7 @@ const EditShortAnswerModal = ({
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateShortAnswerElement = (updatedAnswer: number) => {
+  const updateShortAnswerElement = (updatedAnswer: ShortAnswerMetadata) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedAnswer, prevElements);
     });

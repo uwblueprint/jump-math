@@ -9,11 +9,13 @@ import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import { AuthenticatedUser } from "../../types/AuthTypes";
+import type { VerifiableUser } from "../../types/AuthTypes";
+import BackButton from "../common/BackButton";
 import RouterLink from "../common/RouterLink";
 
 import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";
+import UnverifiedUsers from "./UnverifiedUsers";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -28,8 +30,11 @@ const Login = (): React.ReactElement => {
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(false);
 
-  const [login] = useMutation<{ login: AuthenticatedUser }>(LOGIN);
+  const [login] = useMutation<{
+    login: VerifiableUser;
+  }>(LOGIN);
 
   const onLogInClick = async () => {
     setInvalidFormError(false);
@@ -39,17 +44,17 @@ const Login = (): React.ReactElement => {
       setInvalidFormError(true);
       return;
     }
+    const user: VerifiableUser | null = await authAPIClient.login(
+      email,
+      password,
+      login,
+    );
 
-    try {
-      const user: AuthenticatedUser = await authAPIClient.login(
-        email,
-        password,
-        login,
-      );
-      setAuthenticatedUser(user);
-    } catch (error) {
-      setLoginError(true);
+    if (user?.emailVerified === false) {
+      setUnverifiedUser(true);
+      return;
     }
+    setAuthenticatedUser(user);
   };
 
   if (authenticatedUser) {
@@ -105,6 +110,8 @@ const Login = (): React.ReactElement => {
           </RouterLink>
         </Text>
       )}
+
+      <BackButton size="md" text="Back to Home" />
     </>
   );
 
@@ -118,6 +125,7 @@ const Login = (): React.ReactElement => {
   }
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
+  if (unverifiedUser) return <UnverifiedUsers email={email} />;
   return (
     <AuthWrapper
       error={error}

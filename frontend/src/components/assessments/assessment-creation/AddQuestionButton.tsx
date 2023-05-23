@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Text } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 
-interface AddQuestionButtonProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const AddQuestionButton = ({
-  setShowQuestionEditor,
-}: AddQuestionButtonProps): React.ReactElement => {
+const AddQuestionButton = (): React.ReactElement => {
+  const { setShowQuestionEditor } = useContext(AssessmentContext);
   return (
     <Button
-      border="1px dashed #636363"
+      border="1px dashed"
+      borderColor="grey.300"
       borderRadius="16px"
       color="grey.300"
       leftIcon={<PlusOutlineIcon />}

@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { useDrag } from "react-dnd";
-import { Box, Icon, Text, VStack, WrapItem } from "@chakra-ui/react";
+import { Box, Icon, Text, Tooltip, VStack, WrapItem } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
+import editorTooltips from "../../constants/QuestionConstants";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
-import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import type { QuestionElement } from "../../types/QuestionTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
 
 interface QuestionSidebarItemProps {
   type: QuestionElementType;
@@ -27,6 +27,7 @@ const QuestionSidebarItem = ({
     setQuestionElements,
     setShowAddShortAnswerModal,
     setShowAddMultipleChoiceModal,
+    setShowAddMultiSelectModal,
     setShowEditorError,
   } = useContext(QuestionEditorContext);
 
@@ -44,15 +45,36 @@ const QuestionSidebarItem = ({
       const dropResult = monitor.getDropResult<DropResult>();
       if (item && dropResult) {
         switch (item.type) {
+          case QuestionElementType.QUESTION_TEXT:
+            setShowEditorError(false);
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { questionText: "" },
+            });
+            break;
+          case QuestionElementType.TEXT:
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { text: "" },
+            });
+            break;
+          case QuestionElementType.IMAGE:
+            addQuestionElement({
+              id: uuidv4(),
+              type: item.type,
+              data: { previewUrl: "", file: undefined },
+            });
+            break;
           case QuestionElementType.SHORT_ANSWER:
             setShowAddShortAnswerModal(true);
             break;
           case QuestionElementType.MULTIPLE_CHOICE:
             setShowAddMultipleChoiceModal(true);
             break;
-          case QuestionElementType.QUESTION:
-            setShowEditorError(false);
-            addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
+          case QuestionElementType.MULTI_SELECT:
+            setShowAddMultiSelectModal(true);
             break;
           default:
             addQuestionElement({ id: uuidv4(), type: item.type, data: "" });
@@ -67,14 +89,34 @@ const QuestionSidebarItem = ({
 
   const opacity = isDragging ? 0.4 : 1;
   return (
-    <Box ref={drag} style={{ opacity }}>
-      <WrapItem cursor="grab">
-        <VStack>
-          <Icon as={icon} />
-          <Text textStyle="caption">{type.valueOf()}</Text>
-        </VStack>
-      </WrapItem>
-    </Box>
+    <Tooltip
+      bg="blue.300"
+      borderRadius={4}
+      hasArrow
+      label={editorTooltips[type]}
+      maxWidth="40"
+      padding="3"
+      placement="right-start"
+      textAlign="left"
+      textStyle="mobileSubtitle2"
+    >
+      <Box
+        ref={drag}
+        _hover={{ backgroundColor: "grey.100" }}
+        borderRadius="4"
+        padding="1.5"
+        style={{ opacity }}
+      >
+        <WrapItem cursor="grab">
+          <VStack>
+            <Icon as={icon} />
+            <Text align="center" maxWidth="20" textStyle="caption">
+              {titleCase(removeUnderscore(type.valueOf()))}
+            </Text>
+          </VStack>
+        </WrapItem>
+      </Box>
+    </Tooltip>
   );
 };
 

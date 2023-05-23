@@ -1,17 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { questionsValidator } from "../middlewares/validators/testValidators";
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import questionsValidator from "../middlewares/validators/testValidators";
 import { Grade } from "../types";
-/**
- * An enum containing the types of components that can be added to a question
- */
-export enum QuestionComponentType {
-  QUESTION_TEXT,
-  TEXT,
-  IMAGE,
-  MULTIPLE_CHOICE,
-  MULTI_SELECT,
-  SHORT_ANSWER,
-}
+import type { QuestionComponent } from "../types/questionTypes";
 
 export enum AssessmentType {
   BEGINNING = "BEGINNING",
@@ -23,73 +14,6 @@ export enum AssessmentStatus {
   PUBLISHED = "PUBLISHED",
   ARCHIVED = "ARCHIVED",
   DELETED = "DELETED",
-}
-
-export type QuestionComponentMetadata =
-  | QuestionTextMetadata
-  | TextMetadata
-  | ImageMetadata
-  | MultipleChoiceMetadata
-  | MultiSelectMetadata
-  | ShortAnswerMetadata;
-
-/**
- * This interface contains additional information about a question text component
- */
-export interface QuestionTextMetadata {
-  questionText: string;
-}
-
-/**
- * This interface contains additional information about a text component
- */
-export interface TextMetadata {
-  text: string;
-}
-
-/**
- * This interface contains additional information about an image component
- */
-export interface ImageMetadata {
-  src: string;
-}
-
-/**
- * This interface contains additional information about a multiple choice component
- */
-export interface MultipleChoiceMetadata {
-  /** the options for the multiple choice question */
-  options: string[];
-  /** the index of the options array which contains the correct answer (0-indexed) */
-  answerIndex: number;
-}
-
-/**
- * This interface contains additional information about a multiple-choice component
- */
-export interface MultiSelectMetadata {
-  /** the options for the multiple choice question */
-  options: string[];
-  /** the index/indices of the options array which contains the correct answer(s) (0-indexed) */
-  answerIndices: number[];
-}
-
-/**
- * This interface contains additional information about a short answer component
- */
-export interface ShortAnswerMetadata {
-  /** the numerical answer to the question */
-  answer: number;
-}
-
-/**
- * This interface contains information about a single component in a question.
- */
-export interface QuestionComponent {
-  /** the type of question component  */
-  type: QuestionComponentType;
-  /** additional metadata for the question */
-  metadata: QuestionComponentMetadata;
 }
 
 /**
@@ -112,6 +36,8 @@ export interface Test extends Document {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
+  /** the time the assessment was last updated */
+  updatedAt: Date;
 }
 
 const TestSchema: Schema = new Schema(

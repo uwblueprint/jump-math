@@ -1,12 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
-
-/**
- * An enum containing the grading status of a Result
- */
-export enum GradingStatus {
-  GRADED,
-  UNGRADED,
-}
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 /**
  * This interface holds information about the result of a single student
@@ -15,24 +8,23 @@ export enum GradingStatus {
 export interface Result {
   /** the name of the student */
   student: string;
-  /** the score of the student - can be null if Result is ungraded */
-  score: number | null;
+  /** the score of the student */
+  score: number;
   /**
    * a list corresponding to the question list with each element indicating
    * the student's answer, either:
-   *  - number: the numeric answer (for short answer)
-   *  - number: the option's corresponding index (for multiple choice)
-   *  - number[]: a list of option indices (for multi select)
-   *  - null: for no answer
+   * - [numeric answer] for short answer
+   * - [index] for multiple choice
+   * - list of indices for multiple select
+   * - [numerator, denominator] for fraction
+   * - [] for no answer
    */
-  answers: (number[] | number | null)[][];
+  answers: number[][][];
   /**
    * a list corresponding to the question list with each fielding indicating
    * whether the student got the question right or not
    * */
   breakdown: boolean[][];
-  /** the grading status of the result */
-  gradingStatus: GradingStatus;
 }
 
 const ResultSchema: Schema = new Schema({
@@ -42,6 +34,7 @@ const ResultSchema: Schema = new Schema({
   },
   score: {
     type: Number,
+    required: true,
   },
   answers: {
     type: [Schema.Types.Mixed],
@@ -50,12 +43,6 @@ const ResultSchema: Schema = new Schema({
   breakdown: {
     type: [Schema.Types.Mixed],
     required: true,
-  },
-  gradingStatus: {
-    type: String,
-    required: true,
-    default: GradingStatus.UNGRADED,
-    enum: Object.keys(GradingStatus),
   },
 });
 
@@ -71,8 +58,8 @@ export interface TestSession extends Document {
   teacher: string;
   /** the ID of the school that's administering the test from the School collection */
   school: string;
-  /** the grade level that is being tested */
-  gradeLevel: number;
+  /** the ID of the class that's taking the test from the Class collection */
+  class: string;
   /**
    * the result of the test session
    * there should be one entry here per student
@@ -80,8 +67,12 @@ export interface TestSession extends Document {
   results?: Result[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
-  /** the time when the test session is started by teacher */
-  startTime: Date;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
 }
 
 const TestSessionSchema: Schema = new Schema(
@@ -101,8 +92,9 @@ const TestSessionSchema: Schema = new Schema(
       ref: "School",
       required: true,
     },
-    gradeLevel: {
-      type: Number,
+    class: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
       required: true,
     },
     results: {
@@ -113,9 +105,17 @@ const TestSessionSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    startTime: {
+    startDate: {
       type: Date,
       required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    notes: {
+      type: String,
+      required: false,
     },
   },
   { timestamps: true },

@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 
 import { DUPLICATE_TEST } from "../../../../APIClients/mutations/TestMutations";
-import GET_ALL_TESTS from "../../../../APIClients/queries/TestQueries";
+import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
 import Modal from "../../../common/Modal";
 import Toast from "../../../common/Toast";
 
@@ -46,7 +46,6 @@ const DuplicateModal = ({
       body="Create a copy of this existing assessment. This new assessment can be viewed under draft assessments."
       header="Duplicate Assessment"
       isOpen={isOpen}
-      onCancel={onClose}
       onClose={onClose}
       onSubmit={onDuplicateAssessment}
       submitButtonText="Duplicate"

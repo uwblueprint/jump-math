@@ -1,5 +1,7 @@
 type Type = "string" | "integer" | "boolean" | "number";
 
+const allowableImageTypes = new Set(["image/jpeg", "image/png", "image/gif"]);
+
 const allowableContentTypes = new Set([
   "text/plain",
   "application/pdf",
@@ -46,6 +48,10 @@ export const validateFileType = (mimetype: string): boolean => {
   return allowableContentTypes.has(mimetype);
 };
 
+export const validateImageType = (mimetype: string): boolean => {
+  return allowableImageTypes.has(mimetype);
+};
+
 export const getApiValidationError = (
   fieldName: string,
   type: Type,
@@ -57,4 +63,9 @@ export const getApiValidationError = (
 export const getFileTypeValidationError = (mimetype: string): string => {
   const allowableContentTypesString = [...allowableContentTypes].join(", ");
   return `The file type ${mimetype} is not one of ${allowableContentTypesString}`;
+};
+
+export const getImageValidationError = (mimetype: string): string => {
+  const allowableImageTypesString = [...allowableImageTypes].join(", ");
+  return `The image type ${mimetype} is not one of ${allowableImageTypesString}`;
 };

@@ -1,13 +1,14 @@
-import {
+import type {
   ISchoolService,
   SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../interfaces/schoolService";
-import MgSchool, { School } from "../../models/school.model";
+import type { School } from "../../models/school.model";
+import MgSchool from "../../models/school.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import { UserDTO } from "../../types";
-import IUserService from "../interfaces/userService";
+import type { UserDTO } from "../../types";
+import type IUserService from "../interfaces/userService";
 
 const Logger = logger(__filename);
 
@@ -96,9 +97,8 @@ class SchoolService implements ISchoolService {
   ): Promise<Array<SchoolResponseDTO>> {
     return Promise.all(
       schools.map(async (school) => {
-        const teacherDTOs: Array<UserDTO> = await this.userService.findAllUsersByIds(
-          school.teachers,
-        );
+        const teacherDTOs: Array<UserDTO> =
+          await this.userService.findAllUsersByIds(school.teachers);
 
         return {
           id: school.id,

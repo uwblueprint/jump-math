@@ -3,6 +3,7 @@ import ResizeTextarea from "react-textarea-autosize";
 import { Textarea } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+import type { TextMetadata } from "../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxLength,
   updatedQuestionElement,
@@ -10,14 +11,14 @@ import {
 
 interface TextElementProps {
   id: string;
-  data: string;
+  data: TextMetadata;
 }
 
 const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
 
-  const updateTextElement = (updatedText: string) => {
-    const error = exceedsMaxLength(updatedText)
+  const updateTextElement = (updatedText: TextMetadata) => {
+    const error = exceedsMaxLength(updatedText.text)
       ? "There is a limit of 800 characters in the text block."
       : "";
     setQuestionElements((prevElements) => {
@@ -29,11 +30,11 @@ const TextElement = ({ id, data }: TextElementProps): React.ReactElement => {
     <Textarea
       as={ResizeTextarea}
       maxLength={801}
-      onChange={(e) => updateTextElement(e.target.value)}
+      onChange={(e) => updateTextElement({ text: e.target.value })}
       paddingLeft="6"
       placeholder="This is a text component which can be added for any additional information."
       size="text"
-      value={data}
+      value={data.text}
       variant="unstyled"
     />
   );

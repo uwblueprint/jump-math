@@ -21,7 +21,6 @@ interface ModalProps {
   submitButtonText?: string;
   submitButtonVariant?: string;
   cancelButtonVariant?: string;
-  onCancel?: () => void;
   onSubmit: (() => Promise<void>) | (() => void);
 }
 
@@ -34,28 +33,25 @@ const Modal = ({
   submitButtonText = "Confirm",
   submitButtonVariant,
   cancelButtonVariant,
-  onCancel,
   onSubmit,
 }: ModalProps): React.ReactElement => {
   return (
     <ChakraModal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent minW="42vw">
+      <ModalContent borderRadius="12px" minW="42vw">
         <ModalText body={body} header={header} />
         <ModalCloseButton />
         {children && <ModalBody>{children}</ModalBody>}
         <Divider color="grey.200" mt="1.5em" />
         <ModalFooter>
-          {onCancel && (
-            <Button
-              minWidth="10%"
-              mr={2}
-              onClick={onCancel}
-              variant={cancelButtonVariant || "secondary"}
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            minWidth="10%"
+            mr={2}
+            onClick={onClose}
+            variant={cancelButtonVariant || "secondary"}
+          >
+            Cancel
+          </Button>
           <Button
             minWidth="10%"
             onClick={onSubmit}

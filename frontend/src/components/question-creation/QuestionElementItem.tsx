@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from "react";
+import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
 import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
@@ -6,15 +7,20 @@ import update from "immutability-helper";
 
 import { DeleteOutlineIcon, HamburgerMenuIcon } from "../../assets/icons";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { DragQuestionItem, DragTypes } from "../../types/DragTypes";
-import {
-  MultipleChoiceData,
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import type { DragQuestionItem } from "../../types/DragTypes";
+import { DragTypes } from "../../types/DragTypes";
+import type {
+  ImageMetadataRequest,
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+  TextMetadata,
+} from "../../types/QuestionMetadataTypes";
+import type { MultiData, QuestionElement } from "../../types/QuestionTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import { shouldReorder } from "../../utils/QuestionUtils";
 
-import MultipleChoiceElement from "./question-elements/MultipleChoiceElement";
+import ImageElement from "./question-elements/ImageElement";
+import MultiOptionElement from "./question-elements/MultiOptionElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
 import ShortAnswerElement from "./question-elements/ShortAnswerElement";
 import TextElement from "./question-elements/TextElement";
@@ -27,24 +33,46 @@ interface QuestionElementItemProps {
 const renderQuestionContent = (content: QuestionElement) => {
   const { id, type, data } = content;
   switch (type) {
-    case QuestionElementType.QUESTION:
-      return <QuestionTextElement key={id} data={data as string} id={id} />;
-    case QuestionElementType.TEXT:
-      return <TextElement key={id} data={data as string} id={id} />;
-    case QuestionElementType.IMAGE:
-      return <Text key={id}>this is an image element.</Text>;
-    case QuestionElementType.MULTIPLE_CHOICE:
+    case QuestionElementType.QUESTION_TEXT:
       return (
-        <MultipleChoiceElement
+        <QuestionTextElement
           key={id}
-          data={data as MultipleChoiceData}
+          data={data as QuestionTextMetadata}
           id={id}
         />
       );
-    case QuestionElementType.SHORT_ANSWER:
-      return <ShortAnswerElement key={id} data={data as number} id={id} />;
+    case QuestionElementType.TEXT:
+      return <TextElement key={id} data={data as TextMetadata} id={id} />;
+    case QuestionElementType.IMAGE:
+      return (
+        <ImageElement key={id} data={data as ImageMetadataRequest} id={id} />
+      );
+    case QuestionElementType.MULTIPLE_CHOICE:
+      return (
+        <MultiOptionElement
+          key={id}
+          data={data as MultiData}
+          id={id}
+          type={QuestionElementType.MULTIPLE_CHOICE}
+        />
+      );
     case QuestionElementType.MULTI_SELECT:
-      return <Text key={id}>this is a multi select element.</Text>;
+      return (
+        <MultiOptionElement
+          key={id}
+          data={data as MultiData}
+          id={id}
+          type={QuestionElementType.MULTI_SELECT}
+        />
+      );
+    case QuestionElementType.SHORT_ANSWER:
+      return (
+        <ShortAnswerElement
+          key={id}
+          data={data as ShortAnswerMetadata}
+          id={id}
+        />
+      );
     default:
       return null;
   }
@@ -106,7 +134,7 @@ const QuestionElementItem = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

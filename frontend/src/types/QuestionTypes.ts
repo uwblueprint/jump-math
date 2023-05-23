@@ -1,10 +1,48 @@
+import type {
+  ImageMetadataRequest,
+  QuestionTextMetadata,
+  ShortAnswerMetadata,
+  TextMetadata,
+} from "./QuestionMetadataTypes";
+
+export type Question = {
+  id: string;
+  elements: QuestionElement[];
+};
+
+export interface QuestionElement {
+  id: string;
+  type: QuestionElementType;
+  data: QuestionElementDataType;
+  error?: string;
+}
+
 export enum QuestionElementType {
-  QUESTION = "Question",
-  TEXT = "Text",
-  IMAGE = "Image",
-  MULTIPLE_CHOICE = "Multiple Choice",
-  SHORT_ANSWER = "Short Answer",
-  MULTI_SELECT = "Multi-select",
+  QUESTION_TEXT = "QUESTION_TEXT",
+  TEXT = "TEXT",
+  IMAGE = "IMAGE",
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  SHORT_ANSWER = "SHORT_ANSWER",
+  MULTI_SELECT = "MULTI_SELECT",
+}
+
+export type QuestionElementDataType =
+  // remove string when all the elements have been implemented
+  | string
+  | QuestionTextMetadata
+  | TextMetadata
+  | ImageMetadataRequest
+  | ShortAnswerMetadata
+  | MultiData;
+
+export interface MultiOptionData {
+  id: string;
+  value: string;
+  isCorrect: boolean;
+}
+
+export interface MultiData {
+  options: MultiOptionData[];
 }
 
 export type ResponseElementType = Extract<
@@ -20,23 +58,3 @@ export const ResponseElementType = {
   [QuestionElementType.SHORT_ANSWER]: QuestionElementType.SHORT_ANSWER,
   [QuestionElementType.MULTI_SELECT]: QuestionElementType.MULTI_SELECT,
 } as const;
-
-export type QuestionElement = {
-  id: string;
-  type: QuestionElementType;
-  data: QuestionElementDataType;
-  error?: string;
-};
-
-export type QuestionElementDataType = string | number | MultipleChoiceData;
-
-export type MultipleChoiceOptionData = {
-  id: string;
-  value: string;
-  isCorrect: boolean;
-};
-
-export type MultipleChoiceData = {
-  optionCount: number;
-  options: MultipleChoiceOptionData[];
-};

@@ -1,9 +1,10 @@
 import * as firebaseAdmin from "firebase-admin";
 
-import IUserService from "../interfaces/userService";
-import MgUser, { User } from "../../models/user.model";
+import type IUserService from "../interfaces/userService";
+import type { User } from "../../models/user.model";
+import MgUser from "../../models/user.model";
 import MgSchool from "../../models/school.model";
-import {
+import type {
   CreateUserDTO,
   Role,
   UpdateUserDTO,
@@ -50,6 +51,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      class: user.class,
     };
   }
 
@@ -77,6 +79,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      class: user.class,
     };
   }
 
@@ -142,6 +145,7 @@ class UserService implements IUserService {
             role: user.role,
             grades: user.grades,
             currentlyTeachingJM: user.currentlyTeachingJM,
+            class: user.class,
           };
         }),
       );
@@ -180,6 +184,7 @@ class UserService implements IUserService {
             role: user.role,
             grades: user.grades,
             currentlyTeachingJM: user.currentlyTeachingJM,
+            class: user.class,
           };
         }),
       );
@@ -211,6 +216,7 @@ class UserService implements IUserService {
           email: user.email,
           grades: user.grades,
           currentlyTeachingJM: user.currentlyTeachingJM,
+          class: user.class,
         });
       } catch (mongoDbError) {
         // rollback user creation in Firebase
@@ -241,6 +247,7 @@ class UserService implements IUserService {
       role: newUser.role,
       grades: newUser.grades,
       currentlyTeachingJM: newUser.currentlyTeachingJM,
+      class: user.class,
     };
   }
 
@@ -258,6 +265,7 @@ class UserService implements IUserService {
           role: user.role,
           grades: user.grades,
           currentlyTeachingJM: user.currentlyTeachingJM,
+          class: user.class,
         },
         { runValidators: true },
       );
@@ -281,6 +289,7 @@ class UserService implements IUserService {
               role: oldUser.role,
               grades: oldUser.grades,
               currentlyTeachingJM: oldUser.currentlyTeachingJM,
+              class: oldUser.class,
             },
             { runValidators: true },
           );
@@ -309,6 +318,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      class: user.class,
     };
   }
 
@@ -332,6 +342,7 @@ class UserService implements IUserService {
             role: deletedUser.role,
             grades: deletedUser.grades,
             currentlyTeachingJM: deletedUser.currentlyTeachingJM,
+            class: deletedUser.class,
           });
         } catch (mongoDbError: unknown) {
           const errorMessage = [
@@ -376,6 +387,7 @@ class UserService implements IUserService {
             role: deletedUser.role,
             grades: deletedUser.grades,
             currentlyTeachingJM: deletedUser.currentlyTeachingJM,
+            class: deletedUser.class,
           });
         } catch (mongoDbError: unknown) {
           const errorMessage = [
@@ -438,6 +450,7 @@ class UserService implements IUserService {
           role: user.role,
           grades: user.grades,
           currentlyTeachingJM: user.currentlyTeachingJM,
+          class: user.class,
         };
       }),
     );

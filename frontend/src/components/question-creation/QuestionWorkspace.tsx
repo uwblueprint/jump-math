@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { useDrop } from "react-dnd";
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Divider, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../types/DragTypes";
 import ErrorToast from "../common/ErrorToast";
 
-import HoverMessage from "./HoverMessage";
 import QuestionElementItem from "./QuestionElementItem";
 import WelcomeMessage from "./WelcomeMessage";
 
@@ -30,16 +29,14 @@ const QuestionWorkspace = (): React.ReactElement => {
 
   return (
     <Box ref={drop} flex="1" overflow="auto">
-      <VStack align="left" color="grey.400" margin="3em 5em">
-        {isHovering && <HoverMessage />}
-        {!isHovering && showEditorError && (
+      <VStack align="left" margin="3em 5em">
+        {showEditorError && (
           <Box paddingBottom="4">
             <ErrorToast errorMessage={emptyEditorError} />
           </Box>
         )}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
-        {!isHovering &&
-          questionElements.length &&
+        {questionElements.length &&
           questionElements.map((questionElement, index) => (
             <QuestionElementItem
               key={questionElement.id}
@@ -47,6 +44,18 @@ const QuestionWorkspace = (): React.ReactElement => {
               index={index}
             />
           ))}
+        {isHovering && (
+          <Box padding="2">
+            <Divider
+              backgroundColor="blue.300"
+              borderColor="blue.300"
+              borderWidth="2px"
+              boxShadow="0px 4px 4px rgba(0, 67, 121, 0.3)"
+              opacity="100%"
+              orientation="horizontal"
+            />
+          </Box>
+        )}
       </VStack>
     </Box>
   );

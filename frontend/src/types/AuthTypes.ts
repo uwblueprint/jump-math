@@ -1,20 +1,35 @@
-export type Role = "Admin" | "Teacher";
+export type Role = "Admin" | "Teacher" | "Student";
 
 export enum TabEnum {
   ADMIN,
   TEACHER,
 }
 
-export type AuthenticatedUser = {
+type BaseUser = {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
   role: Role;
-  accessToken: string;
-} | null;
+};
 
-export type DecodedJWT =
-  | string
-  | null
-  | { [key: string]: unknown; exp: number };
+export type AuthenticatedAdminOrTeacher = BaseUser & {
+  email: string;
+  accessToken: string;
+};
+
+type AuthenticatedStudent = BaseUser & {
+  studentNumber?: string;
+};
+
+export type AuthenticatedUser =
+  | AuthenticatedAdminOrTeacher
+  | AuthenticatedStudent
+  | null;
+
+export type VerifiableUser = AuthenticatedUser & { emailVerified: boolean };
+
+export type DecodedJWT = {
+  payload: {
+    exp?: number;
+  };
+};

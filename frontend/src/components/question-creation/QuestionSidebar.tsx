@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -23,18 +23,12 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
-import {
-  QuestionElement,
-  QuestionElementType,
-} from "../../types/QuestionTypes";
+import confirmUnsavedChangesText from "../../constants/GeneralConstants";
+import AssessmentContext from "../../contexts/AssessmentContext";
+import { QuestionElementType } from "../../types/QuestionTypes";
 
 import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
-
-interface QuestionSidebarProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
-}
 
 interface AccordionItemProps {
   title: string;
@@ -49,7 +43,7 @@ interface AccordionPanelProps {
 const renderAccordionPanel = (panels: AccordionPanelProps[]) => {
   return (
     <AccordionPanel pb={4}>
-      <Wrap spacing="0.5em">
+      <Wrap spacing="0">
         {panels.map((panel: AccordionPanelProps, i) => {
           return (
             <QuestionSidebarItem
@@ -80,10 +74,23 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
   });
 };
 
-const QuestionSidebar = ({
-  setShowQuestionEditor,
-  setQuestions,
-}: QuestionSidebarProps): React.ReactElement => {
+const QuestionSidebar = (): React.ReactElement => {
+  const { setShowQuestionEditor, setEditorQuestion } = useContext(
+    AssessmentContext,
+  );
+
+  const closeQuestionEditor = () => {
+    setEditorQuestion(null);
+    setShowQuestionEditor(false);
+  };
+
+  const confirmCloseQuestionEditor = () => {
+    /* eslint-disable-next-line no-alert */
+    if (window.confirm(confirmUnsavedChangesText)) {
+      closeQuestionEditor();
+    }
+  };
+
   return (
     <VStack
       boxShadow="8px 0px 4px -2px rgba(193, 186, 186, 0.25)"
@@ -95,7 +102,7 @@ const QuestionSidebar = ({
         <Box justifyContent="flex-start" paddingLeft="0">
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={() => setShowQuestionEditor(false)}
+            onClick={confirmCloseQuestionEditor}
             size="sm"
             variant="tertiary"
           >
@@ -110,7 +117,10 @@ const QuestionSidebar = ({
             {
               title: "Question",
               panels: [
-                { element: QuestionElementType.QUESTION, icon: QuestionIcon },
+                {
+                  element: QuestionElementType.QUESTION_TEXT,
+                  icon: QuestionIcon,
+                },
                 { element: QuestionElementType.TEXT, icon: TextIcon },
                 { element: QuestionElementType.IMAGE, icon: ImageIcon },
               ],
@@ -139,10 +149,7 @@ const QuestionSidebar = ({
         <Button minWidth={0} variant="secondary">
           Preview
         </Button>
-        <SaveQuestionEditorButton
-          setQuestions={setQuestions}
-          setShowQuestionEditor={setShowQuestionEditor}
-        />
+        <SaveQuestionEditorButton closeQuestionEditor={closeQuestionEditor} />
       </HStack>
     </VStack>
   );

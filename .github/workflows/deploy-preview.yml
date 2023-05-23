@@ -4,7 +4,10 @@
 name: Deploy frontend to Firebase Hosting Preview Channel
 
 on:
-  pull_request:
+  # pull_request_target grants read/write permissions, needed by
+  # the firebase deployment action
+  # this is safe because we explicitly disable running checks on forks
+  pull_request_target:
     paths:
       - 'frontend/**'
 
@@ -14,10 +17,18 @@ defaults:
 
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]"
+    if: ${{ github.actor == 'dependabot[bot]' || !github.event.pull_request.head.repo.fork }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v3
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - run: echo "REACT_APP_BACKEND_URL=${{ secrets.PREVIEW_BACKEND_URL }}" > .env
       - run: rm -rf node_modules && yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0

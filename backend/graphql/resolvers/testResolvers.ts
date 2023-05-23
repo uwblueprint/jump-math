@@ -1,16 +1,18 @@
 import TestService from "../../services/implementations/testService";
-import {
-  AssessmentStatus,
-  QuestionComponentMetadata,
-  QuestionComponent,
-} from "../../models/test.model";
-import {
+import type {
+  GraphQLTestDTO,
   ITestService,
-  TestRequestDTO,
   TestResponseDTO,
-  QuestionComponentRequest,
-  QuestionComponentMetadataRequest,
 } from "../../services/interfaces/testService";
+import type {
+  GraphQLQuestionComponentMetadata,
+  QuestionComponentMetadata,
+  QuestionComponentMetadataRequest,
+} from "../../types/questionMetadataTypes";
+import type {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
+} from "../../types/questionTypes";
 
 const testService: ITestService = new TestService();
 
@@ -20,27 +22,29 @@ type QuestionMetadataName =
   | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
-  | "ShortAnswerMetadata";
+  | "ShortAnswerMetadata"
+  | "FractionMetadata";
 
 const resolveQuestions = (
-  questions: QuestionComponentRequest[][],
-): QuestionComponent[][] => {
-  const resolvedQuestions: QuestionComponent[][] = [];
+  questions: GraphQLQuestionComponent[][],
+): QuestionComponentRequest[][] => {
+  const resolvedQuestions: QuestionComponentRequest[][] = [];
 
-  questions.forEach((questionComponents: QuestionComponentRequest[]) => {
-    const resolvedQuestionComponents: QuestionComponent[] = [];
+  questions.forEach((questionComponents: GraphQLQuestionComponent[]) => {
+    const resolvedQuestionComponents: QuestionComponentRequest[] = [];
     questionComponents.forEach(
-      (questionComponent: QuestionComponentRequest) => {
+      (questionComponent: GraphQLQuestionComponent) => {
         const {
           questionTextMetadata,
           textMetadata,
-          imageMetadata,
+          imageMetadataRequest,
           multipleChoiceMetadata,
           multiSelectMetadata,
           shortAnswerMetadata,
-        }: QuestionComponentMetadataRequest = questionComponent;
+          fractionMetadata,
+        }: GraphQLQuestionComponentMetadata = questionComponent;
 
-        let metadata: QuestionComponentMetadata;
+        let metadata: QuestionComponentMetadataRequest;
 
         switch (questionComponent.type.toString()) {
           case "QUESTION_TEXT":
@@ -50,7 +54,7 @@ const resolveQuestions = (
             metadata = textMetadata;
             break;
           case "IMAGE":
-            metadata = imageMetadata;
+            metadata = imageMetadataRequest;
             break;
           case "MULTIPLE_CHOICE":
             metadata = multipleChoiceMetadata;
@@ -60,6 +64,9 @@ const resolveQuestions = (
             break;
           case "SHORT_ANSWER":
             metadata = shortAnswerMetadata;
+            break;
+          case "FRACTION":
+            metadata = fractionMetadata;
             break;
           default:
             metadata = questionTextMetadata; // placeholder
@@ -87,15 +94,22 @@ const testResolvers = {
     ): QuestionMetadataName | null => {
       if ("questionText" in obj) return "QuestionTextMetadata";
       if ("text" in obj) return "TextMetadata";
-      if ("src" in obj) return "ImageMetadata";
+      if ("url" in obj) return "ImageMetadata";
       if ("answerIndex" in obj) return "MultipleChoiceMetadata";
       if ("answerIndices" in obj) return "MultiSelectMetadata";
       if ("answer" in obj) return "ShortAnswerMetadata";
+      if ("numerator" in obj) return "FractionMetadata";
 
       return null;
     },
   },
   Query: {
+    test: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<TestResponseDTO> => {
+      return testService.getTestById(id);
+    },
     tests: async (): Promise<TestResponseDTO[]> => {
       return testService.getAllTests();
     },
@@ -103,18 +117,18 @@ const testResolvers = {
   Mutation: {
     createTest: async (
       _req: undefined,
-      { test }: { test: TestRequestDTO },
+      { test }: { test: GraphQLTestDTO },
     ): Promise<TestResponseDTO> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.createTest({ ...test, questions: resolvedQuestions });
     },
     updateTest: async (
       _req: undefined,
-      { id, test }: { id: string; test: TestRequestDTO },
+      { id, test }: { id: string; test: GraphQLTestDTO },
     ): Promise<TestResponseDTO | null> => {
-      const resolvedQuestions: QuestionComponent[][] = resolveQuestions(
+      const resolvedQuestions: QuestionComponentRequest[][] = resolveQuestions(
         test.questions,
       );
       return testService.updateTest(id, {
@@ -122,7 +136,7 @@ const testResolvers = {
         questions: resolvedQuestions,
       });
     },
-    deleteTestById: async (
+    deleteTest: async (
       _req: undefined,
       { id }: { id: string },
     ): Promise<string> => {
@@ -132,15 +146,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (testToUpdate.status !== AssessmentStatus.DRAFT) {
-        throw new Error(`Test with id ${id} cannot be published.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.PUBLISHED,
-      });
-      return updatedTest;
+      return testService.publishTest(id);
     },
     duplicateTest: async (
       _req: undefined,
@@ -158,18 +164,7 @@ const testResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<TestResponseDTO | null> => {
-      const testToUpdate = await testService.getTestById(id);
-      if (
-        testToUpdate.status !== AssessmentStatus.DRAFT &&
-        testToUpdate.status !== AssessmentStatus.PUBLISHED
-      ) {
-        throw new Error(`Test with id ${id} cannot be archived.`);
-      }
-      const updatedTest = await testService.updateTest(id, {
-        ...testToUpdate,
-        status: AssessmentStatus.ARCHIVED,
-      });
-      return updatedTest;
+      return testService.archiveTest(id);
     },
   },
 };

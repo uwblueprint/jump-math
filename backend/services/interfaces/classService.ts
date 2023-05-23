@@ -1,5 +1,5 @@
-import { UserDTO, Grade } from "../../types";
-import { TestSessionResponseDTO } from "./testSessionService";
+import type { UserDTO, Grade } from "../../types";
+import { type TestSessionResponseDTO } from "./testSessionService";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -17,16 +17,15 @@ export interface StudentResponseDTO {
 export interface ClassRequestDTO {
   className: string;
   schoolYear: number;
-  gradeLevel: Grade[];
+  gradeLevel: Grade;
   teacher: string;
-  testSessions: string[];
 }
 
 export interface ClassResponseDTO {
   id: string;
   className: string;
   schoolYear: number;
-  gradeLevel: Grade[];
+  gradeLevel: Grade;
   teacher: UserDTO;
   testSessions: TestSessionResponseDTO[];
   students: StudentResponseDTO[];
@@ -44,10 +43,30 @@ export interface IClassService {
   /**
    * This method retrieves the class with given id.
    * @param id class id
+   * @param populateTestSessions if true, test sessions will be populated
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassById(id: string): Promise<ClassResponseDTO>;
+  getClassById(
+    id: string,
+    populateTestSessions?: boolean,
+  ): Promise<ClassResponseDTO>;
+
+  /**
+   * This method retrieves the class with given test session id.
+   * @param id test session id
+   * @returns requested class
+   * @throws Error if retrieval fails
+   */
+  getClassByTestSessionId(testSessionId: string): Promise<ClassResponseDTO>;
+
+  /**
+   * This method retrieves the classes associated with given teacher id.
+   * @param id teacher id
+   * @returns list of requested classes
+   * @throws Error if retrieval fails
+   */
+  getClassesByTeacherId(teacherId: string): Promise<Array<ClassResponseDTO>>;
 
   /**
    * This method updates the class with given id.

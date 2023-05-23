@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, Flex, HStack, Spacer } from "@chakra-ui/react";
+import { HStack, Spacer } from "@chakra-ui/react";
 
-import Page from "../../types/PageTypes";
+import type Page from "../../types/PageTypes";
 import Logout from "../auth/Logout";
 
-import HomeButton from "./HomeButton";
+import HeaderWrapper from "./HeaderWrapper";
 import NavbarItem from "./NavbarItem";
 
 interface NavbarProps {
@@ -13,9 +13,8 @@ interface NavbarProps {
 
 const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
   return (
-    <Box borderBottom="2px" borderColor="grey.100">
-      <Flex margin="1em 2em 1em 2em">
-        <HomeButton />
+    <HeaderWrapper>
+      <>
         <Spacer />
         <HStack>
           {pages.map((page, index) => (
@@ -23,8 +22,8 @@ const Navbar = ({ pages }: NavbarProps): React.ReactElement => {
           ))}
           <Logout />
         </HStack>
-      </Flex>
-    </Box>
+      </>
+    </HeaderWrapper>
   );
 };
 

@@ -9,6 +9,9 @@ const Input = {
         _invalid: {
           borderColor: "red.200",
         },
+        _placeholder: {
+          color: "#a0aec0",
+        },
       },
     },
   },

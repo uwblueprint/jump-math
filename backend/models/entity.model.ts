@@ -1,4 +1,5 @@
-import { Schema, Document, model } from "mongoose";
+import type { Document } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface Entity extends Document {
   id: string;

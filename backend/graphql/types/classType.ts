@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import gql from "graphql-tag";
 
 const classType = gql`
   input StudentRequestDTO {
@@ -14,21 +14,31 @@ const classType = gql`
     studentNumber: String
   }
 
+  input ClassRequestDTO {
+    className: String!
+    schoolYear: Int!
+    gradeLevel: GradeEnum!
+    teacher: String!
+  }
+
   type ClassResponseDTO {
     id: String!
     className: String!
     schoolYear: Int!
-    gradeLevel: [GradeEnum]!
+    gradeLevel: GradeEnum!
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
     students: [StudentResponseDTO]!
   }
 
+  extend type Query {
+    classByTestSession(testSessionId: ID!): ClassResponseDTO!
+    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
+  }
+
   extend type Mutation {
-    createStudent(
-      student: StudentRequestDTO!
-      classId: String!
-    ): ClassResponseDTO!
+    createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
+    createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
   }
 `;
 

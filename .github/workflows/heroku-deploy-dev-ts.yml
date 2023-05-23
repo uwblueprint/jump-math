@@ -1,7 +1,7 @@
 name: Deploy backend to Heroku dev environment
 
 on:
-  pull_request: # TODO: remove action on pull request
+  pull_request_target: # TODO: remove action on pull request
     branches:
       - staging
     paths:
@@ -13,11 +13,20 @@ on:
 
 jobs:
   deploy:
+    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]"
+    if: ${{ github.actor == 'dependabot[bot]' || !github.event.pull_request.head.repo.fork }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+      - name: Checkout
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v3
         with:
+          fetch-depth: 0
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Set Heroku login credentials
         run: |

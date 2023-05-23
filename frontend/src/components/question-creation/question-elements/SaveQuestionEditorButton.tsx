@@ -1,22 +1,28 @@
 import React, { useContext } from "react";
 import { Button } from "@chakra-ui/react";
+import update from "immutability-helper";
+import { v4 as uuidv4 } from "uuid";
 
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+import type {
+  ImageMetadataRequest,
+  QuestionTextMetadata,
+  TextMetadata,
+} from "../../../types/QuestionMetadataTypes";
+import type { QuestionElement } from "../../../types/QuestionTypes";
 import {
-  QuestionElement,
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
 import { updatedQuestionElement } from "../../../utils/QuestionUtils";
 
 interface SaveQuestionEditorButtonProps {
-  setShowQuestionEditor: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionElement[][]>>;
+  closeQuestionEditor: () => void;
 }
 
 const SaveQuestionEditorButton = ({
-  setShowQuestionEditor,
-  setQuestions,
+  closeQuestionEditor,
 }: SaveQuestionEditorButtonProps): React.ReactElement => {
   const questionError =
     "Please create a question to be associated with this response";
@@ -25,6 +31,7 @@ const SaveQuestionEditorButton = ({
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
+  const { setQuestions, editorQuestion } = useContext(AssessmentContext);
   const {
     questionElements,
     setQuestionElements,
@@ -49,7 +56,7 @@ const SaveQuestionEditorButton = ({
   const validateNoQuestionPairErrors = () => {
     const questionPairs = questionElements.filter(
       (element) =>
-        element.type === QuestionElementType.QUESTION ||
+        element.type === QuestionElementType.QUESTION_TEXT ||
         element.type in ResponseElementType,
     );
     for (let index = 0; index < questionPairs.length; index += 1) {
@@ -57,7 +64,7 @@ const SaveQuestionEditorButton = ({
       const isExistingError =
         element.error && !isQuestionPairError(element.error);
       if (!isExistingError) {
-        if (element.type === QuestionElementType.QUESTION) {
+        if (element.type === QuestionElementType.QUESTION_TEXT) {
           const isLastElement = index === questionPairs.length - 1;
           if (
             isLastElement ||
@@ -71,7 +78,7 @@ const SaveQuestionEditorButton = ({
           const isFirstElement = index === 0;
           if (
             isFirstElement ||
-            questionPairs[index - 1].type !== QuestionElementType.QUESTION
+            questionPairs[index - 1].type !== QuestionElementType.QUESTION_TEXT
           ) {
             setElementError(element, questionError);
             return false;
@@ -85,7 +92,13 @@ const SaveQuestionEditorButton = ({
 
   const validateNoEmptyElementErrors = () => {
     const emptyElement = questionElements.find(
-      (element) => element.data === "",
+      (element) =>
+        (element.type === QuestionElementType.QUESTION_TEXT &&
+          (element.data as QuestionTextMetadata).questionText === "") ||
+        (element.type === QuestionElementType.TEXT &&
+          (element.data as TextMetadata).text === "") ||
+        (element.type === QuestionElementType.IMAGE &&
+          (element.data as ImageMetadataRequest).previewUrl === undefined),
     );
     if (emptyElement) {
       setElementError(emptyElement, emptyElementError);
@@ -106,10 +119,37 @@ const SaveQuestionEditorButton = ({
   const validateNoMissingQuestionError = () => {
     const emptyEditor =
       questionElements.filter(
-        (element) => element.type === QuestionElementType.QUESTION,
+        (element) => element.type === QuestionElementType.QUESTION_TEXT,
       ).length === 0;
     setShowEditorError(emptyEditor);
     return !emptyEditor;
+  };
+
+  const addQuestion = (newQuestionElements: QuestionElement[]) => {
+    setQuestions((prevQuestions) => {
+      return [
+        ...prevQuestions,
+        { id: uuidv4(), elements: newQuestionElements },
+      ];
+    });
+  };
+
+  const updateQuestion = (
+    id: string,
+    updatedQuestionElements: QuestionElement[],
+  ) => {
+    setQuestions((prevQuestions) => {
+      const indexToUpdate = prevQuestions.findIndex(
+        (question) => question.id === id,
+      );
+      return update(prevQuestions, {
+        [indexToUpdate]: {
+          $merge: {
+            elements: updatedQuestionElements,
+          },
+        },
+      });
+    });
   };
 
   const handleSave = () => {
@@ -119,10 +159,18 @@ const SaveQuestionEditorButton = ({
       validateNoEmptyElementErrors() &&
       validateNoExistingErrors()
     ) {
-      setQuestions((prevQuestions) => {
-        return [...prevQuestions, questionElements];
+      const validatedQuestionElements = questionElements.map((element) => {
+        return {
+          ...element,
+          error: "",
+        };
       });
-      setShowQuestionEditor(false);
+      if (!editorQuestion) {
+        addQuestion(validatedQuestionElements);
+      } else {
+        updateQuestion(editorQuestion.id, validatedQuestionElements);
+      }
+      closeQuestionEditor();
     }
   };
   return (

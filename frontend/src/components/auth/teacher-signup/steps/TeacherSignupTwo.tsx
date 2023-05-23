@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 import { useQuery } from "@apollo/client";
 import { Button, FormControl, FormLabel, Text } from "@chakra-ui/react";
 
-import { GET_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
-import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
+import { GET_ALL_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
+import type { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import {
+import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
@@ -29,7 +29,7 @@ const TeacherSignupTwo = ({
   ] = React.useState(false);
   const [isSchoolError, setSchoolError] = React.useState(false);
 
-  useQuery(GET_SCHOOLS, {
+  useQuery(GET_ALL_SCHOOLS, {
     fetchPolicy: "cache-and-network",
     onCompleted: (data) => {
       setSchools(data.schools.map((school: SchoolResponse) => school));

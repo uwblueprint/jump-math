@@ -9,6 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   extends: [
+    "airbnb-base",
     "airbnb-typescript/base",
     "prettier",
     "plugin:prettier/recommended",
@@ -17,6 +18,7 @@ module.exports = {
   ],
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "@typescript-eslint/consistent-type-imports": "error",
   },
   ignorePatterns: ["build/"],
 };
