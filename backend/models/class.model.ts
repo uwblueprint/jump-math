@@ -21,8 +21,8 @@ export interface Class extends Document {
   students: Student[];
 }
 
-export interface Student extends Document {
-  id: number;
+export interface Student {
+  id: string;
   firstName: string;
   lastName: string;
   studentNumber?: string;
