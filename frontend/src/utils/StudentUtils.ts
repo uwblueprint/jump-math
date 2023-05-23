@@ -28,19 +28,26 @@ export const initializeAnswers = (
 ): Answers[] => {
   return questions.map((question, index) => ({
     index,
-    isCompleted: false,
+    completedCount: 0,
     elements: getAnswerElements(question).map(() => ({
       elementAnswers: [],
     })),
   }));
 };
 
-const isCompleted = (
-  prevAnswers: Answers[],
-  value: number[],
-  currentQuestionIndex: number,
-): boolean =>
-  value?.length >= prevAnswers[currentQuestionIndex].elements.length;
+const getCompletedCount = (
+  prevAnswer: Answers,
+  answerElementIndex: number,
+  value: number[] | undefined,
+) => {
+  let offset = 0;
+  const prevCompletedCount = prevAnswer.completedCount;
+  const prevCompleted: boolean =
+    prevAnswer.elements[answerElementIndex].elementAnswers.length !== 0;
+  if (prevCompleted && (!value || value.length === 0)) offset = -1;
+  if (!prevCompleted && value && value.length !== 0) offset = 1;
+  return prevCompletedCount + offset;
+};
 
 export const getUpdatedAnswer = (
   answerIndex: number,
@@ -50,8 +57,12 @@ export const getUpdatedAnswer = (
 ): Answers[] => {
   return update(prevAnswers, {
     [currentQuestionIndex]: {
-      isCompleted: {
-        $set: isCompleted(prevAnswers, value || [], currentQuestionIndex),
+      completedCount: {
+        $set: getCompletedCount(
+          prevAnswers[currentQuestionIndex],
+          answerIndex,
+          value,
+        ),
       },
       elements: {
         [answerIndex]: {
@@ -67,12 +78,16 @@ export const stringToNumberArray = (input: string): number[] => {
   return Number.isNaN(value) ? [] : [value];
 };
 
+const isCompleted = (answer: Answers) => {
+  return answer.completedCount === answer.elements.length;
+};
+
 export const questionStatus = (
   index: number,
   currentQuestionIndex: number,
   answers: Answers[],
 ): QuestionNumberTypes => {
   if (index === currentQuestionIndex) return QuestionNumberTypes.CURRENT;
-  if (answers[index].isCompleted) return QuestionNumberTypes.COMPLETED;
+  if (isCompleted(answers[index])) return QuestionNumberTypes.COMPLETED;
   return QuestionNumberTypes.UNATTEMPTED;
 };

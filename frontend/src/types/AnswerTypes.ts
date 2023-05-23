@@ -4,5 +4,5 @@ export interface ElementAnswers {
 
 export interface Answers {
   elements: ElementAnswers[];
-  isCompleted: boolean;
+  completedCount: number;
 }
