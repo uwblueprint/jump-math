@@ -28,6 +28,7 @@ const TeacherSignupOne = ({
   setPage,
 }: TeacherSignupProps): React.ReactElement => {
   const {
+    register,
     watch,
     setValue,
     formState: { errors },
@@ -41,6 +42,8 @@ const TeacherSignupOne = ({
   const { value: gradesValues, setValue: setGradesValue } = useCheckboxGroup({
     defaultValue: watch("grades") || [],
   });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -89,7 +92,8 @@ const TeacherSignupOne = ({
       setLastNameError(false);
     }
 
-    if (!watch("email") || !!errors.email) {
+    const emailValue = watch("email");
+    if (!emailValue || !!errors.email) {
       setEmailError(true);
       isValid = false;
     } else {
@@ -165,10 +169,16 @@ const TeacherSignupOne = ({
       />
     </>
   );
+
+  const emailValue = watch("email");
+  const acceptError = emailValue && !emailRegex.test(emailValue);
+
+  const emailErrorMessage = acceptError ? "Invalid Email" : "";
+
   const error =
-    firstNameError || lastNameError || emailError || gradesError
+    firstNameError || lastNameError || gradesError
       ? "Please ensure fields are filled"
-      : "";
+      : emailErrorMessage;
 
   return (
     <AuthWrapper
