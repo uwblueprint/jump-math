@@ -48,6 +48,7 @@ const testSessionType = gql`
     createTestSession(
       testSession: TestSessionRequestDTO!
     ): TestSessionResponseDTO!
+    deleteTestSession(id: ID!): ID!
   }
 `;
 
