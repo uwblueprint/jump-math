@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Divider,
   HStack,
   Spacer,
   Tag,
@@ -8,21 +7,21 @@ import {
   TagLeftIcon,
   Text,
   Tooltip,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
-import { BookIcon } from "../../assets/icons";
+import { BookIcon } from "../../../assets/icons";
 import type {
   TestSessionItemStats,
   TestSessionStatus,
-} from "../../types/TestSessionTypes";
-import { formatDate } from "../../utils/GeneralUtils";
-import Copyable from "../common/Copyable";
-import Popover from "../common/Popover";
-import PopoverButton from "../common/PopoverButton";
+} from "../../../types/TestSessionTypes";
+import { formatDate } from "../../../utils/GeneralUtils";
+import Copyable from "../../common/Copyable";
+
+import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
 export type TestSessionListItemProps = {
+  testSessionId: string;
   classroomName: string;
   testName: string;
   // Target date should be the start date of the session UNLESS
@@ -41,6 +40,7 @@ const STATUS_LABELS = {
 const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
+  testSessionId,
   classroomName,
   testName,
   targetDate,
@@ -48,7 +48,6 @@ const TestSessionListItem = ({
   status,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const formattedAccessCode = `${accessCode.slice(
     0,
     ACCESS_CODE_GROUP_SIZE,
@@ -135,12 +134,10 @@ const TestSessionListItem = ({
             </Text>
           </>
         )}
-        <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-          <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
-            <PopoverButton name="Edit" onClick={() => {}} />
-            <PopoverButton name="Delete" onClick={() => {}} />
-          </VStack>
-        </Popover>
+        <TestSessionListItemPopover
+          status={status}
+          testSessionId={testSessionId}
+        />
       </HStack>
     </Tooltip>
   );
