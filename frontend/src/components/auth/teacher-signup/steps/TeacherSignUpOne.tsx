@@ -28,7 +28,6 @@ const TeacherSignupOne = ({
   setPage,
 }: TeacherSignupProps): React.ReactElement => {
   const {
-    register,
     watch,
     setValue,
     formState: { errors },
@@ -122,7 +121,7 @@ const TeacherSignupOne = ({
   };
 
   const onContinueClick = () => {
-    if (validateFields() && !acceptEmail) {
+    if (validateFields()) {
       setPage(2);
     }
   };
