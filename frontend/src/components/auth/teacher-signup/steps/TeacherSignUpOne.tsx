@@ -73,27 +73,37 @@ const TeacherSignupOne = ({
   };
 
   const validateFields = (): boolean => {
+    let isValid = true;
+
     if (!watch("firstName") || !!errors.firstName) {
       setFirstNameError(true);
-      return false;
+      isValid = false;
+    } else {
+      setFirstNameError(false);
     }
 
     if (!watch("lastName") || !!errors.lastName) {
       setLastNameError(true);
-      return false;
+      isValid = false;
+    } else {
+      setLastNameError(false);
     }
 
     if (!watch("email") || !!errors.email) {
       setEmailError(true);
-      return false;
+      isValid = false;
+    } else {
+      setEmailError(false);
     }
 
     if (!watch("grades.0") || !!errors.grades) {
       setGradesError(true);
-      return false;
+      isValid = false;
+    } else {
+      setGradesError(false);
     }
 
-    return true;
+    return isValid;
   };
 
   const onContinueClick = () => {

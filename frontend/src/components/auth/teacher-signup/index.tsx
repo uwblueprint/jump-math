@@ -86,12 +86,19 @@ const TeacherSignup = (): React.ReactElement => {
     })(e);
   };
 
+  const {
+    formState: { errors },
+  } = methods; // Retrieve form errors
+
   return (
     <FormProvider {...methods}>
       {renderPageComponent(page, {
         setPage,
         handleSubmitCallback,
       })}
+      {errors?.email && (
+        <span style={{ color: "red" }}>Invalid email address</span>
+      )}
     </FormProvider>
   );
 };
