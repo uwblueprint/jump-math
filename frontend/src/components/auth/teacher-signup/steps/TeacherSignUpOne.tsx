@@ -36,6 +36,7 @@ const TeacherSignupOne = ({
   const [firstNameError, setFirstNameError] = React.useState(false);
   const [lastNameError, setLastNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
+  const [acceptEmail, acceptEmailError] = React.useState(false);
   const [gradesError, setGradesError] = React.useState(false);
   const history = useHistory();
 
@@ -66,6 +67,9 @@ const TeacherSignupOne = ({
         break;
       default:
         break;
+    }
+    if (field === "email") {
+      acceptEmailError(false);
     }
   };
 
@@ -100,6 +104,13 @@ const TeacherSignupOne = ({
       setEmailError(false);
     }
 
+    if (!watch("email") || (emailValue && !emailRegex.test(emailValue))) {
+      acceptEmailError(true);
+      isValid = false;
+    } else {
+      acceptEmailError(false);
+    }
+
     if (!watch("grades.0") || !!errors.grades) {
       setGradesError(true);
       isValid = false;
@@ -111,7 +122,9 @@ const TeacherSignupOne = ({
   };
 
   const onContinueClick = () => {
-    if (validateFields()) setPage(2);
+    if (validateFields() && !acceptEmail) {
+      setPage(2);
+    }
   };
 
   const title = "Teacher Sign Up";
@@ -139,7 +152,7 @@ const TeacherSignupOne = ({
         </FormControl>
       </Stack>
 
-      <FormControl isInvalid={emailError} isRequired>
+      <FormControl isInvalid={acceptEmail || emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           onChange={(e) => handleChange(e, "email")}
@@ -170,15 +183,14 @@ const TeacherSignupOne = ({
     </>
   );
 
-  const emailValue = watch("email");
-  const acceptError = emailValue && !emailRegex.test(emailValue);
+  let error = "";
+  if (acceptEmail) {
+    error = "Invalid email";
+  }
 
-  const emailErrorMessage = acceptError ? "Invalid Email" : "";
-
-  const error =
-    firstNameError || lastNameError || gradesError
-      ? "Please ensure fields are filled"
-      : emailErrorMessage;
+  if (firstNameError || lastNameError || emailError || gradesError) {
+    error = "Please ensure fields are filled";
+  }
 
   return (
     <AuthWrapper
