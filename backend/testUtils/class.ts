@@ -40,6 +40,7 @@ export const testStudentsWithIds: StudentResponseDTO[] = [
     id: "6421bf4b8c29e57d38efc7be",
   },
 ];
+
 // set up test classes
 export const testClass: ClassRequestDTO[] = [
   {

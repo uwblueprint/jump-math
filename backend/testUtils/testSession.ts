@@ -23,12 +23,12 @@ type TestSessionDTO = TestSessionRequestDTO & {
  * Mock Test Results
  */
 export const mockUngradedTestResult: ResultRequestDTO = {
-  student: "some-student-name",
+  student: testStudentsWithIds[0].id,
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
 };
 
 export const mockGradedTestResult: Result = {
-  student: "some-student-name",
+  student: testStudentsWithIds[0].id,
   score: 80.0,
   answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
   breakdown: [[true, true, true, true], [false]],
@@ -42,21 +42,21 @@ export const mockGradedTestResultResponse: ResultResponseDTO = {
 };
 
 export const mockGradedTestResult2: Result = {
-  student: "some-student-name-2",
+  student: testStudentsWithIds[1].id,
   score: 40.0,
   answers: [[[0], [3], [1, 2], [5, 4]], [[7]]],
   breakdown: [[false, false, true, false], [true]],
 };
 
 export const mockGradedTestResult3: Result = {
-  student: "some-student-name-3",
+  student: testStudentsWithIds[1].id,
   score: 80.0,
   answers: [[[3], [0], [1, 2]], [[7]]],
   breakdown: [[true, true, true, false], [true]],
 };
 
 export const mockGradedTestResult4: Result = {
-  student: "some-student-name-3",
+  student: testStudentsWithIds[1].id,
   score: 20.0,
   answers: [[[1.5], [1], [3]], [[7]]],
   breakdown: [[false, false, false, false], [true]],
