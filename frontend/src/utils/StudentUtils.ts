@@ -42,10 +42,26 @@ const getCompletedCount = (
 ) => {
   let offset = 0;
   const prevCompletedCount = prevAnswer.completedCount;
-  const prevCompleted: boolean =
+  const isPrevCompletedElement: boolean =
     prevAnswer.elements[answerElementIndex].elementAnswers.length !== 0;
-  if (prevCompleted && (!value || value.length === 0)) offset = -1;
-  if (!prevCompleted && value && value.length !== 0) offset = 1;
+
+  /* Case 1: if the element was previously completed and we are updating 
+  its answer value to an empty or undefined value, we need to decrement the
+  count of completed question elements. */
+  if (isPrevCompletedElement && (!value || value.length === 0)) offset = -1;
+
+  /* Case 2: if the element was previously not completed and we are updating 
+  its answer to a non-empty value, we need to increment the
+  count of completed question elements. */
+  if (!isPrevCompletedElement && value && value.length !== 0) offset = 1;
+
+  /* Case 3: 
+    (a) if the element was previously completed and we are updating
+    its answer value to an empty value or 
+    (b) if the element was previously completed and we are updating
+    its answer value to a non-empty value
+  the count of completed question elements should be unchanged. */
+
   return prevCompletedCount + offset;
 };
 
