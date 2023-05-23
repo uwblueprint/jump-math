@@ -1,12 +1,13 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import ClassroomCard from "../classrooms/ClassroomCard";
 import StatisticCard from "../sessions/results/StatisticCard";
+import StudentList from "../sessions/results/StudentList";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
 
@@ -17,6 +18,13 @@ const defaultValues = {
   schoolYear: "",
   gradeLevel: Grade.K,
 } as ClassroomForm;
+
+const MOCK_STUDENTS = [
+  { id: "1", firstName: "Jane", lastName: "Doe", studentNumber: "238" },
+  { id: "2", firstName: "John", lastName: "Doe", studentNumber: "239" },
+  { id: "3", firstName: "Jane", lastName: "Doe", studentNumber: "240" },
+  { id: "4", firstName: "John", lastName: "Doe", studentNumber: "241" },
+];
 
 const ComponentLibrary = (): React.ReactElement => {
   const { onClose, isOpen } = useDisclosure();
@@ -34,6 +42,9 @@ const ComponentLibrary = (): React.ReactElement => {
       <StatisticCard title="percentile" value="25th" />
       <StatisticCard title="submissions" value="1087" variant="blue" />
       <StatisticCard title="completion rate" value="78%" variant="blue" />
+      <Box maxH="initial">
+        <StudentList students={MOCK_STUDENTS} />
+      </Box>
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
