@@ -15,7 +15,7 @@ import {
 
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
-import { TabEnumClassroom } from "../../../types/AuthTypes";
+import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import MessageContainer from "../../common/MessageContainer";
@@ -120,7 +120,7 @@ const ClassroomsPage = (): React.ReactElement => {
     totalPages,
     currentPage,
     setCurrentPage,
-  } = usePaginatedData(classrooms, 8);
+  } = usePaginatedData(classrooms);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
@@ -175,7 +175,7 @@ const ClassroomsPage = (): React.ReactElement => {
                     spacing="6"
                     width="100%"
                   >
-                    {classrooms.length > 8 && (
+                    {totalPages > 1 && (
                       <Pagination
                         currentPage={currentPage}
                         onPageChange={setCurrentPage}

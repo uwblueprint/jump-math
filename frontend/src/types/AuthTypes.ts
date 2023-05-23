@@ -5,11 +5,6 @@ export enum TabEnum {
   TEACHER,
 }
 
-export enum TabEnumClassroom {
-  ACTIVE,
-  ARCHIVED,
-}
-
 type BaseUser = {
   id: string;
   firstName: string;
