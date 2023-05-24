@@ -20,10 +20,8 @@ export const calculateMedianScore = (values: number[]): number => {
   return (values[mid] + values[mid - 1]) / 2;
 };
 
-export const isCompletedTestSession = (
+export const isCompletedTestResult = (
   results: Array<Array<Array<number>>>,
 ): boolean => {
-  return results.every((question) =>
-    question.every((subquestion) => subquestion.length !== 0),
-  );
+  return results.flat().every((answer) => answer.length);
 };

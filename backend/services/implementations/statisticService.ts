@@ -16,7 +16,7 @@ import {
 import {
   roundTwoDecimals,
   calculateMedianScore,
-  isCompletedTestSession,
+  isCompletedTestResult,
 } from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
@@ -131,7 +131,7 @@ class StatisticService implements IStatisticService {
     const total = answers.length;
 
     answers.forEach((result: Array<Array<Array<number>>>) => {
-      if (!isCompletedTestSession(result)) {
+      if (!isCompletedTestResult(result)) {
         uncompleted += 1;
       }
     });
