@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
+import { includesIgnoreCase } from "../../../utils/GeneralUtils";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
 
@@ -70,20 +71,41 @@ const StudentList = ({
   selectedStudentId,
   setSelectedStudentId,
 }: StudentListProps) => {
+  const [search, setSearch] = useState("");
+  const [sortDirection, setSortDirection] = useState<
+    "ascending" | "descending"
+  >("ascending");
+
+  const searchedStudentsWithName = useMemo(
+    () =>
+      students
+        .map((student) => ({
+          ...student,
+          name: `${student.firstName} ${student.lastName}`,
+        }))
+        .filter((student) => includesIgnoreCase(student.name, search)),
+    [students, search],
+  );
+
+  const sortedStudents = useMemo(
+    () =>
+      searchedStudentsWithName.sort((a, b) =>
+        sortDirection === "ascending"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name),
+      ),
+    [searchedStudentsWithName, sortDirection],
+  );
+
   return (
     <Box maxH="100%" overflow="auto" w="container.sm">
       <Flex alignItems="center" justifyContent="space-between" mb={4}>
-        <SearchBar onSearch={() => {}} />
-        <SortMenu
-          labels={[]}
-          onSortOrder={() => {}}
-          onSortProperty={() => {}}
-          properties={[]}
-        />
+        <SearchBar onSearch={setSearch} />
+        <SortMenu labels={[]} onSortOrder={setSortDirection} properties={[]} />
       </Flex>
       <OrderedList listStyleType="none" m={0}>
         <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
-          {students.map(({ id, ...student }, i) => (
+          {sortedStudents.map(({ id, ...student }) => (
             <StudentListItem
               key={id}
               isSelected={id === selectedStudentId}
