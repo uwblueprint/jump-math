@@ -170,7 +170,6 @@ const AddClassroomModal = ({
                         "November",
                         "December",
                       ], // length of 12
-                      firstDayOfWeek: 1, // default is 0, the dayNames[0], which is Sunday if you don't specify your own dayNames,
                     }}
                     date={watch("startDate")}
                     name="date-input"
