@@ -14,15 +14,19 @@ import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
 
+type StudentListItemProps = {
+  firstName: string;
+  lastName: string;
+  isViewed: boolean;
+  isSelected: boolean;
+};
+
 const StudentListItem = ({
-  student,
-  isSelected,
+  firstName,
+  lastName,
   isViewed,
-}: {
-  student: StudentResponse;
-  isSelected?: boolean;
-  isViewed?: boolean;
-}) => {
+  isSelected,
+}: StudentListItemProps) => {
   return (
     <ListItem>
       <Button
@@ -37,7 +41,7 @@ const StudentListItem = ({
         <Box
           color={isSelected ? "blue.300" : "grey.400"}
           fontWeight={isSelected ? "700" : "400"}
-        >{`${student.firstName} ${student.lastName}`}</Box>
+        >{`${firstName} ${lastName}`}</Box>
         <Spacer />
         {isViewed && (
           <Box color="grey.200" fontWeight="400">
@@ -49,8 +53,11 @@ const StudentListItem = ({
   );
 };
 
+type Student = StudentResponse & {
+  isViewed: boolean;
+};
 type StudentListProps = {
-  students: StudentResponse[];
+  students: Student[];
 };
 
 const StudentList = ({ students }: StudentListProps) => {
@@ -67,13 +74,8 @@ const StudentList = ({ students }: StudentListProps) => {
       </Flex>
       <OrderedList listStyleType="none" m={0}>
         <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
-          {students.map((student, i) => (
-            <StudentListItem
-              key={student.id}
-              isSelected={i % 2 === 0}
-              isViewed={i % 2 !== 0}
-              student={student}
-            />
+          {students.map(({ id, ...student }, i) => (
+            <StudentListItem key={id} isSelected={i % 2 === 0} {...student} />
           ))}
         </VStack>
       </OrderedList>

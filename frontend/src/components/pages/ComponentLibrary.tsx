@@ -20,10 +20,34 @@ const defaultValues = {
 } as ClassroomForm;
 
 const MOCK_STUDENTS = [
-  { id: "1", firstName: "Jane", lastName: "Doe", studentNumber: "238" },
-  { id: "2", firstName: "John", lastName: "Doe", studentNumber: "239" },
-  { id: "3", firstName: "Jane", lastName: "Doe", studentNumber: "240" },
-  { id: "4", firstName: "John", lastName: "Doe", studentNumber: "241" },
+  {
+    id: "1",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "238",
+    isViewed: false,
+  },
+  {
+    id: "2",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "239",
+    isViewed: true,
+  },
+  {
+    id: "3",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "240",
+    isViewed: false,
+  },
+  {
+    id: "4",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "241",
+    isViewed: true,
+  },
 ];
 
 const ComponentLibrary = (): React.ReactElement => {
