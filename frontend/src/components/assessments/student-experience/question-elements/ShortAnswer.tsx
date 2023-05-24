@@ -20,6 +20,7 @@ const ShortAnswer = ({
       borderRadius="8px"
       focusBorderColor="grey.300"
       onChange={(e) => updateAnswer(stringToNumberArray(e.target.value))}
+      onWheel={(e) => (e.target as HTMLElement).blur()}
       placeholder="Write your answer here"
       type="number"
       value={currentAnswer[0] ?? ""}
