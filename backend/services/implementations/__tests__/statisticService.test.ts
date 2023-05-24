@@ -148,4 +148,20 @@ describe("mongo statisticService", (): void => {
     );
     expect(res).toEqual(new Map<string, TestStatistic>());
   });
+
+  it("getCompletionRateByTest with multiple submissions", async () => {
+    await MgTestSession.insertMany(mockTestSessions);
+
+    const actualResult = await statisticService.getCompletionRateByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(77);
+  });
+
+  it("getCompletionRateByTest with 0 submissions", async () => {
+    const actualResult = await statisticService.getCompletionRateByTest(
+      mockTestWithId.id,
+    );
+    expect(actualResult).toEqual(0);
+  });
 });
