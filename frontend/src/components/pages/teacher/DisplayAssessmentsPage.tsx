@@ -26,8 +26,8 @@ import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
-import TestSessionListItem from "../../sessions/TestSessionListItem";
+import EmptySessionsTableState from "../../sessions/overview/EmptySessionsTableState";
+import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(

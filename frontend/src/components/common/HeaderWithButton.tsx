@@ -6,7 +6,7 @@ import { PlusOutlineIcon } from "../../assets/icons";
 
 type HeaderWithButtonProps = {
   buttonIcon?: React.ReactElement;
-  buttonText: string;
+  buttonText?: string;
   onClick?: () => void;
   showButton?: boolean;
   targetRoute?: string;
