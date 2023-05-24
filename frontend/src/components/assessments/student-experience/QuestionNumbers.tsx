@@ -7,12 +7,8 @@ import { questionStatus } from "../../../utils/StudentUtils";
 import QuestionNumber from "./QuestionNumber";
 
 const QuestionNumbers = (): React.ReactElement => {
-  const {
-    test,
-    answers,
-    currentQuestionIndex,
-    setCurrentQuestionIndex,
-  } = useContext(StudentContext);
+  const { test, answers, currentQuestionIndex, setCurrentQuestionIndex } =
+    useContext(StudentContext);
 
   return (
     <SimpleGrid columns={3} spacing={4}>
