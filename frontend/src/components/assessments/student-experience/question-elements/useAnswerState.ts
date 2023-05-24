@@ -12,9 +12,8 @@ type AnswerStateResult = {
 };
 
 const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
-  const { currentQuestionIndex, answers, setAnswers } = useContext(
-    StudentContext,
-  );
+  const { currentQuestionIndex, answers, setAnswers } =
+    useContext(StudentContext);
 
   const currentAnswer = useMemo(() => {
     return getAnswerValues(currentQuestionIndex, answerElementIndex, answers);

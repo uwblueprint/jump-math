@@ -4,9 +4,8 @@ import { Button, HStack, Spacer } from "@chakra-ui/react";
 import StudentContext from "../../../contexts/StudentContext";
 
 const NavButtons = (): React.ReactElement => {
-  const { test, currentQuestionIndex, setCurrentQuestionIndex } = useContext(
-    StudentContext,
-  );
+  const { test, currentQuestionIndex, setCurrentQuestionIndex } =
+    useContext(StudentContext);
 
   const questionCount = test?.questions.length ?? 0;
 

@@ -24,10 +24,8 @@ interface ImageElementProps {
 }
 
 const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
-  const [
-    imageMetadataRequest,
-    setImageMetadataRequest,
-  ] = useState<ImageMetadataRequest>(data);
+  const [imageMetadataRequest, setImageMetadataRequest] =
+    useState<ImageMetadataRequest>(data);
   const [error, setError] = useState<string>("");
   const inputFile = useRef<HTMLInputElement>(null);
   const { setQuestionElements } = useContext(QuestionEditorContext);
