@@ -8,6 +8,11 @@ export interface ClassroomForm {
   gradeLevel: Grade;
 }
 
+export enum TabEnumClassroom {
+  ACTIVE,
+  ARCHIVED,
+}
+
 export type StudentInput = "firstName" | "lastName" | "studentNumber";
 
 export interface StudentForm {

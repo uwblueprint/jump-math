@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
-import { DELETE_TEST_SESSION } from "../../APIClients/mutations/TestSessionMutations";
-import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../APIClients/queries/TestSessionQueries";
-import AuthContext from "../../contexts/AuthContext";
-import type { TestSessionStatus } from "../../types/TestSessionTypes";
-import DeleteModal from "../assessments/assessment-status/EditStatusModals/DeleteModal";
-import Popover from "../common/Popover";
-import PopoverButton from "../common/PopoverButton";
-import Toast from "../common/Toast";
+import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
+import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
+import AuthContext from "../../../contexts/AuthContext";
+import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import DeleteModal from "../../assessments/assessment-status/EditStatusModals/DeleteModal";
+import Popover from "../../common/Popover";
+import PopoverButton from "../../common/PopoverButton";
+import Toast from "../../common/Toast";
 
 type TestSessionPopoverProps = {
   status: TestSessionStatus;
