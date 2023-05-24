@@ -1,7 +1,7 @@
-enum Status {
+enum QuestionNumberTypes {
   CURRENT = "CURRENT",
   COMPLETED = "COMPLETED",
   UNATTEMPTED = "UNATTEMPTED",
 }
 
-export default Status;
+export default QuestionNumberTypes;
