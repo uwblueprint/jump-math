@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
-import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
+import type { QuestionComponentResponse } from "../../../../APIClients/types/TestClientTypes";
 import {
   QuestionElementType,
   ResponseElementType,
-} from "../../../types/QuestionTypes";
-import QuestionSummary from "../assessment-creation/QuestionSummary";
+} from "../../../../types/QuestionTypes";
+import QuestionSummary from "../../assessment-creation/QuestionSummary";
 
 import QuestionTypeImages from "./QuestionTypeImages";
 
@@ -17,7 +17,7 @@ interface AssessmentInfoProps {
 const AssessmentInfo = ({
   questions,
 }: AssessmentInfoProps): React.ReactElement => {
-  const pointCount = questions
+  const totalPointCount = questions
     .flat()
     .filter(
       (question) => question.type === QuestionElementType.QUESTION_TEXT,
@@ -34,7 +34,10 @@ const AssessmentInfo = ({
   };
 
   return (
-    <QuestionSummary pointCount={pointCount} questionCount={questions.length}>
+    <QuestionSummary
+      pointCount={totalPointCount}
+      questionCount={questions.length}
+    >
       <VStack align="left" width="100%">
         <br />
         <Text paddingBottom="2" textStyle="smaller-paragraph">
