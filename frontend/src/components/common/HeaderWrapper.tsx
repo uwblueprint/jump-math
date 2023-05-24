@@ -11,7 +11,7 @@ const HeaderWrapper = ({
   children,
 }: HeaderWrapperProps): React.ReactElement => {
   return (
-    <Box borderBottom="2px" borderColor="grey.100">
+    <Box borderBottom="2px" borderColor="grey.100" width="100%">
       <Flex margin="1em 2em 1em 2em">
         <HomeButton />
         {children}
