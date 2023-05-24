@@ -23,10 +23,8 @@ const TeacherSignupTwo = ({
     formState: { errors },
   } = useFormContext<TeacherSignupForm>();
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
-  const [
-    isCurrentlyTeachingJMError,
-    setIsCurrentlyTeachingJMError,
-  ] = React.useState(false);
+  const [isCurrentlyTeachingJMError, setIsCurrentlyTeachingJMError] =
+    React.useState(false);
   const [isSchoolError, setSchoolError] = React.useState(false);
 
   useQuery(GET_ALL_SCHOOLS, {
