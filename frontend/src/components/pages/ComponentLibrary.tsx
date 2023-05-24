@@ -111,7 +111,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <StatisticCard title="percentile" value="25th" />
       <StatisticCard title="submissions" value="1087" variant="blue" />
       <StatisticCard title="completion rate" value="78%" variant="blue" />
-      <Box maxH="initial">
+      <Box height="20vh">
         <StudentList
           selectedStudentId={selectedStudentId}
           setSelectedStudentId={setSelectedStudentId}

@@ -80,7 +80,7 @@ const SortMenu = ({
             <PopoverTrigger>
               <Button
                 leftIcon={<FilterOptionsIcon />}
-                minWidth="5%"
+                minW="initial"
                 variant="tertiary"
               >
                 Sort

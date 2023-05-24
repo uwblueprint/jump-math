@@ -98,12 +98,18 @@ const StudentList = ({
   );
 
   return (
-    <Box maxH="100%" overflow="auto" w="container.sm">
+    <Flex direction="column" height="100%" w="container.sm">
       <Flex alignItems="center" justifyContent="space-between" mb={4}>
         <SearchBar onSearch={setSearch} />
         <SortMenu labels={[]} onSortOrder={setSortDirection} properties={[]} />
       </Flex>
-      <OrderedList listStyleType="none" m={0}>
+      <OrderedList
+        flex={1}
+        listStyleType="none"
+        m={0}
+        maxH="100%"
+        overflow="auto"
+      >
         <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
           {sortedStudents.map(({ id, ...student }) => (
             <StudentListItem
@@ -115,7 +121,7 @@ const StudentList = ({
           ))}
         </VStack>
       </OrderedList>
-    </Box>
+    </Flex>
   );
 };
 
