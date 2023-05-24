@@ -15,7 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { FilterOptionsIcon } from "../../../assets/icons";
+import { SortOptionsIcon } from "../../../assets/icons";
 import { titleCase } from "../../../utils/GeneralUtils";
 
 export type SortOrder = "ascending" | "descending";
@@ -79,7 +79,7 @@ const SortMenu = ({
           <>
             <PopoverTrigger>
               <Button
-                leftIcon={<FilterOptionsIcon />}
+                leftIcon={<SortOptionsIcon />}
                 minW="initial"
                 variant="tertiary"
               >
