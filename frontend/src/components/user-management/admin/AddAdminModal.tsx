@@ -21,7 +21,7 @@ import {
 
 import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
 import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
-import {
+import type {
   UserRequest,
   UserResponse,
 } from "../../../APIClients/types/UserClientTypes";

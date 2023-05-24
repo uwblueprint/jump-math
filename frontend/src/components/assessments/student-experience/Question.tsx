@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
-import {
+import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
+import type {
   ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,

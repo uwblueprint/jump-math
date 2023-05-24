@@ -1,5 +1,6 @@
-import MgSimpleEntity, { SimpleEntity } from "../../models/simpleEntity.model";
-import {
+import type { SimpleEntity } from "../../models/simpleEntity.model";
+import MgSimpleEntity from "../../models/simpleEntity.model";
+import type {
   ISimpleEntityService,
   SimpleEntityRequestDTO,
   SimpleEntityResponseDTO,

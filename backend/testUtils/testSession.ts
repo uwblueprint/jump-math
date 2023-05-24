@@ -1,5 +1,6 @@
-import MgTestSession, { Result } from "../models/testSession.model";
-import {
+import type { Result } from "../models/testSession.model";
+import MgTestSession from "../models/testSession.model";
+import type {
   ResultRequestDTO,
   ResultResponseDTO,
   TestSessionRequestDTO,

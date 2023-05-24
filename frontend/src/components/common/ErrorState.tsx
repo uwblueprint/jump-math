@@ -1,21 +1,29 @@
 import React from "react";
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 
-import { AlertIcon } from "../../assets/icons";
+import ErrorIllustration from "../../assets/illustrations/error.svg";
+
+import MessageContainer from "./MessageContainer";
 
 const ErrorState = ({
   fullPage,
 }: {
   fullPage?: boolean;
 }): React.ReactElement => (
-  <Center height={fullPage ? "100vh" : "auto"}>
-    <VStack spacing={6} textAlign="center">
-      <AlertIcon />
-      <Text color="blue.300" textStyle="paragraph">
-        The data has not loaded properly. Please reload the page or contact Jump
-        Math.
-      </Text>
-    </VStack>
+  <Center
+    backgroundColor={fullPage ? "" : "blue.50"}
+    borderRadius="1rem"
+    color="blue.300"
+    height={fullPage ? "100vh" : "100%"}
+    minWidth="100%"
+    pb={14}
+  >
+    <MessageContainer
+      image={ErrorIllustration}
+      paragraphs={["Please refresh your page and try again"]}
+      subtitle="Sorry, something went wrong."
+      textColor="blue.300"
+    />
   </Center>
 );
 

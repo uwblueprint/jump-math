@@ -1,9 +1,10 @@
-import {
+import type {
   SchoolRequestDTO,
   SchoolResponseDTO,
 } from "../services/interfaces/schoolService";
 import { testUsers } from "./users";
-import MgSchool, { School } from "../models/school.model";
+import type { School } from "../models/school.model";
+import MgSchool from "../models/school.model";
 
 // set up test schools
 export const testSchools = [

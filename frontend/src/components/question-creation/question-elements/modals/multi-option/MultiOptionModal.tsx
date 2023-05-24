@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
-import {
+import type {
   MultiData,
   MultiOptionData,
-  QuestionElementType,
 } from "../../../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../utils/QuestionUtils";
 import ErrorToast from "../../../../common/ErrorToast";
 import Modal from "../../../../common/Modal";

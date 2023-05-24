@@ -7,7 +7,7 @@ import {
   invalidImageUpload,
   uploadDir,
 } from "../../../testUtils/imageUpload";
-import IImageUploadService from "../../interfaces/imageUploadService";
+import type IImageUploadService from "../../interfaces/imageUploadService";
 import ImageUploadService from "../imageUploadService";
 
 jest.mock("firebase-admin", () => {

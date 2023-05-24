@@ -1,5 +1,5 @@
 import React from "react";
-import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
+import type { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
   Box,
@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { TestRequest } from "../../../APIClients/types/TestClientTypes";
+import type { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import {
   EyeOutlineIcon,
   SaveOutlineIcon,

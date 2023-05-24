@@ -1,11 +1,12 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { HStack } from "@chakra-ui/react";
+import { HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
-import { ClassroomForm } from "../../types/ClassroomTypes";
+import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import ClassroomCard from "../classrooms/ClassroomCard";
+import StatisticCard from "../sessions/results/StatisticCard";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
 
@@ -18,6 +19,7 @@ const defaultValues = {
 } as ClassroomForm;
 
 const ComponentLibrary = (): React.ReactElement => {
+  const { onClose, isOpen } = useDisclosure();
   const methods = useForm<ClassroomForm>({
     defaultValues,
     mode: "onChange",
@@ -28,6 +30,10 @@ const ComponentLibrary = (): React.ReactElement => {
         assessmentName="Unit 0 Review Test"
         classroomName="Mathematics 4 - Mr. Roberts"
       />
+      <StatisticCard title="total score" value="87%" />
+      <StatisticCard title="percentile" value="25th" />
+      <StatisticCard title="submissions" value="1087" variant="blue" />
+      <StatisticCard title="completion rate" value="78%" variant="blue" />
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
@@ -44,7 +50,7 @@ const ComponentLibrary = (): React.ReactElement => {
           name="Sorting and Classifying"
           studentCount={14}
         />
-        <AddClassroomModal />
+        <AddClassroomModal isOpen={isOpen} onClose={onClose} />
         <AddStudentModal />
       </HStack>
     </FormProvider>

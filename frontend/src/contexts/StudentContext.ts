@@ -2,9 +2,9 @@
 
 import { createContext } from "react";
 
-import { TestResponse } from "../APIClients/types/TestClientTypes";
-import { TestSessionSetupData } from "../APIClients/types/TestSessionClientTypes";
-import { Answers } from "../types/AnswerTypes";
+import type { TestResponse } from "../APIClients/types/TestClientTypes";
+import type { TestSessionSetupData } from "../APIClients/types/TestSessionClientTypes";
+import type { Answers } from "../types/AnswerTypes";
 
 type StudentContextType = {
   test: TestResponse | null;

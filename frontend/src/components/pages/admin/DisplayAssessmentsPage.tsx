@@ -24,7 +24,8 @@ import AssessmentsTable from "../../assessments/AssessmentsTable";
 import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
-import FilterMenu, { FilterProp } from "../../common/table/FilterMenu";
+import type { FilterProp } from "../../common/table/FilterMenu";
+import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu from "../../common/table/SortMenu";
 
@@ -154,9 +155,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         </Center>
       )}
       {error && (
-        <Center flex="1" margin="15%">
+        <Box height="100%" mt={10}>
           <ErrorState />
-        </Center>
+        </Box>
       )}
       {assessments && !error && !loading && (
         <Box flex="1">

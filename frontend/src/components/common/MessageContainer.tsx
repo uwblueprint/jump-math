@@ -6,6 +6,7 @@ interface MessageContainerProps {
   buttonIcon?: React.ReactElement;
   buttonRoute?: string;
   buttonText?: string;
+  onClick?: () => void;
   image: string;
   paragraphs: string[];
   subtitle: string;
@@ -17,6 +18,7 @@ const MessageContainer = ({
   buttonRoute = "",
   buttonText,
   image,
+  onClick,
   paragraphs,
   textColor,
   subtitle,
@@ -49,7 +51,7 @@ const MessageContainer = ({
       {buttonText && (
         <Button
           mt={10}
-          onClick={() => history.push(buttonRoute)}
+          onClick={buttonRoute ? () => history.push(buttonRoute) : onClick}
           rightIcon={buttonIcon}
           variant="primary"
         >

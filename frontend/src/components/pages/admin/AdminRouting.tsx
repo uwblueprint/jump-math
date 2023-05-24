@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import Page from "../../../types/PageTypes";
+import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
@@ -26,7 +26,7 @@ const AdminRouting = (): React.ReactElement => {
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
-      <VStack align="left" flex="1">
+      <VStack align="left" flex="1" height="100vh">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>

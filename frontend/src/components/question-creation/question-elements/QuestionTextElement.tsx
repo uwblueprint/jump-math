@@ -3,7 +3,7 @@ import ResizeTextarea from "react-textarea-autosize";
 import { Flex, Text, Textarea } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import { QuestionTextMetadata } from "../../../types/QuestionMetadataTypes";
+import type { QuestionTextMetadata } from "../../../types/QuestionMetadataTypes";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 import {
   exceedsMaxLength,

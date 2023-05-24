@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack, Spacer } from "@chakra-ui/react";
 
-import Page from "../../types/PageTypes";
+import type Page from "../../types/PageTypes";
 import Logout from "../auth/Logout";
 
 import HeaderWrapper from "./HeaderWrapper";

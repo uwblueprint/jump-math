@@ -1,5 +1,5 @@
-import { Status, UseCase } from "../../types/AssessmentTypes";
-import {
+import type { Status, UseCase } from "../../types/AssessmentTypes";
+import type {
   ImageMetadata,
   ImageMetadataRequest,
   MultipleChoiceMetadata,
@@ -8,9 +8,9 @@ import {
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../types/QuestionMetadataTypes";
-import { Question, QuestionElementType } from "../../types/QuestionTypes";
+import type { Question, QuestionElementType } from "../../types/QuestionTypes";
 
-import { Grade } from "./UserClientTypes";
+import type { Grade } from "./UserClientTypes";
 
 interface QuestionType {
   type: QuestionElementType;

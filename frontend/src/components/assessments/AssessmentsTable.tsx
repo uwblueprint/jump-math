@@ -1,9 +1,10 @@
 import React from "react";
 import { Text } from "@chakra-ui/react";
 
-import { AssessmentProperties, Status } from "../../types/AssessmentTypes";
+import type { AssessmentProperties, Status } from "../../types/AssessmentTypes";
 import { removeUnderscore, titleCase } from "../../utils/GeneralUtils";
-import { Table, TableRow } from "../common/table/Table";
+import type { TableRow } from "../common/table/Table";
+import { Table } from "../common/table/Table";
 
 import EditStatusPopover from "./assessment-status/EditStatusPopover";
 import StatusTag from "./assessment-status/StatusTag";

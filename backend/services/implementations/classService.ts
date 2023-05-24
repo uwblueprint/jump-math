@@ -1,15 +1,16 @@
-import { UserDTO } from "../../types";
-import MgClass, { Class } from "../../models/class.model";
+import type { UserDTO } from "../../types";
+import type { Class } from "../../models/class.model";
+import MgClass from "../../models/class.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import {
+import type {
   IClassService,
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
 } from "../interfaces/classService";
-import IUserService from "../interfaces/userService";
-import {
+import type IUserService from "../interfaces/userService";
+import type {
   ITestSessionService,
   TestSessionResponseDTO,
 } from "../interfaces/testSessionService";

@@ -19,8 +19,8 @@ import {
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
 import TestSessionService from "../testSessionService";
-import TestService from "../testService";
-import SchoolService from "../schoolService";
+import type TestService from "../testService";
+import type SchoolService from "../schoolService";
 import { mockTestSessionWithId } from "../../../testUtils/testSession";
 
 const testClassWithTestSessions = {

@@ -1,15 +1,15 @@
 import TestService from "../../services/implementations/testService";
-import {
+import type {
   GraphQLTestDTO,
   ITestService,
   TestResponseDTO,
 } from "../../services/interfaces/testService";
-import {
+import type {
   GraphQLQuestionComponentMetadata,
   QuestionComponentMetadata,
   QuestionComponentMetadataRequest,
 } from "../../types/questionMetadataTypes";
-import {
+import type {
   GraphQLQuestionComponent,
   QuestionComponentRequest,
 } from "../../types/questionTypes";

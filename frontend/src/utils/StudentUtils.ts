@@ -1,7 +1,7 @@
 import update from "immutability-helper";
 
-import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
-import { Answers } from "../types/AnswerTypes";
+import type { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
+import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
 
