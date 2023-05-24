@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -19,6 +19,7 @@ type StudentListItemProps = {
   lastName: string;
   isViewed: boolean;
   isSelected: boolean;
+  onClick: () => void;
 };
 
 const StudentListItem = ({
@@ -26,6 +27,7 @@ const StudentListItem = ({
   lastName,
   isViewed,
   isSelected,
+  onClick,
 }: StudentListItemProps) => {
   return (
     <ListItem>
@@ -34,6 +36,7 @@ const StudentListItem = ({
         bg="grey.50"
         borderRadius={8}
         display="flex"
+        onClick={onClick}
         p={4}
         variant="tertiary"
         w="100%"
@@ -58,9 +61,15 @@ type Student = StudentResponse & {
 };
 type StudentListProps = {
   students: Student[];
+  selectedStudentId: string;
+  setSelectedStudentId: (id: string) => void;
 };
 
-const StudentList = ({ students }: StudentListProps) => {
+const StudentList = ({
+  students,
+  selectedStudentId,
+  setSelectedStudentId,
+}: StudentListProps) => {
   return (
     <Box maxH="100%" overflow="auto" w="container.sm">
       <Flex alignItems="center" justifyContent="space-between" mb={4}>
@@ -75,7 +84,12 @@ const StudentList = ({ students }: StudentListProps) => {
       <OrderedList listStyleType="none" m={0}>
         <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
           {students.map(({ id, ...student }, i) => (
-            <StudentListItem key={id} isSelected={i % 2 === 0} {...student} />
+            <StudentListItem
+              key={id}
+              isSelected={id === selectedStudentId}
+              onClick={() => setSelectedStudentId(id)}
+              {...student}
+            />
           ))}
         </VStack>
       </OrderedList>

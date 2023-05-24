@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 
@@ -56,6 +56,9 @@ const ComponentLibrary = (): React.ReactElement => {
     defaultValues,
     mode: "onChange",
   });
+  const [selectedStudentId, setSelectedStudentId] = useState<string>(
+    MOCK_STUDENTS[0].id,
+  );
   return (
     <FormProvider {...methods}>
       <StudentDashboardHeader
@@ -67,7 +70,11 @@ const ComponentLibrary = (): React.ReactElement => {
       <StatisticCard title="submissions" value="1087" variant="blue" />
       <StatisticCard title="completion rate" value="78%" variant="blue" />
       <Box maxH="initial">
-        <StudentList students={MOCK_STUDENTS} />
+        <StudentList
+          selectedStudentId={selectedStudentId}
+          setSelectedStudentId={setSelectedStudentId}
+          students={MOCK_STUDENTS}
+        />
       </Box>
       <MobileRedirect />
       <HStack justifyContent="center">
