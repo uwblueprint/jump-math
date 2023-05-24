@@ -48,6 +48,48 @@ const MOCK_STUDENTS = [
     studentNumber: "241",
     isViewed: true,
   },
+  {
+    id: "5",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "242",
+    isViewed: false,
+  },
+  {
+    id: "6",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "243",
+    isViewed: true,
+  },
+  {
+    id: "7",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "244",
+    isViewed: false,
+  },
+  {
+    id: "8",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "245",
+    isViewed: true,
+  },
+  {
+    id: "9",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "246",
+    isViewed: false,
+  },
+  {
+    id: "10",
+    firstName: "Z",
+    lastName: "Z",
+    studentNumber: "247",
+    isViewed: true,
+  },
 ];
 
 const ComponentLibrary = (): React.ReactElement => {
