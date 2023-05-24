@@ -41,9 +41,8 @@ const QuestionCard = ({
   index,
   question,
 }: QuestionCardProps): React.ReactElement => {
-  const { setQuestions, setShowQuestionEditor, setEditorQuestion } = useContext(
-    AssessmentContext,
-  );
+  const { setQuestions, setShowQuestionEditor, setEditorQuestion } =
+    useContext(AssessmentContext);
 
   const { id } = question;
   const questionTexts = getQuestionTexts(question.elements);
