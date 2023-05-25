@@ -6,6 +6,7 @@ import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import ClassroomCard from "../classrooms/ClassroomCard";
+import CorrectedShortAnswer from "../sessions/results/CorrectedShortAnswer";
 import StatisticCard from "../sessions/results/StatisticCard";
 import StudentList from "../sessions/results/StudentList";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
@@ -107,6 +108,9 @@ const ComponentLibrary = (): React.ReactElement => {
         assessmentName="Unit 0 Review Test"
         classroomName="Mathematics 4 - Mr. Roberts"
       />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
       <StatisticCard title="total score" value="87%" />
       <StatisticCard title="percentile" value="25th" />
       <StatisticCard title="submissions" value="1087" variant="blue" />
