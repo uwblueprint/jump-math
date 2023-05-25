@@ -186,6 +186,15 @@ export const SearchOutlineIcon = (): React.ReactElement => (
   </Icon>
 );
 
+export const SortOptionsIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 18 18">
+    <path
+      d="M7.5 13.5H10.5V12H7.5V13.5ZM2.25 4.5V6H15.75V4.5H2.25ZM4.5 9.75H13.5V8.25H4.5V9.75Z"
+      fill="currentColor"
+    />
+  </Icon>
+);
+
 export const FilterOptionsIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <path
