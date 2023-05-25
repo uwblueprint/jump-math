@@ -13,6 +13,13 @@ const Checkbox = {
       pointerEvents: "none",
     },
   },
+  variants: {
+    bold: {
+      label: {
+        color: "grey.400",
+      },
+    },
+  },
 };
 
 export default Checkbox;
