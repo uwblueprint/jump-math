@@ -94,7 +94,7 @@ export const getUpdatedAnswer = (
 
 export const stringToNumberArray = (input: string): number[] => {
   const castedInput = stringToNumber(input);
-  return castedInput ? [castedInput] : [];
+  return castedInput === null ? [] : [castedInput];
 };
 
 export const stringOrNumberArrayToNumberArray = (
@@ -104,14 +104,16 @@ export const stringOrNumberArrayToNumberArray = (
   inputs.forEach((input) => {
     if (typeof input === "string") {
       const castedInput = stringToNumber(input);
-      if (castedInput) {
+      if (castedInput !== null) {
         retValue.push(castedInput);
       }
     } else {
       retValue.push(input);
     }
   });
-  return retValue;
+  return retValue.sort((a, b) => {
+    return a - b;
+  });
 };
 
 const isCompleted = (answer: Answers) => {
