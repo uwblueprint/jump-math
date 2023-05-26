@@ -16,6 +16,7 @@ import {
 import {
   roundTwoDecimals,
   calculateMedianScore,
+  isCompletedTestResult,
 } from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
@@ -105,6 +106,37 @@ class StatisticService implements IStatisticService {
     const aggCursor = await MgTestSession.aggregate(pipeline);
     const scores = aggCursor[0]?.scores ?? [0];
     return calculateMedianScore(scores);
+  }
+
+  async getCompletionRateByTest(testId: string): Promise<number> {
+    const pipeline: PipelineStage[] = [
+      filterTestsByTestId(testId),
+      unwindResults,
+      {
+        $group: {
+          _id: null,
+          answers: { $push: "$results.answers" },
+        },
+      },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const answers = aggCursor[0]?.answers ?? [];
+
+    if (answers.length === 0) {
+      return 0;
+    }
+
+    let uncompleted = 0;
+    const total = answers.length;
+
+    answers.forEach((result: Array<Array<Array<number>>>) => {
+      if (!isCompletedTestResult(result)) {
+        uncompleted += 1;
+      }
+    });
+
+    return roundTwoDecimals((total - uncompleted) / total) * 100;
   }
 
   private getAverageScorePerQuestion(

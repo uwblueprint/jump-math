@@ -27,13 +27,14 @@ import LoadingState from "../../common/LoadingState";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
+import type { SortOrder } from "../../common/table/SortMenu";
 import SortMenu from "../../common/table/SortMenu";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("updatedAt");
-  const [sortOrder, setSortOrder] = React.useState("descending");
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("descending");
 
   const [grades, setGrades] = React.useState<Array<string>>([]);
   const [testTypes, setTestTypes] = React.useState<Array<string>>([]);

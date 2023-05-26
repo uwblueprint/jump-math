@@ -48,6 +48,7 @@ const NavButtons = (): React.ReactElement => {
   };
 
   const questionCount = test?.questions.length ?? 0;
+
   const isFirstQuestion = currentQuestionIndex === 0;
   const isLastQuestion = currentQuestionIndex === questionCount - 1;
 

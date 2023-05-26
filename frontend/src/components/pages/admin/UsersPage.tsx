@@ -24,6 +24,7 @@ import {
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
+import type { SortOrder } from "../../common/table/SortMenu";
 import SortMenu from "../../common/table/SortMenu";
 import AdminTab from "../../user-management/admin/AdminTab";
 import AdminUserTable from "../../user-management/admin/AdminUserTable";
@@ -34,7 +35,7 @@ const UsersPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
-  const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
   const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ADMIN);
 
   const {
