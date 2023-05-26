@@ -15,15 +15,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { FilterOptionsIcon } from "../../../assets/icons";
+import { SortOptionsIcon } from "../../../assets/icons";
 import { titleCase } from "../../../utils/GeneralUtils";
 
+export type SortOrder = "ascending" | "descending";
 export interface SortMenuProps {
   properties: string[];
   labels: string[];
-  onSortProperty: React.Dispatch<React.SetStateAction<string>>;
-  onSortOrder: React.Dispatch<React.SetStateAction<string>>;
-  initialSortOrder?: string;
+  onSortProperty?: React.Dispatch<React.SetStateAction<string>>;
+  onSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
+  initialSortOrder?: SortOrder;
 }
 
 const SortMenu = ({
@@ -34,9 +35,9 @@ const SortMenu = ({
   initialSortOrder = "ascending",
 }: SortMenuProps): React.ReactElement => {
   const [sortProperty, setSortProperty] = React.useState(properties[0]);
-  const [sortOrder, setSortOrder] = React.useState(initialSortOrder);
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>(initialSortOrder);
 
-  const propertyList = (
+  const propertyList = properties.length ? (
     <RadioGroup
       color="blue.300"
       onChange={(e) => setSortProperty(e)}
@@ -53,12 +54,12 @@ const SortMenu = ({
         ))}
       </VStack>
     </RadioGroup>
-  );
+  ) : null;
 
   const orderList = (
     <RadioGroup
       color="blue.300"
-      onChange={(e) => setSortOrder(e)}
+      onChange={(e) => setSortOrder(e as unknown as SortOrder)}
       value={sortOrder}
     >
       <VStack alignItems="left" gap={1}>
@@ -78,8 +79,8 @@ const SortMenu = ({
           <>
             <PopoverTrigger>
               <Button
-                leftIcon={<FilterOptionsIcon />}
-                minWidth="5%"
+                leftIcon={<SortOptionsIcon />}
+                minW="initial"
                 variant="tertiary"
               >
                 Sort
@@ -90,12 +91,13 @@ const SortMenu = ({
               borderRadius="16px"
               boxShadow="8px 8px 30px 0px #0000000D"
               py="4"
+              w={propertyList ? "xs" : "xxs"}
             >
               <PopoverBody>
                 <Flex justifyContent="center">
                   <HStack alignItems="flex-start" gap={4}>
                     {propertyList}
-                    <Divider orientation="vertical" />
+                    {propertyList && <Divider orientation="vertical" />}
                     {orderList}
                   </HStack>
                 </Flex>
@@ -104,7 +106,7 @@ const SortMenu = ({
                 <Button
                   minWidth="10%"
                   onClick={() => {
-                    onSortProperty(sortProperty);
+                    onSortProperty?.(sortProperty);
                     onSortOrder(sortOrder);
                     onClose();
                   }}

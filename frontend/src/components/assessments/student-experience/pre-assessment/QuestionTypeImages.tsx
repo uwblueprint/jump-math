@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, HStack, Image, Text, Tooltip, VStack } from "@chakra-ui/react";
 
-import typeToImageMetadata from "../../../constants/StudentAssessmentConstants";
-import type { ResponseElementType } from "../../../types/QuestionTypes";
-import { removeUnderscore, titleCase } from "../../../utils/GeneralUtils";
+import typeToImageMetadata from "../../../../constants/StudentAssessmentConstants";
+import type { ResponseElementType } from "../../../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../../../utils/GeneralUtils";
 
 const QuestionTypeImages = ({
   questionTypes,

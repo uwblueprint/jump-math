@@ -5,33 +5,37 @@ import { CheckmarkIcon } from "../../../assets/icons";
 import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
 
 interface QuestionNumberProps {
-  num: number;
+  number: number;
   status: QuestionNumberTypes;
+  onClick: () => void;
 }
 
 const QuestionNumber = ({
-  num,
+  number,
   status,
+  onClick,
 }: QuestionNumberProps): React.ReactElement => {
   return (
     <>
       {status === QuestionNumberTypes.COMPLETED ? (
         <IconButton
-          aria-label={`Question Number ${num}`}
+          aria-label={`Question Number ${number}`}
           fontSize="20px"
           icon={<CheckmarkIcon />}
           isActive
           minWidth="3.7rem"
+          onClick={onClick}
           variant="primary"
         />
       ) : (
         <Button
           minWidth="3.7rem"
+          onClick={onClick}
           variant={
             status === QuestionNumberTypes.CURRENT ? "primary" : "outline"
           }
         >
-          {num}
+          {number}
         </Button>
       )}
     </>
