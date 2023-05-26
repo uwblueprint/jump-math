@@ -1,9 +1,12 @@
+import type { StringOrNumber } from "@chakra-ui/utils";
 import update from "immutability-helper";
 
 import type { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
+
+import { stringToNumber } from "./GeneralUtils";
 
 export const getAnswerElements = (
   question: QuestionComponentRequest[],
@@ -90,8 +93,25 @@ export const getUpdatedAnswer = (
 };
 
 export const stringToNumberArray = (input: string): number[] => {
-  const value = parseFloat(input);
-  return Number.isNaN(value) ? [] : [value];
+  const castedInput = stringToNumber(input);
+  return castedInput ? [castedInput] : [];
+};
+
+export const stringOrNumberArrayToNumberArray = (
+  inputs: StringOrNumber[],
+): number[] => {
+  const retValue: number[] = [];
+  inputs.forEach((input) => {
+    if (typeof input === "string") {
+      const castedInput = stringToNumber(input);
+      if (castedInput) {
+        retValue.push(castedInput);
+      }
+    } else {
+      retValue.push(input);
+    }
+  });
+  return retValue;
 };
 
 const isCompleted = (answer: Answers) => {
