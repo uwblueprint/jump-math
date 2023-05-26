@@ -106,7 +106,7 @@ export const stringOrNumberArrayToNumberArray = (
     .sort((a, b) => a - b);
 };
 
-const isCompleted = (answer: Answers) => {
+export const isCompleted = (answer: Answers) => {
   return answer.completedCount === answer.elements.length;
 };
 

@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
+import { Prompt } from "react-router-dom";
 import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
+import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import StudentContext from "../../../contexts/StudentContext";
 import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
 import type { Answers } from "../../../types/AnswerTypes";
@@ -45,29 +47,32 @@ const WriteAssessmentPage = (): React.ReactElement => {
       )}
       {!isLoading && isSubmitted && <TestSubmissionMessage />}
       {!isLoading && !isSubmitted && (
-        <VStack align="center" flex="1" spacing="8">
-          <StudentDashboardHeader
-            assessmentName={test?.name ?? ""}
-            classroomName={className}
-          />
-          <Box width="90%">
-            <HStack align="top" spacing="10%">
-              <VStack align="left" minWidth="233" spacing="6">
-                <Text textStyle="subtitle1">Questions</Text>
-                <QuestionNumbers />
-              </VStack>
-              <VStack align="left" minHeight="83vh" spacing={8}>
-                <Instructions />
-                <QuestionTitle />
-                <Question
-                  elements={test?.questions[currentQuestionIndex] ?? []}
-                />
-                <Spacer />
-                <NavButtons />
-              </VStack>
-            </HStack>
-          </Box>
-        </VStack>
+        <>
+          <Prompt message={confirmUnsavedChangesText} />
+          <VStack align="center" flex="1" spacing="8">
+            <StudentDashboardHeader
+              assessmentName={test?.name ?? ""}
+              classroomName={className}
+            />
+            <Box width="90%">
+              <HStack align="top" spacing="10%">
+                <VStack align="left" minWidth="233" spacing="6">
+                  <Text textStyle="subtitle1">Questions</Text>
+                  <QuestionNumbers />
+                </VStack>
+                <VStack align="left" minHeight="83vh" spacing={8}>
+                  <Instructions />
+                  <QuestionTitle />
+                  <Question
+                    elements={test?.questions[currentQuestionIndex] ?? []}
+                  />
+                  <Spacer />
+                  <NavButtons />
+                </VStack>
+              </HStack>
+            </Box>
+          </VStack>
+        </>
       )}
     </WriteAssessmentContext.Provider>
   );
