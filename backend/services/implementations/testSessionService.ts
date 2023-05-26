@@ -1,6 +1,8 @@
-import MgTestSession, { TestSession } from "../../models/testSession.model";
-import MgClass, { Class } from "../../models/class.model";
-import {
+import type { TestSession } from "../../models/testSession.model";
+import MgTestSession from "../../models/testSession.model";
+import type { Class } from "../../models/class.model";
+import MgClass from "../../models/class.model";
+import type {
   ITestSessionService,
   ResultRequestDTO,
   ResultResponseDTO,
@@ -9,22 +11,26 @@ import {
 } from "../interfaces/testSessionService";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
-import { ITestService, TestResponseDTO } from "../interfaces/testService";
-import IUserService from "../interfaces/userService";
-import { ISchoolService, SchoolResponseDTO } from "../interfaces/schoolService";
-import { UserDTO } from "../../types";
-import {
-  QuestionComponent,
-  QuestionComponentType,
-} from "../../types/questionTypes";
-import {
+import type { ITestService, TestResponseDTO } from "../interfaces/testService";
+import type IUserService from "../interfaces/userService";
+import type {
+  ISchoolService,
+  SchoolResponseDTO,
+} from "../interfaces/schoolService";
+import type { UserDTO } from "../../types";
+import type { QuestionComponent } from "../../types/questionTypes";
+import { QuestionComponentType } from "../../types/questionTypes";
+import type {
   MultipleChoiceMetadata,
   ShortAnswerMetadata,
   MultiSelectMetadata,
   FractionMetadata,
 } from "../../types/questionMetadataTypes";
 import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
-import { IClassService, ClassResponseDTO } from "../interfaces/classService";
+import type {
+  IClassService,
+  ClassResponseDTO,
+} from "../interfaces/classService";
 
 const Logger = logger(__filename);
 

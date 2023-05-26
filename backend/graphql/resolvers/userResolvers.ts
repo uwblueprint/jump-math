@@ -2,10 +2,15 @@ import nodemailerConfig from "../../nodemailer.config";
 import AuthService from "../../services/implementations/authService";
 import EmailService from "../../services/implementations/emailService";
 import UserService from "../../services/implementations/userService";
-import IAuthService from "../../services/interfaces/authService";
-import IEmailService from "../../services/interfaces/emailService";
-import IUserService from "../../services/interfaces/userService";
-import { CreateUserDTO, UpdateUserDTO, UserDTO, TeacherDTO } from "../../types";
+import type IAuthService from "../../services/interfaces/authService";
+import type IEmailService from "../../services/interfaces/emailService";
+import type IUserService from "../../services/interfaces/userService";
+import type {
+  CreateUserDTO,
+  UpdateUserDTO,
+  UserDTO,
+  TeacherDTO,
+} from "../../types";
 import { generateCSV } from "../../utilities/CSVUtils";
 
 const userService: IUserService = new UserService();

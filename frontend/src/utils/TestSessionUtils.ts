@@ -1,4 +1,4 @@
-import { TestSessionStatus } from "../types/TestSessionTypes";
+import type { TestSessionStatus } from "../types/TestSessionTypes";
 
 export const getSessionStatus = (
   startDate: string | Date,

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, ButtonProps, HStack, Text } from "@chakra-ui/react";
+import type { ButtonProps } from "@chakra-ui/react";
+import { Button, HStack, Text } from "@chakra-ui/react";
 
 import { CopyIcon } from "../../assets/icons";
 

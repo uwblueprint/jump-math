@@ -1,7 +1,7 @@
-import { OptionBase } from "chakra-react-select";
+import type { OptionBase } from "chakra-react-select";
 
-import { StudentResponse } from "../APIClients/types/ClassClientTypes";
-import { Grade } from "../APIClients/types/UserClientTypes";
+import type { StudentResponse } from "../APIClients/types/ClassClientTypes";
+import type { Grade } from "../APIClients/types/UserClientTypes";
 
 export interface StringOrBoolOption extends OptionBase {
   value: string | boolean;

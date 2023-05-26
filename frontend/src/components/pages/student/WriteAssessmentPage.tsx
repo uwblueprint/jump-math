@@ -8,7 +8,7 @@ import Question from "../../assessments/student-experience/Question";
 import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
 import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
 
-const AssessmentExperiencePage = (): React.ReactElement => {
+const WriteAssessmentPage = (): React.ReactElement => {
   const { test, className, currentQuestionIndex } = useContext(StudentContext);
 
   return (
@@ -41,4 +41,4 @@ const AssessmentExperiencePage = (): React.ReactElement => {
   );
 };
 
-export default AssessmentExperiencePage;
+export default WriteAssessmentPage;

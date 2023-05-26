@@ -5,8 +5,8 @@ import { useMutation } from "@apollo/client";
 import authAPIClient from "../../../APIClients/AuthAPIClient";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../../contexts/AuthContext";
-import { AuthenticatedUser } from "../../../types/AuthTypes";
-import {
+import type { AuthenticatedUser } from "../../../types/AuthTypes";
+import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../types/TeacherSignupTypes";

@@ -1,13 +1,13 @@
 import React from "react";
-import {
+import type {
   Control,
-  Controller,
   FieldErrorsImpl,
   UseFormClearErrors,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import countryList from "react-select-country-list";
 import {
   Box,
@@ -20,11 +20,15 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Select, SingleValue } from "chakra-react-select";
+import type { SingleValue } from "chakra-react-select";
+import { Select } from "chakra-react-select";
 
-import { TestRequest } from "../../../APIClients/types/TestClientTypes";
+import type { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { UseCase } from "../../../types/AssessmentTypes";
-import { GradeOption, StringOption } from "../../../types/SelectInputTypes";
+import type {
+  GradeOption,
+  StringOption,
+} from "../../../types/SelectInputTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";

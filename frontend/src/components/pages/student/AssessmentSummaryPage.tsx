@@ -10,10 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 import { JUMP_MATH_LOGO } from "../../../assets/images";
-import {
-  ASSESSMENT_EXPERIENCE_PAGE,
-  HOME_PAGE,
-} from "../../../constants/Routes";
+import { HOME_PAGE, WRITE_ASSESSMENT_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
 import { formatDateTime } from "../../../utils/GeneralUtils";
@@ -33,7 +30,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
 
   const [showBeginTestModal, setShowBeginTestModal] = useState(false);
   const handleStartTest = () => {
-    history.push(ASSESSMENT_EXPERIENCE_PAGE);
+    history.push(WRITE_ASSESSMENT_PAGE);
   };
 
   return (

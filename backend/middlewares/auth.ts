@@ -1,14 +1,22 @@
-import { Request } from "express";
-import { AuthenticationError, ExpressContext } from "apollo-server-express";
-import { GraphQLResolveInfo } from "graphql";
+import type { Request } from "express";
+import type { GraphQLResolveInfo } from "graphql";
+import { GraphQLError } from "graphql";
 
 import AuthService from "../services/implementations/authService";
 import UserService from "../services/implementations/userService";
-import IAuthService from "../services/interfaces/authService";
-import { Role } from "../types";
+import type IAuthService from "../services/interfaces/authService";
+import type { Role } from "../types";
+import type { ExpressContext } from "../server";
 
 const authService: IAuthService = new AuthService(new UserService());
 
+class AuthenticationError extends GraphQLError {
+  constructor(message: string) {
+    super(message, { extensions: { code: "UNAUTHENTICATED" } });
+  }
+}
+
+// Since we're passing in context.req, the type is no longer Request, but ExpressContext
 export const getAccessToken = (req: Request): string | null => {
   const authHeaderParts = req.headers.authorization?.split(" ");
   if (

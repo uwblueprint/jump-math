@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import gql from "graphql-tag";
 
 const testSessionType = gql`
   type ResultResponseDTO {
@@ -52,6 +52,7 @@ const testSessionType = gql`
       id: ID!
       result: ResultRequestDTO!
     ): TestSessionResponseDTO!
+    deleteTestSession(id: ID!): ID!
   }
 `;
 

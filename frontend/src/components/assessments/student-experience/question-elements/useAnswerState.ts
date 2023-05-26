@@ -1,7 +1,10 @@
 import { useContext, useMemo } from "react";
 
 import StudentContext from "../../../../contexts/StudentContext";
-import { getAnswerValues, updatedAnswer } from "../../../../utils/StudentUtils";
+import {
+  getAnswerValues,
+  getUpdatedAnswer,
+} from "../../../../utils/StudentUtils";
 
 type AnswerStateResult = {
   currentAnswer: number[];
@@ -19,7 +22,7 @@ const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
 
   const updateAnswer = (value: number[]) => {
     setAnswers((prevAnswers) => {
-      return updatedAnswer(
+      return getUpdatedAnswer(
         answerElementIndex,
         currentQuestionIndex,
         value,

@@ -15,3 +15,9 @@ export const SUBMIT_TEST = gql`
     }
   }
 `;
+
+export const DELETE_TEST_SESSION = gql`
+  mutation DeleteTestSession($id: ID!) {
+    deleteTestSession(id: $id)
+  }
+`;

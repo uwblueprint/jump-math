@@ -1,4 +1,4 @@
-import { Role } from "../../types/AuthTypes";
+import type { Role } from "../../types/AuthTypes";
 
 export enum Grade {
   K = "K",

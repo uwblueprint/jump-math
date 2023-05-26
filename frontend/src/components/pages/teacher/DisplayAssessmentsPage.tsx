@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import {
+  Box,
   Center,
   Tab,
   TabList,
@@ -10,10 +11,11 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
+import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import { STATUSES, TestSessionStatus } from "../../../types/TestSessionTypes";
+import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import {
   getSessionStatus,
@@ -24,8 +26,8 @@ import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
-import TestSessionListItem from "../../sessions/TestSessionListItem";
+import EmptySessionsTableState from "../../sessions/overview/EmptySessionsTableState";
+import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
@@ -47,8 +49,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const formattedData = useMemo(() => {
     const now = new Date();
     return data?.testSessionsByTeacherId?.map(
-      ({ startDate, endDate, test, class: classroom, ...session }) => ({
+      ({ id, startDate, endDate, test, class: classroom, ...session }) => ({
         ...session,
+        testSessionId: id,
         testName: test.name,
         classroomName: classroom.className,
         status: getSessionStatus(startDate, endDate, now),
@@ -92,9 +95,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         </Center>
       )}
       {error && (
-        <Center flex="1" margin="15%">
+        <Box height="100%" mt={10}>
           <ErrorState />
-        </Center>
+        </Box>
       )}
       {!!formattedData?.length && !loading && !error && (
         <>
@@ -108,9 +111,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             </TabList>
             <TabPanels>
               {STATUSES.map((status) => (
-                <TabPanel key={status}>
+                <TabPanel key={status} pl={0} pr={0}>
                   {paginatedData?.map((session) => (
-                    <TestSessionListItem key={session.id} {...session} />
+                    <TestSessionListItem
+                      key={session.testSessionId}
+                      {...session}
+                    />
                   ))}
                 </TabPanel>
               ))}

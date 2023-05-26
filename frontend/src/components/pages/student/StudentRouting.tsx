@@ -3,19 +3,19 @@ import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
-import { TestResponse } from "../../../APIClients/types/TestClientTypes";
-import { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
+import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
+import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
-import { Answers } from "../../../types/AnswerTypes";
+import type { Answers } from "../../../types/AnswerTypes";
 import { initializeAnswers } from "../../../utils/StudentUtils";
 import PrivateRoute from "../../auth/PrivateRoute";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import NotFound from "../NotFound";
 
-import AssessmentExperiencePage from "./AssessmentExperiencePage";
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
+import WriteAssessmentPage from "./WriteAssessmentPage";
 
 const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{
@@ -78,9 +78,9 @@ const StudentRouting = (): React.ReactElement => {
             roles={["Student"]}
           />
           <PrivateRoute
-            component={AssessmentExperiencePage}
+            component={WriteAssessmentPage}
             exact
-            path={Routes.ASSESSMENT_EXPERIENCE_PAGE}
+            path={Routes.WRITE_ASSESSMENT_PAGE}
             roles={["Student"]}
           />
           <Redirect

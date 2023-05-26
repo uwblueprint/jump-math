@@ -1,4 +1,4 @@
-import { AuthDTO, Role, Token } from "../../types";
+import type { AuthDTO, Role, Token } from "../../types";
 
 interface IAuthService {
   /**

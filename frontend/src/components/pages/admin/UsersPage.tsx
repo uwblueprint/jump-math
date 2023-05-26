@@ -15,7 +15,7 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
 import { TabEnum } from "../../../types/AuthTypes";
-import { AdminUser, TeacherUser } from "../../../types/UserTypes";
+import type { AdminUser, TeacherUser } from "../../../types/UserTypes";
 import { sortArray } from "../../../utils/GeneralUtils";
 import {
   filterAdminUsersBySearch,
@@ -103,9 +103,9 @@ const UsersPage = (): React.ReactElement => {
         </Center>
       )}
       {error && (
-        <Center flex="1" margin="15%">
+        <Box height="100%" mt={10}>
           <ErrorState />
-        </Center>
+        </Box>
       )}
       {data && !error && !loading && (
         <Box flex="1">

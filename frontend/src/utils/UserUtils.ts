@@ -1,4 +1,4 @@
-import { AdminUser, TeacherUser } from "../types/UserTypes";
+import type { AdminUser, TeacherUser } from "../types/UserTypes";
 
 import { includesIgnoreCase } from "./GeneralUtils";
 

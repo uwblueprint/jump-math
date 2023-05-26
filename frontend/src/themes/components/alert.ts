@@ -1,5 +1,5 @@
-import { AlertProps, ComponentStyleConfig } from "@chakra-ui/react";
-import { PartsStyleObject } from "@chakra-ui/theme-tools";
+import type { AlertProps, ComponentStyleConfig } from "@chakra-ui/react";
+import type { PartsStyleObject } from "@chakra-ui/theme-tools";
 
 const Alert: Partial<ComponentStyleConfig> = {
   baseStyle: {

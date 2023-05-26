@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 
-import { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
-import {
+import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
+import type {
   ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
@@ -28,10 +28,14 @@ interface QuestionProps {
 const Question = ({ elements }: QuestionProps): React.ReactElement => {
   const answerElementIndex = useMemo(() => {
     let answersSoFar = 0;
-    return elements.map((element) =>
-      // eslint-disable-next-line no-plusplus
-      element.type in ResponseElementType ? answersSoFar++ : 0,
-    );
+    return elements.map((element) => {
+      if (element.type in ResponseElementType) {
+        const elementIndex = answersSoFar;
+        answersSoFar += 1;
+        return elementIndex;
+      }
+      return 0;
+    });
   }, [elements]);
 
   return (

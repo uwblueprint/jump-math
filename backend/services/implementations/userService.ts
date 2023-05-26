@@ -1,9 +1,10 @@
 import * as firebaseAdmin from "firebase-admin";
 
-import IUserService from "../interfaces/userService";
-import MgUser, { User } from "../../models/user.model";
+import type IUserService from "../interfaces/userService";
+import type { User } from "../../models/user.model";
+import MgUser from "../../models/user.model";
 import MgSchool from "../../models/school.model";
-import {
+import type {
   CreateUserDTO,
   Role,
   UpdateUserDTO,

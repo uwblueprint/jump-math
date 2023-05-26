@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 /**
  * This interface holds information about the result of a single student

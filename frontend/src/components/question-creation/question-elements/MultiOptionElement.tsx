@@ -11,7 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import { MultiData, QuestionElementType } from "../../../types/QuestionTypes";
+import type { MultiData } from "../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../types/QuestionTypes";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
