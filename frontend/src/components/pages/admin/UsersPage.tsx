@@ -24,8 +24,7 @@ import {
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
-import type { SortOrder } from "../../common/table/SortMenu";
-import SortMenu from "../../common/table/SortMenu";
+import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 import AdminTab from "../../user-management/admin/AdminTab";
 import AdminUserTable from "../../user-management/admin/AdminUserTable";
 import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";

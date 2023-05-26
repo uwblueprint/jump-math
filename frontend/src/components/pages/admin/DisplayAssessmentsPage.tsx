@@ -27,8 +27,7 @@ import LoadingState from "../../common/LoadingState";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
-import type { SortOrder } from "../../common/table/SortMenu";
-import SortMenu from "../../common/table/SortMenu";
+import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
