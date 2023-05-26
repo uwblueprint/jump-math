@@ -6,7 +6,7 @@ import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
 
-import { stringToNumber } from "./GeneralUtils";
+import { stringToFloat } from "./GeneralUtils";
 
 export const getAnswerElements = (
   question: QuestionComponentRequest[],
@@ -93,27 +93,17 @@ export const getUpdatedAnswer = (
 };
 
 export const stringToNumberArray = (input: string): number[] => {
-  const castedInput = stringToNumber(input);
-  return castedInput === null ? [] : [castedInput];
+  const castedInput = stringToFloat(input);
+  return castedInput !== undefined ? [castedInput] : [];
 };
 
 export const stringOrNumberArrayToNumberArray = (
   inputs: StringOrNumber[],
 ): number[] => {
-  const retValue: number[] = [];
-  inputs.forEach((input) => {
-    if (typeof input === "string") {
-      const castedInput = stringToNumber(input);
-      if (castedInput !== null) {
-        retValue.push(castedInput);
-      }
-    } else {
-      retValue.push(input);
-    }
-  });
-  return retValue.sort((a, b) => {
-    return a - b;
-  });
+  return inputs
+    .map((input) => (typeof input === "string" ? stringToFloat(input) : input))
+    .filter((value): value is number => value !== undefined)
+    .sort((a, b) => a - b);
 };
 
 const isCompleted = (answer: Answers) => {
@@ -131,11 +121,7 @@ export const questionStatus = (
 };
 
 export const mapAnswersToResultsArray = (answers: Answers[]): number[][][] => {
-  return answers.map((answer) => {
-    const row: number[][] = [];
-    answer.elements.map((element) => {
-      return row.push(element.elementAnswers);
-    });
-    return row;
-  });
+  return answers.map((answer) =>
+    answer.elements.map((element) => element.elementAnswers),
+  );
 };
