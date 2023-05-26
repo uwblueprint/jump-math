@@ -1,8 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
+import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
+import type { Answers } from "../../../types/AnswerTypes";
+import { initializeAnswers } from "../../../utils/StudentUtils";
 import StudentDashboardHeader from "../../assessments/assessment-creation/StudentDashboardHeader";
+import Instructions from "../../assessments/student-experience/Instructions";
 import NavButtons from "../../assessments/student-experience/NavButtons";
 import Question from "../../assessments/student-experience/Question";
 import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
@@ -11,18 +15,36 @@ import TestSubmissionMessage from "../../assessments/TestSubmissionMessage";
 import LoadingState from "../../common/LoadingState";
 
 const WriteAssessmentPage = (): React.ReactElement => {
-  const { isLoading, isSubmitted, test, className, currentQuestionIndex } =
-    useContext(StudentContext);
+  const { test, className } = useContext(StudentContext);
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<Answers[]>(
+    test ? initializeAnswers(test.questions) : [],
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   return (
-    <>
+    <WriteAssessmentContext.Provider
+      value={{
+        currentQuestionIndex,
+        setCurrentQuestionIndex,
+        answers,
+        setAnswers,
+        isLoading,
+        setIsLoading,
+        isSubmitted,
+        setIsSubmitted,
+      }}
+    >
       {isLoading && (
         <LoadingState
           fullPage
-          text="Please wait while we submit your assessment"
+          text="Please wait while we submit your assessment."
         />
       )}
-      {!isLoading && !isSubmitted ? (
+      {!isLoading && isSubmitted && <TestSubmissionMessage />}
+      {!isLoading && !isSubmitted && (
         <VStack align="center" flex="1" spacing="8">
           <StudentDashboardHeader
             assessmentName={test?.name ?? ""}
@@ -35,12 +57,7 @@ const WriteAssessmentPage = (): React.ReactElement => {
                 <QuestionNumbers />
               </VStack>
               <VStack align="left" minHeight="83vh" spacing={8}>
-                <Text color="grey.300" textStyle="subtitle1">
-                  All responses will be autosaved. Make sure you answer all the
-                  questions before submitting your test. You can also do the
-                  questions in ANY order meaning that can skip a question and
-                  come back to it later!
-                </Text>
+                <Instructions />
                 <QuestionTitle />
                 <Question
                   elements={test?.questions[currentQuestionIndex] ?? []}
@@ -51,10 +68,8 @@ const WriteAssessmentPage = (): React.ReactElement => {
             </HStack>
           </Box>
         </VStack>
-      ) : (
-        <TestSubmissionMessage />
       )}
-    </>
+    </WriteAssessmentContext.Provider>
   );
 };
 
