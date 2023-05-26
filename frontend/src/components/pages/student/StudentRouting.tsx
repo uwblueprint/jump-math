@@ -30,6 +30,8 @@ const StudentRouting = (): React.ReactElement => {
   const [className, setClassName] = useState("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (state) {
@@ -65,6 +67,10 @@ const StudentRouting = (): React.ReactElement => {
         setCurrentQuestionIndex,
         answers,
         setAnswers,
+        isLoading,
+        setIsLoading,
+        isSubmitted,
+        setIsSubmitted,
       }}
     >
       {loading && <LoadingState fullPage />}

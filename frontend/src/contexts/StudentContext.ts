@@ -17,6 +17,10 @@ type StudentContextType = {
   setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]) => void;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (_currentQuestionIndex: number) => void;
+  isLoading: boolean;
+  setIsLoading: (_isLoading: boolean) => void;
+  isSubmitted: boolean;
+  setIsSubmitted: (_isSubmitted: boolean) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
@@ -30,6 +34,10 @@ const StudentContext = createContext<StudentContextType>({
   setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]): void => {},
   currentQuestionIndex: 0,
   setCurrentQuestionIndex: (_currentQuestionIndex: number): void => {},
+  isLoading: false,
+  setIsLoading: (_isLoading: boolean): void => {},
+  isSubmitted: false,
+  setIsSubmitted: (_isSubmitted: boolean): void => {},
 });
 
 export default StudentContext;
