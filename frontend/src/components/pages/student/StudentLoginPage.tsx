@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import {
+  HStack,
+  PinInput,
+  PinInputField,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
@@ -22,26 +28,29 @@ const StudentLoginPage = (): React.ReactElement => {
     null,
   );
 
-  const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
-    onCompleted: (data) => {
-      setSuccess(true);
-      setError("");
+  const [checkPin, { loading }] = useLazyQuery(
+    GET_TEST_SESSION_BY_ACCESS_CODE,
+    {
+      onCompleted: (data) => {
+        setSuccess(true);
+        setError("");
 
-      const result = data.testSessionByAccessCode;
-      setTestId(result.test.id);
-      setTestSession({
-        id: result.id,
-        startDate: new Date(result.startDate),
-        notes: result.notes ?? "",
-      });
+        const result = data.testSessionByAccessCode;
+        setTestId(result.test.id);
+        setTestSession({
+          id: result.id,
+          startDate: new Date(result.startDate),
+          notes: result.notes ?? "",
+        });
 
-      delayedRedirect();
+        delayedRedirect();
+      },
+      onError: async () => {
+        setError("Please ensure input is correct");
+        setSuccess(false);
+      },
     },
-    onError: async () => {
-      setError("Please ensure input is correct");
-      setSuccess(false);
-    },
-  });
+  );
 
   const getPinBorderColor = () => {
     if (error) return "red.200 !important";
@@ -62,6 +71,15 @@ const StudentLoginPage = (): React.ReactElement => {
   const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
+      {loading && (
+        <Spinner
+          color="blue.300"
+          emptyColor="gray.200"
+          size="md"
+          speed="0.65s"
+          thickness="4px"
+        />
+      )}
       {success && (
         <Text color="green.300" textStyle="smallerParagraph">
           Entered successfully
