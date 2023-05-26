@@ -22,7 +22,7 @@ const SubmitButton = (): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
-  const [submitTest, { loading, error }] = useMutation<{
+  const [submitTest, { loading }] = useMutation<{
     submitTest: string;
   }>(SUBMIT_TEST);
 
@@ -41,17 +41,18 @@ const SubmitButton = (): React.ReactElement => {
           answers: mapAnswersToResultsArray(answers),
         },
       },
-    });
-    if (error) {
-      setIsLoading(false);
-      showToast({
-        message: "Assessment failed to submit. Please try again.",
-        status: "error",
+    })
+      .then(() => {
+        setIsLoading(false);
+        setIsSubmitted(true);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        showToast({
+          message: "Assessment failed to submit. Please try again.",
+          status: "error",
+        });
       });
-    } else {
-      setIsLoading(false);
-      setIsSubmitted(true);
-    }
   };
 
   const incompleteQuestionCount = useMemo(() => {
