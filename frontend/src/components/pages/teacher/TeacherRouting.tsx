@@ -9,6 +9,7 @@ import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
 
 import ClassroomsPage from "./ClassroomsPage";
+import DisplayAssessmentResults from "./DisplayAssessmentResultsPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import DistributeAssessmentPage from "./DistributeAssessmentPage";
 import TeacherDashboardPage from "./TeacherDashboardPage";
@@ -36,6 +37,11 @@ const TeacherRouting = (): React.ReactElement => {
               component={DisplayAssessmentsPage}
               exact
               path={Routes.DISPLAY_ASSESSMENTS_PAGE}
+              roles={["Teacher"]}
+            />
+            <PrivateRoute
+              component={DisplayAssessmentResults}
+              path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE}
               roles={["Teacher"]}
             />
             <PrivateRoute
