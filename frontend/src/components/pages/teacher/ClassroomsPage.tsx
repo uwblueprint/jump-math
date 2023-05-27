@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
-import type { Grade } from "../../../APIClients/types/UserClientTypes";
 import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
 import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
