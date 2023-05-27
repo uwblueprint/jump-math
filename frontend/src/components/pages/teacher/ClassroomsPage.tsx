@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
@@ -13,11 +14,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { Grade } from "../../../APIClients/types/UserClientTypes";
+import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
+import type { Grade } from "../../../APIClients/types/UserClientTypes";
 import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
+import AuthContext from "../../../contexts/AuthContext";
+import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
+import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
+import LoadingState from "../../common/LoadingState";
 import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
@@ -32,88 +38,14 @@ const ClassroomsPage = (): React.ReactElement => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const classrooms = [
-    {
-      id: "1",
-      name: "David",
-      studentCount: 100,
-      assessmentCount: 100,
-      grade: Grade.GRADE_4,
-      activeAssessments: 100,
-    },
-    {
-      id: "2",
-      name: "David 2",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "3",
-      name: "David 3",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "4",
-      name: "David 4",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "5",
-      name: "David 5",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "6",
-      name: "David 6",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "7",
-      name: "David 7",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "8",
-      name: "David 8",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "9",
-      name: "David 9",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "10",
-      name: "David 10",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-  ];
+  const { authenticatedUser } = useContext(AuthContext);
+
+  const { loading, error, data } = useQuery(GET_CLASSES_BY_TEACHER, {
+    fetchPolicy: "cache-and-network",
+    variables: { teacherId: authenticatedUser?.id },
+  });
+
+  const classrooms: Classroom[] = data?.classesByTeacher;
 
   const {
     paginatedData,
@@ -136,7 +68,7 @@ const ClassroomsPage = (): React.ReactElement => {
         <HeaderWithButton
           buttonText="Add New Classroom"
           onClick={handleAddClassroom}
-          showButton={classrooms.length !== 0}
+          showButton={classrooms?.length !== 0}
           title="Classroom"
         />
         <AddClassroomModal
@@ -144,75 +76,87 @@ const ClassroomsPage = (): React.ReactElement => {
           onClose={() => setIsModalOpen(false)}
         />
       </Box>
-      <Box flex="1">
-        {classrooms.length !== 0 ? (
-          <>
-            <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
-              <TabList>
-                <Tab color={unselectedTabColor}>Active</Tab>
-                <Tab color={unselectedTabColor}>Archived</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel padding="0">
-                  <Grid gap={4} templateColumns="repeat(4, 1fr)">
-                    {paginatedData.map((classroom) => (
-                      <GridItem key={classroom.id} flex="1" paddingTop="4">
-                        <ClassroomCard
-                          key={classroom.id}
-                          activeAssessments={classroom.activeAssessments}
-                          assessmentCount={classroom.assessmentCount}
-                          grade={classroom.grade}
-                          name={classroom.name}
-                          studentCount={classroom.studentCount}
+      {loading && (
+        <Center flex="1" margin="15%">
+          <LoadingState />
+        </Center>
+      )}
+      {error && (
+        <Box height="100%" mt={10}>
+          <ErrorState />
+        </Box>
+      )}
+      {classrooms && !error && !loading && (
+        <Box flex="1">
+          {classrooms.length !== 0 ? (
+            <>
+              <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
+                <TabList>
+                  <Tab color={unselectedTabColor}>Active</Tab>
+                  <Tab color={unselectedTabColor}>Archived</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel padding="0">
+                    <Grid gap={4} templateColumns="repeat(4, 1fr)">
+                      {paginatedData?.map((classroom) => (
+                        <GridItem key={classroom.id} flex="1" paddingTop="4">
+                          <ClassroomCard
+                            key={classroom.id}
+                            activeAssessments={100}
+                            assessmentCount={200}
+                            grade={classroom.gradeLevel}
+                            name={classroom.className}
+                            studentCount={200}
+                          />
+                        </GridItem>
+                      ))}
+                    </Grid>
+                    <VStack
+                      alignItems="center"
+                      paddingBottom="6"
+                      paddingTop="6"
+                      spacing="6"
+                      width="100%"
+                    >
+                      {totalPages > 1 && (
+                        <Pagination
+                          currentPage={currentPage}
+                          onPageChange={setCurrentPage}
+                          pagesCount={totalPages}
                         />
-                      </GridItem>
-                    ))}
-                  </Grid>
-                  <VStack
-                    alignItems="center"
-                    paddingBottom="6"
-                    paddingTop="6"
-                    spacing="6"
-                    width="100%"
-                  >
-                    {totalPages > 1 && (
-                      <Pagination
-                        currentPage={currentPage}
-                        onPageChange={setCurrentPage}
-                        pagesCount={totalPages}
-                      />
-                    )}
-                  </VStack>
-                </TabPanel>
-                <TabPanel padding="0">
-                  <h1>Coming soon!</h1>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </>
-        ) : (
-          <>
-            <Center
-              backgroundColor="blue.50"
-              borderRadius="1rem"
-              color="blue.300"
-              minWidth="100%"
-              pb={14}
-            >
-              <MessageContainer
-                buttonText="Add New Classroom"
-                image={DisplayAssessmentsIllustration}
-                onClick={handleAddClassroom}
-                paragraphs={[
-                  "Click on the below button to create your first classroom",
-                ]}
-                subtitle="You currently have no classrooom."
-                textColor="blue.300"
-              />
-            </Center>
-          </>
-        )}
-      </Box>
+                      )}
+                    </VStack>
+                  </TabPanel>
+                  <TabPanel padding="0">
+                    <h1>Coming soon!</h1>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </>
+          ) : (
+            <>
+              <Center
+                backgroundColor="blue.50"
+                borderRadius="1rem"
+                color="blue.300"
+                minWidth="100%"
+                pb={14}
+              >
+                <MessageContainer
+                  buttonText="Add New Classroom"
+                  image={DisplayAssessmentsIllustration}
+                  onClick={handleAddClassroom}
+                  paragraphs={[
+                    "Click on the below button to create your first classroom",
+                  ]}
+                  subtitle="You currently have no classrooom."
+                  textColor="blue.300"
+                />
+              </Center>
+            </>
+          )}
+        </Box>
+      )}
     </FormProvider>
   );
 };

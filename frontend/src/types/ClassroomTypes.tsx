@@ -8,6 +8,20 @@ export interface ClassroomForm {
   gradeLevel: Grade;
 }
 
+// Placeholder type for now
+export interface Classroom {
+  id: string;
+  gradeLevel: Grade;
+  name: string;
+  className: string;
+  students: Array<{
+    id: string;
+    firstName: string;
+    lastName: string;
+    studentNumber: string;
+  }>;
+}
+
 export enum TabEnumClassroom {
   ACTIVE,
   ARCHIVED,

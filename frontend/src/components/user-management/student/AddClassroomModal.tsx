@@ -111,6 +111,7 @@ const AddClassroomModal = ({
             message: "New classroom created.",
             status: "success",
           });
+          window.location.reload();
         })
         .catch(() => {
           showToast({
