@@ -6,10 +6,8 @@ import {
   MultiSelectTagIcon,
   ShortAnswerTagIcon,
 } from "../../../assets/icons";
-import {
-  QuestionElementType,
-  ResponseElementType,
-} from "../../../types/QuestionTypes";
+import type { ResponseElementType } from "../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../types/QuestionTypes";
 import { removeUnderscore, titleCase } from "../../../utils/GeneralUtils";
 
 export type QuestionTagProps = {
@@ -45,15 +43,7 @@ const QuestionTag = ({ type, count }: QuestionTagProps): React.ReactElement => {
   }
 
   return (
-    <Tag
-      bgColor={bgColor}
-      borderRadius="full"
-      color={color}
-      fontSize="16px"
-      minWidth="fitContent"
-      padding="10px 14px"
-      whiteSpace="nowrap"
-    >
+    <Tag bgColor={bgColor} color={color} size="lg">
       <TagLeftIcon as={icon} boxSize="20px" />
       <Text ml={2} textStyle="caption">
         {titleCase(removeUnderscore(type.valueOf()))} x {count}

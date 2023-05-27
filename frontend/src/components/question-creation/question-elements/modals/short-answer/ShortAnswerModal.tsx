@@ -6,7 +6,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-import { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
+import type { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
 import Modal from "../../../../common/Modal";
 
 interface ShortAnswerModalProps {
@@ -54,7 +54,6 @@ const ShortAnswerModal = ({
     <Modal
       header="Create short answer question"
       isOpen={isOpen}
-      onCancel={handleClose}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >

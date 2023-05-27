@@ -1,5 +1,12 @@
-import { FilterQuery, Types } from "mongoose";
-import { GradingStatus } from "../models/testSession.model";
+import type { PipelineStage } from "mongoose";
+import { Types } from "mongoose";
+import type { Result } from "../models/testSession.model";
+
+export type GroupResultsByIdResultType = {
+  _id: string;
+  averageScore: number;
+  resultBreakdowns: Result["breakdown"][];
+};
 
 type GroupResultsByIdReturnType = {
   $group: {
@@ -10,23 +17,10 @@ type GroupResultsByIdReturnType = {
 };
 
 // Filter out tests that have the requested testId
-export const filterTestsByTestId = (
-  testId: string,
-): FilterQuery<Record<string, unknown>> => {
+export const filterTestsByTestId = (testId: string): PipelineStage.Match => {
   return {
-    $match: { test: { $eq: Types.ObjectId(testId) } },
+    $match: { test: { $eq: new Types.ObjectId(testId) } },
   };
-};
-
-// Filter out results that are not graded
-export const filterUngradedTests = {
-  $filter: {
-    input: "$results",
-    as: "results",
-    cond: {
-      $eq: ["$$results.gradingStatus", GradingStatus.GRADED.toString()],
-    },
-  },
 };
 
 // Unwind on the results field so that there is a document for each student result

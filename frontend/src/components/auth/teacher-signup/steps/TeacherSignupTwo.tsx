@@ -4,9 +4,9 @@ import { useQuery } from "@apollo/client";
 import { Button, FormControl, FormLabel, Text } from "@chakra-ui/react";
 
 import { GET_ALL_SCHOOLS } from "../../../../APIClients/queries/SchoolQueries";
-import { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
+import type { SchoolResponse } from "../../../../APIClients/types/SchoolClientTypes";
 import { TEACHER_SIGNUP_IMAGE } from "../../../../assets/images";
-import {
+import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
@@ -23,10 +23,8 @@ const TeacherSignupTwo = ({
     formState: { errors },
   } = useFormContext<TeacherSignupForm>();
   const [schools, setSchools] = React.useState<SchoolResponse[]>([]);
-  const [
-    isCurrentlyTeachingJMError,
-    setIsCurrentlyTeachingJMError,
-  ] = React.useState(false);
+  const [isCurrentlyTeachingJMError, setIsCurrentlyTeachingJMError] =
+    React.useState(false);
   const [isSchoolError, setSchoolError] = React.useState(false);
 
   useQuery(GET_ALL_SCHOOLS, {

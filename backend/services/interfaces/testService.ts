@@ -1,25 +1,24 @@
-import {
-  QuestionTextMetadata,
-  TextMetadata,
-  MultipleChoiceMetadata,
-  MultiSelectMetadata,
-  ShortAnswerMetadata,
+import type { AssessmentType, AssessmentStatus } from "../../models/test.model";
+import type { Grade } from "../../types";
+import type {
+  GraphQLQuestionComponent,
+  QuestionComponentRequest,
   QuestionComponent,
-  AssessmentType,
-  AssessmentStatus,
-  ImageMetadata,
-  FractionMetadata,
-} from "../../models/test.model";
-import { Grade } from "../../types";
+} from "../../types/questionTypes";
 
-export type TestResponseDTO = {
-  /** the unique identifier of the response */
-  id: string;
-  /** the name of the test */
+export type BaseQuestionComponentType =
+  | GraphQLQuestionComponent
+  | QuestionComponentRequest
+  | QuestionComponent;
+
+export interface BaseTestDTO<
+  QuestionComponentType extends BaseQuestionComponentType,
+> {
+  /** The name of the test */
   name: string;
-  /** an array of questions on the test */
-  questions: QuestionComponent[][];
-  /** the grade of the student */
+  /** An ordered list of questions to be asked when students take the test */
+  questions: QuestionComponentType[][];
+  /** The intended grade the test was made for */
   grade: Grade;
   /** the type of assessment */
   assessmentType: AssessmentType;
@@ -29,25 +28,17 @@ export type TestResponseDTO = {
   curriculumCountry: string;
   /** the region that the test is to be administered in */
   curriculumRegion: string;
-};
-
-export type TestRequestDTO = Omit<TestResponseDTO, "id">;
-
-export interface GraphQLQuestionComponentMetadata {
-  questionTextMetadata: QuestionTextMetadata;
-  textMetadata: TextMetadata;
-  imageMetadata: ImageMetadata;
-  multipleChoiceMetadata: MultipleChoiceMetadata;
-  multiSelectMetadata: MultiSelectMetadata;
-  shortAnswerMetadata: ShortAnswerMetadata;
-  fractionMetadata: FractionMetadata;
+  /** the time the assessment was last updated */
+  updatedAt: Date;
 }
 
-export type GraphQLQuestionComponent = Omit<QuestionComponent, "metadata"> &
-  GraphQLQuestionComponentMetadata;
+export type GraphQLTestDTO = BaseTestDTO<GraphQLQuestionComponent>;
 
-export type GraphQLTestRequestDTO = Omit<TestRequestDTO, "questions"> & {
-  questions: GraphQLQuestionComponent[][];
+export type TestRequestDTO = BaseTestDTO<QuestionComponentRequest>;
+
+export type TestResponseDTO = BaseTestDTO<QuestionComponent> & {
+  /** the unique identifier of the response */
+  id: string;
 };
 
 export interface ITestService {

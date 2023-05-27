@@ -1,13 +1,13 @@
 import React from "react";
-import {
+import type {
   Control,
-  Controller,
   FieldErrorsImpl,
   UseFormClearErrors,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import countryList from "react-select-country-list";
 import {
   Box,
@@ -20,28 +20,30 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Select, SingleValue } from "chakra-react-select";
+import type { SingleValue } from "chakra-react-select";
+import { Select } from "chakra-react-select";
 
-import { TestRequest } from "../../../APIClients/types/TestClientTypes";
-import { Grade } from "../../../APIClients/types/UserClientTypes";
-import gradeOptions from "../../../constants/CreateAssessmentConstants";
+import type { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { UseCase } from "../../../types/AssessmentTypes";
+import type {
+  GradeOption,
+  StringOption,
+} from "../../../types/SelectInputTypes";
+import { gradeOptions } from "../../../utils/AssessmentUtils";
 import ErrorToast from "../../common/ErrorToast";
 import FormRadio from "../../common/FormRadio";
 
 interface BasicInformationProps {
-  setName: React.Dispatch<React.SetStateAction<string>>;
   register: UseFormRegister<TestRequest>;
   setValue: UseFormSetValue<TestRequest>;
   watch: UseFormWatch<TestRequest>;
-  control: Control<TestRequest, any>;
-  errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
+  control: Control<TestRequest, unknown>;
+  errors: Partial<FieldErrorsImpl<TestRequest>>;
   errorMessage: string;
   clearErrors: UseFormClearErrors<TestRequest>;
 }
 
 const BasicInformation = ({
-  setName,
   register,
   setValue,
   watch,
@@ -50,18 +52,14 @@ const BasicInformation = ({
   errorMessage,
   clearErrors,
 }: BasicInformationProps): React.ReactElement => {
-  const handleGradeChange = (
-    option: SingleValue<{ value: Grade; label: string }>,
-  ) => {
+  const handleGradeChange = (option: SingleValue<GradeOption>) => {
     if (option) {
       setValue("grade", option.value);
       clearErrors("grade");
     }
   };
 
-  const handleCountryChange = (
-    option: SingleValue<{ value: string; label: string }>,
-  ) => {
+  const handleCountryChange = (option: SingleValue<StringOption>) => {
     if (option) {
       setValue("curriculumCountry", option.value);
       clearErrors("curriculumCountry");
@@ -80,9 +78,6 @@ const BasicInformation = ({
           <Input
             placeholder="e.g. Ontario Grade 5 Pre-Term Assessment"
             {...register("name", {
-              onChange: (e) => {
-                setName(e.target.value);
-              },
               required: "Please enter a name for the assessment",
             })}
           />

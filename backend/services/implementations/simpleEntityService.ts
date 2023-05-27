@@ -1,5 +1,6 @@
-import MgSimpleEntity, { SimpleEntity } from "../../models/simpleEntity.model";
-import {
+import type { SimpleEntity } from "../../models/simpleEntity.model";
+import MgSimpleEntity from "../../models/simpleEntity.model";
+import type {
   ISimpleEntityService,
   SimpleEntityRequestDTO,
   SimpleEntityResponseDTO,
@@ -105,9 +106,8 @@ class SimpleEntityService implements ISimpleEntityService {
 
   async deleteEntity(id: string): Promise<string> {
     try {
-      const deletedEntity: SimpleEntity | null = await MgSimpleEntity.findByIdAndDelete(
-        id,
-      );
+      const deletedEntity: SimpleEntity | null =
+        await MgSimpleEntity.findByIdAndDelete(id);
       if (!deletedEntity) {
         throw new Error(`Entity id ${id} not found`);
       }

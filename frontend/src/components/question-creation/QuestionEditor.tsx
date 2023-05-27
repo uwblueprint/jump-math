@@ -3,7 +3,7 @@ import { Flex } from "@chakra-ui/react";
 
 import AssessmentContext from "../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../contexts/QuestionEditorContext";
-import { QuestionElement } from "../../types/QuestionTypes";
+import type { QuestionElement } from "../../types/QuestionTypes";
 
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
@@ -15,16 +15,12 @@ const QuestionEditor = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
   >(editorQuestion ? editorQuestion.elements : []);
-  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
-    false,
-  );
-  const [
-    showAddMultipleChoiceModal,
-    setShowAddMultipleChoiceModal,
-  ] = React.useState(false);
-  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
-    false,
-  );
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] =
+    React.useState(false);
+  const [showAddMultipleChoiceModal, setShowAddMultipleChoiceModal] =
+    React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] =
+    React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (

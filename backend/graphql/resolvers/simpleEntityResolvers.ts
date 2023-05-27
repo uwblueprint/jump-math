@@ -1,5 +1,5 @@
 import SimpleEntityService from "../../services/implementations/simpleEntityService";
-import {
+import type {
   SimpleEntityRequestDTO,
   SimpleEntityResponseDTO,
 } from "../../services/interfaces/simpleEntityService";

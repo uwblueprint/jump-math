@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, HStack, Image, Text, Tooltip, VStack } from "@chakra-ui/react";
 
-import { typeToImageMetadata } from "../../../constants/StudentAssessmentConstants";
-import { ResponseElementType } from "../../../types/QuestionTypes";
-import { removeUnderscore, titleCase } from "../../../utils/GeneralUtils";
+import typeToImageMetadata from "../../../../constants/StudentAssessmentConstants";
+import type { ResponseElementType } from "../../../../types/QuestionTypes";
+import { removeUnderscore, titleCase } from "../../../../utils/GeneralUtils";
 
 const QuestionTypeImages = ({
   questionTypes,
@@ -30,11 +30,12 @@ const QuestionTypeImages = ({
                 _hover={{ outline: "1px solid #154472" }}
                 backgroundColor="blue.50"
                 borderRadius="10px"
-                padding="1.7em"
+                padding="20%"
               >
                 <Image
                   alt={typeToImageMetadata[type].alt}
                   src={typeToImageMetadata[type].src}
+                  width="100px"
                 />
               </Box>
             </Tooltip>

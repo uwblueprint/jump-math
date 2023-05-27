@@ -1,6 +1,10 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 
-import EditStatusButton from "../EditStatusButton";
+import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
+import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
+import PopoverButton from "../../../common/PopoverButton";
+import Toast from "../../../common/Toast";
 import ArchiveModal from "../EditStatusModals/ArchiveModal";
 
 interface ArchiveModalProps {
@@ -13,10 +17,31 @@ const ArchiveButton = ({
   closePopover,
 }: ArchiveModalProps): React.ReactElement => {
   const [showArchiveModal, setShowArchiveModal] = React.useState(false);
+  const [archiveAssessment, { error }] = useMutation<{
+    archiveAssessment: string;
+  }>(ARCHIVE_TEST, {
+    refetchQueries: [{ query: GET_ALL_TESTS }],
+  });
 
+  const { showToast } = Toast();
+
+  const handleArchiveAssessment = async () => {
+    await archiveAssessment({ variables: { id: assessmentId } });
+    if (error) {
+      showToast({
+        message: "Assessment failed to archive. Please try again.",
+        status: "error",
+      });
+    } else {
+      showToast({
+        message: "Assessment archived.",
+        status: "success",
+      });
+    }
+  };
   return (
     <>
-      <EditStatusButton
+      <PopoverButton
         name="Archive"
         onClick={() => {
           closePopover();
@@ -24,7 +49,7 @@ const ArchiveButton = ({
         }}
       />
       <ArchiveModal
-        assessmentId={assessmentId}
+        archiveAssessment={handleArchiveAssessment}
         isOpen={showArchiveModal}
         onClose={() => setShowArchiveModal(false)}
       />

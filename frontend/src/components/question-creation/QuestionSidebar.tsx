@@ -23,6 +23,7 @@ import {
   ShortAnswerIcon,
   TextIcon,
 } from "../../assets/icons";
+import confirmUnsavedChangesText from "../../constants/GeneralConstants";
 import AssessmentContext from "../../contexts/AssessmentContext";
 import { QuestionElementType } from "../../types/QuestionTypes";
 
@@ -74,13 +75,19 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 };
 
 const QuestionSidebar = (): React.ReactElement => {
-  const { setShowQuestionEditor, setEditorQuestion } = useContext(
-    AssessmentContext,
-  );
+  const { setShowQuestionEditor, setEditorQuestion } =
+    useContext(AssessmentContext);
 
   const closeQuestionEditor = () => {
     setEditorQuestion(null);
     setShowQuestionEditor(false);
+  };
+
+  const confirmCloseQuestionEditor = () => {
+    /* eslint-disable-next-line no-alert */
+    if (window.confirm(confirmUnsavedChangesText)) {
+      closeQuestionEditor();
+    }
   };
 
   return (
@@ -94,7 +101,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Box justifyContent="flex-start" paddingLeft="0">
           <Button
             leftIcon={<ArrowBackOutlineIcon />}
-            onClick={closeQuestionEditor}
+            onClick={confirmCloseQuestionEditor}
             size="sm"
             variant="tertiary"
           >

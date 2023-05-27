@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createContext } from "react";
 
-import { Question } from "../types/QuestionTypes";
+import type { Question } from "../types/QuestionTypes";
 
 type AssessmentContextType = {
   questions: Question[];

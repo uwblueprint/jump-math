@@ -1,13 +1,14 @@
+import type { PipelineStage } from "mongoose";
 import MgTestSession from "../../models/testSession.model";
-import {
+import type {
   IStatisticService,
   QuestionStatistic,
   TestStatistic,
 } from "../interfaces/statisticService";
+import type { GroupResultsByIdResultType } from "../../utilities/pipelineQueryUtils";
 import {
   countTestSubmissions,
   filterTestsByTestId,
-  filterUngradedTests,
   joinSchoolIdWithSchoolDocument,
   groupResultsById,
   unwindResults,
@@ -15,6 +16,7 @@ import {
 import {
   roundTwoDecimals,
   calculateMedianScore,
+  isCompletedTestResult,
 } from "../../utilities/generalUtils";
 
 class StatisticService implements IStatisticService {
@@ -22,20 +24,15 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsByCountry(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-          school: 1,
-        },
-      },
       unwindResults,
       joinSchoolIdWithSchoolDocument,
       groupResultsById("$school.country"),
     ];
 
-    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const aggCursor: GroupResultsByIdResultType[] =
+      await MgTestSession.aggregate(pipeline);
 
     return this.constructTestStatisticsByGroup(aggCursor, "country");
   }
@@ -43,14 +40,8 @@ class StatisticService implements IStatisticService {
   async getTestGradeStatisticsBySchool(
     testId: string,
   ): Promise<Map<string, TestStatistic>> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-          school: 1,
-        },
-      },
       unwindResults,
       groupResultsById("$school"),
     ];
@@ -62,13 +53,8 @@ class StatisticService implements IStatisticService {
 
   /* eslint-disable class-methods-use-this */
   async getSubmissionCountByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       countTestSubmissions,
     ];
@@ -79,13 +65,8 @@ class StatisticService implements IStatisticService {
   }
 
   async getMeanScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       {
         $group: {
@@ -101,13 +82,8 @@ class StatisticService implements IStatisticService {
   }
 
   async getMedianScoreByTest(testId: string): Promise<number> {
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       filterTestsByTestId(testId),
-      {
-        $project: {
-          results: filterUngradedTests,
-        },
-      },
       unwindResults,
       {
         $project: {
@@ -130,6 +106,37 @@ class StatisticService implements IStatisticService {
     const aggCursor = await MgTestSession.aggregate(pipeline);
     const scores = aggCursor[0]?.scores ?? [0];
     return calculateMedianScore(scores);
+  }
+
+  async getCompletionRateByTest(testId: string): Promise<number> {
+    const pipeline: PipelineStage[] = [
+      filterTestsByTestId(testId),
+      unwindResults,
+      {
+        $group: {
+          _id: null,
+          answers: { $push: "$results.answers" },
+        },
+      },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const answers = aggCursor[0]?.answers ?? [];
+
+    if (answers.length === 0) {
+      return 0;
+    }
+
+    let uncompleted = 0;
+    const total = answers.length;
+
+    answers.forEach((result: Array<Array<Array<number>>>) => {
+      if (!isCompletedTestResult(result)) {
+        uncompleted += 1;
+      }
+    });
+
+    return roundTwoDecimals((total - uncompleted) / total) * 100;
   }
 
   private getAverageScorePerQuestion(
@@ -160,12 +167,12 @@ class StatisticService implements IStatisticService {
   }
 
   private constructTestStatisticsByGroup(
-    aggCursor: any[],
+    aggCursor: GroupResultsByIdResultType[],
     group: string,
   ): Map<string, TestStatistic> {
     const testStatistics = new Map<string, TestStatistic>();
 
-    aggCursor.forEach((statistic: any) => {
+    aggCursor.forEach((statistic: GroupResultsByIdResultType) => {
       let key = "";
 
       switch (group) {

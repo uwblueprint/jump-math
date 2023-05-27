@@ -3,17 +3,16 @@ import {
   Box,
   Button,
   Checkbox,
-  CheckboxGroup,
   Flex,
   IconButton,
   Radio,
-  RadioGroup,
   Spacer,
   VStack,
 } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import { MultiData, QuestionElementType } from "../../../types/QuestionTypes";
+import type { MultiData } from "../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../types/QuestionTypes";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
@@ -28,10 +27,8 @@ const MultiOptionElement = ({
   data,
   type,
 }: MultiOptionElementProps): React.ReactElement => {
-  const [
-    showEditMultipleChoiceModal,
-    setShowEditMultipleChoiceModal,
-  ] = React.useState(false);
+  const [showEditMultipleChoiceModal, setShowEditMultipleChoiceModal] =
+    React.useState(false);
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">

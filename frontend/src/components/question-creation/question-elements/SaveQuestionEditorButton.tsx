@@ -5,8 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+import type {
+  ImageMetadataRequest,
+  QuestionTextMetadata,
+  TextMetadata,
+} from "../../../types/QuestionMetadataTypes";
+import type { QuestionElement } from "../../../types/QuestionTypes";
 import {
-  QuestionElement,
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
@@ -27,11 +32,8 @@ const SaveQuestionEditorButton = ({
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
   const { setQuestions, editorQuestion } = useContext(AssessmentContext);
-  const {
-    questionElements,
-    setQuestionElements,
-    setShowEditorError,
-  } = useContext(QuestionEditorContext);
+  const { questionElements, setQuestionElements, setShowEditorError } =
+    useContext(QuestionEditorContext);
 
   const setElementError = (element: QuestionElement, errorText: string) => {
     setQuestionElements((prevElements) => {
@@ -87,7 +89,13 @@ const SaveQuestionEditorButton = ({
 
   const validateNoEmptyElementErrors = () => {
     const emptyElement = questionElements.find(
-      (element) => element.data === "",
+      (element) =>
+        (element.type === QuestionElementType.QUESTION_TEXT &&
+          (element.data as QuestionTextMetadata).questionText === "") ||
+        (element.type === QuestionElementType.TEXT &&
+          (element.data as TextMetadata).text === "") ||
+        (element.type === QuestionElementType.IMAGE &&
+          (element.data as ImageMetadataRequest).previewUrl === undefined),
     );
     if (emptyElement) {
       setElementError(emptyElement, emptyElementError);

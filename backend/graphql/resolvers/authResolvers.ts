@@ -1,15 +1,15 @@
-import { CookieOptions, Request, Response } from "express";
+import type { CookieOptions, Request, Response } from "express";
 
 import nodemailerConfig from "../../nodemailer.config";
 import AuthService from "../../services/implementations/authService";
 import EmailService from "../../services/implementations/emailService";
 import SchoolService from "../../services/implementations/schoolService";
 import UserService from "../../services/implementations/userService";
-import IAuthService from "../../services/interfaces/authService";
-import IEmailService from "../../services/interfaces/emailService";
-import { ISchoolService } from "../../services/interfaces/schoolService";
-import IUserService from "../../services/interfaces/userService";
-import { AuthDTO, RegisterTeacherDTO } from "../../types";
+import type IAuthService from "../../services/interfaces/authService";
+import type IEmailService from "../../services/interfaces/emailService";
+import type { ISchoolService } from "../../services/interfaces/schoolService";
+import type IUserService from "../../services/interfaces/userService";
+import type { AuthDTO, RegisterTeacherDTO } from "../../types";
 
 const userService: IUserService = new UserService();
 const emailService: IEmailService = new EmailService(nodemailerConfig);
@@ -28,11 +28,17 @@ const authResolvers = {
       _parent: undefined,
       { email, password }: { email: string; password: string },
       { res }: { res: Response },
-    ): Promise<Omit<AuthDTO, "refreshToken">> => {
+    ): Promise<Omit<AuthDTO, "refreshToken"> & { emailVerified: boolean }> => {
       const authDTO = await authService.generateToken(email, password);
       const { refreshToken, ...rest } = authDTO;
-      res.cookie("refreshToken", refreshToken, cookieOptions);
-      return rest;
+      const emailVerified: boolean = await authService.isAuthorizedByEmail(
+        authDTO.accessToken,
+        email,
+      );
+      if (emailVerified) {
+        res.cookie("refreshToken", refreshToken, cookieOptions);
+      }
+      return { emailVerified, ...rest };
     },
     registerTeacher: async (
       _parent: undefined,
@@ -125,6 +131,13 @@ const authResolvers = {
       { newPassword, oobCode }: { newPassword: string; oobCode: string },
     ): Promise<boolean> => {
       await authService.confirmPasswordReset(newPassword, oobCode);
+      return true;
+    },
+    sendEmailVerificationLink: async (
+      _parent: undefined,
+      { email }: { email: string },
+    ): Promise<boolean> => {
+      await authService.sendEmailVerificationLink(email);
       return true;
     },
   },

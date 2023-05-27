@@ -1,4 +1,5 @@
-import {
+import type {
+  ImageMetadataRequest,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
@@ -30,6 +31,7 @@ export type QuestionElementDataType =
   | string
   | QuestionTextMetadata
   | TextMetadata
+  | ImageMetadataRequest
   | ShortAnswerMetadata
   | MultiData;
 

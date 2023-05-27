@@ -1,24 +1,32 @@
-import React from "react";
-import { DropTargetMonitor } from "react-dnd";
+import type React from "react";
+import type { DropTargetMonitor } from "react-dnd";
 import type { XYCoord } from "dnd-core";
 import update from "immutability-helper";
+import { v4 as uuidv4 } from "uuid";
 
-import { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
-import { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
-import { DragQuestionItem } from "../types/DragTypes";
-import {
+import type {
+  QuestionComponentRequest,
+  QuestionComponentResponse,
+} from "../APIClients/types/TestClientTypes";
+import type { QuestionTagProps } from "../components/assessments/assessment-creation/QuestionTag";
+import type { DragQuestionItem } from "../types/DragTypes";
+import type {
+  ImageMetadata,
+  ImageMetadataRequest,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
   QuestionTextMetadata,
   ShortAnswerMetadata,
   TextMetadata,
 } from "../types/QuestionMetadataTypes";
-import {
+import type {
   MultiData,
   MultiOptionData,
   Question,
   QuestionElement,
   QuestionElementDataType,
+} from "../types/QuestionTypes";
+import {
   QuestionElementType,
   ResponseElementType,
 } from "../types/QuestionTypes";
@@ -83,6 +91,9 @@ export const updatedMultiOption = (
 };
 
 export const exceedsMaxLength = (input: string): boolean => input.length > 800;
+
+export const exceedsMaxFileSize = (file: File): boolean =>
+  file.size / 1024 / 1024 > 5;
 
 export const generateQuestionCardTags = (
   question: QuestionElement[],
@@ -154,6 +165,11 @@ export const formatQuestionsRequest = (
             type: QuestionElementType.TEXT,
             textMetadata: element.data as TextMetadata,
           };
+        case QuestionElementType.IMAGE:
+          return {
+            type: QuestionElementType.IMAGE,
+            imageMetadataRequest: element.data as ImageMetadataRequest,
+          };
         case QuestionElementType.SHORT_ANSWER:
           return {
             type: QuestionElementType.SHORT_ANSWER,
@@ -175,5 +191,74 @@ export const formatQuestionsRequest = (
           };
       }
     });
+  });
+};
+
+export const formatQuestionsResponse = (
+  questions: QuestionComponentResponse[][],
+): Question[] => {
+  return questions.map((questionComponents: QuestionComponentResponse[]) => {
+    return {
+      id: uuidv4(),
+      elements: questionComponents.map(
+        (questionComponent: QuestionComponentResponse) => {
+          let data: QuestionElementDataType;
+
+          switch (questionComponent.type) {
+            case QuestionElementType.MULTIPLE_CHOICE: {
+              const { answerIndex } =
+                questionComponent.metadata as MultipleChoiceMetadata;
+              data = {
+                options: (
+                  questionComponent.metadata as MultipleChoiceMetadata
+                ).options.map((option: string, i) => {
+                  return {
+                    id: uuidv4(),
+                    value: option,
+                    isCorrect: answerIndex === i,
+                  };
+                }),
+              };
+              break;
+            }
+            case QuestionElementType.MULTI_SELECT: {
+              const { answerIndices } =
+                questionComponent.metadata as MultiSelectMetadata;
+              data = {
+                options: (
+                  questionComponent.metadata as MultiSelectMetadata
+                ).options.map((option: string, i) => {
+                  return {
+                    id: uuidv4(),
+                    value: option,
+                    isCorrect: answerIndices.includes(i),
+                  };
+                }),
+              };
+              break;
+            }
+            case QuestionElementType.IMAGE: {
+              data = {
+                previewUrl: (questionComponent.metadata as ImageMetadata).url,
+                file: undefined,
+              };
+              break;
+            }
+            default: {
+              /* eslint-disable-next-line @typescript-eslint/naming-convention */
+              const { __typename, ...rest } = questionComponent.metadata;
+              data = rest as QuestionElementDataType;
+              break;
+            }
+          }
+
+          return {
+            id: uuidv4(),
+            type: questionComponent.type,
+            data,
+          };
+        },
+      ),
+    };
   });
 };

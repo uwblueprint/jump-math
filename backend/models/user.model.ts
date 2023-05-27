@@ -1,7 +1,10 @@
-import mongoose, { Schema, Document } from "mongoose";
+import type { Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
-import { Grade, Role } from "../types";
+import MgClass from "./class.model";
+import type { Role } from "../types";
+import { Grade } from "../types";
 
 export interface User extends Document {
   id: string;
@@ -59,8 +62,8 @@ const UserSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
-UserSchema.pre("findOneAndDelete", async function (next) {
-  const doc = await this.findOne(this.getQuery());
+UserSchema.pre("findOneAndDelete", async function () {
+  const doc = await this.findOne(this.getQuery()).clone();
   if (doc.role !== "Teacher") return;
 
   /* eslint-disable no-underscore-dangle */
@@ -70,8 +73,7 @@ UserSchema.pre("findOneAndDelete", async function (next) {
     { new: true },
   );
   await MgTestSession.deleteMany({ teacher: doc._id });
-
-  next();
+  await MgClass.deleteMany({ teacher: doc._id });
 });
 
 export default mongoose.model<User>("User", UserSchema);

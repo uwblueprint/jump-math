@@ -14,6 +14,10 @@ export const GET_TEST = gql`
           ... on TextMetadata {
             text
           }
+          ... on ImageMetadata {
+            filePath
+            url
+          }
           ... on MultipleChoiceMetadata {
             options
             answerIndex
@@ -32,6 +36,7 @@ export const GET_TEST = gql`
       curriculumCountry
       curriculumRegion
       status
+      updatedAt
     }
   }
 `;
@@ -46,6 +51,7 @@ export const GET_ALL_TESTS = gql`
       curriculumCountry
       curriculumRegion
       status
+      updatedAt
     }
   }
 `;

@@ -1,5 +1,5 @@
 import { parseAsync, transforms } from "json2csv";
-import { Readable, TransformOptions } from "stream";
+import type { Readable, TransformOptions } from "stream";
 
 type GenerateCSVParams<T> = {
   data: Readonly<T> | ReadonlyArray<T> | Readable;

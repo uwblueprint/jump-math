@@ -3,10 +3,8 @@ import { useDisclosure } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../contexts/QuestionEditorContext";
-import {
-  MultiData,
-  QuestionElementType,
-} from "../../../../../types/QuestionTypes";
+import type { MultiData } from "../../../../../types/QuestionTypes";
+import { QuestionElementType } from "../../../../../types/QuestionTypes";
 
 import MultiOptionModal from "./MultiOptionModal";
 

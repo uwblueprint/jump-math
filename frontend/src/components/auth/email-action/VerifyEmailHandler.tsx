@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { VERIFY_EMAIL } from "../../../APIClients/mutations/AuthMutations";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
-import { Role } from "../../../types/AuthTypes";
+import type { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/LoadingState";
 import AdminSignupConfirmation from "../AdminSignupConfirmation";
 import TeacherSignupConfirmation from "../teacher-signup/steps/TeacherSignupConfirmation";
@@ -40,12 +40,8 @@ const VerifyEmailHandler = ({
   });
 
   useEffect(() => {
-    const handleVerifyEmail = async () => {
-      await verifyEmail({ variables: { oobCode } });
-    };
-
-    handleVerifyEmail();
-  }, [oobCode]);
+    verifyEmail({ variables: { oobCode } });
+  }, [oobCode, verifyEmail]);
 
   return (
     <>

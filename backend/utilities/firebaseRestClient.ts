@@ -1,6 +1,7 @@
-import fetch, { Response } from "node-fetch";
+import type { Response } from "node-fetch";
+import fetch from "node-fetch";
 
-import { Token } from "../types";
+import type { Token } from "../types";
 import logger from "./logger";
 
 const Logger = logger(__filename);
@@ -76,9 +77,8 @@ const FirebaseRestClient = {
       },
     );
 
-    const responseJson:
-      | PasswordSignInResponse
-      | RequestError = await response.json();
+    const responseJson: PasswordSignInResponse | RequestError =
+      await response.json();
 
     if (!response.ok) {
       const errorMessage = [
@@ -111,9 +111,8 @@ const FirebaseRestClient = {
       },
     );
 
-    const responseJson:
-      | RefreshTokenResponse
-      | RequestError = await response.json();
+    const responseJson: RefreshTokenResponse | RequestError =
+      await response.json();
 
     if (!response.ok) {
       const errorMessage = [
@@ -150,9 +149,8 @@ const FirebaseRestClient = {
       },
     );
 
-    const responseJson:
-      | ConfirmEmailVerificationResponse
-      | RequestError = await response.json();
+    const responseJson: ConfirmEmailVerificationResponse | RequestError =
+      await response.json();
 
     if (!response.ok) {
       const errorMessage = [
@@ -187,9 +185,8 @@ const FirebaseRestClient = {
       },
     );
 
-    const responseJson:
-      | ResetPasswordResponse
-      | RequestError = await response.json();
+    const responseJson: ResetPasswordResponse | RequestError =
+      await response.json();
 
     if (!response.ok) {
       const errorMessage = [
@@ -226,9 +223,8 @@ const FirebaseRestClient = {
       },
     );
 
-    const responseJson:
-      | ResetPasswordResponse
-      | RequestError = await response.json();
+    const responseJson: ResetPasswordResponse | RequestError =
+      await response.json();
 
     if (!response.ok) {
       const errorMessage = [

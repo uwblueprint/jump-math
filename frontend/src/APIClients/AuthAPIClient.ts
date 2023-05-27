@@ -1,23 +1,23 @@
-import {
+import type {
   FetchResult,
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
 
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
-import { AuthenticatedUser } from "../types/AuthTypes";
-import { SchoolMetadata } from "../types/TeacherSignupTypes";
+import type { AuthenticatedUser, VerifiableUser } from "../types/AuthTypes";
+import type { SchoolMetadata } from "../types/TeacherSignupTypes";
 import { setLocalStorageObjProperty } from "../utils/LocalStorageUtils";
 
-import { Grade } from "./types/UserClientTypes";
+import type { Grade } from "./types/UserClientTypes";
 
 type LoginFunction = (
   options?:
-    | MutationFunctionOptions<{ login: AuthenticatedUser }, OperationVariables>
+    | MutationFunctionOptions<{ login: VerifiableUser }, OperationVariables>
     | undefined,
 ) => Promise<
   FetchResult<
-    { login: AuthenticatedUser },
+    { login: VerifiableUser },
     Record<string, unknown>,
     Record<string, unknown>
   >
@@ -27,12 +27,12 @@ const login = async (
   email: string,
   password: string,
   loginFunction: LoginFunction,
-): Promise<AuthenticatedUser | null> => {
-  let user: AuthenticatedUser = null;
+): Promise<VerifiableUser | null> => {
+  let user: VerifiableUser | null = null;
   try {
     const result = await loginFunction({ variables: { email, password } });
     user = result.data?.login ?? null;
-    if (user) {
+    if (user && user.emailVerified) {
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {

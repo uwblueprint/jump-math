@@ -3,6 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
+import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
@@ -17,14 +18,23 @@ const StudentLoginPage = (): React.ReactElement => {
   const [error, setError] = useState("");
 
   const [testId, setTestId] = useState("");
-  const [testSessionId, setTestSessionId] = useState("");
+  const [testSession, setTestSession] = useState<TestSessionSetupData | null>(
+    null,
+  );
 
   const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
     onCompleted: (data) => {
       setSuccess(true);
       setError("");
-      setTestId(data.testSessionByAccessCode.test.id);
-      setTestSessionId(data.testSessionByAccessCode.id);
+
+      const result = data.testSessionByAccessCode;
+      setTestId(result.test.id);
+      setTestSession({
+        id: result.id,
+        startDate: new Date(result.startDate),
+        notes: result.notes ?? "",
+      });
+
       delayedRedirect();
     },
     onError: async () => {
@@ -89,8 +99,8 @@ const StudentLoginPage = (): React.ReactElement => {
 
   return (
     <>
-      {showNameSelection ? (
-        <NameSelection testId={testId} testSessionId={testSessionId} />
+      {showNameSelection && testId && testSession ? (
+        <NameSelection testId={testId} testSession={testSession} />
       ) : (
         <AuthWrapper
           error={error}

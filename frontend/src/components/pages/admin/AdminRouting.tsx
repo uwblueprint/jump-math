@@ -3,12 +3,12 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import Page from "../../../types/PageTypes";
+import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import Navbar from "../../common/Navbar";
 import NotFound from "../NotFound";
 
-import CreateAssessmentPage from "./CreateAssessmentPage";
+import AssessmentEditorPage from "./AssessmentEditorPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
@@ -17,16 +17,16 @@ const pages: Page[] = [
   { title: "Database", url: Routes.USER_DATABASE_PAGE },
 ];
 
-const AdminDashboard = (): React.ReactElement => {
+const AdminRouting = (): React.ReactElement => {
   return (
     <Switch>
       <PrivateRoute
-        component={CreateAssessmentPage}
+        component={AssessmentEditorPage}
         exact
-        path={Routes.CREATE_ASSESSMENT_PAGE}
+        path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
-      <VStack align="left" flex="1">
+      <VStack align="left" flex="1" height="100vh">
         <Navbar pages={pages} />
         <Box padding="1.5em 2em 0em 2em">
           <Switch>
@@ -55,4 +55,4 @@ const AdminDashboard = (): React.ReactElement => {
   );
 };
 
-export default AdminDashboard;
+export default AdminRouting;

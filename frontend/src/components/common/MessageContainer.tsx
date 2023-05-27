@@ -3,8 +3,10 @@ import { useHistory } from "react-router-dom";
 import { Button, Container, Image, Text } from "@chakra-ui/react";
 
 interface MessageContainerProps {
+  buttonIcon?: React.ReactElement;
   buttonRoute?: string;
   buttonText?: string;
+  onClick?: () => void;
   image: string;
   paragraphs: string[];
   subtitle: string;
@@ -12,9 +14,11 @@ interface MessageContainerProps {
 }
 
 const MessageContainer = ({
+  buttonIcon,
   buttonRoute = "",
   buttonText,
   image,
+  onClick,
   paragraphs,
   textColor,
   subtitle,
@@ -47,7 +51,8 @@ const MessageContainer = ({
       {buttonText && (
         <Button
           mt={10}
-          onClick={() => history.push(buttonRoute)}
+          onClick={buttonRoute ? () => history.push(buttonRoute) : onClick}
+          rightIcon={buttonIcon}
           variant="primary"
         >
           {buttonText}
