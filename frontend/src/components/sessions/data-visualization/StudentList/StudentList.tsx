@@ -13,7 +13,7 @@ type Student = StudentResponse & {
 };
 type StudentListProps = {
   students: Student[];
-  selectedStudentId: string;
+  selectedStudentId?: string;
   setSelectedStudentId: (id: string) => void;
 };
 

@@ -31,7 +31,7 @@ const StudentListItem = ({
         <Box
           color={isSelected ? "blue.300" : "grey.400"}
           fontWeight={isSelected ? "700" : "400"}
-        >{`${firstName} ${lastName}`}</Box>
+        >{`${lastName}, ${firstName}`}</Box>
         <Spacer />
         {isViewed && (
           <Box color="grey.200" fontWeight="400">
