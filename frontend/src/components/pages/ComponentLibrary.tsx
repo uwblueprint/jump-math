@@ -6,6 +6,8 @@ import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
 import ClassroomCard from "../classrooms/ClassroomCard";
+import CorrectedMultipleChoice from "../sessions/results/CorrectedMultipleChoice";
+import CorrectedMultiSelect from "../sessions/results/CorrectedMultiSelect";
 import CorrectedShortAnswer from "../sessions/results/CorrectedShortAnswer";
 import StatisticCard from "../sessions/results/StatisticCard";
 import StudentList from "../sessions/results/StudentList";
@@ -111,6 +113,30 @@ const ComponentLibrary = (): React.ReactElement => {
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndex={1}
+      />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndex={2}
+      />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+      />
+      <CorrectedMultiSelect
+        correctAnswerIndices={[1, 2]}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndices={[1, 2]}
+      />
+      <CorrectedMultiSelect
+        correctAnswerIndices={[1, 2]}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndices={[2, 3]}
+      />
       <StatisticCard title="total score" value="87%" />
       <StatisticCard title="percentile" value="25th" />
       <StatisticCard title="submissions" value="1087" variant="blue" />
