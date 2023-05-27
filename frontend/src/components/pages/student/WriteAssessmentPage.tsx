@@ -39,14 +39,14 @@ const WriteAssessmentPage = (): React.ReactElement => {
         setIsSubmitted,
       }}
     >
-      {isLoading && (
+      {isLoading ? (
         <LoadingState
           fullPage
           text="Please wait while we submit your assessment."
         />
-      )}
-      {!isLoading && isSubmitted && <TestSubmissionMessage />}
-      {!isLoading && !isSubmitted && (
+      ) : isSubmitted ? (
+        <TestSubmissionMessage />
+      ) : (
         <>
           <Prompt message={confirmUnsavedChangesText} />
           <VStack align="center" flex="1" spacing="8">

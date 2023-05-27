@@ -19,7 +19,7 @@ const TestSubmissionMessage = (): React.ReactElement => {
         image={TestSubmissionIllustration}
         onClick={handleClick}
         paragraphs={[]}
-        subtitle="Great Job! Your test submission was a success. 
+        subtitle="Great job! We've saved your answers.
         Now that you got it out of the way, please turn your attention to your teacher for future instructions."
         textColor="blue.300"
       />

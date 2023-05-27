@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import { Button } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 
 import { SUBMIT_TEST } from "../../../APIClients/mutations/TestSessionMutations";
 import AuthContext from "../../../contexts/AuthContext";
@@ -33,26 +33,24 @@ const SubmitButton = (): React.ReactElement => {
   }, [loading, setIsLoading]);
 
   const handleSubmitTest = async () => {
-    await submitTest({
-      variables: {
-        id: testSession?.id,
-        result: {
-          student: authenticatedUser?.id,
-          answers: mapAnswersToResultsArray(answers),
+    try {
+      await submitTest({
+        variables: {
+          id: testSession?.id,
+          result: {
+            student: authenticatedUser?.id,
+            answers: mapAnswersToResultsArray(answers),
+          },
         },
-      },
-    })
-      .then(() => {
-        setIsLoading(false);
-        setIsSubmitted(true);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        showToast({
-          message: "Assessment failed to submit. Please try again.",
-          status: "error",
-        });
       });
+      setIsSubmitted(true);
+    } catch (e) {
+      showToast({
+        message: "Assessment failed to submit. Please try again.",
+        status: "error",
+      });
+    }
+    setIsLoading(false);
   };
 
   const incompleteQuestionCount = useMemo(() => {
@@ -62,14 +60,22 @@ const SubmitButton = (): React.ReactElement => {
   const header = useMemo(() => {
     const question = incompleteQuestionCount === 1 ? "Question" : "Questions";
     if (incompleteQuestionCount) {
-      return `You have ${incompleteQuestionCount} Unanswered ${question}`;
+      return (
+        <>
+          You have{" "}
+          <Text as="span" color="red.200">
+            {incompleteQuestionCount} Unanswered
+          </Text>{" "}
+          {question}
+        </>
+      );
     }
-    return "Submit the test";
+    return "Submit the test?";
   }, [incompleteQuestionCount]);
 
   const body = useMemo(() => {
     return incompleteQuestionCount
-      ? "Make sure you complete it before submitting"
+      ? "Make sure you complete it before submitting!"
       : "Ensure that you double checked your answers!";
   }, [incompleteQuestionCount]);
 
