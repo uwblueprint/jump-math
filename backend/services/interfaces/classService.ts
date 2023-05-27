@@ -75,6 +75,14 @@ export interface IClassService {
   deleteClass(id: string): Promise<string>;
 
   /**
+   * This method archives the class the given id
+   * @param id class id
+   * @returns the new updated ClassResponseDTO
+   * @throws Error if archive fails
+   */
+  archiveClass(id: string): Promise<ClassResponseDTO>;
+
+  /**
    * This method creates a new student in the database.
    * @param student new student
    * @param classId The unique identifier of the class to create the student in
