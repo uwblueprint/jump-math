@@ -162,7 +162,12 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   test: mockTestWithId,
   teacher: mockTeacher,
   school: mockSchoolWithId,
-  class: { ...mockClassWithId, teacher: mockTeacher, testSessions: [] },
+  class: {
+    ...mockClassWithId,
+    teacher: mockTeacher,
+    testSessions: [],
+    isActive: true,
+  },
 };
 
 export const mockTestSessions: TestSessionDTO[] = [

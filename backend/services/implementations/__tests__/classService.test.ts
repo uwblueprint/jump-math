@@ -10,6 +10,7 @@ import {
   testClassWithStudents,
   updatedTestClassWithStudent,
   updatedTestStudents,
+  mockTestClass,
 } from "../../../testUtils/class";
 import {
   assertResponseMatchesExpected,
@@ -26,6 +27,7 @@ import { mockTestSessionWithId } from "../../../testUtils/testSession";
 const testClassWithTestSessions = {
   ...testClass[0],
   testSessions: [mockTestSessionWithId.id],
+  isActive: true,
 };
 
 describe("mongo classService", (): void => {
