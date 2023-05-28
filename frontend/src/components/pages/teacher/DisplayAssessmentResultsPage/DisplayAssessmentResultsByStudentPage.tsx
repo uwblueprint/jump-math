@@ -173,13 +173,14 @@ const STUDENT_STATISTICS_CONFIG: StatisticsConfig = {
 const DisplayAssessmentResultsByStudentPage = () => {
   const [selectedStudentId, setSelectedStudentId] = React.useState<string>();
 
+  const students = MOCK_STUDENTS;
   const idToStudentMap = React.useMemo(
     () =>
-      MOCK_STUDENTS.reduce((acc, student) => {
+      students.reduce((acc, student) => {
         acc[student.id] = student;
         return acc;
-      }, {} as Record<string, (typeof MOCK_STUDENTS)[number]>),
-    [MOCK_STUDENTS],
+      }, {} as Record<string, (typeof students)[number]>),
+    [students],
   );
   const currentStudent = idToStudentMap[selectedStudentId || ""];
 
@@ -188,7 +189,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
       <StudentList
         selectedStudentId={selectedStudentId}
         setSelectedStudentId={setSelectedStudentId}
-        students={MOCK_STUDENTS}
+        students={students}
       />
       <Flex align="start" direction="column" flex={1} gap={10}>
         {selectedStudentId ? (

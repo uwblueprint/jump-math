@@ -27,7 +27,7 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
   const location = useLocation();
   const currentRouteIndex = useMemo(
     () => routes.findIndex((route) => matchPath(location.pathname, route)),
-    [location.pathname],
+    [routes, location.pathname],
   );
 
   return (
