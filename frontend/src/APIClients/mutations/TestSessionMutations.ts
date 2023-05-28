@@ -9,8 +9,11 @@ export const CREATE_TEST_SESSION = gql`
 `;
 
 export const SUBMIT_TEST = gql`
-  mutation CreateTestSessionResult($id: ID!, $result: ResultRequestDTO!) {
-    createTestSessionResult(id: $id, result: $result) {
+  mutation CreateTestSessionResult(
+    $testSessionId: ID!
+    $result: ResultRequestDTO!
+  ) {
+    createTestSessionResult(id: $testSessionId, result: $result) {
       id
     }
   }

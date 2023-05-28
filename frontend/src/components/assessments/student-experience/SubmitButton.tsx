@@ -36,7 +36,7 @@ const SubmitButton = (): React.ReactElement => {
     try {
       await submitTest({
         variables: {
-          id: testSession?.id,
+          testSessionId: testSession?.id,
           result: {
             student: authenticatedUser?.id,
             answers: mapAnswersToResultsArray(answers),
