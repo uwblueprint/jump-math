@@ -2,10 +2,15 @@ import React, { useContext } from "react";
 import { Button, HStack, Spacer } from "@chakra-ui/react";
 
 import StudentContext from "../../../contexts/StudentContext";
+import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
+
+import SubmitButton from "./SubmitButton";
 
 const NavButtons = (): React.ReactElement => {
-  const { test, currentQuestionIndex, setCurrentQuestionIndex } =
-    useContext(StudentContext);
+  const { test } = useContext(StudentContext);
+  const { currentQuestionIndex, setCurrentQuestionIndex } = useContext(
+    WriteAssessmentContext,
+  );
 
   const questionCount = test?.questions.length ?? 0;
 
@@ -27,7 +32,7 @@ const NavButtons = (): React.ReactElement => {
       )}
       <Spacer />
       {isLastQuestion ? (
-        <Button variant="primary">Submit</Button>
+        <SubmitButton />
       ) : (
         <Button
           onClick={() => setCurrentQuestionIndex(nextQuestion)}

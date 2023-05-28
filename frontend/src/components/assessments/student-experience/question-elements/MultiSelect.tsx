@@ -1,6 +1,8 @@
 import React from "react";
 import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
+import { stringOrNumberArrayToNumberArray } from "../../../../utils/StudentUtils";
+
 import useAnswerState from "./useAnswerState";
 
 interface MultiSelectProps {
@@ -16,8 +18,8 @@ const MultiSelect = ({
 
   return (
     <CheckboxGroup
-      onChange={(e) => updateAnswer(e as number[])}
-      value={currentAnswer}
+      onChange={(e) => updateAnswer(stringOrNumberArrayToNumberArray(e))}
+      value={currentAnswer.map(String)}
     >
       <VStack alignItems="left" gap={3} ml={5}>
         {options.map((option, index) => {
