@@ -7,8 +7,6 @@ import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
 import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
-import type { Answers } from "../../../types/AnswerTypes";
-import { initializeAnswers } from "../../../utils/StudentUtils";
 import PrivateRoute from "../../auth/PrivateRoute";
 import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
@@ -28,8 +26,6 @@ const StudentRouting = (): React.ReactElement => {
     null,
   );
   const [className, setClassName] = useState("");
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Answers[]>([]);
 
   useEffect(() => {
     if (state) {
@@ -47,7 +43,6 @@ const StudentRouting = (): React.ReactElement => {
     onCompleted: () => {
       if (data) {
         setTest(data.test);
-        setAnswers(initializeAnswers(data.test.questions));
       }
     },
   });
@@ -61,10 +56,6 @@ const StudentRouting = (): React.ReactElement => {
         setTestSession,
         className,
         setClassName,
-        currentQuestionIndex,
-        setCurrentQuestionIndex,
-        answers,
-        setAnswers,
       }}
     >
       {loading && <LoadingState fullPage />}

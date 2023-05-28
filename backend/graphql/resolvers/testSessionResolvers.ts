@@ -4,6 +4,7 @@ import TestService from "../../services/implementations/testService";
 import SchoolService from "../../services/implementations/schoolService";
 import type {
   ITestSessionService,
+  ResultRequestDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
@@ -57,6 +58,12 @@ const testSessionResolvers = {
       { testSession }: { classId: string; testSession: TestSessionRequestDTO },
     ): Promise<TestSessionResponseDTO> => {
       return testSessionService.createTestSession(testSession);
+    },
+    createTestSessionResult: async (
+      _req: undefined,
+      { id, result }: { id: string; result: ResultRequestDTO },
+    ): Promise<TestSessionResponseDTO> => {
+      return testSessionService.createTestSessionResult(id, result);
     },
     deleteTestSession: async (
       _req: undefined,
