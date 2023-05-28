@@ -50,7 +50,7 @@ const StudentList = ({
 
   return (
     <Flex direction="column" height="100%" w="container.xs">
-      <Flex alignItems="center" justifyContent="space-between" mb={4}>
+      <Flex alignItems="center" justifyContent="space-between" mb={4} p={1}>
         <SearchBar onSearch={setSearch} />
         <SortMenu labels={[]} onSortOrder={setSortDirection} properties={[]} />
       </Flex>
@@ -60,6 +60,7 @@ const StudentList = ({
         m={0}
         maxH="100%"
         overflow="auto"
+        p={1}
       >
         <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
           {sortedStudents.map(({ id, ...student }) => (
