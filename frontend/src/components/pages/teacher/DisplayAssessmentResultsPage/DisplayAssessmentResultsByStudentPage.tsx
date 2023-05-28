@@ -184,7 +184,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
   const currentStudent = idToStudentMap[selectedStudentId || ""];
 
   return (
-    <Flex gap={14} h="calc(100vh - 250px)">
+    <Flex gap={14} h="calc(100vh - 350px)">
       <StudentList
         selectedStudentId={selectedStudentId}
         setSelectedStudentId={setSelectedStudentId}

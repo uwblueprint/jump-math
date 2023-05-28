@@ -1,5 +1,7 @@
 import React from "react";
+import { Flex, IconButton, Text } from "@chakra-ui/react";
 
+import { ArrowBackOutlineIcon, LeftArrowIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
 import RouterTabs from "../../../common/RouterTabs";
 import NotFound from "../../NotFound";
@@ -25,7 +27,21 @@ const TAB_CONFIG = [
 ];
 
 const DisplayAssessmentResults = () => {
-  return <RouterTabs routes={TAB_CONFIG} />;
+  const assessmentName = "Grade 5 Ontario Pre-Term Assessment";
+  return (
+    <Flex direction="column" gap={8}>
+      <Text as="h1" color="blue.300" textStyle="header4">
+        <IconButton
+          aria-label="Back"
+          icon={<LeftArrowIcon h={8} w={8} />}
+          minW={0}
+          mr={6}
+        />
+        {assessmentName}
+      </Text>
+      <RouterTabs routes={TAB_CONFIG} />
+    </Flex>
+  );
 };
 
 export default DisplayAssessmentResults;

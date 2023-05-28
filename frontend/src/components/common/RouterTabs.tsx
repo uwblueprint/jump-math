@@ -34,7 +34,6 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
     <>
       <Tabs
         index={currentRouteIndex}
-        mt={3}
         onChange={(index) =>
           history.push(generatePath(routes[index].path, matchParams))
         }
@@ -46,7 +45,7 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
         </TabList>
         <TabPanels>
           {routes.map(({ path, component: Component }) => (
-            <TabPanel key={path}>
+            <TabPanel key={path} p={0} pt={8}>
               <Component />
             </TabPanel>
           ))}
