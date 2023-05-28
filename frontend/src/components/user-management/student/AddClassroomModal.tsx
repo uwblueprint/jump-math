@@ -18,6 +18,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
+import { format } from "date-fns";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -155,7 +156,7 @@ const AddClassroomModal = ({
                   <FormLabel color="blue.300">Start Date</FormLabel>
                   <SingleDatepicker
                     configs={{
-                      dayNames: "SMTWTFS".split(""), // length of 7
+                      dayNames: "SMTWTFS".split(""),
                       monthNames: [
                         "January",
                         "February",
@@ -169,7 +170,7 @@ const AddClassroomModal = ({
                         "October",
                         "November",
                         "December",
-                      ], // length of 12
+                      ],
                     }}
                     date={watch("startDate")}
                     name="date-input"
@@ -203,6 +204,11 @@ const AddClassroomModal = ({
                           borderRadius: 20,
                           border: "1px solid grey",
                         },
+                      },
+                      inputProps: {
+                        value: watch("startDate")
+                          ? format(watch("startDate"), "yyyy-MM-dd")
+                          : "Please choose a date",
                       },
                       popoverCompProps: {
                         popoverContentProps: {
