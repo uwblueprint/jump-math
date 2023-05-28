@@ -11,13 +11,7 @@ const LoadingState = ({
   return (
     <Center height={fullPage ? "100vh" : "auto"}>
       <VStack spacing={6} textAlign="center">
-        <Spinner
-          color="blue.300"
-          emptyColor="gray.200"
-          size="xl"
-          speed="0.65s"
-          thickness="4px"
-        />
+        <Spinner size="xl" />
         <Text color="blue.300" textStyle="paragraph">
           {text ??
             "Please wait for the data to load. It will load momentarily."}
