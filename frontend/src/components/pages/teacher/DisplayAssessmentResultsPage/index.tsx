@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 
-import { ArrowBackOutlineIcon, LeftArrowIcon } from "../../../../assets/icons";
+import { LeftArrowIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
 import RouterTabs from "../../../common/RouterTabs";
 import NotFound from "../../NotFound";
