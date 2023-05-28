@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 
 import type { ShortAnswerMetadata } from "../../../../../types/QuestionMetadataTypes";
+import { stringToFloat } from "../../../../../utils/GeneralUtils";
 import Modal from "../../../../common/Modal";
 
 interface ShortAnswerModalProps {
@@ -30,9 +31,8 @@ const ShortAnswerModal = ({
   }, [data]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = parseFloat(event.target.value);
-    const updatedAnswer = Number.isNaN(input) ? undefined : input;
-    setAnswer(updatedAnswer);
+    const castedAnswer = stringToFloat(event.target.value);
+    setAnswer(castedAnswer);
   };
 
   const handleClose = () => {

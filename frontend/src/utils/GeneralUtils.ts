@@ -66,3 +66,8 @@ export function sortArray<Type extends Record<string, string>>(
 
 export const randomNumber = (): number =>
   window.crypto.getRandomValues(new Uint32Array(1))[0];
+
+export const stringToFloat = (input: string): number | undefined => {
+  const value = parseFloat(input);
+  return Number.isNaN(value) ? undefined : value;
+};
