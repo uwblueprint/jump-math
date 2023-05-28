@@ -1,11 +1,12 @@
 import React from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 
 import StatisticsSection, {
   NTH_FORMAT,
   PERCENTAGE_FORMAT,
   type StatisticsConfig,
 } from "../../../sessions/data-visualization/StatisticsSection";
+import StudentAnswersSection from "../../../sessions/data-visualization/StudentAnswersSection";
 import StudentList from "../../../sessions/data-visualization/StudentList";
 
 const MOCK_STUDENTS = [
@@ -199,6 +200,8 @@ const DisplayAssessmentResultsByStudentPage = () => {
               config={STUDENT_STATISTICS_CONFIG}
               values={{ totalScore: 50, percentile: 10 }}
             />
+            <Divider />
+            <StudentAnswersSection />
           </>
         ) : (
           <Box>Select a student to view their results</Box>
