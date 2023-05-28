@@ -10,6 +10,7 @@ import FormError from "./components/formError";
 import Input from "./components/input";
 import Radio from "./components/radio";
 import Select from "./components/select";
+import Spinner from "./components/spinner";
 import Table from "./components/table";
 import Tag from "./components/tag";
 import Textarea from "./components/textarea";
@@ -32,6 +33,7 @@ const theme = extendTheme({
     Input,
     Radio,
     Select,
+    Spinner,
     Table,
     Tag,
     Textarea,

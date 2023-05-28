@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import {
-  HStack,
-  PinInput,
-  PinInputField,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { HStack, PinInput, PinInputField, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_BY_ACCESS_CODE } from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
@@ -14,6 +8,7 @@ import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
 import BackButton from "../../common/BackButton";
+import Spinner from "../../common/Spinner";
 
 const StudentLoginPage = (): React.ReactElement => {
   const [showNameSelection, setShowNameSelection] = useState(false);
@@ -71,15 +66,7 @@ const StudentLoginPage = (): React.ReactElement => {
   const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
-      {loading && (
-        <Spinner
-          color="blue.300"
-          emptyColor="gray.200"
-          size="md"
-          speed="0.65s"
-          thickness="4px"
-        />
-      )}
+      {loading && <Spinner />}
       {success && (
         <Text color="green.300" textStyle="smallerParagraph">
           Entered successfully
