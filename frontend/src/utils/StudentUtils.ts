@@ -1,9 +1,12 @@
+import type { StringOrNumber } from "@chakra-ui/utils";
 import update from "immutability-helper";
 
 import type { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
 import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
 import { ResponseElementType } from "../types/QuestionTypes";
+
+import { stringToFloat } from "./GeneralUtils";
 
 export const getAnswerElements = (
   question: QuestionComponentRequest[],
@@ -90,11 +93,20 @@ export const getUpdatedAnswer = (
 };
 
 export const stringToNumberArray = (input: string): number[] => {
-  const value = parseFloat(input);
-  return Number.isNaN(value) ? [] : [value];
+  const castedInput = stringToFloat(input);
+  return castedInput !== undefined ? [castedInput] : [];
 };
 
-const isCompleted = (answer: Answers) => {
+export const stringOrNumberArrayToNumberArray = (
+  inputs: StringOrNumber[],
+): number[] => {
+  return inputs
+    .map((input) => (typeof input === "string" ? stringToFloat(input) : input))
+    .filter((value): value is number => value !== undefined)
+    .sort((a, b) => a - b);
+};
+
+export const isCompleted = (answer: Answers) => {
   return answer.completedCount === answer.elements.length;
 };
 
@@ -106,4 +118,10 @@ export const questionStatus = (
   if (index === currentQuestionIndex) return QuestionNumberTypes.CURRENT;
   if (isCompleted(answers[index])) return QuestionNumberTypes.COMPLETED;
   return QuestionNumberTypes.UNATTEMPTED;
+};
+
+export const mapAnswersToResultsArray = (answers: Answers[]): number[][][] => {
+  return answers.map((answer) =>
+    answer.elements.map((element) => element.elementAnswers),
+  );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { ModalBody, ModalHeader, Text } from "@chakra-ui/react";
 
 interface ModalTextProps {
-  header?: string;
+  header?: React.ReactNode;
   body?: string;
   textColor?: string;
 }
