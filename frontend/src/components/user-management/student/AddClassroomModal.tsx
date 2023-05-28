@@ -17,8 +17,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
-import { format } from "date-fns";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -29,12 +27,12 @@ import type {
   ClassroomInput,
 } from "../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
+import DatePicker from "../../common/DatePicker";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import Toast from "../../common/Toast";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
-
 type AddClassroomModalProps = {
   onClose: () => void;
   isOpen: boolean;
@@ -65,6 +63,10 @@ const AddClassroomModal = ({
     field: ClassroomInput,
   ) => {
     setValue(field, event.target.value);
+  };
+
+  const handleDateChange = (date: Date) => {
+    setValue("startDate", date);
   };
 
   const validateFields = (): boolean => {
@@ -154,69 +156,9 @@ const AddClassroomModal = ({
                 </VStack>
                 <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">Start Date</FormLabel>
-                  <SingleDatepicker
-                    configs={{
-                      dayNames: "SMTWTFS".split(""),
-                      monthNames: [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December",
-                      ],
-                    }}
-                    date={watch("startDate")}
-                    name="date-input"
-                    onDateChange={(date) => setValue("startDate", date)}
-                    propsConfigs={{
-                      dateNavBtnProps: {
-                        fontWeight: 400,
-                      },
-                      dayOfMonthBtnProps: {
-                        defaultBtnProps: {
-                          width: "2rem",
-                          color: "grey.400",
-                          fontWeight: 400,
-                          borderRadius: 20,
-                          _hover: {
-                            width: "2rem",
-                            background: "blue.300",
-                            color: "white",
-                            bg: "blue.300",
-                          },
-                        },
-                        selectedBtnProps: {
-                          width: "2rem",
-                          background: "blue.300",
-                          borderRadius: 20,
-                          color: "white",
-                        },
-                        todayBtnProps: {
-                          width: "2rem",
-                          borderColor: "grey.300",
-                          borderRadius: 20,
-                          border: "1px solid grey",
-                        },
-                      },
-                      inputProps: {
-                        value: watch("startDate")
-                          ? format(watch("startDate"), "yyyy-MM-dd")
-                          : "Please choose a date",
-                      },
-                      popoverCompProps: {
-                        popoverContentProps: {
-                          fontWeight: "400",
-                          color: "grey.300",
-                        },
-                      },
-                    }}
+                  <DatePicker
+                    onChange={handleDateChange}
+                    value={watch("startDate")}
                   />
                 </VStack>
               </HStack>
