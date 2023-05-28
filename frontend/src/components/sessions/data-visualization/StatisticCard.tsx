@@ -7,10 +7,12 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 
+export type StatisticCardVariant = "blue" | "default";
+
 type StatisticCardProps = {
   title: string;
   value: string;
-  variant?: "blue" | "default";
+  variant?: StatisticCardVariant;
 };
 
 const VARIANT_STYLES = {

@@ -1,6 +1,11 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
+import StatisticsSection, {
+  NTH_FORMAT,
+  PERCENTAGE_FORMAT,
+  type StatisticsConfig,
+} from "../../../sessions/data-visualization/StatisticsSection";
 import StudentList from "../../../sessions/data-visualization/StudentList";
 
 const MOCK_STUDENTS = [
@@ -153,6 +158,17 @@ const MOCK_STUDENTS = [
   },
 ];
 
+const STUDENT_STATISTICS_CONFIG: StatisticsConfig = {
+  totalScore: {
+    title: "total score",
+    formatValue: PERCENTAGE_FORMAT,
+  },
+  percentile: {
+    title: "percentile",
+    formatValue: NTH_FORMAT,
+  },
+};
+
 const DisplayAssessmentResultsByStudentPage = () => {
   const [selectedStudentId, setSelectedStudentId] = React.useState<string>();
 
@@ -175,9 +191,15 @@ const DisplayAssessmentResultsByStudentPage = () => {
       />
       <Flex align="start" direction="column" flex={1} gap={10}>
         {selectedStudentId ? (
-          <Text color="blue.300" textStyle="subtitle1">
-            {`${currentStudent.lastName}, ${currentStudent.firstName}`}
-          </Text>
+          <>
+            <Text color="blue.300" textStyle="subtitle1">
+              {`${currentStudent.lastName}, ${currentStudent.firstName}`}
+            </Text>
+            <StatisticsSection
+              config={STUDENT_STATISTICS_CONFIG}
+              values={{ totalScore: 50, percentile: 10 }}
+            />
+          </>
         ) : (
           <Box>Select a student to view their results</Box>
         )}
