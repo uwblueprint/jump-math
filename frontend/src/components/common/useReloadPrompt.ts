@@ -1,10 +1,17 @@
 import { useEffect } from "react";
 
+const beforeUnloadListener = (event: BeforeUnloadEvent) => {
+  event.preventDefault();
+  return (event.returnValue = "");
+};
+
 const useReloadPrompt = () => {
   useEffect(() => {
-    window.onbeforeunload = () => true;
+    addEventListener("beforeunload", beforeUnloadListener, { capture: true });
     return () => {
-      window.onbeforeunload = null;
+      removeEventListener("beforeunload", beforeUnloadListener, {
+        capture: true,
+      });
     };
   }, []);
 };
