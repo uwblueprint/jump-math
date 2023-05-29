@@ -2,14 +2,14 @@ import gql from "graphql-tag";
 
 const testSessionType = gql`
   type ResultResponseDTO {
-    student: String!
+    student: ID!
     score: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
 
   input ResultRequestDTO {
-    student: String!
+    student: ID!
     answers: [[[Float]]]!
   }
 
@@ -47,6 +47,10 @@ const testSessionType = gql`
   extend type Mutation {
     createTestSession(
       testSession: TestSessionRequestDTO!
+    ): TestSessionResponseDTO!
+    createTestSessionResult(
+      id: ID!
+      result: ResultRequestDTO!
     ): TestSessionResponseDTO!
     deleteTestSession(id: ID!): ID!
   }
