@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
   Box,
@@ -20,10 +21,10 @@ import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
+import ErrorStateWithButton from "../../classrooms/ErrorStateWithButton";
 import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
-import MessageContainer from "../../common/MessageContainer";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import AddClassroomModal from "../../user-management/student/AddClassroomModal";
@@ -39,9 +40,12 @@ const ClassroomsPage = (): React.ReactElement => {
 
   const { authenticatedUser } = useContext(AuthContext);
 
+  const { id: teacherId } = authenticatedUser ?? {};
+
   const { loading, error, data } = useQuery(GET_CLASSES_BY_TEACHER, {
     fetchPolicy: "cache-and-network",
-    variables: { teacherId: authenticatedUser?.id },
+    variables: { teacherId },
+    skip: !teacherId,
   });
 
   const classrooms: Classroom[] = data?.classesByTeacher;
@@ -60,6 +64,10 @@ const ClassroomsPage = (): React.ReactElement => {
   const handleAddClassroom = () => {
     setIsModalOpen(true);
   };
+
+  if (!teacherId) {
+    return <Redirect to="/teacher-login" />;
+  }
 
   return (
     <FormProvider {...methods}>
@@ -97,14 +105,14 @@ const ClassroomsPage = (): React.ReactElement => {
                 <TabPanels>
                   <TabPanel padding="0">
                     <Grid gap={4} templateColumns="repeat(4, 1fr)">
-                      {paginatedData?.map((classroom) => (
-                        <GridItem key={classroom.id} flex="1" paddingTop="4">
+                      {paginatedData?.map(({ id, gradeLevel, className }) => (
+                        <GridItem key={id} flex="1" paddingTop="4">
                           <ClassroomCard
-                            key={classroom.id}
+                            key={id}
                             activeAssessments={100}
                             assessmentCount={200}
-                            grade={classroom.gradeLevel}
-                            name={classroom.className}
+                            grade={gradeLevel}
+                            name={className}
                             studentCount={200}
                           />
                         </GridItem>
@@ -134,24 +142,15 @@ const ClassroomsPage = (): React.ReactElement => {
             </>
           ) : (
             <>
-              <Center
-                backgroundColor="blue.50"
-                borderRadius="1rem"
-                color="blue.300"
-                minWidth="100%"
-                pb={14}
-              >
-                <MessageContainer
-                  buttonText="Add New Classroom"
-                  image={DisplayAssessmentsIllustration}
-                  onClick={handleAddClassroom}
-                  paragraphs={[
-                    "Click on the below button to create your first classroom",
-                  ]}
-                  subtitle="You currently have no classrooom."
-                  textColor="blue.300"
-                />
-              </Center>
+              <ErrorStateWithButton
+                buttonText="Add New Classroom"
+                image={DisplayAssessmentsIllustration}
+                onClick={handleAddClassroom}
+                paragraphs={[
+                  "Click on the below button to create your first classroom",
+                ]}
+                subtitle="You currently have no classrooom."
+              />
             </>
           )}
         </Box>

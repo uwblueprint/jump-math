@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 import { CREATE_CLASS } from "../../../APIClients/mutations/ClassMutations";
+import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../APIClients/types/UserClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
@@ -55,7 +56,16 @@ const AddClassroomModal = ({
   );
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
     CREATE_CLASS,
+    {
+      refetchQueries: [
+        {
+          query: GET_CLASSES_BY_TEACHER,
+          variables: { teacherId: authenticatedUser?.id },
+        },
+      ],
+    },
   );
+
   const { showToast } = Toast();
 
   const handleChange = (
@@ -111,7 +121,6 @@ const AddClassroomModal = ({
             message: "New classroom created.",
             status: "success",
           });
-          window.location.reload();
         })
         .catch(() => {
           showToast({
