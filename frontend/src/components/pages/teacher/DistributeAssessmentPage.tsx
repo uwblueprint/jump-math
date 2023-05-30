@@ -89,7 +89,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
               color={isCurrentPage ? "blue.300" : ""}
               isCurrentPage={isCurrentPage}
             >
-              {canVisit(page) ? (
+              {canVisit(breadcrumb.page) ? (
                 <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
                   {breadcrumb.header}
                 </BreadcrumbLink>
