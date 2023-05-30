@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect, useLocation, useParams } from "react-router-dom";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
 import * as Routes from "../../../../constants/Routes";
@@ -12,17 +13,33 @@ import DisplayAssessmentResultsSummaryPage from "./DisplayAssessmentResultsSumma
 const TAB_CONFIG = [
   {
     name: "Summary",
-    path: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE,
-    component: DisplayAssessmentResultsSummaryPage,
+    path: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE(),
+    Component: DisplayAssessmentResultsSummaryPage,
   },
   {
     name: "Student",
-    path: Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE,
-    component: DisplayAssessmentResultsByStudentPage,
+    path: Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE(),
+    Component: DisplayAssessmentResultsByStudentPage,
+  },
+  {
+    path: Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(),
+    exact: true,
+    Component: () => {
+      const { sessionId } = useParams<{ sessionId: string }>();
+      const location = useLocation();
+      return (
+        <Redirect
+          to={{
+            pathname: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE(sessionId),
+            state: location.state,
+          }}
+        />
+      );
+    },
   },
   {
     path: "*",
-    component: NotFound,
+    Component: NotFound,
   },
 ];
 

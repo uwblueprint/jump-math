@@ -14,8 +14,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 type RouteConfig = {
   name?: string;
   path: string;
-  component: React.ComponentType;
-} & Omit<RouteProps, "component" | "render" | "children">;
+  Component: React.ComponentType;
+} & Omit<RouteProps, "component" | "redirect" | "render" | "children">;
 
 type RouterTabsProps = {
   routes: RouteConfig[];
@@ -34,8 +34,12 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
     <>
       <Tabs
         index={currentRouteIndex}
+        isLazy
         onChange={(index) =>
-          history.push(generatePath(routes[index].path, matchParams))
+          history.push({
+            pathname: generatePath(routes[index].path, matchParams),
+            state: location.state,
+          })
         }
       >
         <TabList>
@@ -44,7 +48,7 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
           )}
         </TabList>
         <TabPanels>
-          {routes.map(({ path, component: Component }) => (
+          {routes.map(({ path, Component }) => (
             <TabPanel key={path} p={0} pt={8}>
               <Component />
             </TabPanel>

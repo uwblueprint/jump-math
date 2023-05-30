@@ -41,7 +41,7 @@ const TeacherRouting = (): React.ReactElement => {
             />
             <PrivateRoute
               component={DisplayAssessmentResults}
-              path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE}
+              path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
               roles={["Teacher"]}
             />
             <PrivateRoute
