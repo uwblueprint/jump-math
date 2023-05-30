@@ -43,7 +43,9 @@ const TAB_CONFIG = [
   },
 ];
 
-const isValidLocationState = (state: any): state is { returnTo: string } => {
+const isValidLocationState = (
+  state: unknown,
+): state is { returnTo: string } => {
   return typeof state === "object" && state !== null && "returnTo" in state;
 };
 
