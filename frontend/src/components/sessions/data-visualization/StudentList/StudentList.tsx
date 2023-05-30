@@ -62,7 +62,11 @@ const StudentList = ({
         overflow="auto"
         p={1}
       >
-        <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
+        <VStack
+          alignItems="stretch"
+          divider={<Divider borderColor="grey.100" />}
+          spacing={0}
+        >
           {sortedStudents.map(({ id, ...student }) => (
             <StudentListItem
               key={id}

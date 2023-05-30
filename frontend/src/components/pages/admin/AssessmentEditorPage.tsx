@@ -224,7 +224,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
                   setValue={setValue}
                   watch={watch}
                 />
-                <Divider borderColor="grey.200" />
+                <Divider />
                 <AssessmentQuestions />
               </VStack>
             </VStack>
