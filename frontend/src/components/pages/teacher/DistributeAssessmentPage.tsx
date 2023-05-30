@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
-import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+  HStack,
+  Spacer,
+  VStack,
+} from "@chakra-ui/react";
 
+import { ChevronRightIcon } from "../../../assets/icons";
 import AddInformation from "../../sessions/distribute/steps/AddInformation";
 import ChooseAssessment from "../../sessions/distribute/steps/ChooseAssessment";
 import ChooseClass from "../../sessions/distribute/steps/ChooseClass";
@@ -37,8 +46,53 @@ const DistributeAssessmentPage = (): React.ReactElement => {
     }
   };
 
+  const validNext = () => {
+    switch (page) {
+      case 0:
+        return Boolean(testId);
+      case 1:
+        return Boolean(classId);
+      case 2:
+        return Boolean(startDate && endDate);
+      default:
+        return false;
+    }
+  };
+
+  type BreadcrumbType = {
+    header: string;
+    page: number;
+  };
+
+  const breadcrumbs: BreadcrumbType[] = [
+    { header: "Choose an assessment", page: 0 },
+    { header: "Choose a classroom", page: 1 },
+    { header: "Add Information", page: 2 },
+    { header: "Review", page: 3 },
+  ];
+
   return (
     <VStack align="left">
+      <Breadcrumb
+        color="grey.300"
+        separator={<ChevronRightIcon />}
+        spacing="8px"
+      >
+        {breadcrumbs.map((breadcrumb) => {
+          const isCurrentPage = page === breadcrumb.page;
+          return (
+            <BreadcrumbItem
+              key={breadcrumb.header}
+              color={isCurrentPage ? "blue.300" : ""}
+              isCurrentPage={isCurrentPage}
+            >
+              <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
+                {breadcrumb.header}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          );
+        })}
+      </Breadcrumb>
       {renderPageContent()}
       <HStack>
         {page !== 0 && (
@@ -53,6 +107,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         <Spacer />
         {page !== 3 && (
           <Button
+            isDisabled={!validNext()}
             minWidth="10"
             onClick={() => setPage(page + 1)}
             variant="secondary"

@@ -2,8 +2,6 @@
 import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
-import FormHeader from "../FormHeader";
-
 interface ChooseAssessmentProps {
   setTestId: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -13,7 +11,6 @@ const ChooseAssessment = ({
 }: ChooseAssessmentProps): React.ReactElement => {
   return (
     <VStack align="left">
-      <FormHeader isCurrentPage={true} />
       <Text color="blue.300" textAlign="left" textStyle="header4">
         Choose an Assessment
       </Text>

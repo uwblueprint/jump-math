@@ -9,7 +9,7 @@ interface ChooseClassProps {
 const ChooseClass = ({ setClassId }: ChooseClassProps): React.ReactElement => {
   return (
     <Text color="blue.300" textAlign="left" textStyle="header4">
-      Choose an Assessment
+      Choose a Classroom
     </Text>
   );
 };
