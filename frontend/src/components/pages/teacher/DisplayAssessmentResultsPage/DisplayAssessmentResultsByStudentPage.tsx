@@ -3,13 +3,13 @@ import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 
 import StatisticsSection, {
   type StatisticsConfig,
-} from "../../../sessions/data-visualization/StatisticsSection";
+} from "../../../data-visualization/StatisticsSection";
 import {
   NTH_FORMAT,
   PERCENTAGE_FORMAT,
-} from "../../../sessions/data-visualization/StatisticsSection/utils";
-import StudentAnswersSection from "../../../sessions/data-visualization/StudentAnswersSection";
-import StudentList from "../../../sessions/data-visualization/StudentList";
+} from "../../../data-visualization/StatisticsSection/utils";
+import StudentAnswersSection from "../../../sessions/results/StudentAnswersSection";
+import StudentList from "../../../sessions/results/StudentList";
 
 const MOCK_STUDENTS = [
   {
