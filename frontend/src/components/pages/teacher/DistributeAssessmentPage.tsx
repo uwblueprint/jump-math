@@ -7,6 +7,7 @@ import {
   Button,
   HStack,
   Spacer,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 
@@ -46,13 +47,15 @@ const DistributeAssessmentPage = (): React.ReactElement => {
     }
   };
 
-  const validNext = () => {
-    switch (page) {
+  const canVisit = (p: number) => {
+    switch (p) {
       case 0:
-        return Boolean(testId);
+        return true;
       case 1:
-        return Boolean(classId);
+        return Boolean(testId);
       case 2:
+        return Boolean(classId);
+      case 3:
         return Boolean(startDate && endDate);
       default:
         return false;
@@ -86,9 +89,13 @@ const DistributeAssessmentPage = (): React.ReactElement => {
               color={isCurrentPage ? "blue.300" : ""}
               isCurrentPage={isCurrentPage}
             >
-              <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
-                {breadcrumb.header}
-              </BreadcrumbLink>
+              {canVisit(page) ? (
+                <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
+                  {breadcrumb.header}
+                </BreadcrumbLink>
+              ) : (
+                <Text>{breadcrumb.header}</Text>
+              )}
             </BreadcrumbItem>
           );
         })}
@@ -107,7 +114,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         <Spacer />
         {page !== 3 && (
           <Button
-            isDisabled={!validNext()}
+            isDisabled={!canVisit(page + 1)}
             minWidth="10"
             onClick={() => setPage(page + 1)}
             variant="secondary"
