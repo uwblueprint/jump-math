@@ -15,8 +15,10 @@ import QuestionNumbers from "../../assessments/student-experience/QuestionNumber
 import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
 import TestSubmissionMessage from "../../assessments/TestSubmissionMessage";
 import LoadingState from "../../common/LoadingState";
+import useReloadPrompt from "../../common/useReloadPrompt";
 
 const WriteAssessmentPage = (): React.ReactElement => {
+  useReloadPrompt();
   const { test, className } = useContext(StudentContext);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
