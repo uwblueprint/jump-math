@@ -1,17 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
-  HStack,
-  Spacer,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
-import { ChevronRightIcon } from "../../../assets/icons";
+import type { BreadcrumbType } from "../../sessions/distribute/FormBreadcrumb";
+import FormBreadcrumb from "../../sessions/distribute/FormBreadcrumb";
 import AddInformation from "../../sessions/distribute/steps/AddInformation";
 import ChooseAssessment from "../../sessions/distribute/steps/ChooseAssessment";
 import ChooseClass from "../../sessions/distribute/steps/ChooseClass";
@@ -25,6 +17,13 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
+
+  const BREADCRUMB_CONFIG: BreadcrumbType[] = [
+    { header: "Choose an assessment", page: 0 },
+    { header: "Choose a classroom", page: 1 },
+    { header: "Add Information", page: 2 },
+    { header: "Review", page: 3 },
+  ];
 
   const renderPageContent = () => {
     switch (page) {
@@ -47,7 +46,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
     }
   };
 
-  const canVisit = (p: number) => {
+  const validPage = (p: number) => {
     switch (p) {
       case 0:
         return true;
@@ -62,44 +61,14 @@ const DistributeAssessmentPage = (): React.ReactElement => {
     }
   };
 
-  type BreadcrumbType = {
-    header: string;
-    page: number;
-  };
-
-  const breadcrumbs: BreadcrumbType[] = [
-    { header: "Choose an assessment", page: 0 },
-    { header: "Choose a classroom", page: 1 },
-    { header: "Add Information", page: 2 },
-    { header: "Review", page: 3 },
-  ];
-
   return (
     <VStack align="left">
-      <Breadcrumb
-        color="grey.300"
-        separator={<ChevronRightIcon />}
-        spacing="8px"
-      >
-        {breadcrumbs.map((breadcrumb) => {
-          const isCurrentPage = page === breadcrumb.page;
-          return (
-            <BreadcrumbItem
-              key={breadcrumb.header}
-              color={isCurrentPage ? "blue.300" : ""}
-              isCurrentPage={isCurrentPage}
-            >
-              {canVisit(breadcrumb.page) ? (
-                <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
-                  {breadcrumb.header}
-                </BreadcrumbLink>
-              ) : (
-                <Text>{breadcrumb.header}</Text>
-              )}
-            </BreadcrumbItem>
-          );
-        })}
-      </Breadcrumb>
+      <FormBreadcrumb
+        breadcrumbs={BREADCRUMB_CONFIG}
+        page={page}
+        setPage={setPage}
+        validPage={validPage}
+      />
       {renderPageContent()}
       <HStack>
         {page !== 0 && (
@@ -114,7 +83,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         <Spacer />
         {page !== 3 && (
           <Button
-            isDisabled={!canVisit(page + 1)}
+            isDisabled={!validPage(page + 1)}
             minWidth="10"
             onClick={() => setPage(page + 1)}
             variant="secondary"
