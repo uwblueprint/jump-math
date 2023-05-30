@@ -44,7 +44,7 @@ const StatisticsSection = <T,>({
     <Grid gap={4} py={4} templateColumns="repeat(2, 1fr)">
       {getKeys(config).map((key) => {
         const { title, formatValue, variant, fallbackValue } = config[key];
-        let value = fallbackValue ?? "--";
+        let value = fallbackValue ?? "N/A";
         if (values.hasOwnProperty(key) && values[key] != null) {
           value = formatValue(values[key]);
         }
