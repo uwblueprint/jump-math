@@ -2,10 +2,12 @@ import React from "react";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 
 import StatisticsSection, {
-  NTH_FORMAT,
-  PERCENTAGE_FORMAT,
   type StatisticsConfig,
 } from "../../../sessions/data-visualization/StatisticsSection";
+import {
+  NTH_FORMAT,
+  PERCENTAGE_FORMAT,
+} from "../../../sessions/data-visualization/StatisticsSection/utils";
 import StudentAnswersSection from "../../../sessions/data-visualization/StudentAnswersSection";
 import StudentList from "../../../sessions/data-visualization/StudentList";
 
