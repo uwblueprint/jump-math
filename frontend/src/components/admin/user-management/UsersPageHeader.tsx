@@ -1,7 +1,7 @@
 import React from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
-import HeaderWithButton from "../common/HeaderWithButton";
+import HeaderWithButton from "../../common/HeaderWithButton";
 
 import AddAdminModal from "./admin/AddAdminModal";
 

@@ -10,12 +10,12 @@ import { initializeAnswers } from "../../../utils/StudentUtils";
 import LoadingState from "../../common/info/LoadingState";
 import TestSubmissionMessage from "../../common/info/messages/TestSubmissionMessage";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
-import Instructions from "../../student-experience/Instructions";
-import NavButtons from "../../student-experience/NavButtons";
-import QuestionNumbers from "../../student-experience/QuestionNumbers";
-import Question from "../../student-experience/questions/Question";
-import QuestionTitle from "../../student-experience/questions/QuestionTitle";
-import StudentDashboardHeader from "../../student-experience/StudentDashboardHeader";
+import Instructions from "../../student/Instructions";
+import NavButtons from "../../student/NavButtons";
+import QuestionNumbers from "../../student/QuestionNumbers";
+import Question from "../../student/questions/Question";
+import QuestionTitle from "../../student/questions/QuestionTitle";
+import StudentDashboardHeader from "../../student/StudentDashboardHeader";
 
 const WriteAssessmentPage = (): React.ReactElement => {
   useReloadPrompt();

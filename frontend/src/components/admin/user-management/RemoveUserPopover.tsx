@@ -10,7 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { MoreVerticalOutlineIcon } from "../../assets/icons";
+import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 
 import RemoveUserModal from "./RemoveUserModal";
 

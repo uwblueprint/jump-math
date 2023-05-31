@@ -4,10 +4,10 @@ import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
-import AddInformation from "../../sessions/session-creation/steps/AddInformation";
-import ChooseAssessment from "../../sessions/session-creation/steps/ChooseAssessment";
-import ChooseClass from "../../sessions/session-creation/steps/ChooseClass";
-import Review from "../../sessions/session-creation/steps/Review";
+import AddInformation from "../../teacher/session-creation/steps/AddInformation";
+import ChooseAssessment from "../../teacher/session-creation/steps/ChooseAssessment";
+import ChooseClass from "../../teacher/session-creation/steps/ChooseClass";
+import Review from "../../teacher/session-creation/steps/Review";
 
 const BREADCRUMB_CONFIG: BreadcrumbType[] = [
   { header: "Choose an assessment", page: 0 },

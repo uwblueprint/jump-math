@@ -27,7 +27,7 @@ import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
+import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] =

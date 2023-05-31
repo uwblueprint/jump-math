@@ -5,13 +5,13 @@ import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StatisticCard from "../data-visualization/StatisticCard";
-import CorrectedMultipleChoice from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
-import CorrectedMultiSelect from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
-import CorrectedShortAnswer from "../sessions/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
-import StudentList from "../sessions/results/StudentList";
-import AddStudentModal from "../user-management/student/AddStudentModal";
-import AddClassroomModal from "../user-management/student/classrooms/AddClassroomModal";
-import ClassroomCard from "../user-management/student/classrooms/ClassroomCard";
+import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
+import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
+import CorrectedShortAnswer from "../teacher/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
+import StudentList from "../teacher/results/StudentList";
+import AddStudentModal from "../teacher/student-management/AddStudentModal";
+import AddClassroomModal from "../teacher/student-management/classrooms/AddClassroomModal";
+import ClassroomCard from "../teacher/student-management/classrooms/ClassroomCard";
 
 const defaultValues = {
   className: "",
