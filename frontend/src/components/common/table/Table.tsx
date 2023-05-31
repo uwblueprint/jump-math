@@ -29,8 +29,12 @@ export const Table = <T extends Nodes = Nodes>({
   headers,
   rows,
 }: TableProps<T>): React.ReactElement => {
-  const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(rows);
+  const {
+    paginatedData,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = usePaginatedData(rows);
 
   return (
     <VStack alignItems="center" paddingBottom="6" spacing="6" width="100%">

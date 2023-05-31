@@ -27,8 +27,10 @@ const MultiOptionElement = ({
   data,
   type,
 }: MultiOptionElementProps): React.ReactElement => {
-  const [showEditMultipleChoiceModal, setShowEditMultipleChoiceModal] =
-    React.useState(false);
+  const [
+    showEditMultipleChoiceModal,
+    setShowEditMultipleChoiceModal,
+  ] = React.useState(false);
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">

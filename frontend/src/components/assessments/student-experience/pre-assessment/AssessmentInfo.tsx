@@ -19,9 +19,8 @@ const AssessmentInfo = ({
 }: AssessmentInfoProps): React.ReactElement => {
   const totalPointCount = questions
     .flat()
-    .filter(
-      (question) => question.type === QuestionElementType.QUESTION_TEXT,
-    ).length;
+    .filter((question) => question.type === QuestionElementType.QUESTION_TEXT)
+    .length;
 
   const questionTypes = () => {
     const types: ResponseElementType[] = [];

@@ -30,8 +30,9 @@ import EmptySessionsTableState from "../../sessions/overview/EmptySessionsTableS
 import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const [currentTab, setCurrentTab] =
-    React.useState<TestSessionStatus>("active");
+  const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
+    "active",
+  );
 
   const { authenticatedUser } = useContext(AuthContext);
 
@@ -73,8 +74,12 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     });
   }, [filteredData, currentTab]);
 
-  const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(sortedData);
+  const {
+    paginatedData,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = usePaginatedData(sortedData);
 
   return (
     <>

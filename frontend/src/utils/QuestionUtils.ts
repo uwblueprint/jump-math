@@ -206,34 +206,36 @@ export const formatQuestionsResponse = (
 
           switch (questionComponent.type) {
             case QuestionElementType.MULTIPLE_CHOICE: {
-              const { answerIndex } =
-                questionComponent.metadata as MultipleChoiceMetadata;
+              const {
+                answerIndex,
+              } = questionComponent.metadata as MultipleChoiceMetadata;
               data = {
-                options: (
-                  questionComponent.metadata as MultipleChoiceMetadata
-                ).options.map((option: string, i) => {
-                  return {
-                    id: uuidv4(),
-                    value: option,
-                    isCorrect: answerIndex === i,
-                  };
-                }),
+                options: (questionComponent.metadata as MultipleChoiceMetadata).options.map(
+                  (option: string, i) => {
+                    return {
+                      id: uuidv4(),
+                      value: option,
+                      isCorrect: answerIndex === i,
+                    };
+                  },
+                ),
               };
               break;
             }
             case QuestionElementType.MULTI_SELECT: {
-              const { answerIndices } =
-                questionComponent.metadata as MultiSelectMetadata;
+              const {
+                answerIndices,
+              } = questionComponent.metadata as MultiSelectMetadata;
               data = {
-                options: (
-                  questionComponent.metadata as MultiSelectMetadata
-                ).options.map((option: string, i) => {
-                  return {
-                    id: uuidv4(),
-                    value: option,
-                    isCorrect: answerIndices.includes(i),
-                  };
-                }),
+                options: (questionComponent.metadata as MultiSelectMetadata).options.map(
+                  (option: string, i) => {
+                    return {
+                      id: uuidv4(),
+                      value: option,
+                      isCorrect: answerIndices.includes(i),
+                    };
+                  },
+                ),
               };
               break;
             }

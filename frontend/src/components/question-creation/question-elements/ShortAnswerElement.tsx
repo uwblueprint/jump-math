@@ -15,8 +15,10 @@ const ShortAnswerElement = ({
   id,
   data,
 }: ShortAnswerElementProps): React.ReactElement => {
-  const [showEditShortAnswerModal, setShowEditShortAnswerModal] =
-    React.useState(false);
+  const [
+    showEditShortAnswerModal,
+    setShowEditShortAnswerModal,
+  ] = React.useState(false);
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <Input
