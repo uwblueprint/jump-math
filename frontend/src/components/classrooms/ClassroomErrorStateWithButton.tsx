@@ -1,7 +1,7 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import MessageContainer from "./MessageContainer";
+import MessageContainer from "../common/MessageContainer";
 
 type ErrorStateWithButtonProps = {
   buttonText: string;
