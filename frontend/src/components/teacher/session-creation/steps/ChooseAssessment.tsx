@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
+import { useQuery } from "@apollo/client";
 import { Text, VStack } from "@chakra-ui/react";
+
+import { GET_PUBLISHED_TESTS } from "../../../../APIClients/queries/TestQueries";
 
 interface ChooseAssessmentProps {
   setTestId: React.Dispatch<React.SetStateAction<string>>;
@@ -9,6 +12,13 @@ interface ChooseAssessmentProps {
 const ChooseAssessment = ({
   setTestId,
 }: ChooseAssessmentProps): React.ReactElement => {
+  const { data } = useQuery(GET_PUBLISHED_TESTS, {
+    fetchPolicy: "cache-and-network",
+    onCompleted: () => {
+      console.log(data);
+    },
+  });
+
   return (
     <VStack align="left">
       <Text color="blue.300" textAlign="left" textStyle="header4">

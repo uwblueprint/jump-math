@@ -55,3 +55,17 @@ export const GET_ALL_TESTS = gql`
     }
   }
 `;
+
+export const GET_PUBLISHED_TESTS = gql`
+  query GetPublishedTests {
+    publishedTests {
+      id
+      name
+      grade
+      assessmentType
+      curriculumCountry
+      curriculumRegion
+      status
+    }
+  }
+`;
