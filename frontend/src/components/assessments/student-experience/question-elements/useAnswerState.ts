@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react";
 
-import StudentContext from "../../../../contexts/StudentContext";
+import WriteAssessmentContext from "../../../../contexts/WriteAssessmentContext";
 import {
   getAnswerValues,
   getUpdatedAnswer,
@@ -12,8 +12,9 @@ type AnswerStateResult = {
 };
 
 const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
-  const { currentQuestionIndex, answers, setAnswers } =
-    useContext(StudentContext);
+  const { currentQuestionIndex, answers, setAnswers } = useContext(
+    WriteAssessmentContext,
+  );
 
   const currentAnswer = useMemo(() => {
     return getAnswerValues(currentQuestionIndex, answerElementIndex, answers);
