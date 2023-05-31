@@ -26,10 +26,9 @@ import type {
   UserResponse,
 } from "../../../APIClients/types/UserClientTypes";
 import { randomNumber } from "../../../utils/GeneralUtils";
-import ErrorToast from "../../common/ErrorToast";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-
-import AddAdminConfirmationMessage from "./AddAdminConfirmationMessage";
+import AddAdminConfirmationMessage from "../../common/info/messages/AddAdminConfirmationMessage";
+import ErrorToast from "../../common/info/toasts/ErrorToast";
+import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 
 type AddAdminModalProps = {
   onClose: () => void;

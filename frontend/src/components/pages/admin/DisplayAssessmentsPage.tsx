@@ -19,11 +19,11 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import AssessmentsTab from "../../assessments/AssessmentsTab";
-import AssessmentsTable from "../../assessments/AssessmentsTable";
-import ErrorState from "../../common/ErrorState";
+import AssessmentsTab from "../../assessments/overview/AssessmentsTab";
+import AssessmentsTable from "../../assessments/overview/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";

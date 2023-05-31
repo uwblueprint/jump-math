@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
 
-import HomeButton from "./HomeButton";
+import HomeButton from "./navigation/HomeButton";
 
 interface HeaderWrapperProps {
   children: React.ReactChild;

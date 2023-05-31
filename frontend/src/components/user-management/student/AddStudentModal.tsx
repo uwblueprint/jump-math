@@ -24,9 +24,9 @@ import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import { PlusOutlineIcon } from "../../../assets/icons";
 import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
-import ErrorToast from "../../common/ErrorToast";
-import ModalFooterButtons from "../../common/ModalFooterButtons";
-import Toast from "../../common/Toast";
+import Toast from "../../common/info/Toast";
+import ErrorToast from "../../common/info/toasts/ErrorToast";
+import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 
 const AddStudentModal = (): React.ReactElement => {
   const {

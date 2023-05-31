@@ -3,9 +3,9 @@ import { useMutation } from "@apollo/client";
 
 import { SEND_EMAIL_VERIFICATION_LINK } from "../../APIClients/mutations/AuthMutations";
 import { TEACHER_SIGNUP_IMAGE } from "../../assets/images";
-import ResendEmail from "../common/ResendEmail";
 
 import AuthWrapper from "./AuthWrapper";
+import ResendEmail from "./ResendEmail";
 
 const UnverifiedUsers = ({ email }: { email: string }): React.ReactElement => {
   const [sendEmailVerificationLink] = useMutation<{ resetPassword: boolean }>(

@@ -1,6 +1,6 @@
 import React from "react";
 
-import PopoverButton from "../../../common/PopoverButton";
+import PopoverButton from "../../../common/popover/PopoverButton";
 import DuplicateModal from "../EditStatusModals/DuplicateModal";
 
 interface DuplicateButtonProps {

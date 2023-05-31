@@ -21,12 +21,12 @@ import {
   getSessionStatus,
   getSessionTargetDate,
 } from "../../../utils/TestSessionUtils";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
+import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import EmptySessionsTableState from "../../sessions/overview/EmptySessionsTableState";
 import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
@@ -128,9 +128,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           )}
         </>
       )}
-      {!formattedData?.length && !loading && !error && (
-        <EmptySessionsTableState />
-      )}
+      {!formattedData?.length && !loading && !error && <EmptySessionsMessage />}
     </>
   );
 };
