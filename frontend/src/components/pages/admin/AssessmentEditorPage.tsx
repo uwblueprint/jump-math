@@ -186,9 +186,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
 
-  if (loadingCreate || loadingUpdate || loadingDelete) {
+  if (loadingCreate || loadingUpdate || loadingDelete)
     return <LoadingState fullPage />;
-  }
 
   return (
     <>

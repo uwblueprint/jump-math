@@ -115,12 +115,8 @@ const ClassroomsPage = (): React.ReactElement => {
     },
   ];
 
-  const {
-    paginatedData,
-    totalPages,
-    currentPage,
-    setCurrentPage,
-  } = usePaginatedData(classrooms);
+  const { paginatedData, totalPages, currentPage, setCurrentPage } =
+    usePaginatedData(classrooms);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);

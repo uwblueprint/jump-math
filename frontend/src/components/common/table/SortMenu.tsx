@@ -59,7 +59,7 @@ const SortMenu = ({
   const orderList = (
     <RadioGroup
       color="blue.300"
-      onChange={(e) => setSortOrder((e as unknown) as SortOrder)}
+      onChange={(e) => setSortOrder(e as unknown as SortOrder)}
       value={sortOrder}
     >
       <VStack alignItems="left" gap={1}>
