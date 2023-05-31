@@ -2,7 +2,7 @@ import React from "react";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { Status } from "../../../types/AssessmentTypes";
-import Popover from "../../common/Popover";
+import Popover from "../../common/popover/Popover";
 
 import ArchiveButton from "./EditStatusButtons/ArchiveButton";
 import DeleteButton from "./EditStatusButtons/DeleteButton";

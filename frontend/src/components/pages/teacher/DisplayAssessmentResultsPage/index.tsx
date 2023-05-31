@@ -3,8 +3,8 @@ import { Redirect, useLocation, useParams } from "react-router-dom";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
 import * as Routes from "../../../../constants/Routes";
-import BackButton from "../../../common/BackButton";
-import RouterTabs from "../../../common/RouterTabs";
+import BackButton from "../../../common/navigation/BackButton";
+import RouterTabs from "../../../common/navigation/RouterTabs";
 import NotFound from "../../NotFound";
 
 import DisplayAssessmentResultsByStudentPage from "./DisplayAssessmentResultsByStudentPage";

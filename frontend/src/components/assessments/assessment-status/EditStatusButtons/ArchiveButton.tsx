@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 
 import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import PopoverButton from "../../../common/PopoverButton";
-import Toast from "../../../common/Toast";
+import Toast from "../../../common/info/Toast";
+import PopoverButton from "../../../common/popover/PopoverButton";
 import ArchiveModal from "../EditStatusModals/ArchiveModal";
 
 interface ArchiveModalProps {

@@ -20,9 +20,9 @@ import {
   TextOutlineIcon,
 } from "../../../assets/icons";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
-import BackButton from "../../common/BackButton";
-import Popover from "../../common/Popover";
-import PopoverButton from "../../common/PopoverButton";
+import BackButton from "../../common/navigation/BackButton";
+import Popover from "../../common/popover/Popover";
+import PopoverButton from "../../common/popover/PopoverButton";
 import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
 import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
