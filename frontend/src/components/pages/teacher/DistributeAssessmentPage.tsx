@@ -9,6 +9,13 @@ import ChooseAssessment from "../../sessions/distribute/steps/ChooseAssessment";
 import ChooseClass from "../../sessions/distribute/steps/ChooseClass";
 import Review from "../../sessions/distribute/steps/Review";
 
+const BREADCRUMB_CONFIG: BreadcrumbType[] = [
+  { header: "Choose an assessment", page: 0 },
+  { header: "Choose a classroom", page: 1 },
+  { header: "Add Information", page: 2 },
+  { header: "Review", page: 3 },
+];
+
 const DistributeAssessmentPage = (): React.ReactElement => {
   const [page, setPage] = useState(0);
 
@@ -17,13 +24,6 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
-
-  const BREADCRUMB_CONFIG: BreadcrumbType[] = [
-    { header: "Choose an assessment", page: 0 },
-    { header: "Choose a classroom", page: 1 },
-    { header: "Add Information", page: 2 },
-    { header: "Review", page: 3 },
-  ];
 
   const renderPageContent = () => {
     switch (page) {
