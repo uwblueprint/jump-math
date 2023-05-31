@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   HStack,
   Spacer,
@@ -11,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { BookIcon } from "../../../assets/icons";
+import * as Routes from "../../../constants/Routes";
 import type {
   TestSessionItemStats,
   TestSessionStatus,
@@ -48,6 +50,8 @@ const TestSessionListItem = ({
   status,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
+  const history = useHistory();
+
   const formattedAccessCode = `${accessCode.slice(
     0,
     ACCESS_CODE_GROUP_SIZE,
@@ -68,6 +72,12 @@ const TestSessionListItem = ({
         as={status === "past" ? "button" : undefined}
         borderRadius={16}
         gap={2}
+        onClick={() =>
+          status === "past" &&
+          history.push(Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(testSessionId), {
+            returnTo: history.location.pathname,
+          })
+        }
         p={4}
         w="100%"
       >

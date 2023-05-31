@@ -13,7 +13,7 @@ type Student = StudentResponse & {
 };
 type StudentListProps = {
   students: Student[];
-  selectedStudentId: string;
+  selectedStudentId?: string;
   setSelectedStudentId: (id: string) => void;
 };
 
@@ -49,8 +49,8 @@ const StudentList = ({
   );
 
   return (
-    <Flex direction="column" height="100%" w="container.sm">
-      <Flex alignItems="center" justifyContent="space-between" mb={4}>
+    <Flex direction="column" height="100%" w="sm">
+      <Flex alignItems="center" justifyContent="space-between" mb={4} p={1}>
         <SearchBar onSearch={setSearch} />
         <SortMenu labels={[]} onSortOrder={setSortDirection} properties={[]} />
       </Flex>
@@ -60,8 +60,13 @@ const StudentList = ({
         m={0}
         maxH="100%"
         overflow="auto"
+        p={1}
       >
-        <VStack alignItems="stretch" divider={<Divider m="0 !important" />}>
+        <VStack
+          alignItems="stretch"
+          divider={<Divider borderColor="grey.100" />}
+          spacing={0}
+        >
           {sortedStudents.map(({ id, ...student }) => (
             <StudentListItem
               key={id}

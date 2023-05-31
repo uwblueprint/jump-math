@@ -69,7 +69,7 @@ const TestSessionListItemPopover = ({
         {status !== "past" && (
           <>
             <PopoverButton name="Edit" onClick={() => {}} />
-            <Divider borderColor="grey.200" />
+            <Divider />
           </>
         )}
         <PopoverButton name="Delete" onClick={openDeleteModal} />

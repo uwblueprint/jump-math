@@ -23,11 +23,11 @@ const EditStatusPopover = ({
   const { onOpen, isOpen, onClose } = useDisclosure();
   return (
     <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <VStack divider={<Divider borderColor="grey.200" />} spacing="0em">
+      <VStack divider={<Divider />} spacing="0em">
         {assessmentStatus === Status.DRAFT && (
           <>
             <PublishButton assessmentId={assessmentId} closePopover={onClose} />
-            <Divider borderColor="grey.200" />
+            <Divider />
             <EditButton assessmentId={assessmentId} closePopover={onClose} />
           </>
         )}
@@ -36,7 +36,7 @@ const EditStatusPopover = ({
         ) : (
           <>
             <ArchiveButton assessmentId={assessmentId} closePopover={onClose} />
-            <Divider borderColor="grey.200" />
+            <Divider />
             <DuplicateButton
               assessmentId={assessmentId}
               closePopover={onClose}

@@ -42,7 +42,7 @@ const Modal = ({
         <ModalText body={body} header={header} />
         <ModalCloseButton />
         {children && <ModalBody>{children}</ModalBody>}
-        <Divider color="grey.200" mt="1.5em" />
+        <Divider mt="1.5em" />
         <ModalFooter>
           <Button
             minWidth="10%"
