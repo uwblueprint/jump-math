@@ -4,8 +4,6 @@ import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
-import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import MobileRedirect from "../common/messages/MobileRedirectMessage";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
@@ -105,10 +103,6 @@ const ComponentLibrary = (): React.ReactElement => {
   );
   return (
     <FormProvider {...methods}>
-      <StudentDashboardHeader
-        assessmentName="Unit 0 Review Test"
-        classroomName="Mathematics 4 - Mr. Roberts"
-      />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
@@ -147,7 +141,6 @@ const ComponentLibrary = (): React.ReactElement => {
           students={MOCK_STUDENTS}
         />
       </Box>
-      <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
           activeAssessments={2}

@@ -26,7 +26,7 @@ import AssessmentEditorHeader from "../../assessments/assessment-creation/Assess
 import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
 import QuestionEditor from "../../assessments/question-creation/QuestionEditor";
-import useReloadPrompt from "../../common/useReloadPrompt";
+import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 const AssessmentEditorPage = (): React.ReactElement => {
   useReloadPrompt();

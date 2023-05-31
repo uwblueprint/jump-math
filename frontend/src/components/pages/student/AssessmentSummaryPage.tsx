@@ -16,7 +16,7 @@ import StudentContext from "../../../contexts/StudentContext";
 import { formatDateTime } from "../../../utils/GeneralUtils";
 import AssessmentInfo from "../../assessments/write-assessment/pre-assessment/AssessmentInfo";
 import AssessmentRules from "../../assessments/write-assessment/pre-assessment/AssessmentRules";
-import Modal from "../../common/Modal";
+import Modal from "../../common/modal/Modal";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const { test, testSession } = useContext(StudentContext);

@@ -11,8 +11,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ChevronDownIcon, ChevronUpIcon } from "../../assets/icons";
-import type Page from "../../types/PageTypes";
+import { ChevronDownIcon, ChevronUpIcon } from "../../../assets/icons";
+import type Page from "../../../types/PageTypes";
 
 import RouterLink from "./RouterLink";
 

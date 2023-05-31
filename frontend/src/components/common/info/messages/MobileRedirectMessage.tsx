@@ -1,8 +1,8 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import MobileRedirectIllustration from "../../../assets/illustrations/mobile-redirect.svg";
-import { HOME_PAGE } from "../../../constants/Routes";
+import MobileRedirectIllustration from "../../../../assets/illustrations/mobile-redirect.svg";
+import { HOME_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
 const MobileRedirectMessage = (): React.ReactElement => {

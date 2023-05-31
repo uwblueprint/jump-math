@@ -1,8 +1,8 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import { PlusOutlineIcon } from "../../../assets/icons";
-import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
+import { PlusOutlineIcon } from "../../../../assets/icons";
+import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
 import MessageContainer from "../MessageContainer";
 
 type EmptyClassroomsStateProps = {

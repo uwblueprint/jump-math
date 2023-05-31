@@ -10,8 +10,8 @@ import {
   isCompleted,
   mapAnswersToResultsArray,
 } from "../../../utils/StudentUtils";
-import Modal from "../../common/Modal";
-import Toast from "../../common/Toast";
+import Toast from "../../common/info/Toast";
+import Modal from "../../common/modal/Modal";
 
 const SubmitButton = (): React.ReactElement => {
   const { testSession } = useContext(StudentContext);

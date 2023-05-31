@@ -8,7 +8,7 @@ import {
 
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import { stringToFloat } from "../../../../../../utils/GeneralUtils";
-import Modal from "../../../../../common/Modal";
+import Modal from "../../../../../common/modal/Modal";
 
 interface ShortAnswerModalProps {
   isOpen: boolean;

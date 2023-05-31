@@ -30,8 +30,8 @@ import type {
   StringOption,
 } from "../../../types/SelectInputTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
-import ErrorToast from "../../common/ErrorToast";
-import FormRadio from "../../common/FormRadio";
+import FormRadio from "../../common/form/FormRadio";
+import ErrorToast from "../../common/info/toasts/ErrorToast";
 
 interface BasicInformationProps {
   register: UseFormRegister<TestRequest>;

@@ -4,7 +4,7 @@ import { Box, Divider, VStack } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../../types/DragTypes";
-import ErrorToast from "../../common/ErrorToast";
+import ErrorToast from "../../common/info/toasts/ErrorToast";
 
 import QuestionElementItem from "./QuestionElementItem";
 import WelcomeMessage from "./WelcomeMessage";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import EnvelopePaperIllustration from "../../../assets/illustrations/envelope-paper.svg";
+import EnvelopePaperIllustration from "../../../../assets/illustrations/envelope-paper.svg";
 import MessageContainer from "../MessageContainer";
 
 const AddAdminConfirmationMessage = (): React.ReactElement => {

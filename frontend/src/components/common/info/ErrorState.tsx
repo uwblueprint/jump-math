@@ -2,9 +2,10 @@ import React from "react";
 import { Center } from "@chakra-ui/react";
 
 import ErrorIllustration from "../../../assets/illustrations/error.svg";
-import MessageContainer from "../MessageContainer";
 
-const ErrorMessage = ({
+import MessageContainer from "./MessageContainer";
+
+const ErrorState = ({
   fullPage,
 }: {
   fullPage?: boolean;
@@ -26,4 +27,4 @@ const ErrorMessage = ({
   </Center>
 );
 
-export default ErrorMessage;
+export default ErrorState;

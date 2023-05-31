@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 
 import { DUPLICATE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import Modal from "../../../common/Modal";
-import Toast from "../../../common/Toast";
+import Toast from "../../../common/info/Toast";
+import Modal from "../../../common/modal/Modal";
 
 interface DuplicateModalProps {
   isOpen: boolean;

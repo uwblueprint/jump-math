@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@chakra-ui/react";
 
-import { MoreVerticalOutlineIcon } from "../../assets/icons";
+import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 
 interface PopoverProps {
   children: React.ReactChild;

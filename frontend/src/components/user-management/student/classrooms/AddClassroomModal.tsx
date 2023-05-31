@@ -28,9 +28,9 @@ import type {
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
-import ErrorToast from "../../../common/ErrorToast";
-import ModalFooterButtons from "../../../common/ModalFooterButtons";
-import Toast from "../../../common/Toast";
+import Toast from "../../../common/info/Toast";
+import ErrorToast from "../../../common/info/toasts/ErrorToast";
+import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 import SelectFormInputClassroom from "../SelectFormInputClassroom";
 
 type AddClassroomModalProps = {

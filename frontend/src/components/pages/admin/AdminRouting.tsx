@@ -5,7 +5,7 @@ import { Box, VStack } from "@chakra-ui/react";
 import * as Routes from "../../../constants/Routes";
 import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
-import Navbar from "../../common/Navbar";
+import Navbar from "../../common/navigation/Navbar";
 import NotFound from "../NotFound";
 
 import AssessmentEditorPage from "./AssessmentEditorPage";

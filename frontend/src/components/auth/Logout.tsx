@@ -5,7 +5,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
-import { activePage } from "../common/NavbarItem";
+import { activePage } from "../common/navigation/NavbarItem";
 
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);

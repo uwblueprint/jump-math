@@ -1,6 +1,6 @@
 import React from "react";
 
-import PopoverButton from "../../../common/PopoverButton";
+import PopoverButton from "../../../common/popover/PopoverButton";
 import UnarchiveModal from "../EditStatusModals/UnarchiveModal";
 
 interface UnarchiveButtonProps {

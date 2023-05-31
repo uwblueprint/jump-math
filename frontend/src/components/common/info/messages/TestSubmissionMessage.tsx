@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Center } from "@chakra-ui/react";
 
-import TestSubmissionIllustration from "../../../assets/illustrations/test-submission.svg";
-import AuthContext from "../../../contexts/AuthContext";
+import TestSubmissionIllustration from "../../../../assets/illustrations/test-submission.svg";
+import AuthContext from "../../../../contexts/AuthContext";
 import MessageContainer from "../MessageContainer";
 
 const TestSubmissionMessage = (): React.ReactElement => {

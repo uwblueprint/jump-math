@@ -1,12 +1,12 @@
 import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import type { AssessmentProperties } from "../../types/AssessmentTypes";
-import EmptyTableState from "../common/messages/EmptyTestsMessage";
-import type { FilterMenuProps } from "../common/table/FilterMenu";
-import NoResultsTableState from "../common/table/NoResultsTableState";
-import type { SearchBarProps } from "../common/table/SearchBar";
-import type { SortMenuProps } from "../common/table/SortMenu";
+import type { AssessmentProperties } from "../../../types/AssessmentTypes";
+import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
+import type { FilterMenuProps } from "../../common/table/FilterMenu";
+import NoResultsTableState from "../../common/table/NoResultsTableState";
+import type { SearchBarProps } from "../../common/table/SearchBar";
+import type { SortMenuProps } from "../../common/table/SortMenu";
 
 interface AssessmentsTabProps {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
@@ -28,7 +28,7 @@ const AssessmentsTab = ({
   searchLength,
 }: AssessmentsTabProps): React.ReactElement => {
   const emptyResults = noResults ? (
-    <EmptyTableState />
+    <EmptyTestsMessage />
   ) : (
     <NoResultsTableState items="assessments" />
   );

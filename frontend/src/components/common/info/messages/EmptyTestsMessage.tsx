@@ -1,8 +1,8 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
-import { ASSESSMENT_EDITOR_PAGE } from "../../../constants/Routes";
+import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
+import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
 const EmptyTestsMessage = (): React.ReactElement => {

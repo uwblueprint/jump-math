@@ -20,9 +20,9 @@ import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
-import EmptyClassroomsState from "../../common/messages/EmptyClassroomsMessage";
-import ErrorState from "../../common/messages/ErrorMessage";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
+import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import AddClassroomModal from "../../user-management/student/classrooms/AddClassroomModal";
@@ -136,7 +136,7 @@ const ClassroomsPage = (): React.ReactElement => {
               </Tabs>
             </>
           ) : (
-            <EmptyClassroomsState onClick={handleAddClassroom} />
+            <EmptyClassroomsMessage onClick={handleAddClassroom} />
           )}
         </Box>
       )}

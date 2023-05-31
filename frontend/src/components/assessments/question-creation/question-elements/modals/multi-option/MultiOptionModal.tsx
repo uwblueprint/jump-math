@@ -7,8 +7,8 @@ import type {
 } from "../../../../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../../../../types/QuestionTypes";
 import { exceedsMaxLength } from "../../../../../../utils/QuestionUtils";
-import ErrorToast from "../../../../../common/ErrorToast";
-import Modal from "../../../../../common/Modal";
+import ErrorToast from "../../../../../common/info/toasts/ErrorToast";
+import Modal from "../../../../../common/modal/Modal";
 
 import MultipleChoiceOption from "./MultiOption";
 import SelectOptionCount from "./SelectOptionCount";

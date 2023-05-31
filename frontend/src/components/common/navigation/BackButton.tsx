@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
-import { ArrowBackOutlineIcon } from "../../assets/icons";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
 
 interface BackButtonProps {
   size?: string;
