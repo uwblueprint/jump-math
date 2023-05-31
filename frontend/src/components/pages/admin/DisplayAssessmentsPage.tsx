@@ -19,8 +19,8 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import AssessmentsTab from "../../assessments/overview/AssessmentsTab";
-import AssessmentsTable from "../../assessments/overview/AssessmentsTable";
+import AssessmentsTab from "../../admin/view-assessments/AssessmentsTab";
+import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";

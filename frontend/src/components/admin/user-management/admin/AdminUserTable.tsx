@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Box } from "@chakra-ui/react";
 
-import AuthContext from "../../../contexts/AuthContext";
-import type { AuthenticatedAdminOrTeacher } from "../../../types/AuthTypes";
-import type { TableRow } from "../../common/table/Table";
-import { Table } from "../../common/table/Table";
+import AuthContext from "../../../../contexts/AuthContext";
+import type { AuthenticatedAdminOrTeacher } from "../../../../types/AuthTypes";
+import type { TableRow } from "../../../common/table/Table";
+import { Table } from "../../../common/table/Table";
 import RemoveUserPopover from "../RemoveUserPopover";
 
 import type { AdminTableProps } from "./AdminTab";

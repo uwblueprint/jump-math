@@ -21,14 +21,14 @@ import {
   filterAdminUsersBySearch,
   filterTeacherUsersBySearch,
 } from "../../../utils/UserUtils";
+import AdminTab from "../../admin/user-management/admin/AdminTab";
+import AdminUserTable from "../../admin/user-management/admin/AdminUserTable";
+import TeacherUserTable from "../../admin/user-management/teacher/TeacherUserTable";
+import UsersPageHeader from "../../admin/user-management/UsersPageHeader";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
-import AdminTab from "../../user-management/admin/AdminTab";
-import AdminUserTable from "../../user-management/admin/AdminUserTable";
-import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
-import UsersPageHeader from "../../user-management/UsersPageHeader";
 
 const UsersPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
