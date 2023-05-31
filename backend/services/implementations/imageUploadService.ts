@@ -152,7 +152,7 @@ class ImageUploadService implements IImageUploadService {
     const regex = `^${this.googleStorageUploadUrl}/(${this.uploadDir}/.+)\\?GoogleAccessId=.+&Expires=[0-9]+&Signature=.+$`;
     const match = previewUrl.match(regex);
 
-    return match ? match[1] : "";
+    return match ? decodeURI(match[1]) : "";
   }
 }
 
