@@ -21,8 +21,8 @@ import {
   filterAdminUsersBySearch,
   filterTeacherUsersBySearch,
 } from "../../../utils/UserUtils";
-import ErrorState from "../../common/ErrorState";
 import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/messages/ErrorMessage";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 import AdminTab from "../../user-management/admin/AdminTab";

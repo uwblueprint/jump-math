@@ -21,12 +21,12 @@ import {
   getSessionStatus,
   getSessionTargetDate,
 } from "../../../utils/TestSessionUtils";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
+import EmptySessionsTableState from "../../common/messages/EmptySessionsMessage";
+import ErrorState from "../../common/messages/ErrorMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import EmptySessionsTableState from "../../sessions/overview/EmptySessionsTableState";
 import TestSessionListItem from "../../sessions/overview/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {

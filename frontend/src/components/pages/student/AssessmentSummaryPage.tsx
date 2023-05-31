@@ -14,8 +14,8 @@ import { HOME_PAGE, WRITE_ASSESSMENT_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
 import { formatDateTime } from "../../../utils/GeneralUtils";
-import AssessmentInfo from "../../assessments/student-experience/pre-assessment/AssessmentInfo";
-import AssessmentRules from "../../assessments/student-experience/pre-assessment/AssessmentRules";
+import AssessmentInfo from "../../assessments/write-assessment/pre-assessment/AssessmentInfo";
+import AssessmentRules from "../../assessments/write-assessment/pre-assessment/AssessmentRules";
 import Modal from "../../common/Modal";
 
 const AssessmentSummaryPage = (): React.ReactElement => {

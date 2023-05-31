@@ -19,14 +19,14 @@ import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries
 import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
-import ClassroomCard from "../../classrooms/ClassroomCard";
-import EmptyClassroomsState from "../../classrooms/EmptyClassroomsState";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
+import EmptyClassroomsState from "../../common/messages/EmptyClassroomsMessage";
+import ErrorState from "../../common/messages/ErrorMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import AddClassroomModal from "../../user-management/student/AddClassroomModal";
+import AddClassroomModal from "../../user-management/student/classrooms/AddClassroomModal";
+import ClassroomCard from "../../user-management/student/classrooms/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";

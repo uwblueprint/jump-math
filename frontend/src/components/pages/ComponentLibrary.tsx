@@ -5,16 +5,15 @@ import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import ClassroomCard from "../classrooms/ClassroomCard";
+import MobileRedirect from "../common/messages/MobileRedirectMessage";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../sessions/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
 import CorrectedShortAnswer from "../sessions/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
 import StudentList from "../sessions/results/StudentList";
-import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
-
-import MobileRedirect from "./MobileRedirect";
+import AddClassroomModal from "../user-management/student/classrooms/AddClassroomModal";
+import ClassroomCard from "../user-management/student/classrooms/ClassroomCard";
 
 const defaultValues = {
   className: "",

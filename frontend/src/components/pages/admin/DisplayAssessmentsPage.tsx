@@ -21,9 +21,9 @@ import {
 import { sortArray } from "../../../utils/GeneralUtils";
 import AssessmentsTab from "../../assessments/AssessmentsTab";
 import AssessmentsTable from "../../assessments/AssessmentsTable";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/messages/ErrorMessage";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";

@@ -8,13 +8,13 @@ import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
 import type { Answers } from "../../../types/AnswerTypes";
 import { initializeAnswers } from "../../../utils/StudentUtils";
 import StudentDashboardHeader from "../../assessments/assessment-creation/StudentDashboardHeader";
-import Instructions from "../../assessments/student-experience/Instructions";
-import NavButtons from "../../assessments/student-experience/NavButtons";
-import Question from "../../assessments/student-experience/Question";
-import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
-import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
-import TestSubmissionMessage from "../../assessments/student-experience/TestSubmissionMessage";
+import Instructions from "../../assessments/write-assessment/Instructions";
+import NavButtons from "../../assessments/write-assessment/NavButtons";
+import Question from "../../assessments/write-assessment/Question";
+import QuestionNumbers from "../../assessments/write-assessment/QuestionNumbers";
+import QuestionTitle from "../../assessments/write-assessment/QuestionTitle";
 import LoadingState from "../../common/LoadingState";
+import TestSubmissionMessage from "../../common/messages/TestSubmissionMessage";
 import useReloadPrompt from "../../common/useReloadPrompt";
 
 const WriteAssessmentPage = (): React.ReactElement => {
