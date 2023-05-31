@@ -19,16 +19,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ADD_USER } from "../../../APIClients/mutations/UserMutations";
-import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import { ADD_USER } from "../../../../APIClients/mutations/UserMutations";
+import { GET_USERS_BY_ROLE } from "../../../../APIClients/queries/UserQueries";
 import type {
   UserRequest,
   UserResponse,
-} from "../../../APIClients/types/UserClientTypes";
-import { randomNumber } from "../../../utils/GeneralUtils";
-import AddAdminConfirmationMessage from "../../common/info/messages/AddAdminConfirmationMessage";
-import ErrorToast from "../../common/info/toasts/ErrorToast";
-import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
+} from "../../../../APIClients/types/UserClientTypes";
+import { randomNumber } from "../../../../utils/GeneralUtils";
+import AddAdminConfirmationMessage from "../../../common/info/messages/AddAdminConfirmationMessage";
+import ErrorToast from "../../../common/info/toasts/ErrorToast";
+import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 
 type AddAdminModalProps = {
   onClose: () => void;

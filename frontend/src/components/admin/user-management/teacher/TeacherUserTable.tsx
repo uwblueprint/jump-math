@@ -1,7 +1,7 @@
 import React from "react";
 
-import type { TableRow } from "../../common/table/Table";
-import { Table } from "../../common/table/Table";
+import type { TableRow } from "../../../common/table/Table";
+import { Table } from "../../../common/table/Table";
 import type { TeacherTableProps } from "../admin/AdminTab";
 import RemoveUserPopover from "../RemoveUserPopover";
 

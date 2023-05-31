@@ -2,14 +2,14 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { Button, useDisclosure } from "@chakra-ui/react";
 
-import { REMOVE_USER } from "../../APIClients/mutations/UserMutations";
+import { REMOVE_USER } from "../../../APIClients/mutations/UserMutations";
 import {
   GET_ALL_TEACHERS,
   GET_USERS_BY_ROLE,
-} from "../../APIClients/queries/UserQueries";
-import { CloseOutlineIcon } from "../../assets/icons";
-import Toast from "../common/info/Toast";
-import Modal from "../common/modal/Modal";
+} from "../../../APIClients/queries/UserQueries";
+import { CloseOutlineIcon } from "../../../assets/icons";
+import Toast from "../../common/info/Toast";
+import Modal from "../../common/modal/Modal";
 
 interface RemoveUserModalProps {
   name: string;

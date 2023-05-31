@@ -8,8 +8,8 @@ import {
 import StatisticsSection, {
   type StatisticsConfig,
 } from "../../../data-visualization/StatisticsSection";
-import StudentAnswersSection from "../../../sessions/results/StudentAnswersSection";
-import StudentList from "../../../sessions/results/StudentList";
+import StudentAnswersSection from "../../../teacher/results/StudentAnswersSection";
+import StudentList from "../../../teacher/results/StudentList";
 
 const MOCK_STUDENTS = [
   {
