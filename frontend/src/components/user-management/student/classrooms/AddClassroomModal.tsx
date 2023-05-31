@@ -31,7 +31,8 @@ import { gradeOptions } from "../../../../utils/AssessmentUtils";
 import Toast from "../../../common/info/Toast";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
 import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
-import SelectFormInputClassroom from "../SelectFormInputClassroom";
+
+import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 type AddClassroomModalProps = {
   onClose: () => void;

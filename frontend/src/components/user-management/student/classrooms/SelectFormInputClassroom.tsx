@@ -6,8 +6,8 @@ import { Select } from "chakra-react-select";
 import type {
   ClassroomForm,
   ClassroomInput,
-} from "../../../types/ClassroomTypes";
-import type { StringOption } from "../../../types/SelectInputTypes";
+} from "../../../../types/ClassroomTypes";
+import type { StringOption } from "../../../../types/SelectInputTypes";
 
 interface SelectFormInputClassroomProps {
   setValue: UseFormSetValue<ClassroomForm>;
