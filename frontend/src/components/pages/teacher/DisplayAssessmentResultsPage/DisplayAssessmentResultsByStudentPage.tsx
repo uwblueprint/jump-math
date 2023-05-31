@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 
-import StatisticsSection, {
-  type StatisticsConfig,
-} from "../../../data-visualization/StatisticsSection";
 import {
   NTH_FORMAT,
   PERCENTAGE_FORMAT,
-} from "../../../data-visualization/StatisticsSection/utils";
+} from "../../../../utils/StatisticsUtils";
+import StatisticsSection, {
+  type StatisticsConfig,
+} from "../../../data-visualization/StatisticsSection";
 import StudentAnswersSection from "../../../sessions/results/StudentAnswersSection";
 import StudentList from "../../../sessions/results/StudentList";
 
