@@ -12,7 +12,11 @@ import type { ITestService } from "../../services/interfaces/testService";
 import type IUserService from "../../services/interfaces/userService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
-import type { IClassService } from "../../services/interfaces/classService";
+import type {
+  IClassService,
+  StudentResponseDTO,
+} from "../../services/interfaces/classService";
+import type { TestSessionAndStudentResponseDTO } from "../../types/testSessionTypes";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -33,8 +37,33 @@ const testSessionResolvers = {
     testSession: async (
       _parent: undefined,
       { id }: { id: string },
-    ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.getTestSessionById(id);
+    ): Promise<TestSessionAndStudentResponseDTO> => {
+      const testSession: TestSessionResponseDTO =
+        await testSessionService.getTestSessionById(id);
+      const studentIdToDTO: Map<string, StudentResponseDTO> = new Map<
+        string,
+        StudentResponseDTO
+      >();
+      testSession.class.students.forEach((student) => {
+        studentIdToDTO.set(student.id, student);
+      });
+      return {
+        ...testSession,
+        results: testSession.results.map((result) => {
+          const studentDTO: StudentResponseDTO | undefined = studentIdToDTO.get(
+            result.student,
+          );
+          if (!studentDTO) {
+            throw new Error(
+              `Student id ${result.student} not found in class ${testSession.class.id}`,
+            );
+          }
+          return {
+            ...result,
+            student: studentDTO,
+          };
+        }),
+      };
     },
     testSessions: async (): Promise<TestSessionResponseDTO[]> => {
       return testSessionService.getAllTestSessions();
