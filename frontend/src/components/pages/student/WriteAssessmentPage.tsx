@@ -13,7 +13,7 @@ import NavButtons from "../../assessments/student-experience/NavButtons";
 import Question from "../../assessments/student-experience/Question";
 import QuestionNumbers from "../../assessments/student-experience/QuestionNumbers";
 import QuestionTitle from "../../assessments/student-experience/QuestionTitle";
-import TestSubmissionMessage from "../../assessments/TestSubmissionMessage";
+import TestSubmissionMessage from "../../assessments/student-experience/TestSubmissionMessage";
 import LoadingState from "../../common/LoadingState";
 import useReloadPrompt from "../../common/useReloadPrompt";
 

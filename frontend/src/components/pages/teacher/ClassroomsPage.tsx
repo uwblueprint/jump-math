@@ -16,12 +16,11 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
-import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
 import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import ClassroomCard from "../../classrooms/ClassroomCard";
-import ErrorStateWithButton from "../../classrooms/ClassroomErrorStateWithButton";
+import EmptyClassroomsState from "../../classrooms/EmptyClassroomsState";
 import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import LoadingState from "../../common/LoadingState";
@@ -137,17 +136,7 @@ const ClassroomsPage = (): React.ReactElement => {
               </Tabs>
             </>
           ) : (
-            <>
-              <ErrorStateWithButton
-                buttonText="Add New Classroom"
-                image={DisplayAssessmentsIllustration}
-                onClick={handleAddClassroom}
-                paragraphs={[
-                  "Click on the below button to create your first classroom",
-                ]}
-                subtitle="You currently have no classrooom."
-              />
-            </>
+            <EmptyClassroomsState onClick={handleAddClassroom} />
           )}
         </Box>
       )}
