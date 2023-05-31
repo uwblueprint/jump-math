@@ -128,10 +128,7 @@ const AssessmentEditorHeader = ({
               onClose={onClosePopover}
               onOpen={onOpenPopover}
             >
-              <VStack
-                divider={<Divider borderColor="grey.200" />}
-                spacing="0em"
-              >
+              <VStack divider={<Divider />} spacing="0em">
                 {isEditing && (
                   <PopoverButton
                     name="Archive"
