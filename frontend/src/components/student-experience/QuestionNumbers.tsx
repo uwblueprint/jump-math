@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 
-import StudentContext from "../../../contexts/StudentContext";
-import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
-import { questionStatus } from "../../../utils/StudentUtils";
+import StudentContext from "../../contexts/StudentContext";
+import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
+import { questionStatus } from "../../utils/StudentUtils";
 
 import QuestionNumber from "./QuestionNumber";
 

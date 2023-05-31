@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { Button, Text } from "@chakra-ui/react";
 
-import { SUBMIT_TEST } from "../../../APIClients/mutations/TestSessionMutations";
-import AuthContext from "../../../contexts/AuthContext";
-import StudentContext from "../../../contexts/StudentContext";
-import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
+import { SUBMIT_TEST } from "../../APIClients/mutations/TestSessionMutations";
+import AuthContext from "../../contexts/AuthContext";
+import StudentContext from "../../contexts/StudentContext";
+import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
 import {
   isCompleted,
   mapAnswersToResultsArray,
-} from "../../../utils/StudentUtils";
-import Toast from "../../common/info/Toast";
-import Modal from "../../common/modal/Modal";
+} from "../../utils/StudentUtils";
+import Toast from "../common/info/Toast";
+import Modal from "../common/modal/Modal";
 
 const SubmitButton = (): React.ReactElement => {
   const { testSession } = useContext(StudentContext);

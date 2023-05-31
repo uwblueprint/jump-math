@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
-import HeaderWrapper from "../../common/HeaderWrapper";
+import HeaderWrapper from "../common/HeaderWrapper";
 
 interface StudentDashboardHeaderProps {
   assessmentName: string;

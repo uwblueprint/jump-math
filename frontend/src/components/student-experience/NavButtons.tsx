@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Button, HStack, Spacer } from "@chakra-ui/react";
 
-import StudentContext from "../../../contexts/StudentContext";
-import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
+import StudentContext from "../../contexts/StudentContext";
+import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
 
 import SubmitButton from "./SubmitButton";
 
