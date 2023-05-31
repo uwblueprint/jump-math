@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, Center, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, HStack, useDisclosure } from "@chakra-ui/react";
 
-import type { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
-import { QuestionElementType } from "../../types/QuestionTypes";
 import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import DisplayQuestion from "../assessments/student-experience/Question";
 import ClassroomCard from "../classrooms/ClassroomCard";
-import StatisticCard from "../sessions/results/StatisticCard";
+import CorrectedMultipleChoice from "../sessions/data-visualization/corrected-question-elements/CorrectedMultipleChoice";
+import CorrectedMultiSelect from "../sessions/data-visualization/corrected-question-elements/CorrectedMultiSelect";
+import CorrectedShortAnswer from "../sessions/data-visualization/corrected-question-elements/CorrectedShortAnswer";
+import StatisticCard from "../sessions/data-visualization/StatisticCard";
+import StudentList from "../sessions/data-visualization/StudentList";
 import AddClassroomModal from "../user-management/student/AddClassroomModal";
 import AddStudentModal from "../user-management/student/AddStudentModal";
 
@@ -21,59 +22,76 @@ const defaultValues = {
   gradeLevel: Grade.K,
 } as ClassroomForm;
 
-const MOCK_DATA: QuestionComponentResponse[] = [
+const MOCK_STUDENTS = [
   {
-    type: QuestionElementType.QUESTION_TEXT,
-    metadata: {
-      questionText:
-        "Johnny is selling 19 apples at his store. Thomas buys 7 apples, Rick buys 2 apples, and Mike buys 3 apples. Then Thomas gives Rick 1 apple and Mike 3 apples. How much do they each have left now?",
-      __typename: "QuestionTextMetadata",
-    },
+    id: "1",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "238",
+    isViewed: false,
   },
   {
-    type: QuestionElementType.IMAGE,
-    metadata: {
-      filePath: "",
-      url: "https://wallpapers.com/images/featured/brtwwfga72pilv0j.jpg",
-      __typename: "ImageMetadata",
-    },
+    id: "2",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "239",
+    isViewed: true,
   },
   {
-    type: QuestionElementType.TEXT,
-    metadata: {
-      text: "How many apples can you eat?",
-      __typename: "TextMetadata",
-    },
+    id: "3",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "240",
+    isViewed: false,
   },
   {
-    type: QuestionElementType.SHORT_ANSWER,
-    metadata: {
-      answer: 5,
-      __typename: "ShortAnswerMetadata",
-    },
+    id: "4",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "241",
+    isViewed: true,
   },
   {
-    type: QuestionElementType.MULTIPLE_CHOICE,
-    metadata: {
-      options: ["First", "Second", "Third", "Fourth"],
-      answerIndex: 2,
-      __typename: "MultipleChoiceMetadata",
-    },
+    id: "5",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "242",
+    isViewed: false,
   },
   {
-    type: QuestionElementType.TEXT,
-    metadata: {
-      text: "How many pears can you eat?",
-      __typename: "TextMetadata",
-    },
+    id: "6",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "243",
+    isViewed: true,
   },
   {
-    type: QuestionElementType.MULTI_SELECT,
-    metadata: {
-      options: ["One", "Two", "Three", "Four", "Five"],
-      answerIndex: 0,
-      __typename: "MultiSelectMetadata",
-    },
+    id: "7",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "244",
+    isViewed: false,
+  },
+  {
+    id: "8",
+    firstName: "John",
+    lastName: "Doe",
+    studentNumber: "245",
+    isViewed: true,
+  },
+  {
+    id: "9",
+    firstName: "Jane",
+    lastName: "Doe",
+    studentNumber: "246",
+    isViewed: false,
+  },
+  {
+    id: "10",
+    firstName: "Z",
+    lastName: "Z",
+    studentNumber: "247",
+    isViewed: true,
   },
 ];
 
@@ -83,16 +101,53 @@ const ComponentLibrary = (): React.ReactElement => {
     defaultValues,
     mode: "onChange",
   });
+  const [selectedStudentId, setSelectedStudentId] = useState<string>(
+    MOCK_STUDENTS[0].id,
+  );
   return (
     <FormProvider {...methods}>
       <StudentDashboardHeader
         assessmentName="Unit 0 Review Test"
         classroomName="Mathematics 4 - Mr. Roberts"
       />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndex={1}
+      />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndex={2}
+      />
+      <CorrectedMultipleChoice
+        correctAnswerIndex={1}
+        options={["A", "B", "C", "D"]}
+      />
+      <CorrectedMultiSelect
+        correctAnswerIndices={[1, 2]}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndices={[1, 2]}
+      />
+      <CorrectedMultiSelect
+        correctAnswerIndices={[1, 2]}
+        options={["A", "B", "C", "D"]}
+        studentAnswerIndices={[2, 3]}
+      />
       <StatisticCard title="total score" value="87%" />
       <StatisticCard title="percentile" value="25th" />
       <StatisticCard title="submissions" value="1087" variant="blue" />
       <StatisticCard title="completion rate" value="78%" variant="blue" />
+      <Box height="20vh">
+        <StudentList
+          selectedStudentId={selectedStudentId}
+          setSelectedStudentId={setSelectedStudentId}
+          students={MOCK_STUDENTS}
+        />
+      </Box>
       <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
@@ -112,11 +167,6 @@ const ComponentLibrary = (): React.ReactElement => {
         <AddClassroomModal isOpen={isOpen} onClose={onClose} />
         <AddStudentModal />
       </HStack>
-      <Center>
-        <Box w="60%">
-          <DisplayQuestion questionComponents={MOCK_DATA} />
-        </Box>
-      </Center>
     </FormProvider>
   );
 };

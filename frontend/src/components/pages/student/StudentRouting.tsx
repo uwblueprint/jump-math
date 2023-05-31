@@ -13,6 +13,7 @@ import LoadingState from "../../common/LoadingState";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
+import WriteAssessmentPage from "./WriteAssessmentPage";
 
 const StudentRouting = (): React.ReactElement => {
   const { state } = useLocation<{
@@ -65,6 +66,12 @@ const StudentRouting = (): React.ReactElement => {
             component={AssessmentSummaryPage}
             exact
             path={Routes.ASSESSMENT_SUMMARY_PAGE}
+            roles={["Student"]}
+          />
+          <PrivateRoute
+            component={WriteAssessmentPage}
+            exact
+            path={Routes.WRITE_ASSESSMENT_PAGE}
             roles={["Student"]}
           />
           <Redirect

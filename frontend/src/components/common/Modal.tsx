@@ -16,7 +16,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   body?: string;
-  header: string;
+  header: React.ReactNode;
   children?: React.ReactChild;
   submitButtonText?: string;
   submitButtonVariant?: string;
