@@ -32,11 +32,8 @@ const SaveQuestionEditorButton = ({
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
   const { setQuestions, editorQuestion } = useContext(AssessmentContext);
-  const {
-    questionElements,
-    setQuestionElements,
-    setShowEditorError,
-  } = useContext(QuestionEditorContext);
+  const { questionElements, setQuestionElements, setShowEditorError } =
+    useContext(QuestionEditorContext);
 
   const setElementError = (element: QuestionElement, errorText: string) => {
     setQuestionElements((prevElements) => {

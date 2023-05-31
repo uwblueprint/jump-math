@@ -44,17 +44,17 @@ const Login = (): React.ReactElement => {
       setInvalidFormError(true);
       return;
     }
-    const user: VerifiableUser | null = await authAPIClient.login(
-      email,
-      password,
-      login,
-    );
 
-    if (user?.emailVerified === false) {
-      setUnverifiedUser(true);
-      return;
+    try {
+      const user: VerifiableUser | null = await authAPIClient.login(
+        email,
+        password,
+        login,
+      );
+      setAuthenticatedUser(user);
+    } catch (error) {
+      setLoginError(true);
     }
-    setAuthenticatedUser(user);
   };
 
   if (authenticatedUser) {
