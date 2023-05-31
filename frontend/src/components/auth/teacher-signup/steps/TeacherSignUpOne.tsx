@@ -35,12 +35,15 @@ const TeacherSignupOne = ({
   const [firstNameError, setFirstNameError] = React.useState(false);
   const [lastNameError, setLastNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
+  const [acceptEmail, acceptEmailError] = React.useState(false);
   const [gradesError, setGradesError] = React.useState(false);
   const history = useHistory();
 
   const { value: gradesValues, setValue: setGradesValue } = useCheckboxGroup({
     defaultValue: watch("grades") || [],
   });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -64,6 +67,9 @@ const TeacherSignupOne = ({
       default:
         break;
     }
+    if (field === "email") {
+      acceptEmailError(false);
+    }
   };
 
   const onChangeGrades = (values: Grade[]) => {
@@ -73,31 +79,51 @@ const TeacherSignupOne = ({
   };
 
   const validateFields = (): boolean => {
+    let isValid = true;
+
     if (!watch("firstName") || !!errors.firstName) {
       setFirstNameError(true);
-      return false;
+      isValid = false;
+    } else {
+      setFirstNameError(false);
     }
 
     if (!watch("lastName") || !!errors.lastName) {
       setLastNameError(true);
-      return false;
+      isValid = false;
+    } else {
+      setLastNameError(false);
     }
 
-    if (!watch("email") || !!errors.email) {
+    const emailValue = watch("email");
+    if (!emailValue || !!errors.email) {
       setEmailError(true);
-      return false;
+      isValid = false;
+    } else {
+      setEmailError(false);
+    }
+
+    if (!watch("email") || (emailValue && !emailRegex.test(emailValue))) {
+      acceptEmailError(true);
+      isValid = false;
+    } else {
+      acceptEmailError(false);
     }
 
     if (!watch("grades.0") || !!errors.grades) {
       setGradesError(true);
-      return false;
+      isValid = false;
+    } else {
+      setGradesError(false);
     }
 
-    return true;
+    return isValid;
   };
 
   const onContinueClick = () => {
-    if (validateFields()) setPage(2);
+    if (validateFields()) {
+      setPage(2);
+    }
   };
 
   const title = "Teacher Sign Up";
@@ -125,7 +151,7 @@ const TeacherSignupOne = ({
         </FormControl>
       </Stack>
 
-      <FormControl isInvalid={emailError} isRequired>
+      <FormControl isInvalid={acceptEmail || emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           onChange={(e) => handleChange(e, "email")}
@@ -155,10 +181,15 @@ const TeacherSignupOne = ({
       />
     </>
   );
-  const error =
-    firstNameError || lastNameError || emailError || gradesError
-      ? "Please ensure fields are filled"
-      : "";
+
+  let error = "";
+  if (acceptEmail) {
+    error = "Invalid email";
+  }
+
+  if (firstNameError || lastNameError || emailError || gradesError) {
+    error = "Please ensure fields are filled";
+  }
 
   return (
     <AuthWrapper

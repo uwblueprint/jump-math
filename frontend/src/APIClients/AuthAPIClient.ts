@@ -36,8 +36,7 @@ const login = async (
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {
-    // eslint-disable-next-line no-alert
-    window.alert("Failed to login");
+    throw new Error("Failed to login");
   }
   return user;
 };
@@ -85,8 +84,7 @@ const registerTeacher = async (
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {
-    // eslint-disable-next-line no-alert
-    window.alert("Failed to sign up");
+    throw new Error("Failed to login");
   }
   return user;
 };
