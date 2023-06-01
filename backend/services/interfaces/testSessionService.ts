@@ -1,7 +1,4 @@
-import { type UserDTO } from "../../types";
-import { type ClassResponseDTO, type IClassService } from "./classService";
-import { type SchoolResponseDTO } from "./schoolService";
-import { type TestResponseDTO } from "./testService";
+import { type IClassService } from "./classService";
 
 /**
  * This interface contains the request object that is fed into
@@ -34,13 +31,13 @@ export interface TestSessionResponseDTO {
   /** the unique identifier for the test session */
   id: string;
   /** the corresponding test from the Test collection */
-  test: TestResponseDTO;
+  test: string;
   /** the teacher administering the test from the User collection */
-  teacher: UserDTO;
+  teacher: string;
   /** the school that's administering the test from the School collection */
-  school: SchoolResponseDTO;
+  school: string;
   /** the class taking the test session */
-  class: ClassResponseDTO;
+  class: string;
   /**
    * the result of the test session
    * there should be one entry here per student

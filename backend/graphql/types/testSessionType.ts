@@ -2,13 +2,6 @@ import gql from "graphql-tag";
 
 const testSessionType = gql`
   type ResultResponseDTO {
-    student: ID!
-    score: Float!
-    answers: [[[Float]]]!
-    breakdown: [[Boolean]]!
-  }
-
-  type ResultAndStudentResponseDTO {
     student: StudentResponseDTO!
     score: Float!
     answers: [[[Float]]]!
@@ -33,19 +26,6 @@ const testSessionType = gql`
     notes: String
   }
 
-  type TestSessionAndStudentResponseDTO {
-    id: ID!
-    test: TestResponseDTO!
-    teacher: UserDTO!
-    school: SchoolResponseDTO!
-    class: ClassResponseDTO!
-    results: [ResultAndStudentResponseDTO]
-    accessCode: String!
-    startDate: Date!
-    endDate: Date!
-    notes: String
-  }
-
   input TestSessionRequestDTO {
     test: ID!
     teacher: ID!
@@ -58,7 +38,7 @@ const testSessionType = gql`
   }
 
   extend type Query {
-    testSession(id: ID!): TestSessionAndStudentResponseDTO!
+    testSession(id: ID!): TestSessionResponseDTO!
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
     testSessionsByTeacherId(teacherId: ID!): [TestSessionResponseDTO!]!

@@ -13,11 +13,7 @@ import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type { ITestService, TestResponseDTO } from "../interfaces/testService";
 import type IUserService from "../interfaces/userService";
-import type {
-  ISchoolService,
-  SchoolResponseDTO,
-} from "../interfaces/schoolService";
-import type { UserDTO } from "../../types";
+import type { ISchoolService } from "../interfaces/schoolService";
 import type { QuestionComponent } from "../../types/questionTypes";
 import { QuestionComponentType } from "../../types/questionTypes";
 import type {
@@ -27,10 +23,7 @@ import type {
   FractionMetadata,
 } from "../../types/questionMetadataTypes";
 import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
-import type {
-  IClassService,
-  ClassResponseDTO,
-} from "../interfaces/classService";
+import type { IClassService } from "../interfaces/classService";
 
 const Logger = logger(__filename);
 
@@ -66,18 +59,7 @@ class TestSessionService implements ITestSessionService {
       throw new Error("Class service not bound to test session service");
     }
 
-    let testDTO: TestResponseDTO;
-    let teacherDTO: UserDTO;
-    let schoolDTO: SchoolResponseDTO;
-    let classDTO: ClassResponseDTO;
-    let newTestSession: TestSession | null;
-
     try {
-      testDTO = await this.testService.getTestById(testSession.test);
-      teacherDTO = await this.userService.getUserById(testSession.teacher);
-      schoolDTO = await this.schoolService.getSchoolById(testSession.school);
-      classDTO = await this.classService.getClassById(testSession.class);
-
       const currentDate = new Date();
 
       if (
@@ -87,27 +69,19 @@ class TestSessionService implements ITestSessionService {
         throw new Error(`Test session start and end dates are not valid`);
       }
 
-      newTestSession = await MgTestSession.create(testSession);
+      const newTestSession = await MgTestSession.create({
+        ...testSession,
+        results: [],
+      });
       await this.addTestSessionToClass(testSession.class, newTestSession.id);
+
+      return this.mapTestSessionsToTestSessionDTOs([newTestSession])[0];
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-
-    return {
-      id: newTestSession.id,
-      test: testDTO,
-      teacher: teacherDTO,
-      school: schoolDTO,
-      class: classDTO,
-      results: [],
-      accessCode: newTestSession.accessCode,
-      startDate: newTestSession.startDate,
-      endDate: newTestSession.endDate,
-      notes: newTestSession.notes,
-    };
   }
 
   async getTestSessionById(id: string): Promise<TestSessionResponseDTO> {
@@ -123,13 +97,12 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-    return (await this.mapTestSessionsToTestSessionDTOs([testSession]))[0];
+    return this.mapTestSessionsToTestSessionDTOs([testSession])[0];
   }
 
   async getTestSessionByAccessCode(
     accessCode: string,
   ): Promise<TestSessionResponseDTO> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
     const currentDate = new Date();
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
@@ -148,16 +121,13 @@ class TestSessionService implements ITestSessionService {
         );
       }
 
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
+      return this.mapTestSessionsToTestSessionDTOs(testSessions)[0];
     } catch (error: unknown) {
       Logger.error(
         `Failed to get Test Session. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-    return testSessionDtos[0];
   }
 
   async deleteTestSession(id: string): Promise<string> {
@@ -176,59 +146,43 @@ class TestSessionService implements ITestSessionService {
   }
 
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find();
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
+      return this.mapTestSessionsToTestSessionDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-
-    return testSessionDtos;
   }
 
   async getTestSessionsBySchoolId(
     schoolId: string,
   ): Promise<TestSessionResponseDTO[]> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
     try {
       const testSessions: TestSession[] = await MgTestSession.find({
         school: { $eq: schoolId },
       });
 
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
+      return this.mapTestSessionsToTestSessionDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
-
-    return testSessionDtos;
   }
 
   async getTestSessionsByTeacherId(
     teacherId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         teacher: { $eq: teacherId },
       });
 
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
+      return this.mapTestSessionsToTestSessionDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
@@ -237,23 +191,17 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return testSessionDtos;
   }
 
   async getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
-    let testSessionDtos: Array<TestSessionResponseDTO> = [];
-
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find({
         test: { $eq: testId },
       });
 
-      testSessionDtos = await this.mapTestSessionsToTestSessionDTOs(
-        testSessions,
-      );
+      return this.mapTestSessionsToTestSessionDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions by testId=${testId}. Reason = ${getErrorMessage(
@@ -262,8 +210,6 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return testSessionDtos;
   }
 
   async updateTestSession(
@@ -291,9 +237,7 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-    return (
-      await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
-    )[0];
+    return this.mapTestSessionsToTestSessionDTOs([updatedTestSession])[0];
   }
 
   async createTestSessionResult(
@@ -328,58 +272,22 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    return (
-      await this.mapTestSessionsToTestSessionDTOs([updatedTestSession])
-    )[0];
+    return this.mapTestSessionsToTestSessionDTOs([updatedTestSession])[0];
   }
 
-  private async mapTestSessionsToTestSessionDTOs(
-    testSessions: Array<TestSession>,
-  ): Promise<Array<TestSessionResponseDTO>> {
-    const testSessionDtos: Array<TestSessionResponseDTO> = await Promise.all(
-      testSessions.map(async (testSession) => {
-        if (!this.classService) {
-          throw new Error("Class service not bound to test session service");
-        }
-
-        const testDTO: TestResponseDTO = await this.testService.getTestById(
-          testSession.test,
-        );
-        const teacherDTO: UserDTO = await this.userService.getUserById(
-          testSession.teacher,
-        );
-        const schoolDTO: SchoolResponseDTO =
-          await this.schoolService.getSchoolById(testSession.school);
-        const classDTO: ClassResponseDTO = await this.classService.getClassById(
-          testSession.class,
-          false,
-        );
-
-        return {
-          id: testSession.id,
-          test: testDTO,
-          teacher: teacherDTO,
-          school: schoolDTO,
-          class: classDTO,
-          results: testSession.results
-            ? testSession.results.map((testSessionResult) => {
-                return {
-                  student: testSessionResult.student,
-                  score: testSessionResult.score,
-                  answers: testSessionResult.answers,
-                  breakdown: testSessionResult.breakdown,
-                };
-              })
-            : [],
-          accessCode: testSession.accessCode,
-          startDate: testSession.startDate,
-          endDate: testSession.endDate,
-          notes: testSession.notes,
-        };
-      }),
-    );
-
-    return testSessionDtos;
+  private mapTestSessionsToTestSessionDTOs(testSessions: Array<TestSession>) {
+    return testSessions.map((testSession) => ({
+      id: testSession.id,
+      test: testSession.test,
+      teacher: testSession.teacher,
+      school: testSession.school,
+      class: testSession.class,
+      results: testSession.results ?? [],
+      accessCode: testSession.accessCode,
+      startDate: testSession.startDate,
+      endDate: testSession.endDate,
+      notes: testSession.notes,
+    }));
   }
 
   /*
@@ -395,7 +303,7 @@ class TestSessionService implements ITestSessionService {
       const testSession: TestSessionResponseDTO = await this.getTestSessionById(
         testSessionId,
       );
-      newResult = await this.computeTestGrades(result, testSession.test.id);
+      newResult = await this.computeTestGrades(result, testSession.test);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test result. Reason = ${getErrorMessage(error)}`,
