@@ -11,6 +11,10 @@ import type {
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
+import {
+  mapDocumentsToDTOs,
+  mapDocumentToDTO,
+} from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -74,7 +78,7 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return this.mapClassToClassDTOs([classObj])[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async getClassByTestSessionId(
@@ -96,7 +100,7 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return this.mapClassToClassDTOs(classes)[0];
+    return mapDocumentToDTO(classes[0]);
   }
 
   async getClassesByTeacherId(
@@ -113,19 +117,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return this.mapClassToClassDTOs(classes);
-  }
-
-  private mapClassToClassDTOs(classObjs: Array<Class>) {
-    return classObjs.map((classObj) => ({
-      id: classObj.id,
-      className: classObj.className,
-      schoolYear: classObj.schoolYear,
-      gradeLevel: classObj.gradeLevel,
-      teacher: classObj.teacher,
-      testSessions: classObj.testSessions,
-      students: classObj.students,
-    }));
+    return mapDocumentsToDTOs(classes);
   }
 
   async updateClass(
@@ -148,7 +140,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return this.mapClassToClassDTOs([updatedClass])[0];
+    return mapDocumentToDTO(updatedClass);
   }
 
   async deleteClass(id: string): Promise<string> {
@@ -195,7 +187,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return this.mapClassToClassDTOs([classObj])[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async updateStudent(
@@ -229,7 +221,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return this.mapClassToClassDTOs([classObj])[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async deleteStudent(studentId: string, classId: string): Promise<string> {

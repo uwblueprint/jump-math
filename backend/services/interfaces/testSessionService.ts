@@ -40,7 +40,7 @@ export interface TestSessionResponseDTO {
    * the result of the test session
    * there should be one entry here per student
    */
-  results: ResultResponseDTO[];
+  results?: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** on this date, the test becomes available to students */

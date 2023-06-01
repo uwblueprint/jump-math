@@ -1,5 +1,4 @@
-import type { UserDTO, Grade } from "../../types";
-import { type TestSessionResponseDTO } from "./testSessionService";
+import type { Grade } from "../../types";
 
 export interface StudentRequestDTO {
   firstName: string;

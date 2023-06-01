@@ -9,6 +9,7 @@ export const mongo = {
       return;
     }
     try {
+      mongoose.set("toObject", { virtuals: true });
       await mongoose.connect(encodeURI(process.env.MG_DATABASE_URL));
       // eslint-disable-next-line no-console
       console.info("Successfully connected to MongoDB!");

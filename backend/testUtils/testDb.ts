@@ -8,6 +8,7 @@ const mongoTest = {
   connect: async (): Promise<void> => {
     await mongo.start();
     const uri = mongo.getUri();
+    mongoose.set("toObject", { virtuals: true });
     await mongoose.connect(uri);
   },
 

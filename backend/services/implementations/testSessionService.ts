@@ -22,7 +22,12 @@ import type {
   MultiSelectMetadata,
   FractionMetadata,
 } from "../../types/questionMetadataTypes";
-import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
+import {
+  equalArrays,
+  mapDocumentsToDTOs,
+  mapDocumentToDTO,
+  roundTwoDecimals,
+} from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -63,7 +68,7 @@ class TestSessionService implements ITestSessionService {
       });
       await this.addTestSessionToClass(testSession.class, newTestSession.id);
 
-      return this.mapTestSessionsToTestSessionDTOs([newTestSession])[0];
+      return mapDocumentToDTO(newTestSession);
     } catch (error: unknown) {
       Logger.error(
         `Failed to create test session. Reason = ${getErrorMessage(error)}`,
@@ -85,7 +90,7 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-    return this.mapTestSessionsToTestSessionDTOs([testSession])[0];
+    return mapDocumentToDTO(testSession);
   }
 
   async getTestSessionByAccessCode(
@@ -109,7 +114,7 @@ class TestSessionService implements ITestSessionService {
         );
       }
 
-      return this.mapTestSessionsToTestSessionDTOs(testSessions)[0];
+      return mapDocumentToDTO(testSessions[0]);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get Test Session. Reason = ${getErrorMessage(error)}`,
@@ -136,7 +141,7 @@ class TestSessionService implements ITestSessionService {
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find();
-      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
@@ -153,7 +158,7 @@ class TestSessionService implements ITestSessionService {
         school: { $eq: schoolId },
       });
 
-      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
@@ -170,7 +175,7 @@ class TestSessionService implements ITestSessionService {
         teacher: { $eq: teacherId },
       });
 
-      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
@@ -189,7 +194,7 @@ class TestSessionService implements ITestSessionService {
         class: { $eq: classId },
       });
 
-      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for classId=${classId}. Reason = ${getErrorMessage(
@@ -208,7 +213,7 @@ class TestSessionService implements ITestSessionService {
         test: { $eq: testId },
       });
 
-      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+      return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions by testId=${testId}. Reason = ${getErrorMessage(
@@ -244,7 +249,7 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-    return this.mapTestSessionsToTestSessionDTOs([updatedTestSession])[0];
+    return mapDocumentToDTO(updatedTestSession);
   }
 
   async createTestSessionResult(
@@ -279,22 +284,7 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
 
-    return this.mapTestSessionsToTestSessionDTOs([updatedTestSession])[0];
-  }
-
-  private mapTestSessionsToTestSessionDTOs(testSessions: Array<TestSession>) {
-    return testSessions.map((testSession) => ({
-      id: testSession.id,
-      test: testSession.test,
-      teacher: testSession.teacher,
-      school: testSession.school,
-      class: testSession.class,
-      results: testSession.results ?? [],
-      accessCode: testSession.accessCode,
-      startDate: testSession.startDate,
-      endDate: testSession.endDate,
-      notes: testSession.notes,
-    }));
+    return mapDocumentToDTO(updatedTestSession);
   }
 
   /*
