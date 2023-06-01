@@ -1,15 +1,21 @@
-import React from "react";
+import React, {
+  type ChangeEvent,
+  type Dispatch,
+  type ReactElement,
+  type SetStateAction,
+  useCallback,
+} from "react";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
 import { SearchOutlineIcon } from "../../../assets/icons";
 
 export interface SearchBarProps {
-  onSearch: React.Dispatch<React.SetStateAction<string>>;
+  onSearch: Dispatch<SetStateAction<string>>;
 }
 
-const SearchBar = ({ onSearch }: SearchBarProps): React.ReactElement => {
-  const handleInputChange = React.useCallback(
-    (event) => {
+const SearchBar = ({ onSearch }: SearchBarProps): ReactElement => {
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
       onSearch(event.target.value);
     },
     [onSearch],
