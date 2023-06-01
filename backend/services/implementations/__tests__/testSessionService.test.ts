@@ -317,7 +317,7 @@ describe("mongo testSessionService", (): void => {
 
     const res = await testSessionService.gradeTestResult(
       mockUngradedTestResult,
-      mockTestSessionWithId.test.id,
+      mockTestSessionWithId.test,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });
