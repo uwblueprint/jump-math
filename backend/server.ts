@@ -72,6 +72,7 @@ const runServer = async () => {
   app.use(
     await graphqlUploadExpress({
       maxFileSize: 10 * 1024 * 1024, // 10 MB
+      maxFieldSize: 10 * 1024 * 1024, // 10 MB
       maxFiles: 20,
     }),
   );

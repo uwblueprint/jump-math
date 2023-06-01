@@ -26,6 +26,7 @@ import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEd
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
+import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 const AssessmentEditorPage = (): React.ReactElement => {
@@ -41,15 +42,15 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [errorMessage, setErrorMessage] = useState("");
   const [completedForm, setCompletedForm] = useState(false);
 
-  const [createTest] = useMutation<{
+  const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: { createTest: { id: string } };
   }>(CREATE_NEW_TEST);
 
-  const [updateTest] = useMutation<{
+  const [updateTest, { loading: loadingUpdate }] = useMutation<{
     updateTest: { updateTest: { id: string } };
   }>(UPDATE_TEST);
 
-  const [deleteTest] = useMutation<{
+  const [deleteTest, { loading: loadingDelete }] = useMutation<{
     deleteTest: string;
   }>(DELETE_TEST);
 
@@ -184,6 +185,9 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
+
+  if (loadingCreate || loadingUpdate || loadingDelete)
+    return <LoadingState fullPage />;
 
   return (
     <>
