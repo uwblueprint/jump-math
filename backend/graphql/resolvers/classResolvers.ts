@@ -66,6 +66,14 @@ const classResolvers = {
       return classService.createStudent(student, classId);
     },
   },
+  ClassResponseDTO: {
+    teacher: async (parent: ClassResponseDTO) => {
+      return userService.getUserById(parent.teacher);
+    },
+    testSessions: async (parent: ClassResponseDTO) => {
+      return testSessionService.getTestSessionsByClassId(parent.id);
+    },
+  },
 };
 
 export default classResolvers;

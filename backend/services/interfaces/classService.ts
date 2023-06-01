@@ -26,8 +26,8 @@ export interface ClassResponseDTO {
   className: string;
   schoolYear: number;
   gradeLevel: Grade;
-  teacher: UserDTO;
-  testSessions: TestSessionResponseDTO[];
+  teacher: string;
+  testSessions: string[];
   students: StudentResponseDTO[];
 }
 
@@ -43,14 +43,10 @@ export interface IClassService {
   /**
    * This method retrieves the class with given id.
    * @param id class id
-   * @param populateTestSessions if true, test sessions will be populated
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassById(
-    id: string,
-    populateTestSessions?: boolean,
-  ): Promise<ClassResponseDTO>;
+  getClassById(id: string): Promise<ClassResponseDTO>;
 
   /**
    * This method retrieves the class with given test session id.

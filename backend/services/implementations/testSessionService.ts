@@ -181,6 +181,25 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
+  async getTestSessionsByClassId(
+    classId: string,
+  ): Promise<Array<TestSessionResponseDTO>> {
+    try {
+      const testSessions: Array<TestSession> = await MgTestSession.find({
+        class: { $eq: classId },
+      });
+
+      return this.mapTestSessionsToTestSessionDTOs(testSessions);
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test sessions for classId=${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+  }
+
   async getTestSessionsByTestId(
     testId: string,
   ): Promise<Array<TestSessionResponseDTO>> {
