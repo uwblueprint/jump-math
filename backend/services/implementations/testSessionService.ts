@@ -23,7 +23,6 @@ import type {
   FractionMetadata,
 } from "../../types/questionMetadataTypes";
 import { equalArrays, roundTwoDecimals } from "../../utilities/generalUtils";
-import type { IClassService } from "../interfaces/classService";
 
 const Logger = logger(__filename);
 
@@ -34,8 +33,6 @@ class TestSessionService implements ITestSessionService {
 
   schoolService: ISchoolService;
 
-  classService: IClassService | null;
-
   constructor(
     testService: ITestService,
     userService: IUserService,
@@ -44,21 +41,12 @@ class TestSessionService implements ITestSessionService {
     this.testService = testService;
     this.userService = userService;
     this.schoolService = schoolService;
-    this.classService = null;
   }
 
   /* eslint-disable class-methods-use-this */
-  bindClassService(classService: IClassService): void {
-    this.classService = classService;
-  }
-
   async createTestSession(
     testSession: TestSessionRequestDTO,
   ): Promise<TestSessionResponseDTO> {
-    if (!this.classService) {
-      throw new Error("Class service not bound to test session service");
-    }
-
     try {
       const currentDate = new Date();
 

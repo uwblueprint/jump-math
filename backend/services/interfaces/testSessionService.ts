@@ -1,5 +1,3 @@
-import { type IClassService } from "./classService";
-
 /**
  * This interface contains the request object that is fed into
  * the test session service to create or update the test session in the database.
@@ -99,13 +97,6 @@ export interface ResultResponseDTO {
 }
 
 export interface ITestSessionService {
-  /**
-   * This method binds the class service to the test session service.
-   * @param classService The class service to bind to the test session service
-   * @returns void
-   */
-  bindClassService(classService: IClassService): void;
-
   /**
    * create a TestSession with the fields given in the DTO, return created TestSession
    * @param id of the class taking the test session

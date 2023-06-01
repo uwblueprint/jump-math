@@ -26,7 +26,6 @@ const classService: IClassService = new ClassService(
   userService,
   testSessionService,
 );
-testSessionService.bindClassService(classService);
 
 const classResolvers = {
   Query: {

@@ -61,7 +61,6 @@ describe("mongo testSessionService", (): void => {
       schoolService,
     );
     classService = new ClassService(userService, testSessionService);
-    testSessionService.bindClassService(classService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
