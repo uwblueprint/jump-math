@@ -5,6 +5,7 @@ import "@fontsource/dm-sans";
 import Alert from "./components/alert";
 import Button from "./components/button";
 import Checkbox from "./components/checkbox";
+import Divider from "./components/divider";
 import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
@@ -28,6 +29,7 @@ const theme = extendTheme({
     Alert,
     Button,
     Checkbox,
+    Divider,
     Form,
     FormError,
     Input,

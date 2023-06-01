@@ -22,12 +22,12 @@ import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import type { Question } from "../../../types/QuestionTypes";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
-import AssessmentEditorHeader from "../../assessments/assessment-creation/AssessmentEditorHeader";
-import AssessmentQuestions from "../../assessments/assessment-creation/AssessmentQuestions";
-import BasicInformation from "../../assessments/assessment-creation/BasicInformation";
-import LoadingState from "../../common/LoadingState";
-import useReloadPrompt from "../../common/useReloadPrompt";
-import QuestionEditor from "../../question-creation/QuestionEditor";
+import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
+import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
+import BasicInformation from "../../admin/assessment-creation/BasicInformation";
+import QuestionEditor from "../../admin/question-creation/QuestionEditor";
+import LoadingState from "../../common/info/LoadingState";
+import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 const AssessmentEditorPage = (): React.ReactElement => {
   useReloadPrompt();
@@ -229,7 +229,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
                   setValue={setValue}
                   watch={watch}
                 />
-                <Divider borderColor="grey.200" />
+                <Divider />
                 <AssessmentQuestions />
               </VStack>
             </VStack>

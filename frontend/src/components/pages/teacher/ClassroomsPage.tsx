@@ -16,18 +16,17 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
-import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
 import AuthContext from "../../../contexts/AuthContext";
 import type { Classroom } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
-import ClassroomCard from "../../classrooms/ClassroomCard";
-import ErrorStateWithButton from "../../classrooms/ClassroomErrorStateWithButton";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
+import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import AddClassroomModal from "../../user-management/student/AddClassroomModal";
+import AddClassroomModal from "../../teacher/student-management/classrooms/AddClassroomModal";
+import ClassroomCard from "../../teacher/student-management/classrooms/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
@@ -137,17 +136,7 @@ const ClassroomsPage = (): React.ReactElement => {
               </Tabs>
             </>
           ) : (
-            <>
-              <ErrorStateWithButton
-                buttonText="Add New Classroom"
-                image={DisplayAssessmentsIllustration}
-                onClick={handleAddClassroom}
-                paragraphs={[
-                  "Click on the below button to create your first classroom",
-                ]}
-                subtitle="You currently have no classrooom."
-              />
-            </>
+            <EmptyClassroomsMessage onClick={handleAddClassroom} />
           )}
         </Box>
       )}
