@@ -1,11 +1,12 @@
-import React from "react";
+import React, { type ComponentType, type ReactNode } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import CorrectedInputWrapper from "./CorrectedInputWrapper";
 
 type CorrectedMultiOptionElementsProps = {
   correctAnswerIndices: number[];
-  inputComponent: React.FC<{
+  inputComponent: ComponentType<{
+    children: ReactNode;
     isReadOnly: boolean;
     size: string;
     value: string;
