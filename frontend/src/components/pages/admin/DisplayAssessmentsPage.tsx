@@ -29,6 +29,8 @@ import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 
+const STATUS_ORDER = ["", Status.DRAFT, Status.PUBLISHED, Status.ARCHIVED];
+
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
@@ -157,29 +159,15 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       )}
       {assessments && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3}>
+          <Tabs
+            marginTop={3}
+            onChange={(index) => setStatus(STATUS_ORDER[index])}
+          >
             <TabList>
-              <Tab color={unselectedTabColor} onClick={() => setStatus("")}>
-                All
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.DRAFT)}
-              >
-                Drafts
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.PUBLISHED)}
-              >
-                Published
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.ARCHIVED)}
-              >
-                Archived
-              </Tab>
+              <Tab color={unselectedTabColor}>All</Tab>
+              <Tab color={unselectedTabColor}>Drafts</Tab>
+              <Tab color={unselectedTabColor}>Published</Tab>
+              <Tab color={unselectedTabColor}>Archived</Tab>
             </TabList>
             <TabPanels>{AssessmentTabPanels}</TabPanels>
           </Tabs>
