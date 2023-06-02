@@ -5,11 +5,13 @@ import { Button, HStack, Text } from "@chakra-ui/react";
 import { CopyIcon } from "../../assets/icons";
 
 export type CopyableProps = {
+  displayedValue?: string;
   value: string;
   label: string;
 } & ButtonProps;
 
 const Copyable = ({
+  displayedValue,
   value,
   label,
   ...props
@@ -49,7 +51,7 @@ const Copyable = ({
           cursor={isClipboardSupported ? "inherit" : "default"}
         />
         <Text color="blue.300" m="0 !important" textStyle="smallerParagraph">
-          {value}
+          {displayedValue || value}
         </Text>
       </HStack>
       <Text color="blue.200" m="0 !important" textStyle="mobileSubtitle2">

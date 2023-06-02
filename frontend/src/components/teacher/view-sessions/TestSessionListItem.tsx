@@ -125,7 +125,11 @@ const TestSessionListItem = ({
           </Text>
         </VStack>
         {status !== "past" && (
-          <Copyable label="Access Code" value={formattedAccessCode} />
+          <Copyable
+            displayedValue={formattedAccessCode}
+            label="Access Code"
+            value={accessCode}
+          />
         )}
         <Spacer />
         {stats && (
