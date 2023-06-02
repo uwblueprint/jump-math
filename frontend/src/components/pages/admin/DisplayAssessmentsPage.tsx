@@ -99,11 +99,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return sortArray(searchedAssessments, sortProperty, sortOrder);
   }, [searchedAssessments, sortProperty, sortOrder]);
 
-  const AssessmentTabPanels = [...Array(4)].map((i) => {
+  const AssessmentTabPanels = STATUS_ORDER.map((panelStatus) => {
     return (
-      <TabPanel key={i} padding="0">
+      <TabPanel key={panelStatus} padding="0">
         <AssessmentsTab
-          key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}
           filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           noResults={isEmpty}
