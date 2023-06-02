@@ -54,9 +54,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
-    onCompleted: () => {
+    onCompleted: (fetchedData) => {
       const { gradeOptions, testTypeOptions, countryOptions, regionOptions } =
-        assessmentFilterOptions(data.tests);
+        assessmentFilterOptions(fetchedData.tests);
 
       setFilterOptions((prev) => {
         return [
