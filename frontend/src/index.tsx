@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
@@ -71,13 +71,16 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-ReactDOM.render(
+const domRoot = document.getElementById("root");
+if (!domRoot) {
+  throw new Error("Root element not found");
+}
+createRoot(domRoot).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <App />
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function

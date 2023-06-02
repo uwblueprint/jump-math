@@ -19,6 +19,18 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     "@typescript-eslint/consistent-type-imports": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["**/lib/**/*.js", "**/lib/**/*.cjs", "**/lib/**/*.mjs"],
+            message:
+              "Import libraries directly using `./path/to/lib/<libname>`",
+          },
+        ],
+      },
+    ],
   },
   ignorePatterns: ["build/"],
 };
