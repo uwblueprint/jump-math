@@ -13,7 +13,7 @@ import {
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { mongo } from "./models";
 import buildSchema from "./graphql";
-import { graphqlUploadExpress } from "./lib/graphqlUpload.cjs";
+import { graphqlUploadExpress } from "./lib/graphql-upload";
 
 export type ExpressContext = {
   req: express.Request;
