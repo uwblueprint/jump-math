@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --runInBand --forceExit --detectOpenHandles",
     "dev": "nodemon -L",
-    "lint": "eslint . --ext .ts,.js",
-    "fix": "eslint . --ext .ts,.js --fix",
+    "lint": "eslint . --ext .ts,.js,.cjs,.mjs",
+    "fix": "eslint . --ext .ts,.js,.cjs,.mjs --fix",
     "build": "tsc",
     "postbuild": "node postbuild.mjs"
   },
