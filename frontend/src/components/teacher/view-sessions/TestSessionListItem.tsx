@@ -84,6 +84,7 @@ const TestSessionListItem = ({
               Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(testSessionId),
               {
                 returnTo: history.location.pathname,
+                sessionTitle: testName,
               },
             )
           }

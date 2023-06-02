@@ -22,3 +22,8 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the access code that students use to access the test session */
   accessCode: string;
 }
+
+export interface TestSessionTitleData {
+  /** the name of the test that this test session is for */
+  test: Pick<Test, "name">;
+}

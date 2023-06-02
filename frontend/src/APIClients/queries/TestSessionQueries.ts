@@ -77,3 +77,13 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
     }
   }
 `;
+
+export const GET_TEST_SESSION_TITLE = gql`
+  query TestSessionTitle($id: ID!) {
+    testSession(id: $id) {
+      test {
+        name
+      }
+    }
+  }
+`;
