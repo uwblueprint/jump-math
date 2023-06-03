@@ -32,7 +32,7 @@ import type {
   ClassroomInput,
 } from "../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
-import { SingleDatepicker } from "../../classrooms/Calendar";
+import DatePicker from "../../common/DatePicker";
 import ErrorToast from "../../common/ErrorToast";
 import ModalFooterButtons from "../../common/ModalFooterButtons";
 import Toast from "../../common/Toast";
@@ -62,6 +62,10 @@ const AddClassroomModal = (): React.ReactElement => {
     field: ClassroomInput,
   ) => {
     setValue(field, event.target.value);
+  };
+
+  const handleDateChange = (date: Date) => {
+    setValue("startDate", date);
   };
 
   const validateFields = (): boolean => {
@@ -160,10 +164,9 @@ const AddClassroomModal = (): React.ReactElement => {
                 </VStack>
                 <VStack align="left" direction="column" width="320px">
                   <FormLabel color="blue.300">Start Date</FormLabel>
-                  <SingleDatepicker
-                    date={watch("startDate")}
-                    name="date-input"
-                    onDateChange={(date) => setValue("startDate", date)}
+                  <DatePicker
+                    onChange={handleDateChange}
+                    value={watch("startDate")}
                   />
                 </VStack>
               </HStack>
