@@ -65,7 +65,6 @@ export const GET_PUBLISHED_TESTS = gql`
       assessmentType
       curriculumCountry
       curriculumRegion
-      status
     }
   }
 `;

@@ -27,7 +27,7 @@ const FormBreadcrumb = ({
   validPage,
 }: FormBreadcrumbProps): React.ReactElement => {
   return (
-    <Breadcrumb color="grey.300" separator={<ChevronRightIcon />} spacing="8px">
+    <Breadcrumb color="grey.300" separator={<ChevronRightIcon />} spacing="2">
       {breadcrumbs.map((breadcrumb) => {
         const isCurrentPage = page === breadcrumb.page;
         return (

@@ -17,7 +17,7 @@ type Nodes = React.ReactNode[];
 
 export interface TableRow<T extends Nodes = Nodes> {
   values: [...T];
-  menu: React.ReactElement;
+  menu?: React.ReactElement;
 }
 
 interface TableProps<T extends Nodes = Nodes> {
@@ -63,7 +63,7 @@ export const Table = <T extends Nodes = Nodes>({
                     {value}
                   </Td>
                 ))}
-                <Td width="5%">{row.menu}</Td>
+                {row.menu && <Td width="5%">{row.menu}</Td>}
               </Tr>
             ))}
           </Tbody>

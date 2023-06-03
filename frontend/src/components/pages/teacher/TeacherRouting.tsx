@@ -25,7 +25,7 @@ const TeacherRouting = (): React.ReactElement => {
     <Switch>
       <VStack align="left" flex="1" height="100vh">
         <Navbar pages={pages} />
-        <Box padding="1.5em 2em 2em 2em">
+        <Box height="80%" padding="1.5em 2em 2em 2em">
           <Switch>
             <PrivateRoute
               component={TeacherDashboardPage}
