@@ -20,10 +20,12 @@ import SortMenu from "../../../common/table/SortMenu";
 import AssessmentsTable from "../AssessmentsTable";
 
 interface ChooseAssessmentProps {
+  testId: string;
   setTestId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ChooseAssessment = ({
+  testId,
   setTestId,
 }: ChooseAssessmentProps): React.ReactElement => {
   const [isEmpty, setEmpty] = React.useState(true);
@@ -129,7 +131,11 @@ const ChooseAssessment = ({
                 {search}&quot;
               </Text>
             )}
-            <AssessmentsTable assessments={assessments} />
+            <AssessmentsTable
+              assessments={assessments}
+              selectedTestId={testId}
+              setTestId={setTestId}
+            />
           </VStack>
         )}
       </Box>

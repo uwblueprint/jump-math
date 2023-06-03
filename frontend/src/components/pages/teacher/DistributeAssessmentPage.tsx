@@ -28,7 +28,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const renderPageContent = () => {
     switch (page) {
       case 0:
-        return <ChooseAssessment setTestId={setTestId} />;
+        return <ChooseAssessment setTestId={setTestId} testId={testId} />;
       case 1:
         return <ChooseClass setClassId={setClassId} />;
       case 2:
