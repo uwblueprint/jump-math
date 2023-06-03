@@ -13,6 +13,7 @@ import Radio from "./components/radio";
 import Select from "./components/select";
 import Spinner from "./components/spinner";
 import Table from "./components/table";
+import Tabs from "./components/tabs";
 import Tag from "./components/tag";
 import Textarea from "./components/textarea";
 import colors from "./colors";
@@ -37,6 +38,7 @@ const theme = extendTheme({
     Select,
     Spinner,
     Table,
+    Tabs,
     Tag,
     Textarea,
   },

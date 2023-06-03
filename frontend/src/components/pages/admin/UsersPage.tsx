@@ -31,7 +31,6 @@ import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 
 const UsersPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
@@ -111,8 +110,8 @@ const UsersPage = (): React.ReactElement => {
         <Box flex="1">
           <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
-              <Tab color={unselectedTabColor}>Admin</Tab>
-              <Tab color={unselectedTabColor}>Teachers</Tab>
+              <Tab>Admin</Tab>
+              <Tab>Teachers</Tab>
             </TabList>
             <TabPanels>
               <TabPanel padding="0">

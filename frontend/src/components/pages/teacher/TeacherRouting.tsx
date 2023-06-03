@@ -22,50 +22,48 @@ const pages: Page[] = [
 
 const TeacherRouting = (): React.ReactElement => {
   return (
-    <Switch>
-      <VStack align="left" flex="1" height="100vh">
-        <Navbar pages={pages} />
-        <Box padding="1.5em 2em 2em 2em">
-          <Switch>
-            <PrivateRoute
-              component={TeacherDashboardPage}
-              exact
-              path={Routes.TEACHER_DASHBOARD_PAGE}
-              roles={["Teacher"]}
-            />
-            <PrivateRoute
-              component={DisplayAssessmentsPage}
-              exact
-              path={Routes.DISPLAY_ASSESSMENTS_PAGE}
-              roles={["Teacher"]}
-            />
-            <PrivateRoute
-              component={DisplayAssessmentResults}
-              path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
-              roles={["Teacher"]}
-            />
-            <PrivateRoute
-              component={DistributeAssessmentPage}
-              exact
-              path={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
-              roles={["Teacher"]}
-            />
-            <PrivateRoute
-              component={ClassroomsPage}
-              exact
-              path={Routes.CLASSROOMS_PAGE}
-              roles={["Teacher"]}
-            />
-            <Redirect
-              exact
-              from={Routes.TEACHER_LANDING_PAGE}
-              to={Routes.TEACHER_DASHBOARD_PAGE}
-            />
-            <Route component={NotFound} exact path="*" />
-          </Switch>
-        </Box>
-      </VStack>
-    </Switch>
+    <VStack align="left" flex="1" height="100vh">
+      <Navbar pages={pages} />
+      <Box padding="1.5em 2em 2em 2em">
+        <Switch>
+          <PrivateRoute
+            component={TeacherDashboardPage}
+            exact
+            path={Routes.TEACHER_DASHBOARD_PAGE}
+            roles={["Teacher"]}
+          />
+          <PrivateRoute
+            component={DisplayAssessmentsPage}
+            exact
+            path={Routes.DISPLAY_ASSESSMENTS_PAGE}
+            roles={["Teacher"]}
+          />
+          <PrivateRoute
+            component={DisplayAssessmentResults}
+            path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
+            roles={["Teacher"]}
+          />
+          <PrivateRoute
+            component={DistributeAssessmentPage}
+            exact
+            path={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
+            roles={["Teacher"]}
+          />
+          <PrivateRoute
+            component={ClassroomsPage}
+            exact
+            path={Routes.CLASSROOMS_PAGE}
+            roles={["Teacher"]}
+          />
+          <Redirect
+            exact
+            from={Routes.TEACHER_LANDING_PAGE}
+            to={Routes.TEACHER_DASHBOARD_PAGE}
+          />
+          <Route component={NotFound} exact path="*" />
+        </Switch>
+      </Box>
+    </VStack>
   );
 };
 
