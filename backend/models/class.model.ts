@@ -21,7 +21,7 @@ export interface Class extends Document {
   testSessions: string[];
   /** the students of the class */
   students: Student[];
-  /** the status of the class */
+  /** whether the class is active or archived */
   isActive: boolean;
 }
 

@@ -197,8 +197,8 @@ class ClassService implements IClassService {
     let archivedClass: Class | null;
     try {
       archivedClass = await MgClass.findOneAndUpdate(
-        { _id: id },
-        { isActive: false },
+        { _id: id, isActive: true },
+        { $set: { isActive: false } },
         {
           new: true,
           runValidators: true,
@@ -206,7 +206,9 @@ class ClassService implements IClassService {
       );
 
       if (!archivedClass) {
-        throw new Error(`Class with id ${id} not found`);
+        throw new Error(
+          `Class with id ${id} not found or not currently active`,
+        );
       }
     } catch (error: unknown) {
       Logger.error(
