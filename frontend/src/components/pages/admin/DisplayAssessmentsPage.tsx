@@ -32,7 +32,6 @@ import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 const STATUS_ORDER = ["", Status.DRAFT, Status.PUBLISHED, Status.ARCHIVED];
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("updatedAt");
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("descending");
@@ -163,10 +162,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             onChange={(index) => setStatus(STATUS_ORDER[index])}
           >
             <TabList>
-              <Tab color={unselectedTabColor}>All</Tab>
-              <Tab color={unselectedTabColor}>Drafts</Tab>
-              <Tab color={unselectedTabColor}>Published</Tab>
-              <Tab color={unselectedTabColor}>Archived</Tab>
+              <Tab>All</Tab>
+              <Tab>Drafts</Tab>
+              <Tab>Published</Tab>
+              <Tab>Archived</Tab>
             </TabList>
             <TabPanels>{AssessmentTabPanels}</TabPanels>
           </Tabs>
