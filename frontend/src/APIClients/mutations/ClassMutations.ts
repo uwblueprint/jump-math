@@ -5,7 +5,7 @@ export const CREATE_CLASS = gql`
     createClass(classObj: $classObj) {
       id
       className
-      startDate
+      schoolYear
       gradeLevel
     }
   }

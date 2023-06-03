@@ -28,12 +28,12 @@ import type {
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
-import DatePicker from "../../../common/DatePicker";
 import Toast from "../../../common/info/Toast";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
 import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
+
 type AddClassroomModalProps = {
   onClose: () => void;
   isOpen: boolean;
@@ -75,16 +75,12 @@ const AddClassroomModal = ({
     setValue(field, event.target.value);
   };
 
-  const handleDateChange = (date: Date) => {
-    setValue("startDate", date);
-  };
-
   const validateFields = (): boolean => {
     if (!watch("className") || !!errors.className) {
       return false;
     }
 
-    if (!watch("startDate") || !!errors.startDate) {
+    if (!watch("schoolYear") || !!errors.schoolYear) {
       return false;
     }
 
@@ -96,7 +92,7 @@ const AddClassroomModal = ({
 
   const onModalClose = () => {
     setValue("className", "");
-    setValue("startDate", new Date());
+    setValue("schoolYear", "");
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
@@ -115,7 +111,7 @@ const AddClassroomModal = ({
         variables: {
           classObj: {
             ...data,
-            startDate: data.startDate,
+            schoolYear: parseInt(data.schoolYear, 10),
             teacher: authenticatedUser?.id,
           },
         },
@@ -165,10 +161,13 @@ const AddClassroomModal = ({
                   />
                 </VStack>
                 <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">Start Date</FormLabel>
-                  <DatePicker
-                    onChange={handleDateChange}
-                    value={watch("startDate")}
+                  <FormLabel color="blue.300">School Year</FormLabel>
+                  <Input
+                    defaultValue="2023"
+                    onChange={(e) => handleChange(e, "schoolYear")}
+                    placeholder="Type in School Year"
+                    type="number"
+                    value={watch("schoolYear")}
                   />
                 </VStack>
               </HStack>
