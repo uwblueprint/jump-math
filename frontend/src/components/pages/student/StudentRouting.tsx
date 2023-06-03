@@ -35,23 +35,17 @@ const StudentRouting = (): React.ReactElement => {
     }
   }, [state]);
 
-  const [test, setTest] = useState<TestResponse | null>(null);
   const { loading, data, error } = useQuery<{ test: TestResponse }>(GET_TEST, {
     fetchPolicy: "cache-and-network",
     variables: { id: testId },
     skip: !testId,
-    onCompleted: () => {
-      if (data) {
-        setTest(data.test);
-      }
-    },
   });
+  const test = data?.test ?? null;
 
   return (
     <StudentContext.Provider
       value={{
         test,
-        setTest,
         testSession,
         setTestSession,
         className,
