@@ -26,31 +26,33 @@ const AdminRouting = (): React.ReactElement => {
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
-      <VStack align="left" flex="1" height="100vh">
-        <Navbar pages={pages} />
-        <Box padding="1.5em 2em 0em 2em">
-          <Switch>
-            <PrivateRoute
-              component={UsersPage}
-              exact
-              path={Routes.USER_DATABASE_PAGE}
-              roles={["Admin"]}
-            />
-            <PrivateRoute
-              component={DisplayAssessmentsPage}
-              exact
-              path={Routes.ASSESSMENTS_PAGE}
-              roles={["Admin"]}
-            />
-            <Redirect
-              exact
-              from={Routes.ADMIN_LANDING_PAGE}
-              to={Routes.USER_DATABASE_PAGE}
-            />
-            <Route component={NotFound} exact path="*" />
-          </Switch>
-        </Box>
-      </VStack>
+      <Route path="*">
+        <VStack align="left" flex="1" height="100vh">
+          <Navbar pages={pages} />
+          <Box padding="1.5em 2em 0em 2em">
+            <Switch>
+              <PrivateRoute
+                component={UsersPage}
+                exact
+                path={Routes.USER_DATABASE_PAGE}
+                roles={["Admin"]}
+              />
+              <PrivateRoute
+                component={DisplayAssessmentsPage}
+                exact
+                path={Routes.ASSESSMENTS_PAGE}
+                roles={["Admin"]}
+              />
+              <Redirect
+                exact
+                from={Routes.ADMIN_LANDING_PAGE}
+                to={Routes.USER_DATABASE_PAGE}
+              />
+              <Route component={NotFound} exact path="*" />
+            </Switch>
+          </Box>
+        </VStack>
+      </Route>
     </Switch>
   );
 };

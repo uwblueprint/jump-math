@@ -30,7 +30,7 @@
     "date-fns": "^2.30.0",
     "dayzed": "^3.2.3",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^6.3.11",
     "graphql": "^16.6.0",
     "humps": "^2.0.1",
     "idtoken-verifier": "^2.2.3",

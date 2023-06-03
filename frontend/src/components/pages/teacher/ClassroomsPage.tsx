@@ -29,7 +29,6 @@ import AddClassroomModal from "../../teacher/student-management/classrooms/AddCl
 import ClassroomCard from "../../teacher/student-management/classrooms/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
@@ -94,8 +93,8 @@ const ClassroomsPage = (): React.ReactElement => {
             <>
               <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
                 <TabList>
-                  <Tab color={unselectedTabColor}>Active</Tab>
-                  <Tab color={unselectedTabColor}>Archived</Tab>
+                  <Tab>Active</Tab>
+                  <Tab>Archived</Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel padding="0">

@@ -23,27 +23,27 @@ const ShortAnswerModal = ({
   onConfirm,
   data,
 }: ShortAnswerModalProps): React.ReactElement => {
-  const [answer, setAnswer] = useState<number>();
+  const [answer, setAnswer] = useState<string>("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    setAnswer(data);
+    setAnswer(data == null ? "" : String(data));
   }, [data]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const castedAnswer = stringToFloat(event.target.value);
-    setAnswer(castedAnswer);
+    setAnswer(event.target.value);
   };
 
   const handleClose = () => {
-    setAnswer(data);
+    setAnswer(data == null ? "" : String(data));
     setError(false);
     onClose();
   };
 
   const handleConfirm = () => {
-    if (typeof answer !== "undefined") {
-      onConfirm({ answer });
+    const castedAnswer = stringToFloat(answer);
+    if (typeof castedAnswer !== "undefined") {
+      onConfirm({ answer: castedAnswer });
       handleClose();
     } else {
       setError(true);
