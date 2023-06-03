@@ -81,7 +81,7 @@ const StudentLoginPage = (): React.ReactElement => {
           size="lg"
           variant="filled"
         >
-          {[...Array(6)].map((i) => (
+          {[...Array(6)].map((_, i) => (
             <PinInputField
               key={i}
               _focus={{ backgroundColor: "grey.100" }}
