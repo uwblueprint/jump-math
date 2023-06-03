@@ -39,9 +39,11 @@ export const GET_TEST_SESSION_WITH_RESULTS = gql`
           lastName
           studentNumber
         }
-        score
-        answers
-        breakdown
+        result {
+          score
+          answers
+          breakdown
+        }
       }
     }
   }

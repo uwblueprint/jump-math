@@ -71,16 +71,18 @@ const testSessionResolvers = {
       if (!results) return [];
 
       const { students } = await classService.getClassById(parentClass);
-      const studentsById = students.reduce<Record<string, StudentResponseDTO>>(
-        (acc, student) => ({
+      const resultsByStudentId = results.reduce<
+        Record<string, ResultRequestDTO>
+      >(
+        (acc, result) => ({
           ...acc,
-          [student.id]: student,
+          [result.student]: result,
         }),
         {},
       );
-      return results.map((result) => ({
-        ...result,
-        student: studentsById[result.student],
+      return students.map((student) => ({
+        result: resultsByStudentId[student.id],
+        student,
       }));
     },
   },

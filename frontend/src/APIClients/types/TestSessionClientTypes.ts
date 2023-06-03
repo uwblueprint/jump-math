@@ -23,15 +23,20 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   accessCode: string;
 }
 
-export interface TestSessionResult {
+export interface TestSessionResultData {
   /** the answers that the student gave */
   answers: number[][][];
   /** the breakdown of the student's score */
   breakdown: boolean[][];
-  /** the student who took the test */
-  student: StudentResponse;
   /** the score that the student got */
   score: number;
+}
+
+export interface TestSessionResult {
+  /** the student who took the test */
+  student: StudentResponse;
+  /** the result of the test session, if the student has finished the test */
+  result: TestSessionResultData | null;
 }
 
 export interface TestSessionWithResultsData {

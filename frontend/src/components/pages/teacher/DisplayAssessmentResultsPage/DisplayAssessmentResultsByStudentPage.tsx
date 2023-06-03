@@ -70,8 +70,8 @@ const DisplayAssessmentResultsByStudentPage = () => {
     return <NotFound />;
   }
 
-  const currentStudentResult = studentIdToResultsMap[selectedStudentId];
-  const currentStudent = currentStudentResult?.student;
+  const { result: currentStudentResult, student: currentStudent } =
+    studentIdToResultsMap[selectedStudentId] ?? {};
 
   return (
     <Flex gap={14} h="calc(100vh - 350px)">
@@ -82,20 +82,24 @@ const DisplayAssessmentResultsByStudentPage = () => {
       />
       <Flex align="start" direction="column" flex={1} gap={10}>
         {selectedStudentId ? (
-          <>
-            <Text color="blue.300" textStyle="subtitle1">
-              {`${currentStudent.lastName}, ${currentStudent.firstName}`}
-            </Text>
-            <StatisticsSection
-              config={STUDENT_STATISTICS_CONFIG}
-              values={{
-                totalScore: currentStudentResult.score,
-                percentile: 10,
-              }}
-            />
-            <Divider />
-            <StudentAnswersSection />
-          </>
+          currentStudentResult == null ? (
+            <Box>This student has not taken the test yet.</Box>
+          ) : (
+            <>
+              <Text color="blue.300" textStyle="subtitle1">
+                {`${currentStudent.lastName}, ${currentStudent.firstName}`}
+              </Text>
+              <StatisticsSection
+                config={STUDENT_STATISTICS_CONFIG}
+                values={{
+                  totalScore: currentStudentResult.score,
+                  percentile: 10,
+                }}
+              />
+              <Divider />
+              <StudentAnswersSection />
+            </>
+          )
         ) : (
           <Box>Select a student to view their results</Box>
         )}
