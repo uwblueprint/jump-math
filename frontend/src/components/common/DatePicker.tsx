@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 type DatePickerProps = {
   onChange: (date: Date) => void;
-  value: Date;
+  value: Date | undefined;
 };
 
 const DatePicker = ({

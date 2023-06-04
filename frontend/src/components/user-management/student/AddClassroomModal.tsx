@@ -85,7 +85,7 @@ const AddClassroomModal = (): React.ReactElement => {
 
   const onModalClose = () => {
     setValue("className", "");
-    setValue("startDate", new Date());
+    setValue("startDate", undefined);
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
@@ -93,14 +93,17 @@ const AddClassroomModal = (): React.ReactElement => {
   };
 
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
+    const dates = watch("startDate");
     if (!validateFields()) {
       setShowRequestError(true);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
+    } else if (dates && dates < new Date()) {
+      setShowRequestError(true);
+      setRequestErrorMessage("Please set a present or future date");
     } else {
       if (showRequestError) setShowRequestError(false);
-      console.log("yuh", data);
       await createClass({
         variables: {
           classObj: {
