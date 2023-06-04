@@ -9,8 +9,8 @@ import {
   ADMIN_SIGNUP_IMAGE,
   TEACHER_SIGNUP_IMAGE,
 } from "../../../assets/images";
-import ResendEmail from "../../common/ResendEmail";
 import AuthWrapper from "../AuthWrapper";
+import ResendEmail from "../ResendEmail";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 interface ForgotPasswordProps {

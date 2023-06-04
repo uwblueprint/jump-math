@@ -16,12 +16,19 @@ export const ASSESSMENT_EDITOR_PAGE = "/admin/assessment-editor";
 export const TEACHER_LANDING_PAGE = "/teacher";
 export const TEACHER_DASHBOARD_PAGE = "/teacher/dashboard";
 export const DISPLAY_ASSESSMENTS_PAGE = "/teacher/assessments";
+export const DISPLAY_ASSESSMENT_RESULTS_PAGE = (id = ":sessionId") =>
+  `/teacher/assessment-results/${id}`;
+export const DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE = (id = ":sessionId") =>
+  `/teacher/assessment-results/${id}/summary`;
+export const DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE = (id = ":sessionId") =>
+  `/teacher/assessment-results/${id}/by-student`;
 export const DISTRIBUTE_ASSESSMENT_PAGE = "/teacher/assessments/create";
 export const CLASSROOMS_PAGE = "/teacher/classrooms";
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
 export const ASSESSMENT_SUMMARY_PAGE = "/student/assessment-summary";
+export const WRITE_ASSESSMENT_PAGE = "/student/write-assessment";
 
 // TO DELETE BEFORE DEPLOYMENT
 export const COMPONENT_LIBRARY_PAGE = "/component-library";

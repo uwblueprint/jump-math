@@ -19,3 +19,9 @@ export const calculateMedianScore = (values: number[]): number => {
   }
   return (values[mid] + values[mid - 1]) / 2;
 };
+
+export const isCompletedTestResult = (
+  results: Array<Array<Array<number>>>,
+): boolean => {
+  return results.flat().every((answer) => answer.length);
+};

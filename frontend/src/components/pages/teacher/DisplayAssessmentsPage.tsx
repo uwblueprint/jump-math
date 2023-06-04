@@ -21,13 +21,13 @@ import {
   getSessionStatus,
   getSessionTargetDate,
 } from "../../../utils/TestSessionUtils";
-import ErrorState from "../../common/ErrorState";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
+import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import EmptySessionsTableState from "../../sessions/EmptySessionsTableState";
-import TestSessionListItem from "../../sessions/TestSessionListItem";
+import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
@@ -101,12 +101,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       )}
       {!!formattedData?.length && !loading && !error && (
         <>
-          <Tabs mt={3}>
+          <Tabs mt={3} onChange={(index) => setCurrentTab(STATUSES[index])}>
             <TabList>
               {STATUSES.map((status) => (
-                <Tab key={status} onClick={() => setCurrentTab(status)}>
-                  {titleCase(status)}
-                </Tab>
+                <Tab key={status}>{titleCase(status)}</Tab>
               ))}
             </TabList>
             <TabPanels>
@@ -133,9 +131,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           )}
         </>
       )}
-      {!formattedData?.length && !loading && !error && (
-        <EmptySessionsTableState />
-      )}
+      {!formattedData?.length && !loading && !error && <EmptySessionsMessage />}
     </>
   );
 };

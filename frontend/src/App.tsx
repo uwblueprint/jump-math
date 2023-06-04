@@ -11,10 +11,10 @@ import EmailActionHandler from "./components/auth/email-action/EmailActionHandle
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import TeacherSignup from "./components/auth/teacher-signup";
+import MobileRedirectMessage from "./components/common/info/messages/MobileRedirectMessage";
 import AdminRouting from "./components/pages/admin/AdminRouting";
 import ComponentLibrary from "./components/pages/ComponentLibrary";
 import Landing from "./components/pages/Landing";
-import MobileRedirect from "./components/pages/MobileRedirect";
 import NotFound from "./components/pages/NotFound";
 import StudentLoginPage from "./components/pages/student/StudentLoginPage";
 import StudentRouting from "./components/pages/student/StudentRouting";
@@ -67,7 +67,7 @@ const App = (): React.ReactElement => {
               <Switch>
                 {/* for mobile devices */}
                 {isMobile && (
-                  <Route component={MobileRedirect} exact path="*" />
+                  <Route component={MobileRedirectMessage} exact path="*" />
                 )}
 
                 {/* private admin routing */}

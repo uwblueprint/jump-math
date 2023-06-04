@@ -61,7 +61,7 @@ export const Table = <T extends Nodes = Nodes>({
               >
                 {row.values.map((value, cellIndex) => (
                   <Td
-                    key={String(value)}
+                    key={`${value}-${cellIndex}`}
                     fontWeight={cellIndex === 0 ? "bold" : ""}
                   >
                     {value}

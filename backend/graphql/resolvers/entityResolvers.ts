@@ -12,7 +12,7 @@ import type {
   EntityResponseDTO,
 } from "../../services/interfaces/IEntityService";
 import { generateCSV } from "../../utilities/CSVUtils";
-import type { FileUpload } from "../../lib/graphqlUpload.cjs";
+import type { FileUpload } from "../../lib/graphql-upload";
 
 const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
 const fileStorageService = new FileStorageService(defaultBucket);

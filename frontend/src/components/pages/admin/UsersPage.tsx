@@ -21,20 +21,19 @@ import {
   filterAdminUsersBySearch,
   filterTeacherUsersBySearch,
 } from "../../../utils/UserUtils";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import AdminTab from "../../admin/user-management/admin/AdminTab";
+import AdminUserTable from "../../admin/user-management/admin/AdminUserTable";
+import TeacherUserTable from "../../admin/user-management/teacher/TeacherUserTable";
+import UsersPageHeader from "../../admin/user-management/UsersPageHeader";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
-import SortMenu from "../../common/table/SortMenu";
-import AdminTab from "../../user-management/admin/AdminTab";
-import AdminUserTable from "../../user-management/admin/AdminUserTable";
-import TeacherUserTable from "../../user-management/teacher/TeacherUserTable";
-import UsersPageHeader from "../../user-management/UsersPageHeader";
+import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 
 const UsersPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("firstName");
-  const [sortOrder, setSortOrder] = React.useState("ascending");
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
   const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ADMIN);
 
   const {
@@ -111,8 +110,8 @@ const UsersPage = (): React.ReactElement => {
         <Box flex="1">
           <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
-              <Tab color={unselectedTabColor}>Admin</Tab>
-              <Tab color={unselectedTabColor}>Teachers</Tab>
+              <Tab>Admin</Tab>
+              <Tab>Teachers</Tab>
             </TabList>
             <TabPanels>
               <TabPanel padding="0">
