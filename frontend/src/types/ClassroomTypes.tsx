@@ -9,17 +9,13 @@ export interface ClassroomForm {
 }
 
 // TODO: Add fields to include activeAssessments, assessmentCount and studentCount after resolver changes - David
-export interface Classroom {
+export interface ClassCard {
   id: string;
+  activeAssessments: number;
+  assessmentCount: number;
   gradeLevel: Grade;
-  name: string;
   className: string;
-  students: Array<{
-    id: string;
-    firstName: string;
-    lastName: string;
-    studentNumber: string;
-  }>;
+  studentCount: number;
 }
 
 export enum TabEnumClassroom {

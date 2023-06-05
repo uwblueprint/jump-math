@@ -17,7 +17,7 @@ import {
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
 import AuthContext from "../../../contexts/AuthContext";
-import type { Classroom } from "../../../types/ClassroomTypes";
+import type { ClassCard } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
@@ -46,10 +46,10 @@ const ClassroomsPage = (): React.ReactElement => {
     skip: !teacherId,
   });
 
-  const classrooms: Classroom[] = data?.classesByTeacher;
+  const classCards: ClassCard[] = data?.classesByTeacher;
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(classrooms);
+    usePaginatedData(classCards);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
@@ -69,7 +69,7 @@ const ClassroomsPage = (): React.ReactElement => {
         <HeaderWithButton
           buttonText="Add New Classroom"
           onClick={handleAddClassroom}
-          showButton={classrooms?.length !== 0}
+          showButton={classCards?.length !== 0}
           title="Classroom"
         />
         <AddClassroomModal
@@ -87,9 +87,9 @@ const ClassroomsPage = (): React.ReactElement => {
           <ErrorState />
         </Box>
       )}
-      {classrooms && !error && !loading && (
+      {classCards && !error && !loading && (
         <Box flex="1">
-          {classrooms.length !== 0 ? (
+          {classCards.length !== 0 ? (
             <>
               <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
                 <TabList>
@@ -99,18 +99,27 @@ const ClassroomsPage = (): React.ReactElement => {
                 <TabPanels>
                   <TabPanel padding="0">
                     <Grid gap={4} templateColumns="repeat(4, 1fr)">
-                      {paginatedData?.map(({ id, gradeLevel, className }) => (
-                        <GridItem key={id} flex="1" paddingTop="4">
-                          <ClassroomCard
-                            key={id}
-                            activeAssessments={100}
-                            assessmentCount={200}
-                            grade={gradeLevel}
-                            name={className}
-                            studentCount={200}
-                          />
-                        </GridItem>
-                      ))}
+                      {paginatedData?.map(
+                        ({
+                          id,
+                          activeAssessments,
+                          assessmentCount,
+                          gradeLevel,
+                          className,
+                          studentCount,
+                        }) => (
+                          <GridItem key={id} flex="1" paddingTop="4">
+                            <ClassroomCard
+                              key={id}
+                              activeAssessments={activeAssessments}
+                              assessmentCount={assessmentCount}
+                              grade={gradeLevel}
+                              name={className}
+                              studentCount={studentCount}
+                            />
+                          </GridItem>
+                        ),
+                      )}
                     </Grid>
                     <VStack
                       alignItems="center"
