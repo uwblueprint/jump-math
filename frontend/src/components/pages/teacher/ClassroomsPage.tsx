@@ -67,10 +67,10 @@ const ClassroomsPage = (): React.ReactElement => {
     <FormProvider {...methods}>
       <Box>
         <HeaderWithButton
-          buttonText="Add New Classroom"
+          buttonText="Add Classroom"
           onClick={handleAddClassroom}
           showButton={classCards?.length !== 0}
-          title="Classroom"
+          title="Classrooms"
         />
         <AddClassroomModal
           isOpen={isModalOpen}
