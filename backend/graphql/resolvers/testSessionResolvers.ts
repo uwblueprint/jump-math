@@ -12,10 +12,7 @@ import type { ITestService } from "../../services/interfaces/testService";
 import type IUserService from "../../services/interfaces/userService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
-import type {
-  IClassService,
-  StudentResponseDTO,
-} from "../../services/interfaces/classService";
+import type { IClassService } from "../../services/interfaces/classService";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
