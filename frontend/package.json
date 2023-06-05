@@ -11,7 +11,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/dm-sans": "^4.5.9",
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/apollo-upload-client": "^17.0.2",
