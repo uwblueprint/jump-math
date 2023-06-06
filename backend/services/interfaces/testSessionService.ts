@@ -28,13 +28,13 @@ export interface TestSessionRequestDTO {
 export interface TestSessionResponseDTO {
   /** the unique identifier for the test session */
   id: string;
-  /** the corresponding test from the Test collection */
+  /** the id of the corresponding test from the Test collection */
   test: string;
-  /** the teacher administering the test from the User collection */
+  /** the id of the teacher administering the test from the User collection */
   teacher: string;
-  /** the school that's administering the test from the School collection */
+  /** the id of the school that's administering the test from the School collection */
   school: string;
-  /** the class taking the test session */
+  /** the id of the class taking the test session */
   class: string;
   /**
    * the result of the test session
