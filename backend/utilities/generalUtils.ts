@@ -28,6 +28,20 @@ export const isCompletedTestResult = (
   return results.flat().every((answer) => answer.length);
 };
 
+export const computePercentiles = <
+  K extends string,
+  T extends Record<K, number>,
+>(
+  results: T[],
+  key: K,
+): (T & { percentile: number })[] =>
+  results
+    .sort((a, b) => a[key] - b[key])
+    .map((result, index) => {
+      const percentile = roundTwoDecimals((index + 1) / results.length) * 100;
+      return { ...result, percentile };
+    });
+
 export const mapDocumentToDTO = <T extends Document>(document: T) =>
   document.toObject();
 

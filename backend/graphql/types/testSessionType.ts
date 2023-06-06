@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 const testSessionType = gql`
   type ResultResponseDTO {
     score: Float!
+    percentile: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
