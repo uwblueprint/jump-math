@@ -3,15 +3,13 @@ import { createRoot } from "react-dom/client";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
-import axios from "axios";
 
+import AuthAPIClient from "./APIClients/AuthAPIClient";
 import AUTHENTICATED_USER_KEY from "./constants/AuthConstants";
 import type { AuthenticatedUser } from "./types/AuthTypes";
 import * as auth from "./utils/AuthUtils";
-import {
-  getLocalStorageObjProperty,
-  setLocalStorageObjProperty,
-} from "./utils/LocalStorageUtils";
+import * as requestUtils from "./utils/HTTPRequestUtils";
+import { getLocalStorageObjProperty } from "./utils/LocalStorageUtils";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
@@ -23,6 +21,12 @@ const REFRESH_MUTATION = `
   }
 `;
 
+const LOGOUT_MUTATION = `
+  mutation Index_Logout($userId: ID!) {
+    logout(userId: $userId)
+  }
+`;
+
 const link = createUploadLink({
   uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`,
   credentials: "include",
@@ -31,6 +35,37 @@ const link = createUploadLink({
   },
 });
 
+const attemptRefresh = async (): Promise<boolean | void> =>
+  requestUtils.runUntilFirstSuccess(
+    [
+      // First, try to refresh the access token using the refresh token.
+      // This can fail if the refresh token has expired, in which case we
+      // need to log the user out.
+      () =>
+        AuthAPIClient.refresh(
+          requestUtils.makeImperativeMutation(REFRESH_MUTATION),
+          { raiseError: true },
+        ),
+      // Otherwise, try to log the user out. This can fail if the user is
+      // already logged out, in which case we need to clear the local storage
+      // and throw an error.
+      () =>
+        AuthAPIClient.logout(
+          getLocalStorageObjProperty(AUTHENTICATED_USER_KEY, "userId") ?? "",
+          requestUtils.makeImperativeMutation(LOGOUT_MUTATION),
+          { raiseError: true },
+        ),
+      // As a last resort, just clear the local storage, reload the page, and
+      // throw an error.
+      () => {
+        localStorage.removeItem(AUTHENTICATED_USER_KEY);
+        location.reload();
+        throw new Error("Failed to refresh token");
+      },
+    ],
+    { failMessage: "All attempts to refresh token failed" },
+  );
+
 const authLink = setContext(async (_, { headers }) => {
   // get the authentication token from local storage if it exists
   let token: string | null = getLocalStorageObjProperty<
@@ -38,21 +73,15 @@ const authLink = setContext(async (_, { headers }) => {
     string
   >(AUTHENTICATED_USER_KEY, "accessToken");
 
-  // refresh if token has expired
-  if (auth.shouldRenewToken(token)) {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/graphql`,
-      { query: REFRESH_MUTATION },
-      { withCredentials: true },
-    );
+  if (auth.shouldRefreshToken(token)) {
+    // Attempt to refresh the token. This will throw an error if the refresh
+    // fails, aborting the request.
+    await attemptRefresh();
 
-    const accessToken: string = data.data.refresh;
-    setLocalStorageObjProperty(
+    token = getLocalStorageObjProperty<NonNullable<AuthenticatedUser>, string>(
       AUTHENTICATED_USER_KEY,
       "accessToken",
-      accessToken,
     );
-    token = accessToken;
   }
 
   // return the headers to the context so httpLink can read them
