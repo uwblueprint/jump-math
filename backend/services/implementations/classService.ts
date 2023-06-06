@@ -10,10 +10,11 @@ import type {
   StudentRequestDTO,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
-import type {
-  ITestSessionService,
-  TestSessionResponseDTO,
-} from "../interfaces/testSessionService";
+import type { ITestSessionService } from "../interfaces/testSessionService";
+import {
+  mapDocumentsToDTOs,
+  mapDocumentToDTO,
+} from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -44,7 +45,11 @@ class ClassService implements IClassService {
       }
 
       // create a new class document
-      newClass = await MgClass.create({ ...classObj });
+      newClass = await MgClass.create({
+        ...classObj,
+        testSessions: [],
+        students: [],
+      });
     } catch (error: unknown) {
       Logger.error(
         `Failed to create class. Reason = ${getErrorMessage(error)}`,
@@ -56,16 +61,13 @@ class ClassService implements IClassService {
       className: newClass.className,
       schoolYear: newClass.schoolYear,
       gradeLevel: newClass.gradeLevel,
-      teacher: teacherDTO,
-      testSessions: [],
-      students: [],
+      teacher: newClass.teacher,
+      testSessions: newClass.testSessions,
+      students: newClass.students,
     };
   }
 
-  async getClassById(
-    id: string,
-    populateTestSessions = true,
-  ): Promise<ClassResponseDTO> {
+  async getClassById(id: string): Promise<ClassResponseDTO> {
     let classObj: Class | null;
     try {
       classObj = await MgClass.findById(id);
@@ -76,9 +78,7 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return (
-      await this.mapClassToClassDTOs([classObj], populateTestSessions)
-    )[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async getClassByTestSessionId(
@@ -100,7 +100,7 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return (await this.mapClassToClassDTOs(classes))[0];
+    return mapDocumentToDTO(classes[0]);
   }
 
   async getClassesByTeacherId(
@@ -117,40 +117,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return this.mapClassToClassDTOs(classes);
-  }
-
-  private async mapClassToClassDTOs(
-    classObjs: Array<Class>,
-    populateTestSessions = true,
-  ): Promise<Array<ClassResponseDTO>> {
-    const classDtos: Array<ClassResponseDTO> = await Promise.all(
-      classObjs.map(async (classObj) => {
-        const teacherDTO: UserDTO = await this.userService.getUserById(
-          classObj.teacher,
-        );
-
-        let testSessionDTOs: Array<TestSessionResponseDTO> = [];
-        if (populateTestSessions) {
-          const testSessionIds = classObj.testSessions;
-          const testSessionPromises = testSessionIds.map((id) =>
-            this.testSessionService.getTestSessionById(id),
-          );
-          testSessionDTOs = await Promise.all(testSessionPromises);
-        }
-
-        return {
-          id: classObj.id,
-          className: classObj.className,
-          schoolYear: classObj.schoolYear,
-          gradeLevel: classObj.gradeLevel,
-          teacher: teacherDTO,
-          testSessions: testSessionDTOs,
-          students: classObj.students,
-        };
-      }),
-    );
-    return classDtos;
+    return mapDocumentsToDTOs(classes);
   }
 
   async updateClass(
@@ -173,7 +140,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return (await this.mapClassToClassDTOs([updatedClass]))[0];
+    return mapDocumentToDTO(updatedClass);
   }
 
   async deleteClass(id: string): Promise<string> {
@@ -220,7 +187,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return (await this.mapClassToClassDTOs([classObj]))[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async updateStudent(
@@ -254,7 +221,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return (await this.mapClassToClassDTOs([classObj]))[0];
+    return mapDocumentToDTO(classObj);
   }
 
   async deleteStudent(studentId: string, classId: string): Promise<string> {
