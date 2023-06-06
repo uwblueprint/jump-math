@@ -9,6 +9,9 @@ export const mongo = {
       return;
     }
     try {
+      // We want to include virtuals when we convert documents to objects primarily because
+      // we use virtuals to populate the "id" field. This would also be useful if we wanted to
+      // define other virtuals in the future.
       mongoose.set("toObject", { virtuals: true });
       await mongoose.connect(encodeURI(process.env.MG_DATABASE_URL));
       // eslint-disable-next-line no-console
