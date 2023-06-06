@@ -1,3 +1,5 @@
+import { type Document } from "mongoose";
+
 // Rounds number to two decimals
 export const roundTwoDecimals = (num: number): number => {
   return parseFloat(num.toFixed(2));
@@ -25,3 +27,9 @@ export const isCompletedTestResult = (
 ): boolean => {
   return results.flat().every((answer) => answer.length);
 };
+
+export const mapDocumentToDTO = <T extends Document>(document: T) =>
+  document.toObject();
+
+export const mapDocumentsToDTOs = <T extends Document>(documents: Array<T>) =>
+  documents.map(mapDocumentToDTO);
