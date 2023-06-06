@@ -70,9 +70,6 @@ const testSessionResolvers = {
     }: TestSessionResponseDTO) => {
       if (!results) return [];
 
-      // Returning all students whenever results are requested is not ideal, but
-      // it's better than making the same request for each result when the
-      // students are needed.
       const { students } = await classService.getClassById(parentClass);
       const studentsById = students.reduce<Record<string, StudentResponseDTO>>(
         (acc, student) => ({
