@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
+import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import type { ClassCard } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
@@ -60,7 +61,7 @@ const ClassroomsPage = (): React.ReactElement => {
   };
 
   if (!teacherId) {
-    return <Redirect to="/teacher-login" />;
+    return <Redirect to={Routes.TEACHER_LOGIN_PAGE} />;
   }
 
   return (
