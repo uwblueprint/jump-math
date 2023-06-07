@@ -63,7 +63,10 @@ const attemptRefresh = async (): Promise<boolean | void> =>
         throw new Error("Failed to refresh token");
       },
     ],
-    { failMessage: "All attempts to refresh token failed" },
+    {
+      failMessage: "All attempts to refresh token failed",
+      failOnNetworkError: true,
+    },
   );
 
 const authLink = setContext(async (_, { headers }) => {
