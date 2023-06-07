@@ -23,9 +23,19 @@ const pages: Page[] = [
 const TeacherRouting = (): React.ReactElement => {
   return (
     <VStack align="left" flex="1" height="100vh">
-      <Navbar pages={pages} />
+      <Switch>
+        <Route path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()} />
+        <Route path="*">
+          <Navbar pages={pages} />
+        </Route>
+      </Switch>
       <Box padding="1.5em 2em 2em 2em">
         <Switch>
+          <PrivateRoute
+            component={DisplayAssessmentResults}
+            path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
+            roles={["Teacher"]}
+          />
           <PrivateRoute
             component={TeacherDashboardPage}
             exact
@@ -36,11 +46,6 @@ const TeacherRouting = (): React.ReactElement => {
             component={DisplayAssessmentsPage}
             exact
             path={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            roles={["Teacher"]}
-          />
-          <PrivateRoute
-            component={DisplayAssessmentResults}
-            path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
             roles={["Teacher"]}
           />
           <PrivateRoute
