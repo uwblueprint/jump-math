@@ -41,21 +41,15 @@ const classResolvers = {
       _req: undefined,
       { teacherId }: { teacherId: string },
     ): Promise<Array<ClassCard>> => {
-      const classesByTeacher = classService.getClassesByTeacherId(teacherId);
-
-      const classCards: ClassCard[] = [];
-
-      (await classesByTeacher).forEach((classObj) => {
-        classCards.push({
-          id: classObj.id,
-          activeAssessments: classObj.testSessions.length,
-          assessmentCount: classObj.testSessions.length,
-          gradeLevel: classObj.gradeLevel,
-          className: classObj.className,
-          studentCount: classObj.students.length,
-        });
-      });
-      return classCards;
+      const classesByTeacher = await classService.getClassesByTeacherId(
+        teacherId,
+      );
+      return classesByTeacher.map((classObj) => ({
+        ...classObj,
+        activeAssessments: classObj.testSessions.length,
+        assessmentCount: classObj.testSessions.length,
+        studentCount: classObj.students.length,
+      }));
     },
   },
   Mutation: {

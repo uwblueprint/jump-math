@@ -8,7 +8,6 @@ export interface ClassroomForm {
   gradeLevel: Grade;
 }
 
-// TODO: Add fields to include activeAssessments, assessmentCount and studentCount after resolver changes - David
 export interface ClassCard {
   id: string;
   activeAssessments: number;
