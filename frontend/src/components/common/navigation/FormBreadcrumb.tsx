@@ -17,7 +17,7 @@ interface FormBreadcrumbProps {
   breadcrumbs: BreadcrumbType[];
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  validPage: (p: number) => boolean;
+  validPage?: (p: number) => boolean;
 }
 
 const FormBreadcrumb = ({
@@ -36,7 +36,7 @@ const FormBreadcrumb = ({
             color={isCurrentPage ? "blue.300" : ""}
             isCurrentPage={isCurrentPage}
           >
-            {validPage(breadcrumb.page) ? (
+            {!validPage || validPage(breadcrumb.page) ? (
               <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
                 {breadcrumb.header}
               </BreadcrumbLink>

@@ -24,6 +24,12 @@ export const DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE = (id = ":sessionId") =>
   `/teacher/assessment-results/${id}/by-student`;
 export const DISTRIBUTE_ASSESSMENT_PAGE = "/teacher/assessments/create";
 export const CLASSROOMS_PAGE = "/teacher/classrooms";
+export const DISPLAY_CLASSROOM_PAGE = (id = ":classroomId") =>
+  `/teacher/classrooms/${id}`;
+export const DISPLAY_CLASSROOM_ASSESSMENTS_PAGE = (id = ":classroomId") =>
+  `/teacher/classrooms/${id}/assessments`;
+export const DISPLAY_CLASSROOM_STUDENTS_PAGE = (id = ":classroomId") =>
+  `/teacher/classrooms/${id}/students`;
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";

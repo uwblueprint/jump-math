@@ -11,6 +11,7 @@ import NotFound from "../NotFound";
 import ClassroomsPage from "./ClassroomsPage";
 import DisplayAssessmentResults from "./DisplayAssessmentResultsPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
+import DisplayClassroomPage from "./DisplayClassroomPage";
 import DistributeAssessmentPage from "./DistributeAssessmentPage";
 import TeacherDashboardPage from "./TeacherDashboardPage";
 
@@ -53,6 +54,11 @@ const TeacherRouting = (): React.ReactElement => {
             component={ClassroomsPage}
             exact
             path={Routes.CLASSROOMS_PAGE}
+            roles={["Teacher"]}
+          />
+          <PrivateRoute
+            component={DisplayClassroomPage}
+            path={Routes.DISPLAY_CLASSROOM_PAGE()}
             roles={["Teacher"]}
           />
           <Redirect
