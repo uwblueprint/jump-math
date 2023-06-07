@@ -4,6 +4,7 @@ import TestService from "../../services/implementations/testService";
 import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
 import type {
+  ClassCard,
   ClassRequestDTO,
   ClassResponseDTO,
   IClassService,
@@ -38,8 +39,16 @@ const classResolvers = {
     classesByTeacher: async (
       _req: undefined,
       { teacherId }: { teacherId: string },
-    ): Promise<Array<ClassResponseDTO>> => {
-      return classService.getClassesByTeacherId(teacherId);
+    ): Promise<Array<ClassCard>> => {
+      const classesByTeacher = await classService.getClassesByTeacherId(
+        teacherId,
+      );
+      return classesByTeacher.map((classObj) => ({
+        ...classObj,
+        activeAssessments: classObj.testSessions.length,
+        assessmentCount: classObj.testSessions.length,
+        studentCount: classObj.students.length,
+      }));
     },
   },
   Mutation: {
