@@ -27,7 +27,6 @@ const classService: IClassService = new ClassService(
   userService,
   testSessionService,
 );
-testSessionService.bindClassService(classService);
 
 const classResolvers = {
   Query: {
@@ -74,6 +73,14 @@ const classResolvers = {
       { student, classId }: { student: StudentRequestDTO; classId: string },
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
+    },
+  },
+  ClassResponseDTO: {
+    teacher: async (parent: ClassResponseDTO) => {
+      return userService.getUserById(parent.teacher);
+    },
+    testSessions: async (parent: ClassResponseDTO) => {
+      return testSessionService.getTestSessionsByClassId(parent.id);
     },
   },
 };
