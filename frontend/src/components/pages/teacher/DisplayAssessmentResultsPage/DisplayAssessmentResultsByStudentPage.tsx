@@ -80,7 +80,16 @@ const DisplayAssessmentResultsByStudentPage = () => {
         setSelectedStudentId={setSelectedStudentId}
         students={studentsWithViewedState}
       />
-      <Flex align="start" direction="column" flex={1} gap={10}>
+      <Flex
+        key={selectedStudentId}
+        align="start"
+        direction="column"
+        flex={1}
+        gap={10}
+        maxH="100%"
+        overflow="auto"
+        pr={5}
+      >
         {selectedStudentId ? (
           !currentStudentResult ? (
             <Box>This student has not taken the test yet.</Box>
@@ -97,7 +106,10 @@ const DisplayAssessmentResultsByStudentPage = () => {
                 }}
               />
               <Divider />
-              <StudentAnswersSection />
+              <StudentAnswersSection
+                answers={currentStudentResult.answers}
+                test={data?.testSession.test}
+              />
             </>
           )
         ) : (

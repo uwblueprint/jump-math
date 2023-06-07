@@ -37,6 +37,17 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
       return 0;
     });
   }, [elements]);
+  const subquestionIndex = useMemo(() => {
+    let subquestionsSoFar = 0;
+    return elements.map((element) => {
+      if (element.type === QuestionElementType.QUESTION_TEXT) {
+        const elementIndex = subquestionsSoFar;
+        subquestionsSoFar += 1;
+        return elementIndex;
+      }
+      return 0;
+    });
+  }, [elements]);
 
   return (
     <>
@@ -48,6 +59,7 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                 case QuestionElementType.QUESTION_TEXT:
                   return (
                     <QuestionText
+                      index={subquestionIndex[i]}
                       questionText={
                         (element.metadata as QuestionTextMetadata).questionText
                       }

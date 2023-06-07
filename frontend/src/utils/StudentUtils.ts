@@ -8,9 +8,9 @@ import { ResponseElementType } from "../types/QuestionTypes";
 
 import { stringToFloat } from "./GeneralUtils";
 
-export const getAnswerElements = (
-  question: QuestionComponentRequest[],
-): QuestionComponentRequest[] => {
+export const getAnswerElements = <T extends QuestionComponentRequest>(
+  question: T[],
+): T[] => {
   return question.filter(
     (questionElement) => questionElement.type in ResponseElementType,
   );
