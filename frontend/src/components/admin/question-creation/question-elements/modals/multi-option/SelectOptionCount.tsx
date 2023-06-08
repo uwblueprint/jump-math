@@ -59,7 +59,7 @@ const SelectOptionCount = ({
           Select Input
         </option>
         {[...Array(4)].map((i, count) => (
-          <option key={i} value={count + 1}>
+          <option key={count + 1} value={count + 1}>
             {count + 1}
           </option>
         ))}

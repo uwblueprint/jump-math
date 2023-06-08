@@ -1,8 +1,3 @@
-import { type UserDTO } from "../../types";
-import { type ClassResponseDTO, type IClassService } from "./classService";
-import { type SchoolResponseDTO } from "./schoolService";
-import { type TestResponseDTO } from "./testService";
-
 /**
  * This interface contains the request object that is fed into
  * the test session service to create or update the test session in the database.
@@ -33,19 +28,19 @@ export interface TestSessionRequestDTO {
 export interface TestSessionResponseDTO {
   /** the unique identifier for the test session */
   id: string;
-  /** the corresponding test from the Test collection */
-  test: TestResponseDTO;
-  /** the teacher administering the test from the User collection */
-  teacher: UserDTO;
-  /** the school that's administering the test from the School collection */
-  school: SchoolResponseDTO;
-  /** the class taking the test session */
-  class: ClassResponseDTO;
+  /** the id of the corresponding test from the Test collection */
+  test: string;
+  /** the id of the teacher administering the test from the User collection */
+  teacher: string;
+  /** the id of the school that's administering the test from the School collection */
+  school: string;
+  /** the id of the class taking the test session */
+  class: string;
   /**
    * the result of the test session
    * there should be one entry here per student
    */
-  results: ResultResponseDTO[];
+  results?: ResultResponseDTO[];
   /** the code that students can use to access the test when it is live */
   accessCode: string;
   /** on this date, the test becomes available to students */
@@ -103,13 +98,6 @@ export interface ResultResponseDTO {
 
 export interface ITestSessionService {
   /**
-   * This method binds the class service to the test session service.
-   * @param classService The class service to bind to the test session service
-   * @returns void
-   */
-  bindClassService(classService: IClassService): void;
-
-  /**
    * create a TestSession with the fields given in the DTO, return created TestSession
    * @param id of the class taking the test session
    * @param testSession new testSession
@@ -166,6 +154,16 @@ export interface ITestSessionService {
    */
   getTestSessionsByTeacherId(
     teacherId: string,
+  ): Promise<Array<TestSessionResponseDTO>>;
+
+  /**
+   * This method retrieves all TestSessions associated with the given classId
+   * @param classId the class id associated with the test session
+   * @returns returns array of requested TestSessionResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getTestSessionsByClassId(
+    classId: string,
   ): Promise<Array<TestSessionResponseDTO>>;
 
   /**
