@@ -30,6 +30,15 @@ export interface ClassResponseDTO {
   students: StudentResponseDTO[];
 }
 
+export interface ClassCard {
+  id: string;
+  activeAssessments: number;
+  assessmentCount: number;
+  gradeLevel: Grade;
+  className: string;
+  studentCount: number;
+}
+
 export interface IClassService {
   /**
    * This method creates a new class in the database.

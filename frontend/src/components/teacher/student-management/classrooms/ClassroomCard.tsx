@@ -56,7 +56,7 @@ const ClassroomCard = ({
       spacing="12px"
       w="240px"
     >
-      <HStack alignItems="flex-start">
+      <HStack alignItems="flex-start" justifyContent="space-between" w="100%">
         <Text color="grey.400" textStyle="mobileHeader3">
           {name}
         </Text>
