@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
 
 import { GET_PUBLISHED_TESTS } from "../../../../APIClients/queries/TestQueries";
 import {
@@ -92,7 +92,7 @@ const ChooseAssessment = ({
   }, [searchedAssessments, sortProperty, sortOrder]);
 
   return (
-    <VStack align="left" height="100%" spacing="2">
+    <VStack align="left" spacing="2">
       <Text color="blue.300" textAlign="left" textStyle="header4">
         Choose an Assessment
       </Text>
@@ -100,10 +100,11 @@ const ChooseAssessment = ({
         Please enter the name of the assessment you&apos;re looking for or use
         filter/sort options to find the assessment that suits your needs.
       </Text>
-      <Box height="100%" pt="6">
+      <Box pt="6">
         {loading ? (
-          // TODO: fix loading center
-          <LoadingState />
+          <Center flex="1" margin="10%">
+            <LoadingState />
+          </Center>
         ) : error || isEmpty ? (
           <ErrorState />
         ) : (
@@ -111,7 +112,7 @@ const ChooseAssessment = ({
             <HStack width="100%">
               <SearchBar onSearch={setSearch} />
               <SortMenu
-                initialSortOrder="descending"
+                initialSortOrder="ascending"
                 labels={["name", "grade", "type", "country", "region"]}
                 onSortOrder={setSortOrder}
                 onSortProperty={setSortProperty}
