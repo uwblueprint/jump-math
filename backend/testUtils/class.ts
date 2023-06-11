@@ -77,7 +77,7 @@ export const updatedTestClass: ClassRequestDTO = {
 export const updatedTestClassWithStudent = {
   className: "class1",
   startDate: new Date("2020-09-01T09:00:00.000Z"),
-  gradeLevel: Grade.GRADE_1,
+  gradeLevel: Grade.K,
   teacher: mockTeacher.id,
   students: updatedTestStudents,
 };

@@ -4,7 +4,6 @@ import type {
   ClassResponseDTO,
   StudentResponseDTO,
 } from "../services/interfaces/classService";
-import { mockTeacher } from "./users";
 import { mockTestSessionWithId } from "./testSession";
 
 export const assertResponseMatchesExpected = (
@@ -14,10 +13,11 @@ export const assertResponseMatchesExpected = (
   expect(result.id).not.toBeNull();
   expect(result.className).toEqual(expected.className);
   expect(result.startDate).toEqual(expected.startDate);
-  expect(result.gradeLevel.toString).toEqual(expected.gradeLevel.toString);
-  expect(result.teacher).toEqual(mockTeacher);
+  expect(result.gradeLevel.toString()).toEqual(expected.gradeLevel.toString());
+  expect(result.teacher.toString()).toEqual(expected.teacher.toString());
   if (result.testSessions.length !== 0) {
-    expect(result.testSessions).toEqual([mockTestSessionWithId]);
+    expect(result.testSessions.length).toEqual(1);
+    expect(result.testSessions[0].toString()).toEqual(mockTestSessionWithId.id);
   } else {
     expect(result.testSessions).toEqual([]);
   }
