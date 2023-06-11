@@ -30,9 +30,8 @@ import usePaginatedData from "../../common/table/usePaginatedData";
 import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const [currentTab, setCurrentTab] = React.useState<TestSessionStatus>(
-    "active",
-  );
+  const [currentTab, setCurrentTab] =
+    React.useState<TestSessionStatus>("active");
 
   const { authenticatedUser } = useContext(AuthContext);
 
@@ -74,12 +73,8 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     });
   }, [filteredData, currentTab]);
 
-  const {
-    paginatedData,
-    totalPages,
-    currentPage,
-    setCurrentPage,
-  } = usePaginatedData(sortedData);
+  const { paginatedData, totalPages, currentPage, setCurrentPage } =
+    usePaginatedData(sortedData);
 
   return (
     <>

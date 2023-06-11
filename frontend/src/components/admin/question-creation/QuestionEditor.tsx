@@ -15,16 +15,12 @@ const QuestionEditor = (): React.ReactElement => {
   const [questionElements, setQuestionElements] = React.useState<
     QuestionElement[]
   >(editorQuestion ? editorQuestion.elements : []);
-  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = React.useState(
-    false,
-  );
-  const [
-    showAddMultipleChoiceModal,
-    setShowAddMultipleChoiceModal,
-  ] = React.useState(false);
-  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = React.useState(
-    false,
-  );
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] =
+    React.useState(false);
+  const [showAddMultipleChoiceModal, setShowAddMultipleChoiceModal] =
+    React.useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] =
+    React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (

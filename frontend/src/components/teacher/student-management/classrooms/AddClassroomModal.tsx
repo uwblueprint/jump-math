@@ -40,6 +40,14 @@ type AddClassroomModalProps = {
   isOpen: boolean;
 };
 
+const isSameDay = (date1: Date, date2: Date): boolean => {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+};
+
 const AddClassroomModal = ({
   onClose,
   isOpen,
@@ -111,7 +119,7 @@ const AddClassroomModal = ({
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
-    } else if (dates && dates < new Date()) {
+    } else if (dates && dates < new Date() && !isSameDay(dates, new Date())) {
       setShowRequestError(true);
       setRequestErrorMessage("Please set a present or future date");
     } else {

@@ -54,8 +54,9 @@ const MultiOptionModal = ({
     onClose();
   };
 
-  const correctOptionCount = options.filter((option) => option.isCorrect)
-    .length;
+  const correctOptionCount = options.filter(
+    (option) => option.isCorrect,
+  ).length;
   const lengthError = options.some((option) => exceedsMaxLength(option.value));
 
   const handleConfirm = () => {

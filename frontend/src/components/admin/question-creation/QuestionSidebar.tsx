@@ -75,9 +75,8 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 };
 
 const QuestionSidebar = (): React.ReactElement => {
-  const { setShowQuestionEditor, setEditorQuestion } = useContext(
-    AssessmentContext,
-  );
+  const { setShowQuestionEditor, setEditorQuestion } =
+    useContext(AssessmentContext);
 
   const closeQuestionEditor = () => {
     setEditorQuestion(null);
