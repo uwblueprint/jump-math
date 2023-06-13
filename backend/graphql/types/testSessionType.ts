@@ -7,7 +7,7 @@ const testSessionType = gql`
     breakdown: [[Boolean]]!
   }
 
-  type StudentResultEntryDTO {
+  type StudentResultResponseDTO {
     student: StudentResponseDTO!
     result: ResultResponseDTO
   }
@@ -23,7 +23,7 @@ const testSessionType = gql`
     teacher: UserDTO!
     school: SchoolResponseDTO!
     class: ClassResponseDTO!
-    results: [StudentResultEntryDTO!]
+    results: [StudentResultResponseDTO!]
     accessCode: String!
     startDate: Date!
     endDate: Date!
