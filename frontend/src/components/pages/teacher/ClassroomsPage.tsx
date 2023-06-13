@@ -115,6 +115,7 @@ const ClassroomsPage = (): React.ReactElement => {
                               activeAssessments={activeAssessments}
                               assessmentCount={assessmentCount}
                               grade={gradeLevel}
+                              id={id}
                               name={className}
                               studentCount={studentCount}
                             />
