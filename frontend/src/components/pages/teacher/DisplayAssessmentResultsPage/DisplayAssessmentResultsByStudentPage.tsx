@@ -82,7 +82,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
       />
       <Flex align="start" direction="column" flex={1} gap={10}>
         {selectedStudentId ? (
-          currentStudentResult == null ? (
+          !currentStudentResult ? (
             <Box>This student has not taken the test yet.</Box>
           ) : (
             <>
