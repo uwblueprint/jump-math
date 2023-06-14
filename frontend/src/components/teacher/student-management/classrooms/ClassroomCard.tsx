@@ -70,7 +70,13 @@ const ClassroomCard = ({
         w="100%"
       >
         <HStack alignItems="flex-start" justifyContent="space-between" w="100%">
-          <LinkOverlay as={RouterLink} to={Routes.DISPLAY_CLASSROOM_PAGE(id)}>
+          <LinkOverlay
+            as={RouterLink}
+            to={{
+              pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
+              state: { className: name },
+            }}
+          >
             <Text color="grey.400" textStyle="mobileHeader3">
               {name}
             </Text>
