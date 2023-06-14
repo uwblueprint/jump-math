@@ -60,7 +60,8 @@ const DatePicker = ({
             width: "2rem",
             borderColor: "grey.300",
             borderRadius: 20,
-            border: "1px solid grey",
+            borderWidth: "1px",
+            borderStyle: "solid",
           },
         },
         inputProps: {

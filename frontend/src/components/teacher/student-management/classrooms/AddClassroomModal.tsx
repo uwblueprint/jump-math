@@ -17,6 +17,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import isSameDay from "date-fns/isSameDay";
 
 import { CREATE_CLASS } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
@@ -38,14 +39,6 @@ import SelectFormInputClassroom from "./SelectFormInputClassroom";
 type AddClassroomModalProps = {
   onClose: () => void;
   isOpen: boolean;
-};
-
-const isSameDay = (date1: Date, date2: Date): boolean => {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
 };
 
 const AddClassroomModal = ({
@@ -113,13 +106,15 @@ const AddClassroomModal = ({
   };
 
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
-    const dates = watch("startDate");
+    const startDate = watch("startDate");
+    const now = new Date();
+
     if (!validateFields()) {
       setShowRequestError(true);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
-    } else if (dates && dates < new Date() && !isSameDay(dates, new Date())) {
+    } else if (startDate && startDate < now && !isSameDay(startDate, now)) {
       setShowRequestError(true);
       setRequestErrorMessage("Please set a present or future date");
     } else {
