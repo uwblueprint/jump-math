@@ -60,15 +60,13 @@ const TeacherSignupOne = ({
         break;
       case "email":
         setEmailError(false);
+        acceptEmailError(false);
         break;
       case "grades":
         setGradesError(false);
         break;
       default:
         break;
-    }
-    if (field === "email") {
-      acceptEmailError(false);
     }
   };
 
@@ -78,7 +76,7 @@ const TeacherSignupOne = ({
     setGradesError(false);
   };
 
-  const validateFields = (): boolean => {
+  const validateFields = async (): Promise<boolean> => {
     let isValid = true;
 
     if (!watch("firstName") || !!errors.firstName) {
@@ -103,7 +101,7 @@ const TeacherSignupOne = ({
       setEmailError(false);
     }
 
-    if (!watch("email") || (emailValue && !emailRegex.test(emailValue))) {
+    if (!emailRegex.test(emailValue)) {
       acceptEmailError(true);
       isValid = false;
     } else {
@@ -120,8 +118,9 @@ const TeacherSignupOne = ({
     return isValid;
   };
 
-  const onContinueClick = () => {
-    if (validateFields()) {
+  const onContinueClick = async () => {
+    const isValid = await validateFields();
+    if (isValid) {
       setPage(2);
     }
   };

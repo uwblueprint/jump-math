@@ -55,7 +55,6 @@ type RegisterFunction = (
     Record<string, unknown>
   >
 >;
-
 const registerTeacher = async (
   firstName: string,
   lastName: string,
@@ -84,7 +83,11 @@ const registerTeacher = async (
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {
-    throw new Error("Failed to login");
+    if (e instanceof Error && e.message.includes("duplicate key")) {
+      throw new Error("Email already exists");
+    } else {
+      console.error("Failed to Sign Up:", e);
+    }
   }
   return user;
 };
