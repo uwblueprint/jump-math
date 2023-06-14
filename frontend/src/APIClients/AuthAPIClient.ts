@@ -113,6 +113,7 @@ type LogoutFunction = (
 const logout = async (
   authenticatedUserId: string,
   logoutFunction: LogoutFunction,
+  options?: { raiseError?: boolean },
 ): Promise<boolean> => {
   const result = await logoutFunction({
     variables: { userId: authenticatedUserId },
@@ -121,6 +122,9 @@ const logout = async (
   if (result.data?.logout === null) {
     success = true;
     localStorage.removeItem(AUTHENTICATED_USER_KEY);
+  }
+  if (!success && options?.raiseError) {
+    throw new Error("Failed to logout");
   }
   return success;
 };
@@ -144,13 +148,19 @@ type RefreshFunction = (
   >
 >;
 
-const refresh = async (refreshFunction: RefreshFunction): Promise<boolean> => {
+const refresh = async (
+  refreshFunction: RefreshFunction,
+  options?: { raiseError?: boolean },
+): Promise<boolean> => {
   const result = await refreshFunction();
   let success = false;
   const token = result.data?.refresh;
   if (token) {
     success = true;
     setLocalStorageObjProperty(AUTHENTICATED_USER_KEY, "accessToken", token);
+  }
+  if (!success && options?.raiseError) {
+    throw new Error("Failed to refresh");
   }
   return success;
 };
