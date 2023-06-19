@@ -59,7 +59,7 @@ class ClassService implements IClassService {
     return {
       id: newClass.id,
       className: newClass.className,
-      schoolYear: newClass.schoolYear,
+      startDate: newClass.startDate,
       gradeLevel: newClass.gradeLevel,
       teacher: newClass.teacher,
       testSessions: newClass.testSessions,

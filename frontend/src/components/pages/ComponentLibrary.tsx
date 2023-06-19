@@ -15,7 +15,7 @@ import ClassroomCard from "../teacher/student-management/classrooms/ClassroomCar
 
 const defaultValues = {
   className: "",
-  schoolYear: "",
+  startDate: new Date(),
   gradeLevel: Grade.K,
 } as ClassroomForm;
 
