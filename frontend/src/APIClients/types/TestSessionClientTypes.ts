@@ -30,6 +30,8 @@ export interface TestSessionResultData {
   breakdown: boolean[][];
   /** the score that the student got */
   score: number;
+  /** the percentile that the student got */
+  percentile: number;
 }
 
 export interface TestSessionResult {

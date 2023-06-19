@@ -13,6 +13,7 @@ import type IUserService from "../../services/interfaces/userService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
 import type { IClassService } from "../../services/interfaces/classService";
+import { computePercentiles } from "../../utilities/generalUtils";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -68,7 +69,7 @@ const testSessionResolvers = {
       if (!results) return [];
 
       const { students } = await classService.getClassById(parentClass);
-      const resultsByStudentId = results.reduce<
+      const resultsByStudentId = computePercentiles(results, "score").reduce<
         Record<string, ResultRequestDTO>
       >(
         (acc, result) => ({

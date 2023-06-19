@@ -93,7 +93,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
                 config={STUDENT_STATISTICS_CONFIG}
                 values={{
                   totalScore: currentStudentResult.score,
-                  percentile: 10,
+                  percentile: currentStudentResult.percentile,
                 }}
               />
               <Divider />
