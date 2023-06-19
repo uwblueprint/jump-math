@@ -12,7 +12,7 @@ export const assertResponseMatchesExpected = (
 ): void => {
   expect(result.id).not.toBeNull();
   expect(result.className).toEqual(expected.className);
-  expect(result.schoolYear).toEqual(expected.schoolYear);
+  expect(result.startDate).toEqual(expected.startDate);
   expect(result.gradeLevel.toString()).toEqual(expected.gradeLevel.toString());
   expect(result.teacher.toString()).toEqual(expected.teacher.toString());
   if (result.testSessions.length !== 0) {

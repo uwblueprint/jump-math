@@ -17,6 +17,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import isSameDay from "date-fns/isSameDay";
 
 import { CREATE_CLASS } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
@@ -28,6 +29,7 @@ import type {
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
+import DatePicker from "../../../common/DatePicker";
 import Toast from "../../../common/info/Toast";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
 import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
@@ -75,12 +77,16 @@ const AddClassroomModal = ({
     setValue(field, event.target.value);
   };
 
+  const handleDateChange = (date: Date) => {
+    setValue("startDate", date);
+  };
+
   const validateFields = (): boolean => {
     if (!watch("className") || !!errors.className) {
       return false;
     }
 
-    if (!watch("schoolYear") || !!errors.schoolYear) {
+    if (!watch("startDate") || !!errors.startDate) {
       return false;
     }
 
@@ -92,7 +98,7 @@ const AddClassroomModal = ({
 
   const onModalClose = () => {
     setValue("className", "");
-    setValue("schoolYear", "");
+    setValue("startDate", undefined);
     setValue("gradeLevel", Grade.K);
     setShowRequestError(false);
     setRequestErrorMessage("");
@@ -100,18 +106,24 @@ const AddClassroomModal = ({
   };
 
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
+    const startDate = watch("startDate");
+    const now = new Date();
+
     if (!validateFields()) {
       setShowRequestError(true);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
+    } else if (startDate && startDate < now && !isSameDay(startDate, now)) {
+      setShowRequestError(true);
+      setRequestErrorMessage("Please set a present or future date");
     } else {
       if (showRequestError) setShowRequestError(false);
       await createClass({
         variables: {
           classObj: {
             ...data,
-            schoolYear: parseInt(data.schoolYear, 10),
+            startDate: data.startDate,
             teacher: authenticatedUser?.id,
           },
         },
@@ -161,13 +173,10 @@ const AddClassroomModal = ({
                   />
                 </VStack>
                 <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">School Year</FormLabel>
-                  <Input
-                    defaultValue="2023"
-                    onChange={(e) => handleChange(e, "schoolYear")}
-                    placeholder="Type in School Year"
-                    type="number"
-                    value={watch("schoolYear")}
+                  <FormLabel color="blue.300">Start Date</FormLabel>
+                  <DatePicker
+                    onChange={handleDateChange}
+                    value={watch("startDate")}
                   />
                 </VStack>
               </HStack>

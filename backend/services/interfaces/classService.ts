@@ -15,7 +15,7 @@ export interface StudentResponseDTO {
 
 export interface ClassRequestDTO {
   className: string;
-  schoolYear: number;
+  startDate: Date;
   gradeLevel: Grade;
   teacher: string;
 }
@@ -23,7 +23,7 @@ export interface ClassRequestDTO {
 export interface ClassResponseDTO {
   id: string;
   className: string;
-  schoolYear: number;
+  startDate: Date;
   gradeLevel: Grade;
   teacher: string;
   testSessions: string[];
