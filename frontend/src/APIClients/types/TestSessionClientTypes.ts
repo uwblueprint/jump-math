@@ -1,4 +1,4 @@
-import type { ClassResponse } from "./ClassClientTypes";
+import type { ClassResponse, StudentResponse } from "./ClassClientTypes";
 import type { Test } from "./TestClientTypes";
 
 interface TestSessionMetadata {
@@ -21,4 +21,32 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   endDate: Date;
   /** the access code that students use to access the test session */
   accessCode: string;
+}
+
+export interface TestSessionResultData {
+  /** the answers that the student gave */
+  answers: number[][][];
+  /** the breakdown of the student's score */
+  breakdown: boolean[][];
+  /** the score that the student got */
+  score: number;
+}
+
+export interface TestSessionResult {
+  /** the student who took the test */
+  student: StudentResponse;
+  /** the result of the test session, if the student has finished the test */
+  result: TestSessionResultData | null;
+}
+
+export interface TestSessionWithResultsData {
+  /** the test that this test session is for */
+  test: Pick<Test, "questions">;
+  /** the results for this test session */
+  results: TestSessionResult[];
+}
+
+export interface TestSessionTitleData {
+  /** the name of the test that this test session is for */
+  test: Pick<Test, "name">;
 }

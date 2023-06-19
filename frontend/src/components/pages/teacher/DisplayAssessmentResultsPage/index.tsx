@@ -1,7 +1,10 @@
 import React from "react";
 import { Redirect, useLocation, useParams } from "react-router-dom";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { useQuery } from "@apollo/client";
+import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 
+import { GET_TEST_SESSION_TITLE } from "../../../../APIClients/queries/TestSessionQueries";
+import type { TestSessionTitleData } from "../../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../../constants/Routes";
 import BackButton from "../../../common/navigation/BackButton";
 import RouterTabs from "../../../common/navigation/RouterTabs";
@@ -43,24 +46,37 @@ const TAB_CONFIG = [
   },
 ];
 
-const isValidLocationState = (
+const getLocationState = (
   state: unknown,
-): state is { returnTo: string } => {
-  return typeof state === "object" && state !== null && "returnTo" in state;
-};
+): { returnTo?: string; sessionTitle?: string } => ({
+  returnTo: undefined,
+  sessionTitle: undefined,
+  ...(typeof state === "object" ? state : {}),
+});
 
 const DisplayAssessmentResults = () => {
   const { state } = useLocation();
-  const returnTo = isValidLocationState(state) ? state.returnTo : undefined;
+  const { returnTo, sessionTitle } = getLocationState(state);
 
-  const assessmentName = "Grade 5 Ontario Pre-Term Assessment";
+  // We need to fetch the test session title if we don't have it yet.
+  // This could happen if the user navigates directly to this page rather
+  // than from the test session list.
+  const { sessionId } = useParams<{ sessionId: string }>();
+  const { data } = useQuery<{
+    testSession: TestSessionTitleData;
+  }>(GET_TEST_SESSION_TITLE, {
+    variables: { id: sessionId },
+    skip: !!sessionTitle,
+  });
+
+  const displayTitle = data?.testSession.test.name ?? sessionTitle;
   return (
     <Flex direction="column" gap={8}>
       <Text as="h1" color="blue.300" textStyle="header4">
         <BackButton returnTo={returnTo} size="xl" text="" />
-        <Box as="span" ml={6}>
-          {assessmentName}
-        </Box>
+        <Skeleton as="span" isLoaded={!!displayTitle} ml={6}>
+          <Box as="span">{displayTitle ?? "Loading..."}</Box>
+        </Skeleton>
       </Text>
       <RouterTabs routes={TAB_CONFIG} />
     </Flex>
