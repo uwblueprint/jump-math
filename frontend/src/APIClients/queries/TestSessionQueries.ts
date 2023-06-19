@@ -1,11 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const GET_TEST_SESSION = gql`
-  query GetTestSession($id: ID!) {
+export const GET_TEST_SESSION_WITH_RESULTS = gql`
+  query TestSessionWithResults($id: ID!) {
     testSession(id: $id) {
       id
       test {
-        name
         questions {
           type
           metadata {
@@ -40,9 +39,11 @@ export const GET_TEST_SESSION = gql`
           lastName
           studentNumber
         }
-        score
-        answers
-        breakdown
+        result {
+          score
+          answers
+          breakdown
+        }
       }
     }
   }
@@ -74,6 +75,16 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
       startDate
       endDate
       accessCode
+    }
+  }
+`;
+
+export const GET_TEST_SESSION_TITLE = gql`
+  query TestSessionTitle($id: ID!) {
+    testSession(id: $id) {
+      test {
+        name
+      }
     }
   }
 `;

@@ -8,7 +8,7 @@ import SortMenu from "../../../common/table/SortMenu";
 
 import StudentListItem from "./StudentListItem";
 
-type Student = StudentResponse & {
+type Student = Pick<StudentResponse, "id" | "firstName" | "lastName"> & {
   isViewed: boolean;
 };
 type StudentListProps = {
