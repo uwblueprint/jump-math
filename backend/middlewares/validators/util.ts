@@ -10,6 +10,8 @@ const allowableContentTypes = new Set([
   "image/gif",
 ]);
 
+const contentTypeSanitizationRegex = /[^\w-+.]/g;
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const validatePrimitive = (value: any, type: Type): boolean => {
@@ -62,7 +64,8 @@ export const getApiValidationError = (
 
 export const getFileTypeValidationError = (mimetype: string): string => {
   const allowableContentTypesString = [...allowableContentTypes].join(", ");
-  return `The file type ${mimetype} is not one of ${allowableContentTypesString}`;
+  const sanitizedMimeType = mimetype.replace(contentTypeSanitizationRegex, "");
+  return `The file type ${sanitizedMimeType} is not one of ${allowableContentTypesString}`;
 };
 
 export const getImageValidationError = (mimetype: string): string => {
