@@ -1,12 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Box, Button, HStack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Skeleton, Text } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../assets/icons";
 
 type HeaderWithButtonProps = {
   buttonIcon?: React.ReactElement;
   buttonText?: string;
+  isLoading?: boolean;
   onClick?: () => void;
   showButton?: boolean;
   targetRoute?: string;
@@ -16,6 +17,7 @@ type HeaderWithButtonProps = {
 const HeaderWithButton = ({
   buttonIcon = <PlusOutlineIcon />,
   buttonText,
+  isLoading = false,
   onClick,
   showButton = true,
   targetRoute,
@@ -26,8 +28,16 @@ const HeaderWithButton = ({
   return (
     <Box>
       <HStack justifyContent="space-between">
-        <Text color="blue.300" mb="0.5em" textAlign="left" textStyle="header4">
-          {title}
+        <Text
+          as="h1"
+          color="blue.300"
+          mb={0}
+          textAlign="left"
+          textStyle="header4"
+        >
+          <Skeleton as="span" isLoaded={!isLoading}>
+            <Box as="span">{title}</Box>
+          </Skeleton>
         </Text>
         {showButton && (
           <Button
