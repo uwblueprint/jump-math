@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Box, Button, HStack, Skeleton, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Skeleton, Spacer, Text } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../assets/icons";
 
@@ -8,6 +8,7 @@ type HeaderWithButtonProps = {
   button?: React.ReactElement;
   buttonIcon?: React.ReactElement;
   buttonText?: string;
+  children?: React.ReactNode;
   isLoading?: boolean;
   onClick?: () => void;
   showButton?: boolean;
@@ -19,6 +20,7 @@ const HeaderWithButton = ({
   button,
   buttonIcon = <PlusOutlineIcon />,
   buttonText,
+  children,
   isLoading = false,
   onClick,
   showButton = true,
@@ -29,7 +31,7 @@ const HeaderWithButton = ({
 
   return (
     <Box>
-      <HStack justifyContent="space-between">
+      <HStack gap={4} justifyContent="space-between">
         <Text
           as="h1"
           color="blue.300"
@@ -41,6 +43,8 @@ const HeaderWithButton = ({
             <Box as="span">{title}</Box>
           </Skeleton>
         </Text>
+        {children}
+        <Spacer />
         {showButton &&
           (button ?? (
             <Button
