@@ -107,6 +107,7 @@ const ClassroomsPage = (): React.ReactElement => {
                           assessmentCount,
                           gradeLevel,
                           className,
+                          startDate,
                           studentCount,
                         }) => (
                           <GridItem key={id} flex="1" paddingTop="4">
@@ -117,6 +118,7 @@ const ClassroomsPage = (): React.ReactElement => {
                               grade={gradeLevel}
                               id={id}
                               name={className}
+                              startDate={startDate}
                               studentCount={studentCount}
                             />
                           </GridItem>

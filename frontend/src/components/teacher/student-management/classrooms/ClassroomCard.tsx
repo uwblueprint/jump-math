@@ -23,6 +23,7 @@ import ClassroomPopover from "./ClassroomPopover";
 interface ClassroomCardProps {
   id: string;
   name: string;
+  startDate?: string;
   studentCount: number;
   assessmentCount: number;
   grade: Grade;
@@ -37,6 +38,7 @@ interface ClassroomCardBodyProps {
 const ClassroomCard = ({
   id,
   name,
+  startDate,
   studentCount,
   assessmentCount,
   grade,
@@ -74,7 +76,7 @@ const ClassroomCard = ({
             as={RouterLink}
             to={{
               pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
-              state: { className: name },
+              state: { className: name, startDate, grade },
             }}
           >
             <Text color="grey.400" textStyle="mobileHeader3">

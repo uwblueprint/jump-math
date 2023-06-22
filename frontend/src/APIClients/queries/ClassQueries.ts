@@ -23,6 +23,7 @@ export const GET_CLASSES_BY_TEACHER = gql`
       assessmentCount
       gradeLevel
       className
+      startDate
       studentCount
     }
   }
