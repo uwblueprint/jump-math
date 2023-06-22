@@ -5,6 +5,7 @@ import { Box, Button, HStack, Skeleton, Text } from "@chakra-ui/react";
 import { PlusOutlineIcon } from "../../assets/icons";
 
 type HeaderWithButtonProps = {
+  button?: React.ReactElement;
   buttonIcon?: React.ReactElement;
   buttonText?: string;
   isLoading?: boolean;
@@ -15,6 +16,7 @@ type HeaderWithButtonProps = {
 };
 
 const HeaderWithButton = ({
+  button,
   buttonIcon = <PlusOutlineIcon />,
   buttonText,
   isLoading = false,
@@ -39,16 +41,16 @@ const HeaderWithButton = ({
             <Box as="span">{title}</Box>
           </Skeleton>
         </Text>
-        {showButton && (
-          <Button
-            mt={10}
-            onClick={targetRoute ? () => history.push(targetRoute) : onClick}
-            rightIcon={buttonIcon}
-            variant="primary"
-          >
-            {buttonText}
-          </Button>
-        )}
+        {showButton &&
+          (button ?? (
+            <Button
+              onClick={targetRoute ? () => history.push(targetRoute) : onClick}
+              rightIcon={buttonIcon}
+              variant="primary"
+            >
+              {buttonText}
+            </Button>
+          ))}
       </HStack>
     </Box>
   );
