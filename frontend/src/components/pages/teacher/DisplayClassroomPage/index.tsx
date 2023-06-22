@@ -1,10 +1,12 @@
 import React from "react";
 import { Redirect, useHistory, useLocation, useParams } from "react-router-dom";
-import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 import * as Routes from "../../../../constants/Routes";
+import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
+import AddClassroomOrStudentPopover from "../../../teacher/student-management/classrooms/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
@@ -73,11 +75,11 @@ const DisplayAssessmentResults = () => {
         page={1}
         setPage={(newPage) => !newPage && history.push(Routes.CLASSROOMS_PAGE)}
       />
-      <Text as="h1" color="blue.300" textStyle="header4">
-        <Skeleton as="span" isLoaded={!!classTitle}>
-          <Box as="span">{effectiveTitle}</Box>
-        </Skeleton>
-      </Text>
+      <HeaderWithButton
+        button={<AddClassroomOrStudentPopover />}
+        isLoading={!className}
+        title={effectiveTitle}
+      />
       <RouterTabs routes={TAB_CONFIG} />
     </Flex>
   );
