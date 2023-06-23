@@ -33,12 +33,12 @@ const TAB_CONFIG = [
     path: Routes.DISPLAY_CLASSROOM_PAGE(),
     exact: true,
     Component: () => {
-      const { sessionId } = useParams<{ sessionId: string }>();
+      const { classroomId } = useParams<{ classroomId: string }>();
       const location = useLocation();
       return (
         <Redirect
           to={{
-            pathname: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(sessionId),
+            pathname: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(classroomId),
             state: location.state,
           }}
         />
@@ -71,7 +71,7 @@ const getLocationState = (
   ...(typeof state === "object" ? state : {}),
 });
 
-const DisplayAssessmentResults = () => {
+const DisplayClassroomsPage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const { className, startDate, grade } = getLocationState(state);
@@ -112,4 +112,4 @@ const DisplayAssessmentResults = () => {
   );
 };
 
-export default DisplayAssessmentResults;
+export default DisplayClassroomsPage;
