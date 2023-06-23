@@ -5,7 +5,17 @@ import { PlusOutlineIcon } from "../../../../assets/icons";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
-const AddClassroomOrStudentPopover = ({ disabled }: { disabled: boolean }) => {
+type AddClassroomOrStudentPopoverProps = {
+  isDisabled: boolean;
+  onCreateClassroom: () => void;
+  onCreateStudent: () => void;
+};
+
+const AddClassroomOrStudentPopover = ({
+  isDisabled,
+  onCreateClassroom,
+  onCreateStudent,
+}: AddClassroomOrStudentPopoverProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
@@ -16,7 +26,7 @@ const AddClassroomOrStudentPopover = ({ disabled }: { disabled: boolean }) => {
       placement="bottom"
       trigger={
         <Button
-          isDisabled={disabled}
+          isDisabled={isDisabled}
           minW={0}
           rightIcon={<PlusOutlineIcon />}
           variant="primary"
@@ -29,12 +39,12 @@ const AddClassroomOrStudentPopover = ({ disabled }: { disabled: boolean }) => {
         <PopoverButton
           aria-label="Add assessment"
           name="Assessment"
-          onClick={() => {}}
+          onClick={onCreateClassroom}
         />
         <PopoverButton
           aria-label="Add student"
           name="Student"
-          onClick={() => {}}
+          onClick={onCreateStudent}
         />
       </VStack>
     </Popover>

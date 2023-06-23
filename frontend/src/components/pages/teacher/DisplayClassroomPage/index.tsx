@@ -1,9 +1,11 @@
 import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Redirect, useHistory, useLocation, useParams } from "react-router-dom";
-import { Flex, IconButton, Tag } from "@chakra-ui/react";
+import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
+import type { StudentForm } from "../../../../types/ClassroomTypes";
 import {
   formatMonth,
   removeUnderscore,
@@ -12,6 +14,7 @@ import {
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
+import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
 import AddClassroomOrStudentPopover from "../../../teacher/student-management/classrooms/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 
@@ -62,6 +65,12 @@ const BREADCRUMB_CONFIG = (className?: string) => [
   },
 ];
 
+const defaultValues: StudentForm = {
+  firstName: "",
+  lastName: "",
+  studentNumber: undefined,
+};
+
 const getLocationState = (
   state: unknown,
 ): { className?: string; startDate?: string; grade?: string } => ({
@@ -77,6 +86,16 @@ const DisplayClassroomsPage = () => {
   const { className, startDate, grade } = getLocationState(state);
   const loading = !className;
 
+  const {
+    isOpen: isStudentModalOpen,
+    onClose: onStudentModalClose,
+    onOpen: onStudentModalOpen,
+  } = useDisclosure();
+  const studentFormMethods = useForm<StudentForm>({
+    defaultValues,
+    mode: "onChange",
+  });
+
   return (
     <Flex direction="column" gap={3}>
       <FormBreadcrumb
@@ -85,7 +104,13 @@ const DisplayClassroomsPage = () => {
         setPage={(newPage) => !newPage && history.push(Routes.CLASSROOMS_PAGE)}
       />
       <HeaderWithButton
-        button={<AddClassroomOrStudentPopover disabled={loading} />}
+        button={
+          <AddClassroomOrStudentPopover
+            isDisabled={loading}
+            onCreateClassroom={() => {}}
+            onCreateStudent={onStudentModalOpen}
+          />
+        }
         isLoading={loading}
         title={className}
       >
@@ -108,6 +133,12 @@ const DisplayClassroomsPage = () => {
           />
         )}
       </HeaderWithButton>
+      <FormProvider {...studentFormMethods}>
+        <AddStudentModal
+          isOpen={isStudentModalOpen}
+          onClose={onStudentModalClose}
+        />
+      </FormProvider>
       <RouterTabs routes={TAB_CONFIG} />
     </Flex>
   );
