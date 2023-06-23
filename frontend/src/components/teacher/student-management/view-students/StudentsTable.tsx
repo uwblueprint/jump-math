@@ -1,13 +1,13 @@
 import React from "react";
 
-import type { StudentForm } from "../../../../types/ClassroomTypes";
+import type { StudentResponse } from "../../../../APIClients/types/ClassClientTypes";
 import type { TableRow } from "../../../common/table/Table";
 import { Table } from "../../../common/table/Table";
 
 import EditStudentPopover from "./EditStudentPopover";
 
 interface StudentsTableProps {
-  students: StudentForm[];
+  students: StudentResponse[];
 }
 
 const StudentsTable = ({
