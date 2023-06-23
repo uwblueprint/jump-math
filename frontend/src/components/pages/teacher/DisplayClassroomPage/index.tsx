@@ -82,6 +82,7 @@ const getLocationState = (
 
 const DisplayClassroomsPage = () => {
   const history = useHistory();
+  const { classroomId: classId } = useParams<{ classroomId: string }>();
   const { state } = useLocation();
   const { className, startDate, grade } = getLocationState(state);
   const loading = !className;
@@ -135,6 +136,7 @@ const DisplayClassroomsPage = () => {
       </HeaderWithButton>
       <FormProvider {...studentFormMethods}>
         <AddStudentModal
+          classId={classId}
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}
         />

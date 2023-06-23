@@ -28,11 +28,13 @@ import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 type AddStudentModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  classId: string;
 };
 
 const AddStudentModal = ({
   onClose,
   isOpen,
+  classId,
 }: AddStudentModalProps): ReactElement => {
   const {
     handleSubmit,
@@ -92,8 +94,7 @@ const AddStudentModal = ({
             lastName: watch("lastName"),
             studentNumber: watch("studentNumber"),
           },
-          // We're hardcoding a value as a placeholder until there's a class context to pass in
-          classId: "642b8eb6bfc20e04f56c2a46",
+          classId,
         },
       })
         .then(() => {

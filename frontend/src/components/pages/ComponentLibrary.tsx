@@ -174,6 +174,7 @@ const ComponentLibrary = (): React.ReactElement => {
           Add Students
         </Button>
         <AddStudentModal
+          classId="642b8eb6bfc20e04f56c2a46"
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}
         />
