@@ -22,6 +22,66 @@ const MOCK_STUDENT_DATA = {
       lastName: "Doe",
       studentNumber: "654321",
     },
+    {
+      id: "3",
+      firstName: "John",
+      lastName: "Smith",
+      studentNumber: "123456",
+    },
+    {
+      id: "4",
+      firstName: "Jane",
+      lastName: "Smith",
+      studentNumber: "654321",
+    },
+    {
+      id: "5",
+      firstName: "Jack",
+      lastName: "Doe",
+      studentNumber: "123456",
+    },
+    {
+      id: "6",
+      firstName: "Jill",
+      lastName: "Doe",
+      studentNumber: "654321",
+    },
+    {
+      id: "7",
+      firstName: "Jack",
+      lastName: "Smith",
+      studentNumber: "123456",
+    },
+    {
+      id: "8",
+      firstName: "Jill",
+      lastName: "Smith",
+      studentNumber: "654321",
+    },
+    {
+      id: "9",
+      firstName: "John",
+      lastName: "Deere",
+      studentNumber: "123456",
+    },
+    {
+      id: "10",
+      firstName: "Jane",
+      lastName: "Deere",
+      studentNumber: "654321",
+    },
+    {
+      id: "11",
+      firstName: "Jack",
+      lastName: "Deere",
+      studentNumber: "123456",
+    },
+    {
+      id: "12",
+      firstName: "Jill",
+      lastName: "Deere",
+      studentNumber: "654321",
+    },
   ],
 };
 
