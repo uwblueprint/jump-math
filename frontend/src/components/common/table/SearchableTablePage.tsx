@@ -1,36 +1,38 @@
 import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import type { AssessmentProperties } from "../../../types/AssessmentTypes";
-import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
-import type { FilterMenuProps } from "../../common/table/FilterMenu";
-import NoResultsTableState from "../../common/table/NoResultsTableState";
-import type { SearchBarProps } from "../../common/table/SearchBar";
-import type { SortMenuProps } from "../../common/table/SortMenu";
+import EmptyTestsMessage from "../info/messages/EmptyTestsMessage";
 
-interface AssessmentsTabProps {
+import type { FilterMenuProps } from "./FilterMenu";
+import NoResultsTableState from "./NoResultsTableState";
+import type { SearchBarProps } from "./SearchBar";
+import type { SortMenuProps } from "./SortMenu";
+
+interface SearchableTablePageProps<T> {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
-  filterMenuComponent: React.ReactElement<FilterMenuProps>;
+  filterMenuComponent?: React.ReactElement<FilterMenuProps>;
   noResults: boolean;
   searchBarComponent: React.ReactElement<SearchBarProps>;
-  assessmentsTable: React.ReactElement<AssessmentProperties[]>;
+  tableComponent: React.ReactElement<T[]>;
   search: string;
   searchLength: number;
+  nameOfTableItems: string;
 }
 
-const AssessmentsTab = ({
+const SearchableTablePage = <T,>({
   sortMenuComponent,
   filterMenuComponent,
   noResults,
   searchBarComponent,
-  assessmentsTable,
+  tableComponent,
   search,
   searchLength,
-}: AssessmentsTabProps): React.ReactElement => {
+  nameOfTableItems,
+}: SearchableTablePageProps<T>): React.ReactElement => {
   const emptyResults = noResults ? (
     <EmptyTestsMessage />
   ) : (
-    <NoResultsTableState items="assessments" />
+    <NoResultsTableState items={nameOfTableItems} />
   );
   return (
     <>
@@ -46,10 +48,10 @@ const AssessmentsTab = ({
             {search}&quot;
           </Text>
         )}
-        {searchLength !== 0 ? assessmentsTable : emptyResults}
+        {searchLength !== 0 ? tableComponent : emptyResults}
       </VStack>
     </>
   );
 };
 
-export default AssessmentsTab;
+export default SearchableTablePage;
