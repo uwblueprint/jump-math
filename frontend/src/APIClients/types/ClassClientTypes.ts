@@ -15,7 +15,7 @@ export type ClassResponse = {
   teacher: UserResponse;
 };
 
-export interface StudentResponse {
+export type StudentResponse = {
   /** the unique identifier for the student */
   id: string;
   /** the first name of the student */
@@ -24,4 +24,4 @@ export interface StudentResponse {
   lastName: string;
   /** an optional identifier provided by the teacher */
   studentNumber: string;
-}
+};
