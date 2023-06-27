@@ -11,11 +11,20 @@ import {
 } from "react-router-dom";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
-type RouteConfig = {
+export type RouteConfig = {
   name?: string;
   path: string;
-  Component: React.ComponentType;
-} & Omit<RouteProps, "component" | "redirect" | "render" | "children">;
+} & (
+  | {
+      Component: React.ComponentType;
+      element?: never;
+    }
+  | { element: React.ReactNode; Component?: never }
+) &
+  Omit<
+    RouteProps,
+    "component" | "element" | "redirect" | "render" | "children"
+  >;
 
 type RouterTabsProps = {
   routes: RouteConfig[];
@@ -48,9 +57,9 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
           )}
         </TabList>
         <TabPanels>
-          {routes.map(({ path, Component }) => (
+          {routes.map(({ path, Component, element }) => (
             <TabPanel key={path} p={0} pt={8}>
-              <Component />
+              {Component ? <Component /> : element}
             </TabPanel>
           ))}
         </TabPanels>
