@@ -23,6 +23,7 @@ import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
+import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchableTablePage from "../../common/table/SearchableTablePage";
@@ -105,6 +106,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           nameOfTableItems="assessments"
           noResults={isEmpty}
+          noResultsComponent={<EmptyTestsMessage />}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
           searchLength={assessments.length}

@@ -1,8 +1,6 @@
 import React from "react";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import EmptyTestsMessage from "../info/messages/EmptyTestsMessage";
-
 import type { FilterMenuProps } from "./FilterMenu";
 import NoResultsTableState from "./NoResultsTableState";
 import type { SearchBarProps } from "./SearchBar";
@@ -12,6 +10,7 @@ interface SearchableTablePageProps<T> {
   sortMenuComponent: React.ReactElement<SortMenuProps>;
   filterMenuComponent?: React.ReactElement<FilterMenuProps>;
   noResults: boolean;
+  noResultsComponent: React.ReactElement;
   searchBarComponent: React.ReactElement<SearchBarProps>;
   tableComponent: React.ReactElement<T[]>;
   search: string;
@@ -23,6 +22,7 @@ const SearchableTablePage = <T,>({
   sortMenuComponent,
   filterMenuComponent,
   noResults,
+  noResultsComponent,
   searchBarComponent,
   tableComponent,
   search,
@@ -30,7 +30,7 @@ const SearchableTablePage = <T,>({
   nameOfTableItems,
 }: SearchableTablePageProps<T>): React.ReactElement => {
   const emptyResults = noResults ? (
-    <EmptyTestsMessage />
+    noResultsComponent
   ) : (
     <NoResultsTableState items={nameOfTableItems} />
   );

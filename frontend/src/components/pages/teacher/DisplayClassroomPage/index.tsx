@@ -21,7 +21,7 @@ import NotFound from "../../NotFound";
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
 import DisplayClassroomStudentsPage from "./DisplayClassroomStudentsPage";
 
-const TAB_CONFIG = [
+const TAB_CONFIG = (onCreateStudent: () => void) => [
   {
     name: "Assessments",
     path: Routes.DISPLAY_CLASSROOM_ASSESSMENTS_PAGE(),
@@ -30,7 +30,7 @@ const TAB_CONFIG = [
   {
     name: "Students",
     path: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(),
-    Component: DisplayClassroomStudentsPage,
+    element: <DisplayClassroomStudentsPage onCreateStudent={onCreateStudent} />,
   },
   {
     path: Routes.DISPLAY_CLASSROOM_PAGE(),
@@ -141,7 +141,7 @@ const DisplayClassroomsPage = () => {
           onClose={onStudentModalClose}
         />
       </FormProvider>
-      <RouterTabs routes={TAB_CONFIG} />
+      <RouterTabs routes={TAB_CONFIG(onStudentModalOpen)} />
     </Flex>
   );
 };

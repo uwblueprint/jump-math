@@ -5,6 +5,7 @@ import { filterStudentsBySearch } from "../../../../utils/ClassroomUtils";
 import { sortArray } from "../../../../utils/GeneralUtils";
 import ErrorState from "../../../common/info/ErrorState";
 import LoadingState from "../../../common/info/LoadingState";
+import EmptyStudentsMessage from "../../../common/info/messages/EmptyStudentsMessage";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
@@ -104,7 +105,13 @@ const MOCK_STUDENT_RESPONSE: {
   error: false,
 };
 
-const DisplayClassroomStudentsPage = () => {
+type DisplayClassroomStudentsPageProps = {
+  onCreateStudent: () => void;
+};
+
+const DisplayClassroomStudentsPage = ({
+  onCreateStudent,
+}: DisplayClassroomStudentsPageProps) => {
   const [search, setSearch] = useState("");
   const [sortProperty, setSortProperty] = useState("firstName");
   const [sortOrder, setSortOrder] = useState<SortOrder>("descending");
@@ -137,6 +144,9 @@ const DisplayClassroomStudentsPage = () => {
         <SearchableTablePage
           nameOfTableItems="students"
           noResults={isEmpty}
+          noResultsComponent={
+            <EmptyStudentsMessage onClick={onCreateStudent} />
+          }
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
           searchLength={students.length}
