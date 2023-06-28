@@ -40,7 +40,7 @@ const HeaderWithButton = ({
           textStyle="header4"
         >
           <Skeleton as="span" isLoaded={!isLoading}>
-            <Box as="span">{title}</Box>
+            <Box as="span">{title ?? "Loading..."}</Box>
           </Skeleton>
         </Text>
         {children}

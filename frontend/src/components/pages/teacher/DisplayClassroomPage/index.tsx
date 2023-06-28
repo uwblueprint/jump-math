@@ -51,7 +51,7 @@ const TAB_CONFIG = [
   },
 ];
 
-const BREADCRUMB_CONFIG = (className: string) => [
+const BREADCRUMB_CONFIG = (className?: string) => [
   {
     header: "Classrooms",
     page: 0,
@@ -75,20 +75,19 @@ const DisplayClassroomsPage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const { className, startDate, grade } = getLocationState(state);
+  const loading = !className;
 
-  const classTitle = className;
-  const effectiveTitle = classTitle ?? "Loading...";
   return (
     <Flex direction="column" gap={3}>
       <FormBreadcrumb
-        breadcrumbs={BREADCRUMB_CONFIG(effectiveTitle)}
+        breadcrumbs={BREADCRUMB_CONFIG(className)}
         page={1}
         setPage={(newPage) => !newPage && history.push(Routes.CLASSROOMS_PAGE)}
       />
       <HeaderWithButton
-        button={<AddClassroomOrStudentPopover />}
-        isLoading={!className}
-        title={effectiveTitle}
+        button={<AddClassroomOrStudentPopover disabled={loading} />}
+        isLoading={loading}
+        title={className}
       >
         {startDate && (
           <Tag bg="blue.50" color="blue.300" size="lg">
@@ -100,12 +99,14 @@ const DisplayClassroomsPage = () => {
             {titleCase(removeUnderscore(grade))}
           </Tag>
         )}
-        <IconButton
-          aria-label="Edit classroom"
-          color="blue.300"
-          icon={<EditOutlineIcon />}
-          minW={0}
-        />
+        {!loading && (
+          <IconButton
+            aria-label="Edit classroom"
+            color="blue.300"
+            icon={<EditOutlineIcon />}
+            minW={0}
+          />
+        )}
       </HeaderWithButton>
       <RouterTabs routes={TAB_CONFIG} />
     </Flex>

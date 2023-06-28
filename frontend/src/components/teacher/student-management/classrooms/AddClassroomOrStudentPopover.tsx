@@ -5,7 +5,7 @@ import { PlusOutlineIcon } from "../../../../assets/icons";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
-const AddClassroomOrStudentPopover = () => {
+const AddClassroomOrStudentPopover = ({ disabled }: { disabled: boolean }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
@@ -15,7 +15,12 @@ const AddClassroomOrStudentPopover = () => {
       onOpen={onOpen}
       placement="bottom"
       trigger={
-        <Button minW={0} rightIcon={<PlusOutlineIcon />} variant="primary">
+        <Button
+          isDisabled={disabled}
+          minW={0}
+          rightIcon={<PlusOutlineIcon />}
+          variant="primary"
+        >
           Add
         </Button>
       }
