@@ -44,12 +44,14 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
       <Tabs
         index={currentRouteIndex}
         isLazy
-        onChange={(index) =>
-          history.push({
-            pathname: generatePath(routes[index].path, matchParams),
+        onChange={(index) => {
+          const newPath = generatePath(routes[index].path, matchParams);
+          if (newPath === location.pathname) return;
+          return history.push({
+            pathname: newPath,
             state: location.state,
-          })
-        }
+          });
+        }}
       >
         <TabList>
           {routes.map(({ name, path }) =>
