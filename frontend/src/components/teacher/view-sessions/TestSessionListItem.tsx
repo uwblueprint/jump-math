@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
+  Box,
   HStack,
   Spacer,
   Tag,
@@ -201,10 +202,12 @@ const TestSessionListItem = ({
           )}
         </HStack>
       </Tooltip>
-      <TestSessionListItemPopover
-        status={status}
-        testSessionId={testSessionId}
-      />
+      <Box ml={1}>
+        <TestSessionListItemPopover
+          status={status}
+          testSessionId={testSessionId}
+        />
+      </Box>
     </HStack>
   );
 };
