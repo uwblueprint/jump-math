@@ -3,6 +3,7 @@ import { Center, VStack } from "@chakra-ui/react";
 
 import { sortArray } from "../../../../utils/GeneralUtils";
 import {
+  filterTestSessionsBySearch,
   getSessionStatus,
   getSessionTargetDate,
 } from "../../../../utils/TestSessionUtils";
@@ -102,9 +103,14 @@ const DisplayClassroomAssessmentsPage = () => {
     );
   }, [data]);
 
+  const searchedData = useMemo(
+    () => filterTestSessionsBySearch(formattedData, search),
+    [formattedData, search],
+  );
+
   const sortedData = useMemo(
-    () => sortArray(formattedData, sortProperty, sortOrder),
-    [formattedData, sortProperty, sortOrder],
+    () => sortArray(searchedData, sortProperty, sortOrder),
+    [searchedData, sortProperty, sortOrder],
   );
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
