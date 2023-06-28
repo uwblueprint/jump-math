@@ -1,6 +1,6 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Redirect, useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
@@ -17,6 +17,7 @@ import RouterTabs from "../../../common/navigation/RouterTabs";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
 import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
+import RedirectTo from "../../RedirectTo";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
 import DisplayClassroomStudentsPage from "./DisplayClassroomStudentsPage";
@@ -35,18 +36,7 @@ const TAB_CONFIG = (onCreateStudent: () => void) => [
   {
     path: Routes.DISPLAY_CLASSROOM_PAGE(),
     exact: true,
-    Component: () => {
-      const { classroomId } = useParams<{ classroomId: string }>();
-      const location = useLocation();
-      return (
-        <Redirect
-          to={{
-            pathname: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(classroomId),
-            state: location.state,
-          }}
-        />
-      );
-    },
+    element: <RedirectTo pathname={Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE} />,
   },
   {
     path: "*",
