@@ -77,7 +77,7 @@ const TestSessionListItem = ({
         <HStack
           as={status === "past" ? "button" : undefined}
           flex={1}
-          gap={2}
+          gap={4}
           onClick={() =>
             status === "past" &&
             history.push(
