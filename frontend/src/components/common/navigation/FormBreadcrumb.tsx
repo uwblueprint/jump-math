@@ -9,7 +9,8 @@ import {
 import { ChevronRightIcon } from "../../../assets/icons";
 
 export type BreadcrumbType = {
-  header: string;
+  // Pass undefined to mark as loading
+  header?: string;
   page: number;
 };
 
@@ -17,7 +18,7 @@ interface FormBreadcrumbProps {
   breadcrumbs: BreadcrumbType[];
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  validPage: (p: number) => boolean;
+  validPage?: (p: number) => boolean;
 }
 
 const FormBreadcrumb = ({
@@ -28,17 +29,17 @@ const FormBreadcrumb = ({
 }: FormBreadcrumbProps): React.ReactElement => {
   return (
     <Breadcrumb color="grey.300" separator={<ChevronRightIcon />} spacing="8px">
-      {breadcrumbs.map((breadcrumb) => {
+      {breadcrumbs.map((breadcrumb, i) => {
         const isCurrentPage = page === breadcrumb.page;
         return (
           <BreadcrumbItem
-            key={breadcrumb.header}
+            key={breadcrumb.header ?? `breadcrumb-${i}`}
             color={isCurrentPage ? "blue.300" : ""}
             isCurrentPage={isCurrentPage}
           >
-            {validPage(breadcrumb.page) ? (
+            {!validPage || validPage(breadcrumb.page) ? (
               <BreadcrumbLink onClick={() => setPage(breadcrumb.page)}>
-                {breadcrumb.header}
+                {breadcrumb.header ?? "Loading..."}
               </BreadcrumbLink>
             ) : (
               <Text>{breadcrumb.header}</Text>

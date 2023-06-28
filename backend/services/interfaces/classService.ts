@@ -36,6 +36,7 @@ export interface ClassCard {
   assessmentCount: number;
   gradeLevel: Grade;
   className: string;
+  startDate?: Date;
   studentCount: number;
 }
 

@@ -37,6 +37,7 @@ const classType = gql`
     assessmentCount: Int!
     gradeLevel: GradeEnum!
     className: String!
+    startDate: Date
     studentCount: Int!
   }
 
