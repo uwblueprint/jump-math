@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Center, VStack } from "@chakra-ui/react";
 
+import { sortArray } from "../../../../utils/GeneralUtils";
 import {
   getSessionStatus,
   getSessionTargetDate,
@@ -11,6 +12,7 @@ import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import SortMenu from "../../../common/table/SortMenu";
 import usePaginatedData from "../../../common/table/usePaginatedData";
+import useSortProperty from "../../../common/table/useSortProperty";
 import TestSessionListItem from "../../../teacher/view-sessions/TestSessionListItem";
 
 const mockData = {
@@ -73,9 +75,17 @@ const mockData = {
 };
 
 const ASSESSEMENTS_PER_PAGE = 5;
+const SORT_PROPERTIES = ["testName", "status"] as const;
 
 const DisplayClassroomAssessmentsPage = () => {
   const [search, setSearch] = useState("");
+  const [sortProperty, setSortProperty] = useSortProperty(
+    "testName",
+    SORT_PROPERTIES,
+  );
+  const [sortOrder, setSortOrder] = useState<"ascending" | "descending">(
+    "descending",
+  );
 
   const data = mockData;
 
@@ -92,8 +102,13 @@ const DisplayClassroomAssessmentsPage = () => {
     );
   }, [data]);
 
+  const sortedData = useMemo(
+    () => sortArray(formattedData, sortProperty, sortOrder),
+    [formattedData, sortProperty, sortOrder],
+  );
+
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(formattedData, ASSESSEMENTS_PER_PAGE);
+    usePaginatedData(sortedData, ASSESSEMENTS_PER_PAGE);
 
   const tableComponent = (
     <VStack w="100%">
@@ -122,10 +137,11 @@ const DisplayClassroomAssessmentsPage = () => {
       searchLength={paginatedData.length}
       sortMenuComponent={
         <SortMenu
-          labels={[]}
-          onSortOrder={() => {}}
-          onSortProperty={() => {}}
-          properties={[]}
+          initialSortOrder={sortOrder}
+          labels={["Name", "Status"]}
+          onSortOrder={setSortOrder}
+          onSortProperty={setSortProperty}
+          properties={SORT_PROPERTIES}
         />
       }
       tableComponent={tableComponent}

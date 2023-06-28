@@ -10,6 +10,7 @@ import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
+import useSortProperty from "../../../common/table/useSortProperty";
 import StudentsTable from "../../../teacher/student-management/view-students/StudentsTable";
 
 const MOCK_STUDENT_RESPONSE: {
@@ -105,6 +106,8 @@ const MOCK_STUDENT_RESPONSE: {
   error: false,
 };
 
+const SORT_PROPERTIES = ["firstName", "lastName", "studentNumber"] as const;
+
 type DisplayClassroomStudentsPageProps = {
   onCreateStudent: () => void;
 };
@@ -113,7 +116,10 @@ const DisplayClassroomStudentsPage = ({
   onCreateStudent,
 }: DisplayClassroomStudentsPageProps) => {
   const [search, setSearch] = useState("");
-  const [sortProperty, setSortProperty] = useState("firstName");
+  const [sortProperty, setSortProperty] = useSortProperty(
+    "firstName",
+    SORT_PROPERTIES,
+  );
   const [sortOrder, setSortOrder] = useState<SortOrder>("descending");
 
   const { data, loading, error } = MOCK_STUDENT_RESPONSE;
@@ -156,7 +162,7 @@ const DisplayClassroomStudentsPage = ({
               labels={["first name", "last name", "student ID"]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
-              properties={["firstName", "lastName", "studentNumber"]}
+              properties={SORT_PROPERTIES}
             />
           }
           tableComponent={<StudentsTable students={students} />}

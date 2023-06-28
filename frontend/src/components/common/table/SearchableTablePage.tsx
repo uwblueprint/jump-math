@@ -6,8 +6,8 @@ import NoResultsTableState from "./NoResultsTableState";
 import type { SearchBarProps } from "./SearchBar";
 import type { SortMenuProps } from "./SortMenu";
 
-interface SearchableTablePageProps<T> {
-  sortMenuComponent: React.ReactElement<SortMenuProps>;
+interface SearchableTablePageProps<T, SortPropTypes extends readonly string[]> {
+  sortMenuComponent: React.ReactElement<SortMenuProps<SortPropTypes>>;
   filterMenuComponent?: React.ReactElement<FilterMenuProps>;
   noResults: boolean;
   noResultsComponent: React.ReactElement;
@@ -18,7 +18,7 @@ interface SearchableTablePageProps<T> {
   nameOfTableItems: string;
 }
 
-const SearchableTablePage = <T,>({
+const SearchableTablePage = <T, SortPropTypes extends readonly string[]>({
   sortMenuComponent,
   filterMenuComponent,
   noResults,
@@ -28,7 +28,7 @@ const SearchableTablePage = <T,>({
   search,
   searchLength,
   nameOfTableItems,
-}: SearchableTablePageProps<T>): React.ReactElement => {
+}: SearchableTablePageProps<T, SortPropTypes>): React.ReactElement => {
   const emptyResults = noResults ? (
     noResultsComponent
   ) : (

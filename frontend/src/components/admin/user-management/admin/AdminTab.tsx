@@ -6,8 +6,8 @@ import NoResultsTableState from "../../../common/table/NoResultsTableState";
 import type { SearchBarProps } from "../../../common/table/SearchBar";
 import type { SortMenuProps } from "../../../common/table/SortMenu";
 
-interface AdminTabProps {
-  sortMenuComponent: React.ReactElement<SortMenuProps>;
+interface AdminTabProps<SortPropTypes extends readonly string[]> {
+  sortMenuComponent: React.ReactElement<SortMenuProps<SortPropTypes>>;
   searchBarComponent: React.ReactElement<SearchBarProps>;
   UserTable: React.ReactElement<AdminUser[] | TeacherUser[]>;
   search: string;
@@ -21,13 +21,13 @@ export interface AdminTableProps {
 export interface TeacherTableProps {
   users: TeacherUser[];
 }
-const AdminTab = ({
+const AdminTab = <SortPropTypes extends readonly string[]>({
   sortMenuComponent,
   searchBarComponent,
   UserTable,
   search,
   searchLength,
-}: AdminTabProps): React.ReactElement => {
+}: AdminTabProps<SortPropTypes>): React.ReactElement => {
   return (
     <>
       <VStack pt={4} spacing={6}>
