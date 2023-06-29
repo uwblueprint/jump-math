@@ -1,3 +1,4 @@
+import type { TestSessionOverviewData } from "./TestSessionClientTypes";
 import type { Grade, UserResponse } from "./UserClientTypes";
 
 export type ClassRequest = {
@@ -24,4 +25,23 @@ export type StudentResponse = {
   lastName: string;
   /** an optional identifier provided by the teacher */
   studentNumber: string;
+};
+
+export type ClassTitleData = {
+  /** the name of the class */
+  className: string;
+  /** the start date of the class */
+  startDate: Date;
+};
+
+export type ClassStudentData = {
+  /** the students in the class */
+  students: StudentResponse[];
+};
+
+export type ClassTestSessionData = {
+  /** the name of the class */
+  className: string;
+  /** the test sessions for this class */
+  testSessions: TestSessionOverviewData[];
 };
