@@ -6,6 +6,7 @@ export const GET_CLASS_DETAILS_BY_ID = gql`
       id
       className
       startDate
+      gradeLevel
     }
   }
 `;

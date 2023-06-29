@@ -32,6 +32,8 @@ export type ClassTitleData = {
   className: string;
   /** the start date of the class */
   startDate: Date;
+  /** the grade level of the class */
+  gradeLevel: Grade;
 };
 
 export type ClassStudentData = {

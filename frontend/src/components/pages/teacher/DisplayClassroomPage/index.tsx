@@ -66,12 +66,19 @@ const defaultValues: StudentForm = {
 
 const getLocationState = (
   state: unknown,
-): { className?: string; startDate?: string; grade?: string } => ({
-  className: undefined,
-  startDate: undefined,
-  grade: undefined,
-  ...(typeof state === "object" ? state : {}),
-});
+): { className?: string; startDate?: Date; grade?: string } => {
+  const result = {
+    className: undefined,
+    startDate: undefined,
+    grade: undefined,
+    ...(typeof state === "object" ? state : {}),
+  };
+
+  return {
+    ...result,
+    startDate: result.startDate ? new Date(result.startDate) : undefined,
+  };
+};
 
 const DisplayClassroomsPage = () => {
   const history = useHistory();
@@ -87,6 +94,10 @@ const DisplayClassroomsPage = () => {
     },
   );
   const displayTitle = data?.class.className ?? className;
+  const displayStartDate = data?.class.startDate
+    ? new Date(data.class.startDate)
+    : startDate;
+  const displayGrade = data?.class.gradeLevel ?? grade;
   const loading = !displayTitle;
 
   const {
@@ -121,14 +132,14 @@ const DisplayClassroomsPage = () => {
         isLoading={loading}
         title={displayTitle}
       >
-        {startDate && (
+        {displayStartDate && (
           <Tag bg="blue.50" color="blue.300" size="lg">
-            {formatMonth(new Date(startDate))}
+            {formatMonth(displayStartDate)}
           </Tag>
         )}
-        {grade && (
+        {displayGrade && (
           <Tag bg="green.50" color="green.400" size="lg">
-            {titleCase(removeUnderscore(grade))}
+            {titleCase(removeUnderscore(displayGrade))}
           </Tag>
         )}
         {!loading && (
