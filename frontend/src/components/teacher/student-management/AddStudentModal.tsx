@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
+import { GET_CLASS_STUDENTS_BY_ID } from "../../../APIClients/queries/ClassQueries";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
 import Toast from "../../common/info/Toast";
@@ -45,6 +46,14 @@ const AddStudentModal = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [createStudent] = useMutation<{ createStudent: StudentResponse }>(
     CREATE_STUDENT,
+    {
+      refetchQueries: [
+        {
+          query: GET_CLASS_STUDENTS_BY_ID,
+          variables: { classroomId: classId },
+        },
+      ],
+    },
   );
   const { showToast } = Toast();
 
