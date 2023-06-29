@@ -1,8 +1,11 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
+import { GET_CLASS_DETAILS_BY_ID } from "../../../../APIClients/queries/ClassQueries";
+import type { ClassTitleData } from "../../../../APIClients/types/ClassClientTypes";
 import { EditOutlineIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
 import type { StudentForm } from "../../../../types/ClassroomTypes";
@@ -75,7 +78,16 @@ const DisplayClassroomsPage = () => {
   const { classroomId } = useParams<{ classroomId: string }>();
   const { state } = useLocation();
   const { className, startDate, grade } = getLocationState(state);
-  const loading = !className;
+
+  const { data } = useQuery<{ class: ClassTitleData }>(
+    GET_CLASS_DETAILS_BY_ID,
+    {
+      variables: { classroomId },
+      skip: !!className,
+    },
+  );
+  const displayTitle = data?.class.className ?? className;
+  const loading = !displayTitle;
 
   const {
     isOpen: isStudentModalOpen,
@@ -90,7 +102,7 @@ const DisplayClassroomsPage = () => {
   return (
     <Flex direction="column" gap={3}>
       <FormBreadcrumb
-        breadcrumbs={BREADCRUMB_CONFIG(className)}
+        breadcrumbs={BREADCRUMB_CONFIG(displayTitle)}
         page={1}
         setPage={(newPage) => !newPage && history.push(Routes.CLASSROOMS_PAGE)}
       />
@@ -107,7 +119,7 @@ const DisplayClassroomsPage = () => {
           />
         }
         isLoading={loading}
-        title={className}
+        title={displayTitle}
       >
         {startDate && (
           <Tag bg="blue.50" color="blue.300" size="lg">
