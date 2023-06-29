@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
@@ -16,11 +17,19 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
   { header: "Review", page: 3 },
 ];
 
+const getLocationState = (state: unknown): { classroomId: string } => ({
+  classroomId: "",
+  ...(typeof state === "object" ? state : {}),
+});
+
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const { state } = useLocation();
+  const { classroomId: initialClassId } = getLocationState(state);
+
   const [page, setPage] = useState(0);
 
   const [testId, setTestId] = useState("");
-  const [classId, setClassId] = useState("");
+  const [classId, setClassId] = useState(initialClassId);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");

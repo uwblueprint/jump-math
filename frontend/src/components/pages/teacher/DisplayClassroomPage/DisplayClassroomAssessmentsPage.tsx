@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Center, VStack } from "@chakra-ui/react";
 
 import { sortArray } from "../../../../utils/GeneralUtils";
@@ -88,6 +89,7 @@ const DisplayClassroomAssessmentsPage = () => {
     "descending",
   );
 
+  const { classroomId } = useParams<{ classroomId: string }>();
   const data = mockData;
 
   const formattedData = useMemo(() => {
@@ -137,7 +139,7 @@ const DisplayClassroomAssessmentsPage = () => {
     <SearchableTablePage
       nameOfTableItems="assessments"
       noResults={paginatedData.length === 0}
-      noResultsComponent={<EmptySessionsMessage />}
+      noResultsComponent={<EmptySessionsMessage classId={classroomId} />}
       search={search}
       searchBarComponent={<SearchBar onSearch={setSearch} />}
       searchLength={paginatedData.length}
