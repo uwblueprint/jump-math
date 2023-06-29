@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -6,9 +6,13 @@ import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
 import { GET_CLASS_DETAILS_BY_ID } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassTitleData } from "../../../../APIClients/types/ClassClientTypes";
+import type { Grade } from "../../../../APIClients/types/UserClientTypes";
 import { EditOutlineIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
-import type { StudentForm } from "../../../../types/ClassroomTypes";
+import type {
+  ClassroomForm,
+  StudentForm,
+} from "../../../../types/ClassroomTypes";
 import {
   formatMonth,
   removeUnderscore,
@@ -18,6 +22,7 @@ import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
+import AddClassroomModal from "../../../teacher/student-management/classroom-summary/AddClassroomModal";
 import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 import RedirectTo from "../../RedirectTo";
@@ -58,22 +63,27 @@ const BREADCRUMB_CONFIG = (className?: string) => [
   },
 ];
 
-const defaultValues: StudentForm = {
+const studentFormDefaultValues: StudentForm = {
   firstName: "",
   lastName: "",
   studentNumber: undefined,
 };
 
+const classroomFormDefaultValues: ClassroomForm = {
+  className: "",
+  startDate: undefined,
+  gradeLevel: undefined,
+};
+
 const getLocationState = (
   state: unknown,
-): { className?: string; startDate?: Date; grade?: string } => {
+): { className?: string; startDate?: Date; gradeLevel?: Grade } => {
   const result = {
     className: undefined,
     startDate: undefined,
-    grade: undefined,
+    gradeLevel: undefined,
     ...(typeof state === "object" ? state : {}),
   };
-
   return {
     ...result,
     startDate: result.startDate ? new Date(result.startDate) : undefined,
@@ -84,7 +94,7 @@ const DisplayClassroomsPage = () => {
   const history = useHistory();
   const { classroomId } = useParams<{ classroomId: string }>();
   const { state } = useLocation();
-  const { className, startDate, grade } = getLocationState(state);
+  const { className, startDate, gradeLevel } = getLocationState(state);
 
   const { data } = useQuery<{ class: ClassTitleData }>(
     GET_CLASS_DETAILS_BY_ID,
@@ -94,10 +104,11 @@ const DisplayClassroomsPage = () => {
     },
   );
   const displayTitle = data?.class.className ?? className;
-  const displayStartDate = data?.class.startDate
-    ? new Date(data.class.startDate)
-    : startDate;
-  const displayGrade = data?.class.gradeLevel ?? grade;
+  const displayStartDate = useMemo(
+    () => (data?.class.startDate ? new Date(data.class.startDate) : startDate),
+    [data?.class.startDate, startDate],
+  );
+  const displayGradeLevel = data?.class.gradeLevel ?? gradeLevel;
   const loading = !displayTitle;
 
   const {
@@ -106,9 +117,30 @@ const DisplayClassroomsPage = () => {
     onOpen: onStudentModalOpen,
   } = useDisclosure();
   const studentFormMethods = useForm<StudentForm>({
-    defaultValues,
+    defaultValues: studentFormDefaultValues,
     mode: "onChange",
   });
+
+  const {
+    isOpen: isClassroomModalOpen,
+    onClose: onClassroomModalClose,
+    onOpen: onClassroomModalOpen,
+  } = useDisclosure();
+  const classroomFormMethods = useForm<ClassroomForm>({
+    defaultValues: classroomFormDefaultValues,
+    mode: "onChange",
+  });
+
+  useEffect(() => {
+    classroomFormMethods.reset(
+      {
+        className: displayTitle,
+        startDate: displayStartDate,
+        gradeLevel: displayGradeLevel,
+      },
+      { keepDefaultValues: false },
+    );
+  }, [classroomFormMethods, displayGradeLevel, displayStartDate, displayTitle]);
 
   return (
     <Flex direction="column" gap={3}>
@@ -137,9 +169,9 @@ const DisplayClassroomsPage = () => {
             {formatMonth(displayStartDate)}
           </Tag>
         )}
-        {displayGrade && (
+        {displayGradeLevel && (
           <Tag bg="green.50" color="green.400" size="lg">
-            {titleCase(removeUnderscore(displayGrade))}
+            {titleCase(removeUnderscore(displayGradeLevel))}
           </Tag>
         )}
         {!loading && (
@@ -148,6 +180,10 @@ const DisplayClassroomsPage = () => {
             color="blue.300"
             icon={<EditOutlineIcon />}
             minW={0}
+            onClick={() => {
+              classroomFormMethods.reset();
+              onClassroomModalOpen();
+            }}
           />
         )}
       </HeaderWithButton>
@@ -156,6 +192,13 @@ const DisplayClassroomsPage = () => {
           classId={classroomId}
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}
+        />
+      </FormProvider>
+      <FormProvider {...classroomFormMethods}>
+        <AddClassroomModal
+          classroomId={classroomId}
+          isOpen={isClassroomModalOpen}
+          onClose={onClassroomModalClose}
         />
       </FormProvider>
       <RouterTabs routes={TAB_CONFIG(onStudentModalOpen)} />
