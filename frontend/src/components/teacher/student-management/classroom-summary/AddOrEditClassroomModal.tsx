@@ -43,17 +43,17 @@ import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
-type AddClassroomModalProps = {
+type AddOrEditClassroomModalProps = {
   onClose: () => void;
   isOpen: boolean;
   classroomId?: string;
 };
 
-const AddClassroomModal = ({
+const AddOrEditClassroomModal = ({
   onClose,
   isOpen,
   classroomId,
-}: AddClassroomModalProps): React.ReactElement => {
+}: AddOrEditClassroomModalProps): React.ReactElement => {
   const history = useHistory();
 
   const {
@@ -258,4 +258,4 @@ const AddClassroomModal = ({
   );
 };
 
-export default AddClassroomModal;
+export default AddOrEditClassroomModal;

@@ -26,7 +26,7 @@ import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import AddClassroomModal from "../../teacher/student-management/classroom-summary/AddClassroomModal";
+import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 import ClassroomCard from "../../teacher/student-management/classroom-summary/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
@@ -73,7 +73,7 @@ const ClassroomsPage = (): React.ReactElement => {
           showButton={classCards?.length !== 0}
           title="Classrooms"
         />
-        <AddClassroomModal
+        <AddOrEditClassroomModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
