@@ -65,10 +65,10 @@ describe("mongo classService", (): void => {
 
   it("create class for valid teachers", async () => {
     // execute
-    const createdClass = await classService.createClass(testClass[0]);
+    const createdClass = await classService.createClass(mockTestClass);
 
     // assert
-    assertResponseMatchesExpected(testClass[0], createdClass);
+    assertResponseMatchesExpected(mockTestClass, createdClass);
   });
 
   it("throw error for non-existing teachers", async () => {
