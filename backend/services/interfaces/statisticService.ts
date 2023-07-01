@@ -48,4 +48,28 @@ export interface IStatisticService {
    * @param testId The unique identifier of the test to obtain statistics for
    */
   getSubmissionCountByTest(testId: string): Promise<number>;
+
+  /**
+   * This method returns the mean score for a given test.
+   * The return value is a number that contains the mean score.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getMeanScoreByTest(testId: string): Promise<number>;
+
+  /**
+   * This method returns the median score for a given test.
+   * The return value is a number that contains the median score.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getMedianScoreByTest(testId: string): Promise<number>;
+
+  /**
+   * This method returns the completion rate (% of questions answered) for a given test.
+   * The return value is a number that contains the completion rate.
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getCompletionRateByTest(testId: string): Promise<number>;
 }
