@@ -1,5 +1,4 @@
-import type { UserDTO, Grade } from "../../types";
-import { type TestSessionResponseDTO } from "./testSessionService";
+import type { Grade } from "../../types";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -16,7 +15,7 @@ export interface StudentResponseDTO {
 
 export interface ClassRequestDTO {
   className: string;
-  schoolYear: number;
+  startDate: Date;
   gradeLevel: Grade;
   teacher: string;
 }
@@ -24,12 +23,22 @@ export interface ClassRequestDTO {
 export interface ClassResponseDTO {
   id: string;
   className: string;
-  schoolYear: number;
+  startDate: Date;
   gradeLevel: Grade;
-  teacher: UserDTO;
-  testSessions: TestSessionResponseDTO[];
+  teacher: string;
+  testSessions: string[];
   students: StudentResponseDTO[];
   isActive: boolean;
+}
+
+export interface ClassCard {
+  id: string;
+  activeAssessments: number;
+  assessmentCount: number;
+  gradeLevel: Grade;
+  className: string;
+  startDate?: Date;
+  studentCount: number;
 }
 
 export interface IClassService {
@@ -44,14 +53,10 @@ export interface IClassService {
   /**
    * This method retrieves the class with given id.
    * @param id class id
-   * @param populateTestSessions if true, test sessions will be populated
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassById(
-    id: string,
-    populateTestSessions?: boolean,
-  ): Promise<ClassResponseDTO>;
+  getClassById(id: string): Promise<ClassResponseDTO>;
 
   /**
    * This method retrieves the class with given test session id.

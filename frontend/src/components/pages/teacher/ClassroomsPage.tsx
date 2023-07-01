@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
@@ -13,18 +15,21 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { Grade } from "../../../APIClients/types/UserClientTypes";
-import DisplayAssessmentsIllustration from "../../../assets/illustrations/display-assessments.svg";
+import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
+import * as Routes from "../../../constants/Routes";
+import AuthContext from "../../../contexts/AuthContext";
+import type { ClassCard } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
-import ClassroomCard from "../../classrooms/ClassroomCard";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import MessageContainer from "../../common/MessageContainer";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
+import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import AddClassroomModal from "../../user-management/student/AddClassroomModal";
+import AddClassroomModal from "../../teacher/student-management/classrooms/AddClassroomModal";
+import ClassroomCard from "../../teacher/student-management/classrooms/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
@@ -32,91 +37,20 @@ const ClassroomsPage = (): React.ReactElement => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const classrooms = [
-    {
-      id: "1",
-      name: "David",
-      studentCount: 100,
-      assessmentCount: 100,
-      grade: Grade.GRADE_4,
-      activeAssessments: 100,
-    },
-    {
-      id: "2",
-      name: "David 2",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "3",
-      name: "David 3",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "4",
-      name: "David 4",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "5",
-      name: "David 5",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "6",
-      name: "David 6",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "7",
-      name: "David 7",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "8",
-      name: "David 8",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "9",
-      name: "David 9",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-    {
-      id: "10",
-      name: "David 10",
-      studentCount: 200,
-      assessmentCount: 200,
-      grade: Grade.GRADE_2,
-      activeAssessments: 200,
-    },
-  ];
+  const { authenticatedUser } = useContext(AuthContext);
+
+  const { id: teacherId } = authenticatedUser ?? {};
+
+  const { loading, error, data } = useQuery(GET_CLASSES_BY_TEACHER, {
+    fetchPolicy: "cache-and-network",
+    variables: { teacherId },
+    skip: !teacherId,
+  });
+
+  const classCards: ClassCard[] = data?.classesByTeacher;
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(classrooms);
+    usePaginatedData(classCards);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
@@ -126,89 +60,98 @@ const ClassroomsPage = (): React.ReactElement => {
     setIsModalOpen(true);
   };
 
+  if (!teacherId) {
+    return <Redirect to={Routes.TEACHER_LOGIN_PAGE} />;
+  }
+
   return (
     <FormProvider {...methods}>
       <Box>
         <HeaderWithButton
-          buttonText="Add New Classroom"
+          buttonText="Add Classroom"
           onClick={handleAddClassroom}
-          showButton={classrooms.length !== 0}
-          title="Classroom"
+          showButton={classCards?.length !== 0}
+          title="Classrooms"
         />
         <AddClassroomModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       </Box>
-      <Box flex="1">
-        {classrooms.length !== 0 ? (
-          <>
-            <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
-              <TabList>
-                <Tab color={unselectedTabColor}>Active</Tab>
-                <Tab color={unselectedTabColor}>Archived</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel padding="0">
-                  <Grid gap={4} templateColumns="repeat(4, 1fr)">
-                    {paginatedData.map((classroom) => (
-                      <GridItem key={classroom.id} flex="1" paddingTop="4">
-                        <ClassroomCard
-                          key={classroom.id}
-                          activeAssessments={classroom.activeAssessments}
-                          assessmentCount={classroom.assessmentCount}
-                          grade={classroom.grade}
-                          name={classroom.name}
-                          studentCount={classroom.studentCount}
+      {loading && (
+        <Center flex="1" margin="15%">
+          <LoadingState />
+        </Center>
+      )}
+      {error && (
+        <Box height="100%" mt={10}>
+          <ErrorState />
+        </Box>
+      )}
+      {classCards && !error && !loading && (
+        <Box flex="1">
+          {classCards.length !== 0 ? (
+            <>
+              <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
+                <TabList>
+                  <Tab>Active</Tab>
+                  <Tab>Archived</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel padding="0">
+                    <Grid gap={4} templateColumns="repeat(4, 1fr)">
+                      {paginatedData?.map(
+                        ({
+                          id,
+                          activeAssessments,
+                          assessmentCount,
+                          gradeLevel,
+                          className,
+                          startDate,
+                          studentCount,
+                        }) => (
+                          <GridItem key={id} flex="1" paddingTop="4">
+                            <ClassroomCard
+                              key={id}
+                              activeAssessments={activeAssessments}
+                              assessmentCount={assessmentCount}
+                              grade={gradeLevel}
+                              id={id}
+                              name={className}
+                              startDate={startDate}
+                              studentCount={studentCount}
+                            />
+                          </GridItem>
+                        ),
+                      )}
+                    </Grid>
+                    <VStack
+                      alignItems="center"
+                      paddingBottom="6"
+                      paddingTop="6"
+                      spacing="6"
+                      width="100%"
+                    >
+                      {totalPages > 1 && (
+                        <Pagination
+                          currentPage={currentPage}
+                          onPageChange={setCurrentPage}
+                          pagesCount={totalPages}
                         />
-                      </GridItem>
-                    ))}
-                  </Grid>
-                  <VStack
-                    alignItems="center"
-                    paddingBottom="6"
-                    paddingTop="6"
-                    spacing="6"
-                    width="100%"
-                  >
-                    {totalPages > 1 && (
-                      <Pagination
-                        currentPage={currentPage}
-                        onPageChange={setCurrentPage}
-                        pagesCount={totalPages}
-                      />
-                    )}
-                  </VStack>
-                </TabPanel>
-                <TabPanel padding="0">
-                  <h1>Coming soon!</h1>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </>
-        ) : (
-          <>
-            <Center
-              backgroundColor="blue.50"
-              borderRadius="1rem"
-              color="blue.300"
-              minWidth="100%"
-              pb={14}
-            >
-              <MessageContainer
-                buttonText="Add New Classroom"
-                image={DisplayAssessmentsIllustration}
-                onClick={handleAddClassroom}
-                paragraphs={[
-                  "Click on the below button to create your first classroom",
-                ]}
-                subtitle="You currently have no classrooom."
-                textColor="blue.300"
-              />
-            </Center>
-          </>
-        )}
-      </Box>
+                      )}
+                    </VStack>
+                  </TabPanel>
+                  <TabPanel padding="0">
+                    <h1>Coming soon!</h1>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </>
+          ) : (
+            <EmptyClassroomsMessage onClick={handleAddClassroom} />
+          )}
+        </Box>
+      )}
     </FormProvider>
   );
 };

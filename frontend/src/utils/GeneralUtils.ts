@@ -24,6 +24,14 @@ export const formatDate = (date: Date): string => {
   return date.toLocaleDateString("en-US", options);
 };
 
+export const formatMonth = (date: Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+};
+
 export const getCurrentDate = (): string => formatDate(new Date());
 
 export const formatDateTime = (date: Date): string => {
@@ -66,3 +74,8 @@ export function sortArray<Type extends Record<string, string>>(
 
 export const randomNumber = (): number =>
   window.crypto.getRandomValues(new Uint32Array(1))[0];
+
+export const stringToFloat = (input: string): number | undefined => {
+  const value = parseFloat(input);
+  return Number.isNaN(value) ? undefined : value;
+};

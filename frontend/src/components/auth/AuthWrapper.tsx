@@ -6,7 +6,7 @@ import { JUMP_MATH_LOGO } from "../../assets/images";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import type ImageType from "../../types/ImageTypes";
-import FormError from "../common/FormError";
+import FormError from "../common/form/FormError";
 
 interface AuthWrapperInputProps {
   title: string;

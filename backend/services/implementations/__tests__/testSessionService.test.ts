@@ -61,7 +61,6 @@ describe("mongo testSessionService", (): void => {
       schoolService,
     );
     classService = new ClassService(userService, testSessionService);
-    testSessionService.bindClassService(classService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
@@ -86,9 +85,7 @@ describe("mongo testSessionService", (): void => {
     expect(res.results).toEqual([]);
 
     const updatedClass = await MgClass.findById(classObj.id);
-    expect(
-      Array.from(updatedClass?.testSessions ?? []).map((id) => id.toString()),
-    ).toEqual([res.id]);
+    expect(updatedClass?.testSessions.map(String)).toEqual([res.id]);
   });
 
   it("createTestSession for invalid class id", async () => {
@@ -130,7 +127,7 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
       mockTestSession.results,
-      res[0].results,
+      res[0].results ?? [],
     );
   });
 
@@ -140,7 +137,10 @@ describe("mongo testSessionService", (): void => {
       savedTestSession.id,
     );
     assertResponseMatchesExpected(mockTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSession.results,
+      res.results ?? [],
+    );
   });
 
   it("get test sessions by access code for valid code", async () => {
@@ -149,7 +149,10 @@ describe("mongo testSessionService", (): void => {
       mockTestSession.accessCode,
     );
     assertResponseMatchesExpected(mockTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSession.results,
+      res.results ?? [],
+    );
   });
 
   it("get test sessions by access code for invalid code", async () => {
@@ -201,7 +204,7 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSessionsWithOneValid[1], res);
     assertResultsResponseMatchesExpected(
       mockTestSessionsWithOneValid[1].results,
-      res.results,
+      res.results ?? [],
     );
   });
 
@@ -213,7 +216,7 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
       mockTestSession.results,
-      res[0].results,
+      res[0].results ?? [],
     );
   });
 
@@ -237,7 +240,7 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res[0]);
     assertResultsResponseMatchesExpected(
       mockTestSession.results,
-      res[0].results,
+      res[0].results ?? [],
     );
   });
 
@@ -262,7 +265,7 @@ describe("mongo testSessionService", (): void => {
       );
       assertResultsResponseMatchesExpected(
         mockTestSessionsWithSameTestId[i].results,
-        testSession.results,
+        testSession.results ?? [],
       );
     });
   });
@@ -317,7 +320,7 @@ describe("mongo testSessionService", (): void => {
 
     const res = await testSessionService.gradeTestResult(
       mockUngradedTestResult,
-      mockTestSessionWithId.test.id,
+      mockTestSessionWithId.test,
     );
     expect(res).toStrictEqual(mockGradedTestResult);
   });
@@ -354,7 +357,10 @@ describe("mongo testSessionService", (): void => {
       updatedTestSession,
     );
     assertResponseMatchesExpected(updatedTestSession, res);
-    assertResultsResponseMatchesExpected(mockTestSession.results, res.results);
+    assertResultsResponseMatchesExpected(
+      mockTestSession.results,
+      res.results ?? [],
+    );
   });
 
   it("updateTestSession for non-existing ID", async () => {
@@ -375,7 +381,7 @@ describe("mongo testSessionService", (): void => {
     assertResponseMatchesExpected(mockTestSession, res);
     assertResultsResponseMatchesExpected(
       [mockGradedTestResult, mockGradedTestResult],
-      res.results,
+      res.results ?? [],
     );
   });
 

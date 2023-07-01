@@ -1,4 +1,4 @@
-import { GraphQLUpload } from "../../lib/graphqlUpload.cjs";
+import { GraphQLUpload } from "../../lib/graphql-upload";
 
 const scalarResolvers = async () => ({
   FileUpload: await GraphQLUpload(),

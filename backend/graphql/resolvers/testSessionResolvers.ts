@@ -4,6 +4,7 @@ import TestService from "../../services/implementations/testService";
 import SchoolService from "../../services/implementations/schoolService";
 import type {
   ITestSessionService,
+  ResultRequestDTO,
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../../services/interfaces/testSessionService";
@@ -12,6 +13,7 @@ import type IUserService from "../../services/interfaces/userService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
 import type { IClassService } from "../../services/interfaces/classService";
+import { computePercentiles } from "../../utilities/generalUtils";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -25,44 +27,61 @@ const classService: IClassService = new ClassService(
   userService,
   testSessionService,
 );
-testSessionService.bindClassService(classService);
 
 const testSessionResolvers = {
   Query: {
-    testSession: async (
-      _parent: undefined,
-      { id }: { id: string },
-    ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.getTestSessionById(id);
-    },
-    testSessions: async (): Promise<TestSessionResponseDTO[]> => {
-      return testSessionService.getAllTestSessions();
-    },
-    testSessionByAccessCode: async (
+    testSession: (_parent: undefined, { id }: { id: string }) =>
+      testSessionService.getTestSessionById(id),
+    testSessions: () => testSessionService.getAllTestSessions(),
+    testSessionByAccessCode: (
       _parent: undefined,
       { accessCode }: { accessCode: string },
-    ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.getTestSessionByAccessCode(accessCode);
-    },
-    testSessionsByTeacherId: async (
+    ) => testSessionService.getTestSessionByAccessCode(accessCode),
+    testSessionsByTeacherId: (
       _parent: undefined,
       { teacherId }: { teacherId: string },
-    ): Promise<Array<TestSessionResponseDTO>> => {
-      return testSessionService.getTestSessionsByTeacherId(teacherId);
-    },
+    ) => testSessionService.getTestSessionsByTeacherId(teacherId),
   },
   Mutation: {
-    createTestSession: async (
+    createTestSession: (
       _req: undefined,
       { testSession }: { classId: string; testSession: TestSessionRequestDTO },
-    ): Promise<TestSessionResponseDTO> => {
-      return testSessionService.createTestSession(testSession);
-    },
-    deleteTestSession: async (
+    ) => testSessionService.createTestSession(testSession),
+    createTestSessionResult: (
       _req: undefined,
-      { id }: { id: string },
-    ): Promise<string> => {
-      return testSessionService.deleteTestSession(id);
+      { id, result }: { id: string; result: ResultRequestDTO },
+    ) => testSessionService.createTestSessionResult(id, result),
+    deleteTestSession: (_req: undefined, { id }: { id: string }) =>
+      testSessionService.deleteTestSession(id),
+  },
+  TestSessionResponseDTO: {
+    class: ({ class: parentClass }: TestSessionResponseDTO) =>
+      classService.getClassById(parentClass),
+    teacher: ({ teacher }: TestSessionResponseDTO) =>
+      userService.getUserById(teacher),
+    school: ({ school }: TestSessionResponseDTO) =>
+      schoolService.getSchoolById(school),
+    test: ({ test }: TestSessionResponseDTO) => testService.getTestById(test),
+    results: async ({
+      class: parentClass,
+      results,
+    }: TestSessionResponseDTO) => {
+      if (!results) return [];
+
+      const { students } = await classService.getClassById(parentClass);
+      const resultsByStudentId = computePercentiles(results, "score").reduce<
+        Record<string, ResultRequestDTO>
+      >(
+        (acc, result) => ({
+          ...acc,
+          [result.student]: result,
+        }),
+        {},
+      );
+      return students.map((student) => ({
+        result: resultsByStudentId[student.id],
+        student,
+      }));
     },
   },
 };

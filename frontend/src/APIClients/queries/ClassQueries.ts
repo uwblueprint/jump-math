@@ -19,12 +19,12 @@ export const GET_CLASSES_BY_TEACHER = gql`
   query ClassesByTeacher($teacherId: ID!) {
     classesByTeacher(teacherId: $teacherId) {
       id
-      students {
-        id
-        firstName
-        lastName
-        studentNumber
-      }
+      activeAssessments
+      assessmentCount
+      gradeLevel
+      className
+      startDate
+      studentCount
     }
   }
 `;

@@ -7,11 +7,9 @@ import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
 import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
-import type { Answers } from "../../../types/AnswerTypes";
-import { initializeAnswers } from "../../../utils/StudentUtils";
 import PrivateRoute from "../../auth/PrivateRoute";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
@@ -28,8 +26,6 @@ const StudentRouting = (): React.ReactElement => {
     null,
   );
   const [className, setClassName] = useState("");
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Answers[]>([]);
 
   useEffect(() => {
     if (state) {
@@ -39,32 +35,21 @@ const StudentRouting = (): React.ReactElement => {
     }
   }, [state]);
 
-  const [test, setTest] = useState<TestResponse | null>(null);
   const { loading, data, error } = useQuery<{ test: TestResponse }>(GET_TEST, {
     fetchPolicy: "cache-and-network",
     variables: { id: testId },
     skip: !testId,
-    onCompleted: () => {
-      if (data) {
-        setTest(data.test);
-        setAnswers(initializeAnswers(data.test.questions));
-      }
-    },
   });
+  const test = data?.test ?? null;
 
   return (
     <StudentContext.Provider
       value={{
         test,
-        setTest,
         testSession,
         setTestSession,
         className,
         setClassName,
-        currentQuestionIndex,
-        setCurrentQuestionIndex,
-        answers,
-        setAnswers,
       }}
     >
       {loading && <LoadingState fullPage />}

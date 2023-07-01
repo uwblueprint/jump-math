@@ -7,7 +7,8 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
-import BackButton from "../../common/BackButton";
+import BackButton from "../../common/navigation/BackButton";
+import Spinner from "../../common/Spinner";
 
 const StudentLoginPage = (): React.ReactElement => {
   const [showNameSelection, setShowNameSelection] = useState(false);
@@ -22,26 +23,29 @@ const StudentLoginPage = (): React.ReactElement => {
     null,
   );
 
-  const [checkPin] = useLazyQuery(GET_TEST_SESSION_BY_ACCESS_CODE, {
-    onCompleted: (data) => {
-      setSuccess(true);
-      setError("");
+  const [checkPin, { loading }] = useLazyQuery(
+    GET_TEST_SESSION_BY_ACCESS_CODE,
+    {
+      onCompleted: (data) => {
+        setSuccess(true);
+        setError("");
 
-      const result = data.testSessionByAccessCode;
-      setTestId(result.test.id);
-      setTestSession({
-        id: result.id,
-        startDate: new Date(result.startDate),
-        notes: result.notes ?? "",
-      });
+        const result = data.testSessionByAccessCode;
+        setTestId(result.test.id);
+        setTestSession({
+          id: result.id,
+          startDate: new Date(result.startDate),
+          notes: result.notes ?? "",
+        });
 
-      delayedRedirect();
+        delayedRedirect();
+      },
+      onError: async () => {
+        setError("Please ensure input is correct");
+        setSuccess(false);
+      },
     },
-    onError: async () => {
-      setError("Please ensure input is correct");
-      setSuccess(false);
-    },
-  });
+  );
 
   const getPinBorderColor = () => {
     if (error) return "red.200 !important";
@@ -62,6 +66,7 @@ const StudentLoginPage = (): React.ReactElement => {
   const image = STUDENT_SIGNUP_IMAGE;
   const form = (
     <>
+      {loading && <Spinner />}
       {success && (
         <Text color="green.300" textStyle="smallerParagraph">
           Entered successfully
@@ -76,7 +81,7 @@ const StudentLoginPage = (): React.ReactElement => {
           size="lg"
           variant="filled"
         >
-          {[...Array(6)].map((i) => (
+          {[...Array(6)].map((_, i) => (
             <PinInputField
               key={i}
               _focus={{ backgroundColor: "grey.100" }}

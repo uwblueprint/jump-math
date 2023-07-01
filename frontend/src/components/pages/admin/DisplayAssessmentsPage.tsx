@@ -19,18 +19,19 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import AssessmentsTab from "../../assessments/AssessmentsTab";
-import AssessmentsTable from "../../assessments/AssessmentsTable";
-import ErrorState from "../../common/ErrorState";
+import AssessmentsTab from "../../admin/view-assessments/AssessmentsTab";
+import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 
+const STATUS_ORDER = ["", Status.DRAFT, Status.PUBLISHED, Status.ARCHIVED];
+
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const unselectedTabColor = "#727278";
   const [search, setSearch] = React.useState("");
   const [sortProperty, setSortProperty] = React.useState("updatedAt");
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("descending");
@@ -52,9 +53,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(GET_ALL_TESTS, {
     fetchPolicy: "cache-and-network",
-    onCompleted: () => {
+    onCompleted: (fetchedData) => {
       const { gradeOptions, testTypeOptions, countryOptions, regionOptions } =
-        assessmentFilterOptions(data.tests);
+        assessmentFilterOptions(fetchedData.tests);
 
       setFilterOptions((prev) => {
         return [
@@ -97,11 +98,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     return sortArray(searchedAssessments, sortProperty, sortOrder);
   }, [searchedAssessments, sortProperty, sortOrder]);
 
-  const AssessmentTabPanels = [...Array(4)].map((i) => {
+  const AssessmentTabPanels = STATUS_ORDER.map((panelStatus) => {
     return (
-      <TabPanel key={i} padding="0">
+      <TabPanel key={panelStatus} padding="0">
         <AssessmentsTab
-          key={i}
           assessmentsTable={<AssessmentsTable assessments={assessments} />}
           filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           noResults={isEmpty}
@@ -157,29 +157,15 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       )}
       {assessments && !error && !loading && (
         <Box flex="1">
-          <Tabs marginTop={3}>
+          <Tabs
+            marginTop={3}
+            onChange={(index) => setStatus(STATUS_ORDER[index])}
+          >
             <TabList>
-              <Tab color={unselectedTabColor} onClick={() => setStatus("")}>
-                All
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.DRAFT)}
-              >
-                Drafts
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.PUBLISHED)}
-              >
-                Published
-              </Tab>
-              <Tab
-                color={unselectedTabColor}
-                onClick={() => setStatus(Status.ARCHIVED)}
-              >
-                Archived
-              </Tab>
+              <Tab>All</Tab>
+              <Tab>Drafts</Tab>
+              <Tab>Published</Tab>
+              <Tab>Archived</Tab>
             </TabList>
             <TabPanels>{AssessmentTabPanels}</TabPanels>
           </Tabs>

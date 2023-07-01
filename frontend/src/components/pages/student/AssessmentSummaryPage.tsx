@@ -14,9 +14,9 @@ import { HOME_PAGE, WRITE_ASSESSMENT_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import StudentContext from "../../../contexts/StudentContext";
 import { formatDateTime } from "../../../utils/GeneralUtils";
-import AssessmentInfo from "../../assessments/student-experience/pre-assessment/AssessmentInfo";
-import AssessmentRules from "../../assessments/student-experience/pre-assessment/AssessmentRules";
-import Modal from "../../common/Modal";
+import Modal from "../../common/modal/Modal";
+import AssessmentInfo from "../../student/AssessmentInfo";
+import AssessmentRules from "../../student/AssessmentRules";
 
 const AssessmentSummaryPage = (): React.ReactElement => {
   const { test, testSession } = useContext(StudentContext);

@@ -2,14 +2,19 @@ import gql from "graphql-tag";
 
 const testSessionType = gql`
   type ResultResponseDTO {
-    student: String!
     score: Float!
+    percentile: Float!
     answers: [[[Float]]]!
     breakdown: [[Boolean]]!
   }
 
+  type StudentResultResponseDTO {
+    student: StudentResponseDTO!
+    result: ResultResponseDTO
+  }
+
   input ResultRequestDTO {
-    student: String!
+    student: ID!
     answers: [[[Float]]]!
   }
 
@@ -19,7 +24,7 @@ const testSessionType = gql`
     teacher: UserDTO!
     school: SchoolResponseDTO!
     class: ClassResponseDTO!
-    results: [ResultResponseDTO]
+    results: [StudentResultResponseDTO!]
     accessCode: String!
     startDate: Date!
     endDate: Date!
@@ -38,15 +43,19 @@ const testSessionType = gql`
   }
 
   extend type Query {
-    testSession(id: String!): TestSessionResponseDTO!
+    testSession(id: ID!): TestSessionResponseDTO!
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
-    testSessionsByTeacherId(teacherId: String!): [TestSessionResponseDTO!]!
+    testSessionsByTeacherId(teacherId: ID!): [TestSessionResponseDTO!]!
   }
 
   extend type Mutation {
     createTestSession(
       testSession: TestSessionRequestDTO!
+    ): TestSessionResponseDTO!
+    createTestSessionResult(
+      id: ID!
+      result: ResultRequestDTO!
     ): TestSessionResponseDTO!
     deleteTestSession(id: ID!): ID!
   }

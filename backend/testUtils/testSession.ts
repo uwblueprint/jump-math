@@ -159,15 +159,10 @@ export const mockTestSessionWithExpiredEndDate: TestSessionDTO = {
 export const mockTestSessionWithId: TestSessionResponseDTO = {
   ...mockTestSession,
   id: "62c248c0f79d6c3c9ebbea90",
-  test: mockTestWithId,
-  teacher: mockTeacher,
-  school: mockSchoolWithId,
-  class: {
-    ...mockClassWithId,
-    teacher: mockTeacher,
-    testSessions: [],
-    isActive: true,
-  },
+  test: mockTestWithId.id,
+  teacher: mockTeacher.id,
+  school: mockSchoolWithId.id,
+  class: mockClassWithId.id,
 };
 
 export const mockTestSessions: TestSessionDTO[] = [
@@ -245,9 +240,9 @@ export const assertResponseMatchesExpected = (
   result: TestSessionResponseDTO,
 ): void => {
   expect(result.id).not.toBeNull();
-  expect(result.test).toEqual(mockTestWithId);
-  expect(result.teacher).toEqual(mockTeacher);
-  expect(result.school).toEqual(mockSchoolWithId);
+  expect(result.test.toString()).toEqual(expected.test);
+  expect(result.teacher.toString()).toEqual(expected.teacher);
+  expect(result.school.toString()).toEqual(expected.school);
   expect(result.accessCode).toEqual(expected.accessCode);
   expect(result.startDate).toEqual(expected.startDate);
   expect(result.endDate).toEqual(expected.endDate);

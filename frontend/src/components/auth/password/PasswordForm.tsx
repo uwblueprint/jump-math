@@ -13,7 +13,7 @@ import {
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
-import FormError from "../../common/FormError";
+import FormError from "../../common/form/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
 import PasswordRequirement from "./PasswordRequirement";

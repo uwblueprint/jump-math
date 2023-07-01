@@ -4,32 +4,21 @@ import { createContext } from "react";
 
 import type { TestResponse } from "../APIClients/types/TestClientTypes";
 import type { TestSessionSetupData } from "../APIClients/types/TestSessionClientTypes";
-import type { Answers } from "../types/AnswerTypes";
 
 type StudentContextType = {
   test: TestResponse | null;
-  setTest: (_test: TestResponse) => void;
   testSession: TestSessionSetupData | null;
   setTestSession: (_testSession: TestSessionSetupData) => void;
   className: string;
   setClassName: (_className: string) => void;
-  answers: Answers[];
-  setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]) => void;
-  currentQuestionIndex: number;
-  setCurrentQuestionIndex: (_currentQuestionIndex: number) => void;
 };
 
 const StudentContext = createContext<StudentContextType>({
   test: null,
-  setTest: (_test: TestResponse): void => {},
   testSession: null,
   setTestSession: (_testSession: TestSessionSetupData): void => {},
   className: "",
   setClassName: (_className: string): void => {},
-  answers: [],
-  setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]): void => {},
-  currentQuestionIndex: 0,
-  setCurrentQuestionIndex: (_currentQuestionIndex: number): void => {},
 });
 
 export default StudentContext;
