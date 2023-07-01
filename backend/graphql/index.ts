@@ -96,7 +96,7 @@ const buildSchema = async () => {
       duplicateTest: authorizedByAdmin(),
       unarchiveTest: authorizedByAdmin(),
       archiveTest: authorizedByAdmin(),
-      createClass: authorizedByAllRoles(),
+      // createClass: authorizedByAllRoles(),
       createStudent: authorizedByAllRoles(),
       createTestSession: authorizedByAllRoles(),
     },
