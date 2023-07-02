@@ -24,6 +24,14 @@ export const formatDate = (date: Date): string => {
   return date.toLocaleDateString("en-US", options);
 };
 
+export const formatMonth = (date: Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+};
+
 export const getCurrentDate = (): string => formatDate(new Date());
 
 export const formatDateTime = (date: Date): string => {

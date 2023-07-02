@@ -1,10 +1,10 @@
 import type { Grade } from "../APIClients/types/UserClientTypes";
 
-export type ClassroomInput = "className" | "schoolYear" | "gradeLevel";
+export type ClassroomInput = "className" | "startDate" | "gradeLevel";
 
 export interface ClassroomForm {
   className: string;
-  schoolYear: string;
+  startDate: Date | undefined;
   gradeLevel: Grade;
 }
 
@@ -14,6 +14,7 @@ export interface ClassCard {
   assessmentCount: number;
   gradeLevel: Grade;
   className: string;
+  startDate?: string;
   studentCount: number;
 }
 

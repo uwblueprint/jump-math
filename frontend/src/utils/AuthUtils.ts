@@ -20,7 +20,7 @@ export const decodeJWT = (token: string | null): DecodedJWT | null => {
   }
 };
 
-export const shouldRenewToken = (token: string | null) => {
+export const shouldRefreshToken = (token: string | null) => {
   const decodedToken = decodeJWT(token);
   if (decodedToken?.payload?.exp == null) return false;
   return decodedToken.payload.exp <= Math.round(new Date().getTime() / 1000);

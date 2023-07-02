@@ -12,10 +12,8 @@ import type { ITestService } from "../../services/interfaces/testService";
 import type IUserService from "../../services/interfaces/userService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import ClassService from "../../services/implementations/classService";
-import type {
-  IClassService,
-  StudentResponseDTO,
-} from "../../services/interfaces/classService";
+import type { IClassService } from "../../services/interfaces/classService";
+import { computePercentiles } from "../../utilities/generalUtils";
 
 const userService: IUserService = new UserService();
 const schoolService: ISchoolService = new SchoolService(userService);
@@ -71,16 +69,18 @@ const testSessionResolvers = {
       if (!results) return [];
 
       const { students } = await classService.getClassById(parentClass);
-      const studentsById = students.reduce<Record<string, StudentResponseDTO>>(
-        (acc, student) => ({
+      const resultsByStudentId = computePercentiles(results, "score").reduce<
+        Record<string, ResultRequestDTO>
+      >(
+        (acc, result) => ({
           ...acc,
-          [student.id]: student,
+          [result.student]: result,
         }),
         {},
       );
-      return results.map((result) => ({
-        ...result,
-        student: studentsById[result.student],
+      return students.map((student) => ({
+        result: resultsByStudentId[student.id],
+        student,
       }));
     },
   },

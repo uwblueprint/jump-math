@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
+import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
@@ -15,7 +16,7 @@ import ClassroomCard from "../teacher/student-management/classrooms/ClassroomCar
 
 const defaultValues = {
   className: "",
-  schoolYear: "",
+  startDate: new Date(),
   gradeLevel: Grade.K,
 } as ClassroomForm;
 
@@ -94,6 +95,11 @@ const MOCK_STUDENTS = [
 
 const ComponentLibrary = (): React.ReactElement => {
   const { onClose, isOpen } = useDisclosure();
+  const {
+    onClose: onStudentModalClose,
+    isOpen: isStudentModalOpen,
+    onOpen: onStudentModalOpen,
+  } = useDisclosure();
   const methods = useForm<ClassroomForm>({
     defaultValues,
     mode: "onChange",
@@ -146,6 +152,7 @@ const ComponentLibrary = (): React.ReactElement => {
           activeAssessments={2}
           assessmentCount={1}
           grade={Grade.GRADE_4}
+          id=""
           name="Counting and Numbers"
           studentCount={23}
         />
@@ -153,11 +160,24 @@ const ComponentLibrary = (): React.ReactElement => {
           activeAssessments={0}
           assessmentCount={3}
           grade={Grade.GRADE_8}
+          id=""
           name="Sorting and Classifying"
           studentCount={14}
         />
         <AddClassroomModal isOpen={isOpen} onClose={onClose} />
-        <AddStudentModal />
+        <Button
+          my={2}
+          onClick={onStudentModalOpen}
+          rightIcon={<PlusOutlineIcon />}
+          variant="primary"
+        >
+          Add Students
+        </Button>
+        <AddStudentModal
+          classId="642b8eb6bfc20e04f56c2a46"
+          isOpen={isStudentModalOpen}
+          onClose={onStudentModalClose}
+        />
       </HStack>
     </FormProvider>
   );

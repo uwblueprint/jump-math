@@ -10,10 +10,12 @@ import {
 import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 
 interface PopoverProps {
-  children: React.ReactChild;
+  children: React.ReactNode;
   onOpen: () => void;
   isOpen: boolean;
   onClose: () => void;
+  placement?: "bottom" | "right";
+  trigger?: React.ReactElement;
 }
 
 const Popover = ({
@@ -21,21 +23,25 @@ const Popover = ({
   onOpen,
   isOpen,
   onClose,
+  placement = "right",
+  trigger,
 }: PopoverProps): React.ReactElement => {
+  const triggerButton = trigger ?? (
+    <IconButton
+      aria-label="more-vertical-outline"
+      icon={<MoreVerticalOutlineIcon boxSize={5} />}
+      size="sm"
+    />
+  );
+
   return (
     <ChakraPopover
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}
-      placement="right"
+      placement={placement}
     >
-      <PopoverTrigger>
-        <IconButton
-          aria-label="more-vertical-outline"
-          icon={<MoreVerticalOutlineIcon boxSize={5} />}
-          size="sm"
-        />
-      </PopoverTrigger>
+      <PopoverTrigger>{triggerButton}</PopoverTrigger>
       <PopoverContent
         backgroundColor="grey.100"
         borderRadius="15%"
