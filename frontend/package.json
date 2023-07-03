@@ -31,7 +31,7 @@
     "dnd-core": "^16.0.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "framer-motion": "^6.3.11",
-    "graphql": "^16.6.0",
+    "graphql": "^16.7.1",
     "idtoken-verifier": "^2.2.3",
     "immutability-helper": "^3.1.1",
     "json2csv": "^5.0.6",
