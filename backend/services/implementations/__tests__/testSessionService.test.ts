@@ -424,6 +424,6 @@ describe("mongo testSessionService", (): void => {
       await testSessionService.getMarkDistribution(
         invalidId,
       );
-    }).rejects.toThrowError(`Failed to get mark distribution for the test session with id ${invalidId}`);
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 });

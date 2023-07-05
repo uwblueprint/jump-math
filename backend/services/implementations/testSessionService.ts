@@ -230,7 +230,7 @@ class TestSessionService implements ITestSessionService {
     try {
       const { results } = await this.getTestSessionById(id);
 
-      if (!results) {
+      if (!results?.length) {
         throw new Error(
           `There are no results for the test session with id ${id}`,
         );
@@ -239,6 +239,8 @@ class TestSessionService implements ITestSessionService {
       const totalStudents = results?.length;
       results.forEach(result => {
         const bucket = Math.round(result.score / 10) * 10;
+        console.log("score: ", result);
+        console.log("bucket: ", bucket);
         ++markDistribution[bucket];
       })
 
