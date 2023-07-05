@@ -224,6 +224,39 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
+  async getMarkDistribution(id: string): Promise<Array<number>> {
+    let markDistribution: Array<number> = Array(11).fill(0);
+
+    try {
+      const { results } = await this.getTestSessionById(id);
+
+      if (!results) {
+        throw new Error(
+          `There are no results for the test session with id ${id}`,
+        );
+      }
+
+      const totalStudents = results?.length;
+      results.forEach(result => {
+        const bucket = Math.round(result.score / 10) * 10;
+        ++markDistribution[bucket];
+      })
+
+      markDistribution.forEach(count => {
+        count = (count / totalStudents) * 100;
+      })
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get mark distribution for the test session with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return markDistribution;
+  }
+
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,

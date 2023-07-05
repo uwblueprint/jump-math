@@ -19,6 +19,7 @@ import {
   mockTestSessionsWithOneValid,
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
+  mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -394,5 +395,35 @@ describe("mongo testSessionService", (): void => {
         mockUngradedTestResult,
       );
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("getMarkDistribution", async () => {
+    const testSession = await MgTestSession.create(mockTestSessionsWithEvenNumberOfResults[0]);
+    const markDistribution: Array<number> = await testSessionService.getMarkDistribution(
+      testSession.id
+    );
+    expect(markDistribution).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  });
+
+  it("getMarkDistribution for test session with no results", async () => {
+    const testSession = await MgTestSession.create({
+      ...mockTestSession,
+      results: [],
+    });
+    await expect(async () => {
+      await testSessionService.getMarkDistribution(
+        testSession.id,
+      );
+    }).rejects.toThrowError(`There are no results for the test session with id ${testSession.id}`);
+  });
+
+  it("getMarkDistribution for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.getMarkDistribution(
+        invalidId,
+      );
+    }).rejects.toThrowError(`Failed to get mark distribution for the test session with id ${invalidId}`);
   });
 });
