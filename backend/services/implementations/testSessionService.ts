@@ -238,7 +238,7 @@ class TestSessionService implements ITestSessionService {
 
       const totalStudents = results?.length;
       results.forEach(result => {
-        const bucket = Math.round(result.score / 10) * 10;
+        const bucket = Math.round(result.score / 10);
         console.log("score: ", result);
         console.log("bucket: ", bucket);
         ++markDistribution[bucket];

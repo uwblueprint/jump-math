@@ -402,7 +402,10 @@ describe("mongo testSessionService", (): void => {
     const markDistribution: Array<number> = await testSessionService.getMarkDistribution(
       testSession.id
     );
-    expect(markDistribution).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+    // Scores: 80, 80, 40, 80, 20
+    // Counts: [0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0]
+    expect(markDistribution).toEqual([0, 0, 20, 0, 20, 0, 0, 0, 60, 0, 0])
   });
 
   it("getMarkDistribution for test session with no results", async () => {
