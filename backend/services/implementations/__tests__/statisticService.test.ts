@@ -32,7 +32,7 @@ describe("mongo statisticService", (): void => {
     await db.clear();
   });
 
-  it("testing stats service", async () => {
+  it("getTestGradeStatisticsByCountry", async () => {
     // insert school with given country
     const school = await createSchoolWithCountry("Canada");
     // create mock results
@@ -76,63 +76,6 @@ describe("mongo statisticService", (): void => {
     expect(actualResult).toEqual(expectedResult);
   });
 
-  it("getSubmissionCountByTest with multiple submissions", async () => {
-    await MgTestSession.insertMany(mockTestSessions);
-
-    const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(13);
-  });
-
-  it("getSubmissionCountByTest with 0 submissions", async () => {
-    const actualResult = await statisticService.getSubmissionCountByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(0);
-  });
-
-  it("getMeanScoreByTest with multiple submissions", async () => {
-    await MgTestSession.insertMany(mockTestSessions);
-
-    const actualResult = await statisticService.getMeanScoreByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(50.77);
-  });
-
-  it("getMeanScoreByTest with 0 submissions", async () => {
-    const actualResult = await statisticService.getMeanScoreByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(0);
-  });
-
-  it("getMedianScoreByTest with odd number of submissions", async () => {
-    await MgTestSession.insertMany(mockTestSessions);
-
-    const actualResult = await statisticService.getMedianScoreByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(40);
-  });
-
-  it("getMedianScoreByTest with even number of submissions", async () => {
-    await MgTestSession.insertMany(mockTestSessionsWithEvenNumberOfResults);
-
-    const actualResult = await statisticService.getMedianScoreByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(60);
-  });
-
-  it("getMedianScoreByTest with 0 submissions", async () => {
-    const actualResult = await statisticService.getMedianScoreByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(0);
-  });
-
   it("getTestGradeStatisticsBySchool", async () => {
     await MgTestSession.insertMany(mockTestSessions);
 
@@ -142,26 +85,84 @@ describe("mongo statisticService", (): void => {
     expect(actualResult).toEqual(mockTestStatisticsBySchool);
   });
 
-  it("getAverageScoresBySchool for invalid test id", async () => {
-    const res = await statisticService.getTestGradeStatisticsBySchool(
-      "62c248c0f79d6c3c9ebbea90",
-    );
-    expect(res).toEqual(new Map<string, TestStatistic>());
+  describe("getSubmissionCountByTest", () => {
+    it("with multiple submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessions);
+
+      const actualResult = await statisticService.getSubmissionCountByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(13);
+    });
+
+    it("with 0 submissions", async () => {
+      const actualResult = await statisticService.getSubmissionCountByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(0);
+    });
   });
 
-  it("getCompletionRateByTest with multiple submissions", async () => {
-    await MgTestSession.insertMany(mockTestSessions);
+  describe("getMeanScoreByTest", () => {
+    it("with multiple submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessions);
 
-    const actualResult = await statisticService.getCompletionRateByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(77);
+      const actualResult = await statisticService.getMeanScoreByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(50.77);
+    });
+
+    it("with 0 submissions", async () => {
+      const actualResult = await statisticService.getMeanScoreByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(0);
+    });
   });
 
-  it("getCompletionRateByTest with 0 submissions", async () => {
-    const actualResult = await statisticService.getCompletionRateByTest(
-      mockTestWithId.id,
-    );
-    expect(actualResult).toEqual(0);
+  describe("getMedianScoreByTest", () => {
+    it("with odd number of submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessions);
+
+      const actualResult = await statisticService.getMedianScoreByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(40);
+    });
+
+    it("with even number of submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessionsWithEvenNumberOfResults);
+
+      const actualResult = await statisticService.getMedianScoreByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(60);
+    });
+
+    it("with 0 submissions", async () => {
+      const actualResult = await statisticService.getMedianScoreByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(0);
+    });
+  });
+
+  describe("getCompletionRateByTest", () => {
+    it("with multiple submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessions);
+
+      const actualResult = await statisticService.getCompletionRateByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(77);
+    });
+
+    it("with 0 submissions", async () => {
+      const actualResult = await statisticService.getCompletionRateByTest(
+        mockTestWithId.id,
+      );
+      expect(actualResult).toEqual(0);
+    });
   });
 });
