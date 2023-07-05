@@ -244,8 +244,8 @@ class TestSessionService implements ITestSessionService {
         ++markDistribution[bucket];
       })
 
-      markDistribution.forEach(count => {
-        count = (count / totalStudents) * 100;
+      markDistribution.forEach((count, i, arr) => {
+        arr[i] = (count / totalStudents) * 100;
       })
     } catch (error: unknown) {
       Logger.error(
