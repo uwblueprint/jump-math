@@ -237,12 +237,12 @@ class TestSessionService implements ITestSessionService {
         );
       }
 
-      const totalStudents = results?.length;
       results.forEach((result) => {
         const bucket = Math.round(result.score / 10);
         markDistributionCount[bucket] += 1;
       });
 
+      const totalStudents = results?.length;
       markDistribution = markDistributionCount.map((count) => {
         return (count / totalStudents) * 100;
       });
