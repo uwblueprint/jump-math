@@ -398,14 +398,15 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getMarkDistribution", async () => {
-    const testSession = await MgTestSession.create(mockTestSessionsWithEvenNumberOfResults[0]);
-    const markDistribution: Array<number> = await testSessionService.getMarkDistribution(
-      testSession.id
+    const testSession = await MgTestSession.create(
+      mockTestSessionsWithEvenNumberOfResults[0],
     );
+    const markDistribution: Array<number> =
+      await testSessionService.getMarkDistribution(testSession.id);
 
     // Scores: 80, 80, 40, 80, 20
     // Counts: [0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0]
-    expect(markDistribution).toEqual([0, 0, 20, 0, 20, 0, 0, 0, 60, 0, 0])
+    expect(markDistribution).toEqual([0, 0, 20, 0, 20, 0, 0, 0, 60, 0, 0]);
   });
 
   it("getMarkDistribution for test session with no results", async () => {
@@ -414,19 +415,17 @@ describe("mongo testSessionService", (): void => {
       results: [],
     });
     await expect(async () => {
-      await testSessionService.getMarkDistribution(
-        testSession.id,
-      );
-    }).rejects.toThrowError(`There are no results for the test session with id ${testSession.id}`);
+      await testSessionService.getMarkDistribution(testSession.id);
+    }).rejects.toThrowError(
+      `There are no results for the test session with id ${testSession.id}`,
+    );
   });
 
   it("getMarkDistribution for non-existing ID", async () => {
     const invalidId = "62c248c0f79d6c3c9ebbea94";
 
     await expect(async () => {
-      await testSessionService.getMarkDistribution(
-        invalidId,
-      );
+      await testSessionService.getMarkDistribution(invalidId);
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 });

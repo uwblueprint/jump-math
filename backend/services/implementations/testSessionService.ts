@@ -225,7 +225,8 @@ class TestSessionService implements ITestSessionService {
   }
 
   async getMarkDistribution(id: string): Promise<Array<number>> {
-    let markDistribution: Array<number> = Array(11).fill(0);
+    const markDistributionCount: Array<number> = Array(11).fill(0);
+    let markDistribution: Array<number>;
 
     try {
       const { results } = await this.getTestSessionById(id);
@@ -237,14 +238,14 @@ class TestSessionService implements ITestSessionService {
       }
 
       const totalStudents = results?.length;
-      results.forEach(result => {
+      results.forEach((result) => {
         const bucket = Math.round(result.score / 10);
-        ++markDistribution[bucket];
-      })
+        markDistributionCount[bucket] += 1;
+      });
 
-      markDistribution.forEach((count, i, arr) => {
-        arr[i] = (count / totalStudents) * 100;
-      })
+      markDistribution = markDistributionCount.map((count) => {
+        return (count / totalStudents) * 100;
+      });
     } catch (error: unknown) {
       Logger.error(
         `Failed to get mark distribution for the test session with id ${id}. Reason = ${getErrorMessage(
