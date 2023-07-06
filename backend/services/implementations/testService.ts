@@ -185,6 +185,18 @@ class TestService implements ITestService {
     }
   }
 
+  async getPublishedTests(): Promise<TestResponseDTO[]> {
+    try {
+      const tests = await MgTest.find({
+        status: { $eq: AssessmentStatus.PUBLISHED },
+      });
+      return await this.mapTestsToTestResponseDTOs(tests);
+    } catch (error: unknown) {
+      Logger.error(`Failed to get tests. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+  }
+
   async publishTest(id: string): Promise<TestResponseDTO> {
     let test: Test | null;
 

@@ -10,8 +10,8 @@ import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
 import type { VerifiableUser } from "../../types/AuthTypes";
-import BackButton from "../common/BackButton";
-import RouterLink from "../common/RouterLink";
+import BackButton from "../common/navigation/BackButton";
+import RouterLink from "../common/navigation/RouterLink";
 
 import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";

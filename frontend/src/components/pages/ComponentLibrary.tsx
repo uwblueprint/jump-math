@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
+import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
-import StudentDashboardHeader from "../assessments/assessment-creation/StudentDashboardHeader";
-import ClassroomCard from "../classrooms/ClassroomCard";
-import CorrectedMultipleChoice from "../sessions/data-visualization/corrected-question-elements/CorrectedMultipleChoice";
-import CorrectedMultiSelect from "../sessions/data-visualization/corrected-question-elements/CorrectedMultiSelect";
-import CorrectedShortAnswer from "../sessions/data-visualization/corrected-question-elements/CorrectedShortAnswer";
-import StatisticCard from "../sessions/data-visualization/StatisticCard";
-import StudentList from "../sessions/data-visualization/StudentList";
-import AddClassroomModal from "../user-management/student/AddClassroomModal";
-import AddStudentModal from "../user-management/student/AddStudentModal";
-
-import MobileRedirect from "./MobileRedirect";
+import StatisticCard from "../data-visualization/StatisticCard";
+import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
+import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
+import CorrectedShortAnswer from "../teacher/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
+import StudentList from "../teacher/results/StudentList";
+import AddStudentModal from "../teacher/student-management/AddStudentModal";
+import AddClassroomModal from "../teacher/student-management/classrooms/AddClassroomModal";
+import ClassroomCard from "../teacher/student-management/classrooms/ClassroomCard";
 
 const defaultValues = {
   className: "",
-  schoolYear: "",
+  startDate: new Date(),
   gradeLevel: Grade.K,
 } as ClassroomForm;
 
@@ -97,6 +95,11 @@ const MOCK_STUDENTS = [
 
 const ComponentLibrary = (): React.ReactElement => {
   const { onClose, isOpen } = useDisclosure();
+  const {
+    onClose: onStudentModalClose,
+    isOpen: isStudentModalOpen,
+    onOpen: onStudentModalOpen,
+  } = useDisclosure();
   const methods = useForm<ClassroomForm>({
     defaultValues,
     mode: "onChange",
@@ -106,10 +109,6 @@ const ComponentLibrary = (): React.ReactElement => {
   );
   return (
     <FormProvider {...methods}>
-      <StudentDashboardHeader
-        assessmentName="Unit 0 Review Test"
-        classroomName="Mathematics 4 - Mr. Roberts"
-      />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
@@ -148,12 +147,12 @@ const ComponentLibrary = (): React.ReactElement => {
           students={MOCK_STUDENTS}
         />
       </Box>
-      <MobileRedirect />
       <HStack justifyContent="center">
         <ClassroomCard
           activeAssessments={2}
           assessmentCount={1}
           grade={Grade.GRADE_4}
+          id=""
           name="Counting and Numbers"
           studentCount={23}
         />
@@ -161,11 +160,24 @@ const ComponentLibrary = (): React.ReactElement => {
           activeAssessments={0}
           assessmentCount={3}
           grade={Grade.GRADE_8}
+          id=""
           name="Sorting and Classifying"
           studentCount={14}
         />
         <AddClassroomModal isOpen={isOpen} onClose={onClose} />
-        <AddStudentModal />
+        <Button
+          my={2}
+          onClick={onStudentModalOpen}
+          rightIcon={<PlusOutlineIcon />}
+          variant="primary"
+        >
+          Add Students
+        </Button>
+        <AddStudentModal
+          classId="642b8eb6bfc20e04f56c2a46"
+          isOpen={isStudentModalOpen}
+          onClose={onStudentModalClose}
+        />
       </HStack>
     </FormProvider>
   );

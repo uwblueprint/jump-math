@@ -8,8 +8,8 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
-import ErrorState from "../../common/ErrorState";
-import LoadingState from "../../common/LoadingState";
+import ErrorState from "../../common/info/ErrorState";
+import LoadingState from "../../common/info/LoadingState";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
@@ -35,23 +35,17 @@ const StudentRouting = (): React.ReactElement => {
     }
   }, [state]);
 
-  const [test, setTest] = useState<TestResponse | null>(null);
   const { loading, data, error } = useQuery<{ test: TestResponse }>(GET_TEST, {
     fetchPolicy: "cache-and-network",
     variables: { id: testId },
     skip: !testId,
-    onCompleted: () => {
-      if (data) {
-        setTest(data.test);
-      }
-    },
   });
+  const test = data?.test ?? null;
 
   return (
     <StudentContext.Provider
       value={{
         test,
-        setTest,
         testSession,
         setTestSession,
         className,

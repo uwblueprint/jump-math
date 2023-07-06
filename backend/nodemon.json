@@ -1,4 +1,5 @@
 {
     "ext": "ts,js,cjs,json",
+    "ignore": "./build/",
     "exec": "ts-node -r dotenv/config server"
 }

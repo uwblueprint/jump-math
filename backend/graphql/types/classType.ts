@@ -16,7 +16,7 @@ const classType = gql`
 
   input ClassRequestDTO {
     className: String!
-    schoolYear: Int!
+    startDate: Date!
     gradeLevel: GradeEnum!
     teacher: String!
   }
@@ -24,16 +24,26 @@ const classType = gql`
   type ClassResponseDTO {
     id: String!
     className: String!
-    schoolYear: Int!
+    startDate: Date!
     gradeLevel: GradeEnum!
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
     students: [StudentResponseDTO]!
   }
 
+  type ClassCard {
+    id: String!
+    activeAssessments: Int!
+    assessmentCount: Int!
+    gradeLevel: GradeEnum!
+    className: String!
+    startDate: Date
+    studentCount: Int!
+  }
+
   extend type Query {
     classByTestSession(testSessionId: ID!): ClassResponseDTO!
-    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
+    classesByTeacher(teacherId: ID!): [ClassCard!]!
   }
 
   extend type Mutation {

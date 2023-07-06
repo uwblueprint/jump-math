@@ -7,7 +7,7 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
-import BackButton from "../../common/BackButton";
+import BackButton from "../../common/navigation/BackButton";
 import Spinner from "../../common/Spinner";
 
 const StudentLoginPage = (): React.ReactElement => {
@@ -81,7 +81,7 @@ const StudentLoginPage = (): React.ReactElement => {
           size="lg"
           variant="filled"
         >
-          {[...Array(6)].map((i) => (
+          {[...Array(6)].map((_, i) => (
             <PinInputField
               key={i}
               _focus={{ backgroundColor: "grey.100" }}
