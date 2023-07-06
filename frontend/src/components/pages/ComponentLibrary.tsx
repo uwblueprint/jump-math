@@ -5,7 +5,7 @@ import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
-import BarGraph from "../data-visualization/BarGraph";
+import Chart from "../data-visualization/Chart";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
@@ -180,13 +180,7 @@ const ComponentLibrary = (): React.ReactElement => {
           onClose={onStudentModalClose}
         />
       </HStack>
-      <BarGraph
-        dataset={[43, 40, 53, 89, 63, 90, 29, 23, 58, 10, 19]}
-        label="Mark Distribution"
-        xAxisLabel="Assessment mark"
-        xAxisTickLabels={Array.from({ length: 11 }, (_, i) => `${i * 10}%`)}
-        yAxisLabel="% of students"
-      />
+      <Chart />
     </FormProvider>
   );
 };

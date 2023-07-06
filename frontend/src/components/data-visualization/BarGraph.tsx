@@ -7,9 +7,11 @@ import {
   Chart as ChartJS,
   LinearScale,
   Tooltip,
+  type TooltipItem,
 } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+ChartJS.defaults.font.family = "DM Sans";
 
 interface BarGraphProps {
   dataset: number[];
@@ -29,40 +31,66 @@ const BarGraph = ({
   const options = {
     scales: {
       x: {
-        // set the x tick labels to be straight
+        // set thickness of x-axis border
+        border: {
+          width: 2,
+        },
         ticks: {
+          // set the x tick labels to be straight
           maxRotation: 0,
           minRotation: 0,
+          // set padding between tick labels and x-axis
+          padding: 10,
         },
         // remove vertical grid lines
         grid: {
           display: false,
-          lineWidth: 4,
         },
         // x-axis label
         title: {
           display: true,
           text: xAxisLabel,
           font: {
+            size: 14,
             weight: "500",
           },
         },
       },
       y: {
-        border: { dash: [1, 1] }, // set grid lines to be dotted
+        border: {
+          display: false, // remove y-axis border
+          dash: [1, 1], // set gridlines to be dotted
+        },
         min: 0, // set min value to 0
         max: 100, // set max value to 100
-        // add % to y tick labels
+        // remove ticks from y-axis
+        grid: {
+          drawTicks: false,
+        },
         ticks: {
-          callback: (val: string | number) => `${val}%`,
+          // add % to y tick labels and exclude 0
+          callback: (val: string | number) => {
+            if (val !== 0) return `${val}%`;
+          },
+          maxTicksLimit: 6, // set interval to 20%
+          padding: 10, // set padding between tick labels and x-axis
         },
         // y-axis label
         title: {
           display: true,
           text: yAxisLabel,
           font: {
+            size: 14,
             weight: "500",
           },
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context: TooltipItem<"bar">) =>
+            `${yAxisLabel}: ${context.parsed.y}%`,
         },
       },
     },
@@ -76,12 +104,12 @@ const BarGraph = ({
         data: dataset,
         backgroundColor: "#154472",
         borderRadius: 4,
-        barPercentage: 0.5,
+        categoryPercentage: 0.5,
       },
     ],
   };
   return (
-    <Box p="1em" w="600px">
+    <Box h="320px">
       <Bar data={data} options={options} />
     </Box>
   );
