@@ -15,6 +15,26 @@ import EmailActionError from "./email-action/EmailActionError";
 import PasswordForm from "./password/PasswordForm";
 import AuthWrapper from "./AuthWrapper";
 
+export type VerifyPasswordResetPayloadType = {
+  verifyPasswordReset: {
+    email: string;
+  };
+};
+
+export type VerifyPasswordResetVariables = {
+  oobCode: string;
+};
+
+type ResetPasswordCodePayloadType = {
+  resetPasswordCode: {
+    oobCode: string;
+  };
+};
+
+type ResetPasswordCodeVariables = {
+  email: string;
+};
+
 const AdminSignupConfirmation = ({
   email,
 }: {
@@ -26,30 +46,30 @@ const AdminSignupConfirmation = ({
   const [oobCode, setOobCode] = React.useState<string>("");
   const [verified, setVerified] = React.useState(false);
 
-  const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
-    VERIFY_PASSWORD_RESET,
-    {
-      onCompleted() {
-        setVerified(true);
-        setLoading(false);
-      },
-      onError() {
-        setLoading(false);
-      },
+  const [verifyPasswordReset] = useMutation<
+    VerifyPasswordResetPayloadType,
+    VerifyPasswordResetVariables
+  >(VERIFY_PASSWORD_RESET, {
+    onCompleted() {
+      setVerified(true);
+      setLoading(false);
     },
-  );
+    onError() {
+      setLoading(false);
+    },
+  });
 
-  const [resetPasswordCode] = useMutation<{ resetPasswordCode: string }>(
-    RESET_PASSWORD_CODE,
-    {
-      onCompleted: async (data) => {
-        await verifyPasswordReset({
-          variables: { oobCode: data.resetPasswordCode },
-        });
-        setOobCode(data.resetPasswordCode);
-      },
+  const [resetPasswordCode] = useMutation<
+    ResetPasswordCodePayloadType,
+    ResetPasswordCodeVariables
+  >(RESET_PASSWORD_CODE, {
+    onCompleted: async (data) => {
+      setOobCode(data.resetPasswordCode.oobCode);
+      await verifyPasswordReset({
+        variables: { oobCode },
+      });
     },
-  );
+  });
 
   useEffect(() => {
     resetPasswordCode({ variables: { email } });

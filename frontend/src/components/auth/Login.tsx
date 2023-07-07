@@ -17,6 +17,15 @@ import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";
 import UnverifiedUsers from "./UnverifiedUsers";
 
+export type LoginPayloadType = {
+  login: VerifiableUser;
+};
+
+export type LoginVariables = {
+  email: string;
+  password: string;
+};
+
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
   const location = useLocation();
@@ -31,9 +40,7 @@ const Login = (): React.ReactElement => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(false);
 
-  const [login] = useMutation<{
-    login: VerifiableUser;
-  }>(LOGIN);
+  const [login] = useMutation<LoginPayloadType, LoginVariables>(LOGIN);
 
   const onLogInClick = async () => {
     if (!(email && password)) {

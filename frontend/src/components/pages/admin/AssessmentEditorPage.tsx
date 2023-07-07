@@ -29,6 +29,35 @@ import QuestionEditor from "../../admin/question-creation/QuestionEditor";
 import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
+type CreateTestPayloadType = {
+  createTest: {
+    id: string;
+  };
+};
+
+type CreateTestVariables = {
+  test: TestRequest;
+};
+
+type UpdateTestPayloadType = {
+  updateTest: {
+    id: string;
+  };
+};
+
+type UpdateTestVariables = {
+  id: string;
+  test: TestRequest;
+};
+
+type DeleteTestPayloadType = {
+  deleteTest: null;
+};
+
+type DeleteTestVariables = {
+  id: string;
+};
+
 const AssessmentEditorPage = (): React.ReactElement => {
   useReloadPrompt();
   const { state } = useLocation<Test>();
@@ -42,17 +71,20 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [errorMessage, setErrorMessage] = useState("");
   const [completedForm, setCompletedForm] = useState(false);
 
-  const [createTest, { loading: loadingCreate }] = useMutation<{
-    createTest: { createTest: { id: string } };
-  }>(CREATE_NEW_TEST);
+  const [createTest, { loading: loadingCreate }] = useMutation<
+    CreateTestPayloadType,
+    CreateTestVariables
+  >(CREATE_NEW_TEST);
 
-  const [updateTest, { loading: loadingUpdate }] = useMutation<{
-    updateTest: { updateTest: { id: string } };
-  }>(UPDATE_TEST);
+  const [updateTest, { loading: loadingUpdate }] = useMutation<
+    UpdateTestPayloadType,
+    UpdateTestVariables
+  >(UPDATE_TEST);
 
-  const [deleteTest, { loading: loadingDelete }] = useMutation<{
-    deleteTest: string;
-  }>(DELETE_TEST);
+  const [deleteTest, { loading: loadingDelete }] = useMutation<
+    DeleteTestPayloadType,
+    DeleteTestVariables
+  >(DELETE_TEST);
 
   const {
     handleSubmit,

@@ -5,6 +5,10 @@ import { VERIFY_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutatio
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import type { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/info/LoadingState";
+import type {
+  VerifyPasswordResetPayloadType,
+  VerifyPasswordResetVariables,
+} from "../AdminSignupConfirmation";
 import SetNewPassword from "../reset-password/SetNewPassword";
 
 import EmailActionError from "./EmailActionError";
@@ -27,19 +31,19 @@ const ResetPasswordHandler = ({
     skip: !!role || !email,
   });
 
-  const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
-    VERIFY_PASSWORD_RESET,
-    {
-      onCompleted(data: { verifyPasswordReset: string }) {
-        setEmail(data.verifyPasswordReset);
-        setPasswordResetVerified(true);
-        setLoading(false);
-      },
-      onError() {
-        setLoading(false);
-      },
+  const [verifyPasswordReset] = useMutation<
+    VerifyPasswordResetPayloadType,
+    VerifyPasswordResetVariables
+  >(VERIFY_PASSWORD_RESET, {
+    onCompleted(data: VerifyPasswordResetPayloadType) {
+      setEmail(data.verifyPasswordReset.email);
+      setPasswordResetVerified(true);
+      setLoading(false);
     },
-  );
+    onError() {
+      setLoading(false);
+    },
+  });
 
   useEffect(() => {
     verifyPasswordReset({ variables: { oobCode } });

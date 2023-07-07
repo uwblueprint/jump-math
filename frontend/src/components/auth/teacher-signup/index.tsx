@@ -17,6 +17,12 @@ import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
 
+export type RegisterTeacherPayloadType = {
+  registerTeacher: AuthenticatedUser;
+};
+
+export type RegisterTeacherVariables = TeacherSignupForm;
+
 const defaultValues = {
   firstName: "",
   lastName: "",
@@ -61,15 +67,15 @@ const TeacherSignup = (): React.ReactElement => {
     mode: "onChange",
   });
   const [page, setPage] = React.useState(1);
-  const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
-    REGISTER_TEACHER,
-    {
-      onCompleted(data: { register: AuthenticatedUser }) {
-        setAuthenticatedUser(data.register);
-        setPage(5);
-      },
+  const [registerTeacher] = useMutation<
+    RegisterTeacherPayloadType,
+    RegisterTeacherVariables
+  >(REGISTER_TEACHER, {
+    onCompleted(data: RegisterTeacherPayloadType) {
+      setAuthenticatedUser(data.registerTeacher);
+      setPage(5);
     },
-  );
+  });
 
   const handleSubmitCallback = (e: React.MouseEvent<HTMLButtonElement>) => {
     methods.handleSubmit(async (data: TeacherSignupForm) => {

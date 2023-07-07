@@ -17,6 +17,14 @@ interface ForgotPasswordProps {
   isAdmin: boolean;
 }
 
+type ResetPasswordPayloadType = {
+  resetPassword: null;
+};
+
+type ResetPasswordVariables = {
+  email: string;
+};
+
 const ForgotPassword = ({
   isAdmin,
 }: ForgotPasswordProps): React.ReactElement => {
@@ -28,14 +36,14 @@ const ForgotPassword = ({
   const { data } = useQuery(GET_USERS_BY_ROLE, {
     variables: { role: isAdmin ? "Admin" : "Teacher" },
   });
-  const [resetPassword] = useMutation<{ resetPassword: boolean }>(
-    RESET_PASSWORD,
-    {
-      onCompleted() {
-        setStep(2);
-      },
+  const [resetPassword] = useMutation<
+    ResetPasswordPayloadType,
+    ResetPasswordVariables
+  >(RESET_PASSWORD, {
+    onCompleted() {
+      setStep(2);
     },
-  );
+  });
 
   const onResetPasswordClick = async () => {
     if (!email) {

@@ -27,6 +27,15 @@ interface PasswordFormProps {
   handleSubmitCallback?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+type ConfirmPasswordResetPayloadType = {
+  confirmPasswordReset: null;
+};
+
+type ConfirmPasswordResetVariables = {
+  newPassword: string;
+  oobCode: string;
+};
+
 const PasswordForm = ({
   version,
   email = undefined,
@@ -55,14 +64,14 @@ const PasswordForm = ({
     setPassword(e.target.value);
   };
 
-  const [confirmPasswordReset] = useMutation<{ confirmPasswordReset: boolean }>(
-    CONFIRM_PASSWORD_RESET,
-    {
-      onCompleted() {
-        if (setStep) setStep(2);
-      },
+  const [confirmPasswordReset] = useMutation<
+    ConfirmPasswordResetPayloadType,
+    ConfirmPasswordResetVariables
+  >(CONFIRM_PASSWORD_RESET, {
+    onCompleted() {
+      if (setStep) setStep(2);
     },
-  );
+  });
 
   const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setDisplayMatchError(false);
@@ -85,7 +94,7 @@ const PasswordForm = ({
 
     if (handleSubmitCallback) {
       handleSubmitCallback(e);
-    } else {
+    } else if (oobCode) {
       await confirmPasswordReset({
         variables: { oobCode, newPassword: password },
       });

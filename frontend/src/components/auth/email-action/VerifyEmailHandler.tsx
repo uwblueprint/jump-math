@@ -10,6 +10,16 @@ import TeacherSignupConfirmation from "../teacher-signup/steps/TeacherSignupConf
 
 import EmailActionError from "./EmailActionError";
 
+type VerifyEmailPayloadType = {
+  verifyEmail: {
+    email: string;
+  };
+};
+
+type VerifyEmailVariables = {
+  oobCode: string;
+};
+
 const VerifyEmailHandler = ({
   oobCode,
 }: {
@@ -28,9 +38,12 @@ const VerifyEmailHandler = ({
     skip: !!role || !email,
   });
 
-  const [verifyEmail] = useMutation<{ verifyEmail: string }>(VERIFY_EMAIL, {
-    onCompleted(data: { verifyEmail: string }) {
-      setEmail(data.verifyEmail);
+  const [verifyEmail] = useMutation<
+    VerifyEmailPayloadType,
+    VerifyEmailVariables
+  >(VERIFY_EMAIL, {
+    onCompleted(data: VerifyEmailPayloadType) {
+      setEmail(data.verifyEmail.email);
       setEmailVerified(true);
       setLoading(false);
     },

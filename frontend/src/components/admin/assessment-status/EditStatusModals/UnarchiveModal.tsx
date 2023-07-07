@@ -12,14 +12,25 @@ interface UnarchiveModalProps {
   assessmentId: string;
 }
 
+type UnarchiveAssessmentPayloadType = {
+  unarchiveTest: {
+    id: string;
+  };
+};
+
+type UnarchiveAssessmentVariables = {
+  id: string;
+};
+
 const UnarchiveModal = ({
   isOpen,
   onClose,
   assessmentId,
 }: UnarchiveModalProps): React.ReactElement => {
-  const [unarchiveAssessment, { error }] = useMutation<{
-    unarchiveAssessment: string;
-  }>(UNARCHIVE_TEST, {
+  const [unarchiveAssessment, { error }] = useMutation<
+    UnarchiveAssessmentPayloadType,
+    UnarchiveAssessmentVariables
+  >(UNARCHIVE_TEST, {
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 

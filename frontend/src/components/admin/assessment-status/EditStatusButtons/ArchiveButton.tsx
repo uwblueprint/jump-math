@@ -12,14 +12,25 @@ interface ArchiveModalProps {
   closePopover: () => void;
 }
 
+type ArchiveAssessmentPayloadType = {
+  archiveTest: {
+    id: string;
+  };
+};
+
+type ArchiveAssessmentVariables = {
+  id: string;
+};
+
 const ArchiveButton = ({
   assessmentId,
   closePopover,
 }: ArchiveModalProps): React.ReactElement => {
   const [showArchiveModal, setShowArchiveModal] = React.useState(false);
-  const [archiveAssessment, { error }] = useMutation<{
-    archiveAssessment: string;
-  }>(ARCHIVE_TEST, {
+  const [archiveAssessment, { error }] = useMutation<
+    ArchiveAssessmentPayloadType,
+    ArchiveAssessmentVariables
+  >(ARCHIVE_TEST, {
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 

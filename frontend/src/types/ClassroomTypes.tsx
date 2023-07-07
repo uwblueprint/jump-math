@@ -24,9 +24,3 @@ export enum TabEnumClassroom {
 }
 
 export type StudentInput = "firstName" | "lastName" | "studentNumber";
-
-export interface StudentForm {
-  firstName: string;
-  lastName: string;
-  studentNumber?: number;
-}

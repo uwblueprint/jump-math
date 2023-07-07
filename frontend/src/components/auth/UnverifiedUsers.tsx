@@ -7,10 +7,19 @@ import { TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import AuthWrapper from "./AuthWrapper";
 import ResendEmail from "./ResendEmail";
 
+type SendEmailVerificationLinkPayloadType = {
+  sendEmailVerificationLink: null;
+};
+
+type SendEmailVerificationLinkVariables = {
+  email: string;
+};
+
 const UnverifiedUsers = ({ email }: { email: string }): React.ReactElement => {
-  const [sendEmailVerificationLink] = useMutation<{ resetPassword: boolean }>(
-    SEND_EMAIL_VERIFICATION_LINK,
-  );
+  const [sendEmailVerificationLink] = useMutation<
+    SendEmailVerificationLinkPayloadType,
+    SendEmailVerificationLinkVariables
+  >(SEND_EMAIL_VERIFICATION_LINK);
 
   return (
     <AuthWrapper

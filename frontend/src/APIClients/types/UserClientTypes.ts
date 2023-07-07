@@ -20,6 +20,7 @@ export type UserRequest = {
   role: Role;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
+  class?: string[];
 };
 
 export type UserResponse = {

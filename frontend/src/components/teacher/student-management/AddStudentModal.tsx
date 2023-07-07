@@ -19,8 +19,8 @@ import {
 } from "@chakra-ui/react";
 
 import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
-import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
-import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
+import type { StudentRequest } from "../../../APIClients/types/ClassClientTypes";
+import type { StudentInput } from "../../../types/ClassroomTypes";
 import Toast from "../../common/info/Toast";
 import ErrorToast from "../../common/info/toasts/ErrorToast";
 import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
@@ -28,6 +28,17 @@ import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 type AddStudentModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  classId: string;
+};
+
+type CreateStudentPayloadType = {
+  createStudent: {
+    id: string;
+  };
+};
+
+type CreateStudentVariables = {
+  student: StudentRequest;
   classId: string;
 };
 
@@ -41,11 +52,12 @@ const AddStudentModal = ({
     watch,
     setValue,
     formState: { errors },
-  } = useFormContext<StudentForm>();
+  } = useFormContext<StudentRequest>();
   const [errorMessage, setErrorMessage] = useState("");
-  const [createStudent] = useMutation<{ createStudent: StudentResponse }>(
-    CREATE_STUDENT,
-  );
+  const [createStudent] = useMutation<
+    CreateStudentPayloadType,
+    CreateStudentVariables
+  >(CREATE_STUDENT);
   const { showToast } = Toast();
 
   const handleChange = (
@@ -79,7 +91,7 @@ const AddStudentModal = ({
     onClose();
   };
 
-  const onConfirm: SubmitHandler<StudentForm> = async () => {
+  const onConfirm: SubmitHandler<StudentRequest> = async () => {
     if (!validateFields()) {
       setErrorMessage(
         "Please ensure all required components are filled out before saving changes",

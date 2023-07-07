@@ -21,7 +21,10 @@ import isSameDay from "date-fns/isSameDay";
 
 import { CREATE_CLASS } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
-import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
+import type {
+  ClassRequest,
+  ClassResponse,
+} from "../../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
 import type {
@@ -41,6 +44,14 @@ type AddClassroomModalProps = {
   isOpen: boolean;
 };
 
+type CreateClassPayloadType = {
+  createClass: ClassResponse;
+};
+
+type CreateClassVariables = {
+  classObj: ClassRequest;
+};
+
 const AddClassroomModal = ({
   onClose,
   isOpen,
@@ -56,17 +67,17 @@ const AddClassroomModal = ({
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
-  const [createClass] = useMutation<{ createClass: ClassResponse }>(
-    CREATE_CLASS,
-    {
-      refetchQueries: [
-        {
-          query: GET_CLASSES_BY_TEACHER,
-          variables: { teacherId: authenticatedUser?.id },
-        },
-      ],
-    },
-  );
+  const [createClass] = useMutation<
+    CreateClassPayloadType,
+    CreateClassVariables
+  >(CREATE_CLASS, {
+    refetchQueries: [
+      {
+        query: GET_CLASSES_BY_TEACHER,
+        variables: { teacherId: authenticatedUser?.id },
+      },
+    ],
+  });
 
   const { showToast } = Toast();
 
@@ -123,8 +134,9 @@ const AddClassroomModal = ({
         variables: {
           classObj: {
             ...data,
-            startDate: data.startDate,
-            teacher: authenticatedUser?.id,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            startDate: data.startDate!,
+            teacher: authenticatedUser?.id ?? "",
           },
         },
       })

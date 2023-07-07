@@ -16,20 +16,28 @@ interface RemoveUserModalProps {
   email: string;
 }
 
+type RemoveUserPayloadType = {
+  deleteUserByEmail: null;
+};
+
+type RemoveUserVariables = {
+  email: string;
+};
+
 const RemoveUserModal = ({
   name,
   email,
 }: RemoveUserModalProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [removeUser, { error }] = useMutation<{ removeUser: null }>(
-    REMOVE_USER,
-    {
-      refetchQueries: [
-        { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
-        { query: GET_ALL_TEACHERS },
-      ],
-    },
-  );
+  const [removeUser, { error }] = useMutation<
+    RemoveUserPayloadType,
+    RemoveUserVariables
+  >(REMOVE_USER, {
+    refetchQueries: [
+      { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
+      { query: GET_ALL_TEACHERS },
+    ],
+  });
 
   const { showToast } = Toast();
 

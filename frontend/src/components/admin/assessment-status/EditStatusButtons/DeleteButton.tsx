@@ -12,15 +12,24 @@ interface DeleteButtonProps {
   closePopover: () => void;
 }
 
+type DeleteAssessmentPayloadType = {
+  deleteTest: null;
+};
+
+type DeleteAssessmentVariables = {
+  id: string;
+};
+
 const DeleteButton = ({
   assessmentId,
   closePopover,
 }: DeleteButtonProps): React.ReactElement => {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
-  const [deleteAssessment, { error }] = useMutation<{
-    deleteAssessment: string;
-  }>(DELETE_TEST, {
+  const [deleteAssessment, { error }] = useMutation<
+    DeleteAssessmentPayloadType,
+    DeleteAssessmentVariables
+  >(DELETE_TEST, {
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 

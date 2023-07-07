@@ -1,4 +1,4 @@
-import type { Grade, UserResponse } from "./UserClientTypes";
+import type { Grade } from "./UserClientTypes";
 
 export type ClassRequest = {
   className: string;
@@ -12,8 +12,9 @@ export type ClassResponse = {
   className: string;
   startDate: Date;
   gradeLevel: Grade;
-  teacher: UserResponse;
 };
+
+export type StudentRequest = Omit<StudentResponse, "id">;
 
 export interface StudentResponse {
   /** the unique identifier for the student */
@@ -23,5 +24,5 @@ export interface StudentResponse {
   /** the last name of the student */
   lastName: string;
   /** an optional identifier provided by the teacher */
-  studentNumber: string;
+  studentNumber?: string;
 }

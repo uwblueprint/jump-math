@@ -13,6 +13,20 @@ import {
 import Toast from "../common/info/Toast";
 import Modal from "../common/modal/Modal";
 
+type SubmitTestPayloadType = {
+  createTestSessionResult: {
+    id: string;
+  };
+};
+
+type SubmitTestVariables = {
+  testSessionId: string;
+  result: {
+    student: string;
+    answers: number[][][];
+  };
+};
+
 const SubmitButton = (): React.ReactElement => {
   const { testSession } = useContext(StudentContext);
   const { answers, setIsSubmitted, setIsLoading } = useContext(
@@ -22,9 +36,10 @@ const SubmitButton = (): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
-  const [submitTest, { loading }] = useMutation<{
-    submitTest: string;
-  }>(SUBMIT_TEST);
+  const [submitTest, { loading }] = useMutation<
+    SubmitTestPayloadType,
+    SubmitTestVariables
+  >(SUBMIT_TEST);
 
   useEffect(() => {
     if (loading) {
@@ -36,9 +51,9 @@ const SubmitButton = (): React.ReactElement => {
     try {
       await submitTest({
         variables: {
-          testSessionId: testSession?.id,
+          testSessionId: testSession?.id ?? "",
           result: {
-            student: authenticatedUser?.id,
+            student: authenticatedUser?.id ?? "",
             answers: mapAnswersToResultsArray(answers),
           },
         },

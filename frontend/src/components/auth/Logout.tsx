@@ -7,10 +7,18 @@ import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
 import { activePage } from "../common/navigation/NavbarItem";
 
+export type LogoutPayloadType = {
+  logout: null;
+};
+
+export type LogoutVariables = {
+  userId: string;
+};
+
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
 
-  const [logout] = useMutation<{ logout: null }>(LOGOUT);
+  const [logout] = useMutation<LogoutPayloadType, LogoutVariables>(LOGOUT);
 
   const onLogOutClick = async () => {
     const success = await authAPIClient.logout(

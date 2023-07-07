@@ -4,6 +4,18 @@ import type {
   OperationVariables,
 } from "@apollo/client";
 
+import type {
+  LoginPayloadType,
+  LoginVariables,
+} from "../components/auth/Login";
+import type {
+  LogoutPayloadType,
+  LogoutVariables,
+} from "../components/auth/Logout";
+import type {
+  RegisterTeacherPayloadType,
+  RegisterTeacherVariables,
+} from "../components/auth/teacher-signup";
 import AUTHENTICATED_USER_KEY from "../constants/AuthConstants";
 import type { AuthenticatedUser, VerifiableUser } from "../types/AuthTypes";
 import type { SchoolMetadata } from "../types/TeacherSignupTypes";
@@ -13,11 +25,11 @@ import type { Grade } from "./types/UserClientTypes";
 
 type LoginFunction = (
   options?:
-    | MutationFunctionOptions<{ login: VerifiableUser }, OperationVariables>
+    | MutationFunctionOptions<LoginPayloadType, LoginVariables>
     | undefined,
 ) => Promise<
   FetchResult<
-    { login: VerifiableUser },
+    LoginPayloadType,
     Record<string, unknown>,
     Record<string, unknown>
   >
@@ -45,13 +57,13 @@ const login = async (
 type RegisterFunction = (
   options?:
     | MutationFunctionOptions<
-        { register: AuthenticatedUser },
-        OperationVariables
+        RegisterTeacherPayloadType,
+        RegisterTeacherVariables
       >
     | undefined,
 ) => Promise<
   FetchResult<
-    { register: AuthenticatedUser },
+    RegisterTeacherPayloadType,
     Record<string, unknown>,
     Record<string, unknown>
   >
@@ -80,7 +92,7 @@ const registerTeacher = async (
         school,
       },
     });
-    user = result.data?.register ?? null;
+    user = result.data?.registerTeacher ?? null;
     if (user) {
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
@@ -93,18 +105,11 @@ const registerTeacher = async (
 
 type LogoutFunction = (
   options?:
-    | MutationFunctionOptions<
-        {
-          logout: null;
-        },
-        OperationVariables
-      >
+    | MutationFunctionOptions<LogoutPayloadType, LogoutVariables>
     | undefined,
 ) => Promise<
   FetchResult<
-    {
-      logout: null;
-    },
+    LogoutPayloadType,
     Record<string, unknown>,
     Record<string, unknown>
   >

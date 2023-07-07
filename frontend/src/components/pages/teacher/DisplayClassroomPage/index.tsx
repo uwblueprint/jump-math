@@ -3,9 +3,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Redirect, useHistory, useLocation, useParams } from "react-router-dom";
 import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
+import type { StudentRequest } from "../../../../APIClients/types/ClassClientTypes";
 import { EditOutlineIcon } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
-import type { StudentForm } from "../../../../types/ClassroomTypes";
 import {
   formatMonth,
   removeUnderscore,
@@ -65,7 +65,7 @@ const BREADCRUMB_CONFIG = (className?: string) => [
   },
 ];
 
-const defaultValues: StudentForm = {
+const defaultValues: StudentRequest = {
   firstName: "",
   lastName: "",
   studentNumber: undefined,
@@ -92,7 +92,7 @@ const DisplayClassroomsPage = () => {
     onClose: onStudentModalClose,
     onOpen: onStudentModalOpen,
   } = useDisclosure();
-  const studentFormMethods = useForm<StudentForm>({
+  const studentFormMethods = useForm<StudentRequest>({
     defaultValues,
     mode: "onChange",
   });

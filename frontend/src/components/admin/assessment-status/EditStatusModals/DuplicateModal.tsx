@@ -12,14 +12,25 @@ interface DuplicateModalProps {
   assessmentId: string;
 }
 
+type DuplicateAssessmentPayloadType = {
+  duplicateTest: {
+    id: string;
+  };
+};
+
+type DuplicateAssessmentVariables = {
+  id: string;
+};
+
 const DuplicateModal = ({
   isOpen,
   onClose,
   assessmentId,
 }: DuplicateModalProps): React.ReactElement => {
-  const [duplicateAssessment, { error }] = useMutation<{
-    duplicateAssessment: string;
-  }>(DUPLICATE_TEST, {
+  const [duplicateAssessment, { error }] = useMutation<
+    DuplicateAssessmentPayloadType,
+    DuplicateAssessmentVariables
+  >(DUPLICATE_TEST, {
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 

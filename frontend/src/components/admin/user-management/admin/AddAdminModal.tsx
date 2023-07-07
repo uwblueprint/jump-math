@@ -35,6 +35,14 @@ type AddAdminModalProps = {
   isOpen: boolean;
 };
 
+type AddAdminPayloadType = {
+  createUser: UserResponse;
+};
+
+type AddAdminVariables = {
+  user: UserRequest;
+};
+
 const AddAdminModal = ({
   onClose,
   isOpen,
@@ -51,11 +59,14 @@ const AddAdminModal = ({
   const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
     null,
   );
-  const [addAdmin] = useMutation<{ addAdmin: UserResponse }>(ADD_USER, {
-    refetchQueries: [
-      { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
-    ],
-  });
+  const [addAdmin] = useMutation<AddAdminPayloadType, AddAdminVariables>(
+    ADD_USER,
+    {
+      refetchQueries: [
+        { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
+      ],
+    },
+  );
   const [showRequestConfirmation, setShowRequestConfirmation] = useState(false);
 
   const isInvalidEmail =

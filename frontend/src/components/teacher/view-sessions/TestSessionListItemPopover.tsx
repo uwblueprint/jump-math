@@ -16,6 +16,14 @@ type TestSessionPopoverProps = {
   testSessionId: string;
 };
 
+type DeleteTestSessionPayloadType = {
+  deleteTestSession: null;
+};
+
+type DeleteTestSessionVariables = {
+  id: string;
+};
+
 const TestSessionListItemPopover = ({
   status,
   testSessionId,
@@ -36,7 +44,10 @@ const TestSessionListItemPopover = ({
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
-  const [deleteTestSessionMutation] = useMutation(DELETE_TEST_SESSION, {
+  const [deleteTestSessionMutation] = useMutation<
+    DeleteTestSessionPayloadType,
+    DeleteTestSessionVariables
+  >(DELETE_TEST_SESSION, {
     variables: { id: testSessionId },
     refetchQueries: [
       { query: GET_TEST_SESSIONS_BY_TEACHER_ID, variables: { teacherId } },

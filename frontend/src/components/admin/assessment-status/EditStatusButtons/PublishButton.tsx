@@ -12,14 +12,25 @@ interface PublishButtonProps {
   closePopover: () => void;
 }
 
+type PublishAssessmentPayloadType = {
+  publishTest: {
+    id: string;
+  };
+};
+
+type PublishAssessmentVariables = {
+  id: string;
+};
+
 const PublishButton = ({
   assessmentId,
   closePopover,
 }: PublishButtonProps): React.ReactElement => {
   const [showPublishModal, setShowPublishModal] = React.useState(false);
-  const [publishAssessment, { error }] = useMutation<{
-    publishAssessment: string;
-  }>(PUBLISH_TEST, {
+  const [publishAssessment, { error }] = useMutation<
+    PublishAssessmentPayloadType,
+    PublishAssessmentVariables
+  >(PUBLISH_TEST, {
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
