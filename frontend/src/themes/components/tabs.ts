@@ -16,7 +16,7 @@ const Tabs = {
     },
     "soft-rounded": {
       tablist: {
-        paddingLeft: "4em",
+        paddingLeft: "3em",
       },
       tab: {
         fontSize: "14px",

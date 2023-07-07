@@ -31,7 +31,7 @@ const Chart = (): React.ReactElement => {
 
   return (
     <Box>
-      <Text color="grey.300" pb="1.5em" pl="4em" textStyle="eyebrow">
+      <Text color="grey.300" pb="1.5em" pl="3em" textStyle="eyebrow">
         Charts
       </Text>
       <Tabs variant="soft-rounded">
