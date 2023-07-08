@@ -20,6 +20,7 @@ import {
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
   mockTestSessionWithNoResults,
+  mockTestSessionsWithEvenNumberOfResults,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -394,6 +395,68 @@ describe("mongo testSessionService", (): void => {
         invalidId,
         mockUngradedTestResult,
       );
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("getMarkDistribution", async () => {
+    const testSession = await MgTestSession.create(
+      mockTestSessionsWithEvenNumberOfResults[0],
+    );
+    const markDistribution: Array<number> =
+      await testSessionService.getMarkDistribution(testSession.id);
+
+    // Scores: 80, 80, 40, 80, 20
+    // Counts: [0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0]
+    expect(markDistribution).toEqual([0, 0, 20, 0, 20, 0, 0, 0, 60, 0, 0]);
+  });
+
+  it("getMarkDistribution for test session with no results", async () => {
+    const testSession = await MgTestSession.create({
+      ...mockTestSession,
+      results: [],
+    });
+    await expect(async () => {
+      await testSessionService.getMarkDistribution(testSession.id);
+    }).rejects.toThrowError(
+      `There are no results for the test session with id ${testSession.id}`,
+    );
+  });
+
+  it("getMarkDistribution for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.getMarkDistribution(invalidId);
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("getPerformanceByQuestion", async () => {
+    const testSession = await MgTestSession.create(
+      mockTestSessionsWithEvenNumberOfResults[0],
+    );
+    const performanceByQuestion: Array<number> =
+      await testSessionService.getPerformanceByQuestion(testSession.id);
+
+    expect(performanceByQuestion).toEqual([60, 60]);
+  });
+
+  it("getPerformanceByQuestion for test session with no results", async () => {
+    const testSession = await MgTestSession.create({
+      ...mockTestSession,
+      results: [],
+    });
+    await expect(async () => {
+      await testSessionService.getPerformanceByQuestion(testSession.id);
+    }).rejects.toThrowError(
+      `There are no results for the test session with id ${testSession.id}`,
+    );
+  });
+
+  it("getPerformanceByQuestion for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.getPerformanceByQuestion(invalidId);
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 

@@ -224,6 +224,82 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
+  async getMarkDistribution(id: string): Promise<Array<number>> {
+    const markDistributionCount: Array<number> = Array(11).fill(0);
+    let markDistribution: Array<number>;
+
+    try {
+      const { results } = await this.getTestSessionById(id);
+
+      if (!results?.length) {
+        throw new Error(
+          `There are no results for the test session with id ${id}`,
+        );
+      }
+
+      results.forEach((result) => {
+        const bucket = Math.trunc(result.score / 10);
+        markDistributionCount[bucket] += 1;
+      });
+
+      const totalStudents = results?.length;
+      markDistribution = markDistributionCount.map((count) => {
+        return (count / totalStudents) * 100;
+      });
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get mark distribution for the test session with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return markDistribution;
+  }
+
+  async getPerformanceByQuestion(id: string): Promise<Array<number>> {
+    const breakdownsByQuestion: Array<Array<boolean>> = [];
+    const performanceByQuestion: Array<number> = [];
+
+    try {
+      const { results } = await this.getTestSessionById(id);
+
+      if (!results?.length) {
+        throw new Error(
+          `There are no results for the test session with id ${id}`,
+        );
+      }
+
+      results.forEach((result: ResultResponseDTO) => {
+        result.breakdown.forEach((breakdown: boolean[], idx: number) => {
+          if (breakdownsByQuestion[idx]) {
+            breakdownsByQuestion[idx].push(...breakdown);
+          } else {
+            breakdownsByQuestion[idx] = breakdown;
+          }
+        });
+      });
+
+      breakdownsByQuestion.forEach((breakdown: boolean[], idx: number) => {
+        const correctCount: number = breakdown.reduce(
+          (count, val) => count + +val,
+          0,
+        );
+        performanceByQuestion[idx] = (correctCount * 100) / breakdown.length;
+      });
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get performance by question for the test session with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return performanceByQuestion;
+  }
+
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
