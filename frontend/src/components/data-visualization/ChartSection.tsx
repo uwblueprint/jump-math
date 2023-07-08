@@ -21,7 +21,7 @@ import BarGraph from "./BarGraph";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 ChartJS.defaults.font.family = "DM Sans";
 
-const Chart = (): React.ReactElement => {
+const ChartSection = (): React.ReactElement => {
   const markDistribution: number[] = [
     43, 40, 53, 89, 63, 90, 29, 23, 58, 10, 19,
   ];
@@ -70,4 +70,4 @@ const Chart = (): React.ReactElement => {
   );
 };
 
-export default Chart;
+export default ChartSection;
