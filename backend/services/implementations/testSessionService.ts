@@ -258,6 +258,48 @@ class TestSessionService implements ITestSessionService {
     return markDistribution;
   }
 
+  async getPerformanceByQuestion(id: string): Promise<Array<number>> {
+    const breakdownsByQuestion: Array<Array<boolean>> = [];
+    const performanceByQuestion: Array<number> = [];
+
+    try {
+      const { results } = await this.getTestSessionById(id);
+
+      if (!results?.length) {
+        throw new Error(
+          `There are no results for the test session with id ${id}`,
+        );
+      }
+
+      results.forEach((result: ResultResponseDTO) => {
+        result.breakdown.forEach((breakdown: boolean[], idx: number) => {
+          if (breakdownsByQuestion[idx]) {
+            breakdownsByQuestion[idx].push(...breakdown);
+          } else {
+            breakdownsByQuestion[idx] = breakdown;
+          }
+        });
+      });
+
+      breakdownsByQuestion.forEach((breakdown: boolean[], idx: number) => {
+        const correctCount: number = breakdown.reduce(
+          (count, val) => count + +val,
+          0,
+        );
+        performanceByQuestion[idx] = (correctCount * 100) / breakdown.length;
+      });
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get performance by question for the test session with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+
+    return performanceByQuestion;
+  }
+
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,

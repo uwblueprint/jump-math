@@ -428,4 +428,34 @@ describe("mongo testSessionService", (): void => {
       await testSessionService.getMarkDistribution(invalidId);
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
+
+  it("getPerformanceByQuestion", async () => {
+    const testSession = await MgTestSession.create(
+      mockTestSessionsWithEvenNumberOfResults[0],
+    );
+    const performanceByQuestion: Array<number> =
+      await testSessionService.getPerformanceByQuestion(testSession.id);
+
+    expect(performanceByQuestion).toEqual([60, 60]);
+  });
+
+  it("getPerformanceByQuestion for test session with no results", async () => {
+    const testSession = await MgTestSession.create({
+      ...mockTestSession,
+      results: [],
+    });
+    await expect(async () => {
+      await testSessionService.getPerformanceByQuestion(testSession.id);
+    }).rejects.toThrowError(
+      `There are no results for the test session with id ${testSession.id}`,
+    );
+  });
+
+  it("getPerformanceByQuestion for non-existing ID", async () => {
+    const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+    await expect(async () => {
+      await testSessionService.getPerformanceByQuestion(invalidId);
+    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
 });
