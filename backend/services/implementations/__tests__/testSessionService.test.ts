@@ -19,6 +19,7 @@ import {
   mockTestSessionsWithOneValid,
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
+  mockTestSessionWithNoResults,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -394,5 +395,56 @@ describe("mongo testSessionService", (): void => {
         mockUngradedTestResult,
       );
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("getTop5StudentsByTestSessionId returns top 5 students", async () => {
+    const savedTestSession = await MgTestSession.create(
+      mockTestSessionWithExpiredEndDate,
+    );
+
+    const topStudents = await testSessionService.getTop5StudentsByTestSessionId(
+      savedTestSession.id,
+    );
+
+    expect(topStudents).toEqual([
+      "some-student-name-6",
+      "some-student-name-5",
+      "some-student-name",
+      "some-student-name-3",
+      "some-student-name-2",
+    ]);
+  });
+
+  it("getTop5StudentsByTestSessionId with no results", async () => {
+    const savedTestSession = await MgTestSession.create(
+      mockTestSessionWithNoResults,
+    );
+
+    const topStudents = await testSessionService.getTop5StudentsByTestSessionId(
+      savedTestSession.id,
+    );
+
+    expect(topStudents).toEqual([]);
+  });
+
+  it("getTop5StudentsByTestSessionId with an error retrieving test session", async () => {
+    const testSessionId = "62c248c0f79d6c3c9ebbea92";
+
+    // Create a mock implementation for getTestSessionById that throws an error
+    testSessionService.getTestSessionById = jest
+      .fn()
+      .mockRejectedValue(new Error("Test session not found"));
+
+    await expect(
+      testSessionService.getTop5StudentsByTestSessionId(testSessionId),
+    ).rejects.toThrowError("Test session not found");
+  });
+
+  it("should throw an error if the test session's end date has not passed", async () => {
+    const savedTestSession = await MgTestSession.create(mockTestSession);
+
+    await expect(
+      testSessionService.getTop5StudentsByTestSessionId(savedTestSession.id),
+    ).rejects.toThrowError("Test session has not ended yet");
   });
 });

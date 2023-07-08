@@ -47,6 +47,7 @@ const testSessionType = gql`
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
     testSessionsByTeacherId(teacherId: ID!): [TestSessionResponseDTO!]!
+    getTop5StudentsByTestSessionId(id: ID!): [String!]
   }
 
   extend type Mutation {

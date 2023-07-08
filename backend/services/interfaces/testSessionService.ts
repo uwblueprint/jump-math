@@ -198,4 +198,11 @@ export interface ITestSessionService {
     id: string,
     result: ResultRequestDTO,
   ): Promise<TestSessionResponseDTO>;
+
+  /**
+   * Get the top 5 best students for a test session
+   * @param id The unique identifier of the test session
+   * @returns Array of the top 5 best students for the test session
+   */
+  getTop5StudentsByTestSessionId(id: string): Promise<Array<string>>;
 }

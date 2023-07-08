@@ -426,6 +426,39 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
   }
+
+  async getTop5StudentsByTestSessionId(
+    testSessionId: string,
+  ): Promise<Array<string>> {
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+
+      // Check if the endDate for the test session has passed
+      const currentDate = new Date();
+      if (testSession.endDate > currentDate) {
+        throw new Error("Test session has not ended yet");
+      }
+
+      const results = testSession.results || [];
+
+      // Sort the results based on the score in descending order
+      const sortedResults = results.sort((a, b) => b.score - a.score);
+
+      // Get the top 5 students' IDs
+      const top5Students = sortedResults
+        .slice(0, 5)
+        .map((result) => result.student);
+
+      return top5Students;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get top 5 students. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default TestSessionService;
