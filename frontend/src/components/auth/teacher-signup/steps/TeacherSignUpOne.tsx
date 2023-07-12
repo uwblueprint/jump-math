@@ -35,7 +35,7 @@ const TeacherSignupOne = ({
   const [firstNameError, setFirstNameError] = React.useState(false);
   const [lastNameError, setLastNameError] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
-  const [acceptEmail, acceptEmailError] = React.useState(false);
+  const [acceptEmailError, setAcceptEmailError] = React.useState(false);
   const [gradesError, setGradesError] = React.useState(false);
   const history = useHistory();
 
@@ -60,7 +60,7 @@ const TeacherSignupOne = ({
         break;
       case "email":
         setEmailError(false);
-        acceptEmailError(false);
+        setAcceptEmailError(false);
         break;
       case "grades":
         setGradesError(false);
@@ -102,10 +102,10 @@ const TeacherSignupOne = ({
     }
 
     if (!emailRegex.test(emailValue)) {
-      acceptEmailError(true);
+      setAcceptEmailError(true);
       isValid = false;
     } else {
-      acceptEmailError(false);
+      setAcceptEmailError(false);
     }
 
     if (!watch("grades.0") || !!errors.grades) {
@@ -150,7 +150,7 @@ const TeacherSignupOne = ({
         </FormControl>
       </Stack>
 
-      <FormControl isInvalid={acceptEmail || emailError} isRequired>
+      <FormControl isInvalid={acceptEmailError || emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           onChange={(e) => handleChange(e, "email")}
@@ -183,7 +183,7 @@ const TeacherSignupOne = ({
 
   let error = "";
 
-  if (acceptEmail) {
+  if (acceptEmailError) {
     error = "Invalid email";
   }
 
