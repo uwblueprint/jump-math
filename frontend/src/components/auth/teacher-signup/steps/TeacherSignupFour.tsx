@@ -12,6 +12,7 @@ import PasswordForm from "../../password/PasswordForm";
 const TeacherSignupFour = ({
   setPage,
   handleSubmitCallback,
+  error,
 }: TeacherSignupProps): React.ReactElement => {
   const { setValue, watch } = useFormContext<TeacherSignupForm>();
   const title = "Teacher Sign Up";
@@ -33,7 +34,13 @@ const TeacherSignupFour = ({
   );
 
   return (
-    <AuthWrapper form={form} image={image} subtitle={subtitle} title={title} />
+    <AuthWrapper
+      error={error}
+      form={form}
+      image={image}
+      subtitle={subtitle}
+      title={title}
+    />
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 
@@ -61,12 +61,17 @@ const TeacherSignup = (): React.ReactElement => {
     mode: "onChange",
   });
   const [page, setPage] = React.useState(1);
+  const [error, setError] = useState("");
   const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
     REGISTER_TEACHER,
     {
       onCompleted(data: { register: AuthenticatedUser }) {
+        setError("");
         setAuthenticatedUser(data.register);
         setPage(5);
+      },
+      onError: async () => {
+        setError("Failed to Sign Up");
       },
     },
   );
@@ -91,6 +96,7 @@ const TeacherSignup = (): React.ReactElement => {
       {renderPageComponent(page, {
         setPage,
         handleSubmitCallback,
+        error,
       })}
     </FormProvider>
   );

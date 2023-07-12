@@ -182,6 +182,7 @@ const TeacherSignupOne = ({
   );
 
   let error = "";
+
   if (acceptEmail) {
     error = "Invalid email";
   }
