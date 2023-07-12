@@ -57,32 +57,33 @@ const TeacherSignupThree = ({
   };
 
   const validateFields = (): boolean => {
+    let isValid = true;
+
     if (!watch("school.name") || !!errors.school?.name) {
       setSchoolNameError(true);
-      return false;
+      isValid = false;
     }
 
     if (!watch("school.country") || !!errors.school?.country) {
       setCountryError(true);
-      return false;
+      isValid = false;
     }
 
     if (!watch("school.city") || !!errors.school?.city) {
       setCityError(true);
-      return false;
+      isValid = false;
     }
 
     if (!watch("school.district") || !!errors.school?.district) {
       setDistrictError(true);
-      return false;
+      isValid = false;
     }
 
     if (!watch("school.address") || !!errors.school?.address) {
       setAddressError(true);
-      return false;
+      isValid = false;
     }
-
-    return true;
+    return isValid;
   };
 
   const onContinueClick = () => {
