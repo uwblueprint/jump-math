@@ -85,6 +85,8 @@ const registerTeacher = async (
   } catch (e: unknown) {
     if (e instanceof Error && e.message.includes("duplicate key")) {
       throw new Error("Email already exists");
+    } else {
+      throw new Error("Failed to sign up");
     }
   }
   return user;
