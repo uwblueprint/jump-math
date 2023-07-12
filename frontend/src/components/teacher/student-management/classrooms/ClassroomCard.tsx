@@ -83,7 +83,7 @@ const ClassroomCard = ({
               {name}
             </Text>
           </LinkOverlay>
-          <ClassroomPopover />
+          <ClassroomPopover classId={id} />
         </HStack>
         {classroomCardBody.map(({ icon, text }, i) => {
           return (

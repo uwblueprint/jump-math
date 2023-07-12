@@ -39,6 +39,7 @@ const classType = gql`
   extend type Mutation {
     createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
+    deleteClass(classId: ID!): ID
   }
 `;
 
