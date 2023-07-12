@@ -30,7 +30,7 @@ const Login = (): React.ReactElement => {
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [unverifiedUser] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(false);
 
   const [login] = useMutation<{
     login: VerifiableUser;
@@ -51,6 +51,10 @@ const Login = (): React.ReactElement => {
         password,
         login,
       );
+      if (user?.emailVerified === false) {
+        setUnverifiedUser(true);
+        return;
+      }
       setAuthenticatedUser(user);
     } catch (error) {
       setLoginError(true);
