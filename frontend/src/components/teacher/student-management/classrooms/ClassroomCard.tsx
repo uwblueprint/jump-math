@@ -23,7 +23,7 @@ import ClassroomPopover from "./ClassroomPopover";
 interface ClassroomCardProps {
   id: string;
   name: string;
-  startDate?: string;
+  startDate?: Date;
   studentCount: number;
   assessmentCount: number;
   grade: Grade;
