@@ -16,10 +16,14 @@ import usePaginatedData from "../../../common/table/usePaginatedData";
 import ClassroomCard from "../../student-management/classrooms/ClassroomCard";
 
 interface ChooseClassProps {
+  selectedClassId: string;
   setClassId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChooseClass = ({ setClassId }: ChooseClassProps): React.ReactElement => {
+const ChooseClass = ({
+  selectedClassId,
+  setClassId,
+}: ChooseClassProps): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
@@ -93,15 +97,22 @@ const ChooseClass = ({ setClassId }: ChooseClassProps): React.ReactElement => {
                   startDate,
                   studentCount,
                 }) => (
-                  <Flex key={id} paddingRight="4" paddingTop="4">
+                  <Flex
+                    key={id}
+                    cursor="pointer"
+                    onClick={() => setClassId(id)}
+                    paddingRight="4"
+                    paddingTop="4"
+                  >
                     <ClassroomCard
                       key={id}
                       activeAssessments={activeAssessments}
                       assessmentCount={assessmentCount}
-                      disabledMenu={true}
+                      disabledOptions={true}
                       grade={gradeLevel}
                       id={id}
                       name={className}
+                      selected={selectedClassId === id}
                       startDate={startDate}
                       studentCount={studentCount}
                     />

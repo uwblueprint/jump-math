@@ -30,7 +30,9 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 0:
         return <ChooseAssessment setTestId={setTestId} testId={testId} />;
       case 1:
-        return <ChooseClass setClassId={setClassId} />;
+        return (
+          <ChooseClass selectedClassId={classId} setClassId={setClassId} />
+        );
       case 2:
         return (
           <AddInformation

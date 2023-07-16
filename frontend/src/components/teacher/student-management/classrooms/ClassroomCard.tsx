@@ -28,7 +28,8 @@ interface ClassroomCardProps {
   assessmentCount: number;
   grade: Grade;
   activeAssessments: number;
-  disabledMenu?: boolean;
+  disabledOptions?: boolean;
+  selected?: boolean;
 }
 
 interface ClassroomCardBodyProps {
@@ -44,8 +45,14 @@ const ClassroomCard = ({
   assessmentCount,
   grade,
   activeAssessments,
-  disabledMenu = false,
+  disabledOptions = false,
+  selected = false,
 }: ClassroomCardProps): React.ReactElement => {
+  const classroomTitle = (
+    <Text color="grey.400" textStyle="mobileHeader3">
+      {name}
+    </Text>
+  );
   const classroomCardBody: ClassroomCardBodyProps[] = [
     {
       icon: <PeopleIcon />,
@@ -64,7 +71,9 @@ const ClassroomCard = ({
   return (
     <LinkBox h="256px" w="240px">
       <VStack
+        _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
+        backgroundColor={selected ? "grey.100" : ""}
         border="2.5px solid"
         borderColor="blue.50"
         borderRadius="16px"
@@ -74,18 +83,22 @@ const ClassroomCard = ({
         w="100%"
       >
         <HStack alignItems="flex-start" justifyContent="space-between" w="100%">
-          <LinkOverlay
-            as={RouterLink}
-            to={{
-              pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
-              state: { className: name, startDate, grade },
-            }}
-          >
-            <Text color="grey.400" textStyle="mobileHeader3">
-              {name}
-            </Text>
-          </LinkOverlay>
-          {!disabledMenu && <ClassroomPopover />}
+          {disabledOptions ? (
+            classroomTitle
+          ) : (
+            <>
+              <LinkOverlay
+                as={RouterLink}
+                to={{
+                  pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
+                  state: { className: name, startDate, grade },
+                }}
+              >
+                {classroomTitle}
+              </LinkOverlay>
+              <ClassroomPopover />
+            </>
+          )}
         </HStack>
         {classroomCardBody.map(({ icon, text }, i) => {
           return (
