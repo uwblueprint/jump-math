@@ -13,6 +13,7 @@ const EmptySessionsMessage = (): React.ReactElement => {
       borderRadius="1rem"
       color="blue.300"
       minWidth="100%"
+      mt={10}
       pb={14}
     >
       <MessageContainer
