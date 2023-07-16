@@ -38,7 +38,6 @@ const ClassroomsPage = (): React.ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
-
   const { id: teacherId } = authenticatedUser ?? {};
 
   const { loading, error, data } = useQuery<{
