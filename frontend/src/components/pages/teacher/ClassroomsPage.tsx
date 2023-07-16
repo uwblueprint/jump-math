@@ -5,8 +5,7 @@ import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
-  Grid,
-  GridItem,
+  Flex,
   Tab,
   TabList,
   TabPanel,
@@ -124,7 +123,7 @@ const ClassroomsPage = (): React.ReactElement => {
                 </TabList>
                 <TabPanels>
                   <TabPanel padding="0">
-                    <Grid gap={4} templateColumns="repeat(4, 1fr)">
+                    <Flex flexWrap="wrap">
                       {paginatedData?.map(
                         ({
                           id,
@@ -135,7 +134,7 @@ const ClassroomsPage = (): React.ReactElement => {
                           startDate,
                           studentCount,
                         }) => (
-                          <GridItem key={id} flex="1" paddingTop="4">
+                          <Flex key={id} paddingLeft="4" paddingTop="4">
                             <ClassroomCard
                               key={id}
                               activeAssessments={activeAssessments}
@@ -146,10 +145,10 @@ const ClassroomsPage = (): React.ReactElement => {
                               startDate={startDate}
                               studentCount={studentCount}
                             />
-                          </GridItem>
+                          </Flex>
                         ),
                       )}
-                    </Grid>
+                    </Flex>
                     <VStack
                       alignItems="center"
                       paddingBottom="6"
