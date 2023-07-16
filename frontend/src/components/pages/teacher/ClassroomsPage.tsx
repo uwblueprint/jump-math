@@ -123,7 +123,7 @@ const ClassroomsPage = (): React.ReactElement => {
                 </TabList>
                 <TabPanels>
                   <TabPanel padding="0">
-                    <Flex flexWrap="wrap">
+                    <Flex alignItems="left" flexWrap="wrap">
                       {paginatedData?.map(
                         ({
                           id,
@@ -134,7 +134,7 @@ const ClassroomsPage = (): React.ReactElement => {
                           startDate,
                           studentCount,
                         }) => (
-                          <Flex key={id} paddingLeft="4" paddingTop="4">
+                          <Flex key={id} paddingRight="4" paddingTop="4">
                             <ClassroomCard
                               key={id}
                               activeAssessments={activeAssessments}
