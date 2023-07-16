@@ -28,6 +28,7 @@ interface ClassroomCardProps {
   assessmentCount: number;
   grade: Grade;
   activeAssessments: number;
+  disabledMenu?: boolean;
 }
 
 interface ClassroomCardBodyProps {
@@ -43,6 +44,7 @@ const ClassroomCard = ({
   assessmentCount,
   grade,
   activeAssessments,
+  disabledMenu = false,
 }: ClassroomCardProps): React.ReactElement => {
   const classroomCardBody: ClassroomCardBodyProps[] = [
     {
@@ -83,7 +85,7 @@ const ClassroomCard = ({
               {name}
             </Text>
           </LinkOverlay>
-          <ClassroomPopover />
+          {!disabledMenu && <ClassroomPopover />}
         </HStack>
         {classroomCardBody.map(({ icon, text }, i) => {
           return (

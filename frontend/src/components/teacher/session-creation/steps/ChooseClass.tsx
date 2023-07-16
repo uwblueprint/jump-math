@@ -10,7 +10,7 @@ import AuthContext from "../../../../contexts/AuthContext";
 import { getSessionStatus } from "../../../../utils/TestSessionUtils";
 import ErrorState from "../../../common/info/ErrorState";
 import LoadingState from "../../../common/info/LoadingState";
-import EmptyDistributeClassroomsStateProps from "../../../common/info/messages/EmptyDistributeClassroomsMessage";
+import EmptyDistributeClassroomsMessage from "../../../common/info/messages/EmptyDistributeClassroomsMessage";
 import Pagination from "../../../common/table/Pagination";
 import usePaginatedData from "../../../common/table/usePaginatedData";
 import ClassroomCard from "../../student-management/classrooms/ClassroomCard";
@@ -98,6 +98,7 @@ const ChooseClass = ({ setClassId }: ChooseClassProps): React.ReactElement => {
                       key={id}
                       activeAssessments={activeAssessments}
                       assessmentCount={assessmentCount}
+                      disabledMenu={true}
                       grade={gradeLevel}
                       id={id}
                       name={className}
@@ -125,7 +126,7 @@ const ChooseClass = ({ setClassId }: ChooseClassProps): React.ReactElement => {
             </VStack>
           </Box>
         ) : (
-          <EmptyDistributeClassroomsStateProps onClick={navigateToClassrooms} />
+          <EmptyDistributeClassroomsMessage onClick={navigateToClassrooms} />
         )}
       </Box>
     </VStack>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
