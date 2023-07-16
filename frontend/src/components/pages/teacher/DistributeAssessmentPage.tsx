@@ -36,9 +36,12 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 2:
         return (
           <AddInformation
+            endDate={endDate}
+            notes={notes}
             setEndDate={setEndDate}
             setNotes={setNotes}
             setStartDate={setStartDate}
+            startDate={startDate}
           />
         );
       case 3:
