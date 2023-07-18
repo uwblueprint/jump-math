@@ -65,6 +65,12 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
     },
+    archiveClass: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<ClassResponseDTO | null> => {
+      return classService.archiveClass(id);
+    },
   },
   ClassResponseDTO: {
     teacher: async (parent: ClassResponseDTO) => {

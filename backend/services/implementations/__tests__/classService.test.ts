@@ -174,6 +174,36 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 
+  it("archive class", async () => {
+    // add test class
+    const classObj = await ClassModel.create(testClass[0]);
+
+    // execute
+    const res = await classService.archiveClass(classObj.id);
+
+    // assert
+    assertResponseMatchesExpected(testClass[0], res, false);
+  });
+
+  it("archive class with non-existing id", async () => {
+    const notFoundId = "86cb91bdc3464f14678934cd";
+    await expect(async () => {
+      await classService.archiveClass(notFoundId);
+    }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
+  });
+
+  it("archive class that is already archived", async () => {
+    const classObj = await ClassModel.create({
+      ...testClass[0],
+      isActive: false,
+    });
+    await expect(async () => {
+      await classService.archiveClass(classObj.id);
+    }).rejects.toThrowError(
+      `Class with id ${classObj.id} not found or not currently active`,
+    );
+  });
+
   it("create student", async () => {
     const createdClass = await ClassModel.create(testClass[0]);
     // execute

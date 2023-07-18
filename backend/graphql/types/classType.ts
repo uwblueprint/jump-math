@@ -29,6 +29,7 @@ const classType = gql`
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
     students: [StudentResponseDTO]!
+    isActive: Boolean!
   }
 
   extend type Query {
@@ -39,6 +40,7 @@ const classType = gql`
   extend type Mutation {
     createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
+    archiveClass(id: ID!): ClassResponseDTO!
   }
 `;
 
