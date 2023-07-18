@@ -207,7 +207,7 @@ const AddOrEditClassroomModal = ({
         <ModalContent borderRadius="12px" maxW="80vw" p={2}>
           <ModalHeader>
             <Text color="grey.400" textStyle="subtitle1">
-              {classroomId ? "Edit Classroom Information" : "Add Classroom"}
+              {classroomId ? "Edit Classroom" : "Add Classroom"}
             </Text>
           </ModalHeader>
           <ModalCloseButton />
