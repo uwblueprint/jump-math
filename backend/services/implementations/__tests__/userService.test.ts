@@ -164,12 +164,10 @@ describe("mongo userService", (): void => {
         {
           ...testClass[0],
           teacher: teacher.id,
-          isActive: true,
         },
         {
           ...testClass[1],
           teacher: teacher.id,
-          isActive: true,
         },
       ];
       await ClassModel.insertMany(updatedClasses);

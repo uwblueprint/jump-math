@@ -10,7 +10,6 @@ import {
   testClassWithStudents,
   updatedTestClassWithStudent,
   updatedTestStudents,
-  mockTestClass,
 } from "../../../testUtils/class";
 import {
   assertResponseMatchesExpected,
@@ -68,8 +67,7 @@ describe("mongo classService", (): void => {
     const createdClass = await classService.createClass(testClass[0]);
 
     // assert
-    assertResponseMatchesExpected(mockTestClass, createdClass);
-    expect(createdClass.isActive).toEqual(true);
+    assertResponseMatchesExpected(testClass[0], createdClass);
   });
 
   it("throw error for non-existing teachers", async () => {
@@ -114,7 +112,7 @@ describe("mongo classService", (): void => {
   it("getClassById for invalid Id", async () => {
     // execute and assert
     const notFoundId = "56cb91bdc3464f14678934cd";
-    await ClassModel.create(mockTestClass);
+    await ClassModel.create(testClass[0]);
     expect(classService.getClassById(notFoundId)).rejects.toThrowError(
       `Class id ${notFoundId} not found`,
     );
@@ -162,7 +160,7 @@ describe("mongo classService", (): void => {
 
   it("deleteClass", async () => {
     // execute
-    const savedClass = await ClassModel.create(mockTestClass);
+    const savedClass = await ClassModel.create(testClass[0]);
 
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
@@ -179,13 +177,13 @@ describe("mongo classService", (): void => {
 
   it("archive class", async () => {
     // add test class
-    const classObj = await ClassModel.create(mockTestClass);
+    const classObj = await ClassModel.create(testClass[0]);
 
     // execute
     const res = await classService.archiveClass(classObj.id);
 
     // assert
-    expect(res.isActive).toEqual(false);
+    assertResponseMatchesExpected(testClass[0], res, false);
   });
 
   it("archive class with non-existing id", async () => {
@@ -197,7 +195,7 @@ describe("mongo classService", (): void => {
 
   it("archive class that is already archived", async () => {
     const classObj = await ClassModel.create({
-      ...mockTestClass,
+      ...testClass[0],
       isActive: false,
     });
     await expect(async () => {
@@ -208,7 +206,7 @@ describe("mongo classService", (): void => {
   });
 
   it("create student", async () => {
-    const createdClass = await ClassModel.create(mockTestClass);
+    const createdClass = await ClassModel.create(testClass[0]);
     // execute
     const createdClassWithStudent = await classService.createStudent(
       testStudents[0],

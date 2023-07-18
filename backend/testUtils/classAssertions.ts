@@ -9,12 +9,14 @@ import { mockTestSessionWithId } from "./testSession";
 export const assertResponseMatchesExpected = (
   expected: ClassRequestDTO,
   result: ClassResponseDTO,
+  isActive = true,
 ): void => {
   expect(result.id).not.toBeNull();
   expect(result.className).toEqual(expected.className);
   expect(result.startDate).toEqual(expected.startDate);
   expect(result.gradeLevel.toString()).toEqual(expected.gradeLevel.toString());
   expect(result.teacher.toString()).toEqual(expected.teacher.toString());
+  expect(result.isActive).toEqual(isActive);
   if (result.testSessions.length !== 0) {
     expect(result.testSessions.length).toEqual(1);
     expect(result.testSessions[0].toString()).toEqual(mockTestSessionWithId.id);
