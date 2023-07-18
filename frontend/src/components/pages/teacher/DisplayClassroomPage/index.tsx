@@ -1,6 +1,6 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Redirect, useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
@@ -11,17 +11,18 @@ import {
   removeUnderscore,
   titleCase,
 } from "../../../../utils/GeneralUtils";
+import RedirectTo from "../../../auth/RedirectTo";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
-import AddClassroomOrStudentPopover from "../../../teacher/student-management/classrooms/AddClassroomOrStudentPopover";
+import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
 import DisplayClassroomStudentsPage from "./DisplayClassroomStudentsPage";
 
-const TAB_CONFIG = [
+const TAB_CONFIG = (onCreateStudent: () => void) => [
   {
     name: "Assessments",
     path: Routes.DISPLAY_CLASSROOM_ASSESSMENTS_PAGE(),
@@ -30,23 +31,12 @@ const TAB_CONFIG = [
   {
     name: "Students",
     path: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(),
-    Component: DisplayClassroomStudentsPage,
+    element: <DisplayClassroomStudentsPage onCreateStudent={onCreateStudent} />,
   },
   {
     path: Routes.DISPLAY_CLASSROOM_PAGE(),
     exact: true,
-    Component: () => {
-      const { classroomId } = useParams<{ classroomId: string }>();
-      const location = useLocation();
-      return (
-        <Redirect
-          to={{
-            pathname: Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE(classroomId),
-            state: location.state,
-          }}
-        />
-      );
-    },
+    element: <RedirectTo pathname={Routes.DISPLAY_CLASSROOM_STUDENTS_PAGE} />,
   },
   {
     path: "*",
@@ -141,7 +131,7 @@ const DisplayClassroomsPage = () => {
           onClose={onStudentModalClose}
         />
       </FormProvider>
-      <RouterTabs routes={TAB_CONFIG} />
+      <RouterTabs routes={TAB_CONFIG(onStudentModalOpen)} />
     </Flex>
   );
 };

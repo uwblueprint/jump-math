@@ -81,7 +81,9 @@ const TestSessionListItem = ({
           onClick={() =>
             status === "past" &&
             history.push(
-              Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(testSessionId),
+              Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE({
+                sessionId: testSessionId,
+              }),
               {
                 returnTo: history.location.pathname,
                 sessionTitle: testName,

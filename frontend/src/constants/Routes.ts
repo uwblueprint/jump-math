@@ -16,20 +16,25 @@ export const ASSESSMENT_EDITOR_PAGE = "/admin/assessment-editor";
 export const TEACHER_LANDING_PAGE = "/teacher";
 export const TEACHER_DASHBOARD_PAGE = "/teacher/dashboard";
 export const DISPLAY_ASSESSMENTS_PAGE = "/teacher/assessments";
-export const DISPLAY_ASSESSMENT_RESULTS_PAGE = (id = ":sessionId") =>
-  `/teacher/assessment-results/${id}`;
-export const DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE = (id = ":sessionId") =>
-  `/teacher/assessment-results/${id}/summary`;
-export const DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE = (id = ":sessionId") =>
-  `/teacher/assessment-results/${id}/by-student`;
+export const DISPLAY_ASSESSMENT_RESULTS_PAGE = ({
+  sessionId = ":sessionId",
+} = {}) => `/teacher/assessment-results/${sessionId}`;
+export const DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE = ({
+  sessionId = ":sessionId",
+} = {}) => `/teacher/assessment-results/${sessionId}/summary`;
+export const DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE = ({
+  sessionId = ":sessionId",
+} = {}) => `/teacher/assessment-results/${sessionId}/by-student`;
 export const DISTRIBUTE_ASSESSMENT_PAGE = "/teacher/assessments/create";
 export const CLASSROOMS_PAGE = "/teacher/classrooms";
-export const DISPLAY_CLASSROOM_PAGE = (id = ":classroomId") =>
-  `/teacher/classrooms/${id}`;
-export const DISPLAY_CLASSROOM_ASSESSMENTS_PAGE = (id = ":classroomId") =>
-  `/teacher/classrooms/${id}/assessments`;
-export const DISPLAY_CLASSROOM_STUDENTS_PAGE = (id = ":classroomId") =>
-  `/teacher/classrooms/${id}/students`;
+export const DISPLAY_CLASSROOM_PAGE = ({ classroomId = ":classroomId" } = {}) =>
+  `/teacher/classrooms/${classroomId}`;
+export const DISPLAY_CLASSROOM_ASSESSMENTS_PAGE = ({
+  classroomId = ":classroomId",
+} = {}) => `/teacher/classrooms/${classroomId}/assessments`;
+export const DISPLAY_CLASSROOM_STUDENTS_PAGE = ({
+  classroomId = ":classroomId",
+} = {}) => `/teacher/classrooms/${classroomId}/students`;
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
