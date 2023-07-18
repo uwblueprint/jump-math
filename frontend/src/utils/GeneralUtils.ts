@@ -72,3 +72,18 @@ export const stringToFloat = (input: string): number | undefined => {
   const value = parseFloat(input);
   return Number.isNaN(value) ? undefined : value;
 };
+
+export const getLetterFromNumber = (number: number): string => {
+  if (number < 0) {
+    throw new Error("Invalid number");
+  }
+  if (number > 26 * 26 - 1) {
+    throw new Error("Number too large");
+  }
+
+  const firstLetter =
+    number < 26 ? "" : String.fromCharCode(Math.floor(number / 26) + 96);
+  const secondLetter = String.fromCharCode((number % 26) + 97);
+
+  return firstLetter + secondLetter;
+};
