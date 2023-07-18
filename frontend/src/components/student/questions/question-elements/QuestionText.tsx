@@ -4,7 +4,7 @@ import { Text } from "@chakra-ui/react";
 import { getLetterFromNumber } from "../../../../utils/GeneralUtils";
 
 interface QuestionTextProps {
-  index: number;
+  index: number | undefined;
   questionText: string;
 }
 const QuestionText = ({
@@ -13,7 +13,7 @@ const QuestionText = ({
 }: QuestionTextProps): React.ReactElement => {
   return (
     <Text textStyle="subtitle1">
-      {`${getLetterFromNumber(index)}. ${questionText}`}
+      {index != undefined && `${getLetterFromNumber(index)}. `} {questionText}
     </Text>
   );
 };

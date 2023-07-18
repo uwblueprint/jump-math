@@ -1,10 +1,16 @@
 import type { StringOrNumber } from "@chakra-ui/utils";
 import update from "immutability-helper";
 
-import type { QuestionComponentRequest } from "../APIClients/types/TestClientTypes";
+import type {
+  QuestionComponentRequest,
+  QuestionComponentResponse,
+} from "../APIClients/types/TestClientTypes";
 import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
-import { ResponseElementType } from "../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../types/QuestionTypes";
 
 import { stringToFloat } from "./GeneralUtils";
 
@@ -124,4 +130,40 @@ export const mapAnswersToResultsArray = (answers: Answers[]): number[][][] => {
   return answers.map((answer) =>
     answer.elements.map((element) => element.elementAnswers),
   );
+};
+
+export const getSubquestionIndex = (subquestionIndex: number[], i: number) => {
+  return subquestionIndex.length == 2 &&
+    subquestionIndex[0] == 0 &&
+    subquestionIndex[1] == 0
+    ? undefined
+    : subquestionIndex[i];
+};
+
+export const getAnswerElementIndexArray = (
+  elements: QuestionComponentResponse[],
+): number[] => {
+  let answersSoFar = 0;
+  return elements.map((element: QuestionComponentResponse) => {
+    if (element.type in ResponseElementType) {
+      const elementIndex = answersSoFar;
+      answersSoFar += 1;
+      return elementIndex;
+    }
+    return 0;
+  });
+};
+
+export const getSubquestionIndexArray = (
+  elements: QuestionComponentResponse[],
+): number[] => {
+  let subquestionsSoFar = 0;
+  return elements.map((element) => {
+    if (element.type === QuestionElementType.QUESTION_TEXT) {
+      const elementIndex = subquestionsSoFar;
+      subquestionsSoFar += 1;
+      return elementIndex;
+    }
+    return 0;
+  });
 };

@@ -9,10 +9,12 @@ import type {
   QuestionTextMetadata,
   TextMetadata,
 } from "../../../types/QuestionMetadataTypes";
+import { QuestionElementType } from "../../../types/QuestionTypes";
 import {
-  QuestionElementType,
-  ResponseElementType,
-} from "../../../types/QuestionTypes";
+  getAnswerElementIndexArray,
+  getSubquestionIndex,
+  getSubquestionIndexArray,
+} from "../../../utils/StudentUtils";
 
 import Image from "./question-elements/Image";
 import MultipleChoice from "./question-elements/MultipleChoice";
@@ -27,26 +29,10 @@ interface QuestionProps {
 
 const Question = ({ elements }: QuestionProps): React.ReactElement => {
   const answerElementIndex = useMemo(() => {
-    let answersSoFar = 0;
-    return elements.map((element) => {
-      if (element.type in ResponseElementType) {
-        const elementIndex = answersSoFar;
-        answersSoFar += 1;
-        return elementIndex;
-      }
-      return 0;
-    });
+    return getAnswerElementIndexArray(elements);
   }, [elements]);
   const subquestionIndex = useMemo(() => {
-    let subquestionsSoFar = 0;
-    return elements.map((element) => {
-      if (element.type === QuestionElementType.QUESTION_TEXT) {
-        const elementIndex = subquestionsSoFar;
-        subquestionsSoFar += 1;
-        return elementIndex;
-      }
-      return 0;
-    });
+    return getSubquestionIndexArray(elements);
   }, [elements]);
 
   return (
@@ -59,7 +45,7 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                 case QuestionElementType.QUESTION_TEXT:
                   return (
                     <QuestionText
-                      index={subquestionIndex[i]}
+                      index={getSubquestionIndex(subquestionIndex, i)}
                       questionText={
                         (element.metadata as QuestionTextMetadata).questionText
                       }

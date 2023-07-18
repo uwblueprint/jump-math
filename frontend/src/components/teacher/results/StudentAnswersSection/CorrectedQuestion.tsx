@@ -10,10 +10,12 @@ import type {
   ShortAnswerMetadata,
   TextMetadata,
 } from "../../../../types/QuestionMetadataTypes";
+import { QuestionElementType } from "../../../../types/QuestionTypes";
 import {
-  QuestionElementType,
-  ResponseElementType,
-} from "../../../../types/QuestionTypes";
+  getAnswerElementIndexArray,
+  getSubquestionIndex,
+  getSubquestionIndexArray,
+} from "../../../../utils/StudentUtils";
 import Image from "../../../student/questions/question-elements/Image";
 import QuestionText from "../../../student/questions/question-elements/QuestionText";
 import Text from "../../../student/questions/question-elements/Text";
@@ -32,29 +34,11 @@ const CorrectedQuestion = ({
   studentAnswers,
 }: QuestionProps): React.ReactElement => {
   const answerElementIndex = useMemo(() => {
-    let answersSoFar = 0;
-    return elements.map((element) => {
-      if (element.type in ResponseElementType) {
-        const elementIndex = answersSoFar;
-        answersSoFar += 1;
-        return elementIndex;
-      }
-      return 0;
-    });
+    return getAnswerElementIndexArray(elements);
   }, [elements]);
-
   const subquestionIndex = useMemo(() => {
-    let subquestionsSoFar = 0;
-    return elements.map((element) => {
-      if (element.type === QuestionElementType.QUESTION_TEXT) {
-        const elementIndex = subquestionsSoFar;
-        subquestionsSoFar += 1;
-        return elementIndex;
-      }
-      return 0;
-    });
+    return getSubquestionIndexArray(elements);
   }, [elements]);
-
   return (
     <>
       {elements.map((element, i) => {
@@ -66,7 +50,7 @@ const CorrectedQuestion = ({
                   return (
                     <Box mt={6}>
                       <QuestionText
-                        index={subquestionIndex[i]}
+                        index={getSubquestionIndex(subquestionIndex, i)}
                         questionText={
                           (element.metadata as QuestionTextMetadata)
                             .questionText

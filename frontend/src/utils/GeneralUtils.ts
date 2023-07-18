@@ -81,7 +81,7 @@ export const getLetterFromNumber = (number: number): string => {
   }
 
   const firstLetter =
-    number < 26 ? "" : String.fromCharCode(Math.floor(number / 26) + 97);
+    number < 26 ? "" : String.fromCharCode(Math.floor(number / 26) + 96);
   const secondLetter = String.fromCharCode((number % 26) + 97);
 
   return firstLetter + secondLetter;

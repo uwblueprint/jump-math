@@ -8,9 +8,11 @@ import QuestionList from "./QuestionList";
 const StudentAnswersSection = ({
   test,
   answers,
+  breakdown,
 }: {
   test: Pick<TestResponse, "questions">;
   answers: number[][][];
+  breakdown: boolean[][];
 }) => (
   <Flex direction="column" gap={6} w="100%">
     <Text color="grey.300" textStyle="eyebrow">
@@ -23,6 +25,7 @@ const StudentAnswersSection = ({
             <QuestionList
               key={index}
               answers={answers[index]}
+              breakdown={breakdown[index]}
               currentQuestionIndex={index}
               questions={test.questions[index]}
             />

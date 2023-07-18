@@ -108,6 +108,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
               <Divider />
               <StudentAnswersSection
                 answers={currentStudentResult.answers}
+                breakdown={currentStudentResult.breakdown}
                 test={data?.testSession.test}
               />
             </>
