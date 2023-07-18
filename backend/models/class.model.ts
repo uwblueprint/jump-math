@@ -81,6 +81,7 @@ const ClassSchema: Schema = new Schema({
   isActive: {
     type: Boolean,
     required: true,
+    default: true,
   },
 });
 

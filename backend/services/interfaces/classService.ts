@@ -92,7 +92,7 @@ export interface IClassService {
   deleteClass(id: string): Promise<string>;
 
   /**
-   * This method archives the class the given id
+   * This method archives the class with the given id
    * @param id class id
    * @returns the new updated ClassResponseDTO
    * @throws Error if archive fails

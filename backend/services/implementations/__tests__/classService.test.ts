@@ -65,10 +65,11 @@ describe("mongo classService", (): void => {
 
   it("create class for valid teachers", async () => {
     // execute
-    const createdClass = await classService.createClass(mockTestClass);
+    const createdClass = await classService.createClass(testClass[0]);
 
     // assert
     assertResponseMatchesExpected(mockTestClass, createdClass);
+    expect(createdClass.isActive).toEqual(true);
   });
 
   it("throw error for non-existing teachers", async () => {
@@ -195,12 +196,14 @@ describe("mongo classService", (): void => {
   });
 
   it("archive class that is already archived", async () => {
-    const classObj = await ClassModel.create(mockTestClass);
-    const archivedClass = await classService.archiveClass(classObj.id);
+    const classObj = await ClassModel.create({
+      ...mockTestClass,
+      isActive: false,
+    });
     await expect(async () => {
-      await classService.archiveClass(archivedClass.id);
+      await classService.archiveClass(classObj.id);
     }).rejects.toThrowError(
-      `Class with id ${archivedClass.id} not found or not currently active`,
+      `Class with id ${classObj.id} not found or not currently active`,
     );
   });
 
