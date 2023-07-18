@@ -175,6 +175,20 @@ export interface ITestSessionService {
   ): Promise<Array<TestSessionResponseDTO>>;
 
   /**
+   * This method gets the mark distribution of the results for a
+   * test session given the id
+   * @param id The unique identifier of the Test Session document
+   */
+  getMarkDistribution(id: string): Promise<Array<number>>;
+
+  /**
+   * This method gets the performance by question for a
+   * test session given the id
+   * @param id The unique identifier of the Test Session document
+   */
+  getPerformanceByQuestion(id: string): Promise<Array<number>>;
+
+  /**
    * Update a test session given the id
    * This method updates a Test Session document by its unique identifier in
    * the database (auto-grading all ungraded Results before updating).

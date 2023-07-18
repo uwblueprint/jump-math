@@ -11,6 +11,7 @@ const Table = {
       },
       tr: {
         _hover: { backgroundColor: "blue.300", color: "grey.50" },
+        height: "52px",
       },
       td: {
         fontSize: "14px",

@@ -82,6 +82,14 @@ export interface ITestService {
   getAllTests(): Promise<TestResponseDTO[]>;
 
   /**
+   * retrieve all published Tests
+   * @param
+   * @returns an array of TestResponseDTO
+   * @throws Error if retrieval fails
+   */
+  getPublishedTests(): Promise<TestResponseDTO[]>;
+
+  /**
    * publish a Test given the id
    * @param id string with the test id to be published
    * @returns a TestResponseDTO with the published test

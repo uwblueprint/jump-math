@@ -61,6 +61,7 @@ class ClassService implements IClassService {
       className: newClass.className,
       startDate: newClass.startDate,
       gradeLevel: newClass.gradeLevel,
+      isActive: newClass.isActive,
       teacher: newClass.teacher,
       testSessions: newClass.testSessions,
       students: newClass.students,
@@ -156,6 +157,34 @@ class ClassService implements IClassService {
       );
       throw error;
     }
+  }
+
+  async archiveClass(id: string): Promise<ClassResponseDTO> {
+    let archivedClass: Class | null;
+    try {
+      archivedClass = await MgClass.findOneAndUpdate(
+        { _id: id, isActive: true },
+        { $set: { isActive: false } },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!archivedClass) {
+        throw new Error(
+          `Class with id ${id} not found or not currently active`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+    return mapDocumentToDTO(archivedClass);
   }
 
   async createStudent(

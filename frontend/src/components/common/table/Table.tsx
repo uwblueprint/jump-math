@@ -17,7 +17,9 @@ type Nodes = React.ReactNode[];
 
 export interface TableRow<T extends Nodes = Nodes> {
   values: [...T];
-  menu: React.ReactElement;
+  menu?: React.ReactElement;
+  id?: string;
+  onClick?: () => void;
 }
 
 interface TableProps<T extends Nodes = Nodes> {
@@ -52,8 +54,10 @@ export const Table = <T extends Nodes = Nodes>({
           <Tbody>
             {paginatedData.map((row, rowIndex) => (
               <Tr
-                key={rowIndex}
+                key={row.id || rowIndex}
                 backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
+                cursor="pointer"
+                onClick={row.onClick || undefined}
               >
                 {row.values.map((value, cellIndex) => (
                   <Td
@@ -63,7 +67,7 @@ export const Table = <T extends Nodes = Nodes>({
                     {value}
                   </Td>
                 ))}
-                <Td width="5%">{row.menu}</Td>
+                {row.menu && <Td width="5%">{row.menu}</Td>}
               </Tr>
             ))}
           </Tbody>
