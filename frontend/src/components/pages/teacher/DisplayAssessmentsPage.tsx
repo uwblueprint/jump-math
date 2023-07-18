@@ -109,6 +109,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                     <TestSessionListItem
                       key={session.testSessionId}
                       {...session}
+                      classroomName={session.classroomName ?? ""}
                     />
                   ))}
                 </TabPanel>

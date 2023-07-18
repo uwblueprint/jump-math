@@ -1,10 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Container, Image, Text } from "@chakra-ui/react";
+import { type LocationDescriptor } from "history";
 
 interface MessageContainerProps {
   buttonIcon?: React.ReactElement;
-  buttonRoute?: string;
+  buttonRoute?: LocationDescriptor;
   buttonText?: string;
   onClick?: () => void;
   image: string;

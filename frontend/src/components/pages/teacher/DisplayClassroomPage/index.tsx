@@ -72,7 +72,7 @@ const getLocationState = (
 
 const DisplayClassroomsPage = () => {
   const history = useHistory();
-  const { classroomId: classId } = useParams<{ classroomId: string }>();
+  const { classroomId } = useParams<{ classroomId: string }>();
   const { state } = useLocation();
   const { className, startDate, grade } = getLocationState(state);
   const loading = !className;
@@ -98,7 +98,11 @@ const DisplayClassroomsPage = () => {
         button={
           <AddClassroomOrStudentPopover
             isDisabled={loading}
-            onCreateClassroom={() => {}}
+            onCreateClassroom={() =>
+              history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
+                classroomId,
+              })
+            }
             onCreateStudent={onStudentModalOpen}
           />
         }
@@ -126,7 +130,7 @@ const DisplayClassroomsPage = () => {
       </HeaderWithButton>
       <FormProvider {...studentFormMethods}>
         <AddStudentModal
-          classId={classId}
+          classId={classroomId}
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}
         />

@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
+  Box,
   HStack,
   Spacer,
   Tag,
@@ -17,14 +18,14 @@ import type {
   TestSessionItemStats,
   TestSessionStatus,
 } from "../../../types/TestSessionTypes";
-import { formatDate } from "../../../utils/GeneralUtils";
+import { formatDate, titleCase } from "../../../utils/GeneralUtils";
 import Copyable from "../../common/Copyable";
 
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
 export type TestSessionListItemProps = {
   testSessionId: string;
-  classroomName: string;
+  classroomName?: string;
   testName: string;
   // Target date should be the start date of the session UNLESS
   // the session is active, in which case it should be the end date
@@ -38,6 +39,16 @@ const STATUS_LABELS = {
   active: "Until",
   upcoming: "Scheduled",
   past: "Assigned",
+};
+const STATUS_BACKGROUND_COLORS = {
+  active: "green.50",
+  upcoming: "yellow.50",
+  past: "grey.100",
+};
+const STATUS_COLORS = {
+  active: "green.400",
+  upcoming: "yellow.300",
+  past: "grey.400",
 };
 const ACCESS_CODE_GROUP_SIZE = 3;
 
@@ -85,7 +96,10 @@ const TestSessionListItem = ({
                 sessionId: testSessionId,
               }),
               {
-                returnTo: history.location.pathname,
+                returnTo: {
+                  pathname: history.location.pathname,
+                  state: history.location.state,
+                },
                 sessionTitle: testName,
               },
             )
@@ -94,35 +108,41 @@ const TestSessionListItem = ({
           pr={0}
           w="100%"
         >
-          <Tooltip
-            bg="blue.300"
-            borderRadius={4}
-            hasArrow
-            label={classroomName}
-            p={2}
-            placement="left"
-          >
-            <Tag
-              bg="blue.50"
-              borderRadius="full"
-              maxWidth={40}
-              overflow="hidden"
-              size="lg"
+          {classroomName != null && (
+            <Tooltip
+              bg="blue.300"
+              borderRadius={4}
+              hasArrow
+              label={classroomName}
+              p={2}
+              placement="left"
             >
-              <TagLeftIcon aria-hidden="true" as={BookIcon} color="blue.300" />
-              <TagLabel>
-                <Text
+              <Tag
+                bg="blue.50"
+                borderRadius="full"
+                maxWidth={40}
+                overflow="hidden"
+                size="lg"
+              >
+                <TagLeftIcon
+                  aria-hidden="true"
+                  as={BookIcon}
                   color="blue.300"
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  textStyle="smallerParagraph"
-                  whiteSpace="nowrap"
-                >
-                  {classroomName}
-                </Text>
-              </TagLabel>
-            </Tag>
-          </Tooltip>
+                />
+                <TagLabel>
+                  <Text
+                    color="blue.300"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    textStyle="smallerParagraph"
+                    whiteSpace="nowrap"
+                  >
+                    {classroomName}
+                  </Text>
+                </TagLabel>
+              </Tag>
+            </Tooltip>
+          )}
           <VStack align="start">
             <Text
               color={status === "past" ? "grey.300" : "blue.300"}
@@ -161,12 +181,33 @@ const TestSessionListItem = ({
               </Text>
             </>
           )}
+          {status !== "past" && classroomName == null && (
+            <Tag
+              bg={STATUS_BACKGROUND_COLORS[status]}
+              borderRadius="full"
+              maxWidth={40}
+              overflow="hidden"
+              size="lg"
+            >
+              <Text
+                color={STATUS_COLORS[status]}
+                overflow="hidden"
+                textOverflow="ellipsis"
+                textStyle="smallerParagraph"
+                whiteSpace="nowrap"
+              >
+                {titleCase(status)}
+              </Text>
+            </Tag>
+          )}
         </HStack>
       </Tooltip>
-      <TestSessionListItemPopover
-        status={status}
-        testSessionId={testSessionId}
-      />
+      <Box ml={1}>
+        <TestSessionListItemPopover
+          status={status}
+          testSessionId={testSessionId}
+        />
+      </Box>
     </HStack>
   );
 };
