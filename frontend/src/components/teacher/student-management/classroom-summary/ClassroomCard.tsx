@@ -76,7 +76,7 @@ const ClassroomCard = ({
             as={RouterLink}
             to={{
               pathname: Routes.DISPLAY_CLASSROOM_PAGE({ classroomId: id }),
-              state: { className: name, startDate, grade },
+              state: { className: name, startDate, gradeLevel: grade },
             }}
           >
             <Text color="grey.400" textStyle="mobileHeader3">

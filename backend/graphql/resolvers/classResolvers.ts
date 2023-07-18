@@ -64,6 +64,12 @@ const classResolvers = {
       });
       return createdClass;
     },
+    updateClass: async (
+      _req: undefined,
+      { id, classObj }: { id: string; classObj: ClassRequestDTO },
+    ): Promise<ClassResponseDTO> => {
+      return classService.updateClass(id, classObj);
+    },
     createStudent: async (
       _req: undefined,
       { student, classId }: { student: StudentRequestDTO; classId: string },
