@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
   Box,
   Center,
-  Grid,
-  GridItem,
+  Flex,
   Tab,
   TabList,
   TabPanel,
@@ -16,10 +15,11 @@ import {
 } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
+import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import type { ClassCard } from "../../../types/ClassroomTypes";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
+import { getSessionStatus } from "../../../utils/TestSessionUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
@@ -41,13 +41,37 @@ const ClassroomsPage = (): React.ReactElement => {
 
   const { id: teacherId } = authenticatedUser ?? {};
 
-  const { loading, error, data } = useQuery(GET_CLASSES_BY_TEACHER, {
+  const { loading, error, data } = useQuery<{
+    classesByTeacher: ClassResponse[];
+  }>(GET_CLASSES_BY_TEACHER, {
     fetchPolicy: "cache-and-network",
     variables: { teacherId },
     skip: !teacherId,
   });
 
-  const classCards: ClassCard[] = data?.classesByTeacher;
+  const classCards = useMemo(() => {
+    const now = new Date();
+    return data?.classesByTeacher.map(
+      ({ testSessions, students, ...classCard }) => {
+        let activeAssessments = 0;
+        testSessions.forEach((session) => {
+          if (
+            getSessionStatus(session.startDate, session.endDate, now) ===
+            "active"
+          ) {
+            activeAssessments += 1;
+          }
+        });
+
+        return {
+          ...classCard,
+          activeAssessments,
+          assessmentCount: testSessions.length,
+          studentCount: students.length,
+        };
+      },
+    );
+  }, [data]);
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
     usePaginatedData(classCards);
@@ -99,7 +123,7 @@ const ClassroomsPage = (): React.ReactElement => {
                 </TabList>
                 <TabPanels>
                   <TabPanel padding="0">
-                    <Grid gap={4} templateColumns="repeat(4, 1fr)">
+                    <Flex alignItems="left" flexWrap="wrap">
                       {paginatedData?.map(
                         ({
                           id,
@@ -110,7 +134,7 @@ const ClassroomsPage = (): React.ReactElement => {
                           startDate,
                           studentCount,
                         }) => (
-                          <GridItem key={id} flex="1" paddingTop="4">
+                          <Flex key={id} paddingRight="4" paddingTop="4">
                             <ClassroomCard
                               key={id}
                               activeAssessments={activeAssessments}
@@ -121,10 +145,10 @@ const ClassroomsPage = (): React.ReactElement => {
                               startDate={startDate}
                               studentCount={studentCount}
                             />
-                          </GridItem>
+                          </Flex>
                         ),
                       )}
-                    </Grid>
+                    </Flex>
                     <VStack
                       alignItems="center"
                       paddingBottom="6"

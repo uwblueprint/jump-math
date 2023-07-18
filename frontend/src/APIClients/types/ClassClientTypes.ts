@@ -1,3 +1,4 @@
+import type { TestSessionOverviewData } from "./TestSessionClientTypes";
 import type { Grade, UserResponse } from "./UserClientTypes";
 
 export type ClassRequest = {
@@ -13,6 +14,8 @@ export type ClassResponse = {
   startDate: Date;
   gradeLevel: Grade;
   teacher: UserResponse;
+  testSessions: TestSessionOverviewData[];
+  students: StudentResponse[];
 };
 
 export type StudentResponse = {

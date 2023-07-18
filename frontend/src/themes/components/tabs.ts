@@ -14,6 +14,21 @@ const Tabs = {
         },
       },
     },
+    "soft-rounded": {
+      tablist: {
+        paddingLeft: "3em",
+      },
+      tab: {
+        fontSize: "14px",
+        fontWeight: "400",
+        _selected: {
+          backgroundColor: "blue.50",
+          fontWeight: "700",
+          color: "blue.300",
+          borderRadius: "8px",
+        },
+      },
+    },
   },
 };
 

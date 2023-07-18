@@ -23,6 +23,15 @@ const Radio = {
         color: "grey.300",
       },
     },
+    table: {
+      control: {
+        borderColor: "grey.300",
+        _checked: {
+          backgroundColor: "grey.300",
+          borderColor: "grey.300",
+        },
+      },
+    },
   },
 };
 

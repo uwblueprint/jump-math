@@ -36,8 +36,7 @@ const login = async (
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {
-    // eslint-disable-next-line no-alert
-    window.alert("Failed to login");
+    throw new Error("Failed to login");
   }
   return user;
 };
@@ -56,7 +55,6 @@ type RegisterFunction = (
     Record<string, unknown>
   >
 >;
-
 const registerTeacher = async (
   firstName: string,
   lastName: string,
@@ -85,8 +83,11 @@ const registerTeacher = async (
       localStorage.setItem(AUTHENTICATED_USER_KEY, JSON.stringify(user));
     }
   } catch (e: unknown) {
-    // eslint-disable-next-line no-alert
-    window.alert("Failed to sign up");
+    if (e instanceof Error && e.message.includes("duplicate key")) {
+      throw new Error("Email already exists");
+    } else {
+      throw new Error("Failed to sign up");
+    }
   }
   return user;
 };

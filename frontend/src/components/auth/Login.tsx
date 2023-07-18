@@ -26,6 +26,7 @@ const Login = (): React.ReactElement => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [invalidFormError, setInvalidFormError] = useState(false);
   const [loginError, setLoginError] = useState(false);
 
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -36,21 +37,28 @@ const Login = (): React.ReactElement => {
   }>(LOGIN);
 
   const onLogInClick = async () => {
-    if (!(email && password)) {
-      setLoginError(true);
-      return;
-    }
-    const user: VerifiableUser | null = await authAPIClient.login(
-      email,
-      password,
-      login,
-    );
+    setInvalidFormError(false);
+    setLoginError(false);
 
-    if (user?.emailVerified === false) {
-      setUnverifiedUser(true);
+    if (!(email && password)) {
+      setInvalidFormError(true);
       return;
     }
-    setAuthenticatedUser(user);
+
+    try {
+      const user: VerifiableUser | null = await authAPIClient.login(
+        email,
+        password,
+        login,
+      );
+      if (user?.emailVerified === false) {
+        setUnverifiedUser(true);
+        return;
+      }
+      setAuthenticatedUser(user);
+    } catch (error) {
+      setLoginError(true);
+    }
   };
 
   if (authenticatedUser) {
@@ -62,7 +70,7 @@ const Login = (): React.ReactElement => {
   const image = isAdmin ? ADMIN_SIGNUP_IMAGE : TEACHER_SIGNUP_IMAGE;
   const form = (
     <>
-      <FormControl isInvalid={loginError && !email} isRequired>
+      <FormControl isInvalid={invalidFormError && !email} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
           onChange={(e) => setEmail(e.target.value)}
@@ -72,7 +80,7 @@ const Login = (): React.ReactElement => {
         />
       </FormControl>
 
-      <FormControl isInvalid={loginError && !password} isRequired>
+      <FormControl isInvalid={invalidFormError && !password} isRequired>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
           onChange={(e) => setPassword(e.target.value)}
@@ -110,7 +118,15 @@ const Login = (): React.ReactElement => {
       <BackButton size="md" text="Back to Home" />
     </>
   );
-  const error = loginError ? "Please ensure fields are filled" : "";
+
+  let error = "";
+  if (invalidFormError) {
+    error = "Please ensure fields are filled";
+  }
+
+  if (loginError) {
+    error = "Failed to login";
+  }
 
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   if (unverifiedUser) return <UnverifiedUsers email={email} />;

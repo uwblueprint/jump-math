@@ -31,19 +31,9 @@ const classType = gql`
     students: [StudentResponseDTO]!
   }
 
-  type ClassCard {
-    id: String!
-    activeAssessments: Int!
-    assessmentCount: Int!
-    gradeLevel: GradeEnum!
-    className: String!
-    startDate: Date
-    studentCount: Int!
-  }
-
   extend type Query {
     classByTestSession(testSessionId: ID!): ClassResponseDTO!
-    classesByTeacher(teacherId: ID!): [ClassCard!]!
+    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
   }
 
   extend type Mutation {

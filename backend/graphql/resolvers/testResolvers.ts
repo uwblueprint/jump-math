@@ -113,6 +113,9 @@ const testResolvers = {
     tests: async (): Promise<TestResponseDTO[]> => {
       return testService.getAllTests();
     },
+    publishedTests: async (): Promise<TestResponseDTO[]> => {
+      return testService.getPublishedTests();
+    },
   },
   Mutation: {
     createTest: async (

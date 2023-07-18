@@ -28,7 +28,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const renderPageContent = () => {
     switch (page) {
       case 0:
-        return <ChooseAssessment setTestId={setTestId} />;
+        return <ChooseAssessment setTestId={setTestId} testId={testId} />;
       case 1:
         return <ChooseClass setClassId={setClassId} />;
       case 2:
@@ -62,7 +62,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   };
 
   return (
-    <VStack align="left">
+    <VStack align="left" gap={2} paddingBottom="4">
       <FormBreadcrumb
         breadcrumbs={BREADCRUMB_CONFIG}
         page={page}
