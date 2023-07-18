@@ -29,28 +29,20 @@ const classType = gql`
     teacher: UserDTO
     testSessions: [TestSessionResponseDTO]!
     students: [StudentResponseDTO]!
-  }
-
-  type ClassCard {
-    id: String!
-    activeAssessments: Int!
-    assessmentCount: Int!
-    gradeLevel: GradeEnum!
-    className: String!
-    startDate: Date
-    studentCount: Int!
+    isActive: Boolean!
   }
 
   extend type Query {
     class(id: ID!): ClassResponseDTO!
     classByTestSession(testSessionId: ID!): ClassResponseDTO!
-    classesByTeacher(teacherId: ID!): [ClassCard!]!
+    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
   }
 
   extend type Mutation {
     createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     updateClass(id: ID!, classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
+    archiveClass(id: ID!): ClassResponseDTO!
   }
 `;
 

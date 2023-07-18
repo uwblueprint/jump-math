@@ -14,6 +14,8 @@ export type ClassResponse = {
   startDate: Date;
   gradeLevel: Grade;
   teacher: UserResponse;
+  testSessions: TestSessionOverviewData[];
+  students: StudentResponse[];
 };
 
 export type StudentResponse = {
