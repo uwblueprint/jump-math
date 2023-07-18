@@ -1,18 +1,19 @@
-import ClassService from "../../services/implementations/classService";
-import SchoolService from "../../services/implementations/schoolService";
-import TestService from "../../services/implementations/testService";
-import TestSessionService from "../../services/implementations/testSessionService";
-import UserService from "../../services/implementations/userService";
 import type {
   ClassRequestDTO,
   ClassResponseDTO,
   IClassService,
   StudentRequestDTO,
 } from "../../services/interfaces/classService";
+
+import ClassService from "../../services/implementations/classService";
 import type { ISchoolService } from "../../services/interfaces/schoolService";
 import type { ITestService } from "../../services/interfaces/testService";
 import type { ITestSessionService } from "../../services/interfaces/testSessionService";
 import type IUserService from "../../services/interfaces/userService";
+import SchoolService from "../../services/implementations/schoolService";
+import TestService from "../../services/implementations/testService";
+import TestSessionService from "../../services/implementations/testSessionService";
+import UserService from "../../services/implementations/userService";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService();
@@ -29,6 +30,10 @@ const classService: IClassService = new ClassService(
 
 const classResolvers = {
   Query: {
+    class: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<ClassResponseDTO> => classService.getClassById(id),
     classByTestSession: async (
       _req: undefined,
       { testSessionId }: { testSessionId: string },

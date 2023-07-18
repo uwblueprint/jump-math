@@ -42,7 +42,7 @@ export function sortArrayAscending<
   Type extends Record<Keys, string>,
   Keys extends keyof Type = keyof Type,
 >(array: Type[], sortProperty: Keys): Type[] {
-  return array?.sort((a, b) =>
+  return [...array].sort((a, b) =>
     a[sortProperty].toLowerCase() > b[sortProperty].toLowerCase() ? 1 : -1,
   );
 }
@@ -51,7 +51,7 @@ export function sortArrayDescending<
   Type extends Record<Keys, string>,
   Keys extends keyof Type = keyof Type,
 >(array: Type[], sortProperty: Keys): Type[] {
-  return array?.sort((a, b) =>
+  return [...array].sort((a, b) =>
     a[sortProperty].toLowerCase() < b[sortProperty].toLowerCase() ? 1 : -1,
   );
 }
