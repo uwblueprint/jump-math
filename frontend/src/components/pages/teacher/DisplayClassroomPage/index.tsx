@@ -14,13 +14,13 @@ import {
   removeUnderscore,
   titleCase,
 } from "../../../../utils/GeneralUtils";
+import RedirectTo from "../../../auth/RedirectTo";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
 import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
-import RedirectTo from "../../RedirectTo";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
 import DisplayClassroomStudentsPage from "./DisplayClassroomStudentsPage";

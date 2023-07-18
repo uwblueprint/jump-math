@@ -6,10 +6,10 @@ import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 import { GET_TEST_SESSION_TITLE } from "../../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionTitleData } from "../../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../../constants/Routes";
+import RedirectTo from "../../../auth/RedirectTo";
 import BackButton from "../../../common/navigation/BackButton";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import NotFound from "../../NotFound";
-import RedirectTo from "../../RedirectTo";
 
 import DisplayAssessmentResultsByStudentPage from "./DisplayAssessmentResultsByStudentPage";
 import DisplayAssessmentResultsSummaryPage from "./DisplayAssessmentResultsSummaryPage";

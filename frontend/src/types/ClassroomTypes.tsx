@@ -8,16 +8,6 @@ export interface ClassroomForm {
   gradeLevel: Grade;
 }
 
-export interface ClassCard {
-  id: string;
-  activeAssessments: number;
-  assessmentCount: number;
-  gradeLevel: Grade;
-  className: string;
-  startDate?: string;
-  studentCount: number;
-}
-
 export enum TabEnumClassroom {
   ACTIVE,
   ARCHIVED,

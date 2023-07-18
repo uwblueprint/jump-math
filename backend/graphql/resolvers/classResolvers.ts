@@ -1,5 +1,4 @@
 import type {
-  ClassCard,
   ClassRequestDTO,
   ClassResponseDTO,
   IClassService,
@@ -44,16 +43,8 @@ const classResolvers = {
     classesByTeacher: async (
       _req: undefined,
       { teacherId }: { teacherId: string },
-    ): Promise<Array<ClassCard>> => {
-      const classesByTeacher = await classService.getClassesByTeacherId(
-        teacherId,
-      );
-      return classesByTeacher.map((classObj) => ({
-        ...classObj,
-        activeAssessments: classObj.testSessions.length,
-        assessmentCount: classObj.testSessions.length,
-        studentCount: classObj.students.length,
-      }));
+    ): Promise<Array<ClassResponseDTO>> => {
+      return classService.getClassesByTeacherId(teacherId);
     },
   },
   Mutation: {
@@ -78,6 +69,12 @@ const classResolvers = {
       { student, classId }: { student: StudentRequestDTO; classId: string },
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
+    },
+    archiveClass: async (
+      _req: undefined,
+      { id }: { id: string },
+    ): Promise<ClassResponseDTO | null> => {
+      return classService.archiveClass(id);
     },
   },
   ClassResponseDTO: {
