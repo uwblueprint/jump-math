@@ -41,10 +41,8 @@ const testSessionResolvers = {
       _parent: undefined,
       { teacherId }: { teacherId: string },
     ) => testSessionService.getTestSessionsByTeacherId(teacherId),
-    getTop5StudentsByTestSessionId: (
-      _parent: undefined,
-      { id }: { id: string },
-    ) => testSessionService.getTop5StudentsByTestSessionId(id),
+    getTopFiveStudentsById: (_parent: undefined, { id }: { id: string }) =>
+      testSessionService.getTopFiveStudentsById(id),
   },
   Mutation: {
     createTestSession: (

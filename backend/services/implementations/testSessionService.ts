@@ -503,31 +503,31 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
-  async getTop5StudentsByTestSessionId(
-    testSessionId: string,
-  ): Promise<Array<string>> {
+  async getTopFiveStudentsById(testSessionId: string): Promise<Array<string>> {
     try {
       const testSession: TestSessionResponseDTO = await this.getTestSessionById(
         testSessionId,
       );
 
       // Check if the endDate for the test session has passed
-      const currentDate = new Date();
+      const currentDate: Date = new Date();
       if (testSession.endDate > currentDate) {
         throw new Error("Test session has not ended yet");
       }
 
-      const results = testSession.results || [];
+      const results: ResultResponseDTO[] = testSession.results || [];
 
       // Sort the results based on the score in descending order
-      const sortedResults = results.sort((a, b) => b.score - a.score);
+      const sortedResults: ResultResponseDTO[] = results.sort(
+        (a, b) => b.score - a.score,
+      );
 
       // Get the top 5 students' IDs
-      const top5Students = sortedResults
+      const topFiveStudents: string[] = sortedResults
         .slice(0, 5)
         .map((result) => result.student);
 
-      return top5Students;
+      return topFiveStudents;
     } catch (error: unknown) {
       Logger.error(
         `Failed to get top 5 students. Reason = ${getErrorMessage(error)}`,

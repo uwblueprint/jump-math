@@ -460,12 +460,12 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 
-  it("getTop5StudentsByTestSessionId returns top 5 students", async () => {
+  it("getTopFiveStudentsById returns top 5 students", async () => {
     const savedTestSession = await MgTestSession.create(
       mockTestSessionWithExpiredEndDate,
     );
 
-    const topStudents = await testSessionService.getTop5StudentsByTestSessionId(
+    const topStudents = await testSessionService.getTopFiveStudentsById(
       savedTestSession.id,
     );
 
@@ -478,19 +478,19 @@ describe("mongo testSessionService", (): void => {
     ]);
   });
 
-  it("getTop5StudentsByTestSessionId with no results", async () => {
+  it("getTopFiveStudentsById with no results", async () => {
     const savedTestSession = await MgTestSession.create(
       mockTestSessionWithNoResults,
     );
 
-    const topStudents = await testSessionService.getTop5StudentsByTestSessionId(
+    const topStudents = await testSessionService.getTopFiveStudentsById(
       savedTestSession.id,
     );
 
     expect(topStudents).toEqual([]);
   });
 
-  it("getTop5StudentsByTestSessionId with an error retrieving test session", async () => {
+  it("getTopFiveStudentsById with an error retrieving test session", async () => {
     const testSessionId = "62c248c0f79d6c3c9ebbea92";
 
     // Create a mock implementation for getTestSessionById that throws an error
@@ -499,7 +499,7 @@ describe("mongo testSessionService", (): void => {
       .mockRejectedValue(new Error("Test session not found"));
 
     await expect(
-      testSessionService.getTop5StudentsByTestSessionId(testSessionId),
+      testSessionService.getTopFiveStudentsById(testSessionId),
     ).rejects.toThrowError("Test session not found");
   });
 
@@ -507,7 +507,7 @@ describe("mongo testSessionService", (): void => {
     const savedTestSession = await MgTestSession.create(mockTestSession);
 
     await expect(
-      testSessionService.getTop5StudentsByTestSessionId(savedTestSession.id),
+      testSessionService.getTopFiveStudentsById(savedTestSession.id),
     ).rejects.toThrowError("Test session has not ended yet");
   });
 });
