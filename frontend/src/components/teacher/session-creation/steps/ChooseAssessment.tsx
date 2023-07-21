@@ -15,6 +15,7 @@ import FilterMenu from "../../../common/table/FilterMenu";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
+import useSortProperty from "../../../common/table/useSortProperty";
 import AssessmentsTable from "../AssessmentsTable";
 import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
 
@@ -23,6 +24,14 @@ interface ChooseAssessmentProps {
   setTestId: React.Dispatch<React.SetStateAction<string>>;
 }
 
+const SORT_PROPERTIES = [
+  "name",
+  "grade",
+  "assessmentType",
+  "curriculumCountry",
+  "curriculumRegion",
+] as const;
+
 const ChooseAssessment = ({
   testId,
   setTestId,
@@ -30,7 +39,10 @@ const ChooseAssessment = ({
   const [isEmpty, setEmpty] = React.useState(true);
 
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState("name");
+  const [sortProperty, setSortProperty] = useSortProperty(
+    "name",
+    SORT_PROPERTIES,
+  );
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
 
   const [grades, setGrades] = React.useState<Array<string>>([]);
@@ -108,13 +120,7 @@ const ChooseAssessment = ({
             labels={["name", "grade", "type", "country", "region"]}
             onSortOrder={setSortOrder}
             onSortProperty={setSortProperty}
-            properties={[
-              "name",
-              "grade",
-              "assessmentType",
-              "curriculumCountry",
-              "curriculumRegion",
-            ]}
+            properties={SORT_PROPERTIES}
           />
           {<FilterMenu filterProps={filterOptions} />}
         </HStack>

@@ -6,13 +6,20 @@ import DistributeAssessmentsIllustration from "../../../../assets/illustrations/
 import { DISTRIBUTE_ASSESSMENT_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
-const EmptySessionsMessage = (): React.ReactElement => {
+const EmptySessionsMessage = ({
+  classId,
+}: {
+  classId?: string;
+}): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles} mt={10} pb={14}>
+    <Center __css={styles} pb={14}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
-        buttonRoute={DISTRIBUTE_ASSESSMENT_PAGE}
+        buttonRoute={{
+          pathname: DISTRIBUTE_ASSESSMENT_PAGE,
+          state: classId ? { classId } : {},
+        }}
         buttonText="Create new assessment"
         image={DistributeAssessmentsIllustration}
         paragraphs={[

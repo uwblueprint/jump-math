@@ -11,7 +11,7 @@ import { getSessionStatus } from "../../../../utils/TestSessionUtils";
 import EmptyDistributeClassroomsMessage from "../../../common/info/messages/EmptyDistributeClassroomsMessage";
 import Pagination from "../../../common/table/Pagination";
 import usePaginatedData from "../../../common/table/usePaginatedData";
-import ClassroomCard from "../../student-management/classrooms/ClassroomCard";
+import ClassroomCard from "../../student-management/classroom-summary/ClassroomCard";
 import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
 
 interface ChooseClassProps {

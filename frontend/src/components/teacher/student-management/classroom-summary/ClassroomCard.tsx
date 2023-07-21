@@ -90,8 +90,8 @@ const ClassroomCard = ({
               <LinkOverlay
                 as={RouterLink}
                 to={{
-                  pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
-                  state: { className: name, startDate, grade },
+                  pathname: Routes.DISPLAY_CLASSROOM_PAGE({ classroomId: id }),
+                  state: { className: name, startDate, gradeLevel: grade },
                 }}
               >
                 {classroomTitle}

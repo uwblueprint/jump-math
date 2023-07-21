@@ -18,7 +18,7 @@ export type ClassResponse = {
   students: StudentResponse[];
 };
 
-export interface StudentResponse {
+export type StudentResponse = {
   /** the unique identifier for the student */
   id: string;
   /** the first name of the student */
@@ -27,4 +27,25 @@ export interface StudentResponse {
   lastName: string;
   /** an optional identifier provided by the teacher */
   studentNumber: string;
-}
+};
+
+export type ClassTitleData = {
+  /** the name of the class */
+  className: string;
+  /** the start date of the class */
+  startDate: Date;
+  /** the grade level of the class */
+  gradeLevel: Grade;
+};
+
+export type ClassStudentData = {
+  /** the students in the class */
+  students: StudentResponse[];
+};
+
+export type ClassTestSessionData = {
+  /** the name of the class */
+  className: string;
+  /** the test sessions for this class */
+  testSessions: TestSessionOverviewData[];
+};

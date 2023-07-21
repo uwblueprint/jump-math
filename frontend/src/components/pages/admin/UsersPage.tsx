@@ -29,10 +29,21 @@ import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
+import useSortProperty from "../../common/table/useSortProperty";
+
+const TEACHER_SORT_PROPERTIES = ["firstName", "email", "school"] as const;
+const ADMIN_SORT_PROPERTIES = ["firstName", "email"] as const;
 
 const UsersPage = (): React.ReactElement => {
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState("firstName");
+  const [teacherSortProperty, setTeacherSortProperty] = useSortProperty(
+    "firstName",
+    TEACHER_SORT_PROPERTIES,
+  );
+  const [adminSortProperty, setAdminSortProperty] = useSortProperty(
+    "firstName",
+    ADMIN_SORT_PROPERTIES,
+  );
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("ascending");
   const [tabIndex, setTabIndex] = React.useState<TabEnum>(TabEnum.ADMIN);
 
@@ -72,15 +83,15 @@ const UsersPage = (): React.ReactElement => {
     if (tabIndex === TabEnum.TEACHER) {
       return [];
     }
-    return sortArray<AdminUser>(filteredAdmins, sortProperty, sortOrder);
-  }, [filteredAdmins, sortProperty, sortOrder, tabIndex]);
+    return sortArray(filteredAdmins, adminSortProperty, sortOrder);
+  }, [filteredAdmins, adminSortProperty, sortOrder, tabIndex]);
 
   const teachers: TeacherUser[] = React.useMemo(() => {
     if (tabIndex === TabEnum.ADMIN) {
       return [];
     }
-    return sortArray<TeacherUser>(filteredTeachers, sortProperty, sortOrder);
-  }, [filteredTeachers, sortProperty, sortOrder, tabIndex]);
+    return sortArray(filteredTeachers, teacherSortProperty, sortOrder);
+  }, [filteredTeachers, teacherSortProperty, sortOrder, tabIndex]);
 
   const loading = adminLoading || teacherLoading;
   const error = adminError || teacherError;
@@ -88,7 +99,8 @@ const UsersPage = (): React.ReactElement => {
 
   const handleTabChange = (index: TabEnum) => {
     setSearch("");
-    setSortProperty("firstName");
+    setTeacherSortProperty("firstName");
+    setAdminSortProperty("firstName");
     setSortOrder("ascending");
     setTabIndex(index);
   };
@@ -123,8 +135,8 @@ const UsersPage = (): React.ReactElement => {
                     <SortMenu
                       labels={["name", "email"]}
                       onSortOrder={setSortOrder}
-                      onSortProperty={setSortProperty}
-                      properties={["firstName", "email"]}
+                      onSortProperty={setAdminSortProperty}
+                      properties={ADMIN_SORT_PROPERTIES}
                     />
                   }
                   UserTable={<AdminUserTable users={admins} />}
@@ -139,8 +151,8 @@ const UsersPage = (): React.ReactElement => {
                     <SortMenu
                       labels={["name", "email", "school"]}
                       onSortOrder={setSortOrder}
-                      onSortProperty={setSortProperty}
-                      properties={["firstName", "email", "school"]}
+                      onSortProperty={setTeacherSortProperty}
+                      properties={TEACHER_SORT_PROPERTIES}
                     />
                   }
                   UserTable={<TeacherUserTable users={teachers} />}
