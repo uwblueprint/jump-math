@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
-import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import { GET_PUBLISHED_TESTS } from "../../../../APIClients/queries/TestQueries";
 import {
@@ -10,7 +10,6 @@ import {
 } from "../../../../utils/AssessmentUtils";
 import { sortArray } from "../../../../utils/GeneralUtils";
 import ErrorState from "../../../common/info/ErrorState";
-import LoadingState from "../../../common/info/LoadingState";
 import type { FilterProp } from "../../../common/table/FilterMenu";
 import FilterMenu from "../../../common/table/FilterMenu";
 import SearchBar from "../../../common/table/SearchBar";
