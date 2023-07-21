@@ -6,6 +6,7 @@ import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import ChartSection from "../data-visualization/ChartSection";
+import ShortAnswerResult from "../data-visualization/question-elements/ShortAnswerResult";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
@@ -181,6 +182,7 @@ const ComponentLibrary = (): React.ReactElement => {
         />
       </HStack>
       <ChartSection />
+      <ShortAnswerResult correctAnswer={10293} percentCorrect={86} />
     </FormProvider>
   );
 };
