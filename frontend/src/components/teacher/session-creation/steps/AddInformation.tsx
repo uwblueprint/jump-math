@@ -8,8 +8,8 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { isSameDay } from "date-fns";
 
+import { isPastDate } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
 
 interface AddInformationProps {
@@ -33,18 +33,14 @@ const AddInformation = ({
 }: AddInformationProps): React.ReactElement => {
   const [invalidStartDate, setInvalidStartDate] = useState(false);
   const [invalidEndDate, setInvalidEndDate] = useState(false);
-  const hasPast = (input: Date) => {
-    const now = new Date();
-    return input < now && !isSameDay(input, now);
-  };
 
   useEffect(() => {
     if (startDate && endDate && startDate > endDate) {
       setInvalidStartDate(true);
       setInvalidEndDate(true);
-    } else if (startDate && !hasPast(startDate)) {
+    } else if (startDate && !isPastDate(startDate)) {
       setInvalidStartDate(false);
-    } else if (endDate && !hasPast(endDate)) {
+    } else if (endDate && !isPastDate(endDate)) {
       setInvalidEndDate(false);
     }
     setValidDates(!invalidStartDate && !invalidEndDate);
@@ -65,7 +61,7 @@ const AddInformation = ({
             <FormLabel color="blue.300">Start date</FormLabel>
             <DatePicker
               onChange={(e) => {
-                setInvalidStartDate(hasPast(e));
+                setInvalidStartDate(isPastDate(e));
                 setStartDate(e);
               }}
               value={startDate ?? undefined}
@@ -76,7 +72,7 @@ const AddInformation = ({
             <FormLabel color="blue.300">End date</FormLabel>
             <DatePicker
               onChange={(e) => {
-                setInvalidEndDate(hasPast(e));
+                setInvalidEndDate(isPastDate(e));
                 setEndDate(e);
               }}
               value={endDate ?? undefined}

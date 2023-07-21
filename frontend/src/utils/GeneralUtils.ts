@@ -1,3 +1,5 @@
+import { isSameDay } from "date-fns";
+
 export const titleCase = (input: string): string => {
   const words = input.trim().split(/\s+/);
   return words
@@ -78,4 +80,9 @@ export const randomNumber = (): number =>
 export const stringToFloat = (input: string): number | undefined => {
   const value = parseFloat(input);
   return Number.isNaN(value) ? undefined : value;
+};
+
+export const isPastDate = (input: Date) => {
+  const now = new Date();
+  return input < now && !isSameDay(input, now);
 };
