@@ -1,11 +1,12 @@
 import React from "react";
-import { Redirect, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_TITLE } from "../../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionTitleData } from "../../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../../constants/Routes";
+import RedirectTo from "../../../auth/RedirectTo";
 import BackButton from "../../../common/navigation/BackButton";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import NotFound from "../../NotFound";
@@ -27,18 +28,9 @@ const TAB_CONFIG = [
   {
     path: Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(),
     exact: true,
-    Component: () => {
-      const { sessionId } = useParams<{ sessionId: string }>();
-      const location = useLocation();
-      return (
-        <Redirect
-          to={{
-            pathname: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE(sessionId),
-            state: location.state,
-          }}
-        />
-      );
-    },
+    element: (
+      <RedirectTo pathname={Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE} />
+    ),
   },
   {
     path: "*",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Center } from "@chakra-ui/react";
+import { Center, useStyleConfig } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../../assets/icons";
 import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
@@ -12,15 +12,9 @@ type EmptyClassroomsStateProps = {
 const EmptyClassroomsMessage = ({
   onClick,
 }: EmptyClassroomsStateProps): React.ReactElement => {
+  const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center
-      backgroundColor="blue.50"
-      borderRadius="1rem"
-      color="blue.300"
-      height="100%"
-      minWidth="100%"
-      pb={14}
-    >
+    <Center __css={styles} height="100%" pb={14}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
         buttonText="Create a classroom"

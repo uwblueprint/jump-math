@@ -28,7 +28,7 @@ interface ClassroomCardProps {
   assessmentCount: number;
   grade: Grade;
   activeAssessments: number;
-  disabledOptions?: boolean;
+  clickDisabled?: boolean;
   selected?: boolean;
 }
 
@@ -45,7 +45,7 @@ const ClassroomCard = ({
   assessmentCount,
   grade,
   activeAssessments,
-  disabledOptions = false,
+  clickDisabled = false,
   selected = false,
 }: ClassroomCardProps): React.ReactElement => {
   const classroomTitle = (
@@ -83,15 +83,15 @@ const ClassroomCard = ({
         w="100%"
       >
         <HStack alignItems="flex-start" justifyContent="space-between" w="100%">
-          {disabledOptions ? (
+          {clickDisabled ? (
             classroomTitle
           ) : (
             <>
               <LinkOverlay
                 as={RouterLink}
                 to={{
-                  pathname: Routes.DISPLAY_CLASSROOM_PAGE(id),
-                  state: { className: name, startDate, grade },
+                  pathname: Routes.DISPLAY_CLASSROOM_PAGE({ classroomId: id }),
+                  state: { className: name, startDate, gradeLevel: grade },
                 }}
               >
                 {classroomTitle}

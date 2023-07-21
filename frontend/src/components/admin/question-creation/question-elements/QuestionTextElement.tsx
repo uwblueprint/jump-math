@@ -5,6 +5,7 @@ import { Flex, Text, Textarea } from "@chakra-ui/react";
 import QuestionEditorContext from "../../../../contexts/QuestionEditorContext";
 import type { QuestionTextMetadata } from "../../../../types/QuestionMetadataTypes";
 import { QuestionElementType } from "../../../../types/QuestionTypes";
+import { getLetterFromNumber } from "../../../../utils/GeneralUtils";
 import {
   exceedsMaxLength,
   updatedQuestionElement,
@@ -26,12 +27,10 @@ const QuestionTextElement = ({
   const questionCount = questionElements.filter(
     (element) => element.type === QuestionElementType.QUESTION_TEXT,
   ).length;
-  const questionLetter = String.fromCharCode(
-    "a".charCodeAt(0) +
-      (questionElements
-        .filter((element) => element.type === QuestionElementType.QUESTION_TEXT)
-        .findIndex((element) => element.id === id) %
-        26),
+  const questionLetter = getLetterFromNumber(
+    questionElements
+      .filter((element) => element.type === QuestionElementType.QUESTION_TEXT)
+      .findIndex((element) => element.id === id),
   );
 
   const updateQuestionTextElement = (updatedQuestion: QuestionTextMetadata) => {

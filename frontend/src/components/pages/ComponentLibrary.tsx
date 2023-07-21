@@ -12,8 +12,8 @@ import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/quest
 import CorrectedShortAnswer from "../teacher/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
 import StudentList from "../teacher/results/StudentList";
 import AddStudentModal from "../teacher/student-management/AddStudentModal";
-import AddClassroomModal from "../teacher/student-management/classrooms/AddClassroomModal";
-import ClassroomCard from "../teacher/student-management/classrooms/ClassroomCard";
+import AddOrEditClassroomModal from "../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
+import ClassroomCard from "../teacher/student-management/classroom-summary/ClassroomCard";
 
 const defaultValues = {
   className: "",
@@ -165,7 +165,7 @@ const ComponentLibrary = (): React.ReactElement => {
           name="Sorting and Classifying"
           studentCount={14}
         />
-        <AddClassroomModal isOpen={isOpen} onClose={onClose} />
+        <AddOrEditClassroomModal isOpen={isOpen} onClose={onClose} />
         <Button
           my={2}
           onClick={onStudentModalOpen}

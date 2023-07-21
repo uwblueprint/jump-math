@@ -19,22 +19,24 @@ import { SortOptionsIcon } from "../../../assets/icons";
 import { titleCase } from "../../../utils/GeneralUtils";
 
 export type SortOrder = "ascending" | "descending";
-export interface SortMenuProps {
-  properties: string[];
+export interface SortMenuProps<PropTypes extends readonly string[]> {
+  properties: PropTypes;
   labels: string[];
-  onSortProperty?: React.Dispatch<React.SetStateAction<string>>;
+  onSortProperty?: React.Dispatch<React.SetStateAction<PropTypes[number]>>;
   onSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
   initialSortOrder?: SortOrder;
 }
 
-const SortMenu = ({
+const SortMenu = <PropTypes extends readonly string[]>({
   properties,
   labels,
   onSortProperty,
   onSortOrder,
   initialSortOrder = "ascending",
-}: SortMenuProps): React.ReactElement => {
-  const [sortProperty, setSortProperty] = React.useState(properties[0]);
+}: SortMenuProps<PropTypes>): React.ReactElement => {
+  const [sortProperty, setSortProperty] = React.useState<PropTypes[number]>(
+    properties[0],
+  );
   const [sortOrder, setSortOrder] = React.useState<SortOrder>(initialSortOrder);
 
   const propertyList = properties.length ? (

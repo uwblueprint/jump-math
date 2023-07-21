@@ -19,21 +19,35 @@ import {
   filterAssessmentsBySearch,
 } from "../../../utils/AssessmentUtils";
 import { sortArray } from "../../../utils/GeneralUtils";
-import AssessmentsTab from "../../admin/view-assessments/AssessmentsTab";
 import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
+import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
+import SearchableTablePage from "../../common/table/SearchableTablePage";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
+import useSortProperty from "../../common/table/useSortProperty";
 
 const STATUS_ORDER = ["", Status.DRAFT, Status.PUBLISHED, Status.ARCHIVED];
+const SORT_PROPERTIES = [
+  "updatedAt",
+  "name",
+  "status",
+  "grade",
+  "assessmentType",
+  "curriculumCountry",
+  "curriculumRegion",
+] as const;
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [search, setSearch] = React.useState("");
-  const [sortProperty, setSortProperty] = React.useState("updatedAt");
+  const [sortProperty, setSortProperty] = useSortProperty(
+    "updatedAt",
+    SORT_PROPERTIES,
+  );
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("descending");
 
   const [grades, setGrades] = React.useState<Array<string>>([]);
@@ -101,10 +115,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const AssessmentTabPanels = STATUS_ORDER.map((panelStatus) => {
     return (
       <TabPanel key={panelStatus} padding="0">
-        <AssessmentsTab
-          assessmentsTable={<AssessmentsTable assessments={assessments} />}
+        <SearchableTablePage
           filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
+          nameOfTableItems="assessments"
           noResults={isEmpty}
+          noResultsComponent={<EmptyTestsMessage />}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
           searchLength={assessments.length}
@@ -122,17 +137,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
               ]}
               onSortOrder={setSortOrder}
               onSortProperty={setSortProperty}
-              properties={[
-                "updatedAt",
-                "name",
-                "status",
-                "grade",
-                "assessmentType",
-                "curriculumCountry",
-                "curriculumRegion",
-              ]}
+              properties={SORT_PROPERTIES}
             />
           }
+          tableComponent={<AssessmentsTable assessments={assessments} />}
         />
       </TabPanel>
     );
