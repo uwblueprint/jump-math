@@ -17,6 +17,7 @@ import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
 import AssessmentsTable from "../AssessmentsTable";
+import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
 
 interface ChooseAssessmentProps {
   testId: string;
@@ -91,55 +92,46 @@ const ChooseAssessment = ({
   }, [searchedAssessments, sortProperty, sortOrder]);
 
   return (
-    <VStack align="left" spacing="2">
-      <Text color="blue.300" textAlign="left" textStyle="header4">
-        Choose an Assessment
-      </Text>
-      <Text color="grey.300" textStyle="paragraph">
-        Please enter the name of the assessment you&apos;re looking for or use
-        filter/sort options to find the assessment that suits your needs.
-      </Text>
-      <Box pt="6">
-        {loading ? (
-          <Center flex="1" margin="10%">
-            <LoadingState />
-          </Center>
-        ) : error || isEmpty ? (
-          <ErrorState />
-        ) : (
-          <VStack spacing={6} width="100%">
-            <HStack width="100%">
-              <SearchBar onSearch={setSearch} />
-              <SortMenu
-                initialSortOrder="ascending"
-                labels={["name", "grade", "type", "country", "region"]}
-                onSortOrder={setSortOrder}
-                onSortProperty={setSortProperty}
-                properties={[
-                  "name",
-                  "grade",
-                  "assessmentType",
-                  "curriculumCountry",
-                  "curriculumRegion",
-                ]}
-              />
-              {<FilterMenu filterProps={filterOptions} />}
-            </HStack>
-            {search && (
-              <Text color="grey.300" fontSize="16px" width="100%">
-                Showing {search.length} results for &quot;
-                {search}&quot;
-              </Text>
-            )}
-            <AssessmentsTable
-              assessments={assessments}
-              selectedTestId={testId}
-              setTestId={setTestId}
-            />
-          </VStack>
+    <DistributeAssessmentWrapper
+      emptyState={<ErrorState />}
+      isEmpty={isEmpty}
+      isError={Boolean(error)}
+      isLoading={Boolean(loading)}
+      subtitle="Please enter the name of the assessment you're looking for or use
+        filter/sort options to find the assessment that suits your needs."
+      title="Choose an Assessment"
+    >
+      <VStack spacing={6} width="100%">
+        <HStack width="100%">
+          <SearchBar onSearch={setSearch} />
+          <SortMenu
+            initialSortOrder="ascending"
+            labels={["name", "grade", "type", "country", "region"]}
+            onSortOrder={setSortOrder}
+            onSortProperty={setSortProperty}
+            properties={[
+              "name",
+              "grade",
+              "assessmentType",
+              "curriculumCountry",
+              "curriculumRegion",
+            ]}
+          />
+          {<FilterMenu filterProps={filterOptions} />}
+        </HStack>
+        {search && (
+          <Text color="grey.300" fontSize="16px" width="100%">
+            Showing {search.length} results for &quot;
+            {search}&quot;
+          </Text>
         )}
-      </Box>
-    </VStack>
+        <AssessmentsTable
+          assessments={assessments}
+          selectedTestId={testId}
+          setTestId={setTestId}
+        />
+      </VStack>
+    </DistributeAssessmentWrapper>
   );
 };
 
