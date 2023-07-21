@@ -5,19 +5,19 @@ import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 
 interface DistributeAssessmentWrapperProps {
-  isLoading: boolean;
-  isError: boolean;
-  isEmpty: boolean;
+  isLoading?: boolean;
+  isError?: boolean;
+  isEmpty?: boolean;
   title: string;
   subtitle: string;
-  emptyState: React.ReactNode;
+  emptyState?: React.ReactNode;
   children: React.ReactNode;
 }
 
 const DistributeAssessmentWrapper = ({
-  isLoading,
-  isError,
-  isEmpty,
+  isLoading = false,
+  isError = false,
+  isEmpty = false,
   title,
   subtitle,
   emptyState,
