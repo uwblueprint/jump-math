@@ -28,7 +28,7 @@ interface ClassroomCardProps {
   assessmentCount: number;
   grade: Grade;
   activeAssessments: number;
-  disabledOptions?: boolean;
+  clickDisabled?: boolean;
   selected?: boolean;
 }
 
@@ -45,7 +45,7 @@ const ClassroomCard = ({
   assessmentCount,
   grade,
   activeAssessments,
-  disabledOptions = false,
+  clickDisabled = false,
   selected = false,
 }: ClassroomCardProps): React.ReactElement => {
   const classroomTitle = (
@@ -83,7 +83,7 @@ const ClassroomCard = ({
         w="100%"
       >
         <HStack alignItems="flex-start" justifyContent="space-between" w="100%">
-          {disabledOptions ? (
+          {clickDisabled ? (
             classroomTitle
           ) : (
             <>
