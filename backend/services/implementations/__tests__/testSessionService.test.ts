@@ -505,6 +505,6 @@ describe("mongo testSessionService", (): void => {
 
     await expect(
       testSessionService.getTopFiveStudentsById(savedTestSession.id),
-    ).rejects.toThrowError("Test session has not ended yet");
+    ).rejects.toThrowError(`Test session has not ended yet. testSessionId: ${savedTestSession.id}`);
   });
 });
