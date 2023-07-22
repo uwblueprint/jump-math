@@ -491,16 +491,15 @@ describe("mongo testSessionService", (): void => {
   });
 
   it("getTopFiveStudentsById with an error retrieving test session", async () => {
-    const testSessionId = "62c248c0f79d6c3c9ebbea92";
+    const testSessionId = "62c248c0f79d6c3c8ebbea92";
 
     // Create a mock implementation for getTestSessionById that throws an error
-    testSessionService.getTestSessionById = jest
-      .fn()
-      .mockRejectedValue(new Error("Test session not found"));
 
     await expect(
       testSessionService.getTopFiveStudentsById(testSessionId),
-    ).rejects.toThrowError("Test session not found");
+    ).rejects.toThrowError(
+      "Test Session id 62c248c0f79d6c3c8ebbea92 not found",
+    );
   });
 
   it("should throw an error if the test session's end date has not passed", async () => {

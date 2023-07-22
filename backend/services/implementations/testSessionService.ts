@@ -512,7 +512,9 @@ class TestSessionService implements ITestSessionService {
       // Check if the endDate for the test session has passed
       const currentDate: Date = new Date();
       if (testSession.endDate > currentDate) {
-        throw new Error("Test session has not ended yet");
+        throw new Error(
+          `Test session has not ended yet. testSessionId: ${testSessionId}`,
+        );
       }
 
       const results: ResultResponseDTO[] = testSession.results || [];
