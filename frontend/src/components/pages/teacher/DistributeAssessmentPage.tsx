@@ -34,6 +34,8 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
 
+  const [validDates, setValidDates] = useState(false);
+
   const renderPageContent = () => {
     switch (page) {
       case 0:
@@ -45,9 +47,13 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 2:
         return (
           <AddInformation
+            endDate={endDate}
+            notes={notes}
             setEndDate={setEndDate}
             setNotes={setNotes}
             setStartDate={setStartDate}
+            setValidDates={setValidDates}
+            startDate={startDate}
           />
         );
       case 3:
@@ -66,7 +72,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 2:
         return Boolean(classId);
       case 3:
-        return Boolean(startDate && endDate);
+        return Boolean(startDate && endDate) && validDates;
       default:
         return false;
     }
