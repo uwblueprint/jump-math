@@ -465,11 +465,11 @@ describe("mongo testSessionService", (): void => {
       mockTestSessionWithExpiredEndDate,
     );
 
-    const topStudents = await testSessionService.getBottomFiveStudentsById(
+    const bottomStudents = await testSessionService.getBottomFiveStudentsById(
       savedTestSession.id,
     );
 
-    expect(topStudents).toEqual([
+    expect(bottomStudents).toEqual([
       "some-student-name-4",
       "some-student-name-2",
       "some-student-name",
@@ -483,11 +483,11 @@ describe("mongo testSessionService", (): void => {
       mockTestSessionWithNoResults,
     );
 
-    const topStudents = await testSessionService.getBottomFiveStudentsById(
+    const bottomStudents = await testSessionService.getBottomFiveStudentsById(
       savedTestSession.id,
     );
 
-    expect(topStudents).toEqual([]);
+    expect(bottomStudents).toEqual([]);
   });
 
   it("getBottomFiveStudentsById with an error retrieving test session", async () => {
