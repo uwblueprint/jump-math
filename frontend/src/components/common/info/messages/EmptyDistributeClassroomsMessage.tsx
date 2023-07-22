@@ -5,29 +5,27 @@ import { PlusOutlineIcon } from "../../../../assets/icons";
 import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
 import MessageContainer from "../MessageContainer";
 
-type EmptyClassroomsStateProps = {
+type EmptyDistributeClassroomsStateProps = {
   onClick?: () => void;
 };
 
-const EmptyClassroomsMessage = ({
+const EmptyDistributeClassroomsMessage = ({
   onClick,
-}: EmptyClassroomsStateProps): React.ReactElement => {
+}: EmptyDistributeClassroomsStateProps): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles} height="100%" pb={14}>
+    <Center __css={styles} pb={14}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
-        buttonText="Create a classroom"
+        buttonText="Go to Classrooms"
         image={DisplayAssessmentsIllustration}
         onClick={onClick}
-        paragraphs={[
-          "Click on the button below to create your first classroom",
-        ]}
-        subtitle="You currently have no classroooms."
+        paragraphs={["You currently have no classrooms."]}
+        subtitle="Please navigate to the Classrooms page to add a classroom."
         textColor="blue.300"
       />
     </Center>
   );
 };
 
-export default EmptyClassroomsMessage;
+export default EmptyDistributeClassroomsMessage;

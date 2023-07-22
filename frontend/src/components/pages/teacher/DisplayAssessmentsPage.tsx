@@ -8,6 +8,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  VStack,
 } from "@chakra-ui/react";
 
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
@@ -78,19 +79,22 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   return (
     <>
-      <HeaderWithButton
-        buttonText="Add Assessment"
-        showButton={!!formattedData?.length}
-        targetRoute={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
-        title="Assessments"
-      />
+      <VStack align="left" mb={10}>
+        <HeaderWithButton
+          buttonText="Add Assessment"
+          showButton={!!formattedData?.length}
+          targetRoute={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
+          title="Assessments"
+        />
+      </VStack>
+
       {loading && (
         <Center flex="1" margin="15%">
           <LoadingState />
         </Center>
       )}
       {error && (
-        <Box height="100%" mt={10}>
+        <Box>
           <ErrorState />
         </Box>
       )}
