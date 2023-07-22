@@ -493,8 +493,6 @@ describe("mongo testSessionService", (): void => {
   it("getTopFiveStudentsById with an error retrieving test session", async () => {
     const testSessionId = "62c248c0f79d6c3c8ebbea92";
 
-    // Create a mock implementation for getTestSessionById that throws an error
-
     await expect(
       testSessionService.getTopFiveStudentsById(testSessionId),
     ).rejects.toThrowError(
