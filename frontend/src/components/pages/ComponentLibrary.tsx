@@ -5,6 +5,7 @@ import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
+import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
@@ -181,6 +182,8 @@ const ComponentLibrary = (): React.ReactElement => {
         />
       </HStack>
       <ChartSection />
+      <ShortAnswerVisualizer correctAnswer={10293} percentCorrect={86} />
+      <ShortAnswerVisualizer correctAnswer={10293} />
     </FormProvider>
   );
 };
