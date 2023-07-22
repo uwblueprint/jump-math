@@ -126,7 +126,7 @@ const ChooseAssessment = ({
         </HStack>
         {search && (
           <Text color="grey.300" fontSize="16px" width="100%">
-            Showing {search.length} results for &quot;
+            Showing {assessments.length} results for &quot;
             {search}&quot;
           </Text>
         )}
