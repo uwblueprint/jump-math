@@ -29,7 +29,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
 
-  const [validDates, setValidDates] = useState(true);
+  const [validDates, setValidDates] = useState(false);
 
   const renderPageContent = () => {
     switch (page) {
