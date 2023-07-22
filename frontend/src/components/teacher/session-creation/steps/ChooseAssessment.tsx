@@ -17,7 +17,7 @@ import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
 import useSortProperty from "../../../common/table/useSortProperty";
 import AssessmentsTable from "../AssessmentsTable";
-import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
+import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseAssessmentProps {
   testId: string;

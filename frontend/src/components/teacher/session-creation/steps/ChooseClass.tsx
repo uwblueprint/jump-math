@@ -12,7 +12,7 @@ import EmptyDistributeClassroomsMessage from "../../../common/info/messages/Empt
 import Pagination from "../../../common/table/Pagination";
 import usePaginatedData from "../../../common/table/usePaginatedData";
 import ClassroomCard from "../../student-management/classroom-summary/ClassroomCard";
-import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
+import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseClassProps {
   selectedClassId: string;
