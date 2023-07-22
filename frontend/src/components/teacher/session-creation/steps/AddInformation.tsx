@@ -52,13 +52,7 @@ const AddInformation = ({
       subtitle="Please choose start and end dates and write any notes for this assessment."
       title="Add Information"
     >
-      <VStack
-        alignItems="left"
-        gap="8"
-        maxWidth="50%"
-        paddingBottom="6"
-        paddingTop="2"
-      >
+      <VStack alignItems="left" gap="8" maxWidth="50%" paddingBottom="6">
         <HStack alignItems="flex-start" gap="15" pt="4">
           <FormControl isInvalid={invalidStartDate} isRequired>
             <FormLabel color="blue.300">Start date</FormLabel>
