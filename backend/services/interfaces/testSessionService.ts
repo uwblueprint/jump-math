@@ -212,4 +212,11 @@ export interface ITestSessionService {
     id: string,
     result: ResultRequestDTO,
   ): Promise<TestSessionResponseDTO>;
+
+  /**
+   * Get the bottom 5 students (based on test score) for a test session
+   * @param id The unique identifier of the test session
+   * @returns Array of the bottom 5 performing students for the test session
+   */
+  getBottomFiveStudentsById(id: string): Promise<Array<string>>;
 }

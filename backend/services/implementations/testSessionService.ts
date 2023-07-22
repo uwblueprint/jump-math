@@ -502,6 +502,43 @@ class TestSessionService implements ITestSessionService {
       throw error;
     }
   }
+
+  async getBottomFiveStudentsById(
+    testSessionId: string,
+  ): Promise<Array<string>> {
+    try {
+      const testSession: TestSessionResponseDTO = await this.getTestSessionById(
+        testSessionId,
+      );
+
+      // Check if the endDate for the test session has passed
+      const currentDate: Date = new Date();
+      if (testSession.endDate > currentDate) {
+        throw new Error(
+          `Test session has not ended yet. testSessionId: ${testSessionId}`,
+        );
+      }
+
+      const results: ResultResponseDTO[] = testSession.results || [];
+
+      // Sort the results based on the score in ascending order
+      const sortedResults: ResultResponseDTO[] = results.sort(
+        (a, b) => a.score - b.score,
+      );
+
+      // Get the bottom 5 students' IDs
+      const bottomFiveStudents: string[] = sortedResults
+        .slice(0, 5)
+        .map((result) => result.student);
+
+      return bottomFiveStudents;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get bottom 5 students. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
+    }
+  }
 }
 
 export default TestSessionService;

@@ -20,6 +20,7 @@ import {
   mockTestSessionWithInvalidStartDate,
   mockTestSessionWithInvalidEndDate,
   mockTestSessionsWithEvenNumberOfResults,
+  mockTestSessionWithNoResults,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -457,5 +458,55 @@ describe("mongo testSessionService", (): void => {
     await expect(async () => {
       await testSessionService.getPerformanceByQuestion(invalidId);
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+  });
+
+  it("getBottomFiveStudentsById returns bottom 5 students", async () => {
+    const savedTestSession = await MgTestSession.create(
+      mockTestSessionWithExpiredEndDate,
+    );
+
+    const topStudents = await testSessionService.getBottomFiveStudentsById(
+      savedTestSession.id,
+    );
+
+    expect(topStudents).toEqual([
+      "some-student-name-4",
+      "some-student-name-2",
+      "some-student-name",
+      "some-student-name-3",
+      "some-student-name-5",
+    ]);
+  });
+
+  it("getBottomFiveStudentsById with no results", async () => {
+    const savedTestSession = await MgTestSession.create(
+      mockTestSessionWithNoResults,
+    );
+
+    const topStudents = await testSessionService.getBottomFiveStudentsById(
+      savedTestSession.id,
+    );
+
+    expect(topStudents).toEqual([]);
+  });
+
+  it("getBottomFiveStudentsById with an error retrieving test session", async () => {
+    const testSessionId = "62c248c0f79d6c3c8ebbea92";
+
+    // Create a mock implementation for getTestSessionById that throws an error
+
+    await expect(
+      testSessionService.getBottomFiveStudentsById(testSessionId),
+    ).rejects.toThrowError(
+      "Test Session id 62c248c0f79d6c3c8ebbea92 not found",
+    );
+  });
+
+  it("should throw an error if the test session's end date has not passed", async () => {
+    const savedTestSession = await MgTestSession.create(mockTestSession);
+
+    await expect(
+      testSessionService.getBottomFiveStudentsById(savedTestSession.id),
+    ).rejects.toThrowError("Test session has not ended yet");
   });
 });
