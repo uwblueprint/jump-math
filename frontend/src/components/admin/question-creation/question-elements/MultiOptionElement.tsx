@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  IconButton,
-  Radio,
-  Spacer,
-  VStack,
-} from "@chakra-ui/react";
+import { Checkbox, Flex, Radio, Spacer, VStack } from "@chakra-ui/react";
 
-import { EditOutlineIcon } from "../../../../assets/icons";
 import type { MultiData } from "../../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../../types/QuestionTypes";
+import EditIconButton from "../../../common/EditIconButton";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
@@ -52,16 +43,11 @@ const MultiOptionElement = ({
         })}
       </VStack>
       <Spacer />
-      <Box _hover={{ color: "blue.100" }} color="grey.300">
-        <Button
-          as={IconButton}
-          color="currentColor"
-          fontSize="24px"
-          icon={<EditOutlineIcon />}
-          onClick={() => setShowEditMultipleChoiceModal(true)}
-          size="icon"
-        />
-      </Box>
+      <EditIconButton
+        color="grey.300"
+        hoverColor="blue.100"
+        onClick={() => setShowEditMultipleChoiceModal(true)}
+      />
       <EditMultiOptionModal
         data={data}
         id={id}

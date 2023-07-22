@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Button, Flex, IconButton, Input, Spacer } from "@chakra-ui/react";
+import { Flex, Input, Spacer } from "@chakra-ui/react";
 
-import { EditOutlineIcon } from "../../../../assets/icons";
 import type { ShortAnswerMetadata } from "../../../../types/QuestionMetadataTypes";
+import EditIconButton from "../../../common/EditIconButton";
 
 import EditShortAnswerModal from "./modals/short-answer/EditShortAnswerModal";
 
@@ -29,16 +29,11 @@ const ShortAnswerElement = ({
         width="34%"
       />
       <Spacer />
-      <Box _hover={{ color: "blue.100" }} color="grey.300">
-        <Button
-          as={IconButton}
-          color="currentColor"
-          fontSize="24px"
-          icon={<EditOutlineIcon />}
-          onClick={() => setShowEditShortAnswerModal(true)}
-          size="icon"
-        />
-      </Box>
+      <EditIconButton
+        color="grey.300"
+        hoverColor="blue.100"
+        onClick={() => setShowEditShortAnswerModal(true)}
+      />
       <EditShortAnswerModal
         data={data.answer}
         id={id}

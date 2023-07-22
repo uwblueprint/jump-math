@@ -41,7 +41,11 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Assessment Name
             </FormLabel>
-            <EditIconButton onClick={() => setPage(0)} />
+            <EditIconButton
+              color="blue.300"
+              hoverColor="grey.300"
+              onClick={() => setPage(0)}
+            />
           </HStack>
           <Text textStyle="paragraph">{testName}</Text>
         </FormControl>
@@ -50,7 +54,11 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Classroom
             </FormLabel>
-            <EditIconButton onClick={() => setPage(1)} />
+            <EditIconButton
+              color="blue.300"
+              hoverColor="grey.300"
+              onClick={() => setPage(1)}
+            />
           </HStack>
           <Text textStyle="paragraph">{className}</Text>
         </FormControl>
@@ -60,7 +68,11 @@ const Review = ({
               <FormLabel color="blue.300" marginRight={0}>
                 Start date
               </FormLabel>
-              <EditIconButton onClick={() => setPage(2)} />
+              <EditIconButton
+                color="blue.300"
+                hoverColor="grey.300"
+                onClick={() => setPage(2)}
+              />
             </HStack>
             <Input
               isDisabled
@@ -73,7 +85,11 @@ const Review = ({
               <FormLabel color="blue.300" marginRight={0}>
                 End date
               </FormLabel>
-              <EditIconButton onClick={() => setPage(2)} />
+              <EditIconButton
+                color="blue.300"
+                hoverColor="grey.300"
+                onClick={() => setPage(2)}
+              />
             </HStack>
             <Input
               isDisabled
@@ -87,7 +103,11 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Additional Notes
             </FormLabel>
-            <EditIconButton onClick={() => setPage(2)} />
+            <EditIconButton
+              color="blue.300"
+              hoverColor="grey.300"
+              onClick={() => setPage(2)}
+            />
           </HStack>
           <Textarea isDisabled value={notes} />
         </FormControl>
