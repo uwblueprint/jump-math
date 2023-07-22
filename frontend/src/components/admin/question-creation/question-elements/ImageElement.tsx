@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Flex, Image, Input, Spacer, Text } from "@chakra-ui/react";
 
-import { UploadOutlineIcon } from "../../../../assets/icons";
+import { EditOutlineIcon, UploadOutlineIcon } from "../../../../assets/icons";
 import QuestionEditorContext from "../../../../contexts/QuestionEditorContext";
 import type { ImageMetadataRequest } from "../../../../types/QuestionMetadataTypes";
 import {
   exceedsMaxFileSize,
   updatedQuestionElement,
 } from "../../../../utils/QuestionUtils";
-import EditIconButton from "../../../common/EditIconButton";
+import IconButton from "../../../common/IconButton";
 
 interface ImageElementProps {
   id: string;
@@ -75,9 +75,10 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
             width="90%"
           />
           <Spacer />
-          <EditIconButton
+          <IconButton
             color="grey.300"
             hoverColor="blue.100"
+            icon={<EditOutlineIcon />}
             onClick={openFileBrowser}
           />
         </>

@@ -1,26 +1,26 @@
 import React from "react";
-import { Box, Button, IconButton } from "@chakra-ui/react";
+import { Box, Button, IconButton as ChakraIconButton } from "@chakra-ui/react";
 
-import { EditOutlineIcon } from "../../assets/icons";
-
-interface EditIconButtonProps {
+interface IconButtonProps {
   color: string;
   hoverColor: string;
   onClick: () => void;
+  icon: React.ReactElement;
 }
 
-const EditIconButton = ({
+const IconButton = ({
   onClick,
   color,
   hoverColor,
-}: EditIconButtonProps): React.ReactElement => {
+  icon,
+}: IconButtonProps): React.ReactElement => {
   return (
     <Box _hover={{ color: hoverColor }} color={color}>
       <Button
-        as={IconButton}
+        as={ChakraIconButton}
         color="currentColor"
         fontSize="24px"
-        icon={<EditOutlineIcon />}
+        icon={icon}
         onClick={onClick}
         size="icon"
       />
@@ -28,4 +28,4 @@ const EditIconButton = ({
   );
 };
 
-export default EditIconButton;
+export default IconButton;

@@ -3,9 +3,7 @@ import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
-  Button,
   HStack,
-  IconButton,
   List,
   ListItem,
   Spacer,
@@ -29,6 +27,7 @@ import {
   getQuestionTexts,
   shouldReorder,
 } from "../../../utils/QuestionUtils";
+import IconButton from "../../common/IconButton";
 
 import QuestionTag from "./QuestionTag";
 
@@ -134,35 +133,23 @@ const QuestionCard = ({
               Question {index + 1}
             </Text>
             <Spacer />
-            <Box
-              _hover={{ color: "grey.300" }}
-              color="blue.300"
-              cursor="pointer"
-              fontSize="24px"
-              paddingRight="1"
-            >
-              <Button
-                as={IconButton}
-                color="currentColor"
-                fontSize="24px"
+            <HStack spacing={1}>
+              <IconButton
+                color="blue.300"
+                hoverColor="grey.300"
                 icon={<EditOutlineIcon />}
                 onClick={() => {
                   setShowQuestionEditor(true);
                   setEditorQuestion(question);
                 }}
-                size="icon"
               />
-            </Box>
-            <Box _hover={{ color: "grey.300" }} color="blue.300">
-              <Button
-                as={IconButton}
-                color="currentColor"
-                fontSize="24px"
+              <IconButton
+                color="blue.300"
+                hoverColor="grey.300"
                 icon={<DeleteOutlineIcon />}
                 onClick={removeQuestionCard}
-                size="icon"
               />
-            </Box>
+            </HStack>
           </HStack>
           <List
             fontWeight="700"

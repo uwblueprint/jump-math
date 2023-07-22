@@ -9,8 +9,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import { EditOutlineIcon } from "../../../../assets/icons";
 import { formatDate } from "../../../../utils/GeneralUtils";
-import EditIconButton from "../../../common/EditIconButton";
+import IconButton from "../../../common/IconButton";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ReviewProps {
@@ -41,9 +42,10 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Assessment Name
             </FormLabel>
-            <EditIconButton
+            <IconButton
               color="blue.300"
               hoverColor="grey.300"
+              icon={<EditOutlineIcon />}
               onClick={() => setPage(0)}
             />
           </HStack>
@@ -54,9 +56,10 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Classroom
             </FormLabel>
-            <EditIconButton
+            <IconButton
               color="blue.300"
               hoverColor="grey.300"
+              icon={<EditOutlineIcon />}
               onClick={() => setPage(1)}
             />
           </HStack>
@@ -68,9 +71,10 @@ const Review = ({
               <FormLabel color="blue.300" marginRight={0}>
                 Start date
               </FormLabel>
-              <EditIconButton
+              <IconButton
                 color="blue.300"
                 hoverColor="grey.300"
+                icon={<EditOutlineIcon />}
                 onClick={() => setPage(2)}
               />
             </HStack>
@@ -85,9 +89,10 @@ const Review = ({
               <FormLabel color="blue.300" marginRight={0}>
                 End date
               </FormLabel>
-              <EditIconButton
+              <IconButton
                 color="blue.300"
                 hoverColor="grey.300"
+                icon={<EditOutlineIcon />}
                 onClick={() => setPage(2)}
               />
             </HStack>
@@ -103,9 +108,10 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Additional Notes
             </FormLabel>
-            <EditIconButton
+            <IconButton
               color="blue.300"
               hoverColor="grey.300"
+              icon={<EditOutlineIcon />}
               onClick={() => setPage(2)}
             />
           </HStack>
