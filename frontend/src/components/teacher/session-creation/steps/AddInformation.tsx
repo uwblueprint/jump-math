@@ -35,15 +35,17 @@ const AddInformation = ({
   const [invalidEndDate, setInvalidEndDate] = useState(false);
 
   useEffect(() => {
+    if (startDate && endDate) {
+      setInvalidStartDate(isPastDate(startDate) || endDate <= startDate);
+      setInvalidEndDate(isPastDate(endDate) || endDate <= startDate);
+      setValidDates(!invalidStartDate && !invalidEndDate);
+      return;
+    }
     if (startDate) {
       setInvalidStartDate(isPastDate(startDate));
     }
     if (endDate) {
       setInvalidEndDate(isPastDate(endDate));
-    }
-    if (startDate && endDate) {
-      setInvalidStartDate(isPastDate(startDate) || endDate <= startDate);
-      setInvalidEndDate(isPastDate(endDate) || endDate <= startDate);
     }
   }, [startDate, endDate, invalidStartDate, invalidEndDate, setValidDates]);
 

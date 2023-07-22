@@ -98,7 +98,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <ErrorState />
         </Box>
       )}
-      {!!formattedData?.length && !loading && error && (
+      {!!formattedData?.length && !loading && !error && (
         <>
           <Tabs mt={3} onChange={(index) => setCurrentTab(STATUSES[index])}>
             <TabList>
