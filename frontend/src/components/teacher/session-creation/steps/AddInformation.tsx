@@ -35,15 +35,16 @@ const AddInformation = ({
   const [invalidEndDate, setInvalidEndDate] = useState(false);
 
   useEffect(() => {
-    if (startDate && endDate && startDate > endDate) {
-      setInvalidStartDate(true);
-      setInvalidEndDate(true);
-    } else if (startDate && !isPastDate(startDate)) {
-      setInvalidStartDate(false);
-    } else if (endDate && !isPastDate(endDate)) {
-      setInvalidEndDate(false);
+    if (startDate) {
+      setInvalidStartDate(isPastDate(startDate));
     }
-    setValidDates(!invalidStartDate && !invalidEndDate);
+    if (endDate) {
+      setInvalidEndDate(isPastDate(endDate));
+    }
+    if (startDate && endDate) {
+      setInvalidStartDate(isPastDate(startDate) || endDate <= startDate);
+      setInvalidEndDate(isPastDate(endDate) || endDate <= startDate);
+    }
   }, [startDate, endDate, invalidStartDate, invalidEndDate, setValidDates]);
 
   return (
@@ -63,7 +64,6 @@ const AddInformation = ({
             <FormLabel color="blue.300">Start date</FormLabel>
             <DatePicker
               onChange={(e) => {
-                setInvalidStartDate(isPastDate(e));
                 setStartDate(e);
               }}
               value={startDate ?? undefined}
@@ -74,7 +74,6 @@ const AddInformation = ({
             <FormLabel color="blue.300">End date</FormLabel>
             <DatePicker
               onChange={(e) => {
-                setInvalidEndDate(isPastDate(e));
                 setEndDate(e);
               }}
               value={endDate ?? undefined}
