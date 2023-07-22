@@ -17,7 +17,7 @@ import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
 import useSortProperty from "../../../common/table/useSortProperty";
 import AssessmentsTable from "../AssessmentsTable";
-import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
+import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseAssessmentProps {
   testId: string;
@@ -126,7 +126,7 @@ const ChooseAssessment = ({
         </HStack>
         {search && (
           <Text color="grey.300" fontSize="16px" width="100%">
-            Showing {search.length} results for &quot;
+            Showing {assessments.length} results for &quot;
             {search}&quot;
           </Text>
         )}

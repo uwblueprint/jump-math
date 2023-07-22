@@ -42,7 +42,7 @@ const DistributeAssessmentWrapper = ({
             <ErrorState />
           </Box>
         )}
-        {isEmpty && emptyState}
+        {!isLoading && !isError && isEmpty && emptyState}
         {!isLoading && !isError && !isEmpty && children}
       </Box>
     </VStack>

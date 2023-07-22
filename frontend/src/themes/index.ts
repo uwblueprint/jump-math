@@ -10,6 +10,7 @@ import Divider from "./components/divider";
 import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
+import Progress from "./components/progress";
 import Radio from "./components/radio";
 import Select from "./components/select";
 import Spinner from "./components/spinner";
@@ -36,6 +37,7 @@ const theme = extendTheme({
     Form,
     FormError,
     Input,
+    Progress,
     Radio,
     Select,
     Spinner,

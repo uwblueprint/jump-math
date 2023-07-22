@@ -10,7 +10,7 @@ import {
 
 import { isPastDate } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
-import DistributeAssessmentWrapper from "../DistributeAsessmentWrapper";
+import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface AddInformationProps {
   startDate: Date | null;

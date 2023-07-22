@@ -45,8 +45,22 @@ export const mockGradedTestResult3: ResultResponseDTO = {
 };
 
 export const mockGradedTestResult4: ResultResponseDTO = {
-  student: "some-student-name-3",
+  student: "some-student-name-4",
   score: 20.0,
+  answers: [[[1.5], [1], [3]], [[7]]],
+  breakdown: [[false, false, false, false], [true]],
+};
+
+export const mockGradedTestResult5: ResultResponseDTO = {
+  student: "some-student-name-5",
+  score: 90.0,
+  answers: [[[1.5], [1], [3]], [[7]]],
+  breakdown: [[false, false, false, false], [true]],
+};
+
+export const mockGradedTestResult6: ResultResponseDTO = {
+  student: "some-student-name-6",
+  score: 95.0,
   answers: [[[1.5], [1], [3]], [[7]]],
   breakdown: [[false, false, false, false], [true]],
 };
@@ -152,6 +166,14 @@ export const mockTestSessionWithExpiredEndDate: TestSessionDTO = {
   accessCode: "123456",
   startDate: new Date("2020-09-01T09:00:00.000Z"),
   endDate: new Date("2021-09-02T09:00:00.000Z"),
+  results: [
+    mockGradedTestResult,
+    mockGradedTestResult2,
+    mockGradedTestResult3,
+    mockGradedTestResult4,
+    mockGradedTestResult5,
+    mockGradedTestResult6,
+  ],
   notes:
     "this is a note that a teacher wanted students to see before their test.",
 };
@@ -163,6 +185,11 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
   class: mockClassWithId.id,
+};
+
+export const mockTestSessionWithNoResults: TestSessionDTO = {
+  ...mockTestSessionWithExpiredEndDate,
+  results: [],
 };
 
 export const mockTestSessions: TestSessionDTO[] = [

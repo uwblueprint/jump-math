@@ -89,3 +89,9 @@ export const GET_TEST_SESSION_TITLE = gql`
     }
   }
 `;
+
+export const GET_TOP_5_STUDENTS_BY_TEST_SESSION_ID = gql`
+  query Query($id: ID!) {
+    getTopFiveStudentsById(id: $id)
+  }
+`;
