@@ -35,7 +35,7 @@ const Review = ({
       subtitle="Please review the following information before distributing the assessment."
       title="Review"
     >
-      <VStack alignItems="flex-start" gap={8} maxWidth="50%">
+      <VStack alignItems="flex-start" gap={6} maxWidth="50%">
         <FormControl isRequired>
           <HStack alignItems="flex-end">
             <FormLabel color="blue.300" marginRight={0}>

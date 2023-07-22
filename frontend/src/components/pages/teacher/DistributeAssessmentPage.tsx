@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
+import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
 import AddInformation from "../../teacher/session-creation/steps/AddInformation";
@@ -120,6 +121,16 @@ const DistributeAssessmentPage = (): React.ReactElement => {
             variant="secondary"
           >
             Next
+          </Button>
+        )}
+        {page === 3 && (
+          <Button
+            leftIcon={<PaperPlaneOutlineIcon />}
+            minWidth="10"
+            onClick={() => console.log("Distribute assessment.")}
+            variant="primary"
+          >
+            Distribute
           </Button>
         )}
       </HStack>
