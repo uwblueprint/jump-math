@@ -42,12 +42,7 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Assessment Name
             </FormLabel>
-            <IconButton
-              color="blue.300"
-              hoverColor="grey.300"
-              icon={<EditOutlineIcon />}
-              onClick={() => setPage(0)}
-            />
+            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(0)} />
           </HStack>
           <Text textStyle="paragraph">{testName}</Text>
         </FormControl>
@@ -56,12 +51,7 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Classroom
             </FormLabel>
-            <IconButton
-              color="blue.300"
-              hoverColor="grey.300"
-              icon={<EditOutlineIcon />}
-              onClick={() => setPage(1)}
-            />
+            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(1)} />
           </HStack>
           <Text textStyle="paragraph">{className}</Text>
         </FormControl>
@@ -72,8 +62,6 @@ const Review = ({
                 Start date
               </FormLabel>
               <IconButton
-                color="blue.300"
-                hoverColor="grey.300"
                 icon={<EditOutlineIcon />}
                 onClick={() => setPage(2)}
               />
@@ -90,8 +78,6 @@ const Review = ({
                 End date
               </FormLabel>
               <IconButton
-                color="blue.300"
-                hoverColor="grey.300"
                 icon={<EditOutlineIcon />}
                 onClick={() => setPage(2)}
               />
@@ -108,12 +94,7 @@ const Review = ({
             <FormLabel color="blue.300" marginRight={0}>
               Additional Notes
             </FormLabel>
-            <IconButton
-              color="blue.300"
-              hoverColor="grey.300"
-              icon={<EditOutlineIcon />}
-              onClick={() => setPage(2)}
-            />
+            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(2)} />
           </HStack>
           <Textarea isDisabled value={notes} />
         </FormControl>
