@@ -113,7 +113,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           </Button>
         )}
         <Spacer />
-        {page !== 3 && (
+        {page !== 3 ? (
           <Button
             isDisabled={!validPage(page + 1)}
             minWidth="10"
@@ -122,8 +122,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           >
             Next
           </Button>
-        )}
-        {page === 3 && (
+        ) : (
           <Button
             leftIcon={<PaperPlaneOutlineIcon />}
             minWidth="10"
