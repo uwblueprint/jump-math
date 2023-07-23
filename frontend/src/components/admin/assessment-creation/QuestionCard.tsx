@@ -133,7 +133,7 @@ const QuestionCard = ({
               Question {index + 1}
             </Text>
             <Spacer />
-            <HStack spacing={1}>
+            <HStack spacing={4}>
               <IconButton
                 color="blue.300"
                 hoverColor="grey.300"
