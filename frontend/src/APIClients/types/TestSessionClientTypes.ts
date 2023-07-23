@@ -1,6 +1,25 @@
 import type { ClassResponse, StudentResponse } from "./ClassClientTypes";
 import type { Test } from "./TestClientTypes";
 
+export interface TestSessionRequest {
+  /** the ID of the corresponding test from the Test collection */
+  test: string;
+  /** the ID of the teacher administering the test from the User collection */
+  teacher: string;
+  /** the ID of the school that's administering the test from the School collection */
+  school: string;
+  /** the ID of the class taking the test session */
+  class: string;
+  /** the code that students can use to access the test when it is live */
+  accessCode: string;
+  /** on this date, the test becomes available to students */
+  startDate: Date;
+  /** after this date, the test is no longer available to students */
+  endDate: Date;
+  /** notes inputted by teacher to show students prior to commencing the test */
+  notes?: string;
+}
+
 interface TestSessionMetadata {
   /** the unique identifier for the test session */
   id: string;
