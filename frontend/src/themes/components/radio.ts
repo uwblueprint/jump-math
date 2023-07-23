@@ -32,6 +32,14 @@ const Radio = {
         },
       },
     },
+    green: {
+      control: {
+        _checked: {
+          backgroundColor: "green.300",
+          borderColor: "green.300",
+        },
+      },
+    },
   },
 };
 

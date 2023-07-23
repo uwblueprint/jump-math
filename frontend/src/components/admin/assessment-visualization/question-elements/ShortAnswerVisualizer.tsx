@@ -35,7 +35,13 @@ const ShortAnswerVisualizer = ({
           {correctAnswer}
         </Flex>
       </Flex>
-      <Progress max={100} min={0} size="sm" value={percentCorrect} />
+      <Progress
+        max={100}
+        min={0}
+        size="sm"
+        value={percentCorrect}
+        variant="green"
+      />
       {!noResponse && (
         <Flex justifyContent="space-between">
           <Text color="green.300">
