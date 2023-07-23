@@ -26,8 +26,8 @@ import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
-import AddClassroomModal from "../../teacher/student-management/classrooms/AddClassroomModal";
-import ClassroomCard from "../../teacher/student-management/classrooms/ClassroomCard";
+import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
+import ClassroomCard from "../../teacher/student-management/classroom-summary/ClassroomCard";
 
 const ClassroomsPage = (): React.ReactElement => {
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
@@ -38,7 +38,6 @@ const ClassroomsPage = (): React.ReactElement => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
-
   const { id: teacherId } = authenticatedUser ?? {};
 
   const { loading, error, data } = useQuery<{
@@ -97,7 +96,7 @@ const ClassroomsPage = (): React.ReactElement => {
           showButton={classCards?.length !== 0}
           title="Classrooms"
         />
-        <AddClassroomModal
+        <AddOrEditClassroomModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

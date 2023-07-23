@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
   FormControl,
@@ -17,10 +18,15 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import isSameDay from "date-fns/isSameDay";
 
-import { CREATE_CLASS } from "../../../../APIClients/mutations/ClassMutations";
-import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
+import {
+  CREATE_CLASS,
+  UPDATE_CLASS,
+} from "../../../../APIClients/mutations/ClassMutations";
+import {
+  GET_CLASS_DETAILS_BY_ID,
+  GET_CLASSES_BY_TEACHER,
+} from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
 import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
@@ -29,6 +35,7 @@ import type {
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
+import { isPastDate } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
 import Toast from "../../../common/info/Toast";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
@@ -36,20 +43,24 @@ import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
-type AddClassroomModalProps = {
+type AddOrEditClassroomModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  classroomId?: string;
 };
 
-const AddClassroomModal = ({
+const AddOrEditClassroomModal = ({
   onClose,
   isOpen,
-}: AddClassroomModalProps): React.ReactElement => {
+  classroomId,
+}: AddOrEditClassroomModalProps): React.ReactElement => {
+  const history = useHistory();
+
   const {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
+    formState: { dirtyFields, errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
   const [showRequestError, setShowRequestError] = useState(false);
@@ -67,6 +78,17 @@ const AddClassroomModal = ({
       ],
     },
   );
+  const [updateClass] = useMutation<{ updateClass: ClassResponse }>(
+    UPDATE_CLASS,
+    {
+      refetchQueries: [
+        {
+          query: GET_CLASS_DETAILS_BY_ID,
+          variables: { classroomId },
+        },
+      ],
+    },
+  );
 
   const { showToast } = Toast();
 
@@ -78,7 +100,7 @@ const AddClassroomModal = ({
   };
 
   const handleDateChange = (date: Date) => {
-    setValue("startDate", date);
+    setValue("startDate", date, { shouldDirty: true });
   };
 
   const validateFields = (): boolean => {
@@ -107,39 +129,65 @@ const AddClassroomModal = ({
 
   const onSave: SubmitHandler<ClassroomForm> = async (data) => {
     const startDate = watch("startDate");
-    const now = new Date();
 
     if (!validateFields()) {
       setShowRequestError(true);
       setRequestErrorMessage(
         "Please ensure all required components are filled out before saving changes",
       );
-    } else if (startDate && startDate < now && !isSameDay(startDate, now)) {
+    } else if (dirtyFields.startDate && startDate && isPastDate(startDate)) {
       setShowRequestError(true);
       setRequestErrorMessage("Please set a present or future date");
     } else {
       if (showRequestError) setShowRequestError(false);
-      await createClass({
-        variables: {
-          classObj: {
-            ...data,
-            startDate: data.startDate,
-            teacher: authenticatedUser?.id,
-          },
-        },
-      })
-        .then(() => {
+      const classObj = {
+        ...data,
+        startDate: data.startDate,
+        teacher: authenticatedUser?.id,
+      };
+
+      if (classroomId) {
+        try {
+          await updateClass({
+            variables: {
+              classroomId,
+              classObj,
+            },
+          });
+          history.replace(history.location.pathname, undefined);
+          showToast({
+            message: "Classroom information updated.",
+            status: "success",
+          });
+        } catch (e) {
+          showToast({
+            message:
+              "Failed to update the classroom's information. Please try again.",
+            status: "error",
+          });
+        }
+      } else {
+        try {
+          await createClass({
+            variables: {
+              classObj: {
+                ...data,
+                startDate: data.startDate,
+                teacher: authenticatedUser?.id,
+              },
+            },
+          });
           showToast({
             message: "New classroom created.",
             status: "success",
           });
-        })
-        .catch(() => {
+        } catch (e) {
           showToast({
             message: "Failed to create a new classroom. Please try again.",
             status: "error",
           });
-        });
+        }
+      }
       onModalClose();
     }
   };
@@ -153,7 +201,7 @@ const AddClassroomModal = ({
         <ModalContent borderRadius="12px" maxW="80vw" p={2}>
           <ModalHeader>
             <Text color="grey.400" textStyle="subtitle1">
-              Add Classroom
+              {classroomId ? "Edit Classroom" : "Add Classroom"}
             </Text>
           </ModalHeader>
           <ModalCloseButton />
@@ -204,4 +252,4 @@ const AddClassroomModal = ({
   );
 };
 
-export default AddClassroomModal;
+export default AddOrEditClassroomModal;

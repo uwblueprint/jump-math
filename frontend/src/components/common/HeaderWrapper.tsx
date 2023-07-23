@@ -4,7 +4,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import HomeButton from "./navigation/HomeButton";
 
 interface HeaderWrapperProps {
-  children: React.ReactChild;
+  children: React.ReactNode;
 }
 
 const HeaderWrapper = ({

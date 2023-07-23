@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
@@ -16,27 +17,43 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
   { header: "Review", page: 3 },
 ];
 
+const getLocationState = (state: unknown): { classroomId: string } => ({
+  classroomId: "",
+  ...(typeof state === "object" ? state : {}),
+});
+
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const { state } = useLocation();
+  const { classroomId: initialClassId } = getLocationState(state);
+
   const [page, setPage] = useState(0);
 
   const [testId, setTestId] = useState("");
-  const [classId, setClassId] = useState("");
+  const [classId, setClassId] = useState(initialClassId);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
+
+  const [validDates, setValidDates] = useState(false);
 
   const renderPageContent = () => {
     switch (page) {
       case 0:
         return <ChooseAssessment setTestId={setTestId} testId={testId} />;
       case 1:
-        return <ChooseClass setClassId={setClassId} />;
+        return (
+          <ChooseClass selectedClassId={classId} setClassId={setClassId} />
+        );
       case 2:
         return (
           <AddInformation
+            endDate={endDate}
+            notes={notes}
             setEndDate={setEndDate}
             setNotes={setNotes}
             setStartDate={setStartDate}
+            setValidDates={setValidDates}
+            startDate={startDate}
           />
         );
       case 3:
@@ -55,14 +72,14 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 2:
         return Boolean(classId);
       case 3:
-        return Boolean(startDate && endDate);
+        return Boolean(startDate && endDate) && validDates;
       default:
         return false;
     }
   };
 
   return (
-    <VStack align="left" gap={2} paddingBottom="4">
+    <VStack align="left" gap={2} minHeight="100%" paddingBottom="4">
       <FormBreadcrumb
         breadcrumbs={BREADCRUMB_CONFIG}
         page={page}
@@ -70,6 +87,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         validPage={validPage}
       />
       {renderPageContent()}
+      <Spacer />
       <HStack>
         {page !== 0 && (
           <Button

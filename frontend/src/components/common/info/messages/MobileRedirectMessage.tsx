@@ -1,7 +1,7 @@
 import React from "react";
 import { Center } from "@chakra-ui/react";
 
-import MobileRedirectIllustration from "../../../../assets/illustrations/mobile-redirect.svg";
+import MobileRedirectIllustration from "../../../../assets/illustrations/display-students.svg";
 import { HOME_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 

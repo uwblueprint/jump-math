@@ -4,7 +4,7 @@ import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 interface QuestionSummaryProps {
   questionCount: number;
   pointCount: number;
-  children?: React.ReactChild;
+  children?: React.ReactNode;
 }
 
 const QuestionSummary = ({

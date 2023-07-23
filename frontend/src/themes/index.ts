@@ -4,11 +4,13 @@ import "@fontsource/dm-sans";
 
 import Alert from "./components/alert";
 import Button from "./components/button";
+import Center from "./components/center";
 import Checkbox from "./components/checkbox";
 import Divider from "./components/divider";
 import Form from "./components/form";
 import FormError from "./components/formError";
 import Input from "./components/input";
+import Progress from "./components/progress";
 import Radio from "./components/radio";
 import Select from "./components/select";
 import Spinner from "./components/spinner";
@@ -29,11 +31,13 @@ const theme = extendTheme({
   components: {
     Alert,
     Button,
+    Center,
     Checkbox,
     Divider,
     Form,
     FormError,
     Input,
+    Progress,
     Radio,
     Select,
     Spinner,

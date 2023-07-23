@@ -28,6 +28,7 @@ export interface ClassResponseDTO {
   teacher: string;
   testSessions: string[];
   students: StudentResponseDTO[];
+  isActive: boolean;
 }
 
 export interface IClassService {
@@ -79,6 +80,14 @@ export interface IClassService {
    * @throws Error if deletion fails
    */
   deleteClass(id: string): Promise<string>;
+
+  /**
+   * This method archives the class with the given id
+   * @param id class id
+   * @returns the new updated ClassResponseDTO
+   * @throws Error if archive fails
+   */
+  archiveClass(id: string): Promise<ClassResponseDTO>;
 
   /**
    * This method creates a new student in the database.
