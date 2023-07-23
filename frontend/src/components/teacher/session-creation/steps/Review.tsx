@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  Text,
-  Textarea,
-  VStack,
-} from "@chakra-ui/react";
+import { HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
-import { EditOutlineIcon } from "../../../../assets/icons";
 import { formatDate } from "../../../../utils/GeneralUtils";
-import IconButton from "../../../common/IconButton";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
+import ReviewItem from "../ReviewItem";
 
 interface ReviewProps {
   className: string;
@@ -37,67 +28,46 @@ const Review = ({
       title="Review"
     >
       <VStack alignItems="flex-start" gap={6} maxWidth="50%">
-        <FormControl isRequired>
-          <HStack alignItems="flex-end">
-            <FormLabel color="blue.300" marginRight={0}>
-              Assessment Name
-            </FormLabel>
-            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(0)} />
-          </HStack>
-          <Text textStyle="paragraph">{testName}</Text>
-        </FormControl>
-        <FormControl isRequired>
-          <HStack alignItems="flex-end">
-            <FormLabel color="blue.300" marginRight={0}>
-              Classroom
-            </FormLabel>
-            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(1)} />
-          </HStack>
-          <Text textStyle="paragraph">{className}</Text>
-        </FormControl>
+        <ReviewItem
+          handleEdit={() => setPage(0)}
+          label="Assessment Name"
+          value={<Text textStyle="paragraph">{testName}</Text>}
+        />
+        <ReviewItem
+          handleEdit={() => setPage(1)}
+          label="Classroom"
+          value={<Text textStyle="paragraph">{className}</Text>}
+        />
         <HStack alignItems="flex-start" gap="15">
-          <FormControl isRequired>
-            <HStack alignItems="flex-end">
-              <FormLabel color="blue.300" marginRight={0}>
-                Start date
-              </FormLabel>
-              <IconButton
-                icon={<EditOutlineIcon />}
-                onClick={() => setPage(2)}
+          <ReviewItem
+            handleEdit={() => setPage(2)}
+            label="Start date"
+            value={
+              <Input
+                isDisabled
+                value={startDate ? formatDate(startDate) : ""}
+                width={80}
               />
-            </HStack>
-            <Input
-              isDisabled
-              value={startDate ? formatDate(startDate) : ""}
-              width={80}
-            />
-          </FormControl>
-          <FormControl isRequired>
-            <HStack alignItems="flex-end">
-              <FormLabel color="blue.300" marginRight={0}>
-                End date
-              </FormLabel>
-              <IconButton
-                icon={<EditOutlineIcon />}
-                onClick={() => setPage(2)}
+            }
+          />
+          <ReviewItem
+            handleEdit={() => setPage(2)}
+            label="End date"
+            value={
+              <Input
+                isDisabled
+                value={endDate ? formatDate(endDate) : ""}
+                width={80}
               />
-            </HStack>
-            <Input
-              isDisabled
-              value={endDate ? formatDate(endDate) : ""}
-              width={80}
-            />
-          </FormControl>
+            }
+          />
         </HStack>
-        <FormControl>
-          <HStack alignItems="flex-end">
-            <FormLabel color="blue.300" marginRight={0}>
-              Additional Notes
-            </FormLabel>
-            <IconButton icon={<EditOutlineIcon />} onClick={() => setPage(2)} />
-          </HStack>
-          <Textarea isDisabled value={notes} />
-        </FormControl>
+        <ReviewItem
+          handleEdit={() => setPage(2)}
+          isRequired={false}
+          label="Additional Notes"
+          value={<Textarea isDisabled value={notes} />}
+        />
       </VStack>
     </DistributeAssessmentWrapper>
   );
