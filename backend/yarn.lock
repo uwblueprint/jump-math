@@ -4170,10 +4170,10 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-graphql-middleware@^6.1.34:
-  version "6.1.34"
-  resolved "https://registry.yarnpkg.com/graphql-middleware/-/graphql-middleware-6.1.34.tgz#3aec5a294d54b57663ad1d8a14253498fa35d3ab"
-  integrity sha512-cnX6vEQVmfJRUZcek6BaVLA2cD8826WyMskZRiLKNZFxCMPJpwi5MCH86BnmFXtWYeYHO4MwnCcfmKdRKOh0ow==
+graphql-middleware@^6.1.35:
+  version "6.1.35"
+  resolved "https://registry.yarnpkg.com/graphql-middleware/-/graphql-middleware-6.1.35.tgz#7297d41ceb35742b80640cca5cd85d1e47e8ab24"
+  integrity sha512-azawK7ApUYtcuPGRGBR9vDZu795pRuaFhO5fgomdJppdfKRt7jwncuh0b7+D3i574/4B+16CNWgVpnGVlg3ZCg==
   dependencies:
     "@graphql-tools/delegate" "^8.8.1"
     "@graphql-tools/schema" "^8.5.1"
