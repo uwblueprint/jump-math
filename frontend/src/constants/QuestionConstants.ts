@@ -7,6 +7,7 @@ const editorTooltips = {
     "Users will have to select the correct responses from a list of options",
   MULTIPLE_CHOICE:
     "Users will have to select the best response from a list of options",
+  FRACTION: "Users will be able to input fractions in their answer",
 };
 
 export default editorTooltips;

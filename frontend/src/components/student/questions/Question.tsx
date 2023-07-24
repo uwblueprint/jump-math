@@ -16,6 +16,7 @@ import {
   getSubquestionIndexArray,
 } from "../../../utils/StudentUtils";
 
+import Fraction from "./question-elements/Fraction";
 import Image from "./question-elements/Image";
 import MultipleChoice from "./question-elements/MultipleChoice";
 import MultiSelect from "./question-elements/MultiSelect";
@@ -80,6 +81,10 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                 case QuestionElementType.IMAGE:
                   return (
                     <Image url={(element.metadata as ImageMetadata).url} />
+                  );
+                case QuestionElementType.FRACTION:
+                  return (
+                    <Fraction answerElementIndex={answerElementIndex[i]} />
                   );
                 default:
                   return null;

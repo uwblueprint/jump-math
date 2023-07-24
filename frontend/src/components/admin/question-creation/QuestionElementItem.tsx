@@ -10,6 +10,7 @@ import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { DragQuestionItem } from "../../../types/DragTypes";
 import { DragTypes } from "../../../types/DragTypes";
 import type {
+  FractionMetadata,
   ImageMetadataRequest,
   QuestionTextMetadata,
   ShortAnswerMetadata,
@@ -19,6 +20,7 @@ import type { MultiData, QuestionElement } from "../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 import { shouldReorder } from "../../../utils/QuestionUtils";
 
+import FractionElement from "./question-elements/FractionElement";
 import ImageElement from "./question-elements/ImageElement";
 import MultiOptionElement from "./question-elements/MultiOptionElement";
 import QuestionTextElement from "./question-elements/QuestionTextElement";
@@ -72,6 +74,10 @@ const renderQuestionContent = (content: QuestionElement) => {
           data={data as ShortAnswerMetadata}
           id={id}
         />
+      );
+    case QuestionElementType.FRACTION:
+      return (
+        <FractionElement key={id} data={data as FractionMetadata} id={id} />
       );
     default:
       return null;

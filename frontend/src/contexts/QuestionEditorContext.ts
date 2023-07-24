@@ -15,6 +15,8 @@ type QuestionEditorContextType = {
   setShowAddMultipleChoiceModal: (_showAddMultipleChoiceModal: boolean) => void;
   showAddMultiSelectModal: boolean;
   setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean) => void;
+  showAddFractionModal: boolean;
+  setShowAddFractionModal: (_showAddFractionModal: boolean) => void;
   showEditorError: boolean;
   setShowEditorError: (_showEditorError: boolean) => void;
 };
@@ -32,6 +34,8 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   ): void => {},
   showAddMultiSelectModal: false,
   setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean): void => {},
+  showAddFractionModal: false,
+  setShowAddFractionModal: (_showAddFractionModal: boolean): void => {},
   showEditorError: false,
   setShowEditorError: (_showEditorError: boolean): void => {},
 });

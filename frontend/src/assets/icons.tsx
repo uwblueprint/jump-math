@@ -159,6 +159,33 @@ export const ShortAnswerIcon = (): React.ReactElement => (
   </Icon>
 );
 
+export const FractionIcon = (): React.ReactElement => (
+  <Icon boxSize="5em" viewBox="0 0 88 88">
+    <rect fill="#E8EDF1" height="88" width="88" />
+    <rect fill="#636363" height="18" rx="1" width="18" x="35" y="17" />
+    <rect
+      height="18"
+      rx="1"
+      stroke="#BEBEBE"
+      strokeWidth="2"
+      width="18"
+      x="35"
+      y="17"
+    />
+    <rect fill="#636363" height="18" rx="1" width="18" x="35" y="53" />
+    <rect
+      height="18"
+      rx="1"
+      stroke="#BEBEBE"
+      strokeWidth="2"
+      width="18"
+      x="35"
+      y="53"
+    />
+    <line stroke="#272727" x1="24" x2="64" y1="43.5" y2="43.5" />
+  </Icon>
+);
+
 export const SettingsOutlineIcon = (): React.ReactElement => (
   <Icon viewBox="0 0 24 24">
     <path
@@ -363,6 +390,15 @@ export const MultiSelectTagIcon = (): React.ReactElement => (
     />
     <path
       d="M14.7 8.39l-3.78 5-1.63-2.11a1 1 0 0 0-1.58 1.23l2.43 3.11a1 1 0 0 0 .79.38 1 1 0 0 0 .79-.39l4.57-6a1 1 0 1 0-1.6-1.22z"
+      fill="currentColor"
+    />
+  </Icon>
+);
+
+export const FractionTagIcon = (): React.ReactElement => (
+  <Icon viewBox="0 0 24 24">
+    <path
+      d="M19 13H5C4.73478 13 4.48043 12.8946 4.29289 12.7071C4.10536 12.5196 4 12.2652 4 12C4 11.7348 4.10536 11.4804 4.29289 11.2929C4.48043 11.1054 4.73478 11 5 11H19C19.2652 11 19.5196 11.1054 19.7071 11.2929C19.8946 11.4804 20 11.7348 20 12C20 12.2652 19.8946 12.5196 19.7071 12.7071C19.5196 12.8946 19.2652 13 19 13Z"
       fill="currentColor"
     />
   </Icon>

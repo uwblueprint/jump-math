@@ -16,6 +16,7 @@ import {
 
 import {
   ArrowBackOutlineIcon,
+  FractionIcon,
   ImageIcon,
   MultipleChoiceIcon,
   MultiSelectIcon,
@@ -138,6 +139,10 @@ const QuestionSidebar = (): React.ReactElement => {
                 {
                   element: QuestionElementType.SHORT_ANSWER,
                   icon: ShortAnswerIcon,
+                },
+                {
+                  element: QuestionElementType.FRACTION,
+                  icon: FractionIcon,
                 },
               ],
             },

@@ -1,4 +1,5 @@
 import type {
+  FractionMetadata,
   ImageMetadataRequest,
   QuestionTextMetadata,
   ShortAnswerMetadata,
@@ -24,6 +25,7 @@ export enum QuestionElementType {
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   SHORT_ANSWER = "SHORT_ANSWER",
   MULTI_SELECT = "MULTI_SELECT",
+  FRACTION = "FRACTION",
 }
 
 export type QuestionElementDataType =
@@ -33,6 +35,7 @@ export type QuestionElementDataType =
   | TextMetadata
   | ImageMetadataRequest
   | ShortAnswerMetadata
+  | FractionMetadata
   | MultiData;
 
 export interface MultiOptionData {
@@ -50,6 +53,7 @@ export type ResponseElementType = Extract<
   | QuestionElementType.MULTIPLE_CHOICE
   | QuestionElementType.SHORT_ANSWER
   | QuestionElementType.MULTI_SELECT
+  | QuestionElementType.FRACTION
 >;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -57,4 +61,5 @@ export const ResponseElementType = {
   [QuestionElementType.MULTIPLE_CHOICE]: QuestionElementType.MULTIPLE_CHOICE,
   [QuestionElementType.SHORT_ANSWER]: QuestionElementType.SHORT_ANSWER,
   [QuestionElementType.MULTI_SELECT]: QuestionElementType.MULTI_SELECT,
+  [QuestionElementType.FRACTION]: QuestionElementType.FRACTION,
 } as const;

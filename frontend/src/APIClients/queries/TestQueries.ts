@@ -29,6 +29,10 @@ export const GET_TEST = gql`
           ... on ShortAnswerMetadata {
             answer
           }
+          ... on FractionMetadata {
+            numerator
+            denominator
+          }
         }
       }
       grade
