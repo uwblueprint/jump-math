@@ -5175,10 +5175,10 @@ case-sensitive-paths-webpack-plugin@^2.4.0:
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
   integrity sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==
 
-chakra-dayzed-datepicker@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/chakra-dayzed-datepicker/-/chakra-dayzed-datepicker-0.2.8.tgz#1a58b56afa04664bd1a23bce54951928133d61be"
-  integrity sha512-BywB1QMo6aGKiHndsaMHMkhsQUUxVZekdvn+uiB/8SUmJo9jcSxeyy52UYT6uyZofJv37oLeGVoTT74EQuZDuA==
+chakra-dayzed-datepicker@^0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/chakra-dayzed-datepicker/-/chakra-dayzed-datepicker-0.2.9.tgz#96d8a647d8b3f84d58c0161aa101a107289c9158"
+  integrity sha512-4CeOg1ftD48qCYKKS/qJtdHpUrLVOBC00vb43BrVGaBom04ZDn+NRzrrIEDOkVRUPHqd9R7AiyOW21ze8OzlUg==
   dependencies:
     react-focus-lock "^2.9.2"
 
