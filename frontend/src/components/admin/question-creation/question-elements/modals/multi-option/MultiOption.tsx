@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import {
-  Box,
-  Button,
   Checkbox,
   HStack,
-  IconButton,
   Input,
   Spacer,
   Text,
@@ -17,6 +14,7 @@ import {
   exceedsMaxLength,
   updatedMultiOption,
 } from "../../../../../../utils/QuestionUtils";
+import IconButton from "../../../../../common/IconButton";
 
 interface MultiOptionProps {
   data: MultiOptionData;
@@ -68,16 +66,12 @@ const MultiOption = ({
           width="50%"
         />
         <Spacer />
-        <Box _hover={{ color: "blue.100" }} color="grey.300">
-          <Button
-            as={IconButton}
-            color="currentColor"
-            fontSize="24px"
-            icon={<DeleteOutlineIcon />}
-            onClick={removeOption}
-            size="icon"
-          />
-        </Box>
+        <IconButton
+          color="grey.300"
+          hoverColor="blue.100"
+          icon={<DeleteOutlineIcon />}
+          onClick={removeOption}
+        />
       </HStack>
       <Checkbox
         isChecked={isCorrect}

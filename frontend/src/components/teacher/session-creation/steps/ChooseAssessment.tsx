@@ -22,6 +22,7 @@ import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 interface ChooseAssessmentProps {
   testId: string;
   setTestId: React.Dispatch<React.SetStateAction<string>>;
+  setTestName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SORT_PROPERTIES = [
@@ -35,6 +36,7 @@ const SORT_PROPERTIES = [
 const ChooseAssessment = ({
   testId,
   setTestId,
+  setTestName,
 }: ChooseAssessmentProps): React.ReactElement => {
   const [isEmpty, setEmpty] = React.useState(true);
 
@@ -134,6 +136,7 @@ const ChooseAssessment = ({
           assessments={assessments}
           selectedTestId={testId}
           setTestId={setTestId}
+          setTestName={setTestName}
         />
       </VStack>
     </DistributeAssessmentWrapper>
