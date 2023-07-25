@@ -59,10 +59,14 @@ export interface IClassService {
   /**
    * This method retrieves the classes associated with given teacher id.
    * @param id teacher id
+   * @param limit optional limit of classes to retrieve
    * @returns list of requested classes
    * @throws Error if retrieval fails
    */
-  getClassesByTeacherId(teacherId: string): Promise<Array<ClassResponseDTO>>;
+  getClassesByTeacherId(
+    teacherId: string,
+    limit?: number,
+  ): Promise<Array<ClassResponseDTO>>;
 
   /**
    * This method updates the class with given id.

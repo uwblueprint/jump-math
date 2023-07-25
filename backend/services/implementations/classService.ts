@@ -106,10 +106,15 @@ class ClassService implements IClassService {
 
   async getClassesByTeacherId(
     teacherId: string,
+    limit?: number,
   ): Promise<Array<ClassResponseDTO>> {
     let classes: Class[];
     try {
-      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+      const query = MgClass.find({ teacher: { $eq: teacherId } });
+      if (limit !== undefined) {
+        query.limit(limit);
+      }
+      classes = await query;
     } catch (error: unknown) {
       Logger.error(
         `Failed to get classes by teacher id. Reason = ${getErrorMessage(

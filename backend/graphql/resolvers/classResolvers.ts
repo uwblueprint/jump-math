@@ -42,9 +42,9 @@ const classResolvers = {
     },
     classesByTeacher: async (
       _req: undefined,
-      { teacherId }: { teacherId: string },
+      { teacherId, limit }: { teacherId: string; limit?: number },
     ): Promise<Array<ClassResponseDTO>> => {
-      return classService.getClassesByTeacherId(teacherId);
+      return classService.getClassesByTeacherId(teacherId, limit);
     },
   },
   Mutation: {
