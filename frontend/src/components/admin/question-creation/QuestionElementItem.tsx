@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
 import update from "immutability-helper";
 
@@ -18,7 +18,6 @@ import type {
 import type { MultiData, QuestionElement } from "../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 import { shouldReorder } from "../../../utils/QuestionUtils";
-import IconButton from "../../common/IconButton";
 
 import ImageElement from "./question-elements/ImageElement";
 import MultiOptionElement from "./question-elements/MultiOptionElement";
@@ -152,10 +151,12 @@ const QuestionElementItem = ({
         </Box>
         {renderQuestionContent(content)}
         <IconButton
+          _hover={{ color: "blue.100" }}
+          aria-label="Delete question element"
           color="grey.300"
-          hoverColor="blue.100"
           icon={<DeleteOutlineIcon />}
           onClick={removeQuestionElement}
+          size="icon"
         />
       </HStack>
       {error && <Text color="red.200">{error}</Text>}
