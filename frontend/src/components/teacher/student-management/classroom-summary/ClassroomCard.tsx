@@ -22,6 +22,7 @@ import ClassroomPopover from "./ClassroomPopover";
 
 interface ClassroomCardProps {
   id: string;
+  thin?: boolean;
   name: string;
   startDate?: Date;
   studentCount: number;
@@ -47,6 +48,7 @@ const ClassroomCard = ({
   activeAssessments,
   clickDisabled = false,
   selected = false,
+  thin = false,
 }: ClassroomCardProps): React.ReactElement => {
   const classroomTitle = (
     <Text color="grey.400" textStyle="mobileHeader3">
@@ -69,7 +71,7 @@ const ClassroomCard = ({
   ];
 
   return (
-    <LinkBox h="256px" w="240px">
+    <LinkBox h="256px" w={thin ? undefined : "240px"}>
       <VStack
         _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
@@ -96,7 +98,7 @@ const ClassroomCard = ({
               >
                 {classroomTitle}
               </LinkOverlay>
-              <ClassroomPopover classId={id} />
+              {!thin && <ClassroomPopover classId={id} />}
             </>
           )}
         </HStack>
