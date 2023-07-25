@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
@@ -10,6 +10,7 @@ import MultiSelectVisualizer from "../admin/assessment-visualization/question-el
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
+import ClassroomsSection from "../teacher/dashboard/ClassroomsSection";
 import CorrectedFraction from "../teacher/results/StudentAnswersSection/question-elements/CorrectedFraction";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
@@ -234,6 +235,10 @@ const ComponentLibrary = (): React.ReactElement => {
         correctAnswerIndices={[0, 2]}
         options={[3683, 3683, 3683, 3683]}
       />
+      <Flex>
+        <ClassroomsSection handleAddClassroom={() => {}} />
+        <Flex flex="1" />
+      </Flex>
     </FormProvider>
   );
 };
