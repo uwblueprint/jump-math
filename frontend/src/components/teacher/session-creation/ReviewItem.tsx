@@ -1,8 +1,7 @@
 import React from "react";
-import { FormControl, FormLabel, HStack } from "@chakra-ui/react";
+import { FormControl, FormLabel, HStack, IconButton } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import IconButton from "../../common/IconButton";
 
 interface ReviewItemProps {
   label: string;
@@ -18,11 +17,17 @@ const ReviewItem = ({
   isRequired = true,
 }: ReviewItemProps): React.ReactElement => (
   <FormControl isRequired={isRequired}>
-    <HStack alignItems="flex-end">
+    <HStack alignItems="flex-start">
       <FormLabel color="blue.300" marginRight={0}>
         {label}
       </FormLabel>
-      <IconButton icon={<EditOutlineIcon />} onClick={handleEdit} />
+      <IconButton
+        aria-label="edit-icon-button"
+        icon={<EditOutlineIcon />}
+        onClick={handleEdit}
+        size="icon"
+        variant="icon"
+      />
     </HStack>
     {value}
   </FormControl>

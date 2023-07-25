@@ -4,6 +4,7 @@ import { useDrag, useDrop } from "react-dnd";
 import {
   Box,
   HStack,
+  IconButton,
   List,
   ListItem,
   Spacer,
@@ -27,7 +28,6 @@ import {
   getQuestionTexts,
   shouldReorder,
 } from "../../../utils/QuestionUtils";
-import IconButton from "../../common/IconButton";
 
 import QuestionTag from "./QuestionTag";
 
@@ -135,19 +135,21 @@ const QuestionCard = ({
             <Spacer />
             <HStack spacing={4}>
               <IconButton
-                color="blue.300"
-                hoverColor="grey.300"
+                aria-label="edit-icon-button"
                 icon={<EditOutlineIcon />}
                 onClick={() => {
                   setShowQuestionEditor(true);
                   setEditorQuestion(question);
                 }}
+                size="icon"
+                variant="icon"
               />
               <IconButton
-                color="blue.300"
-                hoverColor="grey.300"
+                aria-label="delete-icon-button"
                 icon={<DeleteOutlineIcon />}
                 onClick={removeQuestionCard}
+                size="icon"
+                variant="icon"
               />
             </HStack>
           </HStack>
