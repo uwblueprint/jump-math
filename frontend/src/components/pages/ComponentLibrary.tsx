@@ -10,6 +10,7 @@ import MultiSelectVisualizer from "../admin/assessment-visualization/question-el
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
+import AssessmentsSection from "../teacher/dashboard/AssessmentsSection";
 import ClassroomsSection from "../teacher/dashboard/ClassroomsSection";
 import CorrectedFraction from "../teacher/results/StudentAnswersSection/question-elements/CorrectedFraction";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
@@ -237,7 +238,7 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <Flex>
         <ClassroomsSection />
-        <Flex flex="1" />
+        <AssessmentsSection />
       </Flex>
     </FormProvider>
   );
