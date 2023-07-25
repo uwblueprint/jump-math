@@ -52,7 +52,7 @@ const MultiOptionElement = ({
       <Spacer />
       <IconButton
         _hover={{ color: "blue.100" }}
-        aria-label="edit-icon-button"
+        aria-label="Edit multiple choice"
         color="grey.300"
         icon={<EditOutlineIcon />}
         onClick={() => setShowEditMultipleChoiceModal(true)}

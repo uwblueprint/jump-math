@@ -22,7 +22,7 @@ const ReviewItem = ({
         {label}
       </FormLabel>
       <IconButton
-        aria-label="edit-icon-button"
+        aria-label="Edit review item"
         icon={<EditOutlineIcon />}
         onClick={handleEdit}
         size="icon"

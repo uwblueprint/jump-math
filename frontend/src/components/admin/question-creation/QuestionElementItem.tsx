@@ -152,7 +152,7 @@ const QuestionElementItem = ({
         {renderQuestionContent(content)}
         <IconButton
           _hover={{ color: "blue.100" }}
-          aria-label="delete-icon-button"
+          aria-label="Delete question element"
           color="grey.300"
           icon={<DeleteOutlineIcon />}
           onClick={removeQuestionElement}

@@ -68,7 +68,7 @@ const MultiOption = ({
         <Spacer />
         <IconButton
           _hover={{ color: "blue.100" }}
-          aria-label="delete-icon-button"
+          aria-label="Delete option"
           color="grey.300"
           icon={<DeleteOutlineIcon />}
           onClick={removeOption}

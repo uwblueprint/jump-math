@@ -120,7 +120,7 @@ const QuestionCard = ({
       <HStack alignItems="left" padding="6">
         <Box
           ref={dragRef}
-          aria-label="reorder"
+          aria-label="Reorder question card"
           cursor="grab"
           fontSize="24px"
           paddingRight="6"
@@ -135,7 +135,7 @@ const QuestionCard = ({
             <Spacer />
             <HStack spacing={4}>
               <IconButton
-                aria-label="edit-icon-button"
+                aria-label="Edit question card"
                 icon={<EditOutlineIcon />}
                 onClick={() => {
                   setShowQuestionEditor(true);
@@ -145,7 +145,7 @@ const QuestionCard = ({
                 variant="icon"
               />
               <IconButton
-                aria-label="delete-icon-button"
+                aria-label="Delete question card"
                 icon={<DeleteOutlineIcon />}
                 onClick={removeQuestionCard}
                 size="icon"

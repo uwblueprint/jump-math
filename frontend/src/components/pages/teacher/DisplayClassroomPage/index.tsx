@@ -176,7 +176,7 @@ const DisplayClassroomsPage = () => {
         )}
         {!loading && (
           <IconButton
-            aria-label="edit-classroom"
+            aria-label="Edit classroom"
             icon={<EditOutlineIcon />}
             onClick={() => {
               classroomFormMethods.reset();

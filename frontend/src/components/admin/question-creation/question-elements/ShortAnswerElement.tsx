@@ -31,7 +31,7 @@ const ShortAnswerElement = ({
       <Spacer />
       <IconButton
         _hover={{ color: "blue.100" }}
-        aria-label="edit-icon-button"
+        aria-label="Edit short answer"
         color="grey.300"
         icon={<EditOutlineIcon />}
         onClick={() => setShowEditShortAnswerModal(true)}

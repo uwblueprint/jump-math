@@ -84,7 +84,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
           <Spacer />
           <IconButton
             _hover={{ color: "blue.100" }}
-            aria-label="open-file-browser"
+            aria-label="Open file browser"
             color="grey.300"
             icon={<EditOutlineIcon />}
             onClick={openFileBrowser}
