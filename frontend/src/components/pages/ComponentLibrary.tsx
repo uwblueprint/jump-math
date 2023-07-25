@@ -6,6 +6,7 @@ import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
 import MultipleChoiceVisualizer from "../admin/assessment-visualization/question-elements/MultipleChoiceVisualizer";
+import MultiSelectVisualizer from "../admin/assessment-visualization/question-elements/MultiSelectVisualizer";
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
@@ -192,6 +193,15 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <MultipleChoiceVisualizer
         correctAnswerIndex={0}
+        options={[3683, 3683, 3683, 3683]}
+      />
+      <MultiSelectVisualizer
+        correctAnswerIndices={[0, 2]}
+        options={[3683, 3683, 3683, 3683]}
+        percentCorrectByOption={[77, 17, 0, 5]}
+      />
+      <MultiSelectVisualizer
+        correctAnswerIndices={[0, 2]}
         options={[3683, 3683, 3683, 3683]}
       />
     </FormProvider>
