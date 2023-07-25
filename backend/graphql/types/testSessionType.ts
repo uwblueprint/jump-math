@@ -50,7 +50,10 @@ const testSessionType = gql`
     testSession(id: ID!): TestSessionResponseDTO!
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
-    testSessionsByTeacherId(teacherId: ID!): [TestSessionResponseDTO!]!
+    testSessionsByTeacherId(
+      teacherId: ID!
+      limit: Int
+    ): [TestSessionResponseDTO!]!
     getStudentLeaderBoard(id: ID!): TopAndBottomStudents!
   }
 
