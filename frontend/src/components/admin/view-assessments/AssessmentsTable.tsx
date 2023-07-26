@@ -25,9 +25,7 @@ const AssessmentsTable = ({
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
-      assessment.grade === "K"
-        ? "Kindergarten"
-        : titleCase(removeUnderscore(assessment.grade)),
+      titleCase(removeUnderscore(assessment.grade)),
       titleCase(assessment.assessmentType),
       assessment.curriculumCountry,
       assessment.curriculumRegion,
