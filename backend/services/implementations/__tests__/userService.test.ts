@@ -27,7 +27,7 @@ const testUsers = [
     authId: "321",
     role: "Teacher",
     email: "wendy@gmail.com",
-    grades: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+    grades: [Grade.KINDERGARTEN, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
     currentlyTeachingJM: true,
   },
 ];

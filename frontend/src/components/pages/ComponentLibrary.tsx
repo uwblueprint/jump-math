@@ -21,7 +21,7 @@ import ClassroomCard from "../teacher/student-management/classroom-summary/Class
 const defaultValues = {
   className: "",
   startDate: new Date(),
-  gradeLevel: Grade.K,
+  gradeLevel: Grade.KINDERGARTEN,
 } as ClassroomForm;
 
 const MOCK_STUDENTS = [
