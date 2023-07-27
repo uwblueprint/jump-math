@@ -25,6 +25,7 @@ const AdminRouting = (): React.ReactElement => {
         exact
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
+        title="Assessment Editor"
       />
       <Route path="*">
         <VStack align="left" flex="1" height="100vh">
@@ -36,12 +37,14 @@ const AdminRouting = (): React.ReactElement => {
                 exact
                 path={Routes.USER_DATABASE_PAGE}
                 roles={["Admin"]}
+                title="Users"
               />
               <PrivateRoute
                 component={DisplayAssessmentsPage}
                 exact
                 path={Routes.ASSESSMENTS_PAGE}
                 roles={["Admin"]}
+                title="Assessments"
               />
               <Redirect
                 exact

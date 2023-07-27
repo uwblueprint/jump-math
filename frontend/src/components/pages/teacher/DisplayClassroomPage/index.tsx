@@ -19,6 +19,7 @@ import {
   titleCase,
 } from "../../../../utils/GeneralUtils";
 import RedirectTo from "../../../auth/RedirectTo";
+import usePageTitle from "../../../auth/usePageTitle";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
@@ -150,6 +151,8 @@ const DisplayClassroomsPage = () => {
       { keepDefaultValues: false },
     );
   }, [classroomFormMethods, displayGradeLevel, displayStartDate, displayTitle]);
+
+  usePageTitle(displayTitle);
 
   return (
     <Flex direction="column" gap={3}>

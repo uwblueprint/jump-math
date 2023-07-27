@@ -7,6 +7,7 @@ import StudentContext from "../../../contexts/StudentContext";
 import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
 import type { Answers } from "../../../types/AnswerTypes";
 import { initializeAnswers } from "../../../utils/StudentUtils";
+import usePageTitle from "../../auth/usePageTitle";
 import LoadingState from "../../common/info/LoadingState";
 import TestSubmissionMessage from "../../common/info/messages/TestSubmissionMessage";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
@@ -27,6 +28,8 @@ const WriteAssessmentPage = (): React.ReactElement => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  usePageTitle(test?.name ?? "Write Assessment");
 
   return (
     <WriteAssessmentContext.Provider

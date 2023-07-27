@@ -36,35 +36,41 @@ const TeacherRouting = (): React.ReactElement => {
             component={DisplayAssessmentResults}
             path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()}
             roles={["Teacher"]}
+            title="Assessment Results"
           />
           <PrivateRoute
             component={TeacherDashboardPage}
             exact
             path={Routes.TEACHER_DASHBOARD_PAGE}
             roles={["Teacher"]}
+            title="Dashboard"
           />
           <PrivateRoute
             component={DisplayAssessmentsPage}
             exact
             path={Routes.DISPLAY_ASSESSMENTS_PAGE}
             roles={["Teacher"]}
+            title="Assessments"
           />
           <PrivateRoute
             component={DistributeAssessmentPage}
             exact
             path={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
             roles={["Teacher"]}
+            title="Distribute Assessment"
           />
           <PrivateRoute
             component={ClassroomsPage}
             exact
             path={Routes.CLASSROOMS_PAGE}
             roles={["Teacher"]}
+            title="Classrooms"
           />
           <PrivateRoute
             component={DisplayClassroomPage}
             path={Routes.DISPLAY_CLASSROOM_PAGE()}
             roles={["Teacher"]}
+            title="Classroom"
           />
           <Redirect
             exact

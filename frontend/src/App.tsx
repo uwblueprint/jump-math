@@ -81,6 +81,7 @@ const App = (): ReactElement => {
                   component={AdminRouting}
                   path={Routes.ADMIN_LANDING_PAGE}
                   roles={["Admin"]}
+                  title="Redirecting..."
                 />
 
                 {/* private teacher routing */}
@@ -95,6 +96,7 @@ const App = (): ReactElement => {
                   component={TeacherRouting}
                   path={Routes.TEACHER_LANDING_PAGE}
                   roles={["Teacher"]}
+                  title="Redirecting..."
                 />
                 {/* private student routing */}
                 {authenticatedUser?.role === "Student" && (
@@ -108,6 +110,7 @@ const App = (): ReactElement => {
                   component={StudentRouting}
                   path={Routes.STUDENT_LANDING_PAGE}
                   roles={["Student"]}
+                  title="Redirecting..."
                 />
 
                 {/* public routing */}
@@ -140,6 +143,7 @@ const App = (): ReactElement => {
                   exact
                   path={Routes.COMPONENT_LIBRARY_PAGE}
                   roles={["Admin", "Teacher"]}
+                  title="Component Library"
                 />
                 <Route component={NotFound} exact path="*" />
               </Switch>
