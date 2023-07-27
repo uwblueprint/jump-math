@@ -45,7 +45,7 @@ export const testClass: ClassRequestDTO[] = [
   {
     className: "class1",
     startDate: new Date("2020-09-01T09:00:00.000Z"),
-    gradeLevel: Grade.K,
+    gradeLevel: Grade.KINDERGARTEN,
     teacher: mockTeacher.id,
   },
   {
@@ -77,7 +77,7 @@ export const updatedTestClass: ClassRequestDTO = {
 export const updatedTestClassWithStudent = {
   className: "class1",
   startDate: new Date("2020-09-01T09:00:00.000Z"),
-  gradeLevel: Grade.K,
+  gradeLevel: Grade.KINDERGARTEN,
   teacher: mockTeacher.id,
   students: updatedTestStudents,
 };

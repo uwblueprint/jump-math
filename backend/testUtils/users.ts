@@ -16,7 +16,7 @@ export const mockTeacher: UserDTO = {
   lastName: "One",
   email: "teacher@gmail.com",
   role: "Teacher",
-  grades: [Grade.K, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
+  grades: [Grade.KINDERGARTEN, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
   currentlyTeachingJM: true,
 };
 
