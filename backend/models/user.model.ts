@@ -45,7 +45,7 @@ const UserSchema: Schema = new Schema({
       {
         type: String,
         required: false,
-        enum: Object.keys(Grade),
+        enum: Object.values(Grade),
       },
     ],
     required: false,
