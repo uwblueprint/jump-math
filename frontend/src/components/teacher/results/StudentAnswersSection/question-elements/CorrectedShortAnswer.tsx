@@ -14,7 +14,7 @@ const CorrectedShortAnswer = ({
 }: CorrectedShortAnswerProps) => (
   <CorrectedInputWrapper
     isWrongAnswer={studentAnswer !== correctAnswer}
-    w="34%"
+    w={400}
   >
     <CorrectedTextField
       correctAnswer={correctAnswer}
