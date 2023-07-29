@@ -96,7 +96,7 @@ const ClassroomCard = ({
               >
                 {classroomTitle}
               </LinkOverlay>
-              <ClassroomPopover />
+              <ClassroomPopover classId={id} />
             </>
           )}
         </HStack>

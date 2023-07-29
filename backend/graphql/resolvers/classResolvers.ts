@@ -76,6 +76,8 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
     },
+    deleteClass: (_req: undefined, { classId }: { classId: string }) =>
+      classService.deleteClass(classId),
     archiveClass: async (
       _req: undefined,
       { id }: { id: string },
