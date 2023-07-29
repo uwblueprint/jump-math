@@ -214,9 +214,11 @@ export interface ITestSessionService {
   ): Promise<TestSessionResponseDTO>;
 
   /**
-   * Get the top 5 students (based on test score) for a test session
+   * Get the top 5 and bottom 5 students (based on test score) for a test session
    * @param id The unique identifier of the test session
-   * @returns Array of the top 5 best students for the test session
+   * @returns Array of the top 5 best and bottom students for the test session
    */
-  getTopFiveStudentsById(id: string): Promise<Array<string>>;
+  getStudentLeaderBoard(
+    id: string,
+  ): Promise<{ topFive: Array<string>; bottomFive: Array<string> }>;
 }
