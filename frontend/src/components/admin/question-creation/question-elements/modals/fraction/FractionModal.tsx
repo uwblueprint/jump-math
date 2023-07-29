@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  Divider,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  VStack,
-} from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import { stringToFloat } from "../../../../../../utils/GeneralUtils";
+import FractionWrapper from "../../../../../common/FractionWrapper";
 import Modal from "../../../../../common/modal/Modal";
 
 interface FractionModalProps {
@@ -18,14 +12,6 @@ interface FractionModalProps {
   onConfirm: (data: FractionMetadata) => void;
   data?: FractionMetadata;
 }
-
-export const getFractionInputWidth = (value: string): number => {
-  return value.length > 1 ? 48 + 8 * value.length : 48;
-};
-
-export const getDividerWidth = (width1: number, width2: number) => {
-  return Math.max(width1, width2) + 12;
-};
 
 const FractionModal = ({
   isOpen,
@@ -36,9 +22,6 @@ const FractionModal = ({
   const [numerator, setNumerator] = useState<string>("");
   const [denominator, setDenominator] = useState<string>("");
   const [error, setError] = useState(false);
-
-  const numeratorWidth = getFractionInputWidth(numerator);
-  const denominatorWidth = getFractionInputWidth(denominator);
 
   useEffect(() => {
     setNumerator(data == null ? "" : String(data.numerator));
@@ -77,43 +60,16 @@ const FractionModal = ({
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
           Enter correct answer
         </FormLabel>
-        <VStack
-          alignItems="center"
-          border="1px solid #636363"
-          borderRadius={8}
-          px={8}
-          py={4}
-        >
-          <Input
-            border="2px solid #636363"
-            borderRadius={2}
-            ml={1}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setNumerator(e.target.value)
-            }
-            textAlign="center"
-            type="number"
-            value={numerator}
-            width={`${numeratorWidth}px`}
-          />
-          <Divider
-            borderBottomWidth="2px"
-            borderColor="grey.300"
-            w={`${getDividerWidth(numeratorWidth, denominatorWidth)}px`}
-          />
-          <Input
-            border="2px solid #636363"
-            borderRadius={2}
-            ml={1}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setDenominator(e.target.value)
-            }
-            textAlign="center"
-            type="number"
-            value={denominator}
-            width={`${denominatorWidth}px`}
-          />
-        </VStack>
+        <FractionWrapper
+          denominator={denominator}
+          numerator={numerator}
+          onDenominatorChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setDenominator(e.target.value)
+          }
+          onNumeratorChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNumerator(e.target.value)
+          }
+        />
         <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
       </FormControl>
     </Modal>
