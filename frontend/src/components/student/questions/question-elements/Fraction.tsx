@@ -13,20 +13,17 @@ const Fraction = ({
   answerElementIndex,
 }: FractionProps): React.ReactElement => {
   const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
+  const [numerator, denominator] = currentAnswer;
 
   return (
     <FractionWrapper
-      denominator={String(currentAnswer[1] ?? "")}
-      numerator={String(currentAnswer[0] ?? "")}
+      denominator={String(denominator ?? "")}
+      numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer(
-          [currentAnswer[0]].concat(stringToNumberArray(e.target.value)),
-        )
+        updateAnswer(stringToNumberArray(e.target.value).concat(numerator))
       }
       onNumeratorChange={(e) =>
-        updateAnswer(
-          stringToNumberArray(e.target.value).concat(currentAnswer[1]),
-        )
+        updateAnswer(stringToNumberArray(e.target.value).concat(denominator))
       }
     />
   );

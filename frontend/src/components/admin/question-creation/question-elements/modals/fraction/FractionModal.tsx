@@ -24,13 +24,13 @@ const FractionModal = ({
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    setNumerator(data == null ? "" : String(data.numerator));
-    setDenominator(data == null ? "" : String(data.denominator));
+    setNumerator(String(data?.numerator ?? ""));
+    setDenominator(String(data?.denominator ?? ""));
   }, [data]);
 
   const handleClose = () => {
-    setNumerator(data == null ? "" : String(data.numerator));
-    setDenominator(data == null ? "" : String(data.denominator));
+    setNumerator(String(data?.numerator ?? ""));
+    setDenominator(String(data?.denominator ?? ""));
     setError(false);
     onClose();
   };
