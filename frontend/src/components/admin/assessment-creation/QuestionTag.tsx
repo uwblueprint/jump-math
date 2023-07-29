@@ -38,8 +38,8 @@ const QuestionTag = ({ type, count }: QuestionTagProps): React.ReactElement => {
       icon = MultiSelectTagIcon;
       break;
     case QuestionElementType.FRACTION:
-      color = "purple.300";
-      bgColor = "purple.50";
+      color = "grey.400";
+      bgColor = "grey.100";
       icon = FractionTagIcon;
       break;
     default:
