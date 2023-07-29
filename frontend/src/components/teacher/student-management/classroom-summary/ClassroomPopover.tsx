@@ -9,6 +9,7 @@ import Toast from "../../../common/info/Toast";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
+import AddOrEditClassroomModal from "./AddOrEditClassroomModal";
 import DeleteClassroomModal from "./DeleteClassroomModal";
 
 interface ClassroomPopoverProps {
@@ -24,6 +25,7 @@ const ClassroomPopover = ({
     onClose: onPopoverClose,
   } = useDisclosure();
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
 
@@ -67,7 +69,13 @@ const ClassroomPopover = ({
         onOpen={onPopoverOpen}
       >
         <VStack spacing={0}>
-          <PopoverButton name="Edit" onClick={() => {}} />
+          <PopoverButton
+            name="Edit"
+            onClick={() => {
+              onPopoverClose();
+              setShowEditModal(true);
+            }}
+          />
           <Divider />
           <PopoverButton
             name="Delete"
@@ -78,6 +86,11 @@ const ClassroomPopover = ({
           />
         </VStack>
       </Popover>
+      <AddOrEditClassroomModal
+        classroomId={classId}
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+      />
       <DeleteClassroomModal
         deleteClassroom={handleDeleteClass}
         isOpen={showDeleteModal}
