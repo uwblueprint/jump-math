@@ -13,6 +13,11 @@ const testSessionType = gql`
     result: ResultResponseDTO
   }
 
+  type TopAndBottomStudents {
+    topFive: [String!]!
+    bottomFive: [String!]!
+  }
+
   input ResultRequestDTO {
     student: ID!
     answers: [[[Float]]]!
@@ -47,7 +52,7 @@ const testSessionType = gql`
     testSessions: [TestSessionResponseDTO]!
     testSessionByAccessCode(accessCode: String!): TestSessionResponseDTO!
     testSessionsByTeacherId(teacherId: ID!): [TestSessionResponseDTO!]!
-    getTopFiveStudentsById(id: ID!): [String!]
+    getStudentLeaderBoard(id: ID!): TopAndBottomStudents!
   }
 
   extend type Mutation {
