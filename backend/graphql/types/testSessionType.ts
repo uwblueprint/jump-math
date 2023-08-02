@@ -14,8 +14,8 @@ const testSessionType = gql`
   }
 
   type TopAndBottomStudents {
-    topFive: [String!]
-    bottomFive: [String!]
+    topFive: [String!]!
+    bottomFive: [String!]!
   }
 
   input ResultRequestDTO {
