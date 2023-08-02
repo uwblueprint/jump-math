@@ -90,7 +90,7 @@ export const GET_TEST_SESSION_TITLE = gql`
   }
 `;
 
-export const GETSTUDENTLEADERBOARD = gql`
+export const GET_STUDENT_LEADERBOARD = gql`
   query getStudentLeaderBoard($id: ID!) {
     getStudentLeaderBoard(id: $id) {
       topFive
