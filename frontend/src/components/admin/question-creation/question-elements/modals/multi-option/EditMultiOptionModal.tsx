@@ -13,7 +13,7 @@ interface EditMultiOptionModalProps {
   id: string;
   data: MultiData;
   isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
   type: QuestionElementType;
 }
 
@@ -21,13 +21,9 @@ const EditMultiOptionModal = ({
   id,
   data,
   isOpen,
-  setOpen,
+  onClose,
   type,
 }: EditMultiOptionModalProps): React.ReactElement => {
-  const closeModal = () => {
-    setOpen(false);
-  };
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateMultipleChoiceElement = (updatedMultipleChoice: MultiData) => {
     setQuestionElements((prevElements) => {
@@ -39,7 +35,7 @@ const EditMultiOptionModal = ({
     <MultiOptionModal
       data={data}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={onClose}
       onConfirm={updateMultipleChoiceElement}
       type={type}
     />

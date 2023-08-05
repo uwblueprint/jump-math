@@ -26,24 +26,21 @@ const EditStatusPopover = ({
       <VStack divider={<Divider />} spacing="0em">
         {assessmentStatus === Status.DRAFT && (
           <>
-            <PublishButton assessmentId={assessmentId} closePopover={onClose} />
+            <PublishButton assessmentId={assessmentId} />
             <Divider />
-            <EditButton assessmentId={assessmentId} closePopover={onClose} />
+            <EditButton assessmentId={assessmentId} />
           </>
         )}
         {assessmentStatus === Status.ARCHIVED ? (
-          <UnarchiveButton assessmentId={assessmentId} closePopover={onClose} />
+          <UnarchiveButton assessmentId={assessmentId} />
         ) : (
           <>
-            <ArchiveButton assessmentId={assessmentId} closePopover={onClose} />
+            <ArchiveButton assessmentId={assessmentId} />
             <Divider />
-            <DuplicateButton
-              assessmentId={assessmentId}
-              closePopover={onClose}
-            />
+            <DuplicateButton assessmentId={assessmentId} />
           </>
         )}
-        <DeleteButton assessmentId={assessmentId} closePopover={onClose} />
+        <DeleteButton assessmentId={assessmentId} />
       </VStack>
     </Popover>
   );

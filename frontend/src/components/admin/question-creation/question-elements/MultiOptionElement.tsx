@@ -7,6 +7,7 @@ import {
   IconButton,
   Radio,
   Spacer,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -27,8 +28,7 @@ const MultiOptionElement = ({
   data,
   type,
 }: MultiOptionElementProps): React.ReactElement => {
-  const [showEditMultipleChoiceModal, setShowEditMultipleChoiceModal] =
-    React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
@@ -58,15 +58,15 @@ const MultiOptionElement = ({
           color="currentColor"
           fontSize="24px"
           icon={<EditOutlineIcon />}
-          onClick={() => setShowEditMultipleChoiceModal(true)}
+          onClick={onOpen}
           size="icon"
         />
       </Box>
       <EditMultiOptionModal
         data={data}
         id={id}
-        isOpen={showEditMultipleChoiceModal}
-        setOpen={setShowEditMultipleChoiceModal}
+        isOpen={isOpen}
+        onClose={onClose}
         type={type}
       />
     </Flex>

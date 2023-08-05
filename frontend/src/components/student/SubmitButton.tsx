@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, useDisclosure } from "@chakra-ui/react";
 
 import { SUBMIT_TEST } from "../../APIClients/mutations/TestSessionMutations";
 import AuthContext from "../../contexts/AuthContext";
@@ -20,7 +20,7 @@ const SubmitButton = (): React.ReactElement => {
   );
   const { showToast } = Toast();
   const { authenticatedUser } = useContext(AuthContext);
-  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   const [submitTest, { loading }] = useMutation<{
     submitTest: string;
@@ -84,12 +84,12 @@ const SubmitButton = (): React.ReactElement => {
       <Modal
         body={body}
         header={header}
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
+        isOpen={isOpen}
+        onClose={onClose}
         onSubmit={handleSubmitTest}
         submitButtonText="Confirm"
       />
-      <Button onClick={() => setShowConfirmModal(true)} variant="primary">
+      <Button onClick={onOpen} variant="primary">
         Submit
       </Button>
     </>

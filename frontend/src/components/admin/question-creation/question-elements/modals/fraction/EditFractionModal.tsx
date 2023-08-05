@@ -10,19 +10,15 @@ interface EditFractionModalProps {
   id: string;
   data: FractionMetadata;
   isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const EditFractionModal = ({
   id,
   data,
   isOpen,
-  setOpen,
+  onClose,
 }: EditFractionModalProps): React.ReactElement => {
-  const closeModal = () => {
-    setOpen(false);
-  };
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateFractionElement = (updatedAnswer: FractionMetadata) => {
     setQuestionElements((prevElements) => {
@@ -34,7 +30,7 @@ const EditFractionModal = ({
     <FractionModal
       data={data}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={onClose}
       onConfirm={updateFractionElement}
     />
   );

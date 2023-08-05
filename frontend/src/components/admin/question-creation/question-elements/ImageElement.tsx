@@ -96,7 +96,8 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         </>
       ) : (
         <Button
-          border="1px dashed #636363"
+          border="1px dashed"
+          borderColor="grey.300"
           borderRadius="16px"
           color="grey.300"
           leftIcon={<UploadOutlineIcon />}

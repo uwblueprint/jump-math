@@ -1,7 +1,9 @@
 import React from "react";
-import { Divider, Input, VStack } from "@chakra-ui/react";
+import { Divider, VStack } from "@chakra-ui/react";
 
-interface FractionWrapperProps {
+import FractionFieldInput from "./FractionFieldInput";
+
+interface FractionInputProps {
   denominator: string;
   numerator: string;
   onNumeratorChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,48 +19,28 @@ const getDividerWidth = (width1: number, width2: number) => {
   return Math.max(width1, width2) + 12;
 };
 
-const FractionWrapper = ({
+const FractionInput = ({
   denominator,
   numerator,
   onNumeratorChange,
   onDenominatorChange,
   readOnly = false,
-}: FractionWrapperProps): React.ReactElement => {
+}: FractionInputProps): React.ReactElement => {
   const numeratorWidth = getFractionInputWidth(numerator);
   const denominatorWidth = getFractionInputWidth(denominator);
-
-  const FractionInput = ({
-    value,
-    onChange,
-    width,
-  }: {
-    value: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    width: number;
-  }): React.ReactElement => (
-    <Input
-      border="2px solid #636363"
-      borderRadius={2}
-      ml={1}
-      onChange={onChange} // CHECK
-      readOnly={readOnly}
-      textAlign="center" // CHECK
-      type="number" // CHECK
-      value={value}
-      width={`${width}px`}
-    />
-  );
 
   return (
     <VStack
       alignItems="center"
-      border={readOnly ? "none" : "1px solid #636363"}
+      border={readOnly ? "none" : "1px solid"}
+      borderColor="grey.300"
       borderRadius={readOnly ? 0 : 8}
       px={8}
       py={4}
     >
-      <FractionInput
+      <FractionFieldInput
         onChange={onNumeratorChange}
+        readOnly={readOnly}
         value={numerator}
         width={numeratorWidth}
       />
@@ -67,8 +49,9 @@ const FractionWrapper = ({
         borderColor="grey.300"
         w={`${getDividerWidth(numeratorWidth, denominatorWidth)}px`}
       />
-      <FractionInput
+      <FractionFieldInput
         onChange={onDenominatorChange}
+        readOnly={readOnly}
         value={denominator}
         width={denominatorWidth}
       />
@@ -76,4 +59,4 @@ const FractionWrapper = ({
   );
 };
 
-export default FractionWrapper;
+export default FractionInput;

@@ -1,9 +1,16 @@
 import React from "react";
-import { Box, Button, Flex, IconButton, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Spacer,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { FractionMetadata } from "../../../../types/QuestionMetadataTypes";
-import FractionWrapper from "../../../common/FractionWrapper";
+import FractionInput from "../../../common/fraction/FractionInput";
 
 import EditFractionModal from "./modals/fraction/EditFractionModal";
 
@@ -16,12 +23,11 @@ const FractionElement = ({
   id,
   data,
 }: FractionElementProps): React.ReactElement => {
-  const [showEditFractionModal, setShowEditFractionModal] =
-    React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
-      <FractionWrapper
+      <FractionInput
         denominator={String(data.denominator)}
         numerator={String(data.numerator)}
         readOnly
@@ -33,15 +39,15 @@ const FractionElement = ({
           color="currentColor"
           fontSize="24px"
           icon={<EditOutlineIcon />}
-          onClick={() => setShowEditFractionModal(true)}
+          onClick={onOpen}
           size="icon"
         />
       </Box>
       <EditFractionModal
         data={data}
         id={id}
-        isOpen={showEditFractionModal}
-        setOpen={setShowEditFractionModal}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </Flex>
   );
