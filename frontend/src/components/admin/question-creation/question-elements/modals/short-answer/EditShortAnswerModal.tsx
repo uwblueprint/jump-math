@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
@@ -20,10 +19,8 @@ const EditShortAnswerModal = ({
   isOpen,
   setOpen,
 }: EditShortAnswerModalProps): React.ReactElement => {
-  const { onClose } = useDisclosure();
   const closeModal = () => {
     setOpen(false);
-    onClose();
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
