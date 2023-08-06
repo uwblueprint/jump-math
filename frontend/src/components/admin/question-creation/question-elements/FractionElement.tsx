@@ -33,16 +33,14 @@ const FractionElement = ({
         readOnly
       />
       <Spacer />
-      <Box _hover={{ color: "blue.100" }} color="grey.300">
-        <Button
-          as={IconButton}
-          color="currentColor"
-          fontSize="24px"
-          icon={<EditOutlineIcon />}
-          onClick={onOpen}
-          size="icon"
-        />
-      </Box>
+      <IconButton
+        _hover={{ color: "blue.100" }}
+        aria-label="Edit fraction"
+        color="grey.300"
+        icon={<EditOutlineIcon />}
+        onClick={onOpen}
+        size="icon"
+      />
       <EditFractionModal
         data={data}
         id={id}
