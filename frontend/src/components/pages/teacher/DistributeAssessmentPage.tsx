@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
+import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
 import AddInformation from "../../teacher/session-creation/steps/AddInformation";
@@ -17,19 +16,15 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
   { header: "Review", page: 3 },
 ];
 
-const getLocationState = (state: unknown): { classroomId: string } => ({
-  classroomId: "",
-  ...(typeof state === "object" ? state : {}),
-});
-
 const DistributeAssessmentPage = (): React.ReactElement => {
-  const { state } = useLocation();
-  const { classroomId: initialClassId } = getLocationState(state);
-
   const [page, setPage] = useState(0);
 
   const [testId, setTestId] = useState("");
-  const [classId, setClassId] = useState(initialClassId);
+  const [testName, setTestName] = useState("");
+
+  const [classId, setClassId] = useState("");
+  const [className, setClassName] = useState("");
+
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [notes, setNotes] = useState("");
@@ -39,10 +34,20 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const renderPageContent = () => {
     switch (page) {
       case 0:
-        return <ChooseAssessment setTestId={setTestId} testId={testId} />;
+        return (
+          <ChooseAssessment
+            setTestId={setTestId}
+            setTestName={setTestName}
+            testId={testId}
+          />
+        );
       case 1:
         return (
-          <ChooseClass selectedClassId={classId} setClassId={setClassId} />
+          <ChooseClass
+            selectedClassId={classId}
+            setClassId={setClassId}
+            setClassName={setClassName}
+          />
         );
       case 2:
         return (
@@ -57,7 +62,16 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           />
         );
       case 3:
-        return <Review />;
+        return (
+          <Review
+            className={className}
+            endDate={endDate}
+            notes={notes}
+            setPage={setPage}
+            startDate={startDate}
+            testName={testName}
+          />
+        );
       default:
         return <></>;
     }
@@ -99,7 +113,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           </Button>
         )}
         <Spacer />
-        {page !== 3 && (
+        {page !== 3 ? (
           <Button
             isDisabled={!validPage(page + 1)}
             minWidth="10"
@@ -107,6 +121,15 @@ const DistributeAssessmentPage = (): React.ReactElement => {
             variant="secondary"
           >
             Next
+          </Button>
+        ) : (
+          <Button
+            leftIcon={<PaperPlaneOutlineIcon />}
+            minWidth="10"
+            onClick={() => console.log("Distribute assessment.")}
+            variant="primary"
+          >
+            Distribute
           </Button>
         )}
       </HStack>

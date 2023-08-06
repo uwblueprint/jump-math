@@ -46,8 +46,9 @@ const Button = {
       margin: "0 10px",
     },
     icon: {
-      minWidth: "100%",
-      padding: "0px",
+      minWidth: "0",
+      fontSize: "24px",
+      height: "24px",
     },
   },
 
@@ -169,6 +170,12 @@ const Button = {
         },
       },
       WhiteIcon,
+    },
+    icon: {
+      color: "blue.300",
+      _hover: {
+        color: "grey.300",
+      },
     },
   },
 

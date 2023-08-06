@@ -20,12 +20,14 @@ interface AssessmentsTableProps {
   assessments: AssessmentProperties[];
   selectedTestId: string;
   setTestId: React.Dispatch<React.SetStateAction<string>>;
+  setTestName?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AssessmentsTable = ({
   assessments,
   selectedTestId,
   setTestId,
+  setTestName,
 }: AssessmentsTableProps): React.ReactElement => {
   const headers = ["", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment, i) => ({
@@ -35,14 +37,17 @@ const AssessmentsTable = ({
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
-      assessment.grade === "K"
-        ? "Kindergarten"
-        : titleCase(removeUnderscore(assessment.grade)),
+      titleCase(removeUnderscore(assessment.grade)),
       titleCase(assessment.assessmentType),
       assessment.curriculumCountry,
       assessment.curriculumRegion,
     ],
-    onClick: () => setTestId(assessment.id),
+    onClick: () => {
+      setTestId(assessment.id);
+      if (setTestName) {
+        setTestName(assessment.name);
+      }
+    },
   }));
 
   return (

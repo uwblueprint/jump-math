@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Box,
-  Button,
   Checkbox,
   Flex,
   IconButton,
@@ -52,16 +50,14 @@ const MultiOptionElement = ({
         })}
       </VStack>
       <Spacer />
-      <Box _hover={{ color: "blue.100" }} color="grey.300">
-        <Button
-          as={IconButton}
-          color="currentColor"
-          fontSize="24px"
-          icon={<EditOutlineIcon />}
-          onClick={onOpen}
-          size="icon"
-        />
-      </Box>
+      <IconButton
+        _hover={{ color: "blue.100" }}
+        aria-label="Edit multiple choice"
+        color="grey.300"
+        icon={<EditOutlineIcon />}
+        onClick={onOpen}
+        size="icon"
+      />
       <EditMultiOptionModal
         data={data}
         id={id}

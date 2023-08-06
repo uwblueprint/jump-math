@@ -53,7 +53,7 @@ const TestSchema: Schema = new Schema(
     grade: {
       type: String,
       required: true,
-      enum: Object.keys(Grade),
+      enum: Object.values(Grade),
     },
     curriculumCountry: {
       type: String,
@@ -66,12 +66,12 @@ const TestSchema: Schema = new Schema(
     assessmentType: {
       type: String,
       required: true,
-      enum: Object.keys(AssessmentType),
+      enum: Object.values(AssessmentType),
     },
     status: {
       type: String,
       required: true,
-      enum: Object.keys(AssessmentStatus),
+      enum: Object.values(AssessmentStatus),
     },
   },
   { timestamps: { createdAt: false, updatedAt: true } },

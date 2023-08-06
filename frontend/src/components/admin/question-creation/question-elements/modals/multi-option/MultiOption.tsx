@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  Box,
-  Button,
   Checkbox,
   HStack,
   IconButton,
@@ -68,16 +66,14 @@ const MultiOption = ({
           width="50%"
         />
         <Spacer />
-        <Box _hover={{ color: "blue.100" }} color="grey.300">
-          <Button
-            as={IconButton}
-            color="currentColor"
-            fontSize="24px"
-            icon={<DeleteOutlineIcon />}
-            onClick={removeOption}
-            size="icon"
-          />
-        </Box>
+        <IconButton
+          _hover={{ color: "blue.100" }}
+          aria-label="Delete option"
+          color="grey.300"
+          icon={<DeleteOutlineIcon />}
+          onClick={removeOption}
+          size="icon"
+        />
       </HStack>
       <Checkbox
         isChecked={isCorrect}

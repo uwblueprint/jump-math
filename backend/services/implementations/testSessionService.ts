@@ -503,7 +503,9 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
-  async getTopFiveStudentsById(testSessionId: string): Promise<Array<string>> {
+  async getStudentLeaderBoard(
+    testSessionId: string,
+  ): Promise<{ topFive: Array<string>; bottomFive: Array<string> }> {
     try {
       const testSession: TestSessionResponseDTO = await this.getTestSessionById(
         testSessionId,
@@ -529,10 +531,21 @@ class TestSessionService implements ITestSessionService {
         .slice(0, 5)
         .map((result) => result.student);
 
-      return topFiveStudents;
+      // To get the bottom 5 students' IDs, we reverse the sortedResults array and then take the first 5.
+      const bottomFiveStudents: string[] = sortedResults
+        .reverse()
+        .slice(0, 5)
+        .map((result) => result.student);
+
+      return {
+        topFive: topFiveStudents,
+        bottomFive: bottomFiveStudents,
+      };
     } catch (error: unknown) {
       Logger.error(
-        `Failed to get top 5 students. Reason = ${getErrorMessage(error)}`,
+        `Failed to get top and bottom 5 students. Reason = ${getErrorMessage(
+          error,
+        )}`,
       );
       throw error;
     }

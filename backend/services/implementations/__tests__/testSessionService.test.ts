@@ -460,41 +460,48 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 
-  it("getTopFiveStudentsById returns top 5 students", async () => {
+  it("getStudentLeaderBoard returns top and bottom 5 students", async () => {
     const savedTestSession = await MgTestSession.create(
       mockTestSessionWithExpiredEndDate,
     );
 
-    const topStudents = await testSessionService.getTopFiveStudentsById(
-      savedTestSession.id,
-    );
+    const { topFive, bottomFive } =
+      await testSessionService.getStudentLeaderBoard(savedTestSession.id);
 
-    expect(topStudents).toEqual([
+    expect(topFive).toEqual([
       "some-student-name-6",
       "some-student-name-5",
       "some-student-name",
       "some-student-name-3",
       "some-student-name-2",
     ]);
+
+    expect(bottomFive).toEqual([
+      "some-student-name-4",
+      "some-student-name-2",
+      "some-student-name-3",
+      "some-student-name",
+      "some-student-name-5",
+    ]);
   });
 
-  it("getTopFiveStudentsById with no results", async () => {
+  it("getStudentLeaderBoard with no results", async () => {
     const savedTestSession = await MgTestSession.create(
       mockTestSessionWithNoResults,
     );
 
-    const topStudents = await testSessionService.getTopFiveStudentsById(
-      savedTestSession.id,
-    );
+    const { topFive, bottomFive } =
+      await testSessionService.getStudentLeaderBoard(savedTestSession.id);
 
-    expect(topStudents).toEqual([]);
+    expect(topFive).toEqual([]);
+    expect(bottomFive).toEqual([]);
   });
 
-  it("getTopFiveStudentsById with an error retrieving test session", async () => {
+  it("getStudentLeaderBoard with an error retrieving test session", async () => {
     const testSessionId = "62c248c0f79d6c3c8ebbea92";
 
     await expect(
-      testSessionService.getTopFiveStudentsById(testSessionId),
+      testSessionService.getStudentLeaderBoard(testSessionId),
     ).rejects.toThrowError(
       "Test Session id 62c248c0f79d6c3c8ebbea92 not found",
     );
@@ -504,7 +511,7 @@ describe("mongo testSessionService", (): void => {
     const savedTestSession = await MgTestSession.create(mockTestSession);
 
     await expect(
-      testSessionService.getTopFiveStudentsById(savedTestSession.id),
+      testSessionService.getStudentLeaderBoard(savedTestSession.id),
     ).rejects.toThrowError(
       `Test session has not ended yet. testSessionId: ${savedTestSession.id}`,
     );

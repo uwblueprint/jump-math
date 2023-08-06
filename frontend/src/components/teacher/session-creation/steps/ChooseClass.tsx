@@ -17,11 +17,13 @@ import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 interface ChooseClassProps {
   selectedClassId: string;
   setClassId: React.Dispatch<React.SetStateAction<string>>;
+  setClassName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ChooseClass = ({
   selectedClassId,
   setClassId,
+  setClassName,
 }: ChooseClassProps): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
@@ -90,7 +92,10 @@ const ChooseClass = ({
               <Flex
                 key={id}
                 cursor="pointer"
-                onClick={() => setClassId(id)}
+                onClick={() => {
+                  setClassId(id);
+                  setClassName(className);
+                }}
                 paddingRight="4"
                 paddingTop="4"
               >

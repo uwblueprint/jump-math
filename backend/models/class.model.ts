@@ -62,7 +62,7 @@ const ClassSchema: Schema = new Schema({
   },
   gradeLevel: {
     type: String,
-    enum: Object.keys(Grade),
+    enum: Object.values(Grade),
     required: true,
   },
   teacher: {
