@@ -5,14 +5,12 @@ interface FractionFieldInputProps {
   readOnly: boolean;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  width: number;
 }
 
 const FractionFieldInput = ({
   readOnly,
   value,
   onChange,
-  width,
 }: FractionFieldInputProps): React.ReactElement => (
   <Input
     border="2px solid"
@@ -24,7 +22,7 @@ const FractionFieldInput = ({
     textAlign="center"
     type="number"
     value={value}
-    width={`${width}px`}
+    width={`${value.length + 3}ch`}
   />
 );
 

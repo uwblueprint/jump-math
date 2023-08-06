@@ -11,14 +11,6 @@ interface FractionInputProps {
   readOnly?: boolean;
 }
 
-const getFractionInputWidth = (value: string): number => {
-  return value.length > 1 ? 48 + 8 * value.length : 48;
-};
-
-const getDividerWidth = (width1: number, width2: number) => {
-  return Math.max(width1, width2) + 12;
-};
-
 const FractionInput = ({
   denominator,
   numerator,
@@ -26,9 +18,6 @@ const FractionInput = ({
   onDenominatorChange,
   readOnly = false,
 }: FractionInputProps): React.ReactElement => {
-  const numeratorWidth = getFractionInputWidth(numerator);
-  const denominatorWidth = getFractionInputWidth(denominator);
-
   return (
     <VStack
       alignItems="center"
@@ -42,18 +31,16 @@ const FractionInput = ({
         onChange={onNumeratorChange}
         readOnly={readOnly}
         value={numerator}
-        width={numeratorWidth}
       />
       <Divider
         borderBottomWidth="2px"
         borderColor="grey.300"
-        w={`${getDividerWidth(numeratorWidth, denominatorWidth)}px`}
+        w={`${Math.max(numerator.length, denominator.length) + 4}ch`}
       />
       <FractionFieldInput
         onChange={onDenominatorChange}
         readOnly={readOnly}
         value={denominator}
-        width={denominatorWidth}
       />
     </VStack>
   );

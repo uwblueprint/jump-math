@@ -20,7 +20,7 @@ const Fraction = ({
       denominator={String(denominator ?? "")}
       numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer(stringToNumberArray(e.target.value).concat(numerator))
+        updateAnswer([numerator].concat(stringToNumberArray(e.target.value)))
       }
       onNumeratorChange={(e) =>
         updateAnswer(stringToNumberArray(e.target.value).concat(denominator))
