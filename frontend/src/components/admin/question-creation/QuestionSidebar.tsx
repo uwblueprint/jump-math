@@ -16,7 +16,6 @@ import {
 
 import {
   ArrowBackOutlineIcon,
-  FractionIcon,
   ImageIcon,
   QuestionIcon,
   TextIcon,
