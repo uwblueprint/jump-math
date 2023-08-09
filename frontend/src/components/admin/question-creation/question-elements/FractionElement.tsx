@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Spacer,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { FractionMetadata } from "../../../../types/QuestionMetadataTypes";
