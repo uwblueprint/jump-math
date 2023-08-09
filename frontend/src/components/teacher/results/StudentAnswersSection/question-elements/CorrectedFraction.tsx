@@ -14,27 +14,32 @@ type CorrectedFractionProps = {
 const CorrectedFraction = ({
   studentAnswer,
   correctAnswer,
-}: CorrectedFractionProps) => (
-  <CorrectedInputWrapper
-    isWrongAnswer={
-      !studentAnswer ||
-      studentAnswer[0] !== correctAnswer.numerator ||
-      studentAnswer[1] !== correctAnswer.denominator
-    }
-    w={400}
-  >
-    <VStack alignItems="center">
-      <CorrectedTextField
-        correctAnswer={correctAnswer.numerator}
-        studentAnswer={studentAnswer?.[0]}
-      />
-      <Divider borderBottomWidth="2px" borderColor="grey.300" />
-      <CorrectedTextField
-        correctAnswer={correctAnswer.denominator}
-        studentAnswer={studentAnswer?.[1]}
-      />
-    </VStack>
-  </CorrectedInputWrapper>
-);
+}: CorrectedFractionProps) => {
+  const [studentAnswerNumerator, studentAnswerDenominator] =
+    studentAnswer ?? [];
+
+  return (
+    <CorrectedInputWrapper
+      isWrongAnswer={
+        !studentAnswer ||
+        studentAnswerNumerator !== correctAnswer.numerator ||
+        studentAnswerDenominator !== correctAnswer.denominator
+      }
+      w={400}
+    >
+      <VStack alignItems="center">
+        <CorrectedTextField
+          correctAnswer={correctAnswer.numerator}
+          studentAnswer={studentAnswerNumerator}
+        />
+        <Divider borderBottomWidth="2px" borderColor="grey.300" />
+        <CorrectedTextField
+          correctAnswer={correctAnswer.denominator}
+          studentAnswer={studentAnswerDenominator}
+        />
+      </VStack>
+    </CorrectedInputWrapper>
+  );
+};
 
 export default CorrectedFraction;

@@ -177,13 +177,13 @@ const DisplayClassroomsPage = () => {
         {!loading && (
           <IconButton
             aria-label="Edit classroom"
-            color="blue.300"
             icon={<EditOutlineIcon />}
-            minW={0}
             onClick={() => {
               classroomFormMethods.reset();
               onClassroomModalOpen();
             }}
+            size="icon"
+            variant="icon"
           />
         )}
       </HeaderWithButton>

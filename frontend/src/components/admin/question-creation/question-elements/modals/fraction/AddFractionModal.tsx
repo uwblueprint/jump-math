@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
@@ -9,13 +8,11 @@ import { QuestionElementType } from "../../../../../../types/QuestionTypes";
 import FractionModal from "./FractionModal";
 
 const AddFractionModal = (): React.ReactElement => {
-  const { onClose } = useDisclosure();
   const { showAddFractionModal, setShowAddFractionModal } = useContext(
     QuestionEditorContext,
   );
   const closeModal = () => {
     setShowAddFractionModal(false);
-    onClose();
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);

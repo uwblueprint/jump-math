@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
@@ -11,21 +10,15 @@ interface EditShortAnswerModalProps {
   id: string;
   data: number;
   isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const EditShortAnswerModal = ({
   id,
   data,
   isOpen,
-  setOpen,
+  onClose,
 }: EditShortAnswerModalProps): React.ReactElement => {
-  const { onClose } = useDisclosure();
-  const closeModal = () => {
-    setOpen(false);
-    onClose();
-  };
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateShortAnswerElement = (updatedAnswer: ShortAnswerMetadata) => {
     setQuestionElements((prevElements) => {
@@ -37,7 +30,7 @@ const EditShortAnswerModal = ({
     <ShortAnswerModal
       data={data}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={onClose}
       onConfirm={updateShortAnswerElement}
     />
   );

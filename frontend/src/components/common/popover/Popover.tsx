@@ -28,7 +28,7 @@ const Popover = ({
 }: PopoverProps): React.ReactElement => {
   const triggerButton = trigger ?? (
     <IconButton
-      aria-label="more-vertical-outline"
+      aria-label="Show more"
       icon={<MoreVerticalOutlineIcon boxSize={5} />}
       size="sm"
     />

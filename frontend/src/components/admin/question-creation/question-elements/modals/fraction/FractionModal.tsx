@@ -3,7 +3,7 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import { stringToFloat } from "../../../../../../utils/GeneralUtils";
-import FractionWrapper from "../../../../../common/FractionWrapper";
+import FractionInput from "../../../../../common/fraction/FractionInput";
 import Modal from "../../../../../common/modal/Modal";
 
 interface FractionModalProps {
@@ -60,7 +60,7 @@ const FractionModal = ({
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>
           Enter correct answer
         </FormLabel>
-        <FractionWrapper
+        <FractionInput
           denominator={denominator}
           numerator={numerator}
           onDenominatorChange={(e: React.ChangeEvent<HTMLInputElement>) =>

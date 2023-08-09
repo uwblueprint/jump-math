@@ -1,32 +1,25 @@
 import React from "react";
+import { useDisclosure } from "@chakra-ui/react";
 
 import PopoverButton from "../../../common/popover/PopoverButton";
 import DuplicateModal from "../EditStatusModals/DuplicateModal";
 
 interface DuplicateButtonProps {
   assessmentId: string;
-  closePopover: () => void;
 }
 
 const DuplicateButton = ({
   assessmentId,
-  closePopover,
 }: DuplicateButtonProps): React.ReactElement => {
-  const [showDuplicateModal, setShowDuplicateModal] = React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <PopoverButton
-        name="Duplicate"
-        onClick={() => {
-          closePopover();
-          setShowDuplicateModal(true);
-        }}
-      />
+      <PopoverButton name="Duplicate" onClick={onOpen} />
       <DuplicateModal
         assessmentId={assessmentId}
-        isOpen={showDuplicateModal}
-        onClose={() => setShowDuplicateModal(false)}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </>
   );

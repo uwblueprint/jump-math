@@ -1,7 +1,7 @@
 import React from "react";
 
 import { stringToNumberArray } from "../../../../utils/StudentUtils";
-import FractionWrapper from "../../../common/FractionWrapper";
+import FractionInput from "../../../common/fraction/FractionInput";
 
 import useAnswerState from "./useAnswerState";
 
@@ -16,11 +16,11 @@ const Fraction = ({
   const [numerator, denominator] = currentAnswer;
 
   return (
-    <FractionWrapper
+    <FractionInput
       denominator={String(denominator ?? "")}
       numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer(stringToNumberArray(e.target.value).concat(numerator))
+        updateAnswer([numerator].concat(stringToNumberArray(e.target.value)))
       }
       onNumeratorChange={(e) =>
         updateAnswer(stringToNumberArray(e.target.value).concat(denominator))

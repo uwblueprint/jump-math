@@ -1,12 +1,75 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Text } from "@chakra-ui/react";
+import { HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
-const Review = (): React.ReactElement => {
+import { formatDate } from "../../../../utils/GeneralUtils";
+import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
+import ReviewItem from "../ReviewItem";
+
+interface ReviewProps {
+  className: string;
+  testName: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  notes: string;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Review = ({
+  className,
+  testName,
+  startDate,
+  endDate,
+  notes,
+  setPage,
+}: ReviewProps): React.ReactElement => {
   return (
-    <Text color="blue.300" textAlign="left" textStyle="header4">
-      Review
-    </Text>
+    <DistributeAssessmentWrapper
+      subtitle="Please review the following information before distributing the assessment."
+      title="Review"
+    >
+      <VStack alignItems="flex-start" gap={6} maxWidth="50%">
+        <ReviewItem
+          handleEdit={() => setPage(0)}
+          label="Assessment Name"
+          value={<Text textStyle="paragraph">{testName}</Text>}
+        />
+        <ReviewItem
+          handleEdit={() => setPage(1)}
+          label="Classroom"
+          value={<Text textStyle="paragraph">{className}</Text>}
+        />
+        <HStack alignItems="flex-start" gap="15">
+          <ReviewItem
+            handleEdit={() => setPage(2)}
+            label="Start date"
+            value={
+              <Input
+                isDisabled
+                value={startDate ? formatDate(startDate) : ""}
+                width={80}
+              />
+            }
+          />
+          <ReviewItem
+            handleEdit={() => setPage(2)}
+            label="End date"
+            value={
+              <Input
+                isDisabled
+                value={endDate ? formatDate(endDate) : ""}
+                width={80}
+              />
+            }
+          />
+        </HStack>
+        <ReviewItem
+          handleEdit={() => setPage(2)}
+          isRequired={false}
+          label="Additional Notes"
+          value={<Textarea isDisabled value={notes} />}
+        />
+      </VStack>
+    </DistributeAssessmentWrapper>
   );
 };
 

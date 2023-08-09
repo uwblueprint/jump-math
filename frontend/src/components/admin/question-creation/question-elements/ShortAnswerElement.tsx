@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Button, Flex, IconButton, Input, Spacer } from "@chakra-ui/react";
+import {
+  Flex,
+  IconButton,
+  Input,
+  Spacer,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { ShortAnswerMetadata } from "../../../../types/QuestionMetadataTypes";
@@ -15,8 +21,8 @@ const ShortAnswerElement = ({
   id,
   data,
 }: ShortAnswerElementProps): React.ReactElement => {
-  const [showEditShortAnswerModal, setShowEditShortAnswerModal] =
-    React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
+
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <Input
@@ -29,21 +35,19 @@ const ShortAnswerElement = ({
         width="34%"
       />
       <Spacer />
-      <Box _hover={{ color: "blue.100" }} color="grey.300">
-        <Button
-          as={IconButton}
-          color="currentColor"
-          fontSize="24px"
-          icon={<EditOutlineIcon />}
-          onClick={() => setShowEditShortAnswerModal(true)}
-          size="icon"
-        />
-      </Box>
+      <IconButton
+        _hover={{ color: "blue.100" }}
+        aria-label="Edit short answer"
+        color="grey.300"
+        icon={<EditOutlineIcon />}
+        onClick={onOpen}
+        size="icon"
+      />
       <EditShortAnswerModal
         data={data.answer}
         id={id}
-        isOpen={showEditShortAnswerModal}
-        setOpen={setShowEditShortAnswerModal}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </Flex>
   );

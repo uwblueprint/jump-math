@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
@@ -11,21 +10,15 @@ interface EditFractionModalProps {
   id: string;
   data: FractionMetadata;
   isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const EditFractionModal = ({
   id,
   data,
   isOpen,
-  setOpen,
+  onClose,
 }: EditFractionModalProps): React.ReactElement => {
-  const { onClose } = useDisclosure();
-  const closeModal = () => {
-    setOpen(false);
-    onClose();
-  };
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateFractionElement = (updatedAnswer: FractionMetadata) => {
     setQuestionElements((prevElements) => {
@@ -37,7 +30,7 @@ const EditFractionModal = ({
     <FractionModal
       data={data}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={onClose}
       onConfirm={updateFractionElement}
     />
   );

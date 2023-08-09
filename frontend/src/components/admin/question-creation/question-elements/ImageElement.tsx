@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  Box,
   Button,
   Flex,
   IconButton,
@@ -83,20 +82,19 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
             width="90%"
           />
           <Spacer />
-          <Box _hover={{ color: "blue.100" }} color="grey.300">
-            <Button
-              as={IconButton}
-              color="currentColor"
-              fontSize="24px"
-              icon={<EditOutlineIcon />}
-              onClick={openFileBrowser}
-              size="icon"
-            />
-          </Box>
+          <IconButton
+            _hover={{ color: "blue.100" }}
+            aria-label="Open file browser"
+            color="grey.300"
+            icon={<EditOutlineIcon />}
+            onClick={openFileBrowser}
+            size="icon"
+          />
         </>
       ) : (
         <Button
-          border="1px dashed #636363"
+          border="1px dashed"
+          borderColor="grey.300"
           borderRadius="16px"
           color="grey.300"
           leftIcon={<UploadOutlineIcon />}

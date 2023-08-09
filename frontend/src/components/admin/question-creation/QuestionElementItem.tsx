@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
-import { Box, Button, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Text } from "@chakra-ui/react";
 import type { Identifier } from "dnd-core";
 import update from "immutability-helper";
 
@@ -156,16 +156,14 @@ const QuestionElementItem = ({
           <HamburgerMenuIcon />
         </Box>
         {renderQuestionContent(content)}
-        <Box _hover={{ color: "blue.100" }} color="grey.300">
-          <Button
-            as={IconButton}
-            color="currentColor"
-            fontSize="24px"
-            icon={<DeleteOutlineIcon />}
-            onClick={removeQuestionElement}
-            size="icon"
-          />
-        </Box>
+        <IconButton
+          _hover={{ color: "blue.100" }}
+          aria-label="Delete question element"
+          color="grey.300"
+          icon={<DeleteOutlineIcon />}
+          onClick={removeQuestionElement}
+          size="icon"
+        />
       </HStack>
       {error && <Text color="red.200">{error}</Text>}
     </Box>

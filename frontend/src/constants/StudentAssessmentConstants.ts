@@ -5,28 +5,26 @@ import {
   ShortAnswerIcon,
 } from "../assets/icons";
 
-import editorTooltips from "./QuestionConstants";
-
 const typeToIconMetadata = {
   MULTIPLE_CHOICE: {
     icon: MultipleChoiceIcon,
     alt: "multi-choice",
-    tooltip: editorTooltips.MULTIPLE_CHOICE,
+    tooltip: "Select the best response from a list of options",
   },
   MULTI_SELECT: {
     icon: MultiSelectIcon,
     alt: "multi-select",
-    tooltip: editorTooltips.MULTI_SELECT,
+    tooltip: "Select all correct response(s) from a list of options",
   },
   SHORT_ANSWER: {
     icon: ShortAnswerIcon,
     alt: "short-answer",
-    tooltip: editorTooltips.SHORT_ANSWER,
+    tooltip: "Type in your answer",
   },
   FRACTION: {
     icon: FractionIcon,
     alt: "fraction",
-    tooltip: editorTooltips.FRACTION,
+    tooltip: "Answer using proper, improper or mixed fractions",
   },
 };
 
