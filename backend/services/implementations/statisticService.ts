@@ -139,6 +139,41 @@ class StatisticService implements IStatisticService {
     return roundTwoDecimals((total - uncompleted) / total) * 100;
   }
 
+  async getMarkDistributionByTest(testId: string): Promise<Array<number>> {
+    const pipeline: PipelineStage[] = [
+      filterTestsByTestId(testId),
+      unwindResults,
+      {
+        $project: {
+          score: "$results.score",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          scores: { $push: "$score" },
+        },
+      },
+    ];
+
+    const aggCursor = await MgTestSession.aggregate(pipeline);
+    const scores = aggCursor[0]?.scores ?? [];
+
+    const markDistributionCount: Array<number> = Array(11).fill(0);
+
+    scores.forEach((score: number) => {
+      const bucket = Math.trunc(score / 10);
+      markDistributionCount[bucket] += 1;
+    });
+
+    const totalScores = scores.length;
+    if (!totalScores) throw new Error("No scores found");
+
+    return markDistributionCount.map((count) => {
+      return roundTwoDecimals((count / totalScores) * 100);
+    });
+  }
+
   private getAverageScorePerQuestion(
     resultBreakdowns: boolean[][][],
   ): QuestionStatistic[][] {
