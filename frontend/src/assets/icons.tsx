@@ -95,7 +95,7 @@ export const PlusOutlineIcon = (): React.ReactElement => (
 
 export const QuestionIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <line stroke="#C4C4C4" strokeWidth="6" x1="7" x2="75" y1="51" y2="51" />
     <line stroke="#C4C4C4" strokeWidth="6" x1="7" x2="75" y1="60" y2="60" />
     <path
@@ -107,7 +107,7 @@ export const QuestionIcon = (): React.ReactElement => (
 
 export const TextIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <line stroke="#666666" strokeWidth="4" x1="10" x2="78" y1="38" y2="38" />
     <line stroke="#666666" strokeWidth="4" x1="10" x2="78" y1="47" y2="47" />
     <line stroke="#666666" strokeWidth="4" x1="10" x2="50" y1="56" y2="56" />
@@ -116,17 +116,17 @@ export const TextIcon = (): React.ReactElement => (
 
 export const ImageIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <path
       d="M58 27H30.5C29.0418 27.0016 27.6438 27.5816 26.6127 28.6127C25.5816 29.6438 25.0016 31.0418 25 32.5V54.5C25.0016 55.9582 25.5816 57.3562 26.6127 58.3873C27.6438 59.4184 29.0418 59.9984 30.5 60H58C59.4582 59.9984 60.8562 59.4184 61.8873 58.3873C62.9184 57.3562 63.4984 55.9582 63.5 54.5V32.5C63.4984 31.0418 62.9184 29.6438 61.8873 28.6127C60.8562 27.5816 59.4582 27.0016 58 27ZM51.125 32.5C51.9408 32.5 52.7384 32.7419 53.4167 33.1952C54.0951 33.6484 54.6238 34.2927 54.936 35.0464C55.2482 35.8002 55.3299 36.6296 55.1707 37.4297C55.0116 38.2299 54.6187 38.9649 54.0418 39.5418C53.4649 40.1187 52.7299 40.5116 51.9297 40.6707C51.1296 40.8299 50.3002 40.7482 49.5464 40.436C48.7927 40.1238 48.1484 39.5951 47.6952 38.9167C47.2419 38.2384 47 37.4408 47 36.625C47.0011 35.5313 47.4361 34.4828 48.2094 33.7094C48.9828 32.9361 50.0313 32.5011 51.125 32.5ZM30.5 57.25C29.7707 57.25 29.0712 56.9603 28.5555 56.4445C28.0397 55.9288 27.75 55.2293 27.75 54.5V48.688L35.9003 41.4435C36.6867 40.7461 37.7094 40.3747 38.76 40.4051C39.8106 40.4354 40.8102 40.8652 41.555 41.6068L47.1366 47.1764L37.063 57.25H30.5ZM60.75 54.5C60.75 55.2293 60.4603 55.9288 59.9445 56.4445C59.4288 56.9603 58.7293 57.25 58 57.25H40.9526L51.3871 46.8155C52.1259 46.1872 53.0634 45.8411 54.0332 45.8386C55.003 45.836 55.9423 46.1773 56.6843 46.8017L60.75 50.1894V54.5Z"
-      fill="black"
+      fill="#666666"
     />
   </Icon>
 );
 
 export const MultipleChoiceIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <circle cx="14.5" cy="18.5" fill="#DBDFE2" r="4.5" />
     <circle cx="14.5" cy="35.5" fill="#666666" r="4.5" />
     <circle cx="14.5" cy="52.5" fill="#DBDFE2" r="4.5" />
@@ -140,7 +140,7 @@ export const MultipleChoiceIcon = (): React.ReactElement => (
 
 export const MultiSelectIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <line stroke="#C4C4C4" strokeWidth="4" x1="20" x2="45" y1="35" y2="35" />
     <line stroke="#C4C4C4" strokeWidth="4" x1="20" x2="67" y1="52" y2="52" />
     <line stroke="#C4C4C4" strokeWidth="4" x1="20" x2="40" y1="70" y2="70" />
@@ -154,7 +154,7 @@ export const MultiSelectIcon = (): React.ReactElement => (
 
 export const ShortAnswerIcon = (): React.ReactElement => (
   <Icon boxSize="5em" viewBox="0 0 88 88">
-    <rect fill="#A1B4C7" height="88" opacity="0.2" width="88" />
+    <rect fill="#E8EDF1" height="88" width="88" />
     <rect fill="#666666" height="16" width="68" x="10" y="36" />
   </Icon>
 );
@@ -164,6 +164,7 @@ export const FractionIcon = (): React.ReactElement => (
     <rect fill="#E8EDF1" height="88" width="88" />
     <rect fill="#636363" height="18" rx="1" width="18" x="35" y="17" />
     <rect
+      fill="#666666"
       height="18"
       rx="1"
       stroke="#BEBEBE"
@@ -174,6 +175,7 @@ export const FractionIcon = (): React.ReactElement => (
     />
     <rect fill="#636363" height="18" rx="1" width="18" x="35" y="53" />
     <rect
+      fill="#666666"
       height="18"
       rx="1"
       stroke="#BEBEBE"
@@ -182,7 +184,7 @@ export const FractionIcon = (): React.ReactElement => (
       x="35"
       y="53"
     />
-    <line stroke="#272727" x1="24" x2="64" y1="43.5" y2="43.5" />
+    <line stroke="#666666" x1="24" x2="64" y1="43.5" y2="43.5" />
   </Icon>
 );
 
