@@ -1,5 +1,5 @@
 import type { PipelineStage } from "mongoose";
-import type { Result, TestSession } from "../../models/testSession.model";
+import type { TestSession } from "../../models/testSession.model";
 import MgTestSession from "../../models/testSession.model";
 import type {
   IStatisticService,
@@ -20,6 +20,7 @@ import {
   isCompletedTestResult,
 } from "../../utilities/generalUtils";
 import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
+import type { ResultResponseDTO } from "../interfaces/testSessionService";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -145,11 +146,11 @@ class StatisticService implements IStatisticService {
     const testSessions: TestSession[] = await MgTestSession.find({
       test: testId,
     });
-    const results: Result[] = testSessions.flatMap(
+    const results: ResultResponseDTO[] = testSessions.flatMap(
       (testSession: TestSession) => testSession.results ?? [],
     );
 
-    if (!results?.length) {
+    if (!results.length) {
       throw new Error(`There are no results for the test with id ${testId}`);
     }
 
