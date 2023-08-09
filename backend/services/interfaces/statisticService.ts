@@ -72,4 +72,14 @@ export interface IStatisticService {
    * @param testId The unique identifier of the test to obtain statistics for
    */
   getCompletionRateByTest(testId: string): Promise<number>;
+
+  /**
+   *
+   * This method returns the mark distribution for a given test.
+   * The return value is a number array that contains the mark distribution
+   * from 0 to 100 (in intervals of 10).
+   *
+   * @param testId The unique identifier of the test to obtain statistics for
+   */
+  getMarkDistributionByTest(testId: string): Promise<number[]>;
 }

@@ -1,4 +1,5 @@
 import type { PipelineStage } from "mongoose";
+import type { TestSession } from "../../models/testSession.model";
 import MgTestSession from "../../models/testSession.model";
 import type {
   IStatisticService,
@@ -18,6 +19,8 @@ import {
   calculateMedianScore,
   isCompletedTestResult,
 } from "../../utilities/generalUtils";
+import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
+import type { ResultResponseDTO } from "../interfaces/testSessionService";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -137,6 +140,21 @@ class StatisticService implements IStatisticService {
     });
 
     return roundTwoDecimals((total - uncompleted) / total) * 100;
+  }
+
+  async getMarkDistributionByTest(testId: string): Promise<Array<number>> {
+    const testSessions: TestSession[] = await MgTestSession.find({
+      test: testId,
+    });
+    const results: ResultResponseDTO[] = testSessions.flatMap(
+      (testSession: TestSession) => testSession.results ?? [],
+    );
+
+    if (!results.length) {
+      throw new Error(`There are no results for the test with id ${testId}`);
+    }
+
+    return calculateMarkDistribution(results);
   }
 
   private getAverageScorePerQuestion(
