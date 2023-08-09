@@ -29,3 +29,8 @@ export interface MultiSelectMetadata {
   options: string[];
   answerIndices: number[];
 }
+
+export interface FractionMetadata {
+  numerator: number;
+  denominator: number;
+}

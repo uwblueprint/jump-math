@@ -1,39 +1,39 @@
 import React, { useContext } from "react";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
-import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
+import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import { updatedQuestionElement } from "../../../../../../utils/QuestionUtils";
 
-import ShortAnswerModal from "./ShortAnswerModal";
+import FractionModal from "./FractionModal";
 
-interface EditShortAnswerModalProps {
+interface EditFractionModalProps {
   id: string;
-  data: number;
+  data: FractionMetadata;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const EditShortAnswerModal = ({
+const EditFractionModal = ({
   id,
   data,
   isOpen,
   onClose,
-}: EditShortAnswerModalProps): React.ReactElement => {
+}: EditFractionModalProps): React.ReactElement => {
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const updateShortAnswerElement = (updatedAnswer: ShortAnswerMetadata) => {
+  const updateFractionElement = (updatedAnswer: FractionMetadata) => {
     setQuestionElements((prevElements) => {
       return updatedQuestionElement(id, updatedAnswer, prevElements);
     });
   };
 
   return (
-    <ShortAnswerModal
+    <FractionModal
       data={data}
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={updateShortAnswerElement}
+      onConfirm={updateFractionElement}
     />
   );
 };
 
-export default EditShortAnswerModal;
+export default EditFractionModal;

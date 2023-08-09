@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
@@ -9,14 +10,12 @@ import ArchiveModal from "../EditStatusModals/ArchiveModal";
 
 interface ArchiveModalProps {
   assessmentId: string;
-  closePopover: () => void;
 }
 
 const ArchiveButton = ({
   assessmentId,
-  closePopover,
 }: ArchiveModalProps): React.ReactElement => {
-  const [showArchiveModal, setShowArchiveModal] = React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const [archiveAssessment, { error }] = useMutation<{
     archiveAssessment: string;
   }>(ARCHIVE_TEST, {
@@ -41,17 +40,11 @@ const ArchiveButton = ({
   };
   return (
     <>
-      <PopoverButton
-        name="Archive"
-        onClick={() => {
-          closePopover();
-          setShowArchiveModal(true);
-        }}
-      />
+      <PopoverButton name="Archive" onClick={onOpen} />
       <ArchiveModal
         archiveAssessment={handleArchiveAssessment}
-        isOpen={showArchiveModal}
-        onClose={() => setShowArchiveModal(false)}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </>
   );

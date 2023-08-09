@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
 import type {
@@ -14,7 +13,7 @@ interface EditMultiOptionModalProps {
   id: string;
   data: MultiData;
   isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
   type: QuestionElementType;
 }
 
@@ -22,15 +21,9 @@ const EditMultiOptionModal = ({
   id,
   data,
   isOpen,
-  setOpen,
+  onClose,
   type,
 }: EditMultiOptionModalProps): React.ReactElement => {
-  const { onClose } = useDisclosure();
-  const closeModal = () => {
-    setOpen(false);
-    onClose();
-  };
-
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const updateMultipleChoiceElement = (updatedMultipleChoice: MultiData) => {
     setQuestionElements((prevElements) => {
@@ -42,7 +35,7 @@ const EditMultiOptionModal = ({
     <MultiOptionModal
       data={data}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={onClose}
       onConfirm={updateMultipleChoiceElement}
       type={type}
     />

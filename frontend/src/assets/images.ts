@@ -34,3 +34,8 @@ export const SHORT_ANSWER: ImageType = {
   src: "https://storage.googleapis.com/jump-math-98edf.appspot.com/short-answer.png",
   alt: "short-answer",
 };
+
+export const FRACTION: ImageType = {
+  src: "https://storage.googleapis.com/jump-math-98edf.appspot.com/fraction.png",
+  alt: "fraction",
+};

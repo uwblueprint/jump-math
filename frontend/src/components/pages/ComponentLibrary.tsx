@@ -10,6 +10,7 @@ import MultiSelectVisualizer from "../admin/assessment-visualization/question-el
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
+import CorrectedFraction from "../teacher/results/StudentAnswersSection/question-elements/CorrectedFraction";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
 import CorrectedShortAnswer from "../teacher/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
@@ -116,6 +117,35 @@ const ComponentLibrary = (): React.ReactElement => {
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />
+      <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
+      <CorrectedFraction
+        correctAnswer={{
+          numerator: 10294,
+          denominator: 10294,
+        }}
+        studentAnswer={[10294, 10294]}
+      />
+      <CorrectedFraction
+        correctAnswer={{
+          numerator: 10294,
+          denominator: 10294,
+        }}
+        studentAnswer={[10294, undefined]}
+      />
+      <CorrectedFraction
+        correctAnswer={{
+          numerator: 10294,
+          denominator: 10294,
+        }}
+        studentAnswer={[undefined, 10293]}
+      />
+      <CorrectedFraction
+        correctAnswer={{
+          numerator: 10294,
+          denominator: 10294,
+        }}
+        studentAnswer={[undefined, undefined]}
+      />
       <CorrectedMultipleChoice
         correctAnswerIndex={1}
         options={["A", "B", "C", "D"]}

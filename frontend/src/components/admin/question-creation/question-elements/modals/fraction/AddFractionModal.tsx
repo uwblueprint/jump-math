@@ -2,38 +2,38 @@ import React, { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
-import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
+import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import { QuestionElementType } from "../../../../../../types/QuestionTypes";
 
-import ShortAnswerModal from "./ShortAnswerModal";
+import FractionModal from "./FractionModal";
 
-const AddShortAnswerModal = (): React.ReactElement => {
-  const { showAddShortAnswerModal, setShowAddShortAnswerModal } = useContext(
+const AddFractionModal = (): React.ReactElement => {
+  const { showAddFractionModal, setShowAddFractionModal } = useContext(
     QuestionEditorContext,
   );
   const closeModal = () => {
-    setShowAddShortAnswerModal(false);
+    setShowAddFractionModal(false);
   };
 
   const { setQuestionElements } = useContext(QuestionEditorContext);
-  const addShortAnswerElement = (data: ShortAnswerMetadata) => {
+  const addFractionElement = (data: FractionMetadata) => {
     setQuestionElements((prevElements) => [
       ...prevElements,
       {
         id: uuidv4(),
-        type: QuestionElementType.SHORT_ANSWER,
+        type: QuestionElementType.FRACTION,
         data,
       },
     ]);
   };
 
   return (
-    <ShortAnswerModal
-      isOpen={showAddShortAnswerModal}
+    <FractionModal
+      isOpen={showAddFractionModal}
       onClose={closeModal}
-      onConfirm={addShortAnswerElement}
+      onConfirm={addFractionElement}
     />
   );
 };
 
-export default AddShortAnswerModal;
+export default AddFractionModal;

@@ -27,6 +27,7 @@ const CorrectedTextField = ({
           align="center"
           color="red.200"
           textDecoration={studentAnswer && "line-through"}
+          whiteSpace="nowrap"
         >
           {studentAnswer || "No Response"}
         </Flex>

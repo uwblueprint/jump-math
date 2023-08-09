@@ -53,20 +53,28 @@ const AssessmentEditorHeader = ({
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
   const history = useHistory();
-  const [showPublishModal, setShowPublishModal] = React.useState(false);
-  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-  const [showArchiveModal, setShowArchiveModal] = React.useState(false);
+  const {
+    onOpen: onPublishModalOpen,
+    isOpen: isPublishModalOpen,
+    onClose: onPublishModalClose,
+  } = useDisclosure();
+  const {
+    onOpen: onDeleteModalOpen,
+    isOpen: isDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+  const {
+    onOpen: onArchiveModalOpen,
+    isOpen: isArchiveModalOpen,
+    onClose: onArchiveModalClose,
+  } = useDisclosure();
 
   const onPublish = () => {
-    if (validateForm()) {
-      setShowPublishModal(true);
-    }
+    if (validateForm()) onPublishModalOpen();
   };
 
   const onArchive = () => {
-    if (validateForm()) {
-      setShowArchiveModal(true);
-    }
+    if (validateForm()) onArchiveModalOpen();
   };
 
   const handleSave = handleSubmit(onSave, onError);
@@ -142,7 +150,7 @@ const AssessmentEditorHeader = ({
                   name="Delete"
                   onClick={() => {
                     onClosePopover();
-                    setShowDeleteModal(true);
+                    onDeleteModalOpen();
                   }}
                 />
               </VStack>
@@ -151,19 +159,19 @@ const AssessmentEditorHeader = ({
         </Flex>
       </Box>
       <PublishModal
-        isOpen={showPublishModal}
-        onClose={() => setShowPublishModal(false)}
+        isOpen={isPublishModalOpen}
+        onClose={onPublishModalClose}
         publishAssessment={handleConfirmPublish}
       />
       <ArchiveModal
         archiveAssessment={handleConfirmArchive}
-        isOpen={showArchiveModal}
-        onClose={() => setShowArchiveModal(false)}
+        isOpen={isArchiveModalOpen}
+        onClose={onArchiveModalClose}
       />
       <DeleteModal
         deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
       />
     </>
   );

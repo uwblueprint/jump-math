@@ -29,6 +29,10 @@ export const GET_TEST_SESSION_WITH_RESULTS = gql`
             ... on ShortAnswerMetadata {
               answer
             }
+            ... on FractionMetadata {
+              numerator
+              denominator
+            }
           }
         }
       }
