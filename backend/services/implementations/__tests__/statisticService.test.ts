@@ -184,7 +184,9 @@ describe("mongo statisticService", (): void => {
     it("with 0 submissions", async () => {
       await expect(async () => {
         await statisticService.getMarkDistributionByTest(mockTestWithId.id);
-      }).rejects.toThrowError(`No scores found`);
+      }).rejects.toThrowError(
+        `There are no results for the test with id ${mockTestWithId.id}`,
+      );
     });
   });
 });

@@ -28,6 +28,7 @@ import {
   mapDocumentToDTO,
   roundTwoDecimals,
 } from "../../utilities/generalUtils";
+import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
 
 const Logger = logger(__filename);
 
@@ -225,9 +226,6 @@ class TestSessionService implements ITestSessionService {
   }
 
   async getMarkDistribution(id: string): Promise<Array<number>> {
-    const markDistributionCount: Array<number> = Array(11).fill(0);
-    let markDistribution: Array<number>;
-
     try {
       const { results } = await this.getTestSessionById(id);
 
@@ -237,15 +235,7 @@ class TestSessionService implements ITestSessionService {
         );
       }
 
-      results.forEach((result) => {
-        const bucket = Math.trunc(result.score / 10);
-        markDistributionCount[bucket] += 1;
-      });
-
-      const totalStudents = results?.length;
-      markDistribution = markDistributionCount.map((count) => {
-        return (count / totalStudents) * 100;
-      });
+      return calculateMarkDistribution(results);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get mark distribution for the test session with id ${id}. Reason = ${getErrorMessage(
@@ -254,8 +244,6 @@ class TestSessionService implements ITestSessionService {
       );
       throw error;
     }
-
-    return markDistribution;
   }
 
   async getPerformanceByQuestion(id: string): Promise<Array<number>> {

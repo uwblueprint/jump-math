@@ -1,4 +1,5 @@
 import type { PipelineStage } from "mongoose";
+import type { Result, TestSession } from "../../models/testSession.model";
 import MgTestSession from "../../models/testSession.model";
 import type {
   IStatisticService,
@@ -18,6 +19,7 @@ import {
   calculateMedianScore,
   isCompletedTestResult,
 } from "../../utilities/generalUtils";
+import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
 
 class StatisticService implements IStatisticService {
   /* eslint-disable class-methods-use-this */
@@ -140,38 +142,18 @@ class StatisticService implements IStatisticService {
   }
 
   async getMarkDistributionByTest(testId: string): Promise<Array<number>> {
-    const pipeline: PipelineStage[] = [
-      filterTestsByTestId(testId),
-      unwindResults,
-      {
-        $project: {
-          score: "$results.score",
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          scores: { $push: "$score" },
-        },
-      },
-    ];
-
-    const aggCursor = await MgTestSession.aggregate(pipeline);
-    const scores = aggCursor[0]?.scores ?? [];
-
-    const markDistributionCount: Array<number> = Array(11).fill(0);
-
-    scores.forEach((score: number) => {
-      const bucket = Math.trunc(score / 10);
-      markDistributionCount[bucket] += 1;
+    const testSessions: TestSession[] = await MgTestSession.find({
+      test: testId,
     });
+    const results: Result[] = testSessions.flatMap(
+      (testSession: TestSession) => testSession.results ?? [],
+    );
 
-    const totalScores = scores.length;
-    if (!totalScores) throw new Error("No scores found");
+    if (!results?.length) {
+      throw new Error(`There are no results for the test with id ${testId}`);
+    }
 
-    return markDistributionCount.map((count) => {
-      return roundTwoDecimals((count / totalScores) * 100);
-    });
+    return calculateMarkDistribution(results);
   }
 
   private getAverageScorePerQuestion(
