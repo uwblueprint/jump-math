@@ -55,7 +55,7 @@
     "@types/nodemailer": "^6.4.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.42.0",
+    "eslint": "^8.47.0",
     "eslint-config-airbnb-typescript": "14.0.1",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.25.2",
