@@ -44,7 +44,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
-    "react-router-dom": "^5.3.4",
+    "react-router-dom": "^6.15.0",
     "react-scripts": "^5.0.1",
     "react-select-country-list": "^2.2.3",
     "react-textarea-autosize": "^8.5.2",
