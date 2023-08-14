@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ajna/pagination": "^1.4.19",
-    "@apollo/client": "^3.7.17",
+    "@apollo/client": "^3.8.1",
     "@chakra-ui/react": "^2.7.0",
     "@chakra-ui/theme-tools": "^2.0.18",
     "@chakra-ui/utils": "^2.0.14",
