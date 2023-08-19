@@ -1,4 +1,4 @@
-import type { UserDTO } from "../../types";
+import type { QueryOptions, UserDTO } from "../../types";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
@@ -12,6 +12,7 @@ import type {
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
 import {
+  applyQueryOptions,
   mapDocumentsToDTOs,
   mapDocumentToDTO,
 } from "../../utilities/generalUtils";
@@ -106,14 +107,12 @@ class ClassService implements IClassService {
 
   async getClassesByTeacherId(
     teacherId: string,
-    limit?: number,
+    queryOptions?: QueryOptions,
   ): Promise<Array<ClassResponseDTO>> {
     let classes: Class[];
     try {
       const query = MgClass.find({ teacher: { $eq: teacherId } });
-      if (limit !== undefined) {
-        query.limit(limit);
-      }
+      applyQueryOptions(query, queryOptions);
       classes = await query;
     } catch (error: unknown) {
       Logger.error(

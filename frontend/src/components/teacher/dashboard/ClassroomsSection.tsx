@@ -6,16 +6,22 @@ import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
 import ClassroomCard from "../student-management/classroom-summary/ClassroomCard";
+import type { QueryOptions } from "../student-management/classroom-summary/useClassDataQuery";
 import useClassDataQuery from "../student-management/classroom-summary/useClassDataQuery";
 
-const QUERY_DATA_LIMIT = 6;
+const QUERY_DATA_OPTIONS: QueryOptions = {
+  limit: 6,
+  sort: {
+    updatedAt: "DESC",
+  },
+};
 
 const ClassroomsSection = ({
   handleAddClassroom,
 }: {
   handleAddClassroom: () => void;
 }): ReactElement => {
-  const { loading, error, data } = useClassDataQuery(QUERY_DATA_LIMIT);
+  const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
 
   return (
     <Box flex="1" w="100%">

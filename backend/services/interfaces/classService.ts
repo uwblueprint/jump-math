@@ -1,4 +1,4 @@
-import type { Grade } from "../../types";
+import type { Grade, QueryOptions } from "../../types";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -59,13 +59,13 @@ export interface IClassService {
   /**
    * This method retrieves the classes associated with given teacher id.
    * @param id teacher id
-   * @param limit optional limit of classes to retrieve
+   * @param queryOptions optional options for the query including sorting and pagination
    * @returns list of requested classes
    * @throws Error if retrieval fails
    */
   getClassesByTeacherId(
     teacherId: string,
-    limit?: number,
+    queryOptions?: QueryOptions,
   ): Promise<Array<ClassResponseDTO>>;
 
   /**

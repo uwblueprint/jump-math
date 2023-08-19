@@ -14,6 +14,7 @@ import SchoolService from "../../services/implementations/schoolService";
 import TestService from "../../services/implementations/testService";
 import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
+import type { QueryOptions } from "../../types";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService();
@@ -42,9 +43,12 @@ const classResolvers = {
     },
     classesByTeacher: async (
       _req: undefined,
-      { teacherId, limit }: { teacherId: string; limit?: number },
+      {
+        teacherId,
+        queryOptions,
+      }: { teacherId: string; queryOptions?: QueryOptions },
     ): Promise<Array<ClassResponseDTO>> => {
-      return classService.getClassesByTeacherId(teacherId, limit);
+      return classService.getClassesByTeacherId(teacherId, queryOptions);
     },
   },
   Mutation: {

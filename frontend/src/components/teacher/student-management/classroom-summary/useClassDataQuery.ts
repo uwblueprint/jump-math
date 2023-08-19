@@ -6,7 +6,15 @@ import type { ClassResponse } from "../../../../APIClients/types/ClassClientType
 import AuthContext from "../../../../contexts/AuthContext";
 import { getSessionStatus } from "../../../../utils/TestSessionUtils";
 
-const useClassDataQuery = (limit?: number) => {
+export type QueryOptions = {
+  limit?: number;
+  skip?: number;
+  sort?: {
+    updatedAt?: "ASC" | "DESC";
+  };
+};
+
+const useClassDataQuery = (queryOptions?: QueryOptions) => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
@@ -14,7 +22,7 @@ const useClassDataQuery = (limit?: number) => {
     classesByTeacher: ClassResponse[];
   }>(GET_CLASSES_BY_TEACHER, {
     fetchPolicy: "cache-and-network",
-    variables: { teacherId, limit },
+    variables: { teacherId, queryOptions },
     skip: !teacherId,
   });
 
