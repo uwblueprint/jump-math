@@ -52,10 +52,10 @@ const ClassroomsSection = ({
                   assessmentCount={assessmentCount}
                   grade={gradeLevel}
                   id={id}
+                  isDashboardVariant
                   name={className}
                   startDate={startDate}
                   studentCount={studentCount}
-                  thin
                 />
               ),
             )}
