@@ -12,6 +12,7 @@ import { mockTestWithId } from "./tests";
 import { mockTeacher } from "./users";
 
 type TestSessionDTO = TestSessionRequestDTO & {
+  accessCode: string;
   results: Result[];
 };
 
@@ -270,7 +271,6 @@ export const assertResponseMatchesExpected = (
   expect(result.test.toString()).toEqual(expected.test);
   expect(result.teacher.toString()).toEqual(expected.teacher);
   expect(result.school.toString()).toEqual(expected.school);
-  expect(result.accessCode).toEqual(expected.accessCode);
   expect(result.startDate).toEqual(expected.startDate);
   expect(result.endDate).toEqual(expected.endDate);
 };

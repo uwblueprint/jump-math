@@ -38,9 +38,3 @@ export const filterTestSessionsBySearch = <T extends SearchableTestSession>(
           includesIgnoreCase(session.status, search),
       )
     : sessions;
-
-export const generateAccessCode = () => {
-  const minm = 100000;
-  const maxm = 999999;
-  return String(Math.floor(Math.random() * (maxm - minm + 1)) + minm);
-};

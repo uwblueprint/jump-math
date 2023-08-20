@@ -348,7 +348,6 @@ describe("mongo testSessionService", (): void => {
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
       class: mockClassWithId.id,
-      accessCode: "1235",
       startDate: new Date("2022-09-10T09:00:00.000Z"),
       endDate: new Date("2022-09-11T09:00:00.000Z"),
     };

@@ -41,7 +41,6 @@ const testSessionType = gql`
     teacher: ID!
     school: ID!
     class: ID!
-    accessCode: String!
     startDate: Date!
     endDate: Date!
     notes: String

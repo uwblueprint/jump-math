@@ -10,8 +10,6 @@ export interface TestSessionRequest {
   school: string;
   /** the ID of the class taking the test session */
   class: string;
-  /** the code that students can use to access the test when it is live */
-  accessCode: string;
   /** on this date, the test becomes available to students */
   startDate: Date;
   /** after this date, the test is no longer available to students */

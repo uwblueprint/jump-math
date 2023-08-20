@@ -8,13 +8,12 @@ import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/Tes
 import type { TestSessionRequest } from "../../../APIClients/types/TestSessionClientTypes";
 import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
-import { generateAccessCode } from "../../../utils/TestSessionUtils";
 import useToast from "../../common/info/useToast";
 
 import DistributeAssessmentModal from "./DistributeAssessmentModal";
 
 interface DistributeAssessmentButtonProps {
-  testSession: Omit<TestSessionRequest, "accessCode">;
+  testSession: TestSessionRequest;
 }
 
 const DistributeAssessmentButton = ({
@@ -35,7 +34,7 @@ const DistributeAssessmentButton = ({
     try {
       await createSession({
         variables: {
-          testSession: { ...testSession, accessCode: generateAccessCode() },
+          testSession,
         },
       });
       history.push(DISPLAY_ASSESSMENTS_PAGE);
