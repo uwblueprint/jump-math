@@ -18,6 +18,7 @@ const AddFractionModal = (): React.ReactElement => {
     onClose: onSecondModalClose,
   } = useDisclosure();
 
+  const { setShowAddFractionModal } = useContext(QuestionEditorContext);
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const addFractionElement = (data: FractionMetadata) => {
     setQuestionElements((prevElements) => [
@@ -40,6 +41,7 @@ const AddFractionModal = (): React.ReactElement => {
       <FractionModal
         fractionType={fractionType}
         isOpen={isSecondModalOpen}
+        onBack={() => setShowAddFractionModal(true)}
         onClose={onSecondModalClose}
         onConfirm={addFractionElement}
       />

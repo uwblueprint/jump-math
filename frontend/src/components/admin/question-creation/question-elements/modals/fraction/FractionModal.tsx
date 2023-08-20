@@ -10,6 +10,7 @@ import Modal from "../../../../../common/modal/Modal";
 interface FractionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onBack?: () => void;
   onConfirm: (data: FractionMetadata) => void;
   data?: FractionMetadata;
   fractionType: FractionType;
@@ -18,6 +19,7 @@ interface FractionModalProps {
 const FractionModal = ({
   isOpen,
   onClose,
+  onBack,
   onConfirm,
   data,
   fractionType,
@@ -64,8 +66,10 @@ const FractionModal = ({
 
   return (
     <Modal
+      cancelButtonText={onBack ? "Back" : "Cancel"}
       header="Create fraction question"
       isOpen={isOpen}
+      onBack={onBack}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >

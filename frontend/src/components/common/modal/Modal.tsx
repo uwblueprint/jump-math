@@ -19,18 +19,22 @@ interface ModalProps {
   header: React.ReactNode;
   children?: React.ReactNode;
   submitButtonText?: string;
+  cancelButtonText?: string;
   submitButtonVariant?: string;
   cancelButtonVariant?: string;
+  onBack?: () => void;
   onSubmit: (() => Promise<void>) | (() => void);
 }
 
 const Modal = ({
   isOpen,
+  onBack,
   onClose,
   body,
   header,
   children,
   submitButtonText = "Confirm",
+  cancelButtonText = "Cancel",
   submitButtonVariant,
   cancelButtonVariant,
   onSubmit,
@@ -47,10 +51,10 @@ const Modal = ({
           <Button
             minWidth="10%"
             mr={2}
-            onClick={onClose}
+            onClick={onBack ?? onClose}
             variant={cancelButtonVariant || "secondary"}
           >
-            Cancel
+            {cancelButtonText}
           </Button>
           <Button
             minWidth="10%"
