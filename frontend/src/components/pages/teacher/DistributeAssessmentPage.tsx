@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import AuthContext from "../../../contexts/AuthContext";
-import { generateAccessCode } from "../../../utils/TestSessionUtils";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
 import DistributeAssessmentButton from "../../teacher/session-creation/DistributeAssessmentButton";
@@ -136,7 +135,6 @@ const DistributeAssessmentPage = (): React.ReactElement => {
                   teacher: teacherId,
                   school: "639151a4d46e8c002a49f8d6",
                   class: classId,
-                  accessCode: generateAccessCode(),
                   startDate,
                   endDate,
                   notes,

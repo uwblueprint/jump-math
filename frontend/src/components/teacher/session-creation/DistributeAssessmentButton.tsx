@@ -8,10 +8,11 @@ import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/Tes
 import type { TestSessionRequest } from "../../../APIClients/types/TestSessionClientTypes";
 import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import { generateAccessCode } from "../../../utils/TestSessionUtils";
 import useToast from "../../common/info/useToast";
 
 interface DistributeAssessmentButtonProps {
-  testSessionRequest: TestSessionRequest;
+  testSessionRequest: Omit<TestSessionRequest, "accessCode">;
 }
 
 const DistributeAssessmentButton = ({
@@ -26,8 +27,14 @@ const DistributeAssessmentButton = ({
     refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
   });
 
-  const handleCreateSession = async (testSession: TestSessionRequest) => {
-    await createSession({ variables: { testSession } });
+  const handleCreateSession = async (
+    testSession: Omit<TestSessionRequest, "accessCode">,
+  ) => {
+    await createSession({
+      variables: {
+        testSession: { ...testSession, accessCode: generateAccessCode() },
+      },
+    });
     if (error) {
       showToast({
         message: "Failed to create test. Please try again.",
