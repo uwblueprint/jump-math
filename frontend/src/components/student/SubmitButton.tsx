@@ -87,7 +87,7 @@ const SubmitButton = (): React.ReactElement => {
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleSubmitTest}
-        submitButtonText="Confirm"
+        submitButtonText="Submit"
       />
       <Button onClick={onOpen} variant="primary">
         Submit

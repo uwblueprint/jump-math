@@ -23,6 +23,7 @@ const QuestionTypeImages = ({
               hasArrow
               label={typeToIconMetadata[type].tooltip}
               offset={[0, -10]}
+              padding="3"
               textAlign="center"
               width="190px"
             >
