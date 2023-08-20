@@ -10,7 +10,13 @@ import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import Toast from "../../common/info/Toast";
 
-const DistributeAssessmentButton = (): React.ReactElement => {
+interface DistributeAssessmentButtonProps {
+  testSessionRequest: TestSessionRequest;
+}
+
+const DistributeAssessmentButton = ({
+  testSessionRequest,
+}: DistributeAssessmentButtonProps): React.ReactElement => {
   const history = useHistory();
   const { showToast } = Toast();
 
@@ -20,11 +26,11 @@ const DistributeAssessmentButton = (): React.ReactElement => {
     refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
   });
 
-  const handleCreateSession = async (session: TestSessionRequest) => {
-    await createSession({ variables: { session } });
+  const handleCreateSession = async (testSession: TestSessionRequest) => {
+    await createSession({ variables: { testSession } });
     if (error) {
       showToast({
-        message: "Session failed to archive. Please try again.",
+        message: "Failed to create session. Please try again.",
         status: "error",
       });
     } else {
@@ -37,7 +43,7 @@ const DistributeAssessmentButton = (): React.ReactElement => {
       isLoading={loading}
       leftIcon={<PaperPlaneOutlineIcon />}
       minWidth="10"
-      onClick={() => console.log("Distribute assessment.")}
+      onClick={() => handleCreateSession(testSessionRequest)}
       variant="primary"
     >
       Distribute
