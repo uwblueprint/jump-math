@@ -3,7 +3,7 @@ import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
-import DistributeSessionButton from "../../teacher/session-creation/DistributeSessionButton";
+import DistributeAssessmentButton from "../../teacher/session-creation/DistributeAssessmentButton";
 import AddInformation from "../../teacher/session-creation/steps/AddInformation";
 import ChooseAssessment from "../../teacher/session-creation/steps/ChooseAssessment";
 import ChooseClass from "../../teacher/session-creation/steps/ChooseClass";
@@ -123,7 +123,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
             Next
           </Button>
         ) : (
-          <DistributeSessionButton />
+          <DistributeAssessmentButton />
         )}
       </HStack>
     </VStack>

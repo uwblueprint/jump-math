@@ -10,7 +10,7 @@ import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import Toast from "../../common/info/Toast";
 
-const DistributeSessionButton = (): React.ReactElement => {
+const DistributeAssessmentButton = (): React.ReactElement => {
   const history = useHistory();
   const { showToast } = Toast();
 
@@ -45,4 +45,4 @@ const DistributeSessionButton = (): React.ReactElement => {
   );
 };
 
-export default DistributeSessionButton;
+export default DistributeAssessmentButton;
