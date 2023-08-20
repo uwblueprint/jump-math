@@ -48,24 +48,15 @@ const ChooseFractionTypeModal = ({
     QuestionEditorContext,
   );
 
-  const handleClose = () => {
-    setFractionType("regular");
-    setShowAddFractionModal(false);
-  };
-
-  const handleConfirm = () => {
-    if (fractionType) {
-      setShowAddFractionModal(false);
-      onSecondModalOpen();
-    }
-  };
-
   return (
     <Modal
       header="Create fraction question"
       isOpen={showAddFractionModal}
-      onClose={handleClose}
-      onSubmit={handleConfirm}
+      onClose={() => setShowAddFractionModal(false)}
+      onSubmit={() => {
+        setShowAddFractionModal(false);
+        onSecondModalOpen();
+      }}
       submitButtonText="Next"
     >
       <FormControl isRequired>
