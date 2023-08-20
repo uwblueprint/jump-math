@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 
 import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import PopoverButton from "../../../common/popover/PopoverButton";
 import ArchiveModal from "../EditStatusModals/ArchiveModal";
 
@@ -23,7 +23,7 @@ const ArchiveButton = ({
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handleArchiveAssessment = async () => {
     await archiveAssessment({ variables: { id: assessmentId } });

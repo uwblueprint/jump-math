@@ -10,7 +10,7 @@ import {
   isCompleted,
   mapAnswersToResultsArray,
 } from "../../utils/StudentUtils";
-import Toast from "../common/info/Toast";
+import useToast from "../common/info/useToast";
 import Modal from "../common/modal/Modal";
 
 const SubmitButton = (): React.ReactElement => {
@@ -18,7 +18,7 @@ const SubmitButton = (): React.ReactElement => {
   const { answers, setIsSubmitted, setIsLoading } = useContext(
     WriteAssessmentContext,
   );
-  const { showToast } = Toast();
+  const { showToast } = useToast();
   const { authenticatedUser } = useContext(AuthContext);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 

@@ -8,7 +8,7 @@ import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/Tes
 import type { TestSessionRequest } from "../../../APIClients/types/TestSessionClientTypes";
 import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
-import Toast from "../../common/info/Toast";
+import useToast from "../../common/info/useToast";
 
 interface DistributeAssessmentButtonProps {
   testSessionRequest: TestSessionRequest;
@@ -18,7 +18,7 @@ const DistributeAssessmentButton = ({
   testSessionRequest,
 }: DistributeAssessmentButtonProps): React.ReactElement => {
   const history = useHistory();
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const [createSession, { loading, error }] = useMutation<{
     createSession: string;

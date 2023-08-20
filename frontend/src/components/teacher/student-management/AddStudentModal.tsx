@@ -22,8 +22,8 @@ import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
 import { GET_CLASS_STUDENTS_BY_ID } from "../../../APIClients/queries/ClassQueries";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
-import Toast from "../../common/info/Toast";
 import ErrorToast from "../../common/info/toasts/ErrorToast";
+import useToast from "../../common/info/useToast";
 import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 
 type AddStudentModalProps = {
@@ -55,7 +55,7 @@ const AddStudentModal = ({
       ],
     },
   );
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,

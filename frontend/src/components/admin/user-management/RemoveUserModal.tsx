@@ -8,7 +8,7 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../../assets/icons";
-import Toast from "../../common/info/Toast";
+import useToast from "../../common/info/useToast";
 import Modal from "../../common/modal/Modal";
 
 interface RemoveUserModalProps {
@@ -31,7 +31,7 @@ const RemoveUserModal = ({
     },
   );
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const onRemoveUserClick = async () => {
     await removeUser({ variables: { email } });

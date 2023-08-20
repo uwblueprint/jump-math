@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { useToast as useChakraToast } from "@chakra-ui/react";
 
 type ToastStatus = "success" | "info" | "warning" | "error" | "loading";
 
@@ -7,8 +7,10 @@ interface ToastProps {
   status: ToastStatus;
 }
 
-const Toast = (): { showToast: ({ message, status }: ToastProps) => void } => {
-  const toast = useToast();
+const useToast = (): {
+  showToast: ({ message, status }: ToastProps) => void;
+} => {
+  const toast = useChakraToast();
 
   const showToast = ({ message, status }: ToastProps) => {
     toast({
@@ -24,4 +26,4 @@ const Toast = (): { showToast: ({ message, status }: ToastProps) => void } => {
   return { showToast };
 };
 
-export default Toast;
+export default useToast;

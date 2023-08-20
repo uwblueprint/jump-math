@@ -6,7 +6,7 @@ import { GET_TEST } from "../../../../APIClients/queries/TestQueries";
 import type { TestResponse } from "../../../../APIClients/types/TestClientTypes";
 import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
 import { formatQuestionsResponse } from "../../../../utils/QuestionUtils";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
 interface EditButtonProps {
@@ -23,7 +23,7 @@ const EditButton = ({
     fetchPolicy: "cache-and-network",
     variables: { id: assessmentId },
   });
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   return (
     <PopoverButton

@@ -7,7 +7,7 @@ import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/Tes
 import AuthContext from "../../../contexts/AuthContext";
 import type { TestSessionStatus } from "../../../types/TestSessionTypes";
 import DeleteModal from "../../admin/assessment-status/EditStatusModals/DeleteModal";
-import Toast from "../../common/info/Toast";
+import useToast from "../../common/info/useToast";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 
@@ -31,7 +31,7 @@ const TestSessionListItemPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
