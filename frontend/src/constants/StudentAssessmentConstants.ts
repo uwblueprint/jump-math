@@ -1,23 +1,27 @@
-import { MULTI_CHOICE, MULTI_SELECT, SHORT_ANSWER } from "../assets/images";
+import {
+  FractionIcon,
+  MultipleChoiceIcon,
+  MultiSelectIcon,
+  ShortAnswerIcon,
+} from "../assets/icons";
 
-const typeToImageMetadata = {
+const typeToIconMetadata = {
   MULTIPLE_CHOICE: {
-    src: MULTI_CHOICE.src,
-    alt: "multi-choice",
-    tooltip:
-      "Users will have to select the best response from a list of options",
+    icon: MultipleChoiceIcon,
+    tooltip: "Select the best response from a list of options",
   },
   MULTI_SELECT: {
-    src: MULTI_SELECT.src,
-    alt: "multi-select",
-    tooltip:
-      "Users will have to select the correct responses from a list of options",
+    icon: MultiSelectIcon,
+    tooltip: "Select all correct response(s) from a list of options",
   },
   SHORT_ANSWER: {
-    src: SHORT_ANSWER.src,
-    alt: "short-answer",
-    tooltip: "Users will have to type in their answers",
+    icon: ShortAnswerIcon,
+    tooltip: "Type in your answer",
+  },
+  FRACTION: {
+    icon: FractionIcon,
+    tooltip: "Answer using proper, improper or mixed fractions",
   },
 };
 
-export default typeToImageMetadata;
+export default typeToIconMetadata;

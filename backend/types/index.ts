@@ -6,7 +6,7 @@ export type Token = {
 };
 
 export enum Grade {
-  K = "K",
+  KINDERGARTEN = "K",
   GRADE_1 = "GRADE_1",
   GRADE_2 = "GRADE_2",
   GRADE_3 = "GRADE_3",

@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { PUBLISH_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
@@ -9,14 +10,12 @@ import PublishModal from "../EditStatusModals/PublishModal";
 
 interface PublishButtonProps {
   assessmentId: string;
-  closePopover: () => void;
 }
 
 const PublishButton = ({
   assessmentId,
-  closePopover,
 }: PublishButtonProps): React.ReactElement => {
-  const [showPublishModal, setShowPublishModal] = React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const [publishAssessment, { error }] = useMutation<{
     publishAssessment: string;
   }>(PUBLISH_TEST, {
@@ -42,16 +41,10 @@ const PublishButton = ({
 
   return (
     <>
-      <PopoverButton
-        name="Publish"
-        onClick={() => {
-          closePopover();
-          setShowPublishModal(true);
-        }}
-      />
+      <PopoverButton name="Publish" onClick={onOpen} />
       <PublishModal
-        isOpen={showPublishModal}
-        onClose={() => setShowPublishModal(false)}
+        isOpen={isOpen}
+        onClose={onClose}
         publishAssessment={handlePublishAssessment}
       />
     </>

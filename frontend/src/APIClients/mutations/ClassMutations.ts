@@ -29,3 +29,9 @@ export const CREATE_STUDENT = gql`
     }
   }
 `;
+
+export const DELETE_CLASS = gql`
+  mutation DeleteClass($classId: ID!) {
+    deleteClass(classId: $classId)
+  }
+`;

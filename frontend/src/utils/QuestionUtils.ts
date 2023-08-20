@@ -11,6 +11,7 @@ import type {
 import type { QuestionTagProps } from "../components/admin/assessment-creation/QuestionTag";
 import type { DragQuestionItem } from "../types/DragTypes";
 import type {
+  FractionMetadata,
   ImageMetadata,
   ImageMetadataRequest,
   MultipleChoiceMetadata,
@@ -181,6 +182,11 @@ export const formatQuestionsRequest = (
             multiSelectMetadata: formatMultiSelectRequest(
               element.data as MultiData,
             ),
+          };
+        case QuestionElementType.FRACTION:
+          return {
+            type: QuestionElementType.FRACTION,
+            fractionMetadata: element.data as FractionMetadata,
           };
         default:
           return {

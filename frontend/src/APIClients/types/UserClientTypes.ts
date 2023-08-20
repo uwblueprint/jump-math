@@ -1,7 +1,7 @@
 import type { Role } from "../../types/AuthTypes";
 
 export enum Grade {
-  K = "K",
+  KINDERGARTEN = "KINDERGARTEN",
   GRADE_1 = "GRADE_1",
   GRADE_2 = "GRADE_2",
   GRADE_3 = "GRADE_3",

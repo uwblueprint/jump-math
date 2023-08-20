@@ -2,6 +2,7 @@ import * as React from "react";
 import { Tag, TagLeftIcon, Text } from "@chakra-ui/react";
 
 import {
+  FractionTagIcon,
   MultipleChoiceTagIcon,
   MultiSelectTagIcon,
   ShortAnswerTagIcon,
@@ -35,6 +36,11 @@ const QuestionTag = ({ type, count }: QuestionTagProps): React.ReactElement => {
       color = "blue.300";
       bgColor = "blue.50";
       icon = MultiSelectTagIcon;
+      break;
+    case QuestionElementType.FRACTION:
+      color = "grey.400";
+      bgColor = "grey.100";
+      icon = FractionTagIcon;
       break;
     default:
       color = "grey.400";

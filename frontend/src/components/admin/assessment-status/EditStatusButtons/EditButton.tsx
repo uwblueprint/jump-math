@@ -11,13 +11,9 @@ import PopoverButton from "../../../common/popover/PopoverButton";
 
 interface EditButtonProps {
   assessmentId: string;
-  closePopover: () => void;
 }
 
-const EditButton = ({
-  assessmentId,
-  closePopover,
-}: EditButtonProps): React.ReactElement => {
+const EditButton = ({ assessmentId }: EditButtonProps): React.ReactElement => {
   const history = useHistory();
   const { data } = useQuery<{ test: TestResponse }>(GET_TEST, {
     fetchPolicy: "cache-and-network",
@@ -29,7 +25,6 @@ const EditButton = ({
     <PopoverButton
       name="Edit"
       onClick={async () => {
-        closePopover();
         if (data) {
           history.push({
             pathname: ASSESSMENT_EDITOR_PAGE,

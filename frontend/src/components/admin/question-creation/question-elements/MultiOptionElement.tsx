@@ -1,10 +1,17 @@
 import React from "react";
-import { Checkbox, Flex, Radio, Spacer, VStack } from "@chakra-ui/react";
+import {
+  Checkbox,
+  Flex,
+  IconButton,
+  Radio,
+  Spacer,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { MultiData } from "../../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../../types/QuestionTypes";
-import IconButton from "../../../common/IconButton";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
@@ -19,8 +26,7 @@ const MultiOptionElement = ({
   data,
   type,
 }: MultiOptionElementProps): React.ReactElement => {
-  const [showEditMultipleChoiceModal, setShowEditMultipleChoiceModal] =
-    React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
@@ -45,16 +51,18 @@ const MultiOptionElement = ({
       </VStack>
       <Spacer />
       <IconButton
+        _hover={{ color: "blue.100" }}
+        aria-label="Edit multiple choice"
         color="grey.300"
-        hoverColor="blue.100"
         icon={<EditOutlineIcon />}
-        onClick={() => setShowEditMultipleChoiceModal(true)}
+        onClick={onOpen}
+        size="icon"
       />
       <EditMultiOptionModal
         data={data}
         id={id}
-        isOpen={showEditMultipleChoiceModal}
-        setOpen={setShowEditMultipleChoiceModal}
+        isOpen={isOpen}
+        onClose={onClose}
         type={type}
       />
     </Flex>

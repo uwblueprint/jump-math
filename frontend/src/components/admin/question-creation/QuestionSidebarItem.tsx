@@ -28,6 +28,7 @@ const QuestionSidebarItem = ({
     setShowAddShortAnswerModal,
     setShowAddMultipleChoiceModal,
     setShowAddMultiSelectModal,
+    setShowAddFractionModal,
     setShowEditorError,
   } = useContext(QuestionEditorContext);
 
@@ -75,6 +76,9 @@ const QuestionSidebarItem = ({
             break;
           case QuestionElementType.MULTI_SELECT:
             setShowAddMultiSelectModal(true);
+            break;
+          case QuestionElementType.FRACTION:
+            setShowAddFractionModal(true);
             break;
           default:
             addQuestionElement({ id: uuidv4(), type: item.type, data: "" });

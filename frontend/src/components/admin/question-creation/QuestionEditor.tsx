@@ -5,6 +5,7 @@ import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
 
+import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
 import QuestionSidebar from "./QuestionSidebar";
@@ -21,6 +22,7 @@ const QuestionEditor = (): React.ReactElement => {
     React.useState(false);
   const [showAddMultiSelectModal, setShowAddMultiSelectModal] =
     React.useState(false);
+  const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
 
   return (
@@ -34,6 +36,8 @@ const QuestionEditor = (): React.ReactElement => {
         setShowAddMultipleChoiceModal,
         showAddMultiSelectModal,
         setShowAddMultiSelectModal,
+        showAddFractionModal,
+        setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
       }}
@@ -44,6 +48,7 @@ const QuestionEditor = (): React.ReactElement => {
       </Flex>
       <AddShortAnswerModal />
       <AddMultiOptionModal />
+      <AddFractionModal />
     </QuestionEditorContext.Provider>
   );
 };

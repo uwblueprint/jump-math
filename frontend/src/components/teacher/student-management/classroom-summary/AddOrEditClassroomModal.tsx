@@ -121,7 +121,7 @@ const AddOrEditClassroomModal = ({
   const onModalClose = () => {
     setValue("className", "");
     setValue("startDate", undefined);
-    setValue("gradeLevel", Grade.K);
+    setValue("gradeLevel", Grade.KINDERGARTEN);
     setShowRequestError(false);
     setRequestErrorMessage("");
     onClose();

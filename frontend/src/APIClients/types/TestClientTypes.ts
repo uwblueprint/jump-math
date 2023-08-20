@@ -1,5 +1,6 @@
 import type { Status, UseCase } from "../../types/AssessmentTypes";
 import type {
+  FractionMetadata,
   ImageMetadata,
   ImageMetadataRequest,
   MultipleChoiceMetadata,
@@ -23,6 +24,7 @@ interface QuestionMetadata {
   shortAnswerMetadata: ShortAnswerMetadata;
   multipleChoiceMetadata: MultipleChoiceMetadata;
   multiSelectMetadata: MultiSelectMetadata;
+  fractionMetadata: FractionMetadata;
 }
 
 export type QuestionComponentRequest = QuestionType & Partial<QuestionMetadata>;
@@ -49,7 +51,8 @@ type QuestionMetadataName =
   | "ImageMetadata"
   | "MultipleChoiceMetadata"
   | "MultiSelectMetadata"
-  | "ShortAnswerMetadata";
+  | "ShortAnswerMetadata"
+  | "FractionMetadata";
 
 type QuestionMetadataTypename = {
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
@@ -64,6 +67,7 @@ export type QuestionComponentResponse = QuestionType & {
     | MultipleChoiceMetadata
     | MultiSelectMetadata
     | ShortAnswerMetadata
+    | FractionMetadata
   ) &
     QuestionMetadataTypename;
 };

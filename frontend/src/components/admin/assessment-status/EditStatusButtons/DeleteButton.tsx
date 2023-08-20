@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { DELETE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
@@ -9,14 +10,12 @@ import DeleteModal from "../EditStatusModals/DeleteModal";
 
 interface DeleteButtonProps {
   assessmentId: string;
-  closePopover: () => void;
 }
 
 const DeleteButton = ({
   assessmentId,
-  closePopover,
 }: DeleteButtonProps): React.ReactElement => {
-  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   const [deleteAssessment, { error }] = useMutation<{
     deleteAssessment: string;
@@ -43,17 +42,11 @@ const DeleteButton = ({
 
   return (
     <>
-      <PopoverButton
-        name="Delete"
-        onClick={() => {
-          closePopover();
-          setShowDeleteModal(true);
-        }}
-      />
+      <PopoverButton name="Delete" onClick={onOpen} />
       <DeleteModal
         deleteAssessment={handleDeleteAssessment}
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </>
   );

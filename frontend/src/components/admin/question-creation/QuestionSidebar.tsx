@@ -17,15 +17,16 @@ import {
 import {
   ArrowBackOutlineIcon,
   ImageIcon,
-  MultipleChoiceIcon,
-  MultiSelectIcon,
   QuestionIcon,
-  ShortAnswerIcon,
   TextIcon,
 } from "../../../assets/icons";
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
+import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
-import { QuestionElementType } from "../../../types/QuestionTypes";
+import {
+  QuestionElementType,
+  ResponseElementType,
+} from "../../../types/QuestionTypes";
 
 import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
@@ -126,20 +127,12 @@ const QuestionSidebar = (): React.ReactElement => {
             },
             {
               title: "Response Type",
-              panels: [
-                {
-                  element: QuestionElementType.MULTIPLE_CHOICE,
-                  icon: MultipleChoiceIcon,
-                },
-                {
-                  element: QuestionElementType.MULTI_SELECT,
-                  icon: MultiSelectIcon,
-                },
-                {
-                  element: QuestionElementType.SHORT_ANSWER,
-                  icon: ShortAnswerIcon,
-                },
-              ],
+              panels: Object.values(ResponseElementType).map(
+                (responseType) => ({
+                  element: responseType,
+                  icon: typeToIconMetadata[responseType].icon,
+                }),
+              ),
             },
           ])}
         </Accordion>

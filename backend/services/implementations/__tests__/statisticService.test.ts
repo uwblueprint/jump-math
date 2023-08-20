@@ -165,4 +165,28 @@ describe("mongo statisticService", (): void => {
       expect(actualResult).toEqual(0);
     });
   });
+
+  describe("getMarkDistributionByTest", () => {
+    it("with multiple submissions", async () => {
+      await MgTestSession.insertMany(mockTestSessions);
+
+      const actualResult = await statisticService.getMarkDistributionByTest(
+        mockTestWithId.id,
+      );
+
+      // Scores: [80.0, 40.0, 80.0, 40.0, 20.0, 80.0, 80.0, 20.0, 80.0, 20.0, 40.0, 40.0, 40.0]
+      // Result: [0, 0, 3/13 * 100, 0, 5/13 * 100, 0, 0, 0, 5/13 * 100, 0, 0]
+      expect(actualResult).toEqual([
+        0, 0, 23.08, 0, 38.46, 0, 0, 0, 38.46, 0, 0,
+      ]);
+    });
+
+    it("with 0 submissions", async () => {
+      await expect(async () => {
+        await statisticService.getMarkDistributionByTest(mockTestWithId.id);
+      }).rejects.toThrowError(
+        `There are no results for the test with id ${mockTestWithId.id}`,
+      );
+    });
+  });
 });
