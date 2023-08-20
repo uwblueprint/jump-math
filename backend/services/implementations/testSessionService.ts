@@ -172,11 +172,14 @@ class TestSessionService implements ITestSessionService {
 
   async getTestSessionsByTeacherId(
     teacherId: string,
+    limit?: number,
   ): Promise<Array<TestSessionResponseDTO>> {
     try {
-      const testSessions: Array<TestSession> = await MgTestSession.find({
-        teacher: { $eq: teacherId },
-      });
+      const query = MgTestSession.find({ teacher: { $eq: teacherId } });
+      if (limit !== undefined) {
+        query.limit(limit);
+      }
+      const testSessions: TestSession[] = await query;
 
       return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {

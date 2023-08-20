@@ -1,5 +1,4 @@
-import React, { useContext, useMemo } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useMemo } from "react";
 import {
   Box,
   Center,
@@ -11,17 +10,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
-import AuthContext from "../../../contexts/AuthContext";
 import type { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
-import {
-  getSessionStatus,
-  getSessionTargetDate,
-} from "../../../utils/TestSessionUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
@@ -29,40 +21,17 @@ import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessag
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem";
+import useAssessmentDataQuery from "../../teacher/view-sessions/useAssessmentDataQuery";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] =
     React.useState<TestSessionStatus>("active");
 
-  const { authenticatedUser } = useContext(AuthContext);
-
-  const { id: teacherId } = authenticatedUser ?? {};
-
-  const { loading, error, data } = useQuery<{
-    testSessionsByTeacherId: TestSessionOverviewData[];
-  }>(GET_TEST_SESSIONS_BY_TEACHER_ID, {
-    fetchPolicy: "cache-and-network",
-    variables: { teacherId },
-    skip: !teacherId,
-  });
-
-  const formattedData = useMemo(() => {
-    const now = new Date();
-    return data?.testSessionsByTeacherId?.map(
-      ({ id, startDate, endDate, test, class: classroom, ...session }) => ({
-        ...session,
-        testSessionId: id,
-        testName: test.name,
-        classroomName: classroom.className,
-        status: getSessionStatus(startDate, endDate, now),
-        targetDate: getSessionTargetDate(startDate, endDate, now),
-      }),
-    );
-  }, [data]);
+  const { loading, error, data } = useAssessmentDataQuery();
 
   const filteredData = useMemo(() => {
-    return formattedData?.filter((session) => session.status === currentTab);
-  }, [formattedData, currentTab]);
+    return data?.filter((session) => session.status === currentTab);
+  }, [data, currentTab]);
 
   const sortedData = useMemo(() => {
     const invertSort = currentTab === "past";
@@ -82,7 +51,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <VStack align="left" mb={10}>
         <HeaderWithButton
           buttonText="Add Assessment"
-          showButton={!!formattedData?.length}
+          showButton={!!data?.length}
           targetRoute={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
           title="Assessments"
         />
@@ -98,7 +67,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <ErrorState />
         </Box>
       )}
-      {!!formattedData?.length && !loading && !error && (
+      {!!data?.length && !loading && !error && (
         <>
           <Tabs mt={3} onChange={(index) => setCurrentTab(STATUSES[index])}>
             <TabList>
@@ -131,7 +100,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           )}
         </>
       )}
-      {!formattedData?.length && !loading && !error && <EmptySessionsMessage />}
+      {!data?.length && !loading && !error && <EmptySessionsMessage />}
     </>
   );
 };
