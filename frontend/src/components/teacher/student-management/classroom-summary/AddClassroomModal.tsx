@@ -37,8 +37,8 @@ import type {
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
 import { isPastDate } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
-import Toast from "../../../common/info/Toast";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
+import useToast from "../../../common/info/useToast";
 import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
@@ -90,7 +90,7 @@ const AddOrEditClassroomModal = ({
     },
   );
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,

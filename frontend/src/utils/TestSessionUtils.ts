@@ -26,6 +26,7 @@ type SearchableTestSession = {
   testName: string;
   status: TestSessionStatus;
 };
+
 export const filterTestSessionsBySearch = <T extends SearchableTestSession>(
   sessions: T[],
   search: string,

@@ -5,7 +5,7 @@ import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 import { DELETE_CLASS } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
 import AuthContext from "../../../../contexts/AuthContext";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
@@ -44,7 +44,7 @@ const ClassroomPopover = ({
     },
   );
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handleDeleteClass = async () => {
     await deleteClass({ variables: { classId } });

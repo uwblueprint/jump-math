@@ -47,3 +47,9 @@ export const mapDocumentToDTO = <T extends Document>(document: T) =>
 
 export const mapDocumentsToDTOs = <T extends Document>(documents: Array<T>) =>
   documents.map(mapDocumentToDTO);
+
+export const generateAccessCode = () => {
+  const minm = 100000;
+  const maxm = 999999;
+  return String(Math.floor(Math.random() * (maxm - minm + 1)) + minm);
+};

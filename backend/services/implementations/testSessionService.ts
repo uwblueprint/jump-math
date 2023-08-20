@@ -24,6 +24,7 @@ import type {
 } from "../../types/questionMetadataTypes";
 import {
   equalArrays,
+  generateAccessCode,
   mapDocumentsToDTOs,
   mapDocumentToDTO,
   roundTwoDecimals,
@@ -65,6 +66,7 @@ class TestSessionService implements ITestSessionService {
 
       const newTestSession = await MgTestSession.create({
         ...testSession,
+        accessCode: generateAccessCode(),
         results: [],
       });
       await this.addTestSessionToClass(testSession.class, newTestSession.id);

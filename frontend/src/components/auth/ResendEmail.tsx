@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Text } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon } from "../../assets/icons";
-import Toast from "../common/info/Toast";
+import useToast from "../common/info/useToast";
 
 interface ResendEmailProps {
   resendFunction: () => Promise<void>;
@@ -11,7 +11,7 @@ interface ResendEmailProps {
 const ResendEmail = ({
   resendFunction,
 }: ResendEmailProps): React.ReactElement => {
-  const { showToast } = Toast();
+  const { showToast } = useToast();
   const [isResending, setIsResending] = useState(false);
 
   const onResendClick = async () => {
