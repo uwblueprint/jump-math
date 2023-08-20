@@ -99,6 +99,17 @@ class ClassService implements IClassService {
           `More than one class has the same Test Session of id ${testSessionId}`,
         );
       }
+
+      // Filter out students who have already completed the test
+      const testSession = await this.testSessionService.getTestSessionById(
+        testSessionId,
+      );
+      const completedStudents = new Set(
+        testSession.results?.map((result) => result.student),
+      );
+      classes[0].students = classes[0].students.filter(
+        (student) => !completedStudents.has(student.id),
+      );
     } catch (error: unknown) {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
