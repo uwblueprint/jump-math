@@ -25,28 +25,28 @@ const DistributeAssessmentButton = ({
   const history = useHistory();
   const { showToast } = useToast();
 
-  const [createSession, { loading, error }] = useMutation<{
+  const [createSession, { loading }] = useMutation<{
     createSession: string;
   }>(CREATE_TEST_SESSION, {
     refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
   });
 
   const handleCreateSession = async () => {
-    await createSession({
-      variables: {
-        testSession: { ...testSession, accessCode: generateAccessCode() },
-      },
-    });
-    if (error) {
-      showToast({
-        message: "Failed to create assessment. Please try again.",
-        status: "error",
+    try {
+      await createSession({
+        variables: {
+          testSession: { ...testSession, accessCode: generateAccessCode() },
+        },
       });
-    } else {
       history.push(DISPLAY_ASSESSMENTS_PAGE);
       showToast({
         message: "New assessment created.",
         status: "success",
+      });
+    } catch (e) {
+      showToast({
+        message: "Failed to create assessment. Please try again.",
+        status: "error",
       });
     }
   };
