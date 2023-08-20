@@ -20,49 +20,49 @@ type TestSessionDTO = TestSessionRequestDTO & {
  */
 export const mockUngradedTestResult: ResultRequestDTO = {
   student: "some-student-name",
-  answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
+  answers: [[[3], [0], [1, 2], [1, 4], [5, 1, 0]], [[]]],
 };
 
 export const mockGradedTestResult: ResultResponseDTO = {
   student: "some-student-name",
-  score: 80.0,
-  answers: [[[3], [0], [1, 2], [1, 4]], [[]]],
-  breakdown: [[true, true, true, true], [false]],
+  score: 66.67,
+  answers: [[[3], [0], [1, 2], [1, 4], [5, 1, 0]], [[]]],
+  breakdown: [[true, true, true, true, false], [false]],
 };
 
 export const mockGradedTestResult2: ResultResponseDTO = {
   student: "some-student-name-2",
-  score: 40.0,
-  answers: [[[0], [3], [1, 2], [5, 4]], [[7]]],
-  breakdown: [[false, false, true, false], [true]],
+  score: 33.33,
+  answers: [[[0], [3], [1, 2], [5, 4], [0, 0, 0]], [[7]]],
+  breakdown: [[false, false, true, false, false], [true]],
 };
 
 export const mockGradedTestResult3: ResultResponseDTO = {
   student: "some-student-name-3",
-  score: 80.0,
-  answers: [[[3], [0], [1, 2]], [[7]]],
-  breakdown: [[true, true, true, false], [true]],
+  score: 83.33,
+  answers: [[[3], [0], [1, 2], [5, 1, 4]], [[7]]],
+  breakdown: [[true, true, true, false, true], [true]],
 };
 
 export const mockGradedTestResult4: ResultResponseDTO = {
   student: "some-student-name-4",
-  score: 20.0,
-  answers: [[[1.5], [1], [3]], [[7]]],
-  breakdown: [[false, false, false, false], [true]],
+  score: 33.33,
+  answers: [[[1.5], [1], [3], [5, 1, 4]], [[7]]],
+  breakdown: [[false, false, false, false, true], [true]],
 };
 
 export const mockGradedTestResult5: ResultResponseDTO = {
   student: "some-student-name-5",
-  score: 90.0,
-  answers: [[[1.5], [1], [3]], [[7]]],
-  breakdown: [[false, false, false, false], [true]],
+  score: 33.33,
+  answers: [[[1.5], [1], [3], [5, 1, 4]], [[7]]],
+  breakdown: [[false, false, false, false, true], [true]],
 };
 
 export const mockGradedTestResult6: ResultResponseDTO = {
   student: "some-student-name-6",
-  score: 95.0,
-  answers: [[[1.5], [1], [3]], [[7]]],
-  breakdown: [[false, false, false, false], [true]],
+  score: 16.67,
+  answers: [[[1.5], [1], [3], [0, 0, 4]], [[7]]],
+  breakdown: [[false, false, false, false, false], [true]],
 };
 
 /**

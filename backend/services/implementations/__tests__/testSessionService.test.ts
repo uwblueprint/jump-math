@@ -405,9 +405,9 @@ describe("mongo testSessionService", (): void => {
     const markDistribution: Array<number> =
       await testSessionService.getMarkDistribution(testSession.id);
 
-    // Scores: 80, 80, 40, 80, 20
-    // Counts: [0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0]
-    expect(markDistribution).toEqual([0, 0, 20, 0, 20, 0, 0, 0, 60, 0, 0]);
+    // Scores:[66.67, 33.33, 83.33, 66.67, 33.33]
+    // Counts: [0, 0, 0, 2, 0, 0, 2, 0, 1, 0, 0]
+    expect(markDistribution).toEqual([0, 0, 0, 40, 0, 0, 40, 0, 20, 0, 0]);
   });
 
   it("getMarkDistribution for test session with no results", async () => {
@@ -437,7 +437,8 @@ describe("mongo testSessionService", (): void => {
     const performanceByQuestion: Array<number> =
       await testSessionService.getPerformanceByQuestion(testSession.id);
 
-    expect(performanceByQuestion).toEqual([60, 60]);
+    // Counts: [14/25, 3/5]
+    expect(performanceByQuestion).toEqual([56, 60]);
   });
 
   it("getPerformanceByQuestion for test session with no results", async () => {
@@ -469,19 +470,19 @@ describe("mongo testSessionService", (): void => {
       await testSessionService.getStudentLeaderBoard(savedTestSession.id);
 
     expect(topFive).toEqual([
-      "some-student-name-6",
-      "some-student-name-5",
-      "some-student-name",
       "some-student-name-3",
+      "some-student-name",
       "some-student-name-2",
+      "some-student-name-4",
+      "some-student-name-5",
     ]);
 
     expect(bottomFive).toEqual([
+      "some-student-name-6",
+      "some-student-name-5",
       "some-student-name-4",
       "some-student-name-2",
-      "some-student-name-3",
       "some-student-name",
-      "some-student-name-5",
     ]);
   });
 
