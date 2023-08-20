@@ -63,7 +63,7 @@ export interface IClassService {
   /**
    * This method retrieves the classes associated with given teacher id.
    * @param id teacher id
-   * @param queryOptions optional options for the query including sorting and pagination
+   * @param queryOptions optional options for the query including sorting, filtering and pagination
    * @returns list of requested classes
    * @throws Error if retrieval fails
    */
