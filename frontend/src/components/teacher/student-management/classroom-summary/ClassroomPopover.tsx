@@ -1,6 +1,7 @@
 import React from "react";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
+import useToast from "../../../common/info/useToast";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
