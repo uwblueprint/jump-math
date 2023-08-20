@@ -1,4 +1,4 @@
-import type { Grade } from "../../types";
+import type { Grade, QueryOptions } from "../../types";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -31,6 +31,10 @@ export interface ClassResponseDTO {
   isActive: boolean;
 }
 
+export interface ClassQueryOptions extends QueryOptions {
+  excludeArchived?: boolean;
+}
+
 export interface IClassService {
   /**
    * This method creates a new class in the database.
@@ -59,10 +63,14 @@ export interface IClassService {
   /**
    * This method retrieves the classes associated with given teacher id.
    * @param id teacher id
+   * @param queryOptions optional options for the query including sorting, filtering and pagination
    * @returns list of requested classes
    * @throws Error if retrieval fails
    */
-  getClassesByTeacherId(teacherId: string): Promise<Array<ClassResponseDTO>>;
+  getClassesByTeacherId(
+    teacherId: string,
+    queryOptions?: ClassQueryOptions,
+  ): Promise<Array<ClassResponseDTO>>;
 
   /**
    * This method updates the class with given id.

@@ -8,10 +8,12 @@ import type {
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
+  ClassQueryOptions,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
 import {
+  applyQueryOptions,
   mapDocumentsToDTOs,
   mapDocumentToDTO,
 } from "../../utilities/generalUtils";
@@ -106,10 +108,18 @@ class ClassService implements IClassService {
 
   async getClassesByTeacherId(
     teacherId: string,
+    queryOptions?: ClassQueryOptions,
   ): Promise<Array<ClassResponseDTO>> {
     let classes: Class[];
     try {
-      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+      const query = MgClass.find({
+        teacher: { $eq: teacherId },
+      });
+      applyQueryOptions(query, queryOptions);
+      if (queryOptions?.excludeArchived) {
+        query.where({ isActive: { $in: [true, undefined] } });
+      }
+      classes = await query;
     } catch (error: unknown) {
       Logger.error(
         `Failed to get classes by teacher id. Reason = ${getErrorMessage(

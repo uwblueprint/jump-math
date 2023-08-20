@@ -5,6 +5,10 @@ const scalarResolvers = async () => ({
   GradeEnum: {
     KINDERGARTEN: "K",
   },
+  SortDirection: {
+    ASC: "asc",
+    DESC: "desc",
+  },
 });
 
 export default scalarResolvers;

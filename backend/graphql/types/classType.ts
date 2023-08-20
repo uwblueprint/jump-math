@@ -32,10 +32,24 @@ const classType = gql`
     isActive: Boolean!
   }
 
+  input ClassQuerySort {
+    updatedAt: SortDirection
+  }
+
+  input ClassQueryOptions {
+    limit: Int
+    skip: Int
+    sort: ClassQuerySort
+    excludeArchived: Boolean
+  }
+
   extend type Query {
     class(id: ID!): ClassResponseDTO!
     classByTestSession(testSessionId: ID!): ClassResponseDTO!
-    classesByTeacher(teacherId: ID!): [ClassResponseDTO!]!
+    classesByTeacher(
+      teacherId: ID!
+      queryOptions: ClassQueryOptions
+    ): [ClassResponseDTO!]!
   }
 
   extend type Mutation {

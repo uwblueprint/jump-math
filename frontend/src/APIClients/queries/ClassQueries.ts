@@ -59,8 +59,8 @@ export const GET_CLASS_BY_TEST_SESSION = gql`
 `;
 
 export const GET_CLASSES_BY_TEACHER = gql`
-  query ClassesByTeacher($teacherId: ID!) {
-    classesByTeacher(teacherId: $teacherId) {
+  query ClassesByTeacher($teacherId: ID!, $queryOptions: ClassQueryOptions) {
+    classesByTeacher(teacherId: $teacherId, queryOptions: $queryOptions) {
       id
       gradeLevel
       className
