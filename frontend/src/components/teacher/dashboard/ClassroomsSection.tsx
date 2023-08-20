@@ -14,6 +14,7 @@ const QUERY_DATA_OPTIONS: QueryOptions = {
   sort: {
     updatedAt: "DESC",
   },
+  excludeArchived: true,
 };
 
 const ClassroomsSection = (): ReactElement => {

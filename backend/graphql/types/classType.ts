@@ -40,6 +40,7 @@ const classType = gql`
     limit: Int
     skip: Int
     sort: ClassQuerySort
+    excludeArchived: Boolean
   }
 
   extend type Query {

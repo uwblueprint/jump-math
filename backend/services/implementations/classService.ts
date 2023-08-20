@@ -1,4 +1,4 @@
-import type { QueryOptions, UserDTO } from "../../types";
+import type { UserDTO } from "../../types";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
@@ -8,6 +8,7 @@ import type {
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
+  ClassQueryOptions,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
@@ -107,11 +108,16 @@ class ClassService implements IClassService {
 
   async getClassesByTeacherId(
     teacherId: string,
-    queryOptions?: QueryOptions,
+    queryOptions?: ClassQueryOptions,
   ): Promise<Array<ClassResponseDTO>> {
     let classes: Class[];
     try {
-      const query = MgClass.find({ teacher: { $eq: teacherId } });
+      const query = MgClass.find({
+        teacher: { $eq: teacherId },
+        isActive: queryOptions?.excludeArchived
+          ? { $in: [true, undefined] }
+          : null,
+      });
       applyQueryOptions(query, queryOptions);
       classes = await query;
     } catch (error: unknown) {

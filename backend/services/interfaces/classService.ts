@@ -31,6 +31,10 @@ export interface ClassResponseDTO {
   isActive: boolean;
 }
 
+export interface ClassQueryOptions extends QueryOptions {
+  excludeArchived?: boolean;
+}
+
 export interface IClassService {
   /**
    * This method creates a new class in the database.
@@ -65,7 +69,7 @@ export interface IClassService {
    */
   getClassesByTeacherId(
     teacherId: string,
-    queryOptions?: QueryOptions,
+    queryOptions?: ClassQueryOptions,
   ): Promise<Array<ClassResponseDTO>>;
 
   /**

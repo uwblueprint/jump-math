@@ -12,6 +12,7 @@ export type QueryOptions = {
   sort?: {
     updatedAt?: "ASC" | "DESC";
   };
+  excludeArchived?: boolean;
 };
 
 const useClassDataQuery = (queryOptions?: QueryOptions) => {
