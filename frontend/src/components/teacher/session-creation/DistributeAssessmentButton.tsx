@@ -11,13 +11,17 @@ import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { generateAccessCode } from "../../../utils/TestSessionUtils";
 import useToast from "../../common/info/useToast";
 
+import DistributeAssessmentModal from "./DistributeAssessmentModal";
+
 interface DistributeAssessmentButtonProps {
-  testSessionRequest: Omit<TestSessionRequest, "accessCode">;
+  testSession: Omit<TestSessionRequest, "accessCode">;
 }
 
 const DistributeAssessmentButton = ({
-  testSessionRequest,
+  testSession,
 }: DistributeAssessmentButtonProps): React.ReactElement => {
+  const [showDistributeModal, setShowDistributeModal] = React.useState(false);
+
   const history = useHistory();
   const { showToast } = useToast();
 
@@ -27,9 +31,7 @@ const DistributeAssessmentButton = ({
     refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
   });
 
-  const handleCreateSession = async (
-    testSession: Omit<TestSessionRequest, "accessCode">,
-  ) => {
+  const handleCreateSession = async () => {
     await createSession({
       variables: {
         testSession: { ...testSession, accessCode: generateAccessCode() },
@@ -37,28 +39,35 @@ const DistributeAssessmentButton = ({
     });
     if (error) {
       showToast({
-        message: "Failed to create test. Please try again.",
+        message: "Failed to create assessment. Please try again.",
         status: "error",
       });
     } else {
       history.push(DISPLAY_ASSESSMENTS_PAGE);
       showToast({
-        message: "New test created.",
+        message: "New assessment created.",
         status: "success",
       });
     }
   };
 
   return (
-    <Button
-      isLoading={loading}
-      leftIcon={<PaperPlaneOutlineIcon />}
-      minWidth="10"
-      onClick={() => handleCreateSession(testSessionRequest)}
-      variant="primary"
-    >
-      Distribute
-    </Button>
+    <>
+      <Button
+        isLoading={loading}
+        leftIcon={<PaperPlaneOutlineIcon />}
+        minWidth="10"
+        onClick={() => setShowDistributeModal(true)}
+        variant="primary"
+      >
+        Distribute
+      </Button>
+      <DistributeAssessmentModal
+        distributeAssessment={handleCreateSession}
+        isOpen={showDistributeModal}
+        onClose={() => setShowDistributeModal(false)}
+      />
+    </>
   );
 };
 

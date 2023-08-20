@@ -130,7 +130,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           <>
             {startDate && endDate && teacherId && (
               <DistributeAssessmentButton
-                testSessionRequest={{
+                testSession={{
                   test: testId,
                   teacher: teacherId,
                   school: "639151a4d46e8c002a49f8d6",
