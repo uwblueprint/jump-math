@@ -131,6 +131,8 @@ const DisplayClassroomsPage = () => {
   });
 
   useEffect(() => {
+    // We need to reset the form values in case we had to fetch the class data
+    // from the server.
     classroomFormMethods.reset(
       {
         className: displayTitle,
