@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, VStack } from "@chakra-ui/react";
+import { Divider, HStack, VStack } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../types/QuestionMetadataTypes";
 
@@ -31,21 +31,23 @@ const CorrectedMixedFraction = ({
       }
       w={400}
     >
-      <CorrectedTextField
-        correctAnswer={correctAnswer.wholeNumber as number}
-        studentAnswer={studentAnswerWholeNumber}
-      />
-      <VStack alignItems="center">
+      <HStack justifyContent="center">
         <CorrectedTextField
-          correctAnswer={correctAnswer.numerator}
-          studentAnswer={studentAnswerNumerator}
+          correctAnswer={correctAnswer.wholeNumber as number}
+          studentAnswer={studentAnswerWholeNumber}
         />
-        <Divider borderBottomWidth="2px" borderColor="grey.300" />
-        <CorrectedTextField
-          correctAnswer={correctAnswer.denominator}
-          studentAnswer={studentAnswerDenominator}
-        />
-      </VStack>
+        <VStack alignItems="center">
+          <CorrectedTextField
+            correctAnswer={correctAnswer.numerator}
+            studentAnswer={studentAnswerNumerator}
+          />
+          <Divider borderBottomWidth="2px" borderColor="grey.300" />
+          <CorrectedTextField
+            correctAnswer={correctAnswer.denominator}
+            studentAnswer={studentAnswerDenominator}
+          />
+        </VStack>
+      </HStack>
     </CorrectedInputWrapper>
   );
 };

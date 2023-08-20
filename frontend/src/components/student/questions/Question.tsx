@@ -85,7 +85,9 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                     <Image url={(element.metadata as ImageMetadata).url} />
                   );
                 case QuestionElementType.FRACTION:
-                  if ((element.metadata as FractionMetadata).wholeNumber) {
+                  if (
+                    (element.metadata as FractionMetadata).wholeNumber !== null
+                  ) {
                     return (
                       <MixedFraction
                         answerElementIndex={answerElementIndex[i]}

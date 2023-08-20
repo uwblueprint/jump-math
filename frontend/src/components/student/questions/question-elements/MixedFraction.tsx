@@ -27,7 +27,7 @@ const MixedFraction = ({
       onWholeNumberChange={(e) =>
         updateAnswer([Number(e.target.value), numerator, denominator])
       }
-      wholeNumber={wholeNumber !== null ? String(wholeNumber) : null}
+      wholeNumber={String(wholeNumber ?? "")}
     />
   );
 };

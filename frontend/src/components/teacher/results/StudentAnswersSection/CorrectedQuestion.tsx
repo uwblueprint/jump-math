@@ -119,7 +119,9 @@ const CorrectedQuestion = ({
                     </Box>
                   );
                 case QuestionElementType.FRACTION:
-                  if ((element.metadata as FractionMetadata).wholeNumber) {
+                  if (
+                    (element.metadata as FractionMetadata).wholeNumber != null
+                  ) {
                     return (
                       <Box mt={8}>
                         <CorrectedMixedFraction
