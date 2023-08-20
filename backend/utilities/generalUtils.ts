@@ -55,10 +55,11 @@ export const mapDocumentToDTO = <T extends Document>(document: T) =>
 export const mapDocumentsToDTOs = <T extends Document>(documents: Array<T>) =>
   documents.map(mapDocumentToDTO);
 
-const pickQueryOptions = (queryOptions: MongooseQueryOptions): QueryOptions => {
-  const { limit, skip, sort } = queryOptions;
-  return { limit, skip, sort };
-};
+const pickQueryOptions = ({
+  limit,
+  skip,
+  sort,
+}: MongooseQueryOptions): QueryOptions => ({ limit, skip, sort });
 
 export const applyQueryOptions = <
   T extends { setOptions: (o: QueryOptions) => void },
