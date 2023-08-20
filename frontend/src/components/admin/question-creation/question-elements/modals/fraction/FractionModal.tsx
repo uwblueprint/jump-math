@@ -22,7 +22,7 @@ const FractionModal = ({
   data,
   fractionType,
 }: FractionModalProps): React.ReactElement => {
-  const [wholeNumber, setWholeNumber] = useState<string | null>("");
+  const [wholeNumber, setWholeNumber] = useState<string>("");
   const [numerator, setNumerator] = useState<string>("");
   const [denominator, setDenominator] = useState<string>("");
   const [error, setError] = useState(false);
@@ -43,9 +43,7 @@ const FractionModal = ({
 
   const handleConfirm = () => {
     const castedWholeNumber =
-      fractionType === "regular" || wholeNumber == null
-        ? null
-        : stringToFloat(wholeNumber);
+      fractionType === "regular" ? null : stringToFloat(wholeNumber);
     const castedNumerator = stringToFloat(numerator);
     const castedDenominator = stringToFloat(denominator);
     if (
@@ -60,12 +58,6 @@ const FractionModal = ({
       });
       handleClose();
     } else {
-      console.log(
-        "typeof castedWholeNumber !== 'undefined'",
-        castedWholeNumber,
-        castedNumerator,
-        castedDenominator,
-      );
       setError(true);
     }
   };
@@ -90,11 +82,8 @@ const FractionModal = ({
           onNumeratorChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setNumerator(e.target.value)
           }
-          onWholeNumberChange={
-            fractionType === "mixed"
-              ? (e: React.ChangeEvent<HTMLInputElement>) =>
-                  setWholeNumber(e.target.value)
-              : undefined
+          onWholeNumberChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setWholeNumber(e.target.value)
           }
           wholeNumber={fractionType === "mixed" ? wholeNumber : null}
         />

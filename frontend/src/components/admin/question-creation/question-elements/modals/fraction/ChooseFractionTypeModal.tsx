@@ -20,6 +20,25 @@ interface ChooseFractionTypeModalProps {
   setFractionType: (val: FractionType) => void;
 }
 
+interface FractionTypeOptionsType {
+  label: string;
+  value: FractionType;
+  wholeNumber: string | null;
+}
+
+const options: FractionTypeOptionsType[] = [
+  {
+    label: "Regular",
+    value: "regular",
+    wholeNumber: null,
+  },
+  {
+    label: "Mixed",
+    value: "mixed",
+    wholeNumber: "",
+  },
+];
+
 const ChooseFractionTypeModal = ({
   onSecondModalOpen,
   fractionType,
@@ -58,36 +77,25 @@ const ChooseFractionTypeModal = ({
           onChange={(val: FractionType) => setFractionType(val)}
         >
           <Stack>
-            <Radio value="regular">
-              <FormHelperText
-                color="grey.300"
-                pb="1em"
-                style={{ fontSize: "18px" }}
-              >
-                Regular
-              </FormHelperText>
-              <FractionInput
-                denominator=""
-                numerator=""
-                readOnly
-                wholeNumber={null}
-              />
-            </Radio>
-            <Radio value="mixed">
-              <FormHelperText
-                color="grey.300"
-                pb="1em"
-                style={{ fontSize: "18px" }}
-              >
-                Mixed
-              </FormHelperText>
-              <FractionInput
-                denominator=""
-                numerator=""
-                readOnly
-                wholeNumber=""
-              />
-            </Radio>
+            {options.map((option: FractionTypeOptionsType, i) => {
+              return (
+                <Radio key={i} value={option.value}>
+                  <FormHelperText
+                    color="grey.300"
+                    pb="1em"
+                    style={{ fontSize: "18px" }}
+                  >
+                    {option.label}
+                  </FormHelperText>
+                  <FractionInput
+                    denominator=""
+                    numerator=""
+                    readOnly
+                    wholeNumber={option.wholeNumber}
+                  />
+                </Radio>
+              );
+            })}
           </Stack>
         </RadioGroup>
         <FormErrorMessage>Select a value before confirming.</FormErrorMessage>
