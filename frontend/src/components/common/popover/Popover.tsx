@@ -44,9 +44,11 @@ const Popover = ({
       <PopoverTrigger>{triggerButton}</PopoverTrigger>
       <PopoverContent
         backgroundColor="grey.100"
-        borderRadius="15%"
+        border="none"
+        borderRadius="16px"
         maxHeight="50%"
-        width="80%"
+        overflow="hidden"
+        width="100%"
       >
         <PopoverBody>{children}</PopoverBody>
       </PopoverContent>

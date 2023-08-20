@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import {
   Box,
   Center,
@@ -26,13 +26,25 @@ import AddOrEditClassroomModal from "../../teacher/student-management/classroom-
 import ClassroomCard from "../../teacher/student-management/classroom-summary/ClassroomCard";
 import useClassDataQuery from "../../teacher/student-management/classroom-summary/useClassDataQuery";
 
+const getLocationState = (
+  state: unknown,
+): { isAddClassroomModalOpen?: boolean } => ({
+  isAddClassroomModalOpen: undefined,
+  ...(typeof state === "object" ? state : {}),
+});
+
 const ClassroomsPage = (): React.ReactElement => {
+  const { state } = useLocation();
+  const { isAddClassroomModalOpen } = getLocationState(state);
+
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
   const methods = useForm();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(
+    isAddClassroomModalOpen ?? false,
+  );
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};

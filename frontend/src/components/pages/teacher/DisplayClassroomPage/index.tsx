@@ -22,9 +22,9 @@ import RedirectTo from "../../../auth/RedirectTo";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
+import SimplePopover from "../../../common/popover/SimplePopover";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
 import AddOrEditClassroomModal from "../../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
-import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
@@ -151,14 +151,19 @@ const DisplayClassroomsPage = () => {
       />
       <HeaderWithButton
         button={
-          <AddClassroomOrStudentPopover
+          <SimplePopover
             isDisabled={loading}
-            onCreateClassroom={() =>
-              history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
-                classroomId,
-              })
-            }
-            onCreateStudent={onStudentModalOpen}
+            items={[
+              {
+                name: "Assessment",
+                onClick: () =>
+                  history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
+                    classroomId,
+                  }),
+              },
+              { name: "Student", onClick: onStudentModalOpen },
+            ]}
+            text="Add"
           />
         }
         isLoading={loading}
