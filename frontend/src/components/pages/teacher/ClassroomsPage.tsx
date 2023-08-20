@@ -28,14 +28,14 @@ import useClassDataQuery from "../../teacher/student-management/classroom-summar
 
 const getLocationState = (
   state: unknown,
-): { openAddClassroomModal?: boolean } => ({
-  openAddClassroomModal: undefined,
+): { isAddClassroomModalOpen?: boolean } => ({
+  isAddClassroomModalOpen: undefined,
   ...(typeof state === "object" ? state : {}),
 });
 
 const ClassroomsPage = (): React.ReactElement => {
   const { state } = useLocation();
-  const { openAddClassroomModal } = getLocationState(state);
+  const { isAddClassroomModalOpen } = getLocationState(state);
 
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
@@ -43,7 +43,7 @@ const ClassroomsPage = (): React.ReactElement => {
   const methods = useForm();
 
   const [isModalOpen, setIsModalOpen] = useState(
-    openAddClassroomModal ?? false,
+    isAddClassroomModalOpen ?? false,
   );
 
   const { authenticatedUser } = useContext(AuthContext);
