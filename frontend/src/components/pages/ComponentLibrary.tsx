@@ -189,6 +189,7 @@ const ComponentLibrary = (): React.ReactElement => {
           assessmentCount={1}
           grade={Grade.GRADE_4}
           id=""
+          isActive
           name="Counting and Numbers"
           studentCount={23}
         />
@@ -197,6 +198,7 @@ const ComponentLibrary = (): React.ReactElement => {
           assessmentCount={3}
           grade={Grade.GRADE_8}
           id=""
+          isActive={false}
           name="Sorting and Classifying"
           studentCount={14}
         />

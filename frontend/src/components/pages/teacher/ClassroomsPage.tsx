@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { type ReactElement, useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Redirect, useLocation } from "react-router-dom";
 import {
@@ -33,11 +33,11 @@ const getLocationState = (
   ...(typeof state === "object" ? state : {}),
 });
 
-const ClassroomsPage = (): React.ReactElement => {
+const ClassroomsPage = (): ReactElement => {
   const { state } = useLocation();
   const { isAddClassroomModalOpen } = getLocationState(state);
 
-  const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
+  const [tabIndex, setTabIndex] = useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
   const methods = useForm();
@@ -108,6 +108,7 @@ const ClassroomsPage = (): React.ReactElement => {
                           activeAssessments,
                           assessmentCount,
                           gradeLevel,
+                          isActive,
                           className,
                           startDate,
                           studentCount,
@@ -119,6 +120,7 @@ const ClassroomsPage = (): React.ReactElement => {
                               assessmentCount={assessmentCount}
                               grade={gradeLevel}
                               id={id}
+                              isActive={isActive}
                               name={className}
                               startDate={startDate}
                               studentCount={studentCount}

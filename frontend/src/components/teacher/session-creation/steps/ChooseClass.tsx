@@ -78,6 +78,7 @@ const ChooseClass = ({
               activeAssessments,
               assessmentCount,
               gradeLevel,
+              isActive,
               className,
               startDate,
               studentCount,
@@ -99,6 +100,7 @@ const ChooseClass = ({
                   clickDisabled={true}
                   grade={gradeLevel}
                   id={id}
+                  isActive={isActive}
                   name={className}
                   selected={selectedClassId === id}
                   startDate={startDate}
