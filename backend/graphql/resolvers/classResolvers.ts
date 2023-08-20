@@ -6,11 +6,9 @@ import type {
 } from "../../services/interfaces/classService";
 
 import ClassService from "../../services/implementations/classService";
-import type { ISchoolService } from "../../services/interfaces/schoolService";
 import type { ITestService } from "../../services/interfaces/testService";
 import type { ITestSessionService } from "../../services/interfaces/testSessionService";
 import type IUserService from "../../services/interfaces/userService";
-import SchoolService from "../../services/implementations/schoolService";
 import TestService from "../../services/implementations/testService";
 import TestSessionService from "../../services/implementations/testSessionService";
 import UserService from "../../services/implementations/userService";
@@ -18,11 +16,8 @@ import type { QueryOptions } from "../../types";
 
 const userService: IUserService = new UserService();
 const testService: ITestService = new TestService();
-const schoolService: ISchoolService = new SchoolService(userService);
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
-  userService,
-  schoolService,
 );
 const classService: IClassService = new ClassService(
   userService,
