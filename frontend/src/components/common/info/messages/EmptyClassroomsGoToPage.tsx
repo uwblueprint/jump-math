@@ -10,7 +10,8 @@ import MessageContainer from "../MessageContainer";
 const EmptyClassroomsGoToPageMessage = (): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   const history = useHistory();
-  const onClick = () => history.push(Routes.CLASSROOMS_PAGE);
+  const onClick = () =>
+    history.push(Routes.CLASSROOMS_PAGE, { openAddClassroomModal: true });
 
   return (
     <Center __css={styles} pb={14}>

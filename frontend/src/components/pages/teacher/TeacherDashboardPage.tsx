@@ -24,7 +24,10 @@ const TeacherDashboardPage = (): React.ReactElement => {
               },
               {
                 name: "Classroom",
-                onClick: () => history.push(Routes.CLASSROOMS_PAGE),
+                onClick: () =>
+                  history.push(Routes.CLASSROOMS_PAGE, {
+                    openAddClassroomModal: true,
+                  }),
               },
             ]}
             text="Add New"
