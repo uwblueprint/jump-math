@@ -79,7 +79,7 @@ const ChooseFractionTypeModal = ({
           <Stack>
             {options.map((option: FractionTypeOptionsType, i) => {
               return (
-                <Radio key={i} value={option.value}>
+                <Radio key={i} value={option.value} variant="fullWidthLabel">
                   <FormHelperText
                     color="grey.300"
                     pb="1em"

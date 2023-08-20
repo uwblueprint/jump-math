@@ -41,6 +41,11 @@ const Radio = {
         },
       },
     },
+    fullWidthLabel: {
+      label: {
+        width: "100%",
+      },
+    },
   },
 };
 
