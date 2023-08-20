@@ -100,7 +100,7 @@ const DisplayClassroomsPage = () => {
     GET_CLASS_DETAILS_BY_ID,
     {
       variables: { classroomId },
-      skip: !!className,
+      skip: !!className && !!startDate && !!gradeLevel,
     },
   );
   const displayTitle = data?.class.className ?? className;
