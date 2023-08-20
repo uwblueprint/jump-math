@@ -29,7 +29,6 @@ import {
   GET_CLASSES_BY_TEACHER,
 } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
-import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
 import type {
   ClassroomForm,
@@ -60,6 +59,7 @@ const AddOrEditClassroomModal = ({
     handleSubmit,
     watch,
     setValue,
+    reset: resetForm,
     formState: { dirtyFields, errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
@@ -119,9 +119,7 @@ const AddOrEditClassroomModal = ({
   };
 
   const onModalClose = () => {
-    setValue("className", "");
-    setValue("startDate", undefined);
-    setValue("gradeLevel", Grade.KINDERGARTEN);
+    resetForm();
     setShowRequestError(false);
     setRequestErrorMessage("");
     onClose();

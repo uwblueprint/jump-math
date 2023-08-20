@@ -184,10 +184,7 @@ const DisplayClassroomsPage = () => {
           <IconButton
             aria-label="Edit classroom"
             icon={<EditOutlineIcon />}
-            onClick={() => {
-              classroomFormMethods.reset();
-              onClassroomModalOpen();
-            }}
+            onClick={onClassroomModalOpen}
             size="icon"
             variant="icon"
           />
