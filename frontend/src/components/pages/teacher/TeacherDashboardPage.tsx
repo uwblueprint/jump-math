@@ -9,67 +9,66 @@ import SimplePopover from "../../common/popover/SimplePopover";
 import AssessmentsSection from "../../teacher/dashboard/AssessmentsSection";
 import ClassroomsSection from "../../teacher/dashboard/ClassroomsSection";
 
+const SECTION_CONFIG = [
+  {
+    title: "Classrooms",
+    viewAllRoute: Routes.CLASSROOMS_PAGE,
+    bodyComponent: <ClassroomsSection />,
+    headerGap: 8,
+  },
+  {
+    title: "Assessments",
+    viewAllRoute: Routes.DISPLAY_ASSESSMENTS_PAGE,
+    bodyComponent: <AssessmentsSection />,
+    headerGap: 0,
+  },
+];
+
 const TeacherDashboardPage = (): React.ReactElement => {
   const history = useHistory();
+
+  const popoverItems = [
+    {
+      name: "Assessment",
+      onClick: () => history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE),
+    },
+    {
+      name: "Classroom",
+      onClick: () =>
+        history.push(Routes.CLASSROOMS_PAGE, {
+          isAddClassroomModalOpen: true,
+        }),
+    },
+  ];
 
   return (
     <>
       <HeaderWithButton
-        button={
-          <SimplePopover
-            items={[
-              {
-                name: "Assessment",
-                onClick: () => history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE),
-              },
-              {
-                name: "Classroom",
-                onClick: () =>
-                  history.push(Routes.CLASSROOMS_PAGE, {
-                    isAddClassroomModalOpen: true,
-                  }),
-              },
-            ]}
-            text="Add New"
-          />
-        }
+        button={<SimplePopover items={popoverItems} text="Add New" />}
         title="Dashboard"
       />
       <HStack align="start" gap={20} mt={9}>
-        <VStack flex="1" gap={8}>
-          <HStack w="100%">
-            <Text as="h2" color="blue.300" textStyle="subtitle1">
-              Classrooms
-            </Text>
-            <Spacer />
-            <RouterLink
-              color="blue.300"
-              fontWeight="bold"
-              textDecor="none"
-              to={Routes.CLASSROOMS_PAGE}
-            >
-              View All
-            </RouterLink>
-          </HStack>
-          <ClassroomsSection />
-        </VStack>
-        <VStack align="left" flex="1" gap={0}>
-          <HStack w="100%">
-            <Text as="h2" color="blue.300" textStyle="subtitle1">
-              Assessments
-            </Text>
-            <Spacer />
-            <RouterLink
-              color="blue.300"
-              fontWeight="bold"
-              textDecor="none"
-              to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            >
-              View All
-            </RouterLink>
-          </HStack>
-          <AssessmentsSection />
-        </VStack>
+        {SECTION_CONFIG.map(
+          ({ title, viewAllRoute, bodyComponent, headerGap }) => (
+            <VStack key={title} align="left" flex="1" gap={headerGap}>
+              <HStack w="100%">
+                <Text as="h2" color="blue.300" textStyle="subtitle1">
+                  {title}
+                </Text>
+                <Spacer />
+                <RouterLink
+                  color="blue.300"
+                  fontWeight="bold"
+                  textDecor="none"
+                  to={viewAllRoute}
+                >
+                  View All
+                </RouterLink>
+              </HStack>
+              {bodyComponent}
+            </VStack>
+          ),
+        )}
       </HStack>
     </>
   );
