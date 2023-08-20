@@ -30,11 +30,15 @@ const DistributeAssessmentButton = ({
     await createSession({ variables: { testSession } });
     if (error) {
       showToast({
-        message: "Failed to create session. Please try again.",
+        message: "Failed to create test. Please try again.",
         status: "error",
       });
     } else {
       history.push(DISPLAY_ASSESSMENTS_PAGE);
+      showToast({
+        message: "New test created.",
+        status: "success",
+      });
     }
   };
 
