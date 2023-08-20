@@ -114,11 +114,11 @@ class ClassService implements IClassService {
     try {
       const query = MgClass.find({
         teacher: { $eq: teacherId },
-        isActive: queryOptions?.excludeArchived
-          ? { $in: [true, undefined] }
-          : null,
       });
       applyQueryOptions(query, queryOptions);
+      if (queryOptions?.excludeArchived) {
+        query.where({ isActive: { $in: [true, undefined] } });
+      }
       classes = await query;
     } catch (error: unknown) {
       Logger.error(
