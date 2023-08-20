@@ -1,14 +1,12 @@
 import React, { useContext, useMemo } from "react";
-import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Box, Flex, VStack } from "@chakra-ui/react";
 
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
-import { CLASSROOMS_PAGE } from "../../../../constants/Routes";
 import AuthContext from "../../../../contexts/AuthContext";
 import { getSessionStatus } from "../../../../utils/TestSessionUtils";
-import EmptyDistributeClassroomsMessage from "../../../common/info/messages/EmptyDistributeClassroomsMessage";
+import EmptyClassroomsGoToPageMessage from "../../../common/info/messages/EmptyClassroomsGoToPage";
 import Pagination from "../../../common/table/Pagination";
 import usePaginatedData from "../../../common/table/usePaginatedData";
 import ClassroomCard from "../../student-management/classroom-summary/ClassroomCard";
@@ -35,9 +33,6 @@ const ChooseClass = ({
     variables: { teacherId },
     skip: !teacherId,
   });
-
-  const history = useHistory();
-  const navigateToClassrooms = () => history.push(CLASSROOMS_PAGE);
 
   const classCards = useMemo(() => {
     const now = new Date();
@@ -68,9 +63,7 @@ const ChooseClass = ({
 
   return (
     <DistributeAssessmentWrapper
-      emptyState={
-        <EmptyDistributeClassroomsMessage onClick={navigateToClassrooms} />
-      }
+      emptyState={<EmptyClassroomsGoToPageMessage />}
       isEmpty={classCards?.length === 0}
       isError={Boolean(error)}
       isLoading={Boolean(loading)}

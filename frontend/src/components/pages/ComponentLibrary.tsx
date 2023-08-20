@@ -236,7 +236,7 @@ const ComponentLibrary = (): React.ReactElement => {
         options={[3683, 3683, 3683, 3683]}
       />
       <Flex>
-        <ClassroomsSection handleAddClassroom={() => {}} />
+        <ClassroomsSection />
         <Flex flex="1" />
       </Flex>
     </FormProvider>

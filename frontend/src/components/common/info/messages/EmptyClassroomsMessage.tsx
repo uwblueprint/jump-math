@@ -20,10 +20,8 @@ const EmptyClassroomsMessage = ({
         buttonText="Create a classroom"
         image={DisplayAssessmentsIllustration}
         onClick={onClick}
-        paragraphs={[
-          "Click on the button below to create your first classroom",
-        ]}
-        subtitle="You currently have no classroooms."
+        paragraphs={["Click on the button below to create a classroom"]}
+        subtitle="You currently have no active classroooms."
         textColor="blue.300"
       />
     </Center>
