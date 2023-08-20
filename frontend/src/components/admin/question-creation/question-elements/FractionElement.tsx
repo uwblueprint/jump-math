@@ -17,13 +17,16 @@ const FractionElement = ({
   data,
 }: FractionElementProps): React.ReactElement => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <FractionInput
         denominator={String(data.denominator)}
+        hideBorder
         numerator={String(data.numerator)}
         readOnly
+        wholeNumber={
+          data.wholeNumber !== null ? String(data.wholeNumber) : null
+        }
       />
       <Spacer />
       <IconButton

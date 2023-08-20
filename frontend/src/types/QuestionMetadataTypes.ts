@@ -31,6 +31,7 @@ export interface MultiSelectMetadata {
 }
 
 export interface FractionMetadata {
+  wholeNumber: number | null;
   numerator: number;
   denominator: number;
 }

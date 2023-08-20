@@ -16,7 +16,7 @@ export interface Result {
    * - [numeric answer] for short answer
    * - [index] for multiple choice
    * - list of indices for multiple select
-   * - [numerator, denominator] for fraction
+   * - [numerator, denominator] or [whole number, numerator, denominator] for fraction
    * - [] for no answer
    */
   answers: number[][][];

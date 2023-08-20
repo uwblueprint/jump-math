@@ -99,6 +99,7 @@ export interface ShortAnswerMetadata {
  * This interface contains additional information about a fraction component
  */
 export interface FractionMetadata {
+  wholeNumber: number | null;
   numerator: number;
   denominator: number;
 }

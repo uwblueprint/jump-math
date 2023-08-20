@@ -445,6 +445,13 @@ class TestSessionService implements ITestSessionService {
       }
       case QuestionComponentType.FRACTION: {
         const questionMetadata = questionComponent.metadata as FractionMetadata;
+        if (questionMetadata.wholeNumber) {
+          return [
+            questionMetadata.wholeNumber,
+            questionMetadata.numerator,
+            questionMetadata.denominator,
+          ];
+        }
         return [questionMetadata.numerator, questionMetadata.denominator];
       }
       case QuestionComponentType.SHORT_ANSWER: {

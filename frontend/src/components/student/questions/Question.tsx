@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 
 import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
 import type {
+  FractionMetadata,
   ImageMetadata,
   MultipleChoiceMetadata,
   MultiSelectMetadata,
@@ -18,6 +19,7 @@ import {
 
 import Fraction from "./question-elements/Fraction";
 import Image from "./question-elements/Image";
+import MixedFraction from "./question-elements/MixedFraction";
 import MultipleChoice from "./question-elements/MultipleChoice";
 import MultiSelect from "./question-elements/MultiSelect";
 import QuestionText from "./question-elements/QuestionText";
@@ -83,6 +85,13 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                     <Image url={(element.metadata as ImageMetadata).url} />
                   );
                 case QuestionElementType.FRACTION:
+                  if ((element.metadata as FractionMetadata).wholeNumber) {
+                    return (
+                      <MixedFraction
+                        answerElementIndex={answerElementIndex[i]}
+                      />
+                    );
+                  }
                   return (
                     <Fraction answerElementIndex={answerElementIndex[i]} />
                   );

@@ -90,11 +90,13 @@ const testType = gql`
   }
 
   input FractionMetadataInput {
+    wholeNumber: Int
     numerator: Int!
     denominator: Int!
   }
 
   type FractionMetadata {
+    wholeNumber: Int
     numerator: Int!
     denominator: Int!
   }

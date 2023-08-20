@@ -25,6 +25,7 @@ const Fraction = ({
       onNumeratorChange={(e) =>
         updateAnswer(stringToNumberArray(e.target.value).concat(denominator))
       }
+      wholeNumber={null}
     />
   );
 };

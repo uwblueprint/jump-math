@@ -22,6 +22,7 @@ import QuestionText from "../../../student/questions/question-elements/QuestionT
 import Text from "../../../student/questions/question-elements/Text";
 
 import CorrectedFraction from "./question-elements/CorrectedFraction";
+import CorrectedMixedFraction from "./question-elements/CorrectedMixedFraction";
 import CorrectedMultipleChoice from "./question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "./question-elements/CorrectedMultiSelect";
 import CorrectedShortAnswer from "./question-elements/CorrectedShortAnswer";
@@ -118,6 +119,16 @@ const CorrectedQuestion = ({
                     </Box>
                   );
                 case QuestionElementType.FRACTION:
+                  if ((element.metadata as FractionMetadata).wholeNumber) {
+                    return (
+                      <Box mt={8}>
+                        <CorrectedMixedFraction
+                          correctAnswer={element.metadata as FractionMetadata}
+                          studentAnswer={studentAnswers[answerElementIndex[i]]}
+                        />
+                      </Box>
+                    );
+                  }
                   return (
                     <Box mt={8}>
                       <CorrectedFraction

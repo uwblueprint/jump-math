@@ -68,6 +68,15 @@ const getQuestions = <ImageMetadataType extends ImageMetadataTypes>(
       {
         type: QuestionComponentType.FRACTION,
         metadata: {
+          wholeNumber: null,
+          numerator: 1,
+          denominator: 4,
+        },
+      },
+      {
+        type: QuestionComponentType.FRACTION,
+        metadata: {
+          wholeNumber: 5,
           numerator: 1,
           denominator: 4,
         },
