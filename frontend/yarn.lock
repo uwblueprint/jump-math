@@ -2986,10 +2986,10 @@
   dependencies:
     "@floating-ui/core" "^1.0.4"
 
-"@fontsource/dm-sans@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-5.0.3.tgz#87f7569a6a0cbeb5f19ddead59973c0a81e0c8e0"
-  integrity sha512-M+Gdza6nQM4OjoEpUXrmbvSoilSUCzOXN6BXpkT8E7kJiyoLuYWs2HvsdmgHDP8mnz2FULWg2iVbYUZX4snxkw==
+"@fontsource/dm-sans@^5.0.9":
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-sans/-/dm-sans-5.0.9.tgz#8a8371142ac555f0735349dffb9f6f9b72aac7c4"
+  integrity sha512-DdnfTba2Xsk0cQSKiJCiUmrdfLtP/rT/pfb66FxzI+jq4tXNc74oHNTvBgHaZ19gvuxo3Pr/YnPrtDQjsnj6kw==
 
 "@graphql-typed-document-node/core@^3.1.1":
   version "3.2.0"
