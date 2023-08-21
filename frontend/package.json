@@ -6,7 +6,7 @@
     "@ajna/pagination": "^1.4.19",
     "@apollo/client": "^3.7.17",
     "@chakra-ui/react": "^2.7.0",
-    "@chakra-ui/theme-tools": "^2.0.18",
+    "@chakra-ui/theme-tools": "^2.1.0",
     "@chakra-ui/utils": "^2.0.14",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
