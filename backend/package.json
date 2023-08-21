@@ -29,7 +29,7 @@
     "fast-glob": "^3.3.0",
     "firebase-admin": "^11.9.0",
     "fs-capacitor": "^8.0.0",
-    "graphql": "^16.6.0",
+    "graphql": "^16.8.0",
     "graphql-middleware": "^6.1.34",
     "graphql-tag": "^2.12.6",
     "graphql-upload": "^16.0.2",
