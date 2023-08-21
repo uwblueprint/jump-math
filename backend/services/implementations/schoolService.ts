@@ -92,6 +92,25 @@ class SchoolService implements ISchoolService {
     return (await this.mapSchoolsToSchoolResponseDTOs([school]))[0];
   }
 
+  async getSchoolByTeacherId(teacherId: string): Promise<SchoolResponseDTO> {
+    let school: School[];
+    try {
+      school = await MgSchool.find({ teachers: { $in: teacherId } });
+      if (!school.length) {
+        throw new Error(`School with teacher ${teacherId} not found`);
+      } else if (school.length > 1) {
+        throw new Error(
+          `More than one school has the same teacher of id ${teacherId}`,
+        );
+      }
+    } catch (error: unknown) {
+      Logger.error(`Failed to get School. Reason = ${getErrorMessage(error)}`);
+      throw error;
+    }
+
+    return (await this.mapSchoolsToSchoolResponseDTOs([school[0]]))[0];
+  }
+
   private async mapSchoolsToSchoolResponseDTOs(
     schools: Array<School>,
   ): Promise<Array<SchoolResponseDTO>> {

@@ -20,6 +20,14 @@ export const GET_SCHOOL = gql`
   }
 `;
 
+export const GET_SCHOOL_BY_TEACHER_ID = gql`
+  query GetSchoolByTeacherId($id: ID!) {
+    schoolByTeacherId(id: $teacherId) {
+      id
+    }
+  }
+`;
+
 export const GET_ALL_SCHOOLS = gql`
   query GetAllSchools {
     schools {

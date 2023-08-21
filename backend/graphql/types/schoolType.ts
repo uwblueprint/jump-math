@@ -13,6 +13,7 @@ const schoolType = gql`
 
   extend type Query {
     school(id: ID!): SchoolResponseDTO!
+    schoolByTeacherId(teacherId: ID!): SchoolResponseDTO!
     schools: [SchoolResponseDTO!]
   }
 `;

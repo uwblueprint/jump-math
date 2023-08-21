@@ -95,6 +95,12 @@ export interface ISchoolService {
   getSchoolById(id: string): Promise<SchoolResponseDTO>;
 
   /**
+   * This method retrieves the school related to a given teacher.
+   * @param teacherId The unique identifier for a teacher
+   */
+  getSchoolByTeacherId(teacherId: string): Promise<SchoolResponseDTO>;
+
+  /**
    * This method deletes a school given its unique identifer
    * @param id The unique identifier of the school to delete
    */
