@@ -55,7 +55,11 @@ const Login = (): React.ReactElement => {
         setUnverifiedUser(true);
         return;
       }
-      setAuthenticatedUser(user);
+      if (user?.role === "Teacher") {
+        setAuthenticatedUser({ ...user, school: "testId" });
+      } else {
+        setAuthenticatedUser(user);
+      }
     } catch (error) {
       setLoginError(true);
     }

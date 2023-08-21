@@ -67,7 +67,7 @@ const TeacherSignup = (): React.ReactElement => {
     {
       onCompleted(data: { register: AuthenticatedUser }) {
         setError("");
-        setAuthenticatedUser(data.register);
+        setAuthenticatedUser(data.register); // why do we set an authenticated user here?
         setPage(5);
       },
       onError: async () => {
