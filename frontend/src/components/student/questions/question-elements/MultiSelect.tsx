@@ -1,7 +1,7 @@
 import React from "react";
 import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
-import { stringOrNumberArrayToNumberArray } from "../../../../utils/StudentUtils";
+import { stringOrNumberArrayToFloatArray } from "../../../../utils/StudentUtils";
 
 import useAnswerState from "./useAnswerState";
 
@@ -18,7 +18,7 @@ const MultiSelect = ({
 
   return (
     <CheckboxGroup
-      onChange={(e) => updateAnswer(stringOrNumberArrayToNumberArray(e))}
+      onChange={(e) => updateAnswer(stringOrNumberArrayToFloatArray(e))}
       value={currentAnswer.map(String)}
     >
       <VStack alignItems="left" gap={3} ml={5}>

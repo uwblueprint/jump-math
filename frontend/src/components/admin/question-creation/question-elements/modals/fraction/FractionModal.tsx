@@ -3,7 +3,7 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import type { FractionType } from "../../../../../../types/QuestionTypes";
-import { stringToFloat } from "../../../../../../utils/GeneralUtils";
+import { stringToInt } from "../../../../../../utils/GeneralUtils";
 import FractionInput from "../../../../../common/fraction/FractionInput";
 import Modal from "../../../../../common/modal/Modal";
 
@@ -45,9 +45,9 @@ const FractionModal = ({
 
   const handleConfirm = () => {
     const castedWholeNumber =
-      fractionType === "regular" ? null : stringToFloat(wholeNumber);
-    const castedNumerator = stringToFloat(numerator);
-    const castedDenominator = stringToFloat(denominator);
+      fractionType === "regular" ? null : stringToInt(wholeNumber);
+    const castedNumerator = stringToInt(numerator);
+    const castedDenominator = stringToInt(denominator);
     if (
       typeof castedWholeNumber !== "undefined" &&
       typeof castedNumerator !== "undefined" &&

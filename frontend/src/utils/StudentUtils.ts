@@ -98,12 +98,12 @@ export const getUpdatedAnswer = (
   });
 };
 
-export const stringToNumberArray = (input: string): number[] => {
+export const stringToFloatArray = (input: string): number[] => {
   const castedInput = stringToFloat(input);
   return castedInput !== undefined ? [castedInput] : [];
 };
 
-export const stringOrNumberArrayToNumberArray = (
+export const stringOrNumberArrayToFloatArray = (
   inputs: StringOrNumber[],
 ): number[] => {
   return inputs

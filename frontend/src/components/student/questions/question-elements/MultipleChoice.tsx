@@ -1,7 +1,7 @@
 import React from "react";
 import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
 
-import { stringToNumberArray } from "../../../../utils/StudentUtils";
+import { stringToFloatArray } from "../../../../utils/StudentUtils";
 
 import useAnswerState from "./useAnswerState";
 
@@ -18,7 +18,7 @@ const MultipleChoice = ({
 
   return (
     <RadioGroup
-      onChange={(e) => updateAnswer(stringToNumberArray(e))}
+      onChange={(e) => updateAnswer(stringToFloatArray(e))}
       value={currentAnswer[0]?.toString() ?? ""}
     >
       <VStack alignItems="left" gap={3} ml={5}>

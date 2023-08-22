@@ -1,6 +1,5 @@
 import React from "react";
 
-import { stringToNumberArray } from "../../../../utils/StudentUtils";
 import FractionInput from "../../../common/fraction/FractionInput";
 
 import useAnswerState from "./useAnswerState";
@@ -20,10 +19,10 @@ const Fraction = ({
       denominator={String(denominator ?? "")}
       numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer([numerator].concat(stringToNumberArray(e.target.value)))
+        updateAnswer([numerator, Number(e.target.value)])
       }
       onNumeratorChange={(e) =>
-        updateAnswer(stringToNumberArray(e.target.value).concat(denominator))
+        updateAnswer([Number(e.target.value), denominator])
       }
       wholeNumber={null}
     />

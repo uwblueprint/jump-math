@@ -75,6 +75,11 @@ export const stringToFloat = (input: string): number | undefined => {
   return Number.isNaN(value) ? undefined : value;
 };
 
+export const stringToInt = (input: string): number | undefined => {
+  const value = parseInt(input);
+  return Number.isNaN(value) ? undefined : value;
+};
+
 export const isPastDate = (input: Date) => {
   const now = new Date();
   return input < now && !isSameDay(input, now);

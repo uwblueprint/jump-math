@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@chakra-ui/react";
 
-import { stringToNumberArray } from "../../../../utils/StudentUtils";
+import { stringToFloatArray } from "../../../../utils/StudentUtils";
 
 import useAnswerState from "./useAnswerState";
 
@@ -19,7 +19,7 @@ const ShortAnswer = ({
       borderColor="grey.300"
       borderRadius="8px"
       focusBorderColor="grey.300"
-      onChange={(e) => updateAnswer(stringToNumberArray(e.target.value))}
+      onChange={(e) => updateAnswer(stringToFloatArray(e.target.value))}
       onWheel={(e) => (e.target as HTMLElement).blur()}
       placeholder="Write your answer here"
       type="number"
