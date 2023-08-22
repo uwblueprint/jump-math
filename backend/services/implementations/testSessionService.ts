@@ -12,8 +12,6 @@ import type {
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type { ITestService, TestResponseDTO } from "../interfaces/testService";
-import type IUserService from "../interfaces/userService";
-import type { ISchoolService } from "../interfaces/schoolService";
 import type { QuestionComponent } from "../../types/questionTypes";
 import { QuestionComponentType } from "../../types/questionTypes";
 import type {
@@ -36,18 +34,8 @@ const Logger = logger(__filename);
 class TestSessionService implements ITestSessionService {
   testService: ITestService;
 
-  userService: IUserService;
-
-  schoolService: ISchoolService;
-
-  constructor(
-    testService: ITestService,
-    userService: IUserService,
-    schoolService: ISchoolService,
-  ) {
+  constructor(testService: ITestService) {
     this.testService = testService;
-    this.userService = userService;
-    this.schoolService = schoolService;
   }
 
   /* eslint-disable class-methods-use-this */

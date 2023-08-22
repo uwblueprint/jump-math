@@ -20,8 +20,6 @@ const schoolService: ISchoolService = new SchoolService(userService);
 const testService: ITestService = new TestService();
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
-  userService,
-  schoolService,
 );
 const classService: IClassService = new ClassService(
   userService,
