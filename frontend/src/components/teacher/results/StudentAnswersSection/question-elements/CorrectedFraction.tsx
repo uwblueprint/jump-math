@@ -53,7 +53,7 @@ const CorrectedFraction = ({
             correctAnswer={correctAnswer.numerator}
             studentAnswer={studentAnswerNumerator}
           />
-          <Divider borderBottomWidth="2px" borderColor="grey.300" />
+          <Divider borderBottomWidth="1px" borderColor="black" />
           <CorrectedTextField
             correctAnswer={correctAnswer.denominator}
             studentAnswer={studentAnswerDenominator}

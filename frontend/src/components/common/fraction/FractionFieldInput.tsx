@@ -13,16 +13,25 @@ const FractionFieldInput = ({
   onChange,
 }: FractionFieldInputProps): React.ReactElement => (
   <Input
+    _focus={{ borderColor: readOnly ? "grey.300" : "blue.300" }}
+    _hover={{ backgroundColor: readOnly ? "white" : "grey.100" }}
+    backgroundColor="white"
     border="2px solid"
     borderColor="grey.300"
     borderRadius={2}
-    ml={1}
+    color="blue.300"
+    fontSize="16px"
+    fontWeight="500"
+    height="2rem"
+    letterSpacing={0}
+    lineHeight="21px"
     onChange={onChange}
+    padding={0}
     readOnly={readOnly}
     textAlign="center"
     type="number"
     value={value}
-    width={`${value.length + 3}ch`}
+    width={`${Math.max(value.length, 2)}rem`}
   />
 );
 

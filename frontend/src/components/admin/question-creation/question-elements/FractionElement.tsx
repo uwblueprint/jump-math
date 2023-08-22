@@ -18,7 +18,7 @@ const FractionElement = ({
 }: FractionElementProps): React.ReactElement => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   return (
-    <Flex paddingBottom="4" paddingLeft="6" width="100%">
+    <Flex paddingBottom="4" width="100%">
       <FractionInput
         denominator={String(data.denominator)}
         hideBorder

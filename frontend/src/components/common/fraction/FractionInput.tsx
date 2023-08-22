@@ -26,7 +26,6 @@ const FractionInput = ({
 }: FractionInputProps): React.ReactElement => {
   return (
     <HStack
-      alignItems="center"
       border={hideBorder ? "none" : "1px solid"}
       borderColor="grey.300"
       borderRadius={hideBorder ? 0 : 8}
@@ -47,9 +46,12 @@ const FractionInput = ({
           value={numerator}
         />
         <Divider
-          borderBottomWidth="2px"
-          borderColor="grey.300"
-          w={`${Math.max(numerator.length, denominator.length) + 4}ch`}
+          borderBottomWidth="1px"
+          borderColor="black"
+          w={`${Math.max(
+            Math.max(numerator.length, denominator.length) + 1,
+            3,
+          )}rem`}
         />
         <FractionFieldInput
           onChange={onDenominatorChange}
