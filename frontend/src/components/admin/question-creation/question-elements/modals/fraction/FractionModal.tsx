@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
@@ -29,18 +29,26 @@ const FractionModal = ({
   const [denominator, setDenominator] = useState<string>("");
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const resetFieldValues = useCallback(() => {
     setWholeNumber(String(data?.wholeNumber ?? ""));
     setNumerator(String(data?.numerator ?? ""));
     setDenominator(String(data?.denominator ?? ""));
   }, [data]);
 
+  useEffect(() => {
+    resetFieldValues();
+  }, [resetFieldValues]);
+
   const handleClose = () => {
-    setWholeNumber(String(data?.wholeNumber ?? ""));
-    setNumerator(String(data?.numerator ?? ""));
-    setDenominator(String(data?.denominator ?? ""));
+    resetFieldValues();
     setError(false);
     onClose();
+  };
+
+  const handleBack = () => {
+    resetFieldValues();
+    setError(false);
+    if (onBack) onBack();
   };
 
   const handleConfirm = () => {
@@ -69,7 +77,7 @@ const FractionModal = ({
       cancelButtonText={onBack ? "Back" : "Cancel"}
       header="Create fraction question"
       isOpen={isOpen}
-      onBack={onBack}
+      onBack={handleBack}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -9,14 +9,15 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import QuestionEditorContext from "../../../../../../contexts/QuestionEditorContext";
 import type { FractionType } from "../../../../../../types/QuestionTypes";
 import FractionInput from "../../../../../common/fraction/FractionInput";
 import Modal from "../../../../../common/modal/Modal";
 
 interface ChooseFractionTypeModalProps {
-  onSecondModalOpen: () => void;
   fractionType: FractionType;
+  isOpen: boolean;
+  onClose: () => void;
+  onNext: () => void;
   setFractionType: (val: FractionType) => void;
 }
 
@@ -40,23 +41,18 @@ const options: FractionTypeOptionsType[] = [
 ];
 
 const ChooseFractionTypeModal = ({
-  onSecondModalOpen,
   fractionType,
+  isOpen,
+  onClose,
+  onNext,
   setFractionType,
 }: ChooseFractionTypeModalProps): React.ReactElement => {
-  const { showAddFractionModal, setShowAddFractionModal } = useContext(
-    QuestionEditorContext,
-  );
-
   return (
     <Modal
       header="Create fraction question"
-      isOpen={showAddFractionModal}
-      onClose={() => setShowAddFractionModal(false)}
-      onSubmit={() => {
-        setShowAddFractionModal(false);
-        onSecondModalOpen();
-      }}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={onNext}
       submitButtonText="Next"
     >
       <FormControl isRequired>

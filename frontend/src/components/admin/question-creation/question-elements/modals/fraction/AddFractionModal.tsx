@@ -13,12 +13,15 @@ import FractionModal from "./FractionModal";
 const AddFractionModal = (): React.ReactElement => {
   const [fractionType, setFractionType] = useState<FractionType>("regular");
   const {
-    onOpen: onSecondModalOpen,
-    isOpen: isSecondModalOpen,
-    onClose: onSecondModalClose,
+    onOpen: onFractionInputModalOpen,
+    isOpen: isFractionInputModalOpen,
+    onClose: onFractionInputModalClose,
   } = useDisclosure();
 
-  const { setShowAddFractionModal } = useContext(QuestionEditorContext);
+  const {
+    showAddFractionModal: isChooseFractionTypeModalOpen,
+    setShowAddFractionModal: setShowChooseFractionTypeModal,
+  } = useContext(QuestionEditorContext);
   const { setQuestionElements } = useContext(QuestionEditorContext);
   const addFractionElement = (data: FractionMetadata) => {
     setQuestionElements((prevElements) => [
@@ -35,14 +38,22 @@ const AddFractionModal = (): React.ReactElement => {
     <>
       <ChooseFractionTypeModal
         fractionType={fractionType}
-        onSecondModalOpen={onSecondModalOpen}
+        isOpen={isChooseFractionTypeModalOpen}
+        onClose={() => setShowChooseFractionTypeModal(false)}
+        onNext={() => {
+          setShowChooseFractionTypeModal(false);
+          onFractionInputModalOpen();
+        }}
         setFractionType={setFractionType}
       />
       <FractionModal
         fractionType={fractionType}
-        isOpen={isSecondModalOpen}
-        onBack={() => setShowAddFractionModal(true)}
-        onClose={onSecondModalClose}
+        isOpen={isFractionInputModalOpen}
+        onBack={() => {
+          onFractionInputModalClose();
+          setShowChooseFractionTypeModal(true);
+        }}
+        onClose={onFractionInputModalClose}
         onConfirm={addFractionElement}
       />
     </>
