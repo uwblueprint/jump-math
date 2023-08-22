@@ -32,6 +32,12 @@ const classType = gql`
     isActive: Boolean!
   }
 
+  type TestableStudentsDTO {
+    id: String!
+    className: String!
+    students: [StudentResponseDTO]!
+  }
+
   input ClassQuerySort {
     updatedAt: SortDirection
   }
@@ -45,7 +51,7 @@ const classType = gql`
 
   extend type Query {
     class(id: ID!): ClassResponseDTO!
-    classByTestSession(testSessionId: ID!): ClassResponseDTO!
+    testableStudentsByTestSessionId(testSessionId: ID!): TestableStudentsDTO!
     classesByTeacher(
       teacherId: ID!
       queryOptions: ClassQueryOptions

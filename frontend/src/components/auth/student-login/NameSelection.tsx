@@ -33,8 +33,9 @@ const NameSelection = ({
   const { loading, data } = useQuery(GET_TESTABLE_STUDENTS_BY_TEST_SESSION, {
     variables: { testSessionId: testSession.id },
   });
-  const students: StudentResponse[] = data?.classByTestSession.students ?? [];
-  const className = data?.classByTestSession.className ?? "";
+  const students: StudentResponse[] =
+    data?.testableStudentsByTestSessionId.students ?? [];
+  const className = data?.testableStudentsByTestSessionId.className ?? "";
 
   const [selectedStudent, setSelectedStudent] = useState<StudentOption>();
   const [error, setError] = useState(false);
