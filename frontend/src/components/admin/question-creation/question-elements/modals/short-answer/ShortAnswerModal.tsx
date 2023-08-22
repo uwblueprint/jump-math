@@ -7,7 +7,10 @@ import {
 } from "@chakra-ui/react";
 
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
-import { stringToFloat } from "../../../../../../utils/GeneralUtils";
+import {
+  preventNonNumericKeys,
+  stringToFloat,
+} from "../../../../../../utils/GeneralUtils";
 import Modal from "../../../../../common/modal/Modal";
 
 interface ShortAnswerModalProps {
@@ -63,6 +66,7 @@ const ShortAnswerModal = ({
         </FormLabel>
         <Input
           onChange={handleInputChange}
+          onKeyDown={(e) => preventNonNumericKeys(e, answer)}
           placeholder="Input Field"
           type="number"
           value={answer}

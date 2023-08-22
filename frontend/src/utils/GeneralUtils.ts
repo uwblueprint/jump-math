@@ -99,3 +99,16 @@ export const getLetterFromNumber = (number: number): string => {
 
   return firstLetter + secondLetter;
 };
+
+export const preventNonNumericKeys = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  value: string,
+  integerOnly = false,
+) => {
+  if (
+    (integerOnly && e.key === ".") ||
+    e.key === "e" ||
+    (e.key === "-" && value.length !== 0)
+  )
+    e.preventDefault();
+};

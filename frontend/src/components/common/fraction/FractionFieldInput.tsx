@@ -1,6 +1,8 @@
 import React from "react";
 import { Input } from "@chakra-ui/react";
 
+import { preventNonNumericKeys } from "../../../utils/GeneralUtils";
+
 interface FractionFieldInputProps {
   readOnly: boolean;
   value: string;
@@ -26,6 +28,7 @@ const FractionFieldInput = ({
     letterSpacing={0}
     lineHeight="21px"
     onChange={onChange}
+    onKeyDown={(e) => preventNonNumericKeys(e, value, true)}
     padding={0}
     readOnly={readOnly}
     textAlign="center"
