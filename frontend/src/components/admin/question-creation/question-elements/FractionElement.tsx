@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { FractionMetadata } from "../../../../types/QuestionMetadataTypes";
@@ -18,16 +18,18 @@ const FractionElement = ({
 }: FractionElementProps): React.ReactElement => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   return (
-    <Flex paddingBottom="4" width="100%">
-      <FractionInput
-        denominator={String(data.denominator)}
-        hideBorder
-        numerator={String(data.numerator)}
-        readOnly
-        wholeNumber={
-          data.wholeNumber !== null ? String(data.wholeNumber) : null
-        }
-      />
+    <Flex paddingBottom="4" paddingLeft="6" width="100%">
+      <Box backgroundColor="grey.100" borderRadius="6px">
+        <FractionInput
+          denominator={String(data.denominator)}
+          hideBorder
+          numerator={String(data.numerator)}
+          readOnly
+          wholeNumber={
+            data.wholeNumber !== null ? String(data.wholeNumber) : null
+          }
+        />
+      </Box>
       <Spacer />
       <IconButton
         _hover={{ color: "blue.100" }}
