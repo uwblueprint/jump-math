@@ -7,8 +7,8 @@ import {
 } from "../../../../utils/StudentUtils";
 
 type AnswerStateResult = {
-  currentAnswer: number[];
-  updateAnswer: (value: number[]) => void;
+  currentAnswer: (number | undefined)[];
+  updateAnswer: (value: (number | undefined)[]) => void;
 };
 
 const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
@@ -20,7 +20,7 @@ const useAnswerState = (answerElementIndex: number): AnswerStateResult => {
     return getAnswerValues(currentQuestionIndex, answerElementIndex, answers);
   }, [currentQuestionIndex, answers, answerElementIndex]);
 
-  const updateAnswer = (value: number[]) => {
+  const updateAnswer = (value: (number | undefined)[]) => {
     setAnswers((prevAnswers) => {
       return getUpdatedAnswer(
         answerElementIndex,

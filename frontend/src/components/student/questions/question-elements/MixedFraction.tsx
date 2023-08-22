@@ -1,5 +1,6 @@
 import React from "react";
 
+import { stringToFloat } from "../../../../utils/GeneralUtils";
 import FractionInput from "../../../common/fraction/FractionInput";
 
 import useAnswerState from "./useAnswerState";
@@ -19,13 +20,13 @@ const MixedFraction = ({
       denominator={String(denominator ?? "")}
       numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer([wholeNumber, numerator, Number(e.target.value)])
+        updateAnswer([wholeNumber, numerator, stringToFloat(e.target.value)])
       }
       onNumeratorChange={(e) =>
-        updateAnswer([wholeNumber, Number(e.target.value), denominator])
+        updateAnswer([wholeNumber, stringToFloat(e.target.value), denominator])
       }
       onWholeNumberChange={(e) =>
-        updateAnswer([Number(e.target.value), numerator, denominator])
+        updateAnswer([stringToFloat(e.target.value), numerator, denominator])
       }
       wholeNumber={String(wholeNumber ?? "")}
     />

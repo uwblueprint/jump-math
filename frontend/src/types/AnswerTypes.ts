@@ -1,5 +1,5 @@
 export interface ElementAnswers {
-  elementAnswers: number[];
+  elementAnswers: (number | undefined)[];
 }
 
 export interface Answers {
