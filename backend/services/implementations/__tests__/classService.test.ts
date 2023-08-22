@@ -15,6 +15,7 @@ import {
   assertResponseMatchesExpected,
   assertArrayResponseMatchesExpected,
   assertStudentResponseMatchesExpected,
+  assertTestableStudentsResponseMatchesExpected,
 } from "../../../testUtils/classAssertions";
 import UserService from "../userService";
 import { mockTeacher } from "../../../testUtils/users";
@@ -114,19 +115,19 @@ describe("mongo classService", (): void => {
     );
   });
 
-  describe("getClassByTestSessionId", () => {
-    it("getClassByTestSessionId for valid testSessionId", async () => {
+  describe("getTestableStudentsByTestSessionId", () => {
+    it("getTestableStudentsByTestSessionId for valid testSessionId", async () => {
       const savedClass = await ClassModel.create(testClassWithTestSessions);
-      const res = await classService.getClassByTestSessionId(
+      const res = await classService.getTestableStudentsByTestSessionId(
         savedClass.testSessions[0],
       );
-      assertResponseMatchesExpected(savedClass, res);
+      assertTestableStudentsResponseMatchesExpected(savedClass, res);
     });
 
     it("for non-existing testSessionId", async () => {
       const notFoundId = "86cb91bdc3464f14678934cd";
       await expect(async () => {
-        await classService.getClassByTestSessionId(notFoundId);
+        await classService.getTestableStudentsByTestSessionId(notFoundId);
       }).rejects.toThrowError(
         `Class with test session id ${notFoundId} not found`,
       );
@@ -137,7 +138,7 @@ describe("mongo classService", (): void => {
       await ClassModel.create(testClassWithTestSessions);
       const testSessionId = testClassWithTestSessions.testSessions[0];
       await expect(async () => {
-        await classService.getClassByTestSessionId(testSessionId);
+        await classService.getTestableStudentsByTestSessionId(testSessionId);
       }).rejects.toThrowError(
         `More than one class has the same Test Session of id ${testSessionId}`,
       );
@@ -159,10 +160,11 @@ describe("mongo classService", (): void => {
         ],
       });
 
-      const res = await classService.getClassByTestSessionId(
+      const res = await classService.getTestableStudentsByTestSessionId(
         savedClass.testSessions[0],
       );
-      assertResponseMatchesExpected(savedClass, res);
+      expect(savedClass.id).not.toBeNull();
+      expect(savedClass.className).toEqual(res.className);
       assertStudentResponseMatchesExpected(res.students, [
         savedClass.students[1],
       ]);

@@ -10,7 +10,7 @@ import {
 import type { SingleValue } from "chakra-react-select";
 import { Select } from "chakra-react-select";
 
-import { GET_CLASS_BY_TEST_SESSION } from "../../../APIClients/queries/ClassQueries";
+import { GET_TESTABLE_STUDENTS_BY_TEST_SESSION } from "../../../APIClients/queries/ClassQueries";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import type { TestSessionSetupData } from "../../../APIClients/types/TestSessionClientTypes";
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
@@ -30,7 +30,7 @@ const NameSelection = ({
   testSession,
 }: NameSelectionProps): React.ReactElement => {
   const { setAuthenticatedUser } = useContext(AuthContext);
-  const { loading, data } = useQuery(GET_CLASS_BY_TEST_SESSION, {
+  const { loading, data } = useQuery(GET_TESTABLE_STUDENTS_BY_TEST_SESSION, {
     variables: { testSessionId: testSession.id },
   });
   const students: StudentResponse[] = data?.classByTestSession.students ?? [];

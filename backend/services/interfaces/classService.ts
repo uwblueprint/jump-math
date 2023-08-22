@@ -31,6 +31,11 @@ export interface ClassResponseDTO {
   isActive: boolean;
 }
 
+export type TestableStudentsDTO = Pick<
+  ClassResponseDTO,
+  "id" | "className" | "students"
+>;
+
 export interface ClassQueryOptions extends QueryOptions {
   excludeArchived?: boolean;
 }
@@ -53,12 +58,14 @@ export interface IClassService {
   getClassById(id: string): Promise<ClassResponseDTO>;
 
   /**
-   * This method retrieves the class with given test session id.
+   * This method retrieves the students that can be tested in the given test session.
    * @param id test session id
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassByTestSessionId(testSessionId: string): Promise<ClassResponseDTO>;
+  getTestableStudentsByTestSessionId(
+    testSessionId: string,
+  ): Promise<TestableStudentsDTO>;
 
   /**
    * This method retrieves the classes associated with given teacher id.

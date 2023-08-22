@@ -3,6 +3,7 @@ import type {
   ClassRequestDTO,
   ClassResponseDTO,
   StudentResponseDTO,
+  TestableStudentsDTO,
 } from "../services/interfaces/classService";
 import { mockTestSessionWithId } from "./testSession";
 
@@ -45,4 +46,13 @@ export const assertStudentResponseMatchesExpected = (
     expect(student.lastName).toEqual(expected[index].lastName);
     expect(student.studentNumber).toEqual(expected[index].studentNumber);
   });
+};
+
+export const assertTestableStudentsResponseMatchesExpected = (
+  expected: TestableStudentsDTO,
+  result: TestableStudentsDTO,
+): void => {
+  expect(result.id).not.toBeNull();
+  expect(result.className).toEqual(expected.className);
+  assertStudentResponseMatchesExpected(expected.students, result.students);
 };

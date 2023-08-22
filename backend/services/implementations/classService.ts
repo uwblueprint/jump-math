@@ -9,6 +9,7 @@ import type {
   ClassResponseDTO,
   StudentRequestDTO,
   ClassQueryOptions,
+  TestableStudentsDTO,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
@@ -84,9 +85,9 @@ class ClassService implements IClassService {
     return mapDocumentToDTO(classObj);
   }
 
-  async getClassByTestSessionId(
+  async getTestableStudentsByTestSessionId(
     testSessionId: string,
-  ): Promise<ClassResponseDTO> {
+  ): Promise<TestableStudentsDTO> {
     let classes: Class[];
     try {
       classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
@@ -114,7 +115,9 @@ class ClassService implements IClassService {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return mapDocumentToDTO(classes[0]);
+
+    const { id, className, students } = classes[0];
+    return { id, className, students };
   }
 
   async getClassesByTeacherId(

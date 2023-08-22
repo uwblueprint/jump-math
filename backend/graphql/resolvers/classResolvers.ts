@@ -3,6 +3,7 @@ import type {
   ClassResponseDTO,
   IClassService,
   StudentRequestDTO,
+  TestableStudentsDTO,
 } from "../../services/interfaces/classService";
 
 import ClassService from "../../services/implementations/classService";
@@ -30,11 +31,11 @@ const classResolvers = {
       _req: undefined,
       { id }: { id: string },
     ): Promise<ClassResponseDTO> => classService.getClassById(id),
-    classByTestSession: async (
+    testableStudentsByTestSessionId: async (
       _req: undefined,
       { testSessionId }: { testSessionId: string },
-    ): Promise<ClassResponseDTO> => {
-      return classService.getClassByTestSessionId(testSessionId);
+    ): Promise<TestableStudentsDTO> => {
+      return classService.getTestableStudentsByTestSessionId(testSessionId);
     },
     classesByTeacher: async (
       _req: undefined,
