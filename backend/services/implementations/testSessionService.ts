@@ -196,17 +196,17 @@ class TestSessionService implements ITestSessionService {
             teacher: { $eq: teacherId },
             endDate: { $gte: now },
             startDate: { $lte: now },
-          }),
+          }).sort({ endDate: 1 }),
           // upcoming
           MgTestSession.find({
             teacher: { $eq: teacherId },
             startDate: { $gt: now },
-          }),
+          }).sort({ startDate: 1 }),
           // past
           MgTestSession.find({
             teacher: { $eq: teacherId },
             endDate: { $lt: now },
-          }),
+          }).sort({ startDate: -1 }),
         ];
 
         queries.forEach((query) => query.limit(limit));
