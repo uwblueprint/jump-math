@@ -186,6 +186,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
   class: mockClassWithId.id,
+  status: "ACTIVE",
 };
 
 export const mockTestSessionWithNoResults: TestSessionDTO = {
