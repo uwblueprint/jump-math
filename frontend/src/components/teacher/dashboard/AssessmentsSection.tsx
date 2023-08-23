@@ -22,19 +22,15 @@ import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
 const QUERY_DATA_LIMIT_PER_STATUS = 6;
 
-// 3 tabs - this is a quick way of limiting the number of assessments
-// fetched without having complex backend logic
-const QUERY_DATA_LIMIT = QUERY_DATA_LIMIT_PER_STATUS * STATUSES.length;
-
 const AssessmentsSection = () => {
   const [currentTab, setCurrentTab] = useState<TestSessionStatus>("ACTIVE");
 
-  const { loading, error, data } = useAssessmentDataQuery(QUERY_DATA_LIMIT);
+  const { loading, error, data } = useAssessmentDataQuery(
+    QUERY_DATA_LIMIT_PER_STATUS,
+  );
 
   const filteredData = useMemo(() => {
-    return data
-      ?.filter((session) => session.status === currentTab)
-      .slice(0, QUERY_DATA_LIMIT_PER_STATUS);
+    return data?.filter((session) => session.status === currentTab);
   }, [data, currentTab]);
 
   return (

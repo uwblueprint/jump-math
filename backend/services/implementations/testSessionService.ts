@@ -50,7 +50,9 @@ const formatTestSession =
 
 const formatTestSessions = (
   testSessions: TestSession[],
-): TestSessionResponseDTO[] => testSessions.map(formatTestSession(new Date()));
+  now?: Date,
+): TestSessionResponseDTO[] =>
+  testSessions.map(formatTestSession(now ?? new Date()));
 
 class TestSessionService implements ITestSessionService {
   testService: ITestService;
@@ -184,13 +186,42 @@ class TestSessionService implements ITestSessionService {
     limit?: number,
   ): Promise<Array<TestSessionResponseDTO>> {
     try {
-      const query = MgTestSession.find({ teacher: { $eq: teacherId } });
-      if (limit !== undefined) {
-        query.limit(limit);
-      }
-      const testSessions: TestSession[] = await query;
+      const now = new Date();
 
-      return formatTestSessions(testSessions);
+      let testSessions: TestSession[];
+      if (limit !== undefined) {
+        const queries = [
+          // active
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            endDate: { $gte: now },
+            startDate: { $lte: now },
+          }),
+          // upcoming
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            startDate: { $gt: now },
+          }),
+          // past
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            endDate: { $lt: now },
+          }),
+        ];
+
+        queries.forEach((query) => query.limit(limit));
+
+        const testSessionsByStatus: TestSession[][] = await Promise.all(
+          queries,
+        );
+        testSessions = testSessionsByStatus.flat();
+      } else {
+        testSessions = await MgTestSession.find({
+          teacher: { $eq: teacherId },
+        });
+      }
+
+      return formatTestSessions(testSessions, now);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
