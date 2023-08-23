@@ -22,7 +22,7 @@ const MultiOptionElement = ({
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
-    <Flex paddingBottom="4" paddingLeft="1" width="100%">
+    <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <Box paddingRight="4" paddingTop="2">
         <MultiOptionInput data={data} type={type} />
       </Box>

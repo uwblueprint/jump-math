@@ -19,7 +19,7 @@ const MultiSelectInput = ({
   getOptionValue,
 }: MultiSelectInputProps): React.ReactElement => (
   <CheckboxGroup onChange={onChange} value={value}>
-    <VStack alignItems="left" gap={3} ml={5}>
+    <VStack alignItems="left" gap={3}>
       {options.map((option, index) => {
         return (
           <Checkbox key={index} size="lg" value={getOptionValue(option, index)}>

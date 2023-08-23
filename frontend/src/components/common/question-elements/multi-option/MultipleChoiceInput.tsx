@@ -19,7 +19,7 @@ const MultipleChoiceInput = ({
   getOptionValue,
 }: MultipleChoiceInputProps): React.ReactElement => (
   <RadioGroup onChange={onChange} value={value}>
-    <VStack alignItems="left" gap={3} ml={5}>
+    <VStack alignItems="left" gap={3}>
       {options.map((option, index) => {
         return (
           <Radio key={index} size="lg" value={getOptionValue(option, index)}>
