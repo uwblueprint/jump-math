@@ -67,6 +67,7 @@ const ClassroomPopover = ({
         message: "Classroom archived.",
         status: "success",
       });
+      setShowArchiveModal(false);
     } catch (error) {
       showToast({
         message: "Classroom failed to archive. Please try again.",
