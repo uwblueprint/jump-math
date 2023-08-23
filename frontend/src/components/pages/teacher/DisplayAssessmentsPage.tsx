@@ -25,7 +25,7 @@ import useAssessmentDataQuery from "../../teacher/view-sessions/useAssessmentDat
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
   const [currentTab, setCurrentTab] =
-    React.useState<TestSessionStatus>("active");
+    React.useState<TestSessionStatus>("ACTIVE");
 
   const { loading, error, data } = useAssessmentDataQuery();
 
@@ -34,7 +34,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   }, [data, currentTab]);
 
   const sortedData = useMemo(() => {
-    const invertSort = currentTab === "past";
+    const invertSort = currentTab === "PAST";
     return filteredData?.sort((a, b) => {
       return (
         (invertSort ? -1 : 1) *

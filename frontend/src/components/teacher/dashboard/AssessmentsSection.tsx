@@ -27,7 +27,7 @@ const QUERY_DATA_LIMIT_PER_STATUS = 6;
 const QUERY_DATA_LIMIT = QUERY_DATA_LIMIT_PER_STATUS * STATUSES.length;
 
 const AssessmentsSection = () => {
-  const [currentTab, setCurrentTab] = useState<TestSessionStatus>("active");
+  const [currentTab, setCurrentTab] = useState<TestSessionStatus>("ACTIVE");
 
   const { loading, error, data } = useAssessmentDataQuery(QUERY_DATA_LIMIT);
 

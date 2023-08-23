@@ -66,7 +66,7 @@ const TestSessionListItemPopover = ({
       onOpen={onPopoverOpen}
     >
       <VStack spacing={0}>
-        {status !== "past" && (
+        {status !== "PAST" && (
           <>
             <PopoverButton name="Edit" onClick={() => {}} />
             <Divider />

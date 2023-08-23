@@ -79,6 +79,7 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
       }
       startDate
       endDate
+      status
       accessCode
     }
   }

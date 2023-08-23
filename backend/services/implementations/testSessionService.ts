@@ -28,8 +28,29 @@ import {
   roundTwoDecimals,
 } from "../../utilities/generalUtils";
 import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
+import { getSessionStatus } from "../../utilities/testSessionUtils";
 
 const Logger = logger(__filename);
+
+const formatTestSession =
+  (now?: Date) =>
+  (testSession: TestSession): TestSessionResponseDTO => {
+    const nowDate = now ?? new Date();
+    const sessionDTO = mapDocumentToDTO(testSession);
+
+    return {
+      ...sessionDTO,
+      status: getSessionStatus(
+        sessionDTO.startDate,
+        sessionDTO.endDate,
+        nowDate,
+      ),
+    };
+  };
+
+const formatTestSessions = (
+  testSessions: TestSession[],
+): TestSessionResponseDTO[] => testSessions.map(formatTestSession(new Date()));
 
 class TestSessionService implements ITestSessionService {
   testService: ITestService;
@@ -169,7 +190,7 @@ class TestSessionService implements ITestSessionService {
       }
       const testSessions: TestSession[] = await query;
 
-      return mapDocumentsToDTOs(testSessions);
+      return formatTestSessions(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
@@ -188,7 +209,7 @@ class TestSessionService implements ITestSessionService {
         class: { $eq: classId },
       });
 
-      return mapDocumentsToDTOs(testSessions);
+      return formatTestSessions(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for classId=${classId}. Reason = ${getErrorMessage(

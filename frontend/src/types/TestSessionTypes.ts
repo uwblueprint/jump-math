@@ -1,4 +1,4 @@
-export const STATUSES = ["active", "upcoming", "past"] as const;
+export const STATUSES = ["ACTIVE", "UPCOMING", "PAST"] as const;
 export type TestSessionStatus = (typeof STATUSES)[number];
 
 export type TestSessionItemStats = {
