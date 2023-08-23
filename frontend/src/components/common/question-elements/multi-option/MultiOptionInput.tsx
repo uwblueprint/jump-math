@@ -5,15 +5,19 @@ import type {
   MultiOptionData,
 } from "../../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../../types/QuestionTypes";
-import MultipleChoiceInput from "../../../common/question-elements/multi-option/MultipleChoiceInput";
-import MultiSelectInput from "../../../common/question-elements/multi-option/MultiSelectInput";
+
+import MultipleChoiceInput from "./MultipleChoiceInput";
+import MultiSelectInput from "./MultiSelectInput";
 
 interface MultiOptionProps {
   data: MultiData;
   type: QuestionElementType;
 }
 
-const MultiOption = ({ data, type }: MultiOptionProps): React.ReactElement => {
+const MultiOptionInput = ({
+  data,
+  type,
+}: MultiOptionProps): React.ReactElement => {
   const getOption = (option: MultiOptionData | string) =>
     (option as MultiOptionData).value;
   const getOptionValue = (option: MultiOptionData | string) =>
@@ -38,4 +42,4 @@ const MultiOption = ({ data, type }: MultiOptionProps): React.ReactElement => {
   );
 };
 
-export default MultiOption;
+export default MultiOptionInput;

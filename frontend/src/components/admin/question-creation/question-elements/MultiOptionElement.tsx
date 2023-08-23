@@ -4,7 +4,7 @@ import { Box, Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { MultiData } from "../../../../types/QuestionTypes";
 import type { QuestionElementType } from "../../../../types/QuestionTypes";
-import MultiOption from "../../preview-assessment/question-elements/MultiOption";
+import MultiOption from "../../../common/question-elements/multi-option/MultiOptionInput";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
