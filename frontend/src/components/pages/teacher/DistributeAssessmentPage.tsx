@@ -23,8 +23,6 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const { id: teacherId, school: schoolId } =
     (authenticatedUser as AuthenticatedTeacher) ?? {};
 
-  console.log(authenticatedUser as AuthenticatedTeacher);
-
   const [page, setPage] = useState(0);
 
   const [testId, setTestId] = useState("");
