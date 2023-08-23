@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 
 import { DUPLICATE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import Modal from "../../../common/modal/Modal";
 
 interface DuplicateModalProps {
@@ -23,7 +23,7 @@ const DuplicateModal = ({
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const onDuplicateAssessment = async () => {
     await duplicateAssessment({ variables: { id: assessmentId } });

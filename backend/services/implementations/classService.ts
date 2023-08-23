@@ -8,10 +8,13 @@ import type {
   ClassRequestDTO,
   ClassResponseDTO,
   StudentRequestDTO,
+  ClassQueryOptions,
+  TestableStudentsDTO,
 } from "../interfaces/classService";
 import type IUserService from "../interfaces/userService";
 import type { ITestSessionService } from "../interfaces/testSessionService";
 import {
+  applyQueryOptions,
   mapDocumentsToDTOs,
   mapDocumentToDTO,
 } from "../../utilities/generalUtils";
@@ -82,9 +85,9 @@ class ClassService implements IClassService {
     return mapDocumentToDTO(classObj);
   }
 
-  async getClassByTestSessionId(
+  async getTestableStudentsByTestSessionId(
     testSessionId: string,
-  ): Promise<ClassResponseDTO> {
+  ): Promise<TestableStudentsDTO> {
     let classes: Class[];
     try {
       classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
@@ -97,19 +100,40 @@ class ClassService implements IClassService {
           `More than one class has the same Test Session of id ${testSessionId}`,
         );
       }
+
+      // Filter out students who have already completed the test
+      const testSession = await this.testSessionService.getTestSessionById(
+        testSessionId,
+      );
+      const completedStudents = new Set(
+        testSession.results?.map((result) => result.student),
+      );
+      classes[0].students = classes[0].students.filter(
+        (student) => !completedStudents.has(student.id),
+      );
     } catch (error: unknown) {
       Logger.error(`Failed to get Class. Reason = ${getErrorMessage(error)}`);
       throw error;
     }
-    return mapDocumentToDTO(classes[0]);
+
+    const { id, className, students } = classes[0];
+    return { id, className, students };
   }
 
   async getClassesByTeacherId(
     teacherId: string,
+    queryOptions?: ClassQueryOptions,
   ): Promise<Array<ClassResponseDTO>> {
     let classes: Class[];
     try {
-      classes = await MgClass.find({ teacher: { $eq: teacherId } });
+      const query = MgClass.find({
+        teacher: { $eq: teacherId },
+      });
+      applyQueryOptions(query, queryOptions);
+      if (queryOptions?.excludeArchived) {
+        query.where({ isActive: { $in: [true, undefined] } });
+      }
+      classes = await query;
     } catch (error: unknown) {
       Logger.error(
         `Failed to get classes by teacher id. Reason = ${getErrorMessage(

@@ -13,7 +13,9 @@ updates:
     commit-message:
       prefix: "[GitHub Actions] "
       include: "scope"
-      
+    # Disable version updates for GitHub Actions dependencies
+    open-pull-requests-limit: 0
+
   # Maintain dependencies for frontend
   - package-ecosystem: "npm"
     directory: "/frontend"
@@ -22,6 +24,8 @@ updates:
     commit-message:
       prefix: "[npm frontend] "
       include: "scope"
+    # Disable version updates for npm (frontend) dependencies
+    open-pull-requests-limit: 0
    
   # Maintain dependencies for backend
   - package-ecosystem: "npm"
@@ -31,3 +35,5 @@ updates:
     commit-message:
       prefix: "[npm backend] "
       include: "scope"
+    # Disable version updates for npm (backend) dependencies
+    open-pull-requests-limit: 0

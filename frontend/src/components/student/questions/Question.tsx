@@ -42,7 +42,7 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
     <>
       {elements.map((element, i) => {
         return (
-          <Box key={i} my={10}>
+          <Box key={i}>
             {(() => {
               switch (element.type) {
                 case QuestionElementType.QUESTION_TEXT:

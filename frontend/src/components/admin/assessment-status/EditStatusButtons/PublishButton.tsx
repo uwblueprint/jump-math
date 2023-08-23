@@ -4,7 +4,7 @@ import { useDisclosure } from "@chakra-ui/react";
 
 import { PUBLISH_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import PopoverButton from "../../../common/popover/PopoverButton";
 import PublishModal from "../EditStatusModals/PublishModal";
 
@@ -22,7 +22,7 @@ const PublishButton = ({
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handlePublishAssessment = async () => {
     await publishAssessment({ variables: { id: assessmentId } });

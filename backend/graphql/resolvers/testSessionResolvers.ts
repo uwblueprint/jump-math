@@ -20,8 +20,6 @@ const schoolService: ISchoolService = new SchoolService(userService);
 const testService: ITestService = new TestService();
 const testSessionService: ITestSessionService = new TestSessionService(
   testService,
-  userService,
-  schoolService,
 );
 const classService: IClassService = new ClassService(
   userService,
@@ -39,8 +37,8 @@ const testSessionResolvers = {
     ) => testSessionService.getTestSessionByAccessCode(accessCode),
     testSessionsByTeacherId: (
       _parent: undefined,
-      { teacherId }: { teacherId: string },
-    ) => testSessionService.getTestSessionsByTeacherId(teacherId),
+      { teacherId, limit }: { teacherId: string; limit?: number },
+    ) => testSessionService.getTestSessionsByTeacherId(teacherId, limit),
     getStudentLeaderBoard: (_parent: undefined, { id }: { id: string }) =>
       testSessionService.getStudentLeaderBoard(id),
   },

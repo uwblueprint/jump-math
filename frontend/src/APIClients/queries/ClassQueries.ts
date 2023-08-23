@@ -43,9 +43,9 @@ export const GET_CLASS_TEST_SESSIONS_BY_ID = gql`
   }
 `;
 
-export const GET_CLASS_BY_TEST_SESSION = gql`
-  query ClassByTestSession($testSessionId: ID!) {
-    classByTestSession(testSessionId: $testSessionId) {
+export const GET_TESTABLE_STUDENTS_BY_TEST_SESSION = gql`
+  query TestableStudentsByTestSession($testSessionId: ID!) {
+    testableStudentsByTestSessionId(testSessionId: $testSessionId) {
       id
       className
       students {
@@ -59,9 +59,10 @@ export const GET_CLASS_BY_TEST_SESSION = gql`
 `;
 
 export const GET_CLASSES_BY_TEACHER = gql`
-  query ClassesByTeacher($teacherId: ID!) {
-    classesByTeacher(teacherId: $teacherId) {
+  query ClassesByTeacher($teacherId: ID!, $queryOptions: ClassQueryOptions) {
+    classesByTeacher(teacherId: $teacherId, queryOptions: $queryOptions) {
       id
+      startDate
       gradeLevel
       className
       testSessions {

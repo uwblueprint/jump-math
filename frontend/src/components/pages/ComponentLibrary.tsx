@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import MultipleChoiceVisualizer from "../admin/assessment-visualization/question-elements/MultipleChoiceVisualizer";
 import MultiSelectVisualizer from "../admin/assessment-visualization/question-elements/MultiSelectVisualizer";
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
+import MultiOptionInput from "../common/question-elements/multi-option/MultiOptionInput";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
+import AssessmentsSection from "../teacher/dashboard/AssessmentsSection";
+import ClassroomsSection from "../teacher/dashboard/ClassroomsSection";
 import CorrectedFraction from "../teacher/results/StudentAnswersSection/question-elements/CorrectedFraction";
 import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultipleChoice";
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
@@ -237,6 +241,72 @@ const ComponentLibrary = (): React.ReactElement => {
       <MultiSelectVisualizer
         correctAnswerIndices={[0, 2]}
         options={[3683, 3683, 3683, 3683]}
+      />
+      <Flex>
+        <ClassroomsSection />
+        <AssessmentsSection />
+      </Flex>
+      <MultiOptionInput
+        data={{
+          options: [
+            {
+              id: "0",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "1",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+            {
+              id: "2",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "3",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+          ],
+        }}
+        type={QuestionElementType.MULTIPLE_CHOICE}
+      />
+      <MultiOptionInput
+        data={{
+          options: [
+            {
+              id: "0",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+            {
+              id: "1",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "2",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "3",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+          ],
+        }}
+        type={QuestionElementType.MULTI_SELECT}
       />
     </FormProvider>
   );

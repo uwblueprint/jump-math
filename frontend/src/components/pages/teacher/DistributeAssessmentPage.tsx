@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
-import { PaperPlaneOutlineIcon } from "../../../assets/icons";
+import AuthContext from "../../../contexts/AuthContext";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
+import DistributeAssessmentButton from "../../teacher/session-creation/DistributeAssessmentButton";
 import AddInformation from "../../teacher/session-creation/steps/AddInformation";
 import ChooseAssessment from "../../teacher/session-creation/steps/ChooseAssessment";
 import ChooseClass from "../../teacher/session-creation/steps/ChooseClass";
@@ -17,6 +18,9 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
 ];
 
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const { authenticatedUser } = useContext(AuthContext);
+  const { id: teacherId } = authenticatedUser ?? {};
+
   const [page, setPage] = useState(0);
 
   const [testId, setTestId] = useState("");
@@ -123,14 +127,21 @@ const DistributeAssessmentPage = (): React.ReactElement => {
             Next
           </Button>
         ) : (
-          <Button
-            leftIcon={<PaperPlaneOutlineIcon />}
-            minWidth="10"
-            onClick={() => console.log("Distribute assessment.")}
-            variant="primary"
-          >
-            Distribute
-          </Button>
+          <>
+            {startDate && endDate && teacherId && (
+              <DistributeAssessmentButton
+                testSession={{
+                  test: testId,
+                  teacher: teacherId,
+                  school: "639151a4d46e8c002a49f8d6",
+                  class: classId,
+                  startDate,
+                  endDate,
+                  notes,
+                }}
+              />
+            )}
+          </>
         )}
       </HStack>
     </VStack>

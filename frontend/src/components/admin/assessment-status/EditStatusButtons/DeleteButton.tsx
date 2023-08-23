@@ -4,7 +4,7 @@ import { useDisclosure } from "@chakra-ui/react";
 
 import { DELETE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import Toast from "../../../common/info/Toast";
+import useToast from "../../../common/info/useToast";
 import PopoverButton from "../../../common/popover/PopoverButton";
 import DeleteModal from "../EditStatusModals/DeleteModal";
 
@@ -23,7 +23,7 @@ const DeleteButton = ({
     refetchQueries: [{ query: GET_ALL_TESTS }],
   });
 
-  const { showToast } = Toast();
+  const { showToast } = useToast();
 
   const handleDeleteAssessment = async () => {
     await deleteAssessment({ variables: { id: assessmentId } });

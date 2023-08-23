@@ -1,7 +1,7 @@
 import React from "react";
-import { Radio, RadioGroup, VStack } from "@chakra-ui/react";
 
 import { stringToFloatArray } from "../../../../utils/StudentUtils";
+import MultipleChoiceInput from "../../../common/question-elements/multi-option/MultipleChoiceInput";
 
 import useAnswerState from "./useAnswerState";
 
@@ -17,20 +17,13 @@ const MultipleChoice = ({
   const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
 
   return (
-    <RadioGroup
+    <MultipleChoiceInput
+      getOption={(option) => option as string}
+      getOptionValue={(_, index) => index.toString()}
       onChange={(e) => updateAnswer(stringToFloatArray(e))}
+      options={options}
       value={currentAnswer[0]?.toString() ?? ""}
-    >
-      <VStack alignItems="left" gap={3} ml={5}>
-        {options.map((option, index) => {
-          return (
-            <Radio key={index} size="lg" value={index.toString()}>
-              {option}
-            </Radio>
-          );
-        })}
-      </VStack>
-    </RadioGroup>
+    />
   );
 };
 

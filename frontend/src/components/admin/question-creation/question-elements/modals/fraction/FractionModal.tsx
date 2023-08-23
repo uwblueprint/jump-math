@@ -4,8 +4,8 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import type { FractionType } from "../../../../../../types/QuestionTypes";
 import { stringToInt } from "../../../../../../utils/GeneralUtils";
-import FractionInput from "../../../../../common/fraction/FractionInput";
 import Modal from "../../../../../common/modal/Modal";
+import FractionInput from "../../../../../common/question-elements/fraction/FractionInput";
 
 interface FractionModalProps {
   isOpen: boolean;

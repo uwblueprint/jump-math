@@ -132,8 +132,8 @@ export const questionStatus = (
   currentQuestionIndex: number,
   answers: Answers[],
 ): QuestionNumberTypes => {
-  if (index === currentQuestionIndex) return QuestionNumberTypes.CURRENT;
   if (isCompleted(answers[index])) return QuestionNumberTypes.COMPLETED;
+  if (index === currentQuestionIndex) return QuestionNumberTypes.CURRENT;
   return QuestionNumberTypes.UNATTEMPTED;
 };
 

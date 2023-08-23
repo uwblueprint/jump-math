@@ -11,8 +11,6 @@ export interface TestSessionRequestDTO {
   school: string;
   /** the ID of the class taking the test session */
   class: string;
-  /** the code that students can use to access the test when it is live */
-  accessCode: string;
   /** on this date, the test becomes available to students */
   startDate: Date;
   /** after this date, the test is no longer available to students */
@@ -149,11 +147,13 @@ export interface ITestSessionService {
   /**
    * This method retrieves all TestSessions associated with the given teacherId
    * @param teacherId the teacher id associated with the test session
+   * @param limit the optional maximum number of test sessions to return
    * @returns returns array of requested TestSessionResponseDTO
    * @throws Error if retrieval fails
    */
   getTestSessionsByTeacherId(
     teacherId: string,
+    limit?: number,
   ): Promise<Array<TestSessionResponseDTO>>;
 
   /**

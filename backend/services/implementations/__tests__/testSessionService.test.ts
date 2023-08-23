@@ -57,11 +57,7 @@ describe("mongo testSessionService", (): void => {
     userService = new UserService();
     schoolService = new SchoolService(userService);
     testService = new TestService();
-    testSessionService = new TestSessionService(
-      testService,
-      userService,
-      schoolService,
-    );
+    testSessionService = new TestSessionService(testService);
     classService = new ClassService(userService, testSessionService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
@@ -348,7 +344,6 @@ describe("mongo testSessionService", (): void => {
       teacher: testUsers[0].id,
       school: "62c248c0f79d6c3c9ebbea92",
       class: mockClassWithId.id,
-      accessCode: "1235",
       startDate: new Date("2022-09-10T09:00:00.000Z"),
       endDate: new Date("2022-09-11T09:00:00.000Z"),
     };

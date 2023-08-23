@@ -1,4 +1,5 @@
-import React from "react";
+import React, { type ReactElement } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import {
   HStack,
@@ -16,12 +17,14 @@ import {
   PeopleIcon,
 } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
+import type { ClassroomForm } from "../../../../types/ClassroomTypes";
 import { removeUnderscore, titleCase } from "../../../../utils/GeneralUtils";
 
 import ClassroomPopover from "./ClassroomPopover";
 
 interface ClassroomCardProps {
   id: string;
+  isDashboardVariant?: boolean;
   name: string;
   startDate?: Date;
   studentCount: number;
@@ -33,7 +36,7 @@ interface ClassroomCardProps {
 }
 
 interface ClassroomCardBodyProps {
-  icon: React.ReactElement;
+  icon: ReactElement;
   text: string;
 }
 
@@ -47,7 +50,17 @@ const ClassroomCard = ({
   activeAssessments,
   clickDisabled = false,
   selected = false,
-}: ClassroomCardProps): React.ReactElement => {
+  isDashboardVariant = false,
+}: ClassroomCardProps): ReactElement => {
+  const classroomFormMethods = useForm<ClassroomForm>({
+    defaultValues: {
+      className: name,
+      startDate: startDate ? new Date(startDate) : undefined,
+      gradeLevel: grade,
+    },
+    mode: "onChange",
+  });
+
   const classroomTitle = (
     <Text color="grey.400" textStyle="mobileHeader3">
       {name}
@@ -69,7 +82,7 @@ const ClassroomCard = ({
   ];
 
   return (
-    <LinkBox h="256px" w="240px">
+    <LinkBox h="256px" w={isDashboardVariant ? undefined : "240px"}>
       <VStack
         _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
@@ -96,7 +109,12 @@ const ClassroomCard = ({
               >
                 {classroomTitle}
               </LinkOverlay>
-              <ClassroomPopover classId={id} />
+
+              {!isDashboardVariant && (
+                <FormProvider {...classroomFormMethods}>
+                  <ClassroomPopover classId={id} />
+                </FormProvider>
+              )}
             </>
           )}
         </HStack>

@@ -1,7 +1,6 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Redirect } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { Redirect, useLocation } from "react-router-dom";
 import {
   Box,
   Center,
@@ -14,12 +13,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { GET_CLASSES_BY_TEACHER } from "../../../APIClients/queries/ClassQueries";
-import type { ClassResponse } from "../../../APIClients/types/ClassClientTypes";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import { TabEnumClassroom } from "../../../types/ClassroomTypes";
-import { getSessionStatus } from "../../../utils/TestSessionUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
@@ -28,52 +24,35 @@ import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 import ClassroomCard from "../../teacher/student-management/classroom-summary/ClassroomCard";
+import useClassDataQuery from "../../teacher/student-management/classroom-summary/useClassDataQuery";
+
+const getLocationState = (
+  state: unknown,
+): { isAddClassroomModalOpen?: boolean } => ({
+  isAddClassroomModalOpen: undefined,
+  ...(typeof state === "object" ? state : {}),
+});
 
 const ClassroomsPage = (): React.ReactElement => {
+  const { state } = useLocation();
+  const { isAddClassroomModalOpen } = getLocationState(state);
+
   const [tabIndex, setTabIndex] = React.useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
   const methods = useForm();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(
+    isAddClassroomModalOpen ?? false,
+  );
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
-  const { loading, error, data } = useQuery<{
-    classesByTeacher: ClassResponse[];
-  }>(GET_CLASSES_BY_TEACHER, {
-    fetchPolicy: "cache-and-network",
-    variables: { teacherId },
-    skip: !teacherId,
-  });
-
-  const classCards = useMemo(() => {
-    const now = new Date();
-    return data?.classesByTeacher.map(
-      ({ testSessions, students, ...classCard }) => {
-        let activeAssessments = 0;
-        testSessions.forEach((session) => {
-          if (
-            getSessionStatus(session.startDate, session.endDate, now) ===
-            "active"
-          ) {
-            activeAssessments += 1;
-          }
-        });
-
-        return {
-          ...classCard,
-          activeAssessments,
-          assessmentCount: testSessions.length,
-          studentCount: students.length,
-        };
-      },
-    );
-  }, [data]);
+  const { loading, error, data } = useClassDataQuery();
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(classCards);
+    usePaginatedData(data);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
@@ -93,7 +72,7 @@ const ClassroomsPage = (): React.ReactElement => {
         <HeaderWithButton
           buttonText="Add Classroom"
           onClick={handleAddClassroom}
-          showButton={classCards?.length !== 0}
+          showButton={data?.length !== 0}
           title="Classrooms"
         />
         <AddOrEditClassroomModal
@@ -111,9 +90,9 @@ const ClassroomsPage = (): React.ReactElement => {
           <ErrorState />
         </Box>
       )}
-      {classCards && !error && !loading && (
+      {data && !error && !loading && (
         <Box flex="1">
-          {classCards.length !== 0 ? (
+          {data.length !== 0 ? (
             <>
               <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
                 <TabList>

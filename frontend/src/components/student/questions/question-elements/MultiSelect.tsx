@@ -1,7 +1,7 @@
 import React from "react";
-import { Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
 
 import { stringOrNumberArrayToFloatArray } from "../../../../utils/StudentUtils";
+import MultiSelectInput from "../../../common/question-elements/multi-option/MultiSelectInput";
 
 import useAnswerState from "./useAnswerState";
 
@@ -17,20 +17,13 @@ const MultiSelect = ({
   const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
 
   return (
-    <CheckboxGroup
+    <MultiSelectInput
+      getOption={(option) => option as string}
+      getOptionValue={(_, index) => index.toString()}
       onChange={(e) => updateAnswer(stringOrNumberArrayToFloatArray(e))}
+      options={options}
       value={currentAnswer.map(String)}
-    >
-      <VStack alignItems="left" gap={3} ml={5}>
-        {options.map((option, index) => {
-          return (
-            <Checkbox key={index} size="lg" value={index.toString()}>
-              {option}
-            </Checkbox>
-          );
-        })}
-      </VStack>
-    </CheckboxGroup>
+    />
   );
 };
 

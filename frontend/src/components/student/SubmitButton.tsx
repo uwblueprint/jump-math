@@ -10,7 +10,7 @@ import {
   isCompleted,
   mapAnswersToResultsArray,
 } from "../../utils/StudentUtils";
-import Toast from "../common/info/Toast";
+import useToast from "../common/info/useToast";
 import Modal from "../common/modal/Modal";
 
 const SubmitButton = (): React.ReactElement => {
@@ -18,7 +18,7 @@ const SubmitButton = (): React.ReactElement => {
   const { answers, setIsSubmitted, setIsLoading } = useContext(
     WriteAssessmentContext,
   );
-  const { showToast } = Toast();
+  const { showToast } = useToast();
   const { authenticatedUser } = useContext(AuthContext);
   const { onOpen, isOpen, onClose } = useDisclosure();
 
@@ -87,7 +87,7 @@ const SubmitButton = (): React.ReactElement => {
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleSubmitTest}
-        submitButtonText="Confirm"
+        submitButtonText="Submit"
       />
       <Button onClick={onOpen} variant="primary">
         Submit

@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  Checkbox,
-  Flex,
-  IconButton,
-  Radio,
-  Spacer,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { MultiData } from "../../../../types/QuestionTypes";
-import { QuestionElementType } from "../../../../types/QuestionTypes";
+import type { QuestionElementType } from "../../../../types/QuestionTypes";
+import MultiOptionInput from "../../../common/question-elements/multi-option/MultiOptionInput";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
@@ -30,25 +23,9 @@ const MultiOptionElement = ({
 
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
-      <VStack alignItems="left" gap="1" paddingRight="4" paddingTop="2">
-        {data.options.map((option, index) => {
-          const props = {
-            isChecked: option.isCorrect,
-            isReadOnly: true,
-            marginBottom: "0",
-            size: "lg",
-          };
-          return type === QuestionElementType.MULTIPLE_CHOICE ? (
-            <Radio key={index} {...props}>
-              {option.value}
-            </Radio>
-          ) : (
-            <Checkbox key={index} {...props}>
-              {option.value}
-            </Checkbox>
-          );
-        })}
-      </VStack>
+      <Box paddingRight="4" paddingTop="2">
+        <MultiOptionInput data={data} type={type} />
+      </Box>
       <Spacer />
       <IconButton
         _hover={{ color: "blue.100" }}

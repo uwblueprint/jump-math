@@ -51,38 +51,41 @@ const StudentSchema: Schema = new Schema({
   },
 });
 
-const ClassSchema: Schema = new Schema({
-  className: {
-    type: String,
-    required: true,
+const ClassSchema: Schema = new Schema(
+  {
+    className: {
+      type: String,
+      required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    gradeLevel: {
+      type: String,
+      enum: Object.values(Grade),
+      required: true,
+    },
+    teacher: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    testSessions: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
+      required: true,
+    },
+    students: {
+      type: [StudentSchema],
+      required: false,
+    },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  gradeLevel: {
-    type: String,
-    enum: Object.values(Grade),
-    required: true,
-  },
-  teacher: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  testSessions: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
-    required: true,
-  },
-  students: {
-    type: [StudentSchema],
-    required: false,
-  },
-  isActive: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
-});
+  { timestamps: true },
+);
 
 export default model<Class>("Class", ClassSchema);

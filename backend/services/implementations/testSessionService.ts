@@ -12,8 +12,6 @@ import type {
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type { ITestService, TestResponseDTO } from "../interfaces/testService";
-import type IUserService from "../interfaces/userService";
-import type { ISchoolService } from "../interfaces/schoolService";
 import type { QuestionComponent } from "../../types/questionTypes";
 import { QuestionComponentType } from "../../types/questionTypes";
 import type {
@@ -24,6 +22,7 @@ import type {
 } from "../../types/questionMetadataTypes";
 import {
   equalArrays,
+  generateAccessCode,
   mapDocumentsToDTOs,
   mapDocumentToDTO,
   roundTwoDecimals,
@@ -35,18 +34,8 @@ const Logger = logger(__filename);
 class TestSessionService implements ITestSessionService {
   testService: ITestService;
 
-  userService: IUserService;
-
-  schoolService: ISchoolService;
-
-  constructor(
-    testService: ITestService,
-    userService: IUserService,
-    schoolService: ISchoolService,
-  ) {
+  constructor(testService: ITestService) {
     this.testService = testService;
-    this.userService = userService;
-    this.schoolService = schoolService;
   }
 
   /* eslint-disable class-methods-use-this */
@@ -65,6 +54,7 @@ class TestSessionService implements ITestSessionService {
 
       const newTestSession = await MgTestSession.create({
         ...testSession,
+        accessCode: generateAccessCode(),
         results: [],
       });
       await this.addTestSessionToClass(testSession.class, newTestSession.id);
@@ -170,11 +160,14 @@ class TestSessionService implements ITestSessionService {
 
   async getTestSessionsByTeacherId(
     teacherId: string,
+    limit?: number,
   ): Promise<Array<TestSessionResponseDTO>> {
     try {
-      const testSessions: Array<TestSession> = await MgTestSession.find({
-        teacher: { $eq: teacherId },
-      });
+      const query = MgTestSession.find({ teacher: { $eq: teacherId } });
+      if (limit !== undefined) {
+        query.limit(limit);
+      }
+      const testSessions: TestSession[] = await query;
 
       return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {

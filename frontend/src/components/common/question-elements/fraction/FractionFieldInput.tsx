@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@chakra-ui/react";
 
-import { preventNonNumericKeys } from "../../../utils/GeneralUtils";
+import { preventNonNumericKeys } from "../../../../utils/GeneralUtils";
 
 interface FractionFieldInputProps {
   readOnly: boolean;

@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
 import { Button, HStack, Spacer } from "@chakra-ui/react";
 
+import {
+  ArrowBackOutlineIcon,
+  ArrowForwardOutlineIcon,
+} from "../../assets/icons";
 import StudentContext from "../../contexts/StudentContext";
 import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
 
@@ -24,6 +28,7 @@ const NavButtons = (): React.ReactElement => {
     <HStack paddingBottom="12">
       {!isFirstQuestion && (
         <Button
+          leftIcon={<ArrowBackOutlineIcon />}
           onClick={() => setCurrentQuestionIndex(previousQuestion)}
           variant="secondary"
         >
@@ -36,6 +41,7 @@ const NavButtons = (): React.ReactElement => {
       ) : (
         <Button
           onClick={() => setCurrentQuestionIndex(nextQuestion)}
+          rightIcon={<ArrowForwardOutlineIcon />}
           variant="primary"
         >
           Next Question

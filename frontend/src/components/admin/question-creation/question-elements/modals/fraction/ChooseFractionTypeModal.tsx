@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 import type { FractionType } from "../../../../../../types/QuestionTypes";
-import FractionInput from "../../../../../common/fraction/FractionInput";
 import Modal from "../../../../../common/modal/Modal";
+import FractionInput from "../../../../../common/question-elements/fraction/FractionInput";
 
 interface ChooseFractionTypeModalProps {
   fractionType: FractionType;

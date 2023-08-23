@@ -1,3 +1,10 @@
+import type { QueryOptions as MongooseQueryOptions } from "mongoose";
+
+export type QueryOptions = Pick<
+  MongooseQueryOptions,
+  "skip" | "sort" | "limit"
+>;
+
 export type Role = "Teacher" | "Admin";
 
 export type Token = {

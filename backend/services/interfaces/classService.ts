@@ -1,4 +1,4 @@
-import type { Grade } from "../../types";
+import type { Grade, QueryOptions } from "../../types";
 
 export interface StudentRequestDTO {
   firstName: string;
@@ -31,6 +31,15 @@ export interface ClassResponseDTO {
   isActive: boolean;
 }
 
+export type TestableStudentsDTO = Pick<
+  ClassResponseDTO,
+  "id" | "className" | "students"
+>;
+
+export interface ClassQueryOptions extends QueryOptions {
+  excludeArchived?: boolean;
+}
+
 export interface IClassService {
   /**
    * This method creates a new class in the database.
@@ -49,20 +58,26 @@ export interface IClassService {
   getClassById(id: string): Promise<ClassResponseDTO>;
 
   /**
-   * This method retrieves the class with given test session id.
+   * This method retrieves the students that can be tested in the given test session.
    * @param id test session id
    * @returns requested class
    * @throws Error if retrieval fails
    */
-  getClassByTestSessionId(testSessionId: string): Promise<ClassResponseDTO>;
+  getTestableStudentsByTestSessionId(
+    testSessionId: string,
+  ): Promise<TestableStudentsDTO>;
 
   /**
    * This method retrieves the classes associated with given teacher id.
    * @param id teacher id
+   * @param queryOptions optional options for the query including sorting, filtering and pagination
    * @returns list of requested classes
    * @throws Error if retrieval fails
    */
-  getClassesByTeacherId(teacherId: string): Promise<Array<ClassResponseDTO>>;
+  getClassesByTeacherId(
+    teacherId: string,
+    queryOptions?: ClassQueryOptions,
+  ): Promise<Array<ClassResponseDTO>>;
 
   /**
    * This method updates the class with given id.

@@ -22,9 +22,9 @@ import RedirectTo from "../../../auth/RedirectTo";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
+import SimplePopover from "../../../common/popover/SimplePopover";
 import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
 import AddOrEditClassroomModal from "../../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
-import AddClassroomOrStudentPopover from "../../../teacher/student-management/view-students/AddClassroomOrStudentPopover";
 import NotFound from "../../NotFound";
 
 import DisplayClassroomAssessmentsPage from "./DisplayClassroomAssessmentsPage";
@@ -77,18 +77,12 @@ const classroomFormDefaultValues: ClassroomForm = {
 
 const getLocationState = (
   state: unknown,
-): { className?: string; startDate?: Date; gradeLevel?: Grade } => {
-  const result = {
-    className: undefined,
-    startDate: undefined,
-    gradeLevel: undefined,
-    ...(typeof state === "object" ? state : {}),
-  };
-  return {
-    ...result,
-    startDate: result.startDate ? new Date(result.startDate) : undefined,
-  };
-};
+): { className?: string; startDate?: Date; gradeLevel?: Grade } => ({
+  className: undefined,
+  startDate: undefined,
+  gradeLevel: undefined,
+  ...(typeof state === "object" ? state : {}),
+});
 
 const DisplayClassroomsPage = () => {
   const history = useHistory();
@@ -100,12 +94,17 @@ const DisplayClassroomsPage = () => {
     GET_CLASS_DETAILS_BY_ID,
     {
       variables: { classroomId },
-      skip: !!className,
+      skip: !!className && !!startDate && !!gradeLevel,
     },
   );
   const displayTitle = data?.class.className ?? className;
   const displayStartDate = useMemo(
-    () => (data?.class.startDate ? new Date(data.class.startDate) : startDate),
+    () =>
+      data?.class.startDate
+        ? new Date(data.class.startDate)
+        : startDate
+        ? new Date(startDate)
+        : startDate,
     [data?.class.startDate, startDate],
   );
   const displayGradeLevel = data?.class.gradeLevel ?? gradeLevel;
@@ -132,6 +131,8 @@ const DisplayClassroomsPage = () => {
   });
 
   useEffect(() => {
+    // We need to reset the form values in case we had to fetch the class data
+    // from the server.
     classroomFormMethods.reset(
       {
         className: displayTitle,
@@ -151,14 +152,19 @@ const DisplayClassroomsPage = () => {
       />
       <HeaderWithButton
         button={
-          <AddClassroomOrStudentPopover
+          <SimplePopover
             isDisabled={loading}
-            onCreateClassroom={() =>
-              history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
-                classroomId,
-              })
-            }
-            onCreateStudent={onStudentModalOpen}
+            items={[
+              {
+                name: "Assessment",
+                onClick: () =>
+                  history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
+                    classroomId,
+                  }),
+              },
+              { name: "Student", onClick: onStudentModalOpen },
+            ]}
+            text="Add"
           />
         }
         isLoading={loading}
@@ -178,10 +184,7 @@ const DisplayClassroomsPage = () => {
           <IconButton
             aria-label="Edit classroom"
             icon={<EditOutlineIcon />}
-            onClick={() => {
-              classroomFormMethods.reset();
-              onClassroomModalOpen();
-            }}
+            onClick={onClassroomModalOpen}
             size="icon"
             variant="icon"
           />
