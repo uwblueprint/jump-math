@@ -5,11 +5,11 @@ import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
 import { Grade } from "../../APIClients/types/UserClientTypes";
 import { PlusOutlineIcon } from "../../assets/icons";
 import type { ClassroomForm } from "../../types/ClassroomTypes";
+import { QuestionElementType } from "../../types/QuestionTypes";
 import MultipleChoiceVisualizer from "../admin/assessment-visualization/question-elements/MultipleChoiceVisualizer";
 import MultiSelectVisualizer from "../admin/assessment-visualization/question-elements/MultiSelectVisualizer";
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
-import MultipleChoice from "../admin/preview-assessment/question-elements/MultipleChoice";
-import MultiSelect from "../admin/preview-assessment/question-elements/MultiSelect";
+import MultiOptionInput from "../common/question-elements/multi-option/MultiOptionInput";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
 import AssessmentsSection from "../teacher/dashboard/AssessmentsSection";
@@ -242,7 +242,7 @@ const ComponentLibrary = (): React.ReactElement => {
         <ClassroomsSection />
         <AssessmentsSection />
       </Flex>
-      <MultipleChoice
+      <MultiOptionInput
         data={{
           options: [
             {
@@ -271,8 +271,9 @@ const ComponentLibrary = (): React.ReactElement => {
             },
           ],
         }}
+        type={QuestionElementType.MULTIPLE_CHOICE}
       />
-      <MultiSelect
+      <MultiOptionInput
         data={{
           options: [
             {
@@ -301,6 +302,7 @@ const ComponentLibrary = (): React.ReactElement => {
             },
           ],
         }}
+        type={QuestionElementType.MULTI_SELECT}
       />
     </FormProvider>
   );

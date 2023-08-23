@@ -4,7 +4,7 @@ import { Box, Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { MultiData } from "../../../../types/QuestionTypes";
 import type { QuestionElementType } from "../../../../types/QuestionTypes";
-import MultiOption from "../../../common/question-elements/multi-option/MultiOptionInput";
+import MultiOptionInput from "../../../common/question-elements/multi-option/MultiOptionInput";
 
 import EditMultiOptionModal from "./modals/multi-option/EditMultiOptionModal";
 
@@ -24,7 +24,7 @@ const MultiOptionElement = ({
   return (
     <Flex paddingBottom="4" paddingLeft="1" width="100%">
       <Box paddingRight="4" paddingTop="2">
-        <MultiOption data={data} type={type} />
+        <MultiOptionInput data={data} type={type} />
       </Box>
       <Spacer />
       <IconButton
