@@ -62,6 +62,7 @@ export const GET_CLASSES_BY_TEACHER = gql`
   query ClassesByTeacher($teacherId: ID!, $queryOptions: ClassQueryOptions) {
     classesByTeacher(teacherId: $teacherId, queryOptions: $queryOptions) {
       id
+      startDate
       gradeLevel
       className
       testSessions {

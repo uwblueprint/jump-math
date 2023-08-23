@@ -77,18 +77,12 @@ const classroomFormDefaultValues: ClassroomForm = {
 
 const getLocationState = (
   state: unknown,
-): { className?: string; startDate?: Date; gradeLevel?: Grade } => {
-  const result = {
-    className: undefined,
-    startDate: undefined,
-    gradeLevel: undefined,
-    ...(typeof state === "object" ? state : {}),
-  };
-  return {
-    ...result,
-    startDate: result.startDate ? new Date(result.startDate) : undefined,
-  };
-};
+): { className?: string; startDate?: Date; gradeLevel?: Grade } => ({
+  className: undefined,
+  startDate: undefined,
+  gradeLevel: undefined,
+  ...(typeof state === "object" ? state : {}),
+});
 
 const DisplayClassroomsPage = () => {
   const history = useHistory();
@@ -100,12 +94,17 @@ const DisplayClassroomsPage = () => {
     GET_CLASS_DETAILS_BY_ID,
     {
       variables: { classroomId },
-      skip: !!className,
+      skip: !!className && !!startDate && !!gradeLevel,
     },
   );
   const displayTitle = data?.class.className ?? className;
   const displayStartDate = useMemo(
-    () => (data?.class.startDate ? new Date(data.class.startDate) : startDate),
+    () =>
+      data?.class.startDate
+        ? new Date(data.class.startDate)
+        : startDate
+        ? new Date(startDate)
+        : startDate,
     [data?.class.startDate, startDate],
   );
   const displayGradeLevel = data?.class.gradeLevel ?? gradeLevel;
@@ -132,6 +131,8 @@ const DisplayClassroomsPage = () => {
   });
 
   useEffect(() => {
+    // We need to reset the form values in case we had to fetch the class data
+    // from the server.
     classroomFormMethods.reset(
       {
         className: displayTitle,
@@ -183,10 +184,7 @@ const DisplayClassroomsPage = () => {
           <IconButton
             aria-label="Edit classroom"
             icon={<EditOutlineIcon />}
-            onClick={() => {
-              classroomFormMethods.reset();
-              onClassroomModalOpen();
-            }}
+            onClick={onClassroomModalOpen}
             size="icon"
             variant="icon"
           />

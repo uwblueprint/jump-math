@@ -29,13 +29,13 @@ import {
   GET_CLASSES_BY_TEACHER,
 } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
-import { Grade } from "../../../../APIClients/types/UserClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
 import type {
   ClassroomForm,
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
+import { getQueryName } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
 import ErrorToast from "../../../common/info/toasts/ErrorToast";
 import useToast from "../../../common/info/useToast";
@@ -60,6 +60,7 @@ const AddOrEditClassroomModal = ({
     handleSubmit,
     watch,
     setValue,
+    reset: resetForm,
     formState: { dirtyFields, errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
@@ -70,22 +71,15 @@ const AddOrEditClassroomModal = ({
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
     CREATE_CLASS,
     {
-      refetchQueries: [
-        {
-          query: GET_CLASSES_BY_TEACHER,
-          variables: { teacherId: authenticatedUser?.id },
-        },
-      ],
+      refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
     },
   );
   const [updateClass] = useMutation<{ updateClass: ClassResponse }>(
     UPDATE_CLASS,
     {
       refetchQueries: [
-        {
-          query: GET_CLASS_DETAILS_BY_ID,
-          variables: { classroomId },
-        },
+        getQueryName(GET_CLASSES_BY_TEACHER),
+        getQueryName(GET_CLASS_DETAILS_BY_ID),
       ],
     },
   );
@@ -119,9 +113,7 @@ const AddOrEditClassroomModal = ({
   };
 
   const onModalClose = () => {
-    setValue("className", "");
-    setValue("startDate", undefined);
-    setValue("gradeLevel", Grade.KINDERGARTEN);
+    resetForm();
     setShowRequestError(false);
     setRequestErrorMessage("");
     onClose();

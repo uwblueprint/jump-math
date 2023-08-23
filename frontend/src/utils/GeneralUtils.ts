@@ -1,4 +1,6 @@
 import { isSameDay } from "date-fns";
+import type { DocumentNode } from "graphql";
+import { getOperationAST } from "graphql";
 
 export const titleCase = (input: string): string => {
   const words = input.trim().split(/\s+/);
@@ -93,4 +95,12 @@ export const getLetterFromNumber = (number: number): string => {
   const secondLetter = String.fromCharCode((number % 26) + 97);
 
   return firstLetter + secondLetter;
+};
+
+export const getQueryName = (query: DocumentNode): string => {
+  const name = getOperationAST(query)?.name?.value;
+  if (!name) {
+    throw new Error("Query name not found. This is probably a bug.");
+  }
+  return name;
 };

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { type ReactElement } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import {
   HStack,
@@ -16,6 +17,7 @@ import {
   PeopleIcon,
 } from "../../../../assets/icons";
 import * as Routes from "../../../../constants/Routes";
+import type { ClassroomForm } from "../../../../types/ClassroomTypes";
 import { removeUnderscore, titleCase } from "../../../../utils/GeneralUtils";
 
 import ClassroomPopover from "./ClassroomPopover";
@@ -34,7 +36,7 @@ interface ClassroomCardProps {
 }
 
 interface ClassroomCardBodyProps {
-  icon: React.ReactElement;
+  icon: ReactElement;
   text: string;
 }
 
@@ -49,7 +51,16 @@ const ClassroomCard = ({
   clickDisabled = false,
   selected = false,
   isDashboardVariant = false,
-}: ClassroomCardProps): React.ReactElement => {
+}: ClassroomCardProps): ReactElement => {
+  const classroomFormMethods = useForm<ClassroomForm>({
+    defaultValues: {
+      className: name,
+      startDate: startDate ? new Date(startDate) : undefined,
+      gradeLevel: grade,
+    },
+    mode: "onChange",
+  });
+
   const classroomTitle = (
     <Text color="grey.400" textStyle="mobileHeader3">
       {name}
@@ -98,7 +109,12 @@ const ClassroomCard = ({
               >
                 {classroomTitle}
               </LinkOverlay>
-              {!isDashboardVariant && <ClassroomPopover classId={id} />}
+
+              {!isDashboardVariant && (
+                <FormProvider {...classroomFormMethods}>
+                  <ClassroomPopover classId={id} />
+                </FormProvider>
+              )}
             </>
           )}
         </HStack>
