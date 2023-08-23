@@ -1,6 +1,6 @@
 import React from "react";
 
-import { stringOrNumberArrayToNumberArray } from "../../../../utils/StudentUtils";
+import { stringOrNumberArrayToFloatArray } from "../../../../utils/StudentUtils";
 import MultiSelectInput from "../../../common/question-elements/multi-option/MultiSelectInput";
 
 import useAnswerState from "./useAnswerState";
@@ -20,7 +20,7 @@ const MultiSelect = ({
     <MultiSelectInput
       getOption={(option) => option as string}
       getOptionValue={(_, index) => index.toString()}
-      onChange={(e) => updateAnswer(stringOrNumberArrayToNumberArray(e))}
+      onChange={(e) => updateAnswer(stringOrNumberArrayToFloatArray(e))}
       options={options}
       value={currentAnswer.map(String)}
     />

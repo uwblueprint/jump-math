@@ -30,6 +30,7 @@ export const GET_TEST = gql`
             answer
           }
           ... on FractionMetadata {
+            wholeNumber
             numerator
             denominator
           }

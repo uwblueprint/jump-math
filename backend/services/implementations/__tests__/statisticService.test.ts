@@ -107,10 +107,11 @@ describe("mongo statisticService", (): void => {
     it("with multiple submissions", async () => {
       await MgTestSession.insertMany(mockTestSessions);
 
+      // Scores: [66.67, 33.33, 83.33, 33.33, 33.33, 66.67, 83.33, 33.33, 66.67, 33.33, 33.33, 33.33, 33.33]
       const actualResult = await statisticService.getMeanScoreByTest(
         mockTestWithId.id,
       );
-      expect(actualResult).toEqual(50.77);
+      expect(actualResult).toEqual(48.72);
     });
 
     it("with 0 submissions", async () => {
@@ -125,19 +126,21 @@ describe("mongo statisticService", (): void => {
     it("with odd number of submissions", async () => {
       await MgTestSession.insertMany(mockTestSessions);
 
+      // Scores: [66.67, 33.33, 83.33, 33.33, 33.33, 66.67, 83.33, 33.33, 66.67, 33.33, 33.33, 33.33, 33.33]
       const actualResult = await statisticService.getMedianScoreByTest(
         mockTestWithId.id,
       );
-      expect(actualResult).toEqual(40);
+      expect(actualResult).toEqual(33.33);
     });
 
     it("with even number of submissions", async () => {
       await MgTestSession.insertMany(mockTestSessionsWithEvenNumberOfResults);
 
+      // Scores: [66.67, 66.67, 33.33, 33.33, 83.33, 83.33, 33.33, 33.33]
       const actualResult = await statisticService.getMedianScoreByTest(
         mockTestWithId.id,
       );
-      expect(actualResult).toEqual(60);
+      expect(actualResult).toEqual(50);
     });
 
     it("with 0 submissions", async () => {
@@ -174,10 +177,10 @@ describe("mongo statisticService", (): void => {
         mockTestWithId.id,
       );
 
-      // Scores: [80.0, 40.0, 80.0, 40.0, 20.0, 80.0, 80.0, 20.0, 80.0, 20.0, 40.0, 40.0, 40.0]
-      // Result: [0, 0, 3/13 * 100, 0, 5/13 * 100, 0, 0, 0, 5/13 * 100, 0, 0]
+      // Scores: [66.67, 33.33, 83.33, 33.33, 33.33, 66.67, 83.33, 33.33, 66.67, 33.33, 33.33, 33.33, 33.33]
+      // Result: [0, 0, 0, 8/13 * 100, 0, 0, 3/13 * 100, 0, 2/13 * 100, 0, 0]
       expect(actualResult).toEqual([
-        0, 0, 23.08, 0, 38.46, 0, 0, 0, 38.46, 0, 0,
+        0, 0, 0, 61.54, 0, 0, 23.08, 0, 15.38, 0, 0,
       ]);
     });
 

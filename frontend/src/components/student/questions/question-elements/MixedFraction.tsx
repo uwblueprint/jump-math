@@ -5,29 +5,32 @@ import FractionInput from "../../../common/question-elements/fraction/FractionIn
 
 import useAnswerState from "./useAnswerState";
 
-interface FractionProps {
+interface MixedFractionProps {
   answerElementIndex: number;
 }
 
-const Fraction = ({
+const MixedFraction = ({
   answerElementIndex,
-}: FractionProps): React.ReactElement => {
+}: MixedFractionProps): React.ReactElement => {
   const { currentAnswer, updateAnswer } = useAnswerState(answerElementIndex);
-  const [numerator, denominator] = currentAnswer;
+  const [wholeNumber, numerator, denominator] = currentAnswer;
 
   return (
     <FractionInput
       denominator={String(denominator ?? "")}
       numerator={String(numerator ?? "")}
       onDenominatorChange={(e) =>
-        updateAnswer([numerator, stringToFloat(e.target.value)])
+        updateAnswer([wholeNumber, numerator, stringToFloat(e.target.value)])
       }
       onNumeratorChange={(e) =>
-        updateAnswer([stringToFloat(e.target.value), denominator])
+        updateAnswer([wholeNumber, stringToFloat(e.target.value), denominator])
       }
-      wholeNumber={null}
+      onWholeNumberChange={(e) =>
+        updateAnswer([stringToFloat(e.target.value), numerator, denominator])
+      }
+      wholeNumber={String(wholeNumber ?? "")}
     />
   );
 };
 
-export default Fraction;
+export default MixedFraction;

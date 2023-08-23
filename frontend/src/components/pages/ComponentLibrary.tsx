@@ -124,6 +124,7 @@ const ComponentLibrary = (): React.ReactElement => {
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedFraction
         correctAnswer={{
+          wholeNumber: null,
           numerator: 10294,
           denominator: 10294,
         }}
@@ -131,6 +132,7 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <CorrectedFraction
         correctAnswer={{
+          wholeNumber: null,
           numerator: 10294,
           denominator: 10294,
         }}
@@ -138,6 +140,7 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <CorrectedFraction
         correctAnswer={{
+          wholeNumber: null,
           numerator: 10294,
           denominator: 10294,
         }}
@@ -145,6 +148,7 @@ const ComponentLibrary = (): React.ReactElement => {
       />
       <CorrectedFraction
         correctAnswer={{
+          wholeNumber: null,
           numerator: 10294,
           denominator: 10294,
         }}

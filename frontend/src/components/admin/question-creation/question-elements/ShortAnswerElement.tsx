@@ -26,6 +26,7 @@ const ShortAnswerElement = ({
   return (
     <Flex paddingBottom="4" paddingLeft="6" width="100%">
       <Input
+        border="2px solid"
         borderColor="grey.300"
         borderRadius="0"
         focusBorderColor="grey.300"

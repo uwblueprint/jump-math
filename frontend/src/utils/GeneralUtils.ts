@@ -77,6 +77,11 @@ export const stringToFloat = (input: string): number | undefined => {
   return Number.isNaN(value) ? undefined : value;
 };
 
+export const stringToInt = (input: string): number | undefined => {
+  const value = parseInt(input);
+  return Number.isNaN(value) ? undefined : value;
+};
+
 export const isPastDate = (input: Date) => {
   const now = new Date();
   return input < now && !isSameDay(input, now);
@@ -103,4 +108,17 @@ export const getQueryName = (query: DocumentNode): string => {
     throw new Error("Query name not found. This is probably a bug.");
   }
   return name;
+};
+
+export const preventNonNumericKeys = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  value: string,
+  integerOnly = false,
+) => {
+  if (
+    (integerOnly && e.key === ".") ||
+    e.key === "e" ||
+    (e.key === "-" && value.length !== 0)
+  )
+    e.preventDefault();
 };

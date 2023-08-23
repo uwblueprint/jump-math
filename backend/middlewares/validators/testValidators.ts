@@ -120,6 +120,17 @@ const questionsValidator = (questions: QuestionComponent[][]): boolean => {
         ) {
           throw new Error("The denominator field is not of type integer");
         }
+        if (!("wholeNumber" in questionComponent.metadata)) {
+          throw new Error("Fraction component is missing a wholeNumber field");
+        }
+        if (
+          questionComponent.metadata.wholeNumber !== null &&
+          !validatePrimitive(questionComponent.metadata.wholeNumber, "integer")
+        ) {
+          throw new Error(
+            "The wholeNumber field is not of type null or integer",
+          );
+        }
       }
     });
   });

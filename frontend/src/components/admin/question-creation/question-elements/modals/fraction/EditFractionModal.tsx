@@ -29,6 +29,7 @@ const EditFractionModal = ({
   return (
     <FractionModal
       data={data}
+      fractionType={data.wholeNumber !== null ? "mixed" : "regular"}
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={updateFractionElement}

@@ -63,3 +63,5 @@ export const ResponseElementType = {
   [QuestionElementType.MULTI_SELECT]: QuestionElementType.MULTI_SELECT,
   [QuestionElementType.FRACTION]: QuestionElementType.FRACTION,
 } as const;
+
+export type FractionType = "regular" | "mixed";

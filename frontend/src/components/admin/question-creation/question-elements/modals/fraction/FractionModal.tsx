@@ -1,48 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
-import { stringToFloat } from "../../../../../../utils/GeneralUtils";
+import type { FractionType } from "../../../../../../types/QuestionTypes";
+import { stringToInt } from "../../../../../../utils/GeneralUtils";
 import Modal from "../../../../../common/modal/Modal";
 import FractionInput from "../../../../../common/question-elements/fraction/FractionInput";
 
 interface FractionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onBack?: () => void;
   onConfirm: (data: FractionMetadata) => void;
   data?: FractionMetadata;
+  fractionType: FractionType;
 }
 
 const FractionModal = ({
   isOpen,
   onClose,
+  onBack,
   onConfirm,
   data,
+  fractionType,
 }: FractionModalProps): React.ReactElement => {
+  const [wholeNumber, setWholeNumber] = useState<string>("");
   const [numerator, setNumerator] = useState<string>("");
   const [denominator, setDenominator] = useState<string>("");
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const resetFieldValues = useCallback(() => {
+    setWholeNumber(String(data?.wholeNumber ?? ""));
     setNumerator(String(data?.numerator ?? ""));
     setDenominator(String(data?.denominator ?? ""));
   }, [data]);
 
+  useEffect(() => {
+    resetFieldValues();
+  }, [resetFieldValues]);
+
   const handleClose = () => {
-    setNumerator(String(data?.numerator ?? ""));
-    setDenominator(String(data?.denominator ?? ""));
+    resetFieldValues();
     setError(false);
     onClose();
   };
 
+  const handleBack = () => {
+    resetFieldValues();
+    setError(false);
+    if (onBack) onBack();
+  };
+
   const handleConfirm = () => {
-    const castedNumerator = stringToFloat(numerator);
-    const castedDenominator = stringToFloat(denominator);
+    const castedWholeNumber =
+      fractionType === "regular" ? null : stringToInt(wholeNumber);
+    const castedNumerator = stringToInt(numerator);
+    const castedDenominator = stringToInt(denominator);
     if (
+      typeof castedWholeNumber !== "undefined" &&
       typeof castedNumerator !== "undefined" &&
       typeof castedDenominator !== "undefined"
     ) {
-      onConfirm({ numerator: castedNumerator, denominator: castedDenominator });
+      onConfirm({
+        wholeNumber: castedWholeNumber,
+        numerator: castedNumerator,
+        denominator: castedDenominator,
+      });
       handleClose();
     } else {
       setError(true);
@@ -51,8 +74,10 @@ const FractionModal = ({
 
   return (
     <Modal
+      cancelButtonText={onBack ? "Back" : "Cancel"}
       header="Create fraction question"
       isOpen={isOpen}
+      onBack={handleBack}
       onClose={handleClose}
       onSubmit={handleConfirm}
     >
@@ -69,6 +94,10 @@ const FractionModal = ({
           onNumeratorChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setNumerator(e.target.value)
           }
+          onWholeNumberChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setWholeNumber(e.target.value)
+          }
+          wholeNumber={fractionType === "mixed" ? wholeNumber : null}
         />
         <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
       </FormControl>

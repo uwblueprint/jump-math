@@ -26,7 +26,7 @@ export const getAnswerValues = (
   currentQuestionIndex: number,
   answerElementIndex: number,
   answers: Answers[],
-): number[] => {
+): (number | undefined)[] => {
   const answer = answers[currentQuestionIndex];
   const answerElement = answer?.elements[answerElementIndex];
   return answerElement?.elementAnswers ?? [];
@@ -47,25 +47,36 @@ export const initializeAnswers = (
 const getCompletedCount = (
   prevAnswer: Answers,
   answerElementIndex: number,
-  value: number[] | undefined,
+  value: (number | undefined)[] | undefined,
 ) => {
   let offset = 0;
   const prevCompletedCount = prevAnswer.completedCount;
   const isPrevCompletedElement: boolean =
-    prevAnswer.elements[answerElementIndex].elementAnswers.length !== 0;
+    prevAnswer.elements[answerElementIndex].elementAnswers.length !== 0 &&
+    !prevAnswer.elements[answerElementIndex].elementAnswers.includes(undefined);
 
   /* Case 1: if the element was previously completed and we are updating 
   its answer value to an empty or undefined value, we need to decrement the
   count of completed question elements. */
-  if (isPrevCompletedElement && (!value || value.length === 0)) offset = -1;
+  if (
+    isPrevCompletedElement &&
+    (!value || value.length === 0 || value.includes(undefined))
+  )
+    offset = -1;
 
   /* Case 2: if the element was previously not completed and we are updating 
   its answer to a non-empty value, we need to increment the
   count of completed question elements. */
-  if (!isPrevCompletedElement && value && value.length !== 0) offset = 1;
+  if (
+    !isPrevCompletedElement &&
+    value &&
+    value.length !== 0 &&
+    !value.includes(undefined)
+  )
+    offset = 1;
 
   /* Case 3: 
-    (a) if the element was previously completed and we are updating
+    (a) if the element was previously not completed and we are updating
     its answer value to an empty value or 
     (b) if the element was previously completed and we are updating
     its answer value to a non-empty value
@@ -77,7 +88,7 @@ const getCompletedCount = (
 export const getUpdatedAnswer = (
   answerIndex: number,
   currentQuestionIndex: number,
-  value: number[] | undefined,
+  value: (number | undefined)[] | undefined,
   prevAnswers: Answers[],
 ): Answers[] => {
   return update(prevAnswers, {
@@ -98,12 +109,12 @@ export const getUpdatedAnswer = (
   });
 };
 
-export const stringToNumberArray = (input: string): number[] => {
+export const stringToFloatArray = (input: string): number[] => {
   const castedInput = stringToFloat(input);
   return castedInput !== undefined ? [castedInput] : [];
 };
 
-export const stringOrNumberArrayToNumberArray = (
+export const stringOrNumberArrayToFloatArray = (
   inputs: StringOrNumber[],
 ): number[] => {
   return inputs
@@ -126,7 +137,9 @@ export const questionStatus = (
   return QuestionNumberTypes.UNATTEMPTED;
 };
 
-export const mapAnswersToResultsArray = (answers: Answers[]): number[][][] => {
+export const mapAnswersToResultsArray = (
+  answers: Answers[],
+): (number | undefined)[][][] => {
   return answers.map((answer) =>
     answer.elements.map((element) => element.elementAnswers),
   );

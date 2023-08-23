@@ -10,7 +10,6 @@ const EditStudentPopover = (): React.ReactElement => {
     <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <VStack divider={<Divider />} spacing="0em">
         <PopoverButton name="Edit" onClick={() => {}} />
-        <PopoverButton name="Archive" onClick={() => {}} />
         <PopoverButton name="Delete" onClick={() => {}} />
       </VStack>
     </Popover>
