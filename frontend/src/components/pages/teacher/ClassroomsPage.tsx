@@ -51,8 +51,10 @@ const ClassroomsPage = (): ReactElement => {
 
   const { loading, error, data } = useClassDataQuery();
 
+  const filteredData = data?.filter(({ isActive }) => isActive === !tabIndex);
+
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(data);
+    usePaginatedData(filteredData);
 
   const handleTabChange = (index: TabEnumClassroom) => {
     setTabIndex(index);
@@ -100,54 +102,53 @@ const ClassroomsPage = (): ReactElement => {
                   <Tab>Archived</Tab>
                 </TabList>
                 <TabPanels>
-                  <TabPanel padding="0">
-                    <Flex alignItems="left" flexWrap="wrap">
-                      {paginatedData?.map(
-                        ({
-                          id,
-                          activeAssessments,
-                          assessmentCount,
-                          gradeLevel,
-                          isActive,
-                          className,
-                          startDate,
-                          studentCount,
-                        }) => (
-                          <Flex key={id} paddingRight="4" paddingTop="4">
-                            <ClassroomCard
-                              key={id}
-                              activeAssessments={activeAssessments}
-                              assessmentCount={assessmentCount}
-                              grade={gradeLevel}
-                              id={id}
-                              isActive={isActive}
-                              name={className}
-                              startDate={startDate}
-                              studentCount={studentCount}
-                            />
-                          </Flex>
-                        ),
-                      )}
-                    </Flex>
-                    <VStack
-                      alignItems="center"
-                      paddingBottom="6"
-                      paddingTop="6"
-                      spacing="6"
-                      width="100%"
-                    >
-                      {totalPages > 1 && (
-                        <Pagination
-                          currentPage={currentPage}
-                          onPageChange={setCurrentPage}
-                          pagesCount={totalPages}
-                        />
-                      )}
-                    </VStack>
-                  </TabPanel>
-                  <TabPanel padding="0">
-                    <h1>Coming soon!</h1>
-                  </TabPanel>
+                  {Object.keys(TabEnumClassroom).map((tab) => (
+                    <TabPanel key={tab} padding="0">
+                      <Flex alignItems="left" flexWrap="wrap">
+                        {paginatedData?.map(
+                          ({
+                            id,
+                            activeAssessments,
+                            assessmentCount,
+                            gradeLevel,
+                            isActive,
+                            className,
+                            startDate,
+                            studentCount,
+                          }) => (
+                            <Flex key={id} paddingRight="4" paddingTop="4">
+                              <ClassroomCard
+                                key={id}
+                                activeAssessments={activeAssessments}
+                                assessmentCount={assessmentCount}
+                                grade={gradeLevel}
+                                id={id}
+                                isActive={isActive}
+                                name={className}
+                                startDate={startDate}
+                                studentCount={studentCount}
+                              />
+                            </Flex>
+                          ),
+                        )}
+                      </Flex>
+                      <VStack
+                        alignItems="center"
+                        paddingBottom="6"
+                        paddingTop="6"
+                        spacing="6"
+                        width="100%"
+                      >
+                        {totalPages > 1 && (
+                          <Pagination
+                            currentPage={currentPage}
+                            onPageChange={setCurrentPage}
+                            pagesCount={totalPages}
+                          />
+                        )}
+                      </VStack>
+                    </TabPanel>
+                  ))}
                 </TabPanels>
               </Tabs>
             </>
