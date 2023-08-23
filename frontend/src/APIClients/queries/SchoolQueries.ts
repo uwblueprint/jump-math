@@ -21,8 +21,8 @@ export const GET_SCHOOL = gql`
 `;
 
 export const GET_SCHOOL_BY_TEACHER_ID = gql`
-  query GetSchoolByTeacherId($id: ID!) {
-    schoolByTeacherId(id: $teacherId) {
+  query GetSchoolByTeacherId($teacherId: ID!) {
+    schoolByTeacherId(teacherId: $teacherId) {
       id
     }
   }
