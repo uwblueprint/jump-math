@@ -33,6 +33,16 @@ const AssessmentsSection = () => {
     return data?.filter((session) => session.status === currentTab);
   }, [data, currentTab]);
 
+  const sortedData = useMemo(() => {
+    const invertSort = currentTab === "PAST";
+    return filteredData?.sort((a, b) => {
+      return (
+        (invertSort ? -1 : 1) *
+        (a.targetDate.getTime() - b.targetDate.getTime())
+      );
+    });
+  }, [filteredData, currentTab]);
+
   return (
     <Box flex="1">
       {loading && (
@@ -64,7 +74,7 @@ const AssessmentsSection = () => {
           <TabPanels>
             {STATUSES.map((status) => (
               <TabPanel key={status} p={0}>
-                {filteredData?.map((session) => (
+                {sortedData?.map((session) => (
                   <TestSessionListItem
                     key={session.testSessionId}
                     {...session}
