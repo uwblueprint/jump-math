@@ -1,7 +1,7 @@
 import React from "react";
 
 import { stringToNumberArray } from "../../../../utils/StudentUtils";
-import FractionInput from "../../../common/fraction/FractionInput";
+import FractionInput from "../../../common/question-elements/fraction/FractionInput";
 
 import useAnswerState from "./useAnswerState";
 
