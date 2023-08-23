@@ -3,7 +3,7 @@ import { Flex, IconButton, Spacer, useDisclosure } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../../assets/icons";
 import type { FractionMetadata } from "../../../../types/QuestionMetadataTypes";
-import FractionInput from "../../../common/fraction/FractionInput";
+import FractionInput from "../../../common/question-elements/fraction/FractionInput";
 
 import EditFractionModal from "./modals/fraction/EditFractionModal";
 

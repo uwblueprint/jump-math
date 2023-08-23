@@ -8,6 +8,8 @@ import type { ClassroomForm } from "../../types/ClassroomTypes";
 import MultipleChoiceVisualizer from "../admin/assessment-visualization/question-elements/MultipleChoiceVisualizer";
 import MultiSelectVisualizer from "../admin/assessment-visualization/question-elements/MultiSelectVisualizer";
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
+import MultipleChoice from "../admin/preview-assessment/question-elements/MultipleChoice";
+import MultiSelect from "../admin/preview-assessment/question-elements/MultiSelect";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
 import AssessmentsSection from "../teacher/dashboard/AssessmentsSection";
@@ -240,6 +242,66 @@ const ComponentLibrary = (): React.ReactElement => {
         <ClassroomsSection />
         <AssessmentsSection />
       </Flex>
+      <MultipleChoice
+        data={{
+          options: [
+            {
+              id: "0",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "1",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+            {
+              id: "2",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "3",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+          ],
+        }}
+      />
+      <MultiSelect
+        data={{
+          options: [
+            {
+              id: "0",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+            {
+              id: "1",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "2",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: false,
+            },
+            {
+              id: "3",
+              value:
+                "Johnny has 3 apples, Rick has 7 apples, and Thomas has 8 apples",
+              isCorrect: true,
+            },
+          ],
+        }}
+      />
     </FormProvider>
   );
 };
