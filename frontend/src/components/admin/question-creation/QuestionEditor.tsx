@@ -4,6 +4,7 @@ import { Flex } from "@chakra-ui/react";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
+import PreviewQuestionModal from "../assessment-creation/PreviewQuestionModal";
 
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
@@ -24,6 +25,8 @@ const QuestionEditor = (): React.ReactElement => {
     React.useState(false);
   const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
+  const [showPreviewQuestionModal, setShowPreviewQuestionModal] =
+    React.useState(false);
 
   return (
     <QuestionEditorContext.Provider
@@ -40,15 +43,23 @@ const QuestionEditor = (): React.ReactElement => {
         setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
+        showPreviewQuestionModal,
+        setShowPreviewQuestionModal,
       }}
     >
-      <Flex minHeight="100vh">
-        <QuestionSidebar />
-        <QuestionWorkspace />
-      </Flex>
-      <AddShortAnswerModal />
-      <AddMultiOptionModal />
-      <AddFractionModal />
+      {showPreviewQuestionModal ? (
+        <PreviewQuestionModal />
+      ) : (
+        <>
+          <Flex minHeight="100vh">
+            <QuestionSidebar />
+            <QuestionWorkspace />
+          </Flex>
+          <AddShortAnswerModal />
+          <AddMultiOptionModal />
+          <AddFractionModal />
+        </>
+      )}
     </QuestionEditorContext.Provider>
   );
 };
