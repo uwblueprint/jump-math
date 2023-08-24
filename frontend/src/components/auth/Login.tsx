@@ -1,15 +1,20 @@
 import React, { useContext, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGIN } from "../../APIClients/mutations/AuthMutations";
+import { GET_SCHOOL_BY_TEACHER_ID } from "../../APIClients/queries/SchoolQueries";
+import type { SchoolResponse } from "../../APIClients/types/SchoolClientTypes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
-import type { VerifiableUser } from "../../types/AuthTypes";
+import type {
+  AuthenticatedTeacher,
+  VerifiableUser,
+} from "../../types/AuthTypes";
 import BackButton from "../common/navigation/BackButton";
 import RouterLink from "../common/navigation/RouterLink";
 
@@ -36,6 +41,10 @@ const Login = (): React.ReactElement => {
     login: VerifiableUser;
   }>(LOGIN);
 
+  const [getSchool] = useLazyQuery<{
+    schoolByTeacherId: Partial<SchoolResponse>;
+  }>(GET_SCHOOL_BY_TEACHER_ID);
+
   const onLogInClick = async () => {
     setInvalidFormError(false);
     setLoginError(false);
@@ -55,7 +64,15 @@ const Login = (): React.ReactElement => {
         setUnverifiedUser(true);
         return;
       }
-      setAuthenticatedUser(user);
+      if (user?.role === "Teacher") {
+        const { data } = await getSchool({
+          variables: { teacherId: user.id },
+        });
+        const school = data?.schoolByTeacherId.id ?? "";
+        setAuthenticatedUser({ ...user, school } as AuthenticatedTeacher);
+      } else {
+        setAuthenticatedUser(user);
+      }
     } catch (error) {
       setLoginError(true);
     }

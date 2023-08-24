@@ -17,6 +17,10 @@ const schoolResolvers = {
     ): Promise<SchoolResponseDTO> => {
       return schoolService.getSchoolById(id);
     },
+    schoolByTeacherId: (
+      _parent: undefined,
+      { teacherId }: { teacherId: string },
+    ) => schoolService.getSchoolByTeacherId(teacherId),
     schools: async (): Promise<SchoolResponseDTO[]> => {
       return schoolService.getAllSchools();
     },

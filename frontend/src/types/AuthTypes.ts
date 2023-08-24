@@ -12,9 +12,15 @@ type BaseUser = {
   role: Role;
 };
 
-export type AuthenticatedAdminOrTeacher = BaseUser & {
+export type AuthenticatedAdmin = BaseUser & {
   email: string;
   accessToken: string;
+};
+
+export type AuthenticatedTeacher = BaseUser & {
+  email: string;
+  accessToken: string;
+  school: string;
 };
 
 type AuthenticatedStudent = BaseUser & {
@@ -22,7 +28,8 @@ type AuthenticatedStudent = BaseUser & {
 };
 
 export type AuthenticatedUser =
-  | AuthenticatedAdminOrTeacher
+  | AuthenticatedAdmin
+  | AuthenticatedTeacher
   | AuthenticatedStudent
   | null;
 

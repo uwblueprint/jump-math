@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 
 import authAPIClient from "../../../APIClients/AuthAPIClient";
 import { REGISTER_TEACHER } from "../../../APIClients/mutations/AuthMutations";
-import AuthContext from "../../../contexts/AuthContext";
 import type { AuthenticatedUser } from "../../../types/AuthTypes";
 import type {
   TeacherSignupForm,
@@ -55,7 +54,6 @@ const renderPageComponent = (
 };
 
 const TeacherSignup = (): React.ReactElement => {
-  const { setAuthenticatedUser } = useContext(AuthContext);
   const methods = useForm<TeacherSignupForm>({
     defaultValues,
     mode: "onChange",
@@ -65,9 +63,8 @@ const TeacherSignup = (): React.ReactElement => {
   const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
     REGISTER_TEACHER,
     {
-      onCompleted(data: { register: AuthenticatedUser }) {
+      onCompleted() {
         setError("");
-        setAuthenticatedUser(data.register);
         setPage(5);
       },
       onError: async () => {

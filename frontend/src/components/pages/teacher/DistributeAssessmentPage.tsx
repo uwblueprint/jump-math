@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import AuthContext from "../../../contexts/AuthContext";
+import type { AuthenticatedTeacher } from "../../../types/AuthTypes";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
 import DistributeAssessmentButton from "../../teacher/session-creation/DistributeAssessmentButton";
@@ -19,7 +20,8 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
 
 const DistributeAssessmentPage = (): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);
-  const { id: teacherId } = authenticatedUser ?? {};
+  const { id: teacherId, school: schoolId } =
+    (authenticatedUser as AuthenticatedTeacher) ?? {};
 
   const [page, setPage] = useState(0);
 
@@ -133,7 +135,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
                 testSession={{
                   test: testId,
                   teacher: teacherId,
-                  school: "639151a4d46e8c002a49f8d6",
+                  school: schoolId,
                   class: classId,
                   startDate,
                   endDate,

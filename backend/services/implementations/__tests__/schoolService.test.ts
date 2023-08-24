@@ -168,6 +168,29 @@ describe("mongo schoolService", (): void => {
     );
   });
 
+  it("getSchoolByTeacherId for valid teacherId", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    const savedSchool = await SchoolModel.create(testSchools[0]);
+    const teacherId = testSchools[0].teachers[0];
+    const res = await schoolService.getSchoolByTeacherId(teacherId);
+    assertResponseMatchesExpected(savedSchool, res);
+  });
+
+  it("getSchoolByTeacherId for invalid teacherId", async () => {
+    // mock return value of user service
+    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
+
+    // execute and assert
+    await SchoolModel.create(testSchools[0]);
+    const invalidTeacherId = "56cb91bdc3464f14678934cd";
+    expect(
+      schoolService.getSchoolByTeacherId(invalidTeacherId),
+    ).rejects.toThrowError(`School with teacher ${invalidTeacherId} not found`);
+  });
+
   it("deleteSchool", async () => {
     const savedSchool = await SchoolModel.create(testSchools[0]);
 
