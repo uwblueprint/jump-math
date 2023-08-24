@@ -1,4 +1,8 @@
-export type TestSessionStatus = "PAST" | "UPCOMING" | "ACTIVE";
+export const enum TestSessionStatus {
+  PAST = "PAST",
+  UPCOMING = "UPCOMING",
+  ACTIVE = "ACTIVE",
+}
 
 export const getSessionStatus = (
   startDate: string | Date,
@@ -6,7 +10,7 @@ export const getSessionStatus = (
   now?: Date,
 ): TestSessionStatus => {
   const nowDate = now ?? new Date();
-  if (new Date(endDate) < nowDate) return "PAST";
-  if (new Date(startDate) > nowDate) return "UPCOMING";
-  return "ACTIVE";
+  if (new Date(endDate) < nowDate) return TestSessionStatus.PAST;
+  if (new Date(startDate) > nowDate) return TestSessionStatus.UPCOMING;
+  return TestSessionStatus.ACTIVE;
 };

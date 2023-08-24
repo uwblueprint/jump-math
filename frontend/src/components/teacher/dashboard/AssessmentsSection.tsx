@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  STATUSES,
-  type TestSessionStatus,
+  ALL_TEST_SESSION_STATUSES,
+  TestSessionStatus,
 } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import ErrorState from "../../common/info/ErrorState";
@@ -23,7 +23,7 @@ import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 const QUERY_DATA_LIMIT_PER_STATUS = 6;
 
 const AssessmentsSection = () => {
-  const [currentTab, setCurrentTab] = useState<TestSessionStatus>("ACTIVE");
+  const [currentTab, setCurrentTab] = useState(TestSessionStatus.ACTIVE);
 
   const { loading, error, data } = useAssessmentDataQuery(
     QUERY_DATA_LIMIT_PER_STATUS,
@@ -56,9 +56,11 @@ const AssessmentsSection = () => {
         </Box>
       )}
       {!!data?.length && !error && !loading && (
-        <Tabs onChange={(index) => setCurrentTab(STATUSES[index])}>
+        <Tabs
+          onChange={(index) => setCurrentTab(ALL_TEST_SESSION_STATUSES[index])}
+        >
           <TabList border="none" gap={8}>
-            {STATUSES.map((status) => (
+            {ALL_TEST_SESSION_STATUSES.map((status) => (
               <Tab
                 key={status}
                 _focus={{ background: "none" }}
@@ -72,7 +74,7 @@ const AssessmentsSection = () => {
             ))}
           </TabList>
           <TabPanels>
-            {STATUSES.map((status) => (
+            {ALL_TEST_SESSION_STATUSES.map((status) => (
               <TabPanel key={status} p={0}>
                 {sortedData?.map((session) => (
                   <TestSessionListItem

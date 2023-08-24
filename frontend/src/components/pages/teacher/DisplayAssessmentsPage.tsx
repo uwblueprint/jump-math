@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import type { TestSessionStatus } from "../../../types/TestSessionTypes";
-import { STATUSES } from "../../../types/TestSessionTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { ALL_TEST_SESSION_STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
@@ -24,8 +24,7 @@ import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem
 import useAssessmentDataQuery from "../../teacher/view-sessions/useAssessmentDataQuery";
 
 const DisplayAssessmentsPage = (): React.ReactElement => {
-  const [currentTab, setCurrentTab] =
-    React.useState<TestSessionStatus>("ACTIVE");
+  const [currentTab, setCurrentTab] = React.useState(TestSessionStatus.ACTIVE);
 
   const { loading, error, data } = useAssessmentDataQuery();
 
@@ -69,14 +68,19 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       )}
       {!!data?.length && !loading && !error && (
         <>
-          <Tabs mt={3} onChange={(index) => setCurrentTab(STATUSES[index])}>
+          <Tabs
+            mt={3}
+            onChange={(index) =>
+              setCurrentTab(ALL_TEST_SESSION_STATUSES[index])
+            }
+          >
             <TabList>
-              {STATUSES.map((status) => (
+              {ALL_TEST_SESSION_STATUSES.map((status) => (
                 <Tab key={status}>{titleCase(status)}</Tab>
               ))}
             </TabList>
             <TabPanels>
-              {STATUSES.map((status) => (
+              {ALL_TEST_SESSION_STATUSES.map((status) => (
                 <TabPanel key={status} pl={0} pr={0}>
                   {paginatedData?.map((session) => (
                     <TestSessionListItem

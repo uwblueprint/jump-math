@@ -6,6 +6,7 @@ import type {
   TestSessionRequestDTO,
   TestSessionResponseDTO,
 } from "../services/interfaces/testSessionService";
+import { TestSessionStatus } from "../utilities/testSessionUtils";
 import { mockClassWithId, mockClassWithId2 } from "./class";
 import { mockSchoolWithId, mockSchoolWithId2 } from "./school";
 import { mockTestWithId } from "./tests";
@@ -186,7 +187,7 @@ export const mockTestSessionWithId: TestSessionResponseDTO = {
   teacher: mockTeacher.id,
   school: mockSchoolWithId.id,
   class: mockClassWithId.id,
-  status: "ACTIVE",
+  status: TestSessionStatus.ACTIVE,
 };
 
 export const mockTestSessionWithNoResults: TestSessionDTO = {
