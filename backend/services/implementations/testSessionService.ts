@@ -184,9 +184,10 @@ class TestSessionService implements ITestSessionService {
   async getTestSessionsByTeacherId(
     teacherId: string,
     limit?: number,
+    now?: Date,
   ): Promise<Array<TestSessionResponseDTO>> {
     try {
-      const now = new Date();
+      const nowDate = now ?? new Date();
 
       let testSessions: TestSession[];
       if (limit !== undefined) {
@@ -194,18 +195,18 @@ class TestSessionService implements ITestSessionService {
           // active
           MgTestSession.find({
             teacher: { $eq: teacherId },
-            endDate: { $gte: now },
-            startDate: { $lte: now },
+            endDate: { $gte: nowDate },
+            startDate: { $lte: nowDate },
           }).sort({ endDate: 1 }),
           // upcoming
           MgTestSession.find({
             teacher: { $eq: teacherId },
-            startDate: { $gt: now },
+            startDate: { $gt: nowDate },
           }).sort({ startDate: 1 }),
           // past
           MgTestSession.find({
             teacher: { $eq: teacherId },
-            endDate: { $lt: now },
+            endDate: { $lt: nowDate },
           }).sort({ startDate: -1 }),
         ];
 
@@ -221,7 +222,7 @@ class TestSessionService implements ITestSessionService {
         });
       }
 
-      return formatTestSessions(testSessions, now);
+      return formatTestSessions(testSessions, nowDate);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
