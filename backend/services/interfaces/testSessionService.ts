@@ -128,7 +128,7 @@ export interface ITestSessionService {
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
    * @returns deleted id
-   * @throws Error if deletion fails
+   * @throws Error if deletion fails or given test session has already started
    */
   deleteTestSession(id: string): Promise<string>;
 

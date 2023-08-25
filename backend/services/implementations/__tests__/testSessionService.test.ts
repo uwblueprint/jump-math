@@ -276,20 +276,33 @@ describe("mongo testSessionService", (): void => {
     expect(res.length).toEqual(0);
   });
 
-  it("deleteTestSession", async () => {
-    const savedTestSession = await MgTestSession.create(mockTestSession);
+  describe("deleteTestSession", () => {
+    it("with valid test session id and upcoming start date", async () => {
+      const savedTestSession = await MgTestSession.create(mockTestSession);
 
-    const deletedTestSessionId = await testSessionService.deleteTestSession(
-      savedTestSession.id,
-    );
-    expect(deletedTestSessionId).toBe(savedTestSession.id);
-  });
+      const deletedTestSessionId = await testSessionService.deleteTestSession(
+        savedTestSession.id,
+        new Date("2020-09-01T09:00:00.000Z"),
+      );
+      expect(deletedTestSessionId).toBe(savedTestSession.id);
+    });
 
-  it("deleteTestSession not found", async () => {
-    const notFoundId = "62cf26998b7308f775a572aa";
-    await expect(async () => {
-      await testSessionService.deleteTestSession(notFoundId);
-    }).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
+    it("with test session that already started", async () => {
+      const savedTestSession = await MgTestSession.create(mockTestSession);
+
+      await expect(async () => {
+        await testSessionService.deleteTestSession(savedTestSession.id);
+      }).rejects.toThrowError(
+        `Test Session id ${savedTestSession.id} not found or test session has already started`,
+      );
+    });
+
+    it("with invalid test session id", async () => {
+      const notFoundId = "62cf26998b7308f775a572aa";
+      await expect(async () => {
+        await testSessionService.deleteTestSession(notFoundId);
+      }).rejects.toThrowError(`Test Session id ${notFoundId} not found or test session has already started`);
+    });
   });
 
   it("computeTestGrades", async () => {
