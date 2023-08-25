@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { type ReactElement } from "react";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
@@ -7,7 +7,7 @@ import {
   DELETE_CLASS,
 } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
-import AuthContext from "../../../../contexts/AuthContext";
+import { getQueryName } from "../../../../utils/GeneralUtils";
 import useToast from "../../../common/info/useToast";
 import Modal from "../../../common/modal/Modal";
 import Popover from "../../../common/popover/Popover";
@@ -24,7 +24,7 @@ interface ClassroomPopoverProps {
 const ClassroomPopover = ({
   classId,
   isArchived,
-}: ClassroomPopoverProps): React.ReactElement => {
+}: ClassroomPopoverProps): ReactElement => {
   const {
     isOpen: isPopoverOpen,
     onOpen: onPopoverOpen,
@@ -46,28 +46,14 @@ const ClassroomPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const { authenticatedUser } = useContext(AuthContext);
-
-  const { id: teacherId } = authenticatedUser ?? {};
-
   const [archiveClass] = useMutation<{ deleteClass: string }>(ARCHIVE_CLASS, {
     variables: { classId },
-    refetchQueries: [
-      {
-        query: GET_CLASSES_BY_TEACHER,
-        variables: { teacherId },
-      },
-    ],
+    refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
   });
 
   const [deleteClass] = useMutation<{ deleteClass: string }>(DELETE_CLASS, {
     variables: { classId },
-    refetchQueries: [
-      {
-        query: GET_CLASSES_BY_TEACHER,
-        variables: { teacherId },
-      },
-    ],
+    refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
   });
 
   const { showToast } = useToast();
@@ -110,34 +96,12 @@ const ClassroomPopover = ({
         onClose={onPopoverClose}
         onOpen={onPopoverOpen}
       >
-        <VStack spacing={0}>
-          <PopoverButton
-            name="Edit"
-            onClick={() => {
-              onPopoverClose();
-              onEditModalOpen();
-            }}
-          />
-          <Divider />
+        <VStack divider={<Divider />} spacing={0}>
+          <PopoverButton name="Edit" onClick={onEditModalOpen} />
           {!isArchived && (
-            <>
-              <PopoverButton
-                name="Archive"
-                onClick={() => {
-                  onPopoverClose();
-                  onArchiveModalOpen();
-                }}
-              />
-              <Divider />
-            </>
+            <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
           )}
-          <PopoverButton
-            name="Delete"
-            onClick={() => {
-              onPopoverClose();
-              onDeleteModalOpen();
-            }}
-          />
+          <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
         </VStack>
       </Popover>
       <AddOrEditClassroomModal

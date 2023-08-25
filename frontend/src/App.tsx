@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { type ReactElement, useReducer, useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -31,7 +31,7 @@ import type { AuthenticatedUser } from "./types/AuthTypes";
 import { getLocalStorageObj } from "./utils/LocalStorageUtils";
 import theme from "./themes";
 
-const App = (): React.ReactElement => {
+const App = (): ReactElement => {
   const currentUser: AuthenticatedUser = getLocalStorageObj<AuthenticatedUser>(
     AUTHENTICATED_USER_KEY,
   );
