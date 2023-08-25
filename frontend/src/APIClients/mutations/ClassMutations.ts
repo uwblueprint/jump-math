@@ -43,3 +43,9 @@ export const DELETE_CLASS = gql`
     deleteClass(classId: $classId)
   }
 `;
+
+export const DELETE_STUDENT = gql`
+  mutation DeleteStudent($classId: ID!, $studentId: ID!) {
+    deleteStudent(classId: $classId, studentId: $studentId)
+  }
+`;
