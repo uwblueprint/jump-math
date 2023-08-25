@@ -12,7 +12,7 @@ import {
 
 import * as Routes from "../../../constants/Routes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
-import { ALL_TEST_SESSION_STATUSES } from "../../../types/TestSessionTypes";
+import { TEST_SESSION_STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
@@ -33,7 +33,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   }, [data, currentTab]);
 
   const sortedData = useMemo(() => {
-    const invertSort = currentTab === "PAST";
+    const invertSort = currentTab === TestSessionStatus.PAST;
     return filteredData?.sort((a, b) => {
       return (
         (invertSort ? -1 : 1) *
@@ -70,17 +70,15 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         <>
           <Tabs
             mt={3}
-            onChange={(index) =>
-              setCurrentTab(ALL_TEST_SESSION_STATUSES[index])
-            }
+            onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
           >
             <TabList>
-              {ALL_TEST_SESSION_STATUSES.map((status) => (
+              {TEST_SESSION_STATUSES.map((status) => (
                 <Tab key={status}>{titleCase(status)}</Tab>
               ))}
             </TabList>
             <TabPanels>
-              {ALL_TEST_SESSION_STATUSES.map((status) => (
+              {TEST_SESSION_STATUSES.map((status) => (
                 <TabPanel key={status} pl={0} pr={0}>
                   {paginatedData?.map((session) => (
                     <TestSessionListItem

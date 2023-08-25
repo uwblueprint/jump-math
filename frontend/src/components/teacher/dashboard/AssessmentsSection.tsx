@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  ALL_TEST_SESSION_STATUSES,
+  TEST_SESSION_STATUSES,
   TestSessionStatus,
 } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
@@ -34,7 +34,7 @@ const AssessmentsSection = () => {
   }, [data, currentTab]);
 
   const sortedData = useMemo(() => {
-    const invertSort = currentTab === "PAST";
+    const invertSort = currentTab === TestSessionStatus.PAST;
     return filteredData?.sort((a, b) => {
       return (
         (invertSort ? -1 : 1) *
@@ -56,11 +56,9 @@ const AssessmentsSection = () => {
         </Box>
       )}
       {!!data?.length && !error && !loading && (
-        <Tabs
-          onChange={(index) => setCurrentTab(ALL_TEST_SESSION_STATUSES[index])}
-        >
+        <Tabs onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}>
           <TabList border="none" gap={8}>
-            {ALL_TEST_SESSION_STATUSES.map((status) => (
+            {TEST_SESSION_STATUSES.map((status) => (
               <Tab
                 key={status}
                 _focus={{ background: "none" }}
@@ -74,7 +72,7 @@ const AssessmentsSection = () => {
             ))}
           </TabList>
           <TabPanels>
-            {ALL_TEST_SESSION_STATUSES.map((status) => (
+            {TEST_SESSION_STATUSES.map((status) => (
               <TabPanel key={status} p={0}>
                 {sortedData?.map((session) => (
                   <TestSessionListItem

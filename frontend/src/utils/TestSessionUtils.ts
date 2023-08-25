@@ -1,4 +1,4 @@
-import type { TestSessionStatus } from "../types/TestSessionTypes";
+import { TestSessionStatus } from "../types/TestSessionTypes";
 
 import { includesIgnoreCase } from "./GeneralUtils";
 
@@ -6,7 +6,8 @@ export const getSessionTargetDate = (
   startDate: string | Date,
   endDate: string | Date,
   status: TestSessionStatus,
-): Date => (status === "ACTIVE" ? new Date(endDate) : new Date(startDate));
+): Date =>
+  status === TestSessionStatus.ACTIVE ? new Date(endDate) : new Date(startDate);
 
 type SearchableTestSession = {
   testName: string;

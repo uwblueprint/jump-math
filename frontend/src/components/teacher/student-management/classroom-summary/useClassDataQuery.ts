@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
+import { TestSessionStatus } from "../../../../types/TestSessionTypes";
 
 export type QueryOptions = {
   limit?: number;
@@ -32,7 +33,7 @@ const useClassDataQuery = (queryOptions?: QueryOptions) => {
         ({ testSessions, students, ...classCard }) => ({
           ...classCard,
           activeAssessments: testSessions.filter(
-            ({ status }) => status === "ACTIVE",
+            ({ status }) => status === TestSessionStatus.ACTIVE,
           ).length,
           assessmentCount: testSessions.length,
           studentCount: students.length,

@@ -3,7 +3,7 @@ export const enum TestSessionStatus {
   UPCOMING = "UPCOMING",
   PAST = "PAST",
 }
-export const ALL_TEST_SESSION_STATUSES = [
+export const TEST_SESSION_STATUSES = [
   TestSessionStatus.ACTIVE,
   TestSessionStatus.UPCOMING,
   TestSessionStatus.PAST,
