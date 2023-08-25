@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
-import { getSessionStatus } from "../../../../utils/TestSessionUtils";
+import { TestSessionStatus } from "../../../../types/TestSessionTypes";
 
 export type QueryOptions = {
   limit?: number;
@@ -27,29 +27,20 @@ const useClassDataQuery = (queryOptions?: QueryOptions) => {
     skip: !teacherId,
   });
 
-  const classCards = useMemo(() => {
-    const now = new Date();
-    return data?.classesByTeacher.map(
-      ({ testSessions, students, ...classCard }) => {
-        let activeAssessments = 0;
-        testSessions.forEach((session) => {
-          if (
-            getSessionStatus(session.startDate, session.endDate, now) ===
-            "active"
-          ) {
-            activeAssessments += 1;
-          }
-        });
-
-        return {
+  const classCards = useMemo(
+    () =>
+      data?.classesByTeacher.map(
+        ({ testSessions, students, ...classCard }) => ({
           ...classCard,
-          activeAssessments,
+          activeAssessments: testSessions.filter(
+            ({ status }) => status === TestSessionStatus.ACTIVE,
+          ).length,
           assessmentCount: testSessions.length,
           studentCount: students.length,
-        };
-      },
-    );
-  }, [data]);
+        }),
+      ),
+    [data],
+  );
 
   return { loading, error, data: classCards };
 };

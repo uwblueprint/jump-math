@@ -69,6 +69,7 @@ export const GET_CLASSES_BY_TEACHER = gql`
         id
         startDate
         endDate
+        status
       }
       students {
         id

@@ -1,3 +1,5 @@
+import type { TestSessionStatus } from "../../utilities/testSessionUtils";
+
 /**
  * This interface contains the request object that is fed into
  * the test session service to create or update the test session in the database.
@@ -45,6 +47,8 @@ export interface TestSessionResponseDTO {
   startDate: Date;
   /** after this date, the test is no longer available to students */
   endDate: Date;
+  /** the status of the test session */
+  status: TestSessionStatus;
   /** notes inputted by teacher to show students prior to commencing the test */
   notes?: string;
 }

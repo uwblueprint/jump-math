@@ -28,8 +28,31 @@ import {
   roundTwoDecimals,
 } from "../../utilities/generalUtils";
 import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
+import { getSessionStatus } from "../../utilities/testSessionUtils";
 
 const Logger = logger(__filename);
+
+const formatTestSession =
+  (now?: Date) =>
+  (testSession: TestSession): TestSessionResponseDTO => {
+    const nowDate = now ?? new Date();
+    const sessionDTO = mapDocumentToDTO(testSession);
+
+    return {
+      ...sessionDTO,
+      status: getSessionStatus(
+        sessionDTO.startDate,
+        sessionDTO.endDate,
+        nowDate,
+      ),
+    };
+  };
+
+const formatTestSessions = (
+  testSessions: TestSession[],
+  now?: Date,
+): TestSessionResponseDTO[] =>
+  testSessions.map(formatTestSession(now ?? new Date()));
 
 class TestSessionService implements ITestSessionService {
   testService: ITestService;
@@ -161,15 +184,45 @@ class TestSessionService implements ITestSessionService {
   async getTestSessionsByTeacherId(
     teacherId: string,
     limit?: number,
+    now?: Date,
   ): Promise<Array<TestSessionResponseDTO>> {
     try {
-      const query = MgTestSession.find({ teacher: { $eq: teacherId } });
-      if (limit !== undefined) {
-        query.limit(limit);
-      }
-      const testSessions: TestSession[] = await query;
+      const nowDate = now ?? new Date();
 
-      return mapDocumentsToDTOs(testSessions);
+      let testSessions: TestSession[];
+      if (limit !== undefined) {
+        const queries = [
+          // active
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            endDate: { $gte: nowDate },
+            startDate: { $lte: nowDate },
+          }).sort({ endDate: 1 }),
+          // upcoming
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            startDate: { $gt: nowDate },
+          }).sort({ startDate: 1 }),
+          // past
+          MgTestSession.find({
+            teacher: { $eq: teacherId },
+            endDate: { $lt: nowDate },
+          }).sort({ startDate: -1 }),
+        ];
+
+        queries.forEach((query) => query.limit(limit));
+
+        const testSessionsByStatus: TestSession[][] = await Promise.all(
+          queries,
+        );
+        testSessions = testSessionsByStatus.flat();
+      } else {
+        testSessions = await MgTestSession.find({
+          teacher: { $eq: teacherId },
+        });
+      }
+
+      return formatTestSessions(testSessions, nowDate);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
@@ -188,7 +241,7 @@ class TestSessionService implements ITestSessionService {
         class: { $eq: classId },
       });
 
-      return mapDocumentsToDTOs(testSessions);
+      return formatTestSessions(testSessions);
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for classId=${classId}. Reason = ${getErrorMessage(
