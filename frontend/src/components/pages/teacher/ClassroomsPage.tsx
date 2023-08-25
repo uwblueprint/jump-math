@@ -13,9 +13,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import checkFeatureFlag from "../../../checkFeatureFlag";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import { TabEnumClassroom } from "../../../types/ClassroomTypes";
+import {
+  TabEnumClassroom,
+  TABS_CLASSROOM,
+} from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
@@ -99,10 +103,12 @@ const ClassroomsPage = (): ReactElement => {
               <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
                 <TabList>
                   <Tab>Active</Tab>
-                  <Tab>Archived</Tab>
+                  {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
+                    <Tab>Archived</Tab>
+                  )}
                 </TabList>
                 <TabPanels>
-                  {Object.keys(TabEnumClassroom).map((tab) => (
+                  {TABS_CLASSROOM.map((tab) => (
                     <TabPanel key={tab} padding="0">
                       <Flex alignItems="left" flexWrap="wrap">
                         {paginatedData?.map(

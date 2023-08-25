@@ -7,6 +7,7 @@ import {
   DELETE_CLASS,
 } from "../../../../APIClients/mutations/ClassMutations";
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
+import checkFeatureFlag from "../../../../checkFeatureFlag";
 import { getQueryName } from "../../../../utils/GeneralUtils";
 import useToast from "../../../common/info/useToast";
 import Modal from "../../../common/modal/Modal";
@@ -98,7 +99,7 @@ const ClassroomPopover = ({
       >
         <VStack divider={<Divider />} spacing={0}>
           <PopoverButton name="Edit" onClick={onEditModalOpen} />
-          {!isArchived && (
+          {!isArchived && checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
             <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
           )}
           <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
