@@ -45,6 +45,7 @@ const ClassroomsSection = (): ReactElement => {
                 activeAssessments,
                 assessmentCount,
                 gradeLevel,
+                isActive,
                 className,
                 startDate,
                 studentCount,
@@ -55,6 +56,7 @@ const ClassroomsSection = (): ReactElement => {
                   assessmentCount={assessmentCount}
                   grade={gradeLevel}
                   id={id}
+                  isActive={isActive}
                   isDashboardVariant
                   name={className}
                   startDate={startDate}

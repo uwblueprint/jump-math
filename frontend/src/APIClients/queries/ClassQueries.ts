@@ -73,6 +73,7 @@ export const GET_CLASSES_BY_TEACHER = gql`
       students {
         id
       }
+      isActive
     }
   }
 `;

@@ -30,6 +30,7 @@ interface ClassroomCardProps {
   studentCount: number;
   assessmentCount: number;
   grade: Grade;
+  isActive: boolean;
   activeAssessments: number;
   clickDisabled?: boolean;
   selected?: boolean;
@@ -47,6 +48,7 @@ const ClassroomCard = ({
   studentCount,
   assessmentCount,
   grade,
+  isActive,
   activeAssessments,
   clickDisabled = false,
   selected = false,
@@ -112,7 +114,7 @@ const ClassroomCard = ({
 
               {!isDashboardVariant && (
                 <FormProvider {...classroomFormMethods}>
-                  <ClassroomPopover classId={id} />
+                  <ClassroomPopover classId={id} isArchived={!isActive} />
                 </FormProvider>
               )}
             </>
