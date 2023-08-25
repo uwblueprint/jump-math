@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
@@ -30,9 +30,21 @@ const ClassroomPopover = ({
     onOpen: onPopoverOpen,
     onClose: onPopoverClose,
   } = useDisclosure();
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showArchiveModal, setShowArchiveModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isArchiveModalOpen,
+    onOpen: onArchiveModalOpen,
+    onClose: onArchiveModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
 
   const { authenticatedUser } = useContext(AuthContext);
 
@@ -67,7 +79,7 @@ const ClassroomPopover = ({
         message: "Classroom archived.",
         status: "success",
       });
-      setShowArchiveModal(false);
+      onArchiveModalClose();
     } catch (error) {
       showToast({
         message: "Classroom failed to archive. Please try again.",
@@ -103,7 +115,7 @@ const ClassroomPopover = ({
             name="Edit"
             onClick={() => {
               onPopoverClose();
-              setShowEditModal(true);
+              onEditModalOpen();
             }}
           />
           <Divider />
@@ -113,7 +125,7 @@ const ClassroomPopover = ({
                 name="Archive"
                 onClick={() => {
                   onPopoverClose();
-                  setShowArchiveModal(true);
+                  onArchiveModalOpen();
                 }}
               />
               <Divider />
@@ -123,30 +135,30 @@ const ClassroomPopover = ({
             name="Delete"
             onClick={() => {
               onPopoverClose();
-              setShowDeleteModal(true);
+              onDeleteModalOpen();
             }}
           />
         </VStack>
       </Popover>
       <AddOrEditClassroomModal
         classroomId={classId}
-        isOpen={showEditModal}
-        onClose={() => setShowEditModal(false)}
+        isOpen={isEditModalOpen}
+        onClose={onEditModalClose}
       />
       <Modal
         body={
           'Are you sure you want to archive this classroom? You can find your archived classrooms in the "Archived" tab.'
         }
         header="Archive Classroom"
-        isOpen={showArchiveModal}
-        onClose={() => setShowArchiveModal(false)}
+        isOpen={isArchiveModalOpen}
+        onClose={onArchiveModalClose}
         onSubmit={handleArchiveClass}
         submitButtonText="Archive"
       />
       <DeleteClassroomModal
         deleteClassroom={handleDeleteClass}
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
       />
     </>
   );
