@@ -8,15 +8,17 @@ import EditStudentPopover from "./EditStudentPopover";
 
 interface StudentsTableProps {
   students: StudentResponse[];
+  classId: string;
 }
 
 const StudentsTable = ({
   students,
+  classId,
 }: StudentsTableProps): React.ReactElement => {
   const headers = ["First Name", "Last Name", "Student ID"];
   const rows: TableRow[] = students.map((student) => ({
     values: [student.firstName, student.lastName, student.studentNumber],
-    menu: <EditStudentPopover />,
+    menu: <EditStudentPopover classId={classId} student={student} />,
   }));
 
   return <Table headers={headers} rows={rows} />;

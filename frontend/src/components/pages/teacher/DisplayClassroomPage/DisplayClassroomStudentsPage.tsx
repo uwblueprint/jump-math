@@ -82,7 +82,9 @@ const DisplayClassroomStudentsPage = ({
               properties={SORT_PROPERTIES}
             />
           }
-          tableComponent={<StudentsTable students={students} />}
+          tableComponent={
+            <StudentsTable classId={classroomId} students={students} />
+          }
         />
       )}
     </>
