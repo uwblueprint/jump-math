@@ -5,7 +5,7 @@ import Modal from "../../../common/modal/Modal";
 interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  deleteClassroom: () => void;
+  deleteClassroom: () => Promise<void>;
 }
 
 const DeleteClassroomModal = ({
@@ -13,8 +13,8 @@ const DeleteClassroomModal = ({
   onClose,
   deleteClassroom,
 }: DeleteModalProps): React.ReactElement => {
-  const onDeleteClassroom = () => {
-    deleteClassroom();
+  const onDeleteClassroom = async () => {
+    await deleteClassroom();
     onClose();
   };
 

@@ -14,10 +14,8 @@ import {
 
 import { BookIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
-import type {
-  TestSessionItemStats,
-  TestSessionStatus,
-} from "../../../types/TestSessionTypes";
+import type { TestSessionItemStats } from "../../../types/TestSessionTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { formatDate, titleCase } from "../../../utils/GeneralUtils";
 import Copyable from "../../common/Copyable";
 
@@ -36,19 +34,19 @@ export type TestSessionListItemProps = {
 };
 
 const STATUS_LABELS = {
-  active: "Until",
-  upcoming: "Scheduled",
-  past: "Assigned",
+  ACTIVE: "Until",
+  UPCOMING: "Scheduled",
+  PAST: "Assigned",
 };
 const STATUS_BACKGROUND_COLORS = {
-  active: "green.50",
-  upcoming: "yellow.50",
-  past: "grey.100",
+  ACTIVE: "green.50",
+  UPCOMING: "yellow.50",
+  PAST: "grey.100",
 };
 const STATUS_COLORS = {
-  active: "green.400",
-  upcoming: "yellow.300",
-  past: "grey.400",
+  ACTIVE: "green.400",
+  UPCOMING: "yellow.300",
+  PAST: "grey.400",
 };
 const ACCESS_CODE_GROUP_SIZE = 3;
 
@@ -70,7 +68,9 @@ const TestSessionListItem = ({
 
   return (
     <HStack
-      _hover={{ bg: status === "past" ? "grey.100" : undefined }}
+      _hover={{
+        bg: status === TestSessionStatus.PAST ? "grey.100" : undefined,
+      }}
       borderRadius={16}
       gap={0}
       pr={4}
@@ -80,17 +80,17 @@ const TestSessionListItem = ({
         bg="blue.300"
         borderRadius={4}
         hasArrow
-        isDisabled={status !== "past"}
+        isDisabled={status !== TestSessionStatus.PAST}
         label="Click to view statistics of this assessment and each student's performance."
         p={2}
         placement="bottom"
       >
         <HStack
-          as={status === "past" ? "button" : undefined}
+          as={status === TestSessionStatus.PAST ? "button" : undefined}
           flex={1}
           gap={4}
           onClick={() =>
-            status === "past" &&
+            status === TestSessionStatus.PAST &&
             history.push(
               Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE({
                 sessionId: testSessionId,
@@ -145,19 +145,23 @@ const TestSessionListItem = ({
           )}
           <VStack align="start">
             <Text
-              color={status === "past" ? "grey.300" : "blue.300"}
+              color={
+                status === TestSessionStatus.PAST ? "grey.300" : "blue.300"
+              }
               textStyle="subtitle2"
             >
               {testName}
             </Text>
             <Text
-              color={status === "past" ? "grey.200" : "blue.200"}
+              color={
+                status === TestSessionStatus.PAST ? "grey.200" : "blue.200"
+              }
               textStyle="mobileParagraph"
             >
               {STATUS_LABELS[status]} {formatDate(targetDate)}
             </Text>
           </VStack>
-          {status !== "past" && (
+          {status !== TestSessionStatus.PAST && (
             <Copyable
               displayedValue={formattedAccessCode}
               label="Access Code"
@@ -181,7 +185,7 @@ const TestSessionListItem = ({
               </Text>
             </>
           )}
-          {status !== "past" && classroomName == null && (
+          {status !== TestSessionStatus.PAST && classroomName == null && (
             <Tag
               bg={STATUS_BACKGROUND_COLORS[status]}
               borderRadius="full"
@@ -202,7 +206,7 @@ const TestSessionListItem = ({
           )}
         </HStack>
       </Tooltip>
-      {status !== "past" && (
+      {status !== TestSessionStatus.PAST && (
         <Box ml={1}>
           <TestSessionListItemPopover
             status={status}

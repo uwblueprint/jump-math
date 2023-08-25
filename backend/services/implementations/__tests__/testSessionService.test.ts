@@ -242,6 +242,49 @@ describe("mongo testSessionService", (): void => {
     );
   });
 
+  it("getTestSessionsByTeacherId for valid teacher id with limit", async () => {
+    const activeTestSession = mockTestSession;
+    const upcomingTestSession = {
+      ...mockTestSession,
+      startDate: new Date("2022-09-10T09:00:00.000Z"),
+    };
+    const pastTestSession = {
+      ...mockTestSession,
+      endDate: new Date("2020-09-10T09:00:00.000Z"),
+    };
+
+    await Promise.all(
+      Array(3)
+        .fill(0)
+        .map(() =>
+          Promise.all([
+            MgTestSession.create(activeTestSession),
+            MgTestSession.create(upcomingTestSession),
+            MgTestSession.create(pastTestSession),
+          ]),
+        ),
+    );
+
+    // execute
+    const res = await testSessionService.getTestSessionsByTeacherId(
+      mockTestSession.teacher,
+      2,
+      new Date("2022-01-01T09:00:00.000Z"),
+    );
+
+    // assert
+    const countByStatus = res.reduce(
+      (acc, testSession) => {
+        acc[testSession.status] += 1;
+        return acc;
+      },
+      { ACTIVE: 0, UPCOMING: 0, PAST: 0 },
+    );
+    expect(countByStatus.ACTIVE).toEqual(2);
+    expect(countByStatus.UPCOMING).toEqual(2);
+    expect(countByStatus.PAST).toEqual(2);
+  });
+
   it("getTestSessionsByTeacherId for invalid teacher id", async () => {
     await MgTestSession.create(mockTestSession);
     const invalidId = "56cb91bdc3464f14678934ca";
@@ -301,7 +344,9 @@ describe("mongo testSessionService", (): void => {
       const notFoundId = "62cf26998b7308f775a572aa";
       await expect(async () => {
         await testSessionService.deleteTestSession(notFoundId);
-      }).rejects.toThrowError(`Test Session id ${notFoundId} not found or test session has already started`);
+      }).rejects.toThrowError(
+        `Test Session id ${notFoundId} not found or test session has already started`,
+      );
     });
   });
 

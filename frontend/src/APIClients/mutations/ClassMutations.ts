@@ -30,6 +30,14 @@ export const CREATE_STUDENT = gql`
   }
 `;
 
+export const ARCHIVE_CLASS = gql`
+  mutation ArchiveClass($classId: ID!) {
+    archiveClass(id: $classId) {
+      id
+    }
+  }
+`;
+
 export const DELETE_CLASS = gql`
   mutation DeleteClass($classId: ID!) {
     deleteClass(classId: $classId)

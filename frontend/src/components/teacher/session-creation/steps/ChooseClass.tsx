@@ -1,70 +1,37 @@
-import React, { useContext, useMemo } from "react";
-import { useQuery } from "@apollo/client";
+import React, {
+  type Dispatch,
+  type ReactElement,
+  type SetStateAction,
+} from "react";
 import { Box, Flex, VStack } from "@chakra-ui/react";
 
-import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
-import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
-import AuthContext from "../../../../contexts/AuthContext";
-import { getSessionStatus } from "../../../../utils/TestSessionUtils";
 import EmptyClassroomsGoToPageMessage from "../../../common/info/messages/EmptyClassroomsGoToPage";
 import Pagination from "../../../common/table/Pagination";
 import usePaginatedData from "../../../common/table/usePaginatedData";
 import ClassroomCard from "../../student-management/classroom-summary/ClassroomCard";
+import useClassDataQuery from "../../student-management/classroom-summary/useClassDataQuery";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseClassProps {
   selectedClassId: string;
-  setClassId: React.Dispatch<React.SetStateAction<string>>;
-  setClassName: React.Dispatch<React.SetStateAction<string>>;
+  setClassId: Dispatch<SetStateAction<string>>;
+  setClassName: Dispatch<SetStateAction<string>>;
 }
 
 const ChooseClass = ({
   selectedClassId,
   setClassId,
   setClassName,
-}: ChooseClassProps): React.ReactElement => {
-  const { authenticatedUser } = useContext(AuthContext);
-  const { id: teacherId } = authenticatedUser ?? {};
-
-  const { loading, error, data } = useQuery<{
-    classesByTeacher: ClassResponse[];
-  }>(GET_CLASSES_BY_TEACHER, {
-    fetchPolicy: "cache-and-network",
-    variables: { teacherId },
-    skip: !teacherId,
-  });
-
-  const classCards = useMemo(() => {
-    const now = new Date();
-    return data?.classesByTeacher.map(
-      ({ testSessions, students, ...classCard }) => {
-        let activeAssessments = 0;
-        testSessions.forEach((session) => {
-          if (
-            getSessionStatus(session.startDate, session.endDate, now) ===
-            "active"
-          ) {
-            activeAssessments += 1;
-          }
-        });
-
-        return {
-          ...classCard,
-          activeAssessments,
-          assessmentCount: testSessions.length,
-          studentCount: students.length,
-        };
-      },
-    );
-  }, [data]);
+}: ChooseClassProps): ReactElement => {
+  const { loading, error, data } = useClassDataQuery();
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
-    usePaginatedData(classCards);
+    usePaginatedData(data);
 
   return (
     <DistributeAssessmentWrapper
       emptyState={<EmptyClassroomsGoToPageMessage />}
-      isEmpty={classCards?.length === 0}
+      isEmpty={data?.length === 0}
       isError={Boolean(error)}
       isLoading={Boolean(loading)}
       subtitle="Please choose classrooms you want this assessment to be distributed to."
@@ -78,6 +45,7 @@ const ChooseClass = ({
               activeAssessments,
               assessmentCount,
               gradeLevel,
+              isActive,
               className,
               startDate,
               studentCount,
@@ -99,6 +67,7 @@ const ChooseClass = ({
                   clickDisabled={true}
                   grade={gradeLevel}
                   id={id}
+                  isActive={isActive}
                   name={className}
                   selected={selectedClassId === id}
                   startDate={startDate}

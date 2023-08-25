@@ -8,6 +8,12 @@ const commonType = gql`
     ASC
     DESC
   }
+
+  enum TestSessionStatus {
+    PAST
+    UPCOMING
+    ACTIVE
+  }
 `;
 
 export default commonType;

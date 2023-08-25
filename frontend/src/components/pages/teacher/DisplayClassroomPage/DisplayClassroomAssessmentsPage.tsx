@@ -8,7 +8,6 @@ import type { ClassTestSessionData } from "../../../../APIClients/types/ClassCli
 import { sortArray } from "../../../../utils/GeneralUtils";
 import {
   filterTestSessionsBySearch,
-  getSessionStatus,
   getSessionTargetDate,
 } from "../../../../utils/TestSessionUtils";
 import ErrorState from "../../../common/info/ErrorState";
@@ -43,18 +42,18 @@ const DisplayClassroomAssessmentsPage = () => {
     },
   );
 
-  const formattedData = useMemo(() => {
-    const now = new Date();
-    return data?.class.testSessions.map(
-      ({ id, startDate, endDate, test, ...session }) => ({
-        ...session,
-        testSessionId: id,
-        testName: test.name,
-        status: getSessionStatus(startDate, endDate, now),
-        targetDate: getSessionTargetDate(startDate, endDate, now),
-      }),
-    );
-  }, [data]);
+  const formattedData = useMemo(
+    () =>
+      data?.class.testSessions.map(
+        ({ id, startDate, endDate, test, ...session }) => ({
+          ...session,
+          testSessionId: id,
+          testName: test.name,
+          targetDate: getSessionTargetDate(startDate, endDate, session.status),
+        }),
+      ),
+    [data],
+  );
 
   const searchedData = useMemo(() => {
     if (!formattedData) return [];

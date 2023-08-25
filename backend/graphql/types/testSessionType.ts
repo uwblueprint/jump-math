@@ -33,6 +33,7 @@ const testSessionType = gql`
     accessCode: String!
     startDate: Date!
     endDate: Date!
+    status: TestSessionStatus!
     notes: String
   }
 

@@ -1,3 +1,5 @@
+import type { TestSessionStatus } from "../../types/TestSessionTypes";
+
 import type { ClassResponse, StudentResponse } from "./ClassClientTypes";
 import type { Test } from "./TestClientTypes";
 
@@ -36,6 +38,8 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   class: Pick<ClassResponse, "className">;
   /** after this date, the test is no longer available to students */
   endDate: Date;
+  /** the status of the test session */
+  status: TestSessionStatus;
   /** the access code that students use to access the test session */
   accessCode: string;
 }

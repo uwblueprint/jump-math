@@ -16,6 +16,7 @@ export type ClassResponse = {
   teacher: UserResponse;
   testSessions: TestSessionOverviewData[];
   students: StudentResponse[];
+  isActive: boolean;
 };
 
 export type StudentResponse = {

@@ -5,7 +5,7 @@ import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
 import AuthContext from "../../../contexts/AuthContext";
-import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import DeleteModal from "../../admin/assessment-status/EditStatusModals/DeleteModal";
 import useToast from "../../common/info/useToast";
 import Popover from "../../common/popover/Popover";
@@ -67,7 +67,7 @@ const TestSessionListItemPopover = ({
     >
       <VStack divider={<Divider />} spacing={0}>
         <PopoverButton name="Edit" onClick={() => {}} />
-        {status === "upcoming" && (
+        {status === TestSessionStatus.UPCOMING && (
           <PopoverButton name="Delete" onClick={openDeleteModal} />
         )}
       </VStack>

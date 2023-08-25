@@ -13,6 +13,11 @@ export enum TabEnumClassroom {
   ARCHIVED,
 }
 
+export const TABS_CLASSROOM = [
+  TabEnumClassroom.ACTIVE,
+  TabEnumClassroom.ARCHIVED,
+] as const;
+
 export type StudentInput = "firstName" | "lastName" | "studentNumber";
 
 export interface StudentForm {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Divider,
@@ -39,6 +39,18 @@ const Modal = ({
   cancelButtonVariant,
   onSubmit,
 }: ModalProps): React.ReactElement => {
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      await onSubmit();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ChakraModal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -49,6 +61,7 @@ const Modal = ({
         <Divider mt="1.5em" />
         <ModalFooter>
           <Button
+            isDisabled={loading}
             minWidth="10%"
             mr={2}
             onClick={onBack ?? onClose}
@@ -57,8 +70,9 @@ const Modal = ({
             {cancelButtonText}
           </Button>
           <Button
+            isLoading={loading}
             minWidth="10%"
-            onClick={onSubmit}
+            onClick={handleSubmit}
             variant={submitButtonVariant || "primary"}
           >
             {submitButtonText}
