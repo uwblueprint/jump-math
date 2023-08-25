@@ -21,6 +21,7 @@ export const GET_CLASS_STUDENTS_BY_ID = gql`
         lastName
         studentNumber
       }
+      isActive
     }
   }
 `;

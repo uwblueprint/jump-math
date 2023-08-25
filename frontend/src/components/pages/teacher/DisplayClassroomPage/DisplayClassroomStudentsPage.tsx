@@ -83,7 +83,11 @@ const DisplayClassroomStudentsPage = ({
             />
           }
           tableComponent={
-            <StudentsTable classId={classroomId} students={students} />
+            <StudentsTable
+              classId={classroomId}
+              isClassActive={!!data?.class.isActive}
+              students={students}
+            />
           }
         />
       )}
