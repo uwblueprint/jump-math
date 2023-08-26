@@ -73,8 +73,6 @@ const buildSchema = async () => {
       entities: authorizedByAllRoles(),
       simpleEntity: authorizedByAllRoles(),
       simpleEntities: authorizedByAllRoles(),
-      userById: authorizedByAdmin(),
-      users: authorizedByAdmin(),
       tests: authorizedByAllRoles(),
     },
     Mutation: {
@@ -85,8 +83,6 @@ const buildSchema = async () => {
       updateSimpleEntity: authorizedByAllRoles(),
       deleteSimpleEntity: authorizedByAllRoles(),
       createUser: authorizedByAdmin(),
-      updateUser: authorizedByAdmin(),
-      deleteUserById: authorizedByAdmin(),
       deleteUserByEmail: authorizedByAdmin(),
       logout: isAuthorizedByUserId("userId"),
       createTest: authorizedByAdmin(),
