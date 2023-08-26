@@ -1,6 +1,7 @@
 import type { UserDTO } from "../../types";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
+import MgTestSession from "../../models/testSession.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type {
@@ -185,6 +186,8 @@ class ClassService implements IClassService {
 
   async archiveClass(id: string): Promise<ClassResponseDTO> {
     let archivedClass: Class | null;
+    const nowDate = new Date();
+
     try {
       archivedClass = await MgClass.findOneAndUpdate(
         { _id: id, isActive: true },
@@ -200,6 +203,12 @@ class ClassService implements IClassService {
           `Class with id ${id} not found or not currently active`,
         );
       }
+
+      await this.deleteUpcomingTestSessions(
+        archivedClass.testSessions,
+        nowDate,
+      );
+      await this.endActiveTestSessions(archivedClass.testSessions, nowDate);
     } catch (error: unknown) {
       Logger.error(
         `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
@@ -301,6 +310,51 @@ class ClassService implements IClassService {
       throw error;
     }
     return studentId;
+  }
+
+  /*
+   * Best effort to delete all test sessions
+   */
+  private async deleteUpcomingTestSessions(
+    testSessions: string[],
+    nowDate: Date,
+  ): Promise<void> {
+    try {
+      await MgTestSession.deleteMany({
+        _id: { $in: testSessions },
+        startDate: { $gt: nowDate },
+      });
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to delete upcoming test sessions. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
+  }
+
+  private async endActiveTestSessions(
+    testSessions: string[],
+    nowDate: Date,
+  ): Promise<void> {
+    try {
+      await MgTestSession.updateMany(
+        {
+          _id: { $in: testSessions },
+          startDate: { $lte: nowDate },
+          endDate: { $gte: nowDate },
+        },
+        {
+          $set: { endDate: nowDate },
+        },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to end active test sessions. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
   }
 }
 
