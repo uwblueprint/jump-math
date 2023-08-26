@@ -4,7 +4,6 @@ import SchoolService from "../schoolService";
 import db from "../../../testUtils/testDb";
 import {
   testSchools,
-  testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
   updatedTestSchool,
