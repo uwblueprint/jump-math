@@ -54,22 +54,6 @@ export interface ISchoolService {
   getAllSchools(): Promise<Array<SchoolResponseDTO>>;
 
   /**
-   * This method retrieves all Schools with the given subregion
-   * @param subRegion the sub-region the school is located in
-   * @returns returns array of requested SchoolResponseDTO
-   * @throws Error if retrieval fails
-   */
-  getSchoolsBySubregion(subRegion: string): Promise<SchoolResponseDTO[]>;
-
-  /**
-   * This method retrieve all Schools with the given country
-   * @param country the country the school is located in
-   * @returns returns array of requested SchoolResponseDTO
-   * @throws Error if retrieval fails
-   */
-  getSchoolsByCountry(country: string): Promise<SchoolResponseDTO[]>;
-
-  /**
    * This method creates a new school in the database.
    * @param school The request object containing information about the school to create
    * @returns the created SchoolResponseDTO
@@ -99,10 +83,4 @@ export interface ISchoolService {
    * @param teacherId The unique identifier for a teacher
    */
   getSchoolByTeacherId(teacherId: string): Promise<SchoolResponseDTO>;
-
-  /**
-   * This method deletes a school given its unique identifer
-   * @param id The unique identifier of the school to delete
-   */
-  deleteSchool(id: string): Promise<string>;
 }
