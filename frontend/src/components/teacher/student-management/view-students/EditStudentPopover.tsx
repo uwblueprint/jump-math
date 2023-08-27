@@ -34,7 +34,7 @@ const EditStudentPopover = ({
   return (
     <>
       <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-        <VStack divider={<Divider />} spacing="0em">
+        <VStack divider={<Divider />} spacing={0}>
           <PopoverButton name="Edit" onClick={() => {}} />
           <PopoverButton name="Delete" onClick={openDeleteModal} />
         </VStack>
