@@ -23,6 +23,8 @@ import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
 export type TestSessionListItemProps = {
   testSessionId: string;
+  testId: string;
+  classId: string;
   classroomName?: string;
   testName: string;
   // Target date should be the start date of the session UNLESS
@@ -31,6 +33,9 @@ export type TestSessionListItemProps = {
   accessCode: string;
   status: TestSessionStatus;
   stats?: TestSessionItemStats;
+  startDate: Date;
+  endDate: Date;
+  notes?: string;
 };
 
 const STATUS_LABELS = {
@@ -52,12 +57,17 @@ const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
   testSessionId,
+  testId,
+  classId,
   classroomName,
   testName,
   targetDate,
   accessCode,
   status,
   stats,
+  startDate,
+  endDate,
+  notes,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
 
@@ -208,7 +218,14 @@ const TestSessionListItem = ({
       </Tooltip>
       <Box ml={1}>
         <TestSessionListItemPopover
+          classId={classId}
+          className={classroomName}
+          endDate={endDate}
+          notes={notes}
+          startDate={startDate}
           status={status}
+          testId={testId}
+          testName={testName}
           testSessionId={testSessionId}
         />
       </Box>

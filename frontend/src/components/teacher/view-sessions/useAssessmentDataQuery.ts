@@ -23,8 +23,12 @@ const useAssessmentDataQuery = (limit?: number) => {
       data?.testSessionsByTeacherId?.map(
         ({ id, startDate, endDate, test, class: classroom, ...session }) => ({
           ...session,
+          startDate,
+          endDate,
           testSessionId: id,
+          testId: test.id,
           testName: test.name,
+          classId: classroom.id,
           classroomName: classroom.className,
           targetDate: getSessionTargetDate(startDate, endDate, session.status),
         }),

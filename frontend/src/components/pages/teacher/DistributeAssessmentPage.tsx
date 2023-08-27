@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
 import AuthContext from "../../../contexts/AuthContext";
@@ -19,21 +20,33 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
 ];
 
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const { state } = useLocation<{
+    testSessionId: string;
+    testId: string;
+    testName: string;
+    classId: string;
+    className?: string;
+    startDate: Date;
+    endDate: Date;
+    notes?: string;
+  }>();
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId, school: schoolId } =
     (authenticatedUser as AuthenticatedTeacher) ?? {};
 
   const [page, setPage] = useState(0);
 
-  const [testId, setTestId] = useState("");
-  const [testName, setTestName] = useState("");
+  const [testId, setTestId] = useState(state?.testId ?? "");
+  const [testName, setTestName] = useState(state?.testName ?? "");
 
-  const [classId, setClassId] = useState("");
-  const [className, setClassName] = useState("");
+  const [classId, setClassId] = useState(state?.classId ?? "");
+  const [className, setClassName] = useState(state?.className ?? "");
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [notes, setNotes] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(
+    state?.startDate ?? null,
+  );
+  const [endDate, setEndDate] = useState<Date | null>(state?.endDate ?? null);
+  const [notes, setNotes] = useState(state?.notes ?? "");
 
   const [validDates, setValidDates] = useState(false);
 

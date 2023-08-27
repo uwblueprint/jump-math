@@ -45,6 +45,8 @@ export type ClassStudentData = {
 };
 
 export type ClassTestSessionData = {
+  /** the unique identifier for the class */
+  id: string;
   /** the name of the class */
   className: string;
   /** the test sessions for this class */

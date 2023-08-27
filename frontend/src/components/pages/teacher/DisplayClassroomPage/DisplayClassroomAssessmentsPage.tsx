@@ -47,7 +47,10 @@ const DisplayClassroomAssessmentsPage = () => {
       data?.class.testSessions.map(
         ({ id, startDate, endDate, test, ...session }) => ({
           ...session,
+          startDate,
+          endDate,
           testSessionId: id,
+          testId: test.id,
           testName: test.name,
           targetDate: getSessionTargetDate(startDate, endDate, session.status),
         }),
@@ -71,7 +74,13 @@ const DisplayClassroomAssessmentsPage = () => {
   const tableComponent = (
     <VStack w="100%">
       {paginatedData?.map((session) => (
-        <TestSessionListItem key={session.testSessionId} {...session} />
+        // TODO: add classroom name
+        <TestSessionListItem
+          key={session.testSessionId}
+          classId={classroomId}
+          classroomName={""}
+          {...session}
+        />
       ))}
       {totalPages > 1 && (
         <Center>

@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
+import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import DeleteModal from "../../admin/assessment-status/EditStatusModals/DeleteModal";
@@ -14,11 +16,25 @@ import PopoverButton from "../../common/popover/PopoverButton";
 type TestSessionPopoverProps = {
   status: TestSessionStatus;
   testSessionId: string;
+  testId: string;
+  testName: string;
+  classId: string;
+  className?: string;
+  startDate: Date;
+  endDate: Date;
+  notes?: string;
 };
 
 const TestSessionListItemPopover = ({
   status,
   testSessionId,
+  testId,
+  testName,
+  classId,
+  className,
+  startDate,
+  endDate,
+  notes,
 }: TestSessionPopoverProps): React.ReactElement => {
   const {
     isOpen: isPopoverOpen,
@@ -32,6 +48,7 @@ const TestSessionListItemPopover = ({
   } = useDisclosure();
 
   const { showToast } = useToast();
+  const history = useHistory();
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
@@ -59,6 +76,19 @@ const TestSessionListItemPopover = ({
     }
   };
 
+  const onEditTestSession = () => {
+    history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
+      testSessionId,
+      testId,
+      testName,
+      classId,
+      className,
+      startDate,
+      endDate,
+      notes,
+    });
+  };
+
   return (
     <Popover
       isOpen={isPopoverOpen}
@@ -68,7 +98,7 @@ const TestSessionListItemPopover = ({
       <VStack spacing={0}>
         {status !== TestSessionStatus.PAST && (
           <>
-            <PopoverButton name="Edit" onClick={() => {}} />
+            <PopoverButton name="Edit" onClick={onEditTestSession} />
             <Divider />
           </>
         )}

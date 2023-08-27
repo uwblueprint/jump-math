@@ -33,11 +33,14 @@ export const GET_CLASS_TEST_SESSIONS_BY_ID = gql`
       testSessions {
         id
         test {
+          id
           name
         }
         startDate
         endDate
+        notes
         accessCode
+        status
       }
     }
   }
