@@ -42,11 +42,13 @@ const EditStudentPopover = ({
 
       <Modal
         body="Are you sure you want to delete this student?"
+        cancelButtonVariant="deleteCancel"
         header="Delete Student"
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
         onSubmit={deleteStudent}
         submitButtonText="Delete"
+        submitButtonVariant="delete"
       />
     </>
   );

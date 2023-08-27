@@ -13,11 +13,6 @@ const DeleteClassroomModal = ({
   onClose,
   deleteClassroom,
 }: DeleteModalProps): React.ReactElement => {
-  const onDeleteClassroom = async () => {
-    await deleteClassroom();
-    onClose();
-  };
-
   return (
     <Modal
       body="Once you delete this classroom it cannot be recovered."
@@ -25,7 +20,7 @@ const DeleteClassroomModal = ({
       header="Delete Classroom"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={onDeleteClassroom}
+      onSubmit={deleteClassroom}
       submitButtonText="Delete"
       submitButtonVariant="delete"
     />
