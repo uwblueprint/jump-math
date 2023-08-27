@@ -4,7 +4,7 @@ import type { StudentResponse } from "../../../../APIClients/types/ClassClientTy
 import type { TableRow } from "../../../common/table/Table";
 import { Table } from "../../../common/table/Table";
 
-import EditStudentPopover from "./EditStudentPopover";
+import StudentListPopover from "./StudentListPopover";
 
 interface StudentsTableProps {
   students: StudentResponse[];
@@ -21,7 +21,7 @@ const StudentsTable = ({
   const rows: TableRow[] = students.map((student) => ({
     values: [student.firstName, student.lastName, student.studentNumber],
     menu: isClassActive ? (
-      <EditStudentPopover classId={classId} student={student} />
+      <StudentListPopover classId={classId} student={student} />
     ) : undefined,
   }));
 

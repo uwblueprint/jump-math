@@ -10,15 +10,15 @@ import Modal from "../../../common/modal/Modal";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
-type EditStudentPopoverProps = {
+type StudentListPopoverProps = {
   student: StudentResponse;
   classId: string;
 };
 
-const EditStudentPopover = ({
+const StudentListPopover = ({
   student,
   classId,
-}: EditStudentPopoverProps): React.ReactElement => {
+}: StudentListPopoverProps): React.ReactElement => {
   const [deleteStudent] = useMutation(DELETE_STUDENT, {
     variables: { classId, studentId: student.id },
     refetchQueries: [getQueryName(GET_CLASS_STUDENTS_BY_ID)],
@@ -54,4 +54,4 @@ const EditStudentPopover = ({
   );
 };
 
-export default EditStudentPopover;
+export default StudentListPopover;
