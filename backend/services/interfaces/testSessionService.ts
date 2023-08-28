@@ -131,10 +131,11 @@ export interface ITestSessionService {
   /**
    * delete a TestSession with the given id, return deleted id
    * @param id id to delete
+   * @param now optional date to use as the current date
    * @returns deleted id
-   * @throws Error if deletion fails
+   * @throws Error if deletion fails or given test session has already started
    */
-  deleteTestSession(id: string): Promise<string>;
+  deleteTestSession(id: string, now?: Date): Promise<string>;
 
   /**
    * This method fetches all the test sessions from the database.

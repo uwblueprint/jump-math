@@ -206,12 +206,14 @@ const TestSessionListItem = ({
           )}
         </HStack>
       </Tooltip>
-      <Box ml={1}>
-        <TestSessionListItemPopover
-          status={status}
-          testSessionId={testSessionId}
-        />
-      </Box>
+      {status !== TestSessionStatus.PAST && (
+        <Box ml={1}>
+          <TestSessionListItemPopover
+            status={status}
+            testSessionId={testSessionId}
+          />
+        </Box>
+      )}
     </HStack>
   );
 };
