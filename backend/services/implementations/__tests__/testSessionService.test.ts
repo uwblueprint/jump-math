@@ -86,6 +86,22 @@ describe("mongo testSessionService", (): void => {
     expect(updatedClass?.testSessions.map(String)).toEqual([res.id]);
   });
 
+  it("createTestSession for archived class id", async () => {
+    const classObj: Class = await MgClass.create({
+      ...testClassAfterCreation,
+      isActive: false,
+    });
+    await expect(async () => {
+      await testSessionService.createTestSession({
+        ...mockTestSession,
+        class: classObj.id,
+      });
+    }).rejects.toThrowError(
+      `Test session could not be added to class with id ${classObj.id}`,
+    );
+    await expect(MgClass.exists({ _id: classObj.id })).resolves.toBeTruthy();
+  });
+
   it("createTestSession for invalid class id", async () => {
     const invalidClassId = "62c248c0f79d6c3c9ebbea92";
     await expect(async () => {

@@ -23,7 +23,7 @@ const ChooseClass = ({
   setClassId,
   setClassName,
 }: ChooseClassProps): ReactElement => {
-  const { loading, error, data } = useClassDataQuery();
+  const { loading, error, data } = useClassDataQuery({ excludeArchived: true });
 
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
     usePaginatedData(data);
