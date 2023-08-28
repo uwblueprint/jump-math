@@ -112,7 +112,7 @@ const ClassroomPopover = ({
       />
       <Modal
         body={
-          'Are you sure you want to archive this classroom? You can find your archived classrooms in the "Archived" tab. Note that all upcoming test sessions will be deleted and active sessions will end.'
+          'Are you sure you want to archive this classroom? You can find your archived classrooms in the "Archived" tab. Note that all upcoming assessments will be deleted and active assessments will end.'
         }
         header="Archive Classroom"
         isOpen={isArchiveModalOpen}
