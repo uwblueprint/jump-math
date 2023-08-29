@@ -1,4 +1,4 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
 import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
@@ -63,17 +63,22 @@ const UserSchema: Schema = new Schema({
 
 /* eslint-disable func-names */
 UserSchema.pre("findOneAndDelete", async function (next) {
-  const doc = await this.findOne(this.getQuery()).clone();
-  if (!doc || doc.role !== "Teacher") return next();
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc && doc.role === "Teacher") {
+      /* eslint-disable no-underscore-dangle */
+      await MgSchool.findOneAndUpdate(
+        { teachers: doc._id },
+        { $pull: { teachers: doc._id } },
+        { new: true },
+      );
+      await MgTestSession.deleteMany({ teacher: doc._id });
+      await MgClass.deleteMany({ teacher: doc._id });
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
 
-  /* eslint-disable no-underscore-dangle */
-  await MgSchool.findOneAndUpdate(
-    { teachers: doc._id },
-    { $pull: { teachers: doc._id } },
-    { new: true },
-  );
-  await MgTestSession.deleteMany({ teacher: doc._id });
-  await MgClass.deleteMany({ teacher: doc._id });
   return next();
 });
 

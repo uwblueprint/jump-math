@@ -1,4 +1,4 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
 import MgClass from "./class.model";
 
@@ -124,18 +124,22 @@ const TestSessionSchema: Schema = new Schema(
 
 /* eslint-disable func-names */
 TestSessionSchema.pre("findOneAndDelete", async function (next) {
-  const doc = await this.findOne(this.getQuery()).clone();
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
 
-  /* eslint-disable no-underscore-dangle */
-  if (doc) {
-    await MgClass.findOneAndUpdate(
-      { _id: doc.class },
-      { $pull: { testSessions: doc._id } },
-      { new: true },
-    );
+    /* eslint-disable no-underscore-dangle */
+    if (doc) {
+      await MgClass.findOneAndUpdate(
+        { _id: doc.class },
+        { $pull: { testSessions: doc._id } },
+        { new: true },
+      );
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
   }
 
-  next();
+  return next();
 });
 
 export default mongoose.model<TestSession>("TestSession", TestSessionSchema);
