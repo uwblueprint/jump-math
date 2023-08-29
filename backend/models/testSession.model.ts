@@ -1,5 +1,6 @@
 import type { Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
+import MgClass from "./class.model";
 
 /**
  * This interface holds information about the result of a single student
@@ -120,5 +121,21 @@ const TestSessionSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+/* eslint-disable func-names */
+TestSessionSchema.pre("findOneAndDelete", async function (next) {
+  const doc = await this.findOne(this.getQuery()).clone();
+
+  /* eslint-disable no-underscore-dangle */
+  if (doc) {
+    await MgClass.findOneAndUpdate(
+      { _id: doc.class },
+      { $pull: { testSessions: doc._id } },
+      { new: true },
+    );
+  }
+
+  next();
+});
 
 export default mongoose.model<TestSession>("TestSession", TestSessionSchema);

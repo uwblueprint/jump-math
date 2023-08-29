@@ -62,9 +62,9 @@ const UserSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
-UserSchema.pre("findOneAndDelete", async function () {
+UserSchema.pre("findOneAndDelete", async function (next) {
   const doc = await this.findOne(this.getQuery()).clone();
-  if (doc.role !== "Teacher") return;
+  if (!doc || doc.role !== "Teacher") return next();
 
   /* eslint-disable no-underscore-dangle */
   await MgSchool.findOneAndUpdate(
@@ -74,6 +74,7 @@ UserSchema.pre("findOneAndDelete", async function () {
   );
   await MgTestSession.deleteMany({ teacher: doc._id });
   await MgClass.deleteMany({ teacher: doc._id });
+  return next();
 });
 
 export default mongoose.model<User>("User", UserSchema);

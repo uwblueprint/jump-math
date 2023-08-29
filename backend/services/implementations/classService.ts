@@ -184,9 +184,9 @@ class ClassService implements IClassService {
     }
   }
 
-  async archiveClass(id: string): Promise<ClassResponseDTO> {
+  async archiveClass(id: string, nowDate?: Date): Promise<ClassResponseDTO> {
     let archivedClass: Class | null;
-    const nowDate = new Date();
+    const date = nowDate ?? new Date();
 
     try {
       archivedClass = await MgClass.findOneAndUpdate(
@@ -204,11 +204,15 @@ class ClassService implements IClassService {
         );
       }
 
-      await this.deleteUpcomingTestSessions(
-        archivedClass.testSessions,
-        nowDate,
-      );
-      await this.endActiveTestSessions(archivedClass.testSessions, nowDate);
+      // Make a best effort to delete upcoming test sessions and end active test sessions
+      await this.deleteUpcomingTestSessions(archivedClass.testSessions, date);
+      await this.endActiveTestSessions(archivedClass.testSessions, date);
+
+      // Refresh the archived class object
+      archivedClass = await MgClass.findById(id);
+      if (!archivedClass) {
+        throw new Error(`Class with id ${id} not found`);
+      }
     } catch (error: unknown) {
       Logger.error(
         `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
@@ -312,18 +316,22 @@ class ClassService implements IClassService {
     return studentId;
   }
 
-  /*
-   * Best effort to delete all test sessions
-   */
   private async deleteUpcomingTestSessions(
     testSessions: string[],
     nowDate: Date,
   ): Promise<void> {
     try {
-      await MgTestSession.deleteMany({
+      // return the ids of the deleted test sessions
+      const testSessionsToDelete: string[] = await MgTestSession.find({
         _id: { $in: testSessions },
         startDate: { $gt: nowDate },
-      });
+      }).distinct("_id");
+
+      await Promise.all(
+        testSessionsToDelete.map(async (testSessionId) => {
+          await this.testSessionService.deleteTestSession(testSessionId);
+        }),
+      );
     } catch (error: unknown) {
       Logger.info(
         `Failed to delete upcoming test sessions. Reason = ${getErrorMessage(

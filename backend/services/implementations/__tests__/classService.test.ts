@@ -1,4 +1,5 @@
 import ClassModel from "../../../models/class.model";
+import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
 import db from "../../../testUtils/testDb";
@@ -23,7 +24,9 @@ import TestSessionService from "../testSessionService";
 import type TestService from "../testService";
 import {
   mockGradedTestResult,
+  mockTestSession,
   mockTestSessionWithId,
+  mockTestSessionWithExpiredStartDate,
 } from "../../../testUtils/testSession";
 
 const testClassWithTestSessions = {
@@ -200,34 +203,62 @@ describe("mongo classService", (): void => {
     }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
   });
 
-  it("archive class", async () => {
-    // add test class
-    const classObj = await ClassModel.create(testClass[0]);
+  describe("archive class", () => {
+    it("with valid id", async () => {
+      // add class
+      const classObj = await ClassModel.create(testClass[0]);
 
-    // execute
-    const res = await classService.archiveClass(classObj.id);
+      // add test sessions
+      const activeTestSession = await TestSessionModel.create({
+        ...mockTestSession,
+        class: classObj.id,
+      });
+      const upcomingTestSession = await TestSessionModel.create({
+        ...mockTestSessionWithExpiredStartDate,
+        class: classObj.id,
+      });
+      await ClassModel.findByIdAndUpdate(classObj.id, {
+        $push: {
+          testSessions: [activeTestSession.id, upcomingTestSession.id],
+        },
+      });
 
-    // assert
-    assertResponseMatchesExpected(testClass[0], res, false);
-  });
+      // execute
+      const nowDate = new Date();
+      const res = await classService.archiveClass(classObj.id, nowDate);
 
-  it("archive class with non-existing id", async () => {
-    const notFoundId = "86cb91bdc3464f14678934cd";
-    await expect(async () => {
-      await classService.archiveClass(notFoundId);
-    }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
-  });
-
-  it("archive class that is already archived", async () => {
-    const classObj = await ClassModel.create({
-      ...testClass[0],
-      isActive: false,
+      // assert
+      assertResponseMatchesExpected(testClass[0], res, false, [
+        activeTestSession.id,
+      ]);
+      const updatedActiveTestSession = await TestSessionModel.findById(
+        activeTestSession.id,
+      );
+      expect(updatedActiveTestSession?.endDate).toEqual(nowDate);
+      const updatedUpcomingTestSession = await TestSessionModel.findById(
+        upcomingTestSession.id,
+      );
+      expect(updatedUpcomingTestSession).toBeNull();
     });
-    await expect(async () => {
-      await classService.archiveClass(classObj.id);
-    }).rejects.toThrowError(
-      `Class with id ${classObj.id} not found or not currently active`,
-    );
+
+    it("with non-existing id", async () => {
+      const notFoundId = "86cb91bdc3464f14678934cd";
+      await expect(async () => {
+        await classService.archiveClass(notFoundId);
+      }).rejects.toThrowError(`Class with id ${notFoundId} not found`);
+    });
+
+    it("that is already archived", async () => {
+      const classObj = await ClassModel.create({
+        ...testClass[0],
+        isActive: false,
+      });
+      await expect(async () => {
+        await classService.archiveClass(classObj.id);
+      }).rejects.toThrowError(
+        `Class with id ${classObj.id} not found or not currently active`,
+      );
+    });
   });
 
   it("create student", async () => {
