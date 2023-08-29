@@ -151,7 +151,7 @@ class TestSessionService implements ITestSessionService {
       return id;
     } catch (error: unknown) {
       Logger.error(
-        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+        `Failed to delete test session. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
@@ -160,23 +160,6 @@ class TestSessionService implements ITestSessionService {
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find();
-      return mapDocumentsToDTOs(testSessions);
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
-  }
-
-  async getTestSessionsBySchoolId(
-    schoolId: string,
-  ): Promise<TestSessionResponseDTO[]> {
-    try {
-      const testSessions: TestSession[] = await MgTestSession.find({
-        school: { $eq: schoolId },
-      });
-
       return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(

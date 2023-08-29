@@ -11,12 +11,6 @@ const schoolService: ISchoolService = new SchoolService(userService);
 
 const schoolResolvers = {
   Query: {
-    school: async (
-      _parent: undefined,
-      { id }: { id: string },
-    ): Promise<SchoolResponseDTO> => {
-      return schoolService.getSchoolById(id);
-    },
     schoolByTeacherId: (
       _parent: undefined,
       { teacherId }: { teacherId: string },

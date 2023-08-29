@@ -48,13 +48,6 @@ interface IUserService {
   getAuthIdById(userId: string): Promise<string>;
 
   /**
-   * Get all user information (possibly paginated in the future)
-   * @returns array of UserDTOs
-   * @throws Error if user retrieval fails
-   */
-  getUsers(): Promise<Array<UserDTO>>;
-
-  /**
    * Get all user information based on role
    * @returns array of UserDTOs
    * @throws Error if user retrieval fails
@@ -78,13 +71,6 @@ interface IUserService {
    * @throws Error if user update fails
    */
   updateUserById(userId: string, user: UpdateUserDTO): Promise<UserDTO>;
-
-  /**
-   * Delete a user by id
-   * @param userId user's userId
-   * @throws Error if user deletion fails
-   */
-  deleteUserById(userId: string): Promise<void>;
 
   /**
    * Delete a user by email

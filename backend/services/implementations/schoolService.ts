@@ -34,49 +34,6 @@ class SchoolService implements ISchoolService {
     }
   }
 
-  /**
-   * This method gets all schools with the given sub-region from the database.
-   */
-  async getSchoolsBySubregion(subRegion: string): Promise<SchoolResponseDTO[]> {
-    let schoolDtos: Array<SchoolResponseDTO> = [];
-
-    try {
-      const schools: Array<School> = await MgSchool.find({
-        subRegion: { $eq: subRegion },
-      });
-
-      schoolDtos = await this.mapSchoolsToSchoolResponseDTOs(schools);
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get schools for sub-region ${subRegion}. Reason = ${getErrorMessage(
-          error,
-        )}`,
-      );
-      throw error;
-    }
-
-    return schoolDtos;
-  }
-
-  /**
-   * This method gets all schools with the given country from the database.
-   */
-  async getSchoolsByCountry(country: string): Promise<SchoolResponseDTO[]> {
-    let schools: Array<School> | null;
-
-    try {
-      schools = await MgSchool.find({ country });
-      return await this.mapSchoolsToSchoolResponseDTOs(schools);
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get schools for country ${country}. Reason = ${getErrorMessage(
-          error,
-        )}`,
-      );
-      throw error;
-    }
-  }
-
   async getSchoolById(id: string): Promise<SchoolResponseDTO> {
     let school: School | null;
     try {
@@ -190,22 +147,6 @@ class SchoolService implements ISchoolService {
     } catch (error: unknown) {
       Logger.error(
         `Failed to update school. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
-  }
-
-  async deleteSchool(id: string): Promise<string> {
-    try {
-      const deletedSchool: School | null = await MgSchool.findByIdAndDelete(id);
-      if (!deletedSchool) {
-        throw new Error(`School with id ${id} not found`);
-      }
-
-      return id;
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to delete school. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }

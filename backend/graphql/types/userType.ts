@@ -50,18 +50,13 @@ const userType = gql`
   }
 
   extend type Query {
-    userById(id: ID!): UserDTO!
     userByEmail(email: String!): UserDTO!
-    users: [UserDTO!]!
     usersByRole(role: String!): [UserDTO!]!
-    usersCSV: String!
     teachers: [TeacherDTO]
   }
 
   extend type Mutation {
     createUser(user: CreateUserDTO!): UserDTO!
-    updateUser(id: ID!, user: UpdateUserDTO!): UserDTO!
-    deleteUserById(id: ID!): ID
     deleteUserByEmail(email: String!): ID
   }
 `;

@@ -118,45 +118,6 @@ class UserService implements IUserService {
     }
   }
 
-  async getUsers(): Promise<Array<UserDTO>> {
-    let userDtos: Array<UserDTO> = [];
-
-    try {
-      const users: Array<User> = await MgUser.find();
-
-      userDtos = await Promise.all(
-        users.map(async (user) => {
-          let firebaseUser: firebaseAdmin.auth.UserRecord;
-
-          try {
-            firebaseUser = await firebaseAdmin.auth().getUser(user.authId);
-          } catch (error) {
-            Logger.error(
-              `user with authId ${user.authId} could not be fetched from Firebase`,
-            );
-            throw error;
-          }
-
-          return {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: firebaseUser.email ?? "",
-            role: user.role,
-            grades: user.grades,
-            currentlyTeachingJM: user.currentlyTeachingJM,
-            class: user.class,
-          };
-        }),
-      );
-    } catch (error: unknown) {
-      Logger.error(`Failed to get users. Reason = ${getErrorMessage(error)}`);
-      throw error;
-    }
-
-    return userDtos;
-  }
-
   async getUsersByRole(role: string): Promise<Array<UserDTO>> {
     let userDtos: Array<UserDTO> = [];
     try {
@@ -320,46 +281,6 @@ class UserService implements IUserService {
       currentlyTeachingJM: user.currentlyTeachingJM,
       class: user.class,
     };
-  }
-
-  async deleteUserById(userId: string): Promise<void> {
-    try {
-      const deletedUser: User | null = await MgUser.findByIdAndDelete(userId);
-
-      if (!deletedUser) {
-        throw new Error(`userId ${userId} not found.`);
-      }
-
-      try {
-        await firebaseAdmin.auth().deleteUser(deletedUser.authId);
-      } catch (error) {
-        // rollback user deletion in MongoDB
-        try {
-          await MgUser.create({
-            firstName: deletedUser.firstName,
-            lastName: deletedUser.lastName,
-            authId: deletedUser.authId,
-            role: deletedUser.role,
-            grades: deletedUser.grades,
-            currentlyTeachingJM: deletedUser.currentlyTeachingJM,
-            class: deletedUser.class,
-          });
-        } catch (mongoDbError: unknown) {
-          const errorMessage = [
-            "Failed to rollback MongoDB user deletion after Firebase user deletion failure. Reason =",
-            getErrorMessage(mongoDbError),
-            "Firebase uid with non-existent MongoDB record =",
-            deletedUser.authId,
-          ];
-          Logger.error(errorMessage.join(" "));
-        }
-
-        throw error;
-      }
-    } catch (error: unknown) {
-      Logger.error(`Failed to delete user. Reason = ${getErrorMessage(error)}`);
-      throw error;
-    }
   }
 
   async deleteUserByEmail(email: string): Promise<void> {
