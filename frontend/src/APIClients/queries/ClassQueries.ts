@@ -39,6 +39,7 @@ export const GET_CLASS_TEST_SESSIONS_BY_ID = gql`
         startDate
         endDate
         accessCode
+        status
       }
     }
   }
