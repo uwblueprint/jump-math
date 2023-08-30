@@ -4,6 +4,7 @@ import type IUserService from "../interfaces/userService";
 import type { User } from "../../models/user.model";
 import MgUser from "../../models/user.model";
 import MgSchool from "../../models/school.model";
+import MgClass from "../../models/class.model";
 import type {
   CreateUserDTO,
   Role,
@@ -377,6 +378,10 @@ class UserService implements IUserService {
 
       try {
         await firebaseAdmin.auth().deleteUser(firebaseUser.uid);
+
+        // Delete all classes associated with teacher
+        /* eslint-disable no-underscore-dangle */
+        await MgClass.deleteMany({ teacher: deletedUser._id });
       } catch (error) {
         try {
           // rollback user deletion in MongoDB

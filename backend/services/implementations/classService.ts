@@ -53,6 +53,7 @@ class ClassService implements IClassService {
         ...classObj,
         testSessions: [],
         students: [],
+        isActive: true,
       });
     } catch (error: unknown) {
       Logger.error(
@@ -205,7 +206,11 @@ class ClassService implements IClassService {
       }
 
       // Make a best effort to delete upcoming test sessions and end active test sessions
-      await this.deleteUpcomingTestSessions(archivedClass.testSessions, date);
+      await this.deleteUpcomingTestSessions(
+        archivedClass.testSessions,
+        date,
+        id,
+      );
       await this.endActiveTestSessions(archivedClass.testSessions, date);
 
       // Refresh the archived class object
@@ -319,18 +324,23 @@ class ClassService implements IClassService {
   private async deleteUpcomingTestSessions(
     testSessions: string[],
     nowDate: Date,
+    classId: string,
   ): Promise<void> {
     try {
-      // return the ids of the deleted test sessions
       const testSessionsToDelete: string[] = await MgTestSession.find({
         _id: { $in: testSessions },
         startDate: { $gt: nowDate },
       }).distinct("_id");
 
-      await Promise.all(
-        testSessionsToDelete.map(async (testSessionId) => {
-          await this.testSessionService.deleteTestSession(testSessionId);
-        }),
+      // Delete the upcoming test sessions
+      await MgTestSession.deleteMany({
+        _id: { $in: testSessionsToDelete },
+      });
+
+      // Remove the deleted test sessions from the class
+      await MgClass.findOneAndUpdate(
+        { _id: classId },
+        { $pull: { testSessions: { $in: testSessionsToDelete } } },
       );
     } catch (error: unknown) {
       Logger.info(

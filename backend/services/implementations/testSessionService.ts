@@ -143,6 +143,14 @@ class TestSessionService implements ITestSessionService {
       if (!deletedTestSession) {
         throw new Error(`Test Session id ${id} not found`);
       }
+
+      // Remove the test session reference from the class
+      await MgClass.findOneAndUpdate(
+        { _id: deletedTestSession.class },
+        { $pull: { testSessions: deletedTestSession.id } },
+        { new: true },
+      );
+
       return id;
     } catch (error: unknown) {
       Logger.error(
