@@ -4,19 +4,25 @@ import type { StudentResponse } from "../../../../APIClients/types/ClassClientTy
 import type { TableRow } from "../../../common/table/Table";
 import { Table } from "../../../common/table/Table";
 
-import EditStudentPopover from "./EditStudentPopover";
+import StudentListPopover from "./StudentListPopover";
 
 interface StudentsTableProps {
   students: StudentResponse[];
+  classId: string;
+  isClassActive: boolean;
 }
 
 const StudentsTable = ({
   students,
+  classId,
+  isClassActive,
 }: StudentsTableProps): React.ReactElement => {
   const headers = ["First Name", "Last Name", "Student ID"];
   const rows: TableRow[] = students.map((student) => ({
     values: [student.firstName, student.lastName, student.studentNumber],
-    menu: <EditStudentPopover />,
+    menu: isClassActive ? (
+      <StudentListPopover classId={classId} student={student} />
+    ) : undefined,
   }));
 
   return <Table headers={headers} rows={rows} />;

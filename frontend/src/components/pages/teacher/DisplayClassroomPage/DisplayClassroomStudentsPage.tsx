@@ -82,7 +82,13 @@ const DisplayClassroomStudentsPage = ({
               properties={SORT_PROPERTIES}
             />
           }
-          tableComponent={<StudentsTable students={students} />}
+          tableComponent={
+            <StudentsTable
+              classId={classroomId}
+              isClassActive={!!data?.class.isActive}
+              students={students}
+            />
+          }
         />
       )}
     </>

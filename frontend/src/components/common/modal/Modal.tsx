@@ -44,6 +44,7 @@ const Modal = ({
     setLoading(true);
     try {
       await onSubmit();
+      onClose();
     } catch (e) {
       console.error(e);
     } finally {
