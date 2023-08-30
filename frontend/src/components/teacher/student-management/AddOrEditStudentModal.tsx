@@ -189,13 +189,12 @@ const AddOrEditStudentModal = ({
             <HStack direction="row" mt={6}>
               <VStack align="left" direction="column" width="320px">
                 <FormLabel color="blue.300" requiredIndicator={<></>}>
-                  Student Number
+                  Student ID
                 </FormLabel>
                 <Input
                   isRequired={false}
                   onChange={(e) => handleChange(e, "studentNumber")}
                   placeholder="(Optional)"
-                  type="number"
                   value={watch("studentNumber")}
                 />
               </VStack>
