@@ -76,6 +76,16 @@ const classResolvers = {
     ): Promise<ClassResponseDTO> => {
       return classService.createStudent(student, classId);
     },
+    updateStudent: async (
+      _req: undefined,
+      {
+        studentId,
+        classId,
+        student,
+      }: { studentId: string; classId: string; student: StudentRequestDTO },
+    ): Promise<ClassResponseDTO> => {
+      return classService.updateStudent(studentId, classId, student);
+    },
     deleteClass: (_req: undefined, { classId }: { classId: string }) =>
       classService.deleteClass(classId),
     archiveClass: async (
