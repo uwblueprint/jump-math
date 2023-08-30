@@ -71,7 +71,11 @@ const DisplayClassroomAssessmentsPage = () => {
   const tableComponent = (
     <VStack w="100%">
       {paginatedData?.map((session) => (
-        <TestSessionListItem key={session.testSessionId} {...session} />
+        <TestSessionListItem
+          key={session.testSessionId}
+          {...session}
+          isReadOnly={!data?.class.isActive}
+        />
       ))}
       {totalPages > 1 && (
         <Center>
