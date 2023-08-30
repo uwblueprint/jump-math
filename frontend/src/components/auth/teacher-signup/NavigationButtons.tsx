@@ -25,6 +25,7 @@ const NavigationButtons = ({
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         onClick={onBackClick}
+        type="button"
         variant="tertiary"
       >
         {backButtonText}

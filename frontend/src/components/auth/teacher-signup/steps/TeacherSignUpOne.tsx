@@ -153,6 +153,7 @@ const TeacherSignupOne = ({
       <FormControl isInvalid={acceptEmailError || emailError} isRequired>
         <FormLabel color="grey.400">Email Address</FormLabel>
         <Input
+          name="email"
           onChange={(e) => handleChange(e, "email")}
           placeholder="Enter Email Address"
           type="email"

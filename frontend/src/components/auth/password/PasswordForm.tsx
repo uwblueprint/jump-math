@@ -108,12 +108,14 @@ const PasswordForm = ({
       {displayRequirementError && (
         <FormError message="Password does not meet all of the requirements" />
       )}
-      {version === "AdminSignup" && (
-        <FormControl isRequired pb={6}>
-          <FormLabel color="grey.400">Email Address</FormLabel>
-          <Input disabled type="email" value={email} />
-        </FormControl>
-      )}
+      <FormControl
+        display={version === "AdminSignup" ? undefined : "none"}
+        isRequired
+        pb={6}
+      >
+        <FormLabel color="grey.400">Email Address</FormLabel>
+        <Input disabled name="email" type="email" value={email} />
+      </FormControl>
       <FormControl isRequired pb={6}>
         <FormLabel color="grey.400">Password</FormLabel>
         <Input
