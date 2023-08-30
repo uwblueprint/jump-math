@@ -42,6 +42,8 @@ export type ClassTitleData = {
 export type ClassStudentData = {
   /** the students in the class */
   students: StudentResponse[];
+  /** whether or not the class is active */
+  isActive: boolean;
 };
 
 export type ClassTestSessionData = {

@@ -64,6 +64,7 @@ const classType = gql`
     createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
     deleteClass(classId: ID!): ID
     archiveClass(id: ID!): ClassResponseDTO!
+    deleteStudent(classId: ID!, studentId: ID!): ID!
   }
 `;
 

@@ -84,6 +84,12 @@ const classResolvers = {
     ): Promise<ClassResponseDTO | null> => {
       return classService.archiveClass(id);
     },
+    deleteStudent: async (
+      _req: undefined,
+      { classId, studentId }: { classId: string; studentId: string },
+    ): Promise<string | null> => {
+      return classService.deleteStudent(studentId, classId);
+    },
   },
   ClassResponseDTO: {
     teacher: async (parent: ClassResponseDTO) => {

@@ -269,7 +269,11 @@ class ClassService implements IClassService {
     let classObj: Class | null;
     try {
       classObj = await MgClass.findOneAndUpdate(
-        { _id: classId, "students._id": studentId },
+        {
+          _id: classId,
+          "students._id": studentId,
+          isActive: { $in: [true, undefined] },
+        },
         {
           $set: {
             "students.$": student,
@@ -297,15 +301,14 @@ class ClassService implements IClassService {
 
   async deleteStudent(studentId: string, classId: string): Promise<string> {
     try {
-      const result = await MgClass.findByIdAndUpdate(
-        classId,
+      const result = await MgClass.updateOne(
+        { _id: classId, isActive: { $in: [true, undefined] } },
         {
           $pull: { students: { _id: studentId } },
         },
-        { new: true, runValidators: true },
       );
 
-      if (!result) {
+      if (!result.matchedCount) {
         throw new Error(
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );

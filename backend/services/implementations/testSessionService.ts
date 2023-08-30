@@ -137,11 +137,16 @@ class TestSessionService implements ITestSessionService {
     }
   }
 
-  async deleteTestSession(id: string): Promise<string> {
+  async deleteTestSession(id: string, now?: Date): Promise<string> {
     try {
-      const deletedTestSession = await MgTestSession.findByIdAndDelete(id);
-      if (!deletedTestSession) {
-        throw new Error(`Test Session id ${id} not found`);
+      const result = await MgTestSession.deleteOne({
+        _id: id,
+        startDate: { $gt: now ?? new Date() },
+      });
+      if (!result.deletedCount) {
+        throw new Error(
+          `Test Session id ${id} not found or test session has already started`,
+        );
       }
 
       // Remove the test session reference from the class
@@ -154,7 +159,7 @@ class TestSessionService implements ITestSessionService {
       return id;
     } catch (error: unknown) {
       Logger.error(
-        `Failed to delete entity. Reason = ${getErrorMessage(error)}`,
+        `Failed to delete test session. Reason = ${getErrorMessage(error)}`,
       );
       throw error;
     }
@@ -163,23 +168,6 @@ class TestSessionService implements ITestSessionService {
   async getAllTestSessions(): Promise<Array<TestSessionResponseDTO>> {
     try {
       const testSessions: Array<TestSession> = await MgTestSession.find();
-      return mapDocumentsToDTOs(testSessions);
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to get test sessions. Reason = ${getErrorMessage(error)}`,
-      );
-      throw error;
-    }
-  }
-
-  async getTestSessionsBySchoolId(
-    schoolId: string,
-  ): Promise<TestSessionResponseDTO[]> {
-    try {
-      const testSessions: TestSession[] = await MgTestSession.find({
-        school: { $eq: schoolId },
-      });
-
       return mapDocumentsToDTOs(testSessions);
     } catch (error: unknown) {
       Logger.error(
@@ -524,8 +512,8 @@ class TestSessionService implements ITestSessionService {
     testSessionId: string,
   ): Promise<void> {
     try {
-      const classObj: Class | null = await MgClass.findByIdAndUpdate(
-        id,
+      const classObj: Class | null = await MgClass.findOneAndUpdate(
+        { _id: id, isActive: { $in: [true, undefined] } },
         {
           $push: {
             testSessions: testSessionId,

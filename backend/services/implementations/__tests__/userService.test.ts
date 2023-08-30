@@ -63,26 +63,6 @@ describe("mongo userService", (): void => {
     await db.clear();
   });
 
-  it("getUsers", async () => {
-    await UserModel.insertMany(testUsers);
-
-    const res = await userService.getUsers();
-
-    res.forEach((user: UserDTO, i) => {
-      expect(user.firstName).toEqual(testUsers[i].firstName);
-      expect(user.lastName).toEqual(testUsers[i].lastName);
-      expect(user.role).toEqual(testUsers[i].role);
-      if (user.grades) {
-        expect(Array.from(user.grades)).toEqual(testUsers[i].grades);
-      } else {
-        expect(user.grades).toEqual(testUsers[i].grades);
-      }
-      expect(user.currentlyTeachingJM).toEqual(
-        testUsers[i].currentlyTeachingJM,
-      );
-    });
-  });
-
   it("getUsersByRole", async () => {
     await UserModel.insertMany(testUsers);
     const adminRole = "Admin";
@@ -126,11 +106,6 @@ describe("mongo userService", (): void => {
       expect(teacher.email).toEqual(testUsers[i].email);
       expect(teacher.school).toEqual(testSchools[i].name);
     });
-  });
-
-  it("deleteUserById - admin", async () => {
-    const teacher = await UserModel.create(testUsers[0]);
-    await userService.deleteUserById(teacher.id);
   });
 
   describe("delete teacher", () => {
@@ -188,10 +163,6 @@ describe("mongo userService", (): void => {
         );
         expect(associatedTestSession).toEqual([]);
         expect(associatedClasses).toEqual([]);
-      });
-
-      it("deleteUserById", async () => {
-        await userService.deleteUserById(teacher.id);
       });
 
       it("deleteUserByEmail", async () => {

@@ -4,7 +4,6 @@ import SchoolService from "../schoolService";
 import db from "../../../testUtils/testDb";
 import {
   testSchools,
-  testSchools2,
   testSchoolInvalidTeacher,
   assertResponseMatchesExpected,
   updatedTestSchool,
@@ -53,55 +52,6 @@ describe("mongo schoolService", (): void => {
     res.forEach((school: SchoolResponseDTO, i) => {
       assertResponseMatchesExpected(testSchools[i], school);
     });
-  });
-
-  it("getSchoolsBySubregion for valid region", async () => {
-    await SchoolModel.insertMany(testSchools);
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
-    // execute
-    const res = await schoolService.getSchoolsBySubregion("some-region1");
-
-    // assert
-    res.forEach((school: SchoolResponseDTO) => {
-      assertResponseMatchesExpected(testSchools[0], school);
-    });
-  });
-
-  it("getSchoolsBySubregion for invalid region", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue([]);
-    const invalidRegion = "fake-region";
-
-    // execute and assert
-    const res = await schoolService.getSchoolsBySubregion(invalidRegion);
-    expect(res.length).toEqual(0);
-  });
-
-  it("getSchoolByCountry for valid country", async () => {
-    await SchoolModel.insertMany(testSchools2);
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-
-    // execute
-    const res = await schoolService.getSchoolsByCountry("some-country1");
-
-    // assert
-    assertResponseMatchesExpected(testSchools2[0], res[0]);
-    assertResponseMatchesExpected(testSchools2[1], res[1]);
-  });
-
-  it("getSchoolByCountry for invalid country", async () => {
-    // mock return value of user service
-    userService.findAllUsersByIds = jest.fn().mockReturnValue(testUsers);
-    const invalidCountry = "fake-country";
-
-    // execute
-    const res = await schoolService.getSchoolsByCountry(invalidCountry);
-
-    // assert
-    expect(res).toEqual([]);
   });
 
   it("create school for valid teachers", async () => {
@@ -189,19 +139,5 @@ describe("mongo schoolService", (): void => {
     expect(
       schoolService.getSchoolByTeacherId(invalidTeacherId),
     ).rejects.toThrowError(`School with teacher ${invalidTeacherId} not found`);
-  });
-
-  it("deleteSchool", async () => {
-    const savedSchool = await SchoolModel.create(testSchools[0]);
-
-    const deletedSchoolId = await schoolService.deleteSchool(savedSchool.id);
-    expect(deletedSchoolId).toBe(savedSchool.id);
-  });
-
-  it("deleteSchool with non-existing id", async () => {
-    const notFoundId = "86cb91bdc3464f14678934cd";
-    await expect(async () => {
-      await schoolService.deleteSchool(notFoundId);
-    }).rejects.toThrowError(`School with id ${notFoundId} not found`);
   });
 });

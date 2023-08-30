@@ -65,20 +65,17 @@ const TestSessionListItemPopover = ({
       onClose={onPopoverClose}
       onOpen={onPopoverOpen}
     >
-      <VStack spacing={0}>
-        {status !== TestSessionStatus.PAST && (
-          <>
-            <PopoverButton name="Edit" onClick={() => {}} />
-            <Divider />
-          </>
+      <VStack divider={<Divider />} spacing={0}>
+        <PopoverButton name="Edit" onClick={() => {}} />
+        {status === TestSessionStatus.UPCOMING && (
+          <PopoverButton name="Delete" onClick={openDeleteModal} />
         )}
-        <PopoverButton name="Delete" onClick={openDeleteModal} />
-        <DeleteModal
-          deleteAssessment={deleteTestSession}
-          isOpen={isDeleteModalOpen}
-          onClose={onDeleteModalClose}
-        />
       </VStack>
+      <DeleteModal
+        deleteAssessment={deleteTestSession}
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+      />
     </Popover>
   );
 };

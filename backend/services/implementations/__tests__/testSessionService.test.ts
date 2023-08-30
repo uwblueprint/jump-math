@@ -86,6 +86,22 @@ describe("mongo testSessionService", (): void => {
     expect(updatedClass?.testSessions.map(String)).toEqual([res.id]);
   });
 
+  it("createTestSession for archived class id", async () => {
+    const classObj: Class = await MgClass.create({
+      ...testClassAfterCreation,
+      isActive: false,
+    });
+    await expect(async () => {
+      await testSessionService.createTestSession({
+        ...mockTestSession,
+        class: classObj.id,
+      });
+    }).rejects.toThrowError(
+      `Test session could not be added to class with id ${classObj.id}`,
+    );
+    await expect(MgClass.exists({ _id: classObj.id })).resolves.toBeTruthy();
+  });
+
   it("createTestSession for invalid class id", async () => {
     const invalidClassId = "62c248c0f79d6c3c9ebbea92";
     await expect(async () => {
@@ -206,26 +222,6 @@ describe("mongo testSessionService", (): void => {
     );
   });
 
-  it("get test sessions by school id for valid id", async () => {
-    await MgTestSession.create(mockTestSession);
-    const res = await testSessionService.getTestSessionsBySchoolId(
-      mockTestSession.school,
-    );
-    assertResponseMatchesExpected(mockTestSession, res[0]);
-    assertResultsResponseMatchesExpected(
-      mockTestSession.results,
-      res[0].results ?? [],
-    );
-  });
-
-  it("get test sessions by school id for invalid id", async () => {
-    await MgTestSession.create(mockTestSession);
-    // school id that's different than the created test session
-    const schoolId = "62c248c0f79d6c3c9ebbea94";
-    const res = await testSessionService.getTestSessionsBySchoolId(schoolId);
-    expect(res.length).toEqual(0);
-  });
-
   it("getTestSessionsByTeacherId for valid teacher id", async () => {
     await MgTestSession.create(mockTestSession);
 
@@ -319,20 +315,35 @@ describe("mongo testSessionService", (): void => {
     expect(res.length).toEqual(0);
   });
 
-  it("deleteTestSession", async () => {
-    const savedTestSession = await MgTestSession.create(mockTestSession);
+  describe("deleteTestSession", () => {
+    it("with valid test session id and upcoming start date", async () => {
+      const savedTestSession = await MgTestSession.create(mockTestSession);
 
-    const deletedTestSessionId = await testSessionService.deleteTestSession(
-      savedTestSession.id,
-    );
-    expect(deletedTestSessionId).toBe(savedTestSession.id);
-  });
+      const deletedTestSessionId = await testSessionService.deleteTestSession(
+        savedTestSession.id,
+        new Date("2020-09-01T09:00:00.000Z"),
+      );
+      expect(deletedTestSessionId).toBe(savedTestSession.id);
+    });
 
-  it("deleteTestSession not found", async () => {
-    const notFoundId = "62cf26998b7308f775a572aa";
-    await expect(async () => {
-      await testSessionService.deleteTestSession(notFoundId);
-    }).rejects.toThrowError(`Test Session id ${notFoundId} not found`);
+    it("with test session that already started", async () => {
+      const savedTestSession = await MgTestSession.create(mockTestSession);
+
+      await expect(async () => {
+        await testSessionService.deleteTestSession(savedTestSession.id);
+      }).rejects.toThrowError(
+        `Test Session id ${savedTestSession.id} not found or test session has already started`,
+      );
+    });
+
+    it("with invalid test session id", async () => {
+      const notFoundId = "62cf26998b7308f775a572aa";
+      await expect(async () => {
+        await testSessionService.deleteTestSession(notFoundId);
+      }).rejects.toThrowError(
+        `Test Session id ${notFoundId} not found or test session has already started`,
+      );
+    });
   });
 
   it("computeTestGrades", async () => {
