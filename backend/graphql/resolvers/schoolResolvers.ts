@@ -19,6 +19,10 @@ const schoolResolvers = {
       return schoolService.getAllSchools();
     },
   },
+  SchoolResponseDTO: {
+    teachers: ({ teachers }: SchoolResponseDTO) =>
+      userService.findAllUsersByIds(teachers),
+  },
 };
 
 export default schoolResolvers;
