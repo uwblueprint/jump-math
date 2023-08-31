@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
@@ -31,6 +31,24 @@ const StudentListPopover = ({
     defaultValues: student,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    studentFormMethods.reset(
+      {
+        firstName: student.firstName,
+        lastName: student.lastName,
+        studentNumber: student.studentNumber,
+      },
+      {
+        keepDefaultValues: false,
+      },
+    );
+  }, [
+    student.firstName,
+    student.lastName,
+    student.studentNumber,
+    studentFormMethods,
+  ]);
 
   const { onOpen, isOpen, onClose } = useDisclosure();
   const {
