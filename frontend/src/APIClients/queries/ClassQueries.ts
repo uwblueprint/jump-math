@@ -7,6 +7,7 @@ export const GET_CLASS_DETAILS_BY_ID = gql`
       className
       startDate
       gradeLevel
+      isActive
     }
   }
 `;
@@ -39,7 +40,9 @@ export const GET_CLASS_TEST_SESSIONS_BY_ID = gql`
         startDate
         endDate
         accessCode
+        status
       }
+      isActive
     }
   }
 `;

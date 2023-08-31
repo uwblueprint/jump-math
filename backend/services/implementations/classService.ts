@@ -151,10 +151,14 @@ class ClassService implements IClassService {
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
     try {
-      updatedClass = await MgClass.findByIdAndUpdate(id, classObj, {
-        new: true,
-        runValidators: true,
-      });
+      updatedClass = await MgClass.findOneAndUpdate(
+        { _id: id, isActive: { $in: [true, undefined] } },
+        classObj,
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
       if (!updatedClass) {
         throw new Error(`Class id ${id} not found`);
@@ -187,7 +191,7 @@ class ClassService implements IClassService {
     let archivedClass: Class | null;
     try {
       archivedClass = await MgClass.findOneAndUpdate(
-        { _id: id, isActive: true },
+        { _id: id, isActive: { $in: [true, undefined] } },
         { $set: { isActive: false } },
         {
           new: true,
@@ -218,8 +222,8 @@ class ClassService implements IClassService {
     let classObj: Class | null;
 
     try {
-      classObj = await MgClass.findByIdAndUpdate(
-        classId,
+      classObj = await MgClass.findOneAndUpdate(
+        { _id: classId, isActive: { $in: [true, undefined] } },
         {
           $push: { students: student },
         },
