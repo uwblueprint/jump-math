@@ -100,13 +100,13 @@ class SchoolService implements ISchoolService {
     }
 
     return {
-      id: newSchool.id.toString(),
+      id: newSchool.id,
       name: newSchool.name,
       country: newSchool.country,
       subRegion: newSchool.subRegion,
       city: newSchool.city,
       address: newSchool.address,
-      teachers: teacherDTOs.map((teacher) => teacher.id.toString()),
+      teachers: teacherDTOs.map((teacher) => teacher.id),
     };
   }
 
