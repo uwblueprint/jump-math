@@ -66,7 +66,9 @@ export const assertResponseMatchesExpected = (
   expect(result.subRegion).toEqual(expected.subRegion);
   expect(result.city).toEqual(expected.city);
   expect(result.address).toEqual(expected.address);
-  expect(result.teachers).toEqual(testUsers);
+  result.teachers.forEach((teacher, i) => {
+    expect(teacher.toString()).toEqual(expected.teachers[i].toString());
+  });
 };
 
 export const createSchoolWithCountry = async (

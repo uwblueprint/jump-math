@@ -9,6 +9,10 @@ import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type { UserDTO } from "../../types";
 import type IUserService from "../interfaces/userService";
+import {
+  mapDocumentsToDTOs,
+  mapDocumentToDTO,
+} from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -26,7 +30,8 @@ class SchoolService implements ISchoolService {
    */
   async getAllSchools(): Promise<Array<SchoolResponseDTO>> {
     try {
-      return await MgSchool.find();
+      const schools = await MgSchool.find();
+      return mapDocumentsToDTOs(schools);
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -45,7 +50,7 @@ class SchoolService implements ISchoolService {
       throw error;
     }
 
-    return school;
+    return mapDocumentToDTO(school);
   }
 
   async getSchoolByTeacherId(teacherId: string): Promise<SchoolResponseDTO> {
@@ -64,7 +69,7 @@ class SchoolService implements ISchoolService {
       throw error;
     }
 
-    return school[0];
+    return mapDocumentToDTO(school[0]);
   }
 
   /**
@@ -95,13 +100,13 @@ class SchoolService implements ISchoolService {
     }
 
     return {
-      id: newSchool.id,
+      id: newSchool.id.toString(),
       name: newSchool.name,
       country: newSchool.country,
       subRegion: newSchool.subRegion,
       city: newSchool.city,
       address: newSchool.address,
-      teachers: teacherDTOs.map((teacher) => teacher.id),
+      teachers: teacherDTOs.map((teacher) => teacher.id.toString()),
     };
   }
 
@@ -119,7 +124,7 @@ class SchoolService implements ISchoolService {
       if (!updatedSchool) {
         throw new Error(`School id ${id} not found`);
       }
-      return updatedSchool;
+      return mapDocumentToDTO(updatedSchool);
     } catch (error: unknown) {
       Logger.error(
         `Failed to update school. Reason = ${getErrorMessage(error)}`,
