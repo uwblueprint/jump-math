@@ -26,6 +26,7 @@ import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEd
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
+import usePageTitle from "../../auth/usePageTitle";
 import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
@@ -73,6 +74,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
       curriculumRegion: state?.curriculumRegion,
     },
   });
+
+  const assessmentName = watch("name");
+  const isExisting = !!state;
+  usePageTitle(
+    assessmentName ? `Editing "${assessmentName}"` : "Edit Assessment",
+    !isExisting,
+  );
 
   const noQuestionError =
     "Please add at least one question to the assessment before saving";

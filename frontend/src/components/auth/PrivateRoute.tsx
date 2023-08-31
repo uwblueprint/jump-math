@@ -12,6 +12,9 @@ type PageProps = {
   component: ComponentType;
   roles: Role[];
   title: string;
+  // Setting this to true will make it so child components of the current page
+  // can override the page title with their own title.
+  isTitleOverridable?: boolean;
 };
 
 type PrivateRouteProps = PageProps & {
@@ -19,13 +22,22 @@ type PrivateRouteProps = PageProps & {
   exact?: boolean;
 };
 
-const Page = ({ component: RenderComponent, roles, title }: PageProps) => {
+const Page = ({
+  component: RenderComponent,
+  roles,
+  title,
+  isTitleOverridable = false,
+}: PageProps) => {
   const { authenticatedUser } = useContext(AuthContext);
 
   const isSignedIn = authenticatedUser !== null;
   const isAuthorized = isSignedIn && roles.includes(authenticatedUser.role);
 
-  usePageTitle(isAuthorized ? title : "Not Found", !isSignedIn);
+  usePageTitle(
+    isAuthorized ? title : "Not Found",
+    !isSignedIn,
+    isTitleOverridable,
+  );
 
   if (!isSignedIn) {
     return <Redirect to={HOME_PAGE} />;

@@ -94,6 +94,7 @@ const App = (): ReactElement => {
                 )}
                 <PrivateRoute
                   component={TeacherRouting}
+                  isTitleOverridable
                   path={Routes.TEACHER_LANDING_PAGE}
                   roles={["Teacher"]}
                   title="Redirecting..."
@@ -108,6 +109,7 @@ const App = (): ReactElement => {
                 )}
                 <PrivateRoute
                   component={StudentRouting}
+                  isTitleOverridable
                   path={Routes.STUDENT_LANDING_PAGE}
                   roles={["Student"]}
                   title="Redirecting..."
