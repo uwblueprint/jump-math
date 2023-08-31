@@ -1,5 +1,5 @@
 const flags = {
-  ENABLE_CLASSROOM_ARCHIVING: () => false,
+  ENABLE_CLASSROOM_ARCHIVING: () => true,
 } as const;
 
 export default (flag: keyof typeof flags): boolean => {
