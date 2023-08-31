@@ -62,6 +62,11 @@ const classType = gql`
     createClass(classObj: ClassRequestDTO!): ClassResponseDTO!
     updateClass(id: ID!, classObj: ClassRequestDTO!): ClassResponseDTO!
     createStudent(student: StudentRequestDTO!, classId: ID!): ClassResponseDTO!
+    updateStudent(
+      studentId: ID!
+      classId: ID!
+      student: StudentRequestDTO!
+    ): ClassResponseDTO!
     deleteClass(classId: ID!): ID
     archiveClass(id: ID!): ClassResponseDTO!
     deleteStudent(classId: ID!, studentId: ID!): ID!

@@ -18,43 +18,48 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { CREATE_STUDENT } from "../../../APIClients/mutations/ClassMutations";
+import {
+  CREATE_STUDENT,
+  UPDATE_STUDENT,
+} from "../../../APIClients/mutations/ClassMutations";
 import { GET_CLASS_STUDENTS_BY_ID } from "../../../APIClients/queries/ClassQueries";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
 import type { StudentForm, StudentInput } from "../../../types/ClassroomTypes";
+import { getQueryName } from "../../../utils/GeneralUtils";
 import ErrorToast from "../../common/info/toasts/ErrorToast";
 import useToast from "../../common/info/useToast";
 import ModalFooterButtons from "../../common/modal/ModalFooterButtons";
 
-type AddStudentModalProps = {
+type AddOrEditStudentModalProps = {
   onClose: () => void;
   isOpen: boolean;
   classId: string;
+  studentId?: string;
 };
 
-const AddStudentModal = ({
+const AddOrEditStudentModal = ({
   onClose,
   isOpen,
   classId,
-}: AddStudentModalProps): ReactElement => {
+  studentId,
+}: AddOrEditStudentModalProps): ReactElement => {
   const {
     handleSubmit,
     watch,
     setValue,
+    reset: resetForm,
     formState: { errors },
   } = useFormContext<StudentForm>();
   const [errorMessage, setErrorMessage] = useState("");
   const [createStudent] = useMutation<{ createStudent: StudentResponse }>(
     CREATE_STUDENT,
     {
-      refetchQueries: [
-        {
-          query: GET_CLASS_STUDENTS_BY_ID,
-          variables: { classroomId: classId },
-        },
-      ],
+      refetchQueries: [getQueryName(GET_CLASS_STUDENTS_BY_ID)],
     },
   );
+  const [updateStudent] = useMutation(UPDATE_STUDENT, {
+    refetchQueries: [getQueryName(GET_CLASS_STUDENTS_BY_ID)],
+  });
   const { showToast } = useToast();
 
   const handleChange = (
@@ -81,9 +86,7 @@ const AddStudentModal = ({
   };
 
   const onModalClose = () => {
-    setValue("firstName", "");
-    setValue("lastName", "");
-    setValue("studentNumber", undefined);
+    resetForm();
     setErrorMessage("");
     onClose();
   };
@@ -96,28 +99,54 @@ const AddStudentModal = ({
     } else {
       setErrorMessage("");
 
-      await createStudent({
-        variables: {
-          student: {
-            firstName: watch("firstName"),
-            lastName: watch("lastName"),
-            studentNumber: watch("studentNumber"),
+      if (studentId) {
+        await updateStudent({
+          variables: {
+            classId,
+            studentId,
+            student: {
+              firstName: watch("firstName"),
+              lastName: watch("lastName"),
+              studentNumber: watch("studentNumber"),
+            },
           },
-          classId,
-        },
-      })
-        .then(() => {
-          showToast({
-            message: "New student created.",
-            status: "success",
-          });
         })
-        .catch(() => {
-          showToast({
-            message: "Failed to create a new student. Please try again.",
-            status: "error",
+          .then(() => {
+            showToast({
+              message: "Student updated.",
+              status: "success",
+            });
+          })
+          .catch(() => {
+            showToast({
+              message: "Failed to update student. Please try again.",
+              status: "error",
+            });
           });
-        });
+      } else {
+        await createStudent({
+          variables: {
+            student: {
+              firstName: watch("firstName"),
+              lastName: watch("lastName"),
+              studentNumber: watch("studentNumber"),
+            },
+            classId,
+          },
+        })
+          .then(() => {
+            showToast({
+              message: "New student created.",
+              status: "success",
+            });
+          })
+          .catch(() => {
+            showToast({
+              message: "Failed to create a new student. Please try again.",
+              status: "error",
+            });
+          });
+      }
       onModalClose();
     }
   };
@@ -130,7 +159,7 @@ const AddStudentModal = ({
       <ModalContent borderRadius="12px" maxW="80vw" p={2}>
         <ModalHeader>
           <Text color="grey.400" textStyle="subtitle1">
-            Add a new student
+            {studentId ? "Edit student" : "Add student"}
           </Text>
         </ModalHeader>
         <ModalCloseButton />
@@ -160,13 +189,12 @@ const AddStudentModal = ({
             <HStack direction="row" mt={6}>
               <VStack align="left" direction="column" width="320px">
                 <FormLabel color="blue.300" requiredIndicator={<></>}>
-                  Student Number
+                  Student ID
                 </FormLabel>
                 <Input
                   isRequired={false}
                   onChange={(e) => handleChange(e, "studentNumber")}
                   placeholder="(Optional)"
-                  type="number"
                   value={watch("studentNumber")}
                 />
               </VStack>
@@ -181,4 +209,4 @@ const AddStudentModal = ({
   );
 };
 
-export default AddStudentModal;
+export default AddOrEditStudentModal;

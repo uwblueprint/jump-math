@@ -30,6 +30,18 @@ export const CREATE_STUDENT = gql`
   }
 `;
 
+export const UPDATE_STUDENT = gql`
+  mutation UpdateStudent(
+    $studentId: ID!
+    $classId: ID!
+    $student: StudentRequestDTO!
+  ) {
+    updateStudent(studentId: $studentId, classId: $classId, student: $student) {
+      id
+    }
+  }
+`;
+
 export const ARCHIVE_CLASS = gql`
   mutation ArchiveClass($classId: ID!) {
     archiveClass(id: $classId) {

@@ -23,7 +23,7 @@ import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import SimplePopover from "../../../common/popover/SimplePopover";
-import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
+import AddOrEditStudentModal from "../../../teacher/student-management/AddOrEditStudentModal";
 import AddOrEditClassroomModal from "../../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 import NotFound from "../../NotFound";
 
@@ -200,7 +200,7 @@ const DisplayClassroomsPage = () => {
         )}
       </HeaderWithButton>
       <FormProvider {...studentFormMethods}>
-        <AddStudentModal
+        <AddOrEditStudentModal
           classId={classroomId}
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}
