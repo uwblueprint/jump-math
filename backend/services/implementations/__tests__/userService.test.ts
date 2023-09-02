@@ -122,34 +122,22 @@ describe("mongo userService", (): void => {
         },
       ];
       schools = await SchoolModel.insertMany(updatedTestSchools);
-
-      const updatedTestSessions = [
-        {
-          ...mockTestSessions[0],
+      await TestSessionModel.insertMany(
+        mockTestSessions.map((session) => ({
+          ...session,
           teacher: teacher.id,
-        },
-        {
-          ...mockTestSessions[1],
-          teacher: teacher.id,
-        },
-      ];
-      await TestSessionModel.insertMany(updatedTestSessions);
-
-      const updatedClasses = [
-        {
-          ...testClass[0],
-          teacher: teacher.id,
-        },
-        {
-          ...testClass[1],
-          teacher: teacher.id,
-        },
-      ];
-      await ClassModel.insertMany(updatedClasses);
+        })),
+      );
+      await ClassModel.create({
+        ...testClass[0],
+        teacher: teacher.id,
+      });
     });
 
-    describe("on success", () => {
-      afterEach(async () => {
+    describe("deleteUserByEmail", () => {
+      it("on success", async () => {
+        await userService.deleteUserByEmail(teacher.email);
+
         const associatedSchool = await SchoolModel.findById(schools[1].id);
         const associatedTestSession = await TestSessionModel.find({
           teacher: teacher.id,
@@ -157,23 +145,19 @@ describe("mongo userService", (): void => {
         const associatedClasses = await ClassModel.find({
           teacher: teacher.id,
         });
-        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-        expect(associatedSchool!.teachers.map(String)).toEqual(
+
+        expect(associatedSchool?.teachers.map(String)).toEqual(
           testSchools[1].teachers,
         );
         expect(associatedTestSession).toEqual([]);
         expect(associatedClasses).toEqual([]);
       });
 
-      it("deleteUserByEmail", async () => {
-        await userService.deleteUserByEmail(teacher.email);
+      it("on failure", async () => {
+        await expect(async () => {
+          await userService.deleteUserByEmail(teacher.email);
+        }).rejects.toThrowError();
       });
-    });
-
-    it("on failure", async () => {
-      await expect(async () => {
-        await userService.deleteUserByEmail(teacher.email);
-      }).rejects.toThrowError();
     });
   });
 });

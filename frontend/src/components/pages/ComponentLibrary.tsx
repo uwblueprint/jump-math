@@ -19,7 +19,7 @@ import CorrectedMultipleChoice from "../teacher/results/StudentAnswersSection/qu
 import CorrectedMultiSelect from "../teacher/results/StudentAnswersSection/question-elements/CorrectedMultiSelect";
 import CorrectedShortAnswer from "../teacher/results/StudentAnswersSection/question-elements/CorrectedShortAnswer";
 import StudentList from "../teacher/results/StudentList";
-import AddStudentModal from "../teacher/student-management/AddStudentModal";
+import AddOrEditStudentModal from "../teacher/student-management/AddOrEditStudentModal";
 import AddOrEditClassroomModal from "../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 import ClassroomCard from "../teacher/student-management/classroom-summary/ClassroomCard";
 
@@ -217,7 +217,7 @@ const ComponentLibrary = (): React.ReactElement => {
         >
           Add Students
         </Button>
-        <AddStudentModal
+        <AddOrEditStudentModal
           classId="642b8eb6bfc20e04f56c2a46"
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}

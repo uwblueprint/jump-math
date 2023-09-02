@@ -30,6 +30,7 @@ export type TestSessionListItemProps = {
   targetDate: Date;
   accessCode: string;
   status: TestSessionStatus;
+  isReadOnly?: boolean;
   stats?: TestSessionItemStats;
 };
 
@@ -57,6 +58,7 @@ const TestSessionListItem = ({
   targetDate,
   accessCode,
   status,
+  isReadOnly = false,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
@@ -206,7 +208,7 @@ const TestSessionListItem = ({
           )}
         </HStack>
       </Tooltip>
-      {status !== TestSessionStatus.PAST && (
+      {status !== TestSessionStatus.PAST && !isReadOnly && (
         <Box ml={1}>
           <TestSessionListItemPopover
             status={status}

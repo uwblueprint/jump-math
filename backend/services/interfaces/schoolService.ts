@@ -1,5 +1,3 @@
-import type { UserDTO } from "../../types";
-
 /**
  * This interface contains the request object that is fed into
  * the school service to create or update the school in the database.
@@ -36,8 +34,8 @@ export interface SchoolResponseDTO {
   city: string;
   /** the address of the school */
   address: string;
-  /** the teachers that teach at the school */
-  teachers: UserDTO[];
+  /** the IDs of teachers that teach at the school */
+  teachers: string[];
 }
 
 /**

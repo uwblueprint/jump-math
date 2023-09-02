@@ -1,4 +1,4 @@
-import type { CallbackError, Document } from "mongoose";
+import type { Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
 
 /**

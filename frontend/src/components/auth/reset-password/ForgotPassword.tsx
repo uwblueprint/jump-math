@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 import { RESET_PASSWORD } from "../../../APIClients/mutations/AuthMutations";
-import { GET_USERS_BY_ROLE } from "../../../APIClients/queries/UserQueries";
+import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import type { UserResponse } from "../../../APIClients/types/UserClientTypes";
 import {
   ADMIN_SIGNUP_IMAGE,
@@ -25,9 +25,14 @@ const ForgotPassword = ({
   const [emailNotFoundError, setEmailNotFoundError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const { data } = useQuery(GET_USERS_BY_ROLE, {
-    variables: { role: isAdmin ? "Admin" : "Teacher" },
-  });
+  const [getUserByEmail] = useLazyQuery<{ userByEmail: UserResponse }>(
+    GET_USER_BY_EMAIL,
+    {
+      onError() {
+        setEmailNotFoundError(true);
+      },
+    },
+  );
   const [resetPassword] = useMutation<{ resetPassword: boolean }>(
     RESET_PASSWORD,
     {
@@ -43,7 +48,13 @@ const ForgotPassword = ({
       return;
     }
 
-    if (!data.usersByRole?.find((user: UserResponse) => user.email === email)) {
+    try {
+      const { data } = await getUserByEmail({ variables: { email } });
+      if (data?.userByEmail?.role === (isAdmin ? "Admin" : "Teacher")) {
+        setEmailNotFoundError(true);
+        return;
+      }
+    } catch (e) {
       setEmailNotFoundError(true);
       return;
     }

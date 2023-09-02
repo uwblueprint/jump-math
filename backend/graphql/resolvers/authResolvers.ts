@@ -57,8 +57,7 @@ const authResolvers = {
 
       if (user.school.id) {
         const school = await schoolService.getSchoolById(user.school.id);
-        const teacherIds = school.teachers.map((teacher) => teacher.id);
-        teacherIds.push(createdUser.id);
+        const teacherIds = [...school.teachers, createdUser.id];
         await schoolService.updateSchool(school.id, {
           ...school,
           teachers: teacherIds,

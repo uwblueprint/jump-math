@@ -1,5 +1,3 @@
-import type { UserResponse } from "./UserClientTypes";
-
 export interface SchoolRequest {
   /** the name of the school */
   name: string;
@@ -28,6 +26,4 @@ export interface SchoolResponse {
   city: string;
   /** the address of the school */
   address: string;
-  /** the teachers that teach at the school */
-  teachers: UserResponse[];
 }

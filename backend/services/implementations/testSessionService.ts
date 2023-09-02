@@ -139,20 +139,23 @@ class TestSessionService implements ITestSessionService {
 
   async deleteTestSession(id: string, now?: Date): Promise<string> {
     try {
-      const result = await MgTestSession.deleteOne({
+      const testSessionToDelete = await MgTestSession.findById({
         _id: id,
         startDate: { $gt: now ?? new Date() },
       });
-      if (!result.deletedCount) {
+
+      if (!testSessionToDelete) {
         throw new Error(
           `Test Session id ${id} not found or test session has already started`,
         );
       }
 
+      await MgTestSession.deleteOne({ _id: testSessionToDelete.id });
+
       // Remove the test session reference from the class
       await MgClass.findOneAndUpdate(
-        { _id: deletedTestSession.class },
-        { $pull: { testSessions: deletedTestSession.id } },
+        { _id: testSessionToDelete.class },
+        { $pull: { testSessions: testSessionToDelete.id } },
         { new: true },
       );
 

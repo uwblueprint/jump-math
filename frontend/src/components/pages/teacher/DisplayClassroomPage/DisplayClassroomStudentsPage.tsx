@@ -9,7 +9,7 @@ import { filterStudentsBySearch } from "../../../../utils/ClassroomUtils";
 import { sortArray } from "../../../../utils/GeneralUtils";
 import ErrorState from "../../../common/info/ErrorState";
 import LoadingState from "../../../common/info/LoadingState";
-import EmptyStudentsMessage from "../../../common/info/messages/EmptyStudentsMessage";
+import EmptyClassStudentsMessage from "../../../common/info/messages/EmptyClassStudentsMessage";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
@@ -68,7 +68,10 @@ const DisplayClassroomStudentsPage = ({
           nameOfTableItems="students"
           noResults={isEmpty}
           noResultsComponent={
-            <EmptyStudentsMessage onClick={onCreateStudent} />
+            <EmptyClassStudentsMessage
+              isActive={data?.class.isActive}
+              onClick={onCreateStudent}
+            />
           }
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}

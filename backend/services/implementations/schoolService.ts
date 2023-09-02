@@ -9,6 +9,10 @@ import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type { UserDTO } from "../../types";
 import type IUserService from "../interfaces/userService";
+import {
+  mapDocumentsToDTOs,
+  mapDocumentToDTO,
+} from "../../utilities/generalUtils";
 
 const Logger = logger(__filename);
 
@@ -26,8 +30,8 @@ class SchoolService implements ISchoolService {
    */
   async getAllSchools(): Promise<Array<SchoolResponseDTO>> {
     try {
-      const schools: Array<School> = await MgSchool.find();
-      return await this.mapSchoolsToSchoolResponseDTOs(schools);
+      const schools = await MgSchool.find();
+      return mapDocumentsToDTOs(schools);
     } catch (error: unknown) {
       Logger.error(`Failed to get schools. Reason = ${getErrorMessage(error)}`);
       throw error;
@@ -46,7 +50,7 @@ class SchoolService implements ISchoolService {
       throw error;
     }
 
-    return (await this.mapSchoolsToSchoolResponseDTOs([school]))[0];
+    return mapDocumentToDTO(school);
   }
 
   async getSchoolByTeacherId(teacherId: string): Promise<SchoolResponseDTO> {
@@ -65,28 +69,7 @@ class SchoolService implements ISchoolService {
       throw error;
     }
 
-    return (await this.mapSchoolsToSchoolResponseDTOs([school[0]]))[0];
-  }
-
-  private async mapSchoolsToSchoolResponseDTOs(
-    schools: Array<School>,
-  ): Promise<Array<SchoolResponseDTO>> {
-    return Promise.all(
-      schools.map(async (school) => {
-        const teacherDTOs: Array<UserDTO> =
-          await this.userService.findAllUsersByIds(school.teachers);
-
-        return {
-          id: school.id,
-          name: school.name,
-          country: school.country,
-          subRegion: school.subRegion,
-          city: school.city,
-          address: school.address,
-          teachers: teacherDTOs,
-        };
-      }),
-    );
+    return mapDocumentToDTO(school[0]);
   }
 
   /**
@@ -123,7 +106,7 @@ class SchoolService implements ISchoolService {
       subRegion: newSchool.subRegion,
       city: newSchool.city,
       address: newSchool.address,
-      teachers: teacherDTOs,
+      teachers: teacherDTOs.map((teacher) => teacher.id),
     };
   }
 
@@ -141,9 +124,7 @@ class SchoolService implements ISchoolService {
       if (!updatedSchool) {
         throw new Error(`School id ${id} not found`);
       }
-      return (
-        await this.mapSchoolsToSchoolResponseDTOs([updatedSchool as School])
-      )[0];
+      return mapDocumentToDTO(updatedSchool);
     } catch (error: unknown) {
       Logger.error(
         `Failed to update school. Reason = ${getErrorMessage(error)}`,

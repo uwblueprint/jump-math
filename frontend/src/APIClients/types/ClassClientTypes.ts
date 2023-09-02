@@ -37,6 +37,8 @@ export type ClassTitleData = {
   startDate: Date;
   /** the grade level of the class */
   gradeLevel: Grade;
+  /** whether or not the class is active */
+  isActive: boolean;
 };
 
 export type ClassStudentData = {
@@ -51,4 +53,6 @@ export type ClassTestSessionData = {
   className: string;
   /** the test sessions for this class */
   testSessions: TestSessionOverviewData[];
+  /** whether or not the class is active */
+  isActive: boolean;
 };

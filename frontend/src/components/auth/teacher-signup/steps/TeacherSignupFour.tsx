@@ -20,6 +20,7 @@ const TeacherSignupFour = ({
   const image = TEACHER_SIGNUP_IMAGE;
   const form = (
     <PasswordForm
+      email={watch("email")}
       handleSubmitCallback={handleSubmitCallback}
       setStep={() => {
         if (watch("school.name")) {

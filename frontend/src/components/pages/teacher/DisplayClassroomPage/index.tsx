@@ -23,7 +23,7 @@ import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
 import SimplePopover from "../../../common/popover/SimplePopover";
-import AddStudentModal from "../../../teacher/student-management/AddStudentModal";
+import AddOrEditStudentModal from "../../../teacher/student-management/AddOrEditStudentModal";
 import AddOrEditClassroomModal from "../../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 import NotFound from "../../NotFound";
 
@@ -77,10 +77,16 @@ const classroomFormDefaultValues: ClassroomForm = {
 
 const getLocationState = (
   state: unknown,
-): { className?: string; startDate?: Date; gradeLevel?: Grade } => ({
+): {
+  className?: string;
+  startDate?: Date;
+  gradeLevel?: Grade;
+  isActive?: boolean;
+} => ({
   className: undefined,
   startDate: undefined,
   gradeLevel: undefined,
+  isActive: undefined,
   ...(typeof state === "object" ? state : {}),
 });
 
@@ -88,13 +94,14 @@ const DisplayClassroomsPage = () => {
   const history = useHistory();
   const { classroomId } = useParams<{ classroomId: string }>();
   const { state } = useLocation();
-  const { className, startDate, gradeLevel } = getLocationState(state);
+  const { className, startDate, gradeLevel, isActive } =
+    getLocationState(state);
 
   const { data } = useQuery<{ class: ClassTitleData }>(
     GET_CLASS_DETAILS_BY_ID,
     {
       variables: { classroomId },
-      skip: !!className && !!startDate && !!gradeLevel,
+      skip: !!className && !!startDate && !!gradeLevel && !!isActive,
     },
   );
   const displayTitle = data?.class.className ?? className;
@@ -109,6 +116,7 @@ const DisplayClassroomsPage = () => {
   );
   const displayGradeLevel = data?.class.gradeLevel ?? gradeLevel;
   const loading = !displayTitle;
+  const isClassActive = data?.class.isActive ?? isActive;
 
   const {
     isOpen: isStudentModalOpen,
@@ -168,6 +176,7 @@ const DisplayClassroomsPage = () => {
           />
         }
         isLoading={loading}
+        showButton={isClassActive}
         title={displayTitle}
       >
         {displayStartDate && (
@@ -180,7 +189,7 @@ const DisplayClassroomsPage = () => {
             {titleCase(removeUnderscore(displayGradeLevel))}
           </Tag>
         )}
-        {!loading && (
+        {!loading && isClassActive && (
           <IconButton
             aria-label="Edit classroom"
             icon={<EditOutlineIcon />}
@@ -191,7 +200,7 @@ const DisplayClassroomsPage = () => {
         )}
       </HeaderWithButton>
       <FormProvider {...studentFormMethods}>
-        <AddStudentModal
+        <AddOrEditStudentModal
           classId={classroomId}
           isOpen={isStudentModalOpen}
           onClose={onStudentModalClose}

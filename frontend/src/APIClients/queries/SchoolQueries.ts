@@ -17,13 +17,6 @@ export const GET_ALL_SCHOOLS = gql`
       subRegion
       city
       address
-      teachers {
-        id
-        firstName
-        lastName
-        email
-        role
-      }
     }
   }
 `;

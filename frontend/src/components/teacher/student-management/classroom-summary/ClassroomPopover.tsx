@@ -98,7 +98,9 @@ const ClassroomPopover = ({
         onOpen={onPopoverOpen}
       >
         <VStack divider={<Divider />} spacing={0}>
-          <PopoverButton name="Edit" onClick={onEditModalOpen} />
+          {!isArchived && (
+            <PopoverButton name="Edit" onClick={onEditModalOpen} />
+          )}
           {!isArchived && checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
             <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
           )}

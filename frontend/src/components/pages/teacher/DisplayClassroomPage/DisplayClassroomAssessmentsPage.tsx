@@ -12,7 +12,7 @@ import {
 } from "../../../../utils/TestSessionUtils";
 import ErrorState from "../../../common/info/ErrorState";
 import LoadingState from "../../../common/info/LoadingState";
-import EmptySessionsMessage from "../../../common/info/messages/EmptySessionsMessage";
+import EmptyClassSessionsMessage from "../../../common/info/messages/EmptyClassSessionsMessage";
 import Pagination from "../../../common/table/Pagination";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
@@ -71,7 +71,11 @@ const DisplayClassroomAssessmentsPage = () => {
   const tableComponent = (
     <VStack w="100%">
       {paginatedData?.map((session) => (
-        <TestSessionListItem key={session.testSessionId} {...session} />
+        <TestSessionListItem
+          key={session.testSessionId}
+          {...session}
+          isReadOnly={!data?.class.isActive}
+        />
       ))}
       {totalPages > 1 && (
         <Center>
@@ -101,7 +105,12 @@ const DisplayClassroomAssessmentsPage = () => {
         <SearchableTablePage
           nameOfTableItems="assessments"
           noResults={paginatedData.length === 0}
-          noResultsComponent={<EmptySessionsMessage classId={classroomId} />}
+          noResultsComponent={
+            <EmptyClassSessionsMessage
+              classId={classroomId}
+              isActive={data?.class.isActive}
+            />
+          }
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
           searchLength={paginatedData.length}
