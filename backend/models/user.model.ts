@@ -1,7 +1,7 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
-import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
+// eslint-disable-next-line import/no-cycle
 import MgClass from "./class.model";
 import type { Role } from "../types";
 import { Grade } from "../types";
@@ -62,18 +62,26 @@ const UserSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
-UserSchema.pre("findOneAndDelete", async function () {
-  const doc = await this.findOne(this.getQuery()).clone();
-  if (doc.role !== "Teacher") return;
+UserSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc && doc.role === "Teacher") {
+      /* eslint-disable no-underscore-dangle */
+      // Delete teacher reference from associated school
+      await MgSchool.findOneAndUpdate(
+        { teachers: doc._id },
+        { $pull: { teachers: doc._id } },
+        { new: true },
+      );
 
-  /* eslint-disable no-underscore-dangle */
-  await MgSchool.findOneAndUpdate(
-    { teachers: doc._id },
-    { $pull: { teachers: doc._id } },
-    { new: true },
-  );
-  await MgTestSession.deleteMany({ teacher: doc._id });
-  await MgClass.deleteMany({ teacher: doc._id });
+      // Delete classes associated with teacher
+      await MgClass.deleteMany({ teacher: doc._id });
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
+
+  return next();
 });
 
 export default mongoose.model<User>("User", UserSchema);
