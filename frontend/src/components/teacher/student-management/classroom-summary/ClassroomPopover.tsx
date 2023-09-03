@@ -52,7 +52,7 @@ const ClassroomPopover = ({
     refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
   });
 
-  const [deleteClass] = useMutation<{ deleteClass: string }>(DELETE_CLASS, {
+  const [deleteClassroom] = useMutation<{ deleteClass: string }>(DELETE_CLASS, {
     variables: { classId },
     refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
   });
@@ -70,21 +70,6 @@ const ClassroomPopover = ({
     } catch (error) {
       showToast({
         message: "Classroom failed to archive. Please try again.",
-        status: "error",
-      });
-    }
-  };
-
-  const handleDeleteClass = async () => {
-    try {
-      await deleteClass({ variables: { classId } });
-      showToast({
-        message: "Classroom deleted.",
-        status: "success",
-      });
-    } catch (error) {
-      showToast({
-        message: "Classroom failed to delete. Please try again.",
         status: "error",
       });
     }
@@ -132,7 +117,7 @@ const ClassroomPopover = ({
         submitButtonText="Archive"
       />
       <DeleteClassroomModal
-        deleteClassroom={handleDeleteClass}
+        deleteClassroom={deleteClassroom}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
       />
