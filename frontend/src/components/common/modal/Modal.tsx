@@ -10,6 +10,9 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
+import ActionButton from "../form/ActionButton";
+import ErrorToast from "../info/toasts/ErrorToast";
+
 import ModalText from "./ModalText";
 
 interface ModalProps {
@@ -23,7 +26,9 @@ interface ModalProps {
   submitButtonVariant?: string;
   cancelButtonVariant?: string;
   onBack?: () => void;
-  onSubmit: (() => Promise<void>) | (() => void);
+  messageOnSuccess?: string;
+  messageOnError?: string | (<T>(e: T) => string);
+  onSubmit: (() => Promise<unknown>) | (() => unknown);
 }
 
 const Modal = ({
@@ -37,25 +42,26 @@ const Modal = ({
   cancelButtonText = "Cancel",
   submitButtonVariant,
   cancelButtonVariant,
+  messageOnSuccess,
+  messageOnError: generateErrorMessage,
   onSubmit,
 }: ModalProps): React.ReactElement => {
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      await onSubmit();
-      onClose();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleClose = () => {
+    if (loading) {
+      return;
     }
+    setErrorMessage("");
+    onClose();
   };
 
   return (
-    <ChakraModal isCentered isOpen={isOpen} onClose={onClose}>
+    <ChakraModal isCentered isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent borderRadius="12px" minW="42vw">
+        {errorMessage && <ErrorToast errorMessage={errorMessage} />}
         <ModalText body={body} header={header} />
         <ModalCloseButton />
         {children && <ModalBody>{children}</ModalBody>}
@@ -65,19 +71,25 @@ const Modal = ({
             isDisabled={loading}
             minWidth="10%"
             mr={2}
-            onClick={onBack ?? onClose}
+            onClick={onBack ?? handleClose}
             variant={cancelButtonVariant || "secondary"}
           >
             {cancelButtonText}
           </Button>
-          <Button
+          <ActionButton
             isLoading={loading}
+            messageOnError={generateErrorMessage}
+            messageOnSuccess={messageOnSuccess}
             minWidth="10%"
-            onClick={handleSubmit}
+            onAfterSuccess={handleClose}
+            onClick={onSubmit}
+            onError={setErrorMessage}
+            setLoading={setLoading}
+            showDefaultToasts
             variant={submitButtonVariant || "primary"}
           >
             {submitButtonText}
-          </Button>
+          </ActionButton>
         </ModalFooter>
       </ModalContent>
     </ChakraModal>
