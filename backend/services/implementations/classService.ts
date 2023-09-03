@@ -1,6 +1,7 @@
 import type { UserDTO } from "../../types";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
+import MgTestSession from "../../models/testSession.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type {
@@ -187,8 +188,10 @@ class ClassService implements IClassService {
     }
   }
 
-  async archiveClass(id: string): Promise<ClassResponseDTO> {
+  async archiveClass(id: string, nowDate?: Date): Promise<ClassResponseDTO> {
     let archivedClass: Class | null;
+    const date = nowDate ?? new Date();
+
     try {
       archivedClass = await MgClass.findOneAndUpdate(
         { _id: id, isActive: { $in: [true, undefined] } },
@@ -203,6 +206,20 @@ class ClassService implements IClassService {
         throw new Error(
           `Class with id ${id} not found or not currently active`,
         );
+      }
+
+      // Make a best effort to delete upcoming test sessions and end active test sessions
+      await this.deleteUpcomingTestSessions(
+        archivedClass.testSessions,
+        date,
+        id,
+      );
+      await this.endActiveTestSessions(archivedClass.testSessions, date);
+
+      // Refresh the archived class object
+      archivedClass = await MgClass.findById(id);
+      if (!archivedClass) {
+        throw new Error(`Class with id ${id} not found`);
       }
     } catch (error: unknown) {
       Logger.error(
@@ -308,6 +325,59 @@ class ClassService implements IClassService {
       throw error;
     }
     return studentId;
+  }
+
+  private async deleteUpcomingTestSessions(
+    testSessions: string[],
+    nowDate: Date,
+    classId: string,
+  ): Promise<void> {
+    try {
+      const testSessionsToDelete: string[] = await MgTestSession.find({
+        _id: { $in: testSessions },
+        startDate: { $gt: nowDate },
+      }).distinct("_id");
+
+      // Delete the upcoming test sessions
+      await MgTestSession.deleteMany({
+        _id: { $in: testSessionsToDelete },
+      });
+      await MgClass.updateMany(
+        { _id: classId },
+        { $pull: { testSessions: { $in: testSessionsToDelete } } },
+        { new: true },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to delete upcoming test sessions. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
+  }
+
+  private async endActiveTestSessions(
+    testSessions: string[],
+    nowDate: Date,
+  ): Promise<void> {
+    try {
+      await MgTestSession.updateMany(
+        {
+          _id: { $in: testSessions },
+          startDate: { $lte: nowDate },
+          endDate: { $gte: nowDate },
+        },
+        {
+          $set: { endDate: nowDate },
+        },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to end active test sessions. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
   }
 }
 

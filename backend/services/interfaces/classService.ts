@@ -99,10 +99,11 @@ export interface IClassService {
   /**
    * This method archives the class with the given id
    * @param id class id
+   * @param nowDate optional date to use as the archive date
    * @returns the new updated ClassResponseDTO
    * @throws Error if archive fails
    */
-  archiveClass(id: string): Promise<ClassResponseDTO>;
+  archiveClass(id: string, nowDate?: Date): Promise<ClassResponseDTO>;
 
   /**
    * This method creates a new student in the database.

@@ -25,6 +25,8 @@ import TestSessionService from "../testSessionService";
 import type TestService from "../testService";
 import {
   mockGradedTestResult,
+  mockTestSession,
+  mockTestSessionWithExpiredStartDate,
   mockTestSessionWithId,
   mockTestSessions,
 } from "../../../testUtils/testSession";
@@ -197,8 +199,8 @@ describe("mongo classService", (): void => {
       teacher: teacher.id,
     });
     const testSessions = await TestSessionModel.insertMany(
-      mockTestSessions.map((mockTestSession) => ({
-        ...mockTestSession,
+      mockTestSessions.map((testSession) => ({
+        ...testSession,
         teacher: teacher.id,
         class: savedClass.id,
       })),
@@ -244,14 +246,50 @@ describe("mongo classService", (): void => {
   });
 
   it("archive class", async () => {
-    // add test class
+    // add class
     const classObj = await ClassModel.create(testClass[0]);
 
+    // add test sessions
+    const [activeTestSession, upcomingTestSession] =
+      await TestSessionModel.insertMany([
+        {
+          ...mockTestSession,
+          class: classObj.id,
+        },
+        {
+          ...mockTestSessionWithExpiredStartDate,
+          class: classObj.id,
+        },
+      ]);
+    await ClassModel.findByIdAndUpdate(
+      classObj.id,
+      {
+        $push: {
+          testSessions: [activeTestSession.id, upcomingTestSession.id],
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
     // execute
-    const res = await classService.archiveClass(classObj.id);
+    const nowDate = new Date();
+    const res = await classService.archiveClass(classObj.id, nowDate);
 
     // assert
-    assertResponseMatchesExpected(testClass[0], res, false);
+    assertResponseMatchesExpected(testClass[0], res, false, [
+      activeTestSession.id,
+    ]);
+    const updatedActiveTestSession = await TestSessionModel.findById(
+      activeTestSession.id,
+    );
+    expect(updatedActiveTestSession?.endDate).toEqual(nowDate);
+    const updatedUpcomingTestSession = await TestSessionModel.findById(
+      upcomingTestSession.id,
+    );
+    expect(updatedUpcomingTestSession).toBeNull();
   });
 
   it("archive class with non-existing id", async () => {
