@@ -1,5 +1,6 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
+import MgClass from "./school.model";
 
 /**
  * This interface holds information about the result of a single student
@@ -120,5 +121,25 @@ const TestSessionSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+/* eslint-disable func-names */
+/* eslint-disable no-underscore-dangle */
+TestSessionSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc) {
+      // Delete test session reference from associated class
+      await MgClass.findOneAndUpdate(
+        { testSessions: doc._id },
+        { $pull: { testSessions: doc._id } },
+        { new: true },
+      );
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
+
+  return next();
+});
 
 export default mongoose.model<TestSession>("TestSession", TestSessionSchema);

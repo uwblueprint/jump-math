@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 import MgSchool from "./school.model";
 // eslint-disable-next-line import/no-cycle
 import MgClass from "./class.model";
+import MgTestSession from "./testSession.model";
 import type { Role } from "../types";
 import { Grade } from "../types";
 
@@ -62,11 +63,11 @@ const UserSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
+/* eslint-disable no-underscore-dangle */
 UserSchema.pre("findOneAndDelete", async function (next) {
   try {
     const doc = await this.findOne(this.getQuery()).clone();
     if (doc && doc.role === "Teacher") {
-      /* eslint-disable no-underscore-dangle */
       // Delete teacher reference from associated school
       await MgSchool.findOneAndUpdate(
         { teachers: doc._id },
@@ -76,6 +77,9 @@ UserSchema.pre("findOneAndDelete", async function (next) {
 
       // Delete classes associated with teacher
       await MgClass.deleteMany({ teacher: doc._id });
+
+      // Delete test sessions associated with teacher
+      await MgTestSession.deleteMany({ teacher: doc._id });
     }
   } catch (error) {
     return next(error as CallbackError | undefined);

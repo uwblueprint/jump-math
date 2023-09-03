@@ -34,6 +34,7 @@ import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
 import {
   mockClassWithId,
+  testClass,
   testClassAfterCreation,
 } from "../../../testUtils/class";
 import ClassService from "../classService";
@@ -317,13 +318,37 @@ describe("mongo testSessionService", (): void => {
 
   describe("deleteTestSession", () => {
     it("with valid test session id and upcoming start date", async () => {
-      const savedTestSession = await MgTestSession.create(mockTestSession);
+      const savedClass = await MgClass.create(testClass[0]);
+      const savedTestSession = await MgTestSession.create({
+        ...mockTestSession,
+        class: savedClass.id,
+      });
+
+      // Update class with new test session
+      await MgClass.findOneAndUpdate(
+        {
+          _id: savedClass.id,
+        },
+        {
+          ...savedClass,
+          testSessions: [savedTestSession.id],
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
       const deletedTestSessionId = await testSessionService.deleteTestSession(
         savedTestSession.id,
         new Date("2020-09-01T09:00:00.000Z"),
       );
       expect(deletedTestSessionId).toBe(savedTestSession.id);
+
+      const associatedClass = await MgClass.find({
+        testSessions: savedTestSession.id,
+      });
+      expect(associatedClass).toEqual([]);
     });
 
     it("with test session that already started", async () => {

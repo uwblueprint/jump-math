@@ -1,4 +1,6 @@
 import ClassModel from "../../../models/class.model";
+import UserModel from "../../../models/user.model";
+import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
 import db from "../../../testUtils/testDb";
@@ -24,6 +26,7 @@ import type TestService from "../testService";
 import {
   mockGradedTestResult,
   mockTestSessionWithId,
+  mockTestSessions,
 } from "../../../testUtils/testSession";
 
 const testClassWithTestSessions = {
@@ -184,13 +187,53 @@ describe("mongo classService", (): void => {
   });
 
   it("deleteClass", async () => {
-    // execute
-    const savedClass = await ClassModel.create(testClass[0]);
+    // TODO: use cyclic calls to use id directly?
+    const teacher = await UserModel.create({
+      ...mockTeacher,
+      authId: "123",
+    });
+    const savedClass = await ClassModel.create({
+      ...testClass[0],
+      teacher: teacher.id,
+    });
+    const testSessions = await TestSessionModel.insertMany(
+      mockTestSessions.map((mockTestSession) => ({
+        ...mockTestSession,
+        teacher: teacher.id,
+        class: savedClass.id,
+      })),
+    );
 
+    // Update class with new test session
+    await ClassModel.findOneAndUpdate(
+      {
+        _id: savedClass.id,
+      },
+      {
+        ...savedClass,
+        testSessions: [testSessions[0].id, testSessions[1].id],
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    // execute
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
     // assert
     expect(deletedClassId).toBe(savedClass.id);
+
+    const associatedTeacher = await UserModel.find({
+      class: savedClass.id,
+    });
+    expect(associatedTeacher).toEqual([]);
+
+    const associatedTestSession = await TestSessionModel.find({
+      class: savedClass.id,
+    });
+    expect(associatedTestSession).toEqual([]);
   });
 
   it("deleteClass with non-existing id", async () => {
