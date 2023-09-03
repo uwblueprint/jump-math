@@ -1,16 +1,16 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import { Button } from "@chakra-ui/react";
 
-interface EditStatusButtonProps {
+interface PopverButtonProps {
   "aria-label"?: string;
   name: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick: (() => Promise<unknown>) | (() => unknown);
 }
-const EditStatusButton = ({
+const PopverButton = ({
   name,
   "aria-label": ariaLabel,
   onClick,
-}: EditStatusButtonProps): React.ReactElement => {
+}: PopverButtonProps): ReactElement => {
   return (
     <Button
       aria-label={ariaLabel}
@@ -27,4 +27,4 @@ const EditStatusButton = ({
   );
 };
 
-export default EditStatusButton;
+export default PopverButton;
