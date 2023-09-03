@@ -24,7 +24,7 @@ import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 import ArchiveAssessmentModal from "../assessment-status/EditStatusModals/ArchiveAssessmentModal";
-import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
+import DeleteAssessmentModal from "../assessment-status/EditStatusModals/DeleteAssessmentModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
 interface AssessmentEditorHeaderProps {
@@ -168,7 +168,7 @@ const AssessmentEditorHeader = ({
         isOpen={isArchiveModalOpen}
         onClose={onArchiveModalClose}
       />
-      <DeleteModal
+      <DeleteAssessmentModal
         deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}

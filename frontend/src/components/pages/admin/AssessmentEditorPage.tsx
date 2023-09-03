@@ -53,7 +53,9 @@ const AssessmentEditorPage = (): React.ReactElement => {
 
   const [deleteTest, { loading: loadingDelete }] = useMutation<{
     deleteTest: string;
-  }>(DELETE_TEST);
+  }>(DELETE_TEST, {
+    variables: { id: state?.id },
+  });
 
   const {
     handleSubmit,
@@ -137,15 +139,11 @@ const AssessmentEditorPage = (): React.ReactElement => {
   };
 
   const onDeleteTest = async () => {
-    if (state?.id) {
-      await deleteTest({ variables: { id: state.id } })
-        .then(() => {
-          history.push(ASSESSMENTS_PAGE);
-        })
-        .catch(() => {
-          setErrorMessage("Assessment failed to delete. Please try again.");
-        });
+    if (!state?.id) {
+      throw new Error("Assessment ID not found");
     }
+    await deleteTest();
+    history.push(ASSESSMENTS_PAGE);
   };
 
   const onSave: SubmitHandler<TestRequest> = async (data) => {
