@@ -7,6 +7,7 @@ import type {
 } from "../APIClients/types/TestClientTypes";
 import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
+import type { QuestionElement } from "../types/QuestionTypes";
 import {
   QuestionElementType,
   ResponseElementType,
@@ -168,7 +169,7 @@ export const getAnswerElementIndexArray = (
 };
 
 export const getSubquestionIndexArray = (
-  elements: QuestionComponentResponse[],
+  elements: QuestionComponentResponse[] | QuestionElement[],
 ): number[] => {
   let subquestionsSoFar = 0;
   return elements.map((element) => {

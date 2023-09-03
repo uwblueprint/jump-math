@@ -13,6 +13,7 @@ import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 import AssessmentExperience from "../../student/AssessmentExperience";
 import NavButtons from "../../student/NavButtons";
 import QuestionNumbers from "../../student/QuestionNumbers";
+import Question from "../../student/questions/Question";
 
 const WriteAssessmentPage = (): React.ReactElement => {
   useReloadPrompt();
@@ -55,12 +56,13 @@ const WriteAssessmentPage = (): React.ReactElement => {
           <AssessmentExperience
             navButtons={<NavButtons />}
             pointCount={pointCount}
-            questionElements={test?.questions[currentQuestionIndex] ?? []}
             questionNumber={currentQuestionIndex + 1}
             questionNumbers={<QuestionNumbers />}
             subtitle={className}
             title={test?.name ?? ""}
-          />
+          >
+            <Question elements={test?.questions[currentQuestionIndex] ?? []} />
+          </AssessmentExperience>
         </>
       )}
     </WriteAssessmentContext.Provider>

@@ -1,9 +1,6 @@
 import React from "react";
 import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
-import type { QuestionComponentResponse } from "../../APIClients/types/TestClientTypes";
-
-import Question from "./questions/Question";
 import QuestionTitle from "./questions/QuestionTitle";
 import Instructions from "./Instructions";
 import StudentDashboardHeader from "./StudentDashboardHeader";
@@ -13,10 +10,10 @@ interface AssessmentExperienceProps {
   subtitle?: string;
   questionNumber: number;
   pointCount: number;
-  questionElements: QuestionComponentResponse[];
   questionNumbers: React.ReactElement;
   navButtons: React.ReactElement;
   headerButton?: React.ReactElement;
+  children?: React.ReactNode;
 }
 
 const AssessmentExperience = ({
@@ -24,10 +21,10 @@ const AssessmentExperience = ({
   subtitle,
   questionNumber,
   pointCount,
-  questionElements,
   questionNumbers,
   navButtons,
   headerButton,
+  children,
 }: AssessmentExperienceProps): React.ReactElement => {
   return (
     <VStack align="center" flex="1" spacing="8">
@@ -49,7 +46,7 @@ const AssessmentExperience = ({
               pointCount={pointCount}
               questionNumber={questionNumber}
             />
-            <Question elements={questionElements} />
+            {children}
             <Spacer />
             <HStack paddingBottom="12">{navButtons}</HStack>
           </VStack>

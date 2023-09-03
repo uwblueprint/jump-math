@@ -7,7 +7,7 @@ import QuestionNumberTypes from "../../types/QuestionNumberTypes";
 interface QuestionNumberProps {
   number: number;
   status: QuestionNumberTypes;
-  onClick: () => void;
+  onClick?: () => void;
   isDisabled?: boolean;
 }
 

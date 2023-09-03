@@ -9,6 +9,8 @@ import { getQuestionTexts } from "../../../utils/QuestionUtils";
 import AssessmentExperience from "../../student/AssessmentExperience";
 import QuestionNumber from "../../student/QuestionNumber";
 
+import QuestionPreview from "./QuestionPreview";
+
 const PreviewQuestionModal = (): React.ReactElement => {
   const { questionElements, setShowPreviewQuestionModal } = useContext(
     QuestionEditorContext,
@@ -45,7 +47,6 @@ const PreviewQuestionModal = (): React.ReactElement => {
         <QuestionNumber
           isDisabled
           number={1}
-          onClick={() => console.log("here")}
           status={QuestionNumberTypes.CURRENT}
         />
       </GridItem>
@@ -57,11 +58,12 @@ const PreviewQuestionModal = (): React.ReactElement => {
       headerButton={closePreviewModalButton}
       navButtons={nextQuestionButton}
       pointCount={pointCount}
-      questionElements={[]}
       questionNumber={1}
       questionNumbers={questionNumber}
       title="Preview Question"
-    />
+    >
+      <QuestionPreview elements={questionElements} />
+    </AssessmentExperience>
   );
 };
 
