@@ -8,12 +8,14 @@ interface QuestionNumberProps {
   number: number;
   status: QuestionNumberTypes;
   onClick: () => void;
+  isDisabled?: boolean;
 }
 
 const QuestionNumber = ({
   number,
   status,
   onClick,
+  isDisabled,
 }: QuestionNumberProps): React.ReactElement => {
   return (
     <>
@@ -29,6 +31,7 @@ const QuestionNumber = ({
         />
       ) : (
         <Button
+          isDisabled={isDisabled}
           minWidth="3.7rem"
           onClick={onClick}
           variant={

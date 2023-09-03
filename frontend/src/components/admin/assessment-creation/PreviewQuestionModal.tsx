@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { Button, Spacer } from "@chakra-ui/react";
+import { Button, GridItem, SimpleGrid, Spacer } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
 import { ArrowForwardOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
+import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
 import AssessmentExperience from "../../student/AssessmentExperience";
+import QuestionNumber from "../../student/QuestionNumber";
 
 const PreviewQuestionModal = (): React.ReactElement => {
   const { setShowPreviewQuestionModal } = useContext(QuestionEditorContext);
@@ -31,6 +33,19 @@ const PreviewQuestionModal = (): React.ReactElement => {
     </>
   );
 
+  const questionNumber = (
+    <SimpleGrid columns={3} spacing={4}>
+      <GridItem>
+        <QuestionNumber
+          isDisabled
+          number={1}
+          onClick={() => console.log("here")}
+          status={QuestionNumberTypes.CURRENT}
+        />
+      </GridItem>
+    </SimpleGrid>
+  );
+
   return (
     <AssessmentExperience
       headerButton={closePreviewModalButton}
@@ -38,7 +53,7 @@ const PreviewQuestionModal = (): React.ReactElement => {
       pointCount={1}
       questionElements={[]}
       questionNumber={1}
-      questionNumbers={<Button>test</Button>}
+      questionNumbers={questionNumber}
       subtitle="Preview Question"
       title="test name"
     />
