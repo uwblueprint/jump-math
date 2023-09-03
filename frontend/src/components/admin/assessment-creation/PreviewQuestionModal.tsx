@@ -5,11 +5,15 @@ import { EditOutlineIcon } from "../../../assets/icons";
 import { ArrowForwardOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import QuestionNumberTypes from "../../../types/QuestionNumberTypes";
+import { getQuestionTexts } from "../../../utils/QuestionUtils";
 import AssessmentExperience from "../../student/AssessmentExperience";
 import QuestionNumber from "../../student/QuestionNumber";
 
 const PreviewQuestionModal = (): React.ReactElement => {
-  const { setShowPreviewQuestionModal } = useContext(QuestionEditorContext);
+  const { questionElements, setShowPreviewQuestionModal } = useContext(
+    QuestionEditorContext,
+  );
+
   const closePreviewModalButton = (
     <Button
       leftIcon={<EditOutlineIcon />}
@@ -33,6 +37,8 @@ const PreviewQuestionModal = (): React.ReactElement => {
     </>
   );
 
+  const pointCount = getQuestionTexts(questionElements).length;
+
   const questionNumber = (
     <SimpleGrid columns={3} spacing={4}>
       <GridItem>
@@ -50,12 +56,11 @@ const PreviewQuestionModal = (): React.ReactElement => {
     <AssessmentExperience
       headerButton={closePreviewModalButton}
       navButtons={nextQuestionButton}
-      pointCount={1}
+      pointCount={pointCount}
       questionElements={[]}
       questionNumber={1}
       questionNumbers={questionNumber}
-      subtitle="Preview Question"
-      title="test name"
+      title="Preview Question"
     />
   );
 };

@@ -10,7 +10,7 @@ import StudentDashboardHeader from "./StudentDashboardHeader";
 
 interface AssessmentExperienceProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   questionNumber: number;
   pointCount: number;
   questionElements: QuestionComponentResponse[];
@@ -31,7 +31,10 @@ const AssessmentExperience = ({
 }: AssessmentExperienceProps): React.ReactElement => {
   return (
     <VStack align="center" flex="1" spacing="8">
-      <StudentDashboardHeader assessmentName={title} classroomName={subtitle}>
+      <StudentDashboardHeader
+        assessmentName={title}
+        classroomName={subtitle || ""}
+      >
         {headerButton}
       </StudentDashboardHeader>
       <Box width="90%">
