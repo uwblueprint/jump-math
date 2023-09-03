@@ -25,7 +25,7 @@ import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 import ArchiveAssessmentModal from "../assessment-status/EditStatusModals/ArchiveAssessmentModal";
 import DeleteAssessmentModal from "../assessment-status/EditStatusModals/DeleteAssessmentModal";
-import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
+import PublishAssessmentModal from "../assessment-status/EditStatusModals/PublishAssessmentModal";
 
 interface AssessmentEditorHeaderProps {
   name: string;
@@ -158,7 +158,7 @@ const AssessmentEditorHeader = ({
           </HStack>
         </Flex>
       </Box>
-      <PublishModal
+      <PublishAssessmentModal
         isOpen={isPublishModalOpen}
         onClose={onPublishModalClose}
         publishAssessment={handleConfirmPublish}
