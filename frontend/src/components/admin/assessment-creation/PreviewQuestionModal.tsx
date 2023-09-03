@@ -1,26 +1,47 @@
 import React, { useContext } from "react";
-import { Button, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Button, Spacer } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
+import { ArrowForwardOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
-import HeaderWrapper from "../../common/HeaderWrapper";
+import AssessmentExperience from "../../student/AssessmentExperience";
 
 const PreviewQuestionModal = (): React.ReactElement => {
   const { setShowPreviewQuestionModal } = useContext(QuestionEditorContext);
-  return (
-    <HeaderWrapper>
-      <VStack align="left" marginLeft="2rem">
-        <Text textStyle="subtitle1">Preview Question</Text>
-      </VStack>
+  const closePreviewModalButton = (
+    <Button
+      leftIcon={<EditOutlineIcon />}
+      onClick={() => setShowPreviewQuestionModal(false)}
+      variant="tertiary"
+    >
+      Back to Editing
+    </Button>
+  );
+
+  const nextQuestionButton = (
+    <>
       <Spacer />
       <Button
-        leftIcon={<EditOutlineIcon />}
-        onClick={() => setShowPreviewQuestionModal(false)}
-        variant="tertiary"
+        isDisabled
+        rightIcon={<ArrowForwardOutlineIcon />}
+        variant="primary"
       >
-        Back to Editing
+        Next Question
       </Button>
-    </HeaderWrapper>
+    </>
+  );
+
+  return (
+    <AssessmentExperience
+      headerButton={closePreviewModalButton}
+      navButtons={nextQuestionButton}
+      pointCount={1}
+      questionElements={[]}
+      questionNumber={1}
+      questionNumbers={<Button>test</Button>}
+      subtitle="Preview Question"
+      title="test name"
+    />
   );
 };
 

@@ -16,6 +16,7 @@ interface AssessmentExperienceProps {
   questionElements: QuestionComponentResponse[];
   questionNumbers: React.ReactElement;
   navButtons: React.ReactElement;
+  headerButton?: React.ReactElement;
 }
 
 const AssessmentExperience = ({
@@ -26,10 +27,13 @@ const AssessmentExperience = ({
   questionElements,
   questionNumbers,
   navButtons,
+  headerButton,
 }: AssessmentExperienceProps): React.ReactElement => {
   return (
     <VStack align="center" flex="1" spacing="8">
-      <StudentDashboardHeader assessmentName={title} classroomName={subtitle} />
+      <StudentDashboardHeader assessmentName={title} classroomName={subtitle}>
+        {headerButton}
+      </StudentDashboardHeader>
       <Box width="90%">
         <HStack align="top" spacing="10%">
           <VStack align="left" minWidth="233" spacing="6">
@@ -44,7 +48,7 @@ const AssessmentExperience = ({
             />
             <Question elements={questionElements} />
             <Spacer />
-            {navButtons}
+            <HStack paddingBottom="12">{navButtons}</HStack>
           </VStack>
         </HStack>
       </Box>

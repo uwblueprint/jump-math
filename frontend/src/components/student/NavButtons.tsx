@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, HStack, Spacer } from "@chakra-ui/react";
+import { Button, Spacer } from "@chakra-ui/react";
 
 import {
   ArrowBackOutlineIcon,
@@ -25,7 +25,7 @@ const NavButtons = (): React.ReactElement => {
   const nextQuestion = currentQuestionIndex + 1;
 
   return (
-    <HStack paddingBottom="12">
+    <>
       {!isFirstQuestion && (
         <Button
           leftIcon={<ArrowBackOutlineIcon />}
@@ -47,7 +47,7 @@ const NavButtons = (): React.ReactElement => {
           Next Question
         </Button>
       )}
-    </HStack>
+    </>
   );
 };
 
