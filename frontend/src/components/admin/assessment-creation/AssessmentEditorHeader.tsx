@@ -20,6 +20,7 @@ import {
   TextOutlineIcon,
 } from "../../../assets/icons";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
+import ActionButton from "../../common/form/ActionButton";
 import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
@@ -36,7 +37,7 @@ interface AssessmentEditorHeaderProps {
   onDelete: SubmitHandler<TestRequest>;
   onSave: SubmitHandler<TestRequest>;
   onError: () => void;
-  validateForm: () => boolean;
+  validateForm: () => void;
   updatedAt?: string;
 }
 
@@ -70,17 +71,13 @@ const AssessmentEditorHeader = ({
   } = useDisclosure();
 
   const onPublish = () => {
-    if (validateForm()) onPublishModalOpen();
-  };
-
-  const onArchive = () => {
-    if (validateForm()) onArchiveModalOpen();
+    validateForm();
+    onPublishModalOpen();
   };
 
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
-  const handleArchive = handleSubmit(onArchive, onError);
   const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
   const handleDelete = handleSubmit(onDelete, onError);
   const handleCloseEditor = () => history.goBack();
@@ -115,22 +112,25 @@ const AssessmentEditorHeader = ({
             <Button leftIcon={<EyeOutlineIcon />} size="sm" variant="tertiary">
               Preview
             </Button>
-            <Button
+            <ActionButton
               leftIcon={<SaveOutlineIcon />}
+              messageOnError="Failed to save the assessment. Please try again later."
+              messageOnSuccess="Assessment saved."
               minWidth="10"
               onClick={handleSave}
               variant="secondary"
             >
               Save
-            </Button>
-            <Button
+            </ActionButton>
+            <ActionButton
               leftIcon={<TextOutlineIcon />}
               minWidth="10"
               onClick={handlePublish}
+              showDefaultToasts={false}
               variant="primary"
             >
               Publish
-            </Button>
+            </ActionButton>
             <Popover
               isOpen={popoverIsOpen}
               onClose={onClosePopover}
@@ -142,7 +142,7 @@ const AssessmentEditorHeader = ({
                     name="Archive"
                     onClick={() => {
                       onClosePopover();
-                      handleArchive();
+                      onArchiveModalOpen();
                     }}
                   />
                 )}

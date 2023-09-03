@@ -1,29 +1,25 @@
 import React, { type ReactElement } from "react";
-import { Button } from "@chakra-ui/react";
 
-interface PopverButtonProps {
-  "aria-label"?: string;
+import type { ActionButtonProps } from "../form/ActionButton";
+import ActionButton from "../form/ActionButton";
+
+type PopverButtonProps = ActionButtonProps & {
   name: string;
-  onClick: (() => Promise<unknown>) | (() => unknown);
-}
-const PopverButton = ({
-  name,
-  "aria-label": ariaLabel,
-  onClick,
-}: PopverButtonProps): ReactElement => {
+};
+const PopverButton = ({ name, ...props }: PopverButtonProps): ReactElement => {
   return (
-    <Button
-      aria-label={ariaLabel}
+    <ActionButton
       color="black"
       fontSize="18px"
       fontWeight="0"
       minWidth="200%"
-      onClick={onClick}
+      showDefaultToasts={false}
       size="md"
       textAlign="left"
+      {...props}
     >
       {name}
-    </Button>
+    </ActionButton>
   );
 };
 
