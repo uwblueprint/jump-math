@@ -23,7 +23,7 @@ import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
-import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
+import ArchiveAssessmentModal from "../assessment-status/EditStatusModals/ArchiveAssessmentModal";
 import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
 import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
 
@@ -163,7 +163,7 @@ const AssessmentEditorHeader = ({
         onClose={onPublishModalClose}
         publishAssessment={handleConfirmPublish}
       />
-      <ArchiveModal
+      <ArchiveAssessmentModal
         archiveAssessment={handleConfirmArchive}
         isOpen={isArchiveModalOpen}
         onClose={onArchiveModalClose}

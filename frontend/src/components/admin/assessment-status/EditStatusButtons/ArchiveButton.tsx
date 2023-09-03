@@ -4,9 +4,9 @@ import { useDisclosure } from "@chakra-ui/react";
 
 import { ARCHIVE_TEST } from "../../../../APIClients/mutations/TestMutations";
 import { GET_ALL_TESTS } from "../../../../APIClients/queries/TestQueries";
-import useToast from "../../../common/info/useToast";
+import { getQueryName } from "../../../../utils/GeneralUtils";
 import PopoverButton from "../../../common/popover/PopoverButton";
-import ArchiveModal from "../EditStatusModals/ArchiveModal";
+import ArchiveAssessmentModal from "../EditStatusModals/ArchiveAssessmentModal";
 
 interface ArchiveModalProps {
   assessmentId: string;
@@ -16,33 +16,18 @@ const ArchiveButton = ({
   assessmentId,
 }: ArchiveModalProps): React.ReactElement => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [archiveAssessment, { error }] = useMutation<{
+  const [archiveAssessment] = useMutation<{
     archiveAssessment: string;
   }>(ARCHIVE_TEST, {
-    refetchQueries: [{ query: GET_ALL_TESTS }],
+    variables: { id: assessmentId },
+    refetchQueries: [getQueryName(GET_ALL_TESTS)],
   });
 
-  const { showToast } = useToast();
-
-  const handleArchiveAssessment = async () => {
-    await archiveAssessment({ variables: { id: assessmentId } });
-    if (error) {
-      showToast({
-        message: "Assessment failed to archive. Please try again.",
-        status: "error",
-      });
-    } else {
-      showToast({
-        message: "Assessment archived.",
-        status: "success",
-      });
-    }
-  };
   return (
     <>
       <PopoverButton name="Archive" onClick={onOpen} />
-      <ArchiveModal
-        archiveAssessment={handleArchiveAssessment}
+      <ArchiveAssessmentModal
+        archiveAssessment={archiveAssessment}
         isOpen={isOpen}
         onClose={onClose}
       />
