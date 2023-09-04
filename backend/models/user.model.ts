@@ -1,7 +1,6 @@
 import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
 import MgSchool from "./school.model";
-// eslint-disable-next-line import/no-cycle
 import MgClass from "./class.model";
 import MgTestSession from "./testSession.model";
 import type { Role } from "../types";
@@ -16,7 +15,6 @@ export interface User extends Document {
   email: string;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
-  class?: string[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -55,10 +53,6 @@ const UserSchema: Schema = new Schema({
   currentlyTeachingJM: {
     type: Boolean,
     required: false,
-  },
-  class: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
-    required: true,
   },
 });
 

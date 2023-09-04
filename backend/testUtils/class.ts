@@ -96,5 +96,4 @@ export const mockClassWithId2 = {
 export const testClassAfterCreation = {
   ...testClass[0],
   students: [],
-  testSessions: [],
 };

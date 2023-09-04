@@ -26,7 +26,6 @@ export interface ClassResponseDTO {
   startDate: Date;
   gradeLevel: Grade;
   teacher: string;
-  testSessions: string[];
   students: StudentResponseDTO[];
   isActive: boolean;
 }

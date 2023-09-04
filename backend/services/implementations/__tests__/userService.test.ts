@@ -1,14 +1,11 @@
 import type { User } from "../../../models/user.model";
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
-import type { School } from "../../../models/school.model";
-import SchoolModel from "../../../models/school.model";
-import type { TestSession } from "../../../models/testSession.model";
 import TestSessionModel from "../../../models/testSession.model";
-import type { UserDTO, TeacherDTO } from "../../../types";
+import type { TeacherDTO, UserDTO } from "../../../types";
 import { Grade } from "../../../types";
-import type { Class } from "../../../models/class.model";
 import ClassModel from "../../../models/class.model";
+import SchoolModel from "../../../models/school.model";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
@@ -113,53 +110,21 @@ describe("mongo userService", (): void => {
   describe("deleteUserByEmail", () => {
     it("on success", async () => {
       const teacher: User = await UserModel.create(testUsers[1]);
-      const school: School = await SchoolModel.create({
+      await SchoolModel.create({
         ...testSchools[0],
         teachers: testSchools[0].teachers.concat(teacher.id),
       });
-      const classes: Class[] = await ClassModel.insertMany(
+      await ClassModel.insertMany(
         testClass.map((classObj) => ({
           ...classObj,
           teacher: teacher.id,
         })),
       );
-      const testSessions: TestSession[] = await TestSessionModel.insertMany(
+      await TestSessionModel.insertMany(
         mockTestSessions.map((mockTestSession) => ({
           ...mockTestSession,
           teacher: teacher.id,
-          school: school.id,
-          class: classes[1].id,
         })),
-      );
-
-      // Update teacher with new class
-      await UserModel.findOneAndUpdate(
-        {
-          _id: teacher.id,
-        },
-        {
-          ...teacher,
-          class: [classes[0].id, classes[1].id],
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
-
-      // Update class with new test session
-      await ClassModel.findOneAndUpdate(
-        {
-          _id: classes[1].id,
-        },
-        {
-          ...classes[1],
-          testSessions: [testSessions[0].id, testSessions[1].id],
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
       );
 
       await userService.deleteUserByEmail(teacher.email);

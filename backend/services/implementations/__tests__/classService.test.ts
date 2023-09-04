@@ -1,5 +1,4 @@
 import ClassModel from "../../../models/class.model";
-import UserModel from "../../../models/user.model";
 import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
@@ -30,11 +29,6 @@ import {
   mockTestSessionWithId,
   mockTestSessions,
 } from "../../../testUtils/testSession";
-
-const testClassWithTestSessions = {
-  ...testClass[0],
-  testSessions: [mockTestSessionWithId.id],
-};
 
 describe("mongo classService", (): void => {
   let classService: ClassService;
@@ -106,7 +100,7 @@ describe("mongo classService", (): void => {
 
   it("getClassById for valid Id", async () => {
     // execute and assert
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
   });
@@ -121,10 +115,15 @@ describe("mongo classService", (): void => {
   });
 
   describe("getTestableStudentsByTestSessionId", () => {
-    it("getTestableStudentsByTestSessionId for valid testSessionId", async () => {
-      const savedClass = await ClassModel.create(testClassWithTestSessions);
+    it("for valid testSessionId", async () => {
+      const savedClass = await ClassModel.create(testClass[0]);
+      testSessionService.getTestSessionById = jest.fn().mockReturnValue({
+        ...mockTestSessionWithId,
+        class: savedClass.id,
+      });
+
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       assertTestableStudentsResponseMatchesExpected(savedClass, res);
     });
@@ -138,25 +137,11 @@ describe("mongo classService", (): void => {
       );
     });
 
-    it("for classes with same testSessionId", async () => {
-      await ClassModel.create(testClassWithTestSessions);
-      await ClassModel.create(testClassWithTestSessions);
-      const testSessionId = testClassWithTestSessions.testSessions[0];
-      await expect(async () => {
-        await classService.getTestableStudentsByTestSessionId(testSessionId);
-      }).rejects.toThrowError(
-        `More than one class has the same Test Session of id ${testSessionId}`,
-      );
-    });
-
     it("for test session with existing results", async () => {
-      const savedClass = await ClassModel.create({
-        ...testClassWithStudents,
-        testSessions: [mockTestSessionWithId.id],
-      });
-
+      const savedClass = await ClassModel.create(testClassWithStudents);
       testSessionService.getTestSessionById = jest.fn().mockReturnValue({
         ...mockTestSessionWithId,
+        class: savedClass.id,
         results: [
           {
             ...mockGradedTestResult,
@@ -166,7 +151,7 @@ describe("mongo classService", (): void => {
       });
 
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       expect(savedClass.id).not.toBeNull();
       expect(savedClass.className).toEqual(res.className);
@@ -176,49 +161,25 @@ describe("mongo classService", (): void => {
     });
   });
 
-  it("getClassesByTeacherId for valid testSessionId", async () => {
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+  it("getClassesByTeacherId for valid teacher id", async () => {
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassesByTeacherId(savedClass.teacher);
     assertArrayResponseMatchesExpected([savedClass], res);
   });
 
-  it("getClassesByTeacherId for non-existing testSessionId", async () => {
+  it("getClassesByTeacherId for non-existing teacher id", async () => {
     const notFoundId = "86cb91bdc3464f14678934cd";
     const res = await classService.getClassesByTeacherId(notFoundId);
     expect(res).toEqual([]);
   });
 
   it("deleteClass", async () => {
-    // TODO: use cyclic calls to use id directly?
-    const teacher = await UserModel.create({
-      ...mockTeacher,
-      authId: "123",
-    });
-    const savedClass = await ClassModel.create({
-      ...testClass[0],
-      teacher: teacher.id,
-    });
-    const testSessions = await TestSessionModel.insertMany(
+    const savedClass = await ClassModel.create(testClass[0]);
+    await TestSessionModel.insertMany(
       mockTestSessions.map((testSession) => ({
         ...testSession,
-        teacher: teacher.id,
         class: savedClass.id,
       })),
-    );
-
-    // Update class with new test session
-    await ClassModel.findOneAndUpdate(
-      {
-        _id: savedClass.id,
-      },
-      {
-        ...savedClass,
-        testSessions: [testSessions[0].id, testSessions[1].id],
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
     );
 
     // execute
@@ -226,11 +187,6 @@ describe("mongo classService", (): void => {
 
     // assert
     expect(deletedClassId).toBe(savedClass.id);
-
-    const associatedTeacher = await UserModel.find({
-      class: savedClass.id,
-    });
-    expect(associatedTeacher).toEqual([]);
 
     const associatedTestSession = await TestSessionModel.find({
       class: savedClass.id,
@@ -261,31 +217,19 @@ describe("mongo classService", (): void => {
           class: classObj.id,
         },
       ]);
-    await ClassModel.findByIdAndUpdate(
-      classObj.id,
-      {
-        $push: {
-          testSessions: [activeTestSession.id, upcomingTestSession.id],
-        },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
 
     // execute
     const nowDate = new Date();
     const res = await classService.archiveClass(classObj.id, nowDate);
 
     // assert
-    assertResponseMatchesExpected(testClass[0], res, false, [
-      activeTestSession.id,
-    ]);
+    assertResponseMatchesExpected(testClass[0], res, false);
+
     const updatedActiveTestSession = await TestSessionModel.findById(
       activeTestSession.id,
     );
     expect(updatedActiveTestSession?.endDate).toEqual(nowDate);
+
     const updatedUpcomingTestSession = await TestSessionModel.findById(
       upcomingTestSession.id,
     );

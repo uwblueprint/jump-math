@@ -1,9 +1,6 @@
 import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema, model } from "mongoose";
-// eslint-disable-next-line import/no-cycle
-import MgUser from "./user.model";
 import MgTestSession from "./testSession.model";
-// eslint-disable-next-line import/no-cycle
 import { Grade } from "../types";
 
 /**
@@ -20,8 +17,6 @@ export interface Class extends Document {
   gradeLevel: Grade;
   /** the id of the teacher that teaches the class  */
   teacher: string;
-  /** the ids of the test sessions assigned to the class */
-  testSessions: string[];
   /** the students of the class */
   students: Student[];
   /** whether the class is active or archived */
@@ -74,10 +69,6 @@ const ClassSchema: Schema = new Schema(
       ref: "User",
       required: true,
     },
-    testSessions: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
-      required: true,
-    },
     students: {
       type: [StudentSchema],
       required: false,
@@ -92,19 +83,12 @@ const ClassSchema: Schema = new Schema(
 );
 
 /* eslint-disable func-names */
-/* eslint-disable no-underscore-dangle */
 ClassSchema.pre("findOneAndDelete", async function (next) {
   try {
     const doc = await this.findOne(this.getQuery()).clone();
     if (doc) {
-      // Delete class reference from associated teacher
-      await MgUser.findOneAndUpdate(
-        { class: doc._id },
-        { $pull: { class: doc._id } },
-        { new: true },
-      );
-
       // Delete all test sessions associated with class
+      /* eslint-disable no-underscore-dangle */
       await MgTestSession.deleteMany({ class: doc._id });
     }
   } catch (error) {

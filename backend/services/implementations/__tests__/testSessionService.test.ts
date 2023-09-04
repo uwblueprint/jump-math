@@ -34,17 +34,14 @@ import SchoolService from "../schoolService";
 import { mockTeacher, testUsers } from "../../../testUtils/users";
 import {
   mockClassWithId,
-  testClass,
   testClassAfterCreation,
 } from "../../../testUtils/class";
-import ClassService from "../classService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
   let testService: TestService;
   let userService: UserService;
   let schoolService: SchoolService;
-  let classService: ClassService;
 
   beforeAll(async () => {
     await db.connect();
@@ -59,14 +56,12 @@ describe("mongo testSessionService", (): void => {
     schoolService = new SchoolService(userService);
     testService = new TestService();
     testSessionService = new TestSessionService(testService);
-    classService = new ClassService(userService, testSessionService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
     testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
-    classService.getClassById = jest.fn().mockReturnValue(mockClassWithId);
   });
 
   afterEach(async () => {
@@ -82,9 +77,6 @@ describe("mongo testSessionService", (): void => {
 
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toEqual([]);
-
-    const updatedClass = await MgClass.findById(classObj.id);
-    expect(updatedClass?.testSessions.map(String)).toEqual([res.id]);
   });
 
   it("createTestSession for archived class id", async () => {
@@ -318,37 +310,13 @@ describe("mongo testSessionService", (): void => {
 
   describe("deleteTestSession", () => {
     it("with valid test session id and upcoming start date", async () => {
-      const savedClass = await MgClass.create(testClass[0]);
-      const savedTestSession = await MgTestSession.create({
-        ...mockTestSession,
-        class: savedClass.id,
-      });
-
-      // Update class with new test session
-      await MgClass.findOneAndUpdate(
-        {
-          _id: savedClass.id,
-        },
-        {
-          ...savedClass,
-          testSessions: [savedTestSession.id],
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
+      const savedTestSession = await MgTestSession.create(mockTestSession);
 
       const deletedTestSessionId = await testSessionService.deleteTestSession(
         savedTestSession.id,
         new Date("2020-09-01T09:00:00.000Z"),
       );
       expect(deletedTestSessionId).toBe(savedTestSession.id);
-
-      const associatedClass = await MgClass.find({
-        testSessions: savedTestSession.id,
-      });
-      expect(associatedClass).toEqual([]);
     });
 
     it("with test session that already started", async () => {
