@@ -88,8 +88,7 @@ ClassSchema.pre("findOneAndDelete", async function (next) {
     const doc = await this.findOne(this.getQuery()).clone();
     if (doc) {
       // Delete all test sessions associated with class
-      /* eslint-disable no-underscore-dangle */
-      await MgTestSession.deleteMany({ class: doc._id });
+      await MgTestSession.deleteMany({ class: doc.id });
     }
   } catch (error) {
     return next(error as CallbackError | undefined);
