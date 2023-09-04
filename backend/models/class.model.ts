@@ -1,7 +1,6 @@
 import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema, model } from "mongoose";
 import MgTestSession from "./testSession.model";
-// eslint-disable-next-line import/no-cycle
 import { Grade } from "../types";
 
 /**

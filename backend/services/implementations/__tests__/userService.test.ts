@@ -2,8 +2,10 @@ import type { User } from "../../../models/user.model";
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
 import TestSessionModel from "../../../models/testSession.model";
+import type { TeacherDTO, UserDTO } from "../../../types";
 import { Grade } from "../../../types";
 import ClassModel from "../../../models/class.model";
+import SchoolModel from "../../../models/school.model";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
