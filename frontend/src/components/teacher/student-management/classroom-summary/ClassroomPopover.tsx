@@ -114,14 +114,16 @@ const ClassroomPopover = ({
       />
       <Modal
         body={
-          'Are you sure you want to archive this classroom? You can find your archived classrooms in the "Archived" tab.'
-        }
-        customBodyText={
-          <Text color="red.200" pt={2} textStyle="paragraph">
-            Note that all <strong>upcoming</strong> assessments will be{" "}
-            <u>deleted</u> and <strong>active</strong> assessments will{" "}
-            <u>end</u>.
-          </Text>
+          <>
+            <Text color="grey.300" pt={2} textStyle="paragraph">
+              Are you sure you want to archive this classroom? You can find your
+              archived classrooms in the &quot;Archived&quot; tab.
+            </Text>
+            <Text color="red.200" pt={2} textStyle="paragraph">
+              Note that all upcoming assessments will be deleted and active
+              assessments will end.
+            </Text>
+          </>
         }
         header="Archive Classroom"
         isOpen={isArchiveModalOpen}

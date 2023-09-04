@@ -201,6 +201,7 @@ class ClassService implements IClassService {
       }
 
       // Make a best effort to delete upcoming test sessions and end active test sessions
+      // Any exceptions will be logged but not thrown
       await this.deleteUpcomingTestSessions(id, date);
       await this.endActiveTestSessions(id, date);
     } catch (error: unknown) {

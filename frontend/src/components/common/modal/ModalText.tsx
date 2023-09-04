@@ -3,16 +3,14 @@ import { ModalBody, ModalHeader, Text } from "@chakra-ui/react";
 
 interface ModalTextProps {
   header?: React.ReactNode;
-  body?: string;
+  body?: React.ReactNode;
   textColor?: string;
-  customBodyText?: React.ReactNode;
 }
 
 const ModalText = ({
   header,
   body,
   textColor,
-  customBodyText,
 }: ModalTextProps): React.ReactElement => {
   return (
     <>
@@ -25,10 +23,13 @@ const ModalText = ({
       )}
       {body && (
         <ModalBody>
-          <Text color="grey.300" textStyle="paragraph">
-            {body}
-          </Text>
-          {customBodyText && customBodyText}
+          {typeof body === "string" ? (
+            <Text color="grey.300" textStyle="paragraph">
+              {body}
+            </Text>
+          ) : (
+            body
+          )}
         </ModalBody>
       )}
     </>
