@@ -5,12 +5,14 @@ interface ModalTextProps {
   header?: React.ReactNode;
   body?: string;
   textColor?: string;
+  customBodyText?: React.ReactNode;
 }
 
 const ModalText = ({
   header,
   body,
   textColor,
+  customBodyText,
 }: ModalTextProps): React.ReactElement => {
   return (
     <>
@@ -26,6 +28,7 @@ const ModalText = ({
           <Text color="grey.300" textStyle="paragraph">
             {body}
           </Text>
+          {customBodyText && customBodyText}
         </ModalBody>
       )}
     </>

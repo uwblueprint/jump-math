@@ -24,6 +24,7 @@ interface ModalProps {
   cancelButtonVariant?: string;
   onBack?: () => void;
   onSubmit: (() => Promise<void>) | (() => void);
+  customBodyText?: React.ReactNode;
 }
 
 const Modal = ({
@@ -38,6 +39,7 @@ const Modal = ({
   submitButtonVariant,
   cancelButtonVariant,
   onSubmit,
+  customBodyText,
 }: ModalProps): React.ReactElement => {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async () => {
@@ -56,7 +58,11 @@ const Modal = ({
     <ChakraModal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent borderRadius="12px" minW="42vw">
-        <ModalText body={body} header={header} />
+        <ModalText
+          body={body}
+          customBodyText={customBodyText}
+          header={header}
+        />
         <ModalCloseButton />
         {children && <ModalBody>{children}</ModalBody>}
         <Divider mt="1.5em" />
