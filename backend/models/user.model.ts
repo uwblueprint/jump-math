@@ -57,23 +57,21 @@ const UserSchema: Schema = new Schema({
 });
 
 /* eslint-disable func-names */
-/* eslint-disable no-underscore-dangle */
 UserSchema.pre("findOneAndDelete", async function (next) {
   try {
     const doc = await this.findOne(this.getQuery()).clone();
     if (doc && doc.role === "Teacher") {
       // Delete teacher reference from associated school
       await MgSchool.findOneAndUpdate(
-        { teachers: doc._id },
-        { $pull: { teachers: doc._id } },
-        { new: true },
+        { teachers: doc.id },
+        { $pull: { teachers: doc.id } },
       );
 
       // Delete classes associated with teacher
-      await MgClass.deleteMany({ teacher: doc._id });
+      await MgClass.deleteMany({ teacher: doc.id });
 
       // Delete test sessions associated with teacher
-      await MgTestSession.deleteMany({ teacher: doc._id });
+      await MgTestSession.deleteMany({ teacher: doc.id });
     }
   } catch (error) {
     return next(error as CallbackError | undefined);
