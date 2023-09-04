@@ -75,12 +75,21 @@ class TestSessionService implements ITestSessionService {
         throw new Error(`Test session start and end dates are not valid`);
       }
 
+      const classObj: Class | null = await MgClass.findOne({
+        _id: testSession.class,
+        isActive: { $in: [true, undefined] },
+      });
+      if (!classObj) {
+        throw new Error(
+          `Test session could not be added to class with id ${testSession.class}`,
+        );
+      }
+
       const newTestSession = await MgTestSession.create({
         ...testSession,
         accessCode: generateAccessCode(),
         results: [],
       });
-      await this.addTestSessionToClass(testSession.class, newTestSession.id);
 
       return mapDocumentToDTO(newTestSession);
     } catch (error: unknown) {
@@ -496,39 +505,6 @@ class TestSessionService implements ITestSessionService {
       default: {
         return null;
       }
-    }
-  }
-
-  private async addTestSessionToClass(
-    id: string,
-    testSessionId: string,
-  ): Promise<void> {
-    try {
-      const classObj: Class | null = await MgClass.findOneAndUpdate(
-        { _id: id, isActive: { $in: [true, undefined] } },
-        {
-          $push: {
-            testSessions: testSessionId,
-          },
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
-
-      if (!classObj) {
-        throw new Error(
-          `Test session could not be added to class with id ${id}`,
-        );
-      }
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to add test session to class. Reason = ${getErrorMessage(
-          error,
-        )}`,
-      );
-      throw error;
     }
   }
 

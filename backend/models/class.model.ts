@@ -20,8 +20,6 @@ export interface Class extends Document {
   gradeLevel: Grade;
   /** the id of the teacher that teaches the class  */
   teacher: string;
-  /** the ids of the test sessions assigned to the class */
-  testSessions: string[];
   /** the students of the class */
   students: Student[];
   /** whether the class is active or archived */
@@ -72,10 +70,6 @@ const ClassSchema: Schema = new Schema(
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
-    testSessions: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
       required: true,
     },
     students: {

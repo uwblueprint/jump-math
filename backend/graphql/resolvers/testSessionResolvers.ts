@@ -45,7 +45,7 @@ const testSessionResolvers = {
   Mutation: {
     createTestSession: (
       _req: undefined,
-      { testSession }: { classId: string; testSession: TestSessionRequestDTO },
+      { testSession }: { testSession: TestSessionRequestDTO },
     ) => testSessionService.createTestSession(testSession),
     createTestSessionResult: (
       _req: undefined,
