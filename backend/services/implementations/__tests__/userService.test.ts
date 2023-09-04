@@ -1,12 +1,11 @@
 import type { User } from "../../../models/user.model";
 import UserModel from "../../../models/user.model";
 import UserService from "../userService";
-import type { School } from "../../../models/school.model";
-import SchoolModel from "../../../models/school.model";
 import TestSessionModel from "../../../models/testSession.model";
-import type { UserDTO, TeacherDTO } from "../../../types";
+import type { TeacherDTO, UserDTO } from "../../../types";
 import { Grade } from "../../../types";
 import ClassModel from "../../../models/class.model";
+import SchoolModel from "../../../models/school.model";
 
 import db from "../../../testUtils/testDb";
 import { testSchools } from "../../../testUtils/school";
@@ -108,71 +107,47 @@ describe("mongo userService", (): void => {
     });
   });
 
-  describe("delete teacher", () => {
-    let teacher: User;
-    let schools: School[];
-
-    beforeEach(async () => {
-      teacher = await UserModel.create(testUsers[1]);
-      const updatedTestSchools = [
-        testSchools[0],
-        {
-          ...testSchools[1],
-          teachers: testSchools[1].teachers.concat(teacher.id),
-        },
-      ];
-      schools = await SchoolModel.insertMany(updatedTestSchools);
-
-      const updatedTestSessions = [
-        {
-          ...mockTestSessions[0],
-          teacher: teacher.id,
-        },
-        {
-          ...mockTestSessions[1],
-          teacher: teacher.id,
-        },
-      ];
-      await TestSessionModel.insertMany(updatedTestSessions);
-
-      const updatedClasses = [
-        {
-          ...testClass[0],
-          teacher: teacher.id,
-        },
-        {
-          ...testClass[1],
-          teacher: teacher.id,
-        },
-      ];
-      await ClassModel.insertMany(updatedClasses);
-    });
-
-    describe("on success", () => {
-      afterEach(async () => {
-        const associatedSchool = await SchoolModel.findById(schools[1].id);
-        const associatedTestSession = await TestSessionModel.find({
-          teacher: teacher.id,
-        });
-        const associatedClasses = await ClassModel.find({
-          teacher: teacher.id,
-        });
-        /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-        expect(associatedSchool!.teachers.map(String)).toEqual(
-          testSchools[1].teachers,
-        );
-        expect(associatedTestSession).toEqual([]);
-        expect(associatedClasses).toEqual([]);
+  describe("deleteUserByEmail", () => {
+    it("on success", async () => {
+      const teacher: User = await UserModel.create(testUsers[1]);
+      await SchoolModel.create({
+        ...testSchools[0],
+        teachers: testSchools[0].teachers.concat(teacher.id),
       });
+      await ClassModel.insertMany(
+        testClass.map((classObj) => ({
+          ...classObj,
+          teacher: teacher.id,
+        })),
+      );
+      await TestSessionModel.insertMany(
+        mockTestSessions.map((mockTestSession) => ({
+          ...mockTestSession,
+          teacher: teacher.id,
+        })),
+      );
 
-      it("deleteUserByEmail", async () => {
-        await userService.deleteUserByEmail(teacher.email);
+      await userService.deleteUserByEmail(teacher.email);
+
+      const associatedSchool = await SchoolModel.find({
+        teachers: teacher.id,
       });
+      expect(associatedSchool).toEqual([]);
+
+      const associatedClasses = await ClassModel.find({
+        teacher: teacher.id,
+      });
+      expect(associatedClasses).toEqual([]);
+
+      const associatedTestSession = await TestSessionModel.find({
+        teacher: teacher.id,
+      });
+      expect(associatedTestSession).toEqual([]);
     });
 
     it("on failure", async () => {
       await expect(async () => {
-        await userService.deleteUserByEmail(teacher.email);
+        await userService.deleteUserByEmail(testUsers[0].email);
       }).rejects.toThrowError();
     });
   });

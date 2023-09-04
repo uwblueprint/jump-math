@@ -1,4 +1,5 @@
 import ClassModel from "../../../models/class.model";
+import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
 import db from "../../../testUtils/testDb";
@@ -24,6 +25,7 @@ import type TestService from "../testService";
 import {
   mockGradedTestResult,
   mockTestSessionWithId,
+  mockTestSessions,
 } from "../../../testUtils/testSession";
 
 describe("mongo classService", (): void => {
@@ -170,13 +172,24 @@ describe("mongo classService", (): void => {
   });
 
   it("deleteClass", async () => {
-    // execute
     const savedClass = await ClassModel.create(testClass[0]);
+    await TestSessionModel.insertMany(
+      mockTestSessions.map((mockTestSession) => ({
+        ...mockTestSession,
+        class: savedClass.id,
+      })),
+    );
 
+    // execute
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
     // assert
     expect(deletedClassId).toBe(savedClass.id);
+
+    const associatedTestSession = await TestSessionModel.find({
+      class: savedClass.id,
+    });
+    expect(associatedTestSession).toEqual([]);
   });
 
   it("deleteClass with non-existing id", async () => {

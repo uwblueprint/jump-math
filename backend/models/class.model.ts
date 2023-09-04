@@ -1,5 +1,6 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema, model } from "mongoose";
+import MgTestSession from "./testSession.model";
 import { Grade } from "../types";
 
 /**
@@ -80,5 +81,20 @@ const ClassSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+/* eslint-disable func-names */
+ClassSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc) {
+      // Delete all test sessions associated with class
+      await MgTestSession.deleteMany({ class: doc.id });
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
+
+  return next();
+});
 
 export default model<Class>("Class", ClassSchema);

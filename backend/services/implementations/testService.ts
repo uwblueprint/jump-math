@@ -106,7 +106,6 @@ class TestService implements ITestService {
             status: AssessmentStatus.DELETED,
           },
           {
-            new: true,
             runValidators: true,
           },
         );
