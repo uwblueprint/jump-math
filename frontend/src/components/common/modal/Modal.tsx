@@ -15,7 +15,7 @@ import ModalText from "./ModalText";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  body?: string;
+  body?: React.ReactNode;
   header: React.ReactNode;
   children?: React.ReactNode;
   submitButtonText?: string;

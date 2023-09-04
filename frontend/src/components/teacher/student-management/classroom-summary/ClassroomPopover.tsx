@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
 import { useMutation } from "@apollo/client";
-import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
+import { Divider, Text, useDisclosure, VStack } from "@chakra-ui/react";
 
 import {
   ARCHIVE_CLASS,
@@ -114,7 +114,16 @@ const ClassroomPopover = ({
       />
       <Modal
         body={
-          'Are you sure you want to archive this classroom? You can find your archived classrooms in the "Archived" tab.'
+          <>
+            <Text color="grey.300" pt={2} textStyle="paragraph">
+              Are you sure you want to archive this classroom? You can find your
+              archived classrooms in the &quot;Archived&quot; tab.
+            </Text>
+            <Text color="red.200" pt={2} textStyle="paragraph">
+              Note that all upcoming assessments will be deleted and active
+              assessments will end.
+            </Text>
+          </>
         }
         header="Archive Classroom"
         isOpen={isArchiveModalOpen}
