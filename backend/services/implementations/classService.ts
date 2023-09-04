@@ -50,7 +50,6 @@ class ClassService implements IClassService {
       // create a new class document
       newClass = await MgClass.create({
         ...classObj,
-        testSessions: [],
         students: [],
       });
     } catch (error: unknown) {
@@ -66,7 +65,6 @@ class ClassService implements IClassService {
       gradeLevel: newClass.gradeLevel,
       isActive: newClass.isActive,
       teacher: newClass.teacher,
-      testSessions: newClass.testSessions,
       students: newClass.students,
     };
   }
@@ -88,27 +86,23 @@ class ClassService implements IClassService {
   async getTestableStudentsByTestSessionId(
     testSessionId: string,
   ): Promise<TestableStudentsDTO> {
-    let classes: Class[];
+    let classObj: Class | null;
     try {
-      classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
-      if (!classes.length) {
+      const testSession = await this.testSessionService.getTestSessionById(
+        testSessionId,
+      );
+      classObj = await MgClass.findById(testSession.class);
+      if (!classObj) {
         throw new Error(
           `Class with test session id ${testSessionId} not found`,
-        );
-      } else if (classes.length > 1) {
-        throw new Error(
-          `More than one class has the same Test Session of id ${testSessionId}`,
         );
       }
 
       // Filter out students who have already completed the test
-      const testSession = await this.testSessionService.getTestSessionById(
-        testSessionId,
-      );
       const completedStudents = new Set(
         testSession.results?.map((result) => result.student),
       );
-      classes[0].students = classes[0].students.filter(
+      classObj.students = classObj.students.filter(
         (student) => !completedStudents.has(student.id),
       );
     } catch (error: unknown) {
@@ -116,7 +110,7 @@ class ClassService implements IClassService {
       throw error;
     }
 
-    const { id, className, students } = classes[0];
+    const { id, className, students } = classObj;
     return { id, className, students };
   }
 
