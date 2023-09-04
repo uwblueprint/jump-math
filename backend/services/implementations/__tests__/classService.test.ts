@@ -1,5 +1,4 @@
 import ClassModel from "../../../models/class.model";
-import UserModel from "../../../models/user.model";
 import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
@@ -173,31 +172,19 @@ describe("mongo classService", (): void => {
   });
 
   it("deleteClass", async () => {
-    const teacher = await UserModel.create({
-      ...mockTeacher,
-      authId: "123",
-    });
-    const testSessions = await TestSessionModel.insertMany(
+    const savedClass = await ClassModel.create(testClass[0]);
+    await TestSessionModel.insertMany(
       mockTestSessions.map((mockTestSession) => ({
         ...mockTestSession,
-        teacher: teacher.id,
+        class: savedClass.id,
       })),
     );
-    const savedClass = await ClassModel.create({
-      ...testClass[0],
-      teacher: teacher.id,
-      testSessions: testSessions.map((testSession) => testSession.id),
-    });
 
     // execute
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
     // assert
     expect(deletedClassId).toBe(savedClass.id);
-    const associatedTeacher = await UserModel.find({
-      class: savedClass.id,
-    });
-    expect(associatedTeacher).toEqual([]);
 
     const associatedTestSession = await TestSessionModel.find({
       class: savedClass.id,

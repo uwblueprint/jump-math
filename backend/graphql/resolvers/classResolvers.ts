@@ -52,17 +52,7 @@ const classResolvers = {
       _req: undefined,
       { classObj }: { classObj: ClassRequestDTO },
     ): Promise<ClassResponseDTO> => {
-      const createdClass = await classService.createClass(classObj);
-      const teacherToUpdate = await userService.getUserById(classObj.teacher);
-      if (teacherToUpdate.class) {
-        teacherToUpdate.class.push(createdClass.id);
-      } else {
-        teacherToUpdate.class = [createdClass.id];
-      }
-      await userService.updateUserById(classObj.teacher, {
-        ...teacherToUpdate,
-      });
-      return createdClass;
+      return classService.createClass(classObj);
     },
     updateClass: async (
       _req: undefined,

@@ -1,7 +1,5 @@
 import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema, model } from "mongoose";
-// eslint-disable-next-line import/no-cycle
-import MgUser from "./user.model";
 import MgTestSession from "./testSession.model";
 // eslint-disable-next-line import/no-cycle
 import { Grade } from "../types";
@@ -86,19 +84,12 @@ const ClassSchema: Schema = new Schema(
 );
 
 /* eslint-disable func-names */
-/* eslint-disable no-underscore-dangle */
 ClassSchema.pre("findOneAndDelete", async function (next) {
   try {
     const doc = await this.findOne(this.getQuery()).clone();
     if (doc) {
-      // Delete class reference from associated teacher
-      await MgUser.findOneAndUpdate(
-        { class: doc._id },
-        { $pull: { class: doc._id } },
-        { new: true },
-      );
-
       // Delete all test sessions associated with class
+      /* eslint-disable no-underscore-dangle */
       await MgTestSession.deleteMany({ class: doc._id });
     }
   } catch (error) {
