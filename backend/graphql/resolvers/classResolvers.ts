@@ -81,7 +81,7 @@ const classResolvers = {
     archiveClass: async (
       _req: undefined,
       { id }: { id: string },
-    ): Promise<ClassResponseDTO | null> => {
+    ): Promise<string | null> => {
       return classService.archiveClass(id);
     },
     deleteStudent: async (

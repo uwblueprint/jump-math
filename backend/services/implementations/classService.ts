@@ -182,12 +182,10 @@ class ClassService implements IClassService {
     }
   }
 
-  async archiveClass(id: string, nowDate?: Date): Promise<ClassResponseDTO> {
-    let archivedClass: Class | null;
-    const date = nowDate ?? new Date();
-
+  async archiveClass(id: string, nowDate?: Date): Promise<string> {
     try {
-      archivedClass = await MgClass.findOneAndUpdate(
+      const date = nowDate ?? new Date();
+      const archivedClass: Class | null = await MgClass.findOneAndUpdate(
         { _id: id, isActive: { $in: [true, undefined] } },
         { $set: { isActive: false } },
         {
@@ -205,12 +203,6 @@ class ClassService implements IClassService {
       // Make a best effort to delete upcoming test sessions and end active test sessions
       await this.deleteUpcomingTestSessions(id, date);
       await this.endActiveTestSessions(id, date);
-
-      // Refresh the archived class object
-      archivedClass = await MgClass.findById(id);
-      if (!archivedClass) {
-        throw new Error(`Class with id ${id} not found`);
-      }
     } catch (error: unknown) {
       Logger.error(
         `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
@@ -219,7 +211,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return mapDocumentToDTO(archivedClass);
+    return id;
   }
 
   async createStudent(

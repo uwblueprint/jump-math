@@ -220,10 +220,13 @@ describe("mongo classService", (): void => {
 
     // execute
     const nowDate = new Date();
-    const res = await classService.archiveClass(classObj.id, nowDate);
+    const archivedClassId = await classService.archiveClass(
+      classObj.id,
+      nowDate,
+    );
 
     // assert
-    assertResponseMatchesExpected(testClass[0], res, false);
+    expect(archivedClassId).toBe(classObj.id);
 
     const updatedActiveTestSession = await TestSessionModel.findById(
       activeTestSession.id,
