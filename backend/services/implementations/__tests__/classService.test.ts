@@ -26,11 +26,6 @@ import {
   mockTestSessionWithId,
 } from "../../../testUtils/testSession";
 
-const testClassWithTestSessions = {
-  ...testClass[0],
-  testSessions: [mockTestSessionWithId.id],
-};
-
 describe("mongo classService", (): void => {
   let classService: ClassService;
   let userService: UserService;
@@ -101,7 +96,7 @@ describe("mongo classService", (): void => {
 
   it("getClassById for valid Id", async () => {
     // execute and assert
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
   });
@@ -116,10 +111,15 @@ describe("mongo classService", (): void => {
   });
 
   describe("getTestableStudentsByTestSessionId", () => {
-    it("getTestableStudentsByTestSessionId for valid testSessionId", async () => {
-      const savedClass = await ClassModel.create(testClassWithTestSessions);
+    it("for valid testSessionId", async () => {
+      const savedClass = await ClassModel.create(testClass[0]);
+      testSessionService.getTestSessionById = jest.fn().mockReturnValue({
+        ...mockTestSessionWithId,
+        class: savedClass.id,
+      });
+
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       assertTestableStudentsResponseMatchesExpected(savedClass, res);
     });
@@ -133,25 +133,11 @@ describe("mongo classService", (): void => {
       );
     });
 
-    it("for classes with same testSessionId", async () => {
-      await ClassModel.create(testClassWithTestSessions);
-      await ClassModel.create(testClassWithTestSessions);
-      const testSessionId = testClassWithTestSessions.testSessions[0];
-      await expect(async () => {
-        await classService.getTestableStudentsByTestSessionId(testSessionId);
-      }).rejects.toThrowError(
-        `More than one class has the same Test Session of id ${testSessionId}`,
-      );
-    });
-
     it("for test session with existing results", async () => {
-      const savedClass = await ClassModel.create({
-        ...testClassWithStudents,
-        testSessions: [mockTestSessionWithId.id],
-      });
-
+      const savedClass = await ClassModel.create(testClassWithStudents);
       testSessionService.getTestSessionById = jest.fn().mockReturnValue({
         ...mockTestSessionWithId,
+        class: savedClass.id,
         results: [
           {
             ...mockGradedTestResult,
@@ -161,7 +147,7 @@ describe("mongo classService", (): void => {
       });
 
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       expect(savedClass.id).not.toBeNull();
       expect(savedClass.className).toEqual(res.className);
@@ -171,13 +157,13 @@ describe("mongo classService", (): void => {
     });
   });
 
-  it("getClassesByTeacherId for valid testSessionId", async () => {
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+  it("getClassesByTeacherId for valid teacher id", async () => {
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassesByTeacherId(savedClass.teacher);
     assertArrayResponseMatchesExpected([savedClass], res);
   });
 
-  it("getClassesByTeacherId for non-existing testSessionId", async () => {
+  it("getClassesByTeacherId for non-existing teacher id", async () => {
     const notFoundId = "86cb91bdc3464f14678934cd";
     const res = await classService.getClassesByTeacherId(notFoundId);
     expect(res).toEqual([]);

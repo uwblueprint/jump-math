@@ -5,7 +5,6 @@ import type {
   StudentResponseDTO,
   TestableStudentsDTO,
 } from "../services/interfaces/classService";
-import { mockTestSessionWithId } from "./testSession";
 
 export const assertResponseMatchesExpected = (
   expected: ClassRequestDTO,
@@ -18,12 +17,6 @@ export const assertResponseMatchesExpected = (
   expect(result.gradeLevel.toString()).toEqual(expected.gradeLevel.toString());
   expect(result.teacher.toString()).toEqual(expected.teacher.toString());
   expect(result.isActive).toEqual(isActive);
-  if (result.testSessions.length !== 0) {
-    expect(result.testSessions.length).toEqual(1);
-    expect(result.testSessions[0].toString()).toEqual(mockTestSessionWithId.id);
-  } else {
-    expect(result.testSessions).toEqual([]);
-  }
 };
 
 export const assertArrayResponseMatchesExpected = (

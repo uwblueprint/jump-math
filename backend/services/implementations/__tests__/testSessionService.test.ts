@@ -36,14 +36,12 @@ import {
   mockClassWithId,
   testClassAfterCreation,
 } from "../../../testUtils/class";
-import ClassService from "../classService";
 
 describe("mongo testSessionService", (): void => {
   let testSessionService: TestSessionService;
   let testService: TestService;
   let userService: UserService;
   let schoolService: SchoolService;
-  let classService: ClassService;
 
   beforeAll(async () => {
     await db.connect();
@@ -58,14 +56,12 @@ describe("mongo testSessionService", (): void => {
     schoolService = new SchoolService(userService);
     testService = new TestService();
     testSessionService = new TestSessionService(testService);
-    classService = new ClassService(userService, testSessionService);
 
     if (expect.getState().currentTestName.includes("exclude mock values"))
       return;
     testService.getTestById = jest.fn().mockReturnValue(mockTestWithId);
     userService.getUserById = jest.fn().mockReturnValue(mockTeacher);
     schoolService.getSchoolById = jest.fn().mockReturnValue(mockSchoolWithId);
-    classService.getClassById = jest.fn().mockReturnValue(mockClassWithId);
   });
 
   afterEach(async () => {
@@ -81,9 +77,6 @@ describe("mongo testSessionService", (): void => {
 
     assertResponseMatchesExpected(mockTestSession, res);
     expect(res.results).toEqual([]);
-
-    const updatedClass = await MgClass.findById(classObj.id);
-    expect(updatedClass?.testSessions.map(String)).toEqual([res.id]);
   });
 
   it("createTestSession for archived class id", async () => {
