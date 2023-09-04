@@ -18,6 +18,7 @@ import { getSubquestionIndex } from "../../../utils/StudentUtils";
 import FractionInput from "../../common/question-elements/fraction/FractionInput";
 import MultipleChoiceInput from "../../common/question-elements/multi-option/MultipleChoiceInput";
 import MultiSelectInput from "../../common/question-elements/multi-option/MultiSelectInput";
+import ShortAnswerInput from "../../common/question-elements/short-answer/ShortAnswerInput";
 import Image from "../../student/questions/question-elements/Image";
 import QuestionText from "../../student/questions/question-elements/QuestionText";
 import Text from "../../student/questions/question-elements/Text";
@@ -57,14 +58,16 @@ const QuestionPreview = ({
                       url={(element.data as ImageMetadataRequest).previewUrl}
                     />
                   );
+                case QuestionElementType.SHORT_ANSWER:
+                  return <ShortAnswerInput />;
                 case QuestionElementType.MULTIPLE_CHOICE:
                   return (
                     <MultipleChoiceInput
                       getOption={(option) => (option as MultiOptionData).value}
                       getOptionValue={(_, index) => index.toString()}
-                      onChange={(e) => console.log(e)} // TODO
+                      onChange={(e) => console.log(e)}
                       options={(element.data as MultiData).options}
-                      value={"0"} // TODO
+                      value={"0"}
                     />
                   );
                 case QuestionElementType.MULTI_SELECT:
@@ -72,12 +75,12 @@ const QuestionPreview = ({
                     <MultiSelectInput
                       getOption={(option) => (option as MultiOptionData).value}
                       getOptionValue={(_, index) => index.toString()}
-                      onChange={(e) => console.log(e)} // TODO
+                      onChange={(e) => console.log(e)}
                       options={(element.data as MultiData).options}
-                      value={["0"]} // TODO
+                      value={["0"]}
                     />
                   );
-                case QuestionElementType.FRACTION: // TODO
+                case QuestionElementType.FRACTION:
                   if ((element.data as FractionMetadata).wholeNumber !== null) {
                     return (
                       <FractionInput
