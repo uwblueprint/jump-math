@@ -15,7 +15,6 @@ export interface User extends Document {
   email: string;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
-  class?: string[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -54,10 +53,6 @@ const UserSchema: Schema = new Schema({
   currentlyTeachingJM: {
     type: Boolean,
     required: false,
-  },
-  class: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
-    required: true,
   },
 });
 
