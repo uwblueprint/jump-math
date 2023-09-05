@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 
+import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 import StudentContext from "../../contexts/StudentContext";
-import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
 import { questionStatus } from "../../utils/StudentUtils";
 
 import QuestionNumber from "./QuestionNumber";
@@ -10,7 +10,7 @@ import QuestionNumber from "./QuestionNumber";
 const QuestionNumbers = (): React.ReactElement => {
   const { test } = useContext(StudentContext);
   const { answers, currentQuestionIndex, setCurrentQuestionIndex } = useContext(
-    WriteAssessmentContext,
+    AssessmentExperienceContext,
   );
 
   return (

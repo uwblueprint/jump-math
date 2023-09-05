@@ -5,15 +5,15 @@ import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
 } from "../../assets/icons";
+import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 import StudentContext from "../../contexts/StudentContext";
-import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
 
 import SubmitButton from "./SubmitButton";
 
 const NavButtons = (): React.ReactElement => {
   const { test } = useContext(StudentContext);
   const { currentQuestionIndex, setCurrentQuestionIndex } = useContext(
-    WriteAssessmentContext,
+    AssessmentExperienceContext,
   );
 
   const questionCount = test?.questions.length ?? 0;
