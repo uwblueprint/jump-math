@@ -15,16 +15,12 @@ import {
 
 import { stringToFloat } from "./GeneralUtils";
 
-export const getAnswerElements = <T extends QuestionComponentRequest>(
+export const getAnswerElements = <
+  T extends QuestionComponentRequest | QuestionElement,
+>(
   question: T[],
 ): T[] => {
   return question.filter(
-    (questionElement) => questionElement.type in ResponseElementType,
-  );
-};
-
-export const getAnswerElementsTest = (question: Question) => {
-  return question.elements.filter(
     (questionElement) => questionElement.type in ResponseElementType,
   );
 };
@@ -43,7 +39,7 @@ export const initializeAnswers = (questions: Question[]): Answers[] => {
   return questions.map((question, index) => ({
     index,
     completedCount: 0,
-    elements: getAnswerElementsTest(question).map(() => ({
+    elements: getAnswerElements(question.elements).map(() => ({
       elementAnswers: [],
     })),
   }));
