@@ -24,8 +24,12 @@ const useAssessmentDataQuery = (limit?: number) => {
         ({ id, startDate, endDate, test, class: classroom, ...session }) => ({
           ...session,
           testSessionId: id,
+          testId: test.id,
           testName: test.name,
+          classroomId: classroom.id,
           classroomName: classroom.className,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
           targetDate: getSessionTargetDate(startDate, endDate, session.status),
         }),
       ),

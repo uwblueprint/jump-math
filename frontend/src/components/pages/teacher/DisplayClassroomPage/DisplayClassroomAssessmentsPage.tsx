@@ -48,7 +48,10 @@ const DisplayClassroomAssessmentsPage = () => {
         ({ id, startDate, endDate, test, ...session }) => ({
           ...session,
           testSessionId: id,
+          testId: test.id,
           testName: test.name,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
           targetDate: getSessionTargetDate(startDate, endDate, session.status),
         }),
       ),
@@ -74,6 +77,8 @@ const DisplayClassroomAssessmentsPage = () => {
         <TestSessionListItem
           key={session.testSessionId}
           {...session}
+          classroomId={data?.class.id ?? ""}
+          classroomName={data?.class.className ?? ""}
           isReadOnly={!data?.class.isActive}
         />
       ))}

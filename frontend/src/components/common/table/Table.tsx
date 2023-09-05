@@ -25,11 +25,13 @@ export interface TableRow<T extends Nodes = Nodes> {
 interface TableProps<T extends Nodes = Nodes> {
   headers: string[];
   rows: TableRow<T>[];
+  isDisabled?: boolean;
 }
 
 export const Table = <T extends Nodes = Nodes>({
   headers,
   rows,
+  isDisabled = false,
 }: TableProps<T>): React.ReactElement => {
   const { paginatedData, totalPages, currentPage, setCurrentPage } =
     usePaginatedData(rows);
@@ -56,8 +58,8 @@ export const Table = <T extends Nodes = Nodes>({
               <Tr
                 key={row.id || rowIndex}
                 backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
-                cursor="pointer"
-                onClick={row.onClick || undefined}
+                cursor={isDisabled ? "not-allowed" : "pointer"}
+                onClick={isDisabled ? undefined : row.onClick}
               >
                 {row.values.map((value, cellIndex) => (
                   <Td

@@ -33,9 +33,9 @@ export type TestSessionSetupData = TestSessionMetadata;
 
 export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the name of the test that this test session is for */
-  test: Pick<Test, "name">;
+  test: Pick<Test, "id" | "name">;
   /** the name of the class that this test session is for */
-  class: Pick<ClassResponse, "className">;
+  class: Pick<ClassResponse, "id" | "className">;
   /** after this date, the test is no longer available to students */
   endDate: Date;
   /** the status of the test session */
@@ -43,6 +43,11 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the access code that students use to access the test session */
   accessCode: string;
 }
+
+export type TestSessionEditingData = Omit<
+  TestSessionOverviewData,
+  "accessCode"
+>;
 
 export interface TestSessionResultData {
   /** the answers that the student gave */

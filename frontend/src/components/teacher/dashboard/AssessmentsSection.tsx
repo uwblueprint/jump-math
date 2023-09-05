@@ -78,7 +78,6 @@ const AssessmentsSection = () => {
                   <TestSessionListItem
                     key={session.testSessionId}
                     {...session}
-                    classroomName={session.classroomName ?? ""}
                   />
                 ))}
               </TabPanel>

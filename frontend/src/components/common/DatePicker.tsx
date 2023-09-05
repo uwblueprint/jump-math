@@ -5,11 +5,13 @@ import { format } from "date-fns";
 type DatePickerProps = {
   onChange: (date: Date) => void;
   value: Date | undefined;
+  isDisabled?: boolean;
 };
 
 const DatePicker = ({
   onChange,
   value,
+  isDisabled = false,
 }: DatePickerProps): React.ReactElement => {
   return (
     <SingleDatepicker
@@ -65,6 +67,7 @@ const DatePicker = ({
           },
         },
         inputProps: {
+          isDisabled,
           value: value ? format(value, "yyyy-MM-dd") : "Please choose a date",
         },
         popoverCompProps: {

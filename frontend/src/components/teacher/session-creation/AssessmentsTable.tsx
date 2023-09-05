@@ -21,6 +21,7 @@ interface AssessmentsTableProps {
   selectedTestId: string;
   setTestId: React.Dispatch<React.SetStateAction<string>>;
   setTestName?: React.Dispatch<React.SetStateAction<string>>;
+  isDisabled: boolean;
 }
 
 const AssessmentsTable = ({
@@ -28,6 +29,7 @@ const AssessmentsTable = ({
   selectedTestId,
   setTestId,
   setTestName,
+  isDisabled = false,
 }: AssessmentsTableProps): React.ReactElement => {
   const headers = ["", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment, i) => ({
@@ -56,7 +58,7 @@ const AssessmentsTable = ({
       value={selectedTestId}
       width="100%"
     >
-      <Table headers={headers} rows={rows} />
+      <Table headers={headers} isDisabled={isDisabled} rows={rows} />
     </RadioGroup>
   );
 };

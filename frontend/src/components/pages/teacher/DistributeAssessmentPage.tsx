@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
+import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
 import type { AuthenticatedTeacher } from "../../../types/AuthTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import type { BreadcrumbType } from "../../common/navigation/FormBreadcrumb";
 import FormBreadcrumb from "../../common/navigation/FormBreadcrumb";
 import DistributeAssessmentButton from "../../teacher/session-creation/DistributeAssessmentButton";
@@ -19,29 +22,35 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
 ];
 
 const DistributeAssessmentPage = (): React.ReactElement => {
+  const { state } = useLocation<TestSessionEditingData>();
+
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId, school: schoolId } =
     (authenticatedUser as AuthenticatedTeacher) ?? {};
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(state !== undefined ? 3 : 0);
 
-  const [testId, setTestId] = useState("");
-  const [testName, setTestName] = useState("");
+  const [testId, setTestId] = useState(state?.test.id ?? "");
+  const [testName, setTestName] = useState(state?.test.name ?? "");
 
-  const [classId, setClassId] = useState("");
-  const [className, setClassName] = useState("");
+  const [classId, setClassId] = useState(state?.class.id ?? "");
+  const [className, setClassName] = useState(state?.class.className ?? "");
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [notes, setNotes] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(
+    state?.startDate ?? null,
+  );
+  const [endDate, setEndDate] = useState<Date | null>(state?.endDate ?? null);
+  const [notes, setNotes] = useState(state?.notes ?? "");
 
   const [validDates, setValidDates] = useState(false);
+  const isEditDisabled = state?.status !== TestSessionStatus.UPCOMING;
 
   const renderPageContent = () => {
     switch (page) {
       case 0:
         return (
           <ChooseAssessment
+            isEditDisabled={isEditDisabled}
             setTestId={setTestId}
             setTestName={setTestName}
             testId={testId}
@@ -50,6 +59,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
       case 1:
         return (
           <ChooseClass
+            isEditDisabled={isEditDisabled}
             selectedClassId={classId}
             setClassId={setClassId}
             setClassName={setClassName}
@@ -59,6 +69,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
         return (
           <AddInformation
             endDate={endDate}
+            isEditDisabled={isEditDisabled}
             notes={notes}
             setEndDate={setEndDate}
             setNotes={setNotes}
@@ -72,6 +83,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
           <Review
             className={className}
             endDate={endDate}
+            isEditDisabled={isEditDisabled}
             notes={notes}
             setPage={setPage}
             startDate={startDate}
@@ -141,6 +153,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
                   endDate,
                   notes,
                 }}
+                testSessionId={state?.id}
               />
             )}
           </>

@@ -73,15 +73,18 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
     testSessionsByTeacherId(teacherId: $teacherId, limit: $limit) {
       id
       test {
+        id
         name
       }
       class {
+        id
         className
       }
       startDate
       endDate
       status
       accessCode
+      notes
     }
   }
 `;

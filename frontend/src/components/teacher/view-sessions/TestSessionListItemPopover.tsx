@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
+import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
+import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import DeleteModal from "../../admin/assessment-status/EditStatusModals/DeleteModal";
@@ -12,13 +15,11 @@ import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 
 type TestSessionPopoverProps = {
-  status: TestSessionStatus;
-  testSessionId: string;
+  testSessionEditingData: TestSessionEditingData;
 };
 
 const TestSessionListItemPopover = ({
-  status,
-  testSessionId,
+  testSessionEditingData,
 }: TestSessionPopoverProps): React.ReactElement => {
   const {
     isOpen: isPopoverOpen,
@@ -32,16 +33,21 @@ const TestSessionListItemPopover = ({
   } = useDisclosure();
 
   const { showToast } = useToast();
+  const history = useHistory();
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
   const [deleteTestSessionMutation] = useMutation(DELETE_TEST_SESSION, {
-    variables: { id: testSessionId },
+    variables: { id: testSessionEditingData.id },
     refetchQueries: [
       { query: GET_TEST_SESSIONS_BY_TEACHER_ID, variables: { teacherId } },
     ],
   });
+
+  const onEditTestSession = () => {
+    history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, testSessionEditingData);
+  };
 
   const deleteTestSession = async () => {
     try {
@@ -66,8 +72,8 @@ const TestSessionListItemPopover = ({
       onOpen={onPopoverOpen}
     >
       <VStack divider={<Divider />} spacing={0}>
-        <PopoverButton name="Edit" onClick={() => {}} />
-        {status === TestSessionStatus.UPCOMING && (
+        <PopoverButton name="Edit" onClick={onEditTestSession} />
+        {testSessionEditingData.status === TestSessionStatus.UPCOMING && (
           <PopoverButton name="Delete" onClick={openDeleteModal} />
         )}
       </VStack>
