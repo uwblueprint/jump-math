@@ -19,6 +19,7 @@ interface AssessmentExperienceProps {
   subtitle?: string;
   questions: QuestionType[];
   headerButton?: React.ReactElement;
+  isPreviewMode?: boolean;
 }
 
 const AssessmentExperience = ({
@@ -26,6 +27,7 @@ const AssessmentExperience = ({
   subtitle = "",
   questions,
   headerButton,
+  isPreviewMode = false,
 }: AssessmentExperienceProps): React.ReactElement => {
   useReloadPrompt();
 
@@ -37,6 +39,7 @@ const AssessmentExperience = ({
   return (
     <AssessmentExperienceContext.Provider
       value={{
+        questions,
         currentQuestionIndex,
         setCurrentQuestionIndex,
         answers,
@@ -58,7 +61,7 @@ const AssessmentExperience = ({
               <QuestionTitle />
               <Question elements={questions[currentQuestionIndex].elements} />
               <Spacer />
-              <NavButtons />
+              <NavButtons isPreviewMode={isPreviewMode} />
             </VStack>
           </HStack>
         </Box>

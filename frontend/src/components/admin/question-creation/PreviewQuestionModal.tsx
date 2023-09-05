@@ -25,6 +25,7 @@ const PreviewQuestionModal = (): React.ReactElement => {
   return (
     <AssessmentExperience
       headerButton={closePreviewQuestionButton}
+      isPreviewMode
       questions={[currentQuestion]}
       title="Preview Question"
     />

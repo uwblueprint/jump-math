@@ -3,8 +3,10 @@
 import { createContext } from "react";
 
 import type { Answers } from "../types/AnswerTypes";
+import type { Question } from "../types/QuestionTypes";
 
 type AssessmentExperienceContextType = {
+  questions: Question[];
   answers: Answers[];
   setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]) => void;
   currentQuestionIndex: number;
@@ -13,6 +15,7 @@ type AssessmentExperienceContextType = {
 
 const AssessmentExperienceContext =
   createContext<AssessmentExperienceContextType>({
+    questions: [],
     answers: [],
     setAnswers: (_answers: (prevAnswers: Answers[]) => Answers[]): void => {},
     currentQuestionIndex: 0,

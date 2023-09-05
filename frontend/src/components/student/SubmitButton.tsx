@@ -14,7 +14,13 @@ import {
 import useToast from "../common/info/useToast";
 import Modal from "../common/modal/Modal";
 
-const SubmitButton = (): React.ReactElement => {
+interface SubmitButtonProps {
+  isDisabled: boolean;
+}
+
+const SubmitButton = ({
+  isDisabled,
+}: SubmitButtonProps): React.ReactElement => {
   const { testSession } = useContext(StudentContext);
   const { answers } = useContext(AssessmentExperienceContext);
   const { setIsSubmitted, setIsLoading } = useContext(WriteAssessmentContext);
@@ -89,7 +95,7 @@ const SubmitButton = (): React.ReactElement => {
         onSubmit={handleSubmitTest}
         submitButtonText="Submit"
       />
-      <Button onClick={onOpen} variant="primary">
+      <Button isDisabled={isDisabled} onClick={onOpen} variant="primary">
         Submit
       </Button>
     </>
