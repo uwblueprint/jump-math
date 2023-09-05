@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
-import type { TestResponse } from "../../APIClients/types/TestClientTypes";
 import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 import type { Answers } from "../../types/AnswerTypes";
+import type { Question as QuestionType } from "../../types/QuestionTypes";
 import { initializeAnswers } from "../../utils/StudentUtils";
 import useReloadPrompt from "../common/navigation/useReloadPrompt";
 
@@ -15,19 +15,21 @@ import QuestionNumbers from "./QuestionNumbers";
 import StudentDashboardHeader from "./StudentDashboardHeader";
 
 interface AssessmentExperienceProps {
-  test: TestResponse | null;
-  className: string;
+  title: string;
+  subtitle: string;
+  questions: QuestionType[];
 }
 
 const AssessmentExperience = ({
-  test,
-  className,
+  title,
+  subtitle,
+  questions,
 }: AssessmentExperienceProps): React.ReactElement => {
   useReloadPrompt();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers[]>(
-    test ? initializeAnswers(test.questions) : [],
+    initializeAnswers(questions),
   );
 
   return (
@@ -41,8 +43,8 @@ const AssessmentExperience = ({
     >
       <VStack align="center" flex="1" spacing="8">
         <StudentDashboardHeader
-          assessmentName={test?.name ?? ""}
-          classroomName={className}
+          assessmentName={title}
+          classroomName={subtitle}
         />
         <Box width="90%">
           <HStack align="top" spacing="10%">
@@ -53,9 +55,7 @@ const AssessmentExperience = ({
             <VStack align="left" minHeight="83vh" spacing={8}>
               <Instructions />
               <QuestionTitle />
-              <Question
-                elements={test?.questions[currentQuestionIndex] ?? []}
-              />
+              <Question elements={questions[currentQuestionIndex].elements} />
               <Spacer />
               <NavButtons />
             </VStack>

@@ -1,15 +1,13 @@
 import React, { useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 
-import type { QuestionComponentResponse } from "../../../APIClients/types/TestClientTypes";
 import type {
   FractionMetadata,
-  ImageMetadata,
-  MultipleChoiceMetadata,
-  MultiSelectMetadata,
+  ImageMetadataRequest,
   QuestionTextMetadata,
   TextMetadata,
 } from "../../../types/QuestionMetadataTypes";
+import type { MultiData, QuestionElement } from "../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../types/QuestionTypes";
 import {
   getAnswerElementIndexArray,
@@ -27,7 +25,7 @@ import ShortAnswer from "./question-elements/ShortAnswer";
 import Text from "./question-elements/Text";
 
 interface QuestionProps {
-  elements: QuestionComponentResponse[];
+  elements: QuestionElement[];
 }
 
 const Question = ({ elements }: QuestionProps): React.ReactElement => {
@@ -50,14 +48,12 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                     <QuestionText
                       index={getSubquestionIndex(subquestionIndex, i)}
                       questionText={
-                        (element.metadata as QuestionTextMetadata).questionText
+                        (element.data as QuestionTextMetadata).questionText
                       }
                     />
                   );
                 case QuestionElementType.TEXT:
-                  return (
-                    <Text text={(element.metadata as TextMetadata).text} />
-                  );
+                  return <Text text={(element.data as TextMetadata).text} />;
                 case QuestionElementType.SHORT_ANSWER:
                   return (
                     <ShortAnswer answerElementIndex={answerElementIndex[i]} />
@@ -66,28 +62,24 @@ const Question = ({ elements }: QuestionProps): React.ReactElement => {
                   return (
                     <MultipleChoice
                       answerElementIndex={answerElementIndex[i]}
-                      options={
-                        (element.metadata as MultipleChoiceMetadata).options
-                      }
+                      options={(element.data as MultiData).options}
                     />
                   );
                 case QuestionElementType.MULTI_SELECT:
                   return (
                     <MultiSelect
                       answerElementIndex={answerElementIndex[i]}
-                      options={
-                        (element.metadata as MultiSelectMetadata).options
-                      }
+                      options={(element.data as MultiData).options}
                     />
                   );
                 case QuestionElementType.IMAGE:
                   return (
-                    <Image url={(element.metadata as ImageMetadata).url} />
+                    <Image
+                      url={(element.data as ImageMetadataRequest).previewUrl}
+                    />
                   );
                 case QuestionElementType.FRACTION:
-                  if (
-                    (element.metadata as FractionMetadata).wholeNumber !== null
-                  ) {
+                  if ((element.data as FractionMetadata).wholeNumber !== null) {
                     return (
                       <MixedFraction
                         answerElementIndex={answerElementIndex[i]}
