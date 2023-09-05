@@ -8,6 +8,7 @@ import ArchiveButton from "./EditStatusButtons/ArchiveButton";
 import DeleteButton from "./EditStatusButtons/DeleteButton";
 import DuplicateButton from "./EditStatusButtons/DuplicateButton";
 import EditButton from "./EditStatusButtons/EditButton";
+import PreviewButton from "./EditStatusButtons/PreviewButton";
 import PublishButton from "./EditStatusButtons/PublishButton";
 import UnarchiveButton from "./EditStatusButtons/UnarchiveButton";
 
@@ -40,6 +41,7 @@ const EditStatusPopover = ({
             <DuplicateButton assessmentId={assessmentId} />
           </>
         )}
+        <PreviewButton assessmentId={assessmentId} />
         <DeleteButton assessmentId={assessmentId} />
       </VStack>
     </Popover>
