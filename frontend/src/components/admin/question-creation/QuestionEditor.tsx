@@ -8,6 +8,7 @@ import type { QuestionElement } from "../../../types/QuestionTypes";
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
 import AddShortAnswerModal from "./question-elements/modals/short-answer/AddShortAnswerModal";
+import PreviewQuestionModal from "./PreviewQuestionModal";
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
@@ -24,6 +25,7 @@ const QuestionEditor = (): React.ReactElement => {
     React.useState(false);
   const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
+  const [showPreviewQuestion, setShowPreviewQuestion] = React.useState(false);
 
   return (
     <QuestionEditorContext.Provider
@@ -40,15 +42,23 @@ const QuestionEditor = (): React.ReactElement => {
         setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
+        showPreviewQuestion,
+        setShowPreviewQuestion,
       }}
     >
-      <Flex minHeight="100vh">
-        <QuestionSidebar />
-        <QuestionWorkspace />
-      </Flex>
-      <AddShortAnswerModal />
-      <AddMultiOptionModal />
-      <AddFractionModal />
+      {showPreviewQuestion ? (
+        <PreviewQuestionModal />
+      ) : (
+        <>
+          <Flex minHeight="100vh">
+            <QuestionSidebar />
+            <QuestionWorkspace />
+          </Flex>
+          <AddShortAnswerModal />
+          <AddMultiOptionModal />
+          <AddFractionModal />
+        </>
+      )}
     </QuestionEditorContext.Provider>
   );
 };

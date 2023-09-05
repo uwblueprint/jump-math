@@ -16,14 +16,16 @@ import StudentDashboardHeader from "./StudentDashboardHeader";
 
 interface AssessmentExperienceProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   questions: QuestionType[];
+  headerButton?: React.ReactElement;
 }
 
 const AssessmentExperience = ({
   title,
-  subtitle,
+  subtitle = "",
   questions,
+  headerButton,
 }: AssessmentExperienceProps): React.ReactElement => {
   useReloadPrompt();
 
@@ -42,10 +44,9 @@ const AssessmentExperience = ({
       }}
     >
       <VStack align="center" flex="1" spacing="8">
-        <StudentDashboardHeader
-          assessmentName={title}
-          classroomName={subtitle}
-        />
+        <StudentDashboardHeader assessmentName={title} classroomName={subtitle}>
+          {headerButton}
+        </StudentDashboardHeader>
         <Box width="90%">
           <HStack align="top" spacing="10%">
             <VStack align="left" minWidth="233" spacing="6">
