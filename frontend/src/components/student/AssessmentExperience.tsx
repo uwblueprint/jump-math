@@ -5,7 +5,6 @@ import AssessmentExperienceContext from "../../contexts/AssessmentExperienceCont
 import type { Answers } from "../../types/AnswerTypes";
 import type { Question as QuestionType } from "../../types/QuestionTypes";
 import { initializeAnswers } from "../../utils/StudentUtils";
-import useReloadPrompt from "../common/navigation/useReloadPrompt";
 
 import Question from "./questions/Question";
 import QuestionTitle from "./questions/QuestionTitle";
@@ -29,8 +28,6 @@ const AssessmentExperience = ({
   headerButton,
   isPreviewMode = false,
 }: AssessmentExperienceProps): React.ReactElement => {
-  useReloadPrompt();
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers[]>(
     initializeAnswers(questions),
