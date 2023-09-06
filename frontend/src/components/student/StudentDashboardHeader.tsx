@@ -16,9 +16,11 @@ const StudentDashboardHeader = ({
 }: StudentDashboardHeaderProps): React.ReactElement => {
   return (
     <HeaderWrapper>
-      <VStack align="left" marginLeft="2rem">
+      <VStack align="left" justifyContent="center" marginLeft="2rem">
         <Text textStyle="subtitle1">{assessmentName}</Text>
-        <Text textStyle="smallerParagraph">{classroomName}</Text>
+        {classroomName && (
+          <Text textStyle="smallerParagraph">{classroomName}</Text>
+        )}
       </VStack>
       <Spacer />
       {children}
