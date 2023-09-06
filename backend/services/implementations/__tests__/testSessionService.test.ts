@@ -31,9 +31,9 @@ import UserService from "../userService";
 import { mockTestWithId, mockTestWithId2 } from "../../../testUtils/tests";
 import { mockSchoolWithId } from "../../../testUtils/school";
 import SchoolService from "../schoolService";
-import { mockTeacher, testUsers } from "../../../testUtils/users";
+import { mockTeacher } from "../../../testUtils/users";
 import {
-  mockClassWithId,
+  mockClassWithId2,
   testClassAfterCreation,
 } from "../../../testUtils/class";
 
@@ -381,18 +381,20 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 
-  it("updateTestSession", async () => {
+  it("updateTestSession for upcoming test session", async () => {
     // insert test session into database
-    const testSession = await MgTestSession.create(mockTestSession);
+    const testSession = await MgTestSession.create(
+      mockTestSessionWithExpiredStartDate,
+    );
 
     // create DTO object to update to
     const updatedTestSession: TestSessionRequestDTO = {
+      ...mockTestSession,
       test: mockTestWithId2.id,
-      teacher: testUsers[0].id,
-      school: "62c248c0f79d6c3c9ebbea92",
-      class: mockClassWithId.id,
+      class: mockClassWithId2.id,
       startDate: new Date("2022-09-10T09:00:00.000Z"),
       endDate: new Date("2022-09-11T09:00:00.000Z"),
+      notes: "updated notes",
     };
 
     // update test and assert
@@ -407,12 +409,59 @@ describe("mongo testSessionService", (): void => {
     );
   });
 
-  it("updateTestSession for non-existing ID", async () => {
-    const invalidId = "62c248c0f79d6c3c9ebbea94";
+  describe("updateTestSession", () => {
+    it("for active test session with valid request object", async () => {
+      // insert test session into database
+      const testSession = await MgTestSession.create(mockTestSession);
 
-    await expect(async () => {
-      await testSessionService.updateTestSession(invalidId, mockTestSession);
-    }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+      // create DTO object to update to
+      const updatedTestSession: TestSessionRequestDTO = {
+        ...mockTestSession,
+        endDate: new Date("2022-09-11T09:00:00.000Z"),
+        notes: "updated notes",
+      };
+
+      // update test and assert
+      const res = await testSessionService.updateTestSession(
+        testSession.id,
+        updatedTestSession,
+      );
+      assertResponseMatchesExpected(updatedTestSession, res);
+      assertResultsResponseMatchesExpected(
+        mockTestSession.results,
+        res.results ?? [],
+      );
+    });
+
+    it("for active test session with invalid request object", async () => {
+      // insert test session into database
+      const testSession = await MgTestSession.create(mockTestSession);
+
+      // create DTO object to update to
+      const updatedTestSession: TestSessionRequestDTO = {
+        ...mockTestSession,
+        test: mockTestWithId2.id,
+        class: mockClassWithId2.id,
+        startDate: new Date("2022-09-10T09:00:00.000Z"),
+      };
+
+      await expect(async () => {
+        await testSessionService.updateTestSession(
+          testSession.id,
+          updatedTestSession,
+        );
+      }).rejects.toThrowError(
+        `Test Session id ${testSession.id} is active and so the test, class, and start date cannot be updated`,
+      );
+    });
+
+    it("for non-existing ID", async () => {
+      const invalidId = "62c248c0f79d6c3c9ebbea94";
+
+      await expect(async () => {
+        await testSessionService.updateTestSession(invalidId, mockTestSession);
+      }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
+    });
   });
 
   it("createTestSessionResult", async () => {

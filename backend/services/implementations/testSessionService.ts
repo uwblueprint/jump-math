@@ -338,6 +338,27 @@ class TestSessionService implements ITestSessionService {
     let updatedTestSession: TestSession | null;
 
     try {
+      const oldTestSession: TestSession | null = await MgTestSession.findById(
+        id,
+      );
+      if (!oldTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+
+      // If the test session is active, we don't allow teachers to update the assessment, class, or start date
+      const isActive = oldTestSession.startDate <= new Date();
+      if (
+        isActive &&
+        (oldTestSession.test.toString() !== testSession.test ||
+          oldTestSession.class.toString() !== testSession.class ||
+          oldTestSession.startDate.getTime() !==
+            testSession.startDate.getTime())
+      ) {
+        throw new Error(
+          `Test Session id ${id} is active and so the test, class, and start date cannot be updated`,
+        );
+      }
+
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
         testSession,
