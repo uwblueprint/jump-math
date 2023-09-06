@@ -25,10 +25,7 @@ const Page = ({ component: RenderComponent, roles, title }: PageProps) => {
   const isSignedIn = authenticatedUser !== null;
   const isAuthorized = isSignedIn && roles.includes(authenticatedUser.role);
 
-  usePageTitle(
-    isAuthorized ? title : "Not Found",
-    !isSignedIn || typeof title === "undefined",
-  );
+  usePageTitle(isAuthorized ? title : "Not Found", !isSignedIn);
 
   if (!isSignedIn) {
     return <Redirect to={HOME_PAGE} />;
