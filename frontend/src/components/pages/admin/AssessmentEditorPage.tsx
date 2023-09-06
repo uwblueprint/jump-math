@@ -78,8 +78,11 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const assessmentName = watch("name");
   const isExisting = !!state;
   usePageTitle(
-    assessmentName ? `Editing "${assessmentName}"` : "Edit Assessment",
-    !isExisting,
+    isExisting
+      ? assessmentName
+        ? `Editing "${assessmentName}"`
+        : "Edit Assessment"
+      : "Create Assessment",
   );
 
   const noQuestionError =
