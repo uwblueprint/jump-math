@@ -3,10 +3,13 @@ import React, { type ReactElement } from "react";
 import type { ActionButtonProps } from "../form/ActionButton";
 import ActionButton from "../form/ActionButton";
 
-type PopverButtonProps = ActionButtonProps & {
+type PopoverButtonProps = ActionButtonProps & {
   name: string;
 };
-const PopverButton = ({ name, ...props }: PopverButtonProps): ReactElement => {
+const PopoverButton = ({
+  name,
+  ...props
+}: PopoverButtonProps): ReactElement => {
   return (
     <ActionButton
       color="black"
@@ -23,4 +26,4 @@ const PopverButton = ({ name, ...props }: PopverButtonProps): ReactElement => {
   );
 };
 
-export default PopverButton;
+export default PopoverButton;
