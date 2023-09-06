@@ -15,8 +15,8 @@ import NotFound from "../../NotFound";
 import DisplayAssessmentResultsByStudentPage from "./DisplayAssessmentResultsByStudentPage";
 import DisplayAssessmentResultsSummaryPage from "./DisplayAssessmentResultsSummaryPage";
 
-const makeTabConfig = (enableTeacherDataViz: boolean) => [
-  ...(enableTeacherDataViz
+const makeTabConfig = (isTeacherDataVizEnabled: boolean) => [
+  ...(isTeacherDataVizEnabled
     ? [
         {
           name: "Summary",
@@ -36,7 +36,7 @@ const makeTabConfig = (enableTeacherDataViz: boolean) => [
     element: (
       <RedirectTo
         pathname={
-          enableTeacherDataViz
+          isTeacherDataVizEnabled
             ? Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE
             : Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE
         }
@@ -72,10 +72,10 @@ const DisplayAssessmentResults = () => {
     skip: !!sessionTitle,
   });
 
-  const enableTeacherDataViz = checkFeatureFlag("ENABLE_TEACHER_DATA_VIZ");
+  const isTeacherDataVizEnabled = checkFeatureFlag("ENABLE_TEACHER_DATA_VIZ");
   const TAB_CONFIG = useMemo(
-    () => makeTabConfig(enableTeacherDataViz),
-    [enableTeacherDataViz],
+    () => makeTabConfig(isTeacherDataVizEnabled),
+    [isTeacherDataVizEnabled],
   );
 
   const displayTitle = data?.testSession.test.name ?? sessionTitle;
