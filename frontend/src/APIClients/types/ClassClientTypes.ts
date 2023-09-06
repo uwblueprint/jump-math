@@ -47,7 +47,7 @@ export type ClassStudentData = Pick<ClassResponse, "students" | "isActive">;
 
 export type ClassTestSessionData = Pick<
   ClassResponse,
-  "id" | "className" | "testSessions" | "isActive"
+  "className" | "testSessions" | "isActive"
 >;
 
 export type ClassOverviewData = Pick<ClassResponse, "id" | "className">;
