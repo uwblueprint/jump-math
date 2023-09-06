@@ -98,17 +98,11 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const authErrorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) {
-    let foundRefreshError = false;
-    graphQLErrors.forEach(({ extensions }) => {
-      if (extensions.code === "UNAUTHENTICATED") {
-        foundRefreshError = true;
-      }
-    });
-
-    if (foundRefreshError) {
-      attemptRefresh().catch(console.error);
-    }
+  const wasAuthError = !!graphQLErrors?.some(
+    ({ extensions }) => extensions.code === "UNAUTHENTICATED",
+  );
+  if (wasAuthError) {
+    attemptRefresh().catch(console.error);
   }
 });
 
