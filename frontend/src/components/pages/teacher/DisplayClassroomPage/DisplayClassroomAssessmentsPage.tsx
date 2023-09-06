@@ -77,7 +77,7 @@ const DisplayClassroomAssessmentsPage = () => {
         <TestSessionListItem
           key={session.testSessionId}
           {...session}
-          classroomId={data?.class.id ?? ""}
+          classroomId={classroomId}
           classroomName={data?.class.className ?? ""}
           isReadOnly={!data?.class.isActive}
         />
@@ -112,7 +112,10 @@ const DisplayClassroomAssessmentsPage = () => {
           noResults={paginatedData.length === 0}
           noResultsComponent={
             <EmptyClassSessionsMessage
-              classId={classroomId}
+              classMetadata={{
+                id: classroomId,
+                className: data?.class.className ?? "",
+              }}
               isActive={data?.class.isActive}
             />
           }

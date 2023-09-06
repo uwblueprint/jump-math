@@ -28,10 +28,10 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const { id: teacherId, school: schoolId } =
     (authenticatedUser as AuthenticatedTeacher) ?? {};
 
-  const [page, setPage] = useState(state !== undefined ? 3 : 0);
+  const [page, setPage] = useState(state?.endDate !== undefined ? 3 : 0);
 
-  const [testId, setTestId] = useState(state?.test.id ?? "");
-  const [testName, setTestName] = useState(state?.test.name ?? "");
+  const [testId, setTestId] = useState(state?.test?.id ?? "");
+  const [testName, setTestName] = useState(state?.test?.name ?? "");
 
   const [classId, setClassId] = useState(state?.class.id ?? "");
   const [className, setClassName] = useState(state?.class.className ?? "");
@@ -43,7 +43,8 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   const [notes, setNotes] = useState(state?.notes ?? "");
 
   const [validDates, setValidDates] = useState(false);
-  const isEditDisabled = state?.status !== TestSessionStatus.UPCOMING;
+  const isEditDisabled =
+    state?.status && state?.status !== TestSessionStatus.UPCOMING;
 
   const renderPageContent = () => {
     switch (page) {
