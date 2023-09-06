@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 
 import { GET_TEST_SESSION_TITLE } from "../../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionTitleData } from "../../../../APIClients/types/TestSessionClientTypes";
+import checkFeatureFlag from "../../../../checkFeatureFlag";
 import * as Routes from "../../../../constants/Routes";
 import RedirectTo from "../../../auth/RedirectTo";
 import BackButton from "../../../common/navigation/BackButton";
@@ -14,12 +15,16 @@ import NotFound from "../../NotFound";
 import DisplayAssessmentResultsByStudentPage from "./DisplayAssessmentResultsByStudentPage";
 import DisplayAssessmentResultsSummaryPage from "./DisplayAssessmentResultsSummaryPage";
 
-const TAB_CONFIG = [
-  {
-    name: "Summary",
-    path: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE(),
-    Component: DisplayAssessmentResultsSummaryPage,
-  },
+const getTabConfig = (isTeacherDataVizEnabled: boolean) => [
+  ...(isTeacherDataVizEnabled
+    ? [
+        {
+          name: "Summary",
+          path: Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE(),
+          Component: DisplayAssessmentResultsSummaryPage,
+        },
+      ]
+    : []),
   {
     name: "Student",
     path: Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE(),
@@ -29,7 +34,13 @@ const TAB_CONFIG = [
     path: Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE(),
     exact: true,
     element: (
-      <RedirectTo pathname={Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE} />
+      <RedirectTo
+        pathname={
+          isTeacherDataVizEnabled
+            ? Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE
+            : Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE
+        }
+      />
     ),
   },
   {
@@ -60,6 +71,12 @@ const DisplayAssessmentResults = () => {
     variables: { id: sessionId },
     skip: !!sessionTitle,
   });
+
+  const isTeacherDataVizEnabled = checkFeatureFlag("ENABLE_TEACHER_DATA_VIZ");
+  const TAB_CONFIG = useMemo(
+    () => getTabConfig(isTeacherDataVizEnabled),
+    [isTeacherDataVizEnabled],
+  );
 
   const displayTitle = data?.testSession.test.name ?? sessionTitle;
   return (
