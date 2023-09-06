@@ -75,7 +75,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     },
   });
 
-  const assessmentName = watch("name");
+  const assessmentName = state?.name;
   const isExisting = !!state;
   usePageTitle(
     isExisting
