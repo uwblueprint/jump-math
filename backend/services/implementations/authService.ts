@@ -233,6 +233,9 @@ class AuthService implements IAuthService {
 
       return firebaseUser.emailVerified && roles.has(userRole);
     } catch (error) {
+      Logger.error(
+        `Failed to verify caller. Reason = ${getErrorMessage(error)}`,
+      );
       return false;
     }
   }
@@ -256,6 +259,9 @@ class AuthService implements IAuthService {
         firebaseUser.emailVerified && String(tokenUserId) === requestedUserId
       );
     } catch (error) {
+      Logger.error(
+        `Failed to verify caller. Reason = ${getErrorMessage(error)}`,
+      );
       return false;
     }
   }
@@ -276,6 +282,9 @@ class AuthService implements IAuthService {
         firebaseUser.emailVerified && decodedIdToken.email === requestedEmail
       );
     } catch (error) {
+      Logger.error(
+        `Failed to verify caller. Reason = ${getErrorMessage(error)}`,
+      );
       return false;
     }
   }
