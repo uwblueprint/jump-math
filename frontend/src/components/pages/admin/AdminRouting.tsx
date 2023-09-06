@@ -37,7 +37,7 @@ const AdminRouting = (): React.ReactElement => {
                 exact
                 path={Routes.USER_DATABASE_PAGE}
                 roles={["Admin"]}
-                title="Users"
+                title="Database"
               />
               <PrivateRoute
                 component={DisplayAssessmentsPage}
