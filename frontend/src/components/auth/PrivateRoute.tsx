@@ -11,7 +11,7 @@ import usePageTitle from "./usePageTitle";
 type PageProps = {
   component: ComponentType;
   roles: Role[];
-  title: string;
+  title?: string;
   // Setting this to true will make it so child components of the current page
   // can override the page title with their own title.
   isTitleOverridable?: boolean;
@@ -35,7 +35,7 @@ const Page = ({
 
   usePageTitle(
     isAuthorized ? title : "Not Found",
-    !isSignedIn,
+    !isSignedIn || typeof title === "undefined",
     isTitleOverridable,
   );
 

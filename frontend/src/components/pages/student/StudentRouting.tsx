@@ -61,14 +61,12 @@ const StudentRouting = (): React.ReactElement => {
             exact
             path={Routes.ASSESSMENT_SUMMARY_PAGE}
             roles={["Student"]}
-            title="Assessment Summary"
           />
           <PrivateRoute
             component={WriteAssessmentPage}
             exact
             path={Routes.WRITE_ASSESSMENT_PAGE}
             roles={["Student"]}
-            title="Write Assessment"
           />
           <Redirect
             exact

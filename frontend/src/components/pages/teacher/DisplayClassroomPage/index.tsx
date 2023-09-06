@@ -152,7 +152,7 @@ const DisplayClassroomsPage = () => {
     );
   }, [classroomFormMethods, displayGradeLevel, displayStartDate, displayTitle]);
 
-  usePageTitle(displayTitle);
+  usePageTitle(displayTitle ?? "Classroom");
 
   return (
     <Flex direction="column" gap={3}>

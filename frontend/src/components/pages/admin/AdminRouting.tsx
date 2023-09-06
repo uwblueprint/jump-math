@@ -26,7 +26,6 @@ const AdminRouting = (): React.ReactElement => {
         isTitleOverridable
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
-        title="Edit Assessment"
       />
       <Route path="*">
         <VStack align="left" flex="1" height="100vh">

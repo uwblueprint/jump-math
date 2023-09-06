@@ -70,7 +70,6 @@ const TeacherRouting = (): React.ReactElement => {
             component={DisplayClassroomPage}
             path={Routes.DISPLAY_CLASSROOM_PAGE()}
             roles={["Teacher"]}
-            title="Classroom"
           />
           <Redirect
             exact
