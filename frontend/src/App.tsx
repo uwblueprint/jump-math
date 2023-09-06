@@ -81,7 +81,6 @@ const App = (): ReactElement => {
                   component={AdminRouting}
                   path={Routes.ADMIN_LANDING_PAGE}
                   roles={["Admin"]}
-                  title="Redirecting..."
                 />
 
                 {/* private teacher routing */}
@@ -94,10 +93,8 @@ const App = (): ReactElement => {
                 )}
                 <PrivateRoute
                   component={TeacherRouting}
-                  isTitleOverridable
                   path={Routes.TEACHER_LANDING_PAGE}
                   roles={["Teacher"]}
-                  title="Redirecting..."
                 />
                 {/* private student routing */}
                 {authenticatedUser?.role === "Student" && (
@@ -109,10 +106,8 @@ const App = (): ReactElement => {
                 )}
                 <PrivateRoute
                   component={StudentRouting}
-                  isTitleOverridable
                   path={Routes.STUDENT_LANDING_PAGE}
                   roles={["Student"]}
-                  title="Redirecting..."
                 />
 
                 {/* public routing */}

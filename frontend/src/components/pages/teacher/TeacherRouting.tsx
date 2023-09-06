@@ -1,10 +1,11 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
+import RedirectTo from "../../auth/RedirectTo";
 import Navbar from "../../common/navigation/Navbar";
 import NotFound from "../NotFound";
 
@@ -71,11 +72,9 @@ const TeacherRouting = (): React.ReactElement => {
             path={Routes.DISPLAY_CLASSROOM_PAGE()}
             roles={["Teacher"]}
           />
-          <Redirect
-            exact
-            from={Routes.TEACHER_LANDING_PAGE}
-            to={Routes.TEACHER_DASHBOARD_PAGE}
-          />
+          <Route exact path={Routes.TEACHER_LANDING_PAGE}>
+            <RedirectTo pathname={Routes.TEACHER_DASHBOARD_PAGE} />
+          </Route>
           <Route component={NotFound} exact path="*" />
         </Switch>
       </Box>

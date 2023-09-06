@@ -1,10 +1,11 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Box, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
+import RedirectTo from "../../auth/RedirectTo";
 import Navbar from "../../common/navigation/Navbar";
 import NotFound from "../NotFound";
 
@@ -23,7 +24,6 @@ const AdminRouting = (): React.ReactElement => {
       <PrivateRoute
         component={AssessmentEditorPage}
         exact
-        isTitleOverridable
         path={Routes.ASSESSMENT_EDITOR_PAGE}
         roles={["Admin"]}
       />
@@ -46,11 +46,9 @@ const AdminRouting = (): React.ReactElement => {
                 roles={["Admin"]}
                 title="Assessments"
               />
-              <Redirect
-                exact
-                from={Routes.ADMIN_LANDING_PAGE}
-                to={Routes.USER_DATABASE_PAGE}
-              />
+              <Route exact path={Routes.ADMIN_LANDING_PAGE}>
+                <RedirectTo pathname={Routes.USER_DATABASE_PAGE} />
+              </Route>
               <Route component={NotFound} exact path="*" />
             </Switch>
           </Box>

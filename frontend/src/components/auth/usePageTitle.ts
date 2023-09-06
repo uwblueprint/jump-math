@@ -1,17 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-const usePageTitle = (
-  title?: string,
-  skip = false,
-  setOnlyIfUnchanged = false,
-) => {
-  const prevTitle = useRef("");
-  prevTitle.current = document.title;
+const usePageTitle = (title?: string, skip = false) => {
   useEffect(() => {
     if (skip) return;
     if (!title) return;
-    if (setOnlyIfUnchanged && prevTitle.current !== document.title) return;
     document.title = `${title} | Jump Math`;
-  }, [title, skip, setOnlyIfUnchanged]);
+  }, [title, skip]);
 };
 export default usePageTitle;
