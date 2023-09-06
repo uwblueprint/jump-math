@@ -15,7 +15,7 @@ import NotFound from "../../NotFound";
 import DisplayAssessmentResultsByStudentPage from "./DisplayAssessmentResultsByStudentPage";
 import DisplayAssessmentResultsSummaryPage from "./DisplayAssessmentResultsSummaryPage";
 
-const makeTabConfig = (isTeacherDataVizEnabled: boolean) => [
+const getTabConfig = (isTeacherDataVizEnabled: boolean) => [
   ...(isTeacherDataVizEnabled
     ? [
         {
@@ -74,7 +74,7 @@ const DisplayAssessmentResults = () => {
 
   const isTeacherDataVizEnabled = checkFeatureFlag("ENABLE_TEACHER_DATA_VIZ");
   const TAB_CONFIG = useMemo(
-    () => makeTabConfig(isTeacherDataVizEnabled),
+    () => getTabConfig(isTeacherDataVizEnabled),
     [isTeacherDataVizEnabled],
   );
 
