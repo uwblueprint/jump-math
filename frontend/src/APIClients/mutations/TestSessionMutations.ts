@@ -8,6 +8,14 @@ export const CREATE_TEST_SESSION = gql`
   }
 `;
 
+export const UPDATE_TEST_SESSION = gql`
+  mutation UpdateTestSession($id: ID!, $testSession: TestSessionRequestDTO!) {
+    updateTestSession(id: $id, testSession: $testSession) {
+      id
+    }
+  }
+`;
+
 export const SUBMIT_TEST = gql`
   mutation CreateTestSessionResult(
     $testSessionId: ID!

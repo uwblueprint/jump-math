@@ -83,8 +83,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
                   {paginatedData?.map((session) => (
                     <TestSessionListItem
                       key={session.testSessionId}
-                      {...session}
-                      classroomName={session.classroomName ?? ""}
+                      session={session}
                     />
                   ))}
                 </TabPanel>

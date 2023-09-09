@@ -47,6 +47,10 @@ const testSessionResolvers = {
       _req: undefined,
       { testSession }: { testSession: TestSessionRequestDTO },
     ) => testSessionService.createTestSession(testSession),
+    updateTestSession: (
+      _req: undefined,
+      { id, testSession }: { id: string; testSession: TestSessionRequestDTO },
+    ) => testSessionService.updateTestSession(id, testSession),
     createTestSessionResult: (
       _req: undefined,
       { id, result }: { id: string; result: ResultRequestDTO },
