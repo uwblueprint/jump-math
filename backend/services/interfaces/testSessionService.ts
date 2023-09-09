@@ -193,10 +193,12 @@ export interface ITestSessionService {
    *
    * @param id The unique identifier of the Test Session document to update
    * @param testSession The object containing the updated Test Session
+   * @param nowDate The optional date to use as the current date
    */
   updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
+    nowDate?: Date,
   ): Promise<TestSessionResponseDTO>;
 
   /**

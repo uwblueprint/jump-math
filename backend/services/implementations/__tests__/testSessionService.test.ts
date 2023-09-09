@@ -455,6 +455,22 @@ describe("mongo testSessionService", (): void => {
       );
     });
 
+    it("for past test session", async () => {
+      // insert test session into database
+      const testSession = await MgTestSession.create(
+        mockTestSessionWithInvalidEndDate,
+      );
+
+      await expect(async () => {
+        await testSessionService.updateTestSession(
+          testSession.id,
+          mockTestSession,
+        );
+      }).rejects.toThrowError(
+        `Test Session id ${testSession.id} has already ended and so cannot be updated`,
+      );
+    });
+
     it("for non-existing ID", async () => {
       const invalidId = "62c248c0f79d6c3c9ebbea94";
 

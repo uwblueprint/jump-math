@@ -334,6 +334,7 @@ class TestSessionService implements ITestSessionService {
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
+    nowDate?: Date,
   ): Promise<TestSessionResponseDTO> {
     let updatedTestSession: TestSession | null;
 
@@ -345,8 +346,17 @@ class TestSessionService implements ITestSessionService {
         throw new Error(`Test Session id ${id} not found`);
       }
 
+      const date = nowDate ?? new Date();
+
+      // If the test session is past, we don't allow teachers to update the test session at all
+      if (oldTestSession.endDate < date) {
+        throw new Error(
+          `Test Session id ${id} has already ended and so cannot be updated`,
+        );
+      }
+
       // If the test session is active, we don't allow teachers to update the assessment, class, or start date
-      const isActive = oldTestSession.startDate <= new Date();
+      const isActive = oldTestSession.startDate <= date;
       if (
         isActive &&
         (oldTestSession.test.toString() !== testSession.test ||
