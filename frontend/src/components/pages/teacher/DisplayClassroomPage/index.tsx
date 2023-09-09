@@ -167,10 +167,8 @@ const DisplayClassroomsPage = () => {
                 name: "Assessment",
                 onClick: () =>
                   history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
-                    class: {
-                      id: classroomId,
-                      className: displayTitle,
-                    },
+                    classroomId: classroomId,
+                    classroomName: displayTitle,
                   }),
               },
               { name: "Student", onClick: onStudentModalOpen },

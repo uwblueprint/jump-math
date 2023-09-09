@@ -114,10 +114,8 @@ const DisplayClassroomAssessmentsPage = () => {
           noResults={paginatedData.length === 0}
           noResultsComponent={
             <EmptyClassSessionsMessage
-              classMetadata={{
-                id: classroomId,
-                className: data?.class.className ?? "",
-              }}
+              classroomId={classroomId}
+              classroomName={data?.class.className ?? ""}
               isActive={data?.class.isActive}
             />
           }

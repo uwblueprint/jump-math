@@ -56,6 +56,7 @@ const TestSessionListItem = ({
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
+  const { testSessionId, classroomName, testName, status } = session;
   const { targetDate, accessCode, ...testSessionEditingData } = session;
 
   const formattedAccessCode = `${accessCode.slice(
@@ -90,14 +91,14 @@ const TestSessionListItem = ({
             status === TestSessionStatus.PAST &&
             history.push(
               Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE({
-                sessionId: session.testSessionId,
+                sessionId: testSessionId,
               }),
               {
                 returnTo: {
                   pathname: history.location.pathname,
                   state: history.location.state,
                 },
-                sessionTitle: session.testName,
+                sessionTitle: testName,
               },
             )
           }
@@ -105,12 +106,12 @@ const TestSessionListItem = ({
           pr={0}
           w="100%"
         >
-          {session.classroomName != null && (
+          {classroomName != null && (
             <Tooltip
               bg="blue.300"
               borderRadius={4}
               hasArrow
-              label={session.classroomName}
+              label={classroomName}
               p={2}
               placement="left"
             >
@@ -134,7 +135,7 @@ const TestSessionListItem = ({
                     textStyle="smallerParagraph"
                     whiteSpace="nowrap"
                   >
-                    {session.classroomName}
+                    {classroomName}
                   </Text>
                 </TagLabel>
               </Tag>
@@ -143,13 +144,11 @@ const TestSessionListItem = ({
           <VStack align="start">
             <Text
               color={
-                session.status === TestSessionStatus.PAST
-                  ? "grey.300"
-                  : "blue.300"
+                status === TestSessionStatus.PAST ? "grey.300" : "blue.300"
               }
               textStyle="subtitle2"
             >
-              {session.testName}
+              {testName}
             </Text>
             <Text
               color={
@@ -157,10 +156,10 @@ const TestSessionListItem = ({
               }
               textStyle="mobileParagraph"
             >
-              {STATUS_LABELS[session.status]} {formatDate(targetDate)}
+              {STATUS_LABELS[status]} {formatDate(targetDate)}
             </Text>
           </VStack>
-          {session.status !== TestSessionStatus.PAST && (
+          {status !== TestSessionStatus.PAST && (
             <Copyable
               displayedValue={formattedAccessCode}
               label="Access Code"
@@ -184,26 +183,25 @@ const TestSessionListItem = ({
               </Text>
             </>
           )}
-          {session.status !== TestSessionStatus.PAST &&
-            session.classroomName == null && (
-              <Tag
-                bg={STATUS_BACKGROUND_COLORS[session.status]}
-                borderRadius="full"
-                maxWidth={40}
+          {status !== TestSessionStatus.PAST && classroomName == null && (
+            <Tag
+              bg={STATUS_BACKGROUND_COLORS[status]}
+              borderRadius="full"
+              maxWidth={40}
+              overflow="hidden"
+              size="lg"
+            >
+              <Text
+                color={STATUS_COLORS[status]}
                 overflow="hidden"
-                size="lg"
+                textOverflow="ellipsis"
+                textStyle="smallerParagraph"
+                whiteSpace="nowrap"
               >
-                <Text
-                  color={STATUS_COLORS[session.status]}
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  textStyle="smallerParagraph"
-                  whiteSpace="nowrap"
-                >
-                  {titleCase(status)}
-                </Text>
-              </Tag>
-            )}
+                {titleCase(status)}
+              </Text>
+            </Tag>
+          )}
         </HStack>
       </Tooltip>
       {status !== TestSessionStatus.PAST && !isReadOnly && (
