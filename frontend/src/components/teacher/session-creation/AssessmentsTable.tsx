@@ -64,7 +64,7 @@ const AssessmentsTable = ({
       value={selectedTestId}
       width="100%"
     >
-      <Table headers={headers} isDisabled={isDisabled} rows={rows} />
+      <Table headers={headers} rows={rows} />
     </RadioGroup>
   );
 };
