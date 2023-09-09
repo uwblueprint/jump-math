@@ -35,7 +35,12 @@ const AssessmentsTable = ({
   const rows: TableRow[] = assessments.map((assessment, i) => ({
     id: assessment.id,
     values: [
-      <Radio key={i} value={assessment.id} variant="table" />,
+      <Radio
+        key={i}
+        isDisabled={isDisabled}
+        value={assessment.id}
+        variant="table"
+      />,
       <Text key={i} fontWeight="bold">
         {assessment.name}
       </Text>,
@@ -50,6 +55,7 @@ const AssessmentsTable = ({
         setTestName(assessment.name);
       }
     },
+    isDisabled: isDisabled,
   }));
 
   return (

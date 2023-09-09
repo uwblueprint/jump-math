@@ -68,7 +68,7 @@ const classType = gql`
       student: StudentRequestDTO!
     ): ClassResponseDTO!
     deleteClass(classId: ID!): ID
-    archiveClass(id: ID!): ClassResponseDTO!
+    archiveClass(id: ID!): ID
     deleteStudent(classId: ID!, studentId: ID!): ID!
   }
 `;

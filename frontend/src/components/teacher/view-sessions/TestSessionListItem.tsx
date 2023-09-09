@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import { BookIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
 import type { TestSessionItemStats } from "../../../types/TestSessionTypes";
@@ -22,19 +23,12 @@ import Copyable from "../../common/Copyable";
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
 export type TestSessionListItemProps = {
-  testSessionId: string;
-  testId: string;
-  testName: string;
-  classroomId: string;
-  classroomName: string;
-  endDate: Date;
-  startDate: Date;
-  notes?: string;
-  // Target date should be the start date of the session UNLESS
-  // the session is active, in which case it should be the end date
-  targetDate: Date;
-  accessCode: string;
-  status: TestSessionStatus;
+  session: TestSessionEditingData & {
+    // Target date should be the start date of the session UNLESS
+    // the session is active, in which case it should be the end date
+    targetDate: Date;
+    accessCode: string;
+  };
   isReadOnly?: boolean;
   stats?: TestSessionItemStats;
 };
@@ -57,21 +51,13 @@ const STATUS_COLORS = {
 const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
-  testSessionId,
-  classroomId,
-  classroomName,
-  testId,
-  testName,
-  targetDate,
-  startDate,
-  endDate,
-  accessCode,
-  status,
-  notes,
+  session,
   isReadOnly = false,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
+  const { testSessionId, classroomName, testName, status } = session;
+  const { targetDate, accessCode, ...testSessionEditingData } = session;
 
   const formattedAccessCode = `${accessCode.slice(
     0,
@@ -221,21 +207,7 @@ const TestSessionListItem = ({
       {status !== TestSessionStatus.PAST && !isReadOnly && (
         <Box ml={1}>
           <TestSessionListItemPopover
-            testSessionEditingData={{
-              id: testSessionId,
-              startDate,
-              notes,
-              test: {
-                id: testId,
-                name: testName,
-              },
-              class: {
-                id: classroomId,
-                className: classroomName,
-              },
-              endDate,
-              status,
-            }}
+            testSessionEditingData={testSessionEditingData}
           />
         </Box>
       )}

@@ -44,9 +44,7 @@ export const UPDATE_STUDENT = gql`
 
 export const ARCHIVE_CLASS = gql`
   mutation ArchiveClass($classId: ID!) {
-    archiveClass(id: $classId) {
-      id
-    }
+    archiveClass(id: $classId)
   }
 `;
 

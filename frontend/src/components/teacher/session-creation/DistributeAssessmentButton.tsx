@@ -11,6 +11,7 @@ import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/Tes
 import type { TestSessionRequest } from "../../../APIClients/types/TestSessionClientTypes";
 import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import { getQueryName } from "../../../utils/GeneralUtils";
 import useToast from "../../common/info/useToast";
 
 import DistributeAssessmentModal from "./DistributeAssessmentModal";
@@ -32,12 +33,12 @@ const DistributeAssessmentButton = ({
   const [createSession, { loading }] = useMutation<{
     createSession: string;
   }>(CREATE_TEST_SESSION, {
-    refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
+    refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
   const [updateSession] = useMutation<{
     updateSession: string;
   }>(UPDATE_TEST_SESSION, {
-    refetchQueries: [{ query: GET_TEST_SESSIONS_BY_TEACHER_ID }],
+    refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
 
   const handleCreateSession = async () => {

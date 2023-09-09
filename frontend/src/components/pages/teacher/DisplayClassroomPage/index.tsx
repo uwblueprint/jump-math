@@ -19,6 +19,7 @@ import {
   titleCase,
 } from "../../../../utils/GeneralUtils";
 import RedirectTo from "../../../auth/RedirectTo";
+import usePageTitle from "../../../auth/usePageTitle";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
@@ -151,6 +152,8 @@ const DisplayClassroomsPage = () => {
     );
   }, [classroomFormMethods, displayGradeLevel, displayStartDate, displayTitle]);
 
+  usePageTitle(displayTitle ?? "Classroom");
+
   return (
     <Flex direction="column" gap={3}>
       <FormBreadcrumb
@@ -167,10 +170,8 @@ const DisplayClassroomsPage = () => {
                 name: "Assessment",
                 onClick: () =>
                   history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
-                    class: {
-                      id: classroomId,
-                      className: displayTitle,
-                    },
+                    classroomId: classroomId,
+                    classroomName: displayTitle,
                   }),
               },
               { name: "Student", onClick: onStudentModalOpen },

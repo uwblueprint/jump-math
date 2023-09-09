@@ -30,11 +30,11 @@ const DistributeAssessmentPage = (): React.ReactElement => {
 
   const [page, setPage] = useState(state?.endDate !== undefined ? 3 : 0);
 
-  const [testId, setTestId] = useState(state?.test?.id ?? "");
-  const [testName, setTestName] = useState(state?.test?.name ?? "");
+  const [testId, setTestId] = useState(state?.testId ?? "");
+  const [testName, setTestName] = useState(state?.testName ?? "");
 
-  const [classId, setClassId] = useState(state?.class.id ?? "");
-  const [className, setClassName] = useState(state?.class.className ?? "");
+  const [classId, setClassId] = useState(state?.classroomId ?? "");
+  const [className, setClassName] = useState(state?.classroomName ?? "");
 
   const [startDate, setStartDate] = useState<Date | null>(
     state?.startDate ?? null,
@@ -154,7 +154,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
                   endDate,
                   notes,
                 }}
-                testSessionId={state?.id}
+                testSessionId={state?.testSessionId}
               />
             )}
           </>

@@ -76,10 +76,12 @@ const DisplayClassroomAssessmentsPage = () => {
       {paginatedData?.map((session) => (
         <TestSessionListItem
           key={session.testSessionId}
-          {...session}
-          classroomId={classroomId}
-          classroomName={data?.class.className ?? ""}
           isReadOnly={!data?.class.isActive}
+          session={{
+            ...session,
+            classroomId: classroomId,
+            classroomName: data?.class.className ?? "",
+          }}
         />
       ))}
       {totalPages > 1 && (
@@ -112,10 +114,8 @@ const DisplayClassroomAssessmentsPage = () => {
           noResults={paginatedData.length === 0}
           noResultsComponent={
             <EmptyClassSessionsMessage
-              classMetadata={{
-                id: classroomId,
-                className: data?.class.className ?? "",
-              }}
+              classroomId={classroomId}
+              classroomName={data?.class.className ?? ""}
               isActive={data?.class.isActive}
             />
           }

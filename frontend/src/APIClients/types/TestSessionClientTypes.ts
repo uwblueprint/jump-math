@@ -1,6 +1,6 @@
 import type { TestSessionStatus } from "../../types/TestSessionTypes";
 
-import type { ClassOverviewData, StudentResponse } from "./ClassClientTypes";
+import type { ClassResponse, StudentResponse } from "./ClassClientTypes";
 import type { Test } from "./TestClientTypes";
 
 export interface TestSessionRequest {
@@ -35,7 +35,7 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the name of the test that this test session is for */
   test: Pick<Test, "id" | "name">;
   /** the name of the class that this test session is for */
-  class: ClassOverviewData;
+  class: Pick<ClassResponse, "id" | "className">;
   /** after this date, the test is no longer available to students */
   endDate: Date;
   /** the status of the test session */
@@ -44,10 +44,17 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   accessCode: string;
 }
 
-export type TestSessionEditingData = Omit<
-  TestSessionOverviewData,
-  "accessCode"
->;
+export interface TestSessionEditingData {
+  testSessionId: string;
+  testId: string;
+  testName: string;
+  classroomId: string;
+  classroomName: string;
+  startDate: Date;
+  endDate: Date;
+  status: TestSessionStatus;
+  notes?: string;
+}
 
 export interface TestSessionResultData {
   /** the answers that the student gave */
