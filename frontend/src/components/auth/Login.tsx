@@ -21,6 +21,7 @@ import RouterLink from "../common/navigation/RouterLink";
 import ForgotPassword from "./reset-password/ForgotPassword";
 import AuthWrapper from "./AuthWrapper";
 import UnverifiedUsers from "./UnverifiedUsers";
+import usePageTitle from "./usePageTitle";
 
 const Login = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -77,10 +78,6 @@ const Login = (): React.ReactElement => {
       setLoginError(true);
     }
   };
-
-  if (authenticatedUser) {
-    return <Redirect to={HOME_PAGE} />;
-  }
 
   const title = isAdmin ? "Admin Login" : "Teacher Login";
   const subtitle = "Enter your login credentials below to continue";
@@ -145,6 +142,9 @@ const Login = (): React.ReactElement => {
     error = "Failed to login";
   }
 
+  usePageTitle(title);
+
+  if (authenticatedUser) return <Redirect to={HOME_PAGE} />;
   if (forgotPassword) return <ForgotPassword isAdmin={isAdmin} />;
   if (unverifiedUser) return <UnverifiedUsers email={email} />;
   return (

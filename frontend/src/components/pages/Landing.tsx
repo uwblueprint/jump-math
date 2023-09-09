@@ -13,6 +13,7 @@ import {
 
 import { JUMP_MATH_LOGO } from "../../assets/images";
 import * as Routes from "../../constants/Routes";
+import usePageTitle from "../auth/usePageTitle";
 
 const DashboardLinks = (): React.ReactElement => {
   const history = useHistory();
@@ -48,6 +49,8 @@ const DashboardLinks = (): React.ReactElement => {
 };
 
 const Landing = (): React.ReactElement => {
+  usePageTitle("Welcome");
+
   return (
     <Box>
       <Stack justifyContent="left" p={8}>
