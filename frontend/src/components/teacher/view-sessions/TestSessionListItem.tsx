@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import { BookIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
 import type { TestSessionItemStats } from "../../../types/TestSessionTypes";
@@ -22,19 +23,12 @@ import Copyable from "../../common/Copyable";
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 
 export type TestSessionListItemProps = {
-  testSessionId: string;
-  testId: string;
-  testName: string;
-  classroomId: string;
-  classroomName: string;
-  endDate: Date;
-  startDate: Date;
-  notes?: string;
-  // Target date should be the start date of the session UNLESS
-  // the session is active, in which case it should be the end date
-  targetDate: Date;
-  accessCode: string;
-  status: TestSessionStatus;
+  session: TestSessionEditingData & {
+    // Target date should be the start date of the session UNLESS
+    // the session is active, in which case it should be the end date
+    targetDate: Date;
+    accessCode: string;
+  };
   isReadOnly?: boolean;
   stats?: TestSessionItemStats;
 };
@@ -57,21 +51,12 @@ const STATUS_COLORS = {
 const ACCESS_CODE_GROUP_SIZE = 3;
 
 const TestSessionListItem = ({
-  testSessionId,
-  classroomId,
-  classroomName,
-  testId,
-  testName,
-  targetDate,
-  startDate,
-  endDate,
-  accessCode,
-  status,
-  notes,
+  session,
   isReadOnly = false,
   stats,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
+  const { targetDate, accessCode, ...testSessionEditingData } = session;
 
   const formattedAccessCode = `${accessCode.slice(
     0,
@@ -105,14 +90,14 @@ const TestSessionListItem = ({
             status === TestSessionStatus.PAST &&
             history.push(
               Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE({
-                sessionId: testSessionId,
+                sessionId: session.testSessionId,
               }),
               {
                 returnTo: {
                   pathname: history.location.pathname,
                   state: history.location.state,
                 },
-                sessionTitle: testName,
+                sessionTitle: session.testName,
               },
             )
           }
@@ -120,12 +105,12 @@ const TestSessionListItem = ({
           pr={0}
           w="100%"
         >
-          {classroomName != null && (
+          {session.classroomName != null && (
             <Tooltip
               bg="blue.300"
               borderRadius={4}
               hasArrow
-              label={classroomName}
+              label={session.classroomName}
               p={2}
               placement="left"
             >
@@ -149,7 +134,7 @@ const TestSessionListItem = ({
                     textStyle="smallerParagraph"
                     whiteSpace="nowrap"
                   >
-                    {classroomName}
+                    {session.classroomName}
                   </Text>
                 </TagLabel>
               </Tag>
@@ -158,11 +143,13 @@ const TestSessionListItem = ({
           <VStack align="start">
             <Text
               color={
-                status === TestSessionStatus.PAST ? "grey.300" : "blue.300"
+                session.status === TestSessionStatus.PAST
+                  ? "grey.300"
+                  : "blue.300"
               }
               textStyle="subtitle2"
             >
-              {testName}
+              {session.testName}
             </Text>
             <Text
               color={
@@ -170,10 +157,10 @@ const TestSessionListItem = ({
               }
               textStyle="mobileParagraph"
             >
-              {STATUS_LABELS[status]} {formatDate(targetDate)}
+              {STATUS_LABELS[session.status]} {formatDate(targetDate)}
             </Text>
           </VStack>
-          {status !== TestSessionStatus.PAST && (
+          {session.status !== TestSessionStatus.PAST && (
             <Copyable
               displayedValue={formattedAccessCode}
               label="Access Code"
@@ -197,45 +184,32 @@ const TestSessionListItem = ({
               </Text>
             </>
           )}
-          {status !== TestSessionStatus.PAST && classroomName == null && (
-            <Tag
-              bg={STATUS_BACKGROUND_COLORS[status]}
-              borderRadius="full"
-              maxWidth={40}
-              overflow="hidden"
-              size="lg"
-            >
-              <Text
-                color={STATUS_COLORS[status]}
+          {session.status !== TestSessionStatus.PAST &&
+            session.classroomName == null && (
+              <Tag
+                bg={STATUS_BACKGROUND_COLORS[session.status]}
+                borderRadius="full"
+                maxWidth={40}
                 overflow="hidden"
-                textOverflow="ellipsis"
-                textStyle="smallerParagraph"
-                whiteSpace="nowrap"
+                size="lg"
               >
-                {titleCase(status)}
-              </Text>
-            </Tag>
-          )}
+                <Text
+                  color={STATUS_COLORS[session.status]}
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  textStyle="smallerParagraph"
+                  whiteSpace="nowrap"
+                >
+                  {titleCase(status)}
+                </Text>
+              </Tag>
+            )}
         </HStack>
       </Tooltip>
       {status !== TestSessionStatus.PAST && !isReadOnly && (
         <Box ml={1}>
           <TestSessionListItemPopover
-            testSessionEditingData={{
-              id: testSessionId,
-              startDate,
-              notes,
-              test: {
-                id: testId,
-                name: testName,
-              },
-              class: {
-                id: classroomId,
-                className: classroomName,
-              },
-              endDate,
-              status,
-            }}
+            testSessionEditingData={testSessionEditingData}
           />
         </Box>
       )}

@@ -76,10 +76,12 @@ const DisplayClassroomAssessmentsPage = () => {
       {paginatedData?.map((session) => (
         <TestSessionListItem
           key={session.testSessionId}
-          {...session}
-          classroomId={classroomId}
-          classroomName={data?.class.className ?? ""}
           isReadOnly={!data?.class.isActive}
+          session={{
+            ...session,
+            classroomId: classroomId,
+            classroomName: data?.class.className ?? "",
+          }}
         />
       ))}
       {totalPages > 1 && (

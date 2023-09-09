@@ -77,7 +77,7 @@ const AssessmentsSection = () => {
                 {sortedData?.map((session) => (
                   <TestSessionListItem
                     key={session.testSessionId}
-                    {...session}
+                    session={session}
                   />
                 ))}
               </TabPanel>
