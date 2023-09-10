@@ -334,10 +334,49 @@ class TestSessionService implements ITestSessionService {
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
+    nowDate?: Date,
   ): Promise<TestSessionResponseDTO> {
     let updatedTestSession: TestSession | null;
 
     try {
+      const date = nowDate ?? new Date();
+      const oldTestSession: TestSession | null = await MgTestSession.findById(
+        id,
+      );
+      if (!oldTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+
+      // If the test session is past, we don't allow teachers to update the test session at all
+      if (oldTestSession.endDate < date) {
+        throw new Error(
+          `Test Session id ${id} has already ended and so cannot be updated`,
+        );
+      }
+
+      // If the test session is active, we only allow teachers to update the end date and notes
+      if (oldTestSession.startDate <= date) {
+        const updatableKeys = new Set(["endDate", "notes"]);
+        const isInvalidModification = Object.entries(testSession).some(
+          ([key, newValue]) => {
+            const currentValue =
+              oldTestSession[key as keyof TestSessionRequestDTO];
+            return (
+              !updatableKeys.has(key) &&
+              (currentValue instanceof Date
+                ? currentValue.getTime() !== newValue.getTime()
+                : currentValue?.toString() !== newValue)
+            );
+          },
+        );
+
+        if (isInvalidModification) {
+          throw new Error(
+            `Test Session id ${id} is active and so only the end date and notes can be updated`,
+          );
+        }
+      }
+
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
         testSession,
