@@ -372,7 +372,7 @@ class TestSessionService implements ITestSessionService {
 
         if (isInvalidModification) {
           throw new Error(
-            `Test Session id ${id} is active and so the test, class, and start date cannot be updated`,
+            `Test Session id ${id} is active and so only the end date and notes can be updated`,
           );
         }
       }
