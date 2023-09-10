@@ -424,7 +424,7 @@ describe("mongo testSessionService", (): void => {
           updatedTestSession,
         );
       }).rejects.toThrowError(
-        `Test Session id ${testSession.id} is active and so the test, class, and start date cannot be updated`,
+        `Test Session id ${testSession.id} is active and so only the end date and notes can be updated`,
       );
     });
 
