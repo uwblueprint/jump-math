@@ -339,14 +339,13 @@ class TestSessionService implements ITestSessionService {
     let updatedTestSession: TestSession | null;
 
     try {
+      const date = nowDate ?? new Date();
       const oldTestSession: TestSession | null = await MgTestSession.findById(
         id,
       );
       if (!oldTestSession) {
         throw new Error(`Test Session id ${id} not found`);
       }
-
-      const date = nowDate ?? new Date();
 
       // If the test session is past, we don't allow teachers to update the test session at all
       if (oldTestSession.endDate < date) {
@@ -357,13 +356,21 @@ class TestSessionService implements ITestSessionService {
 
       // If the test session is active, we don't allow teachers to update the assessment, class, or start date
       const isActive = oldTestSession.startDate <= date;
-      if (
-        isActive &&
-        (oldTestSession.test.toString() !== testSession.test ||
-          oldTestSession.class.toString() !== testSession.class ||
-          oldTestSession.startDate.getTime() !==
-            testSession.startDate.getTime())
-      ) {
+      const keysToValidate = ["test", "class", "startDate"];
+      const isInvalidModification = Object.entries(testSession).some(
+        ([key, newValue]) => {
+          if (keysToValidate.includes(key)) {
+            const currentValue =
+              oldTestSession[key as keyof TestSessionRequestDTO];
+            return currentValue instanceof Date
+              ? currentValue.getTime() !== newValue.getTime()
+              : currentValue?.toString() !== newValue;
+          }
+          return false;
+        },
+      );
+
+      if (isActive && isInvalidModification) {
         throw new Error(
           `Test Session id ${id} is active and so the test, class, and start date cannot be updated`,
         );
