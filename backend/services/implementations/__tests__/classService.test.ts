@@ -323,28 +323,47 @@ describe("mongo classService", (): void => {
     );
   });
 
-  it("deleteStudent", async () => {
-    const classObj = await ClassModel.create(testClassWithStudents);
-    const savedStudent = classObj.students[0];
+  describe("deleteStudent", () => {
+    it("with valid class and student id", async () => {
+      const classObj = await ClassModel.create(testClassWithStudents);
+      const savedStudent = classObj.students[0];
+      const testSession = await TestSessionModel.create({
+        ...mockTestSession,
+        class: classObj.id,
+        results: [
+          mockGradedTestResult,
+          {
+            ...mockGradedTestResult,
+            student: savedStudent.id,
+          },
+        ],
+      });
+      expect(testSession?.results?.length).toEqual(2);
 
-    // execute
-    const deletedStudentId = await classService.deleteStudent(
-      savedStudent.id,
-      classObj.id,
-    );
+      // execute
+      const deletedStudentId = await classService.deleteStudent(
+        savedStudent.id,
+        classObj.id,
+      );
 
-    // assert
-    expect(deletedStudentId).toBe(savedStudent.id);
-  });
+      // assert
+      expect(deletedStudentId).toBe(savedStudent.id);
 
-  it("deleteStudent with non-existing class id", async () => {
-    // execute and assert
-    const classObj = await ClassModel.create(testClassWithStudents);
-    const notFoundId = "86cb91bdc3464f14678934cd";
-    await expect(async () => {
-      await classService.deleteStudent(classObj.students[0].id, notFoundId);
-    }).rejects.toThrowError(
-      `Student with id ${classObj.students[0].id} in class with id ${notFoundId} was not deleted`,
-    );
+      const updatedTestSession = await testSessionService.getTestSessionById(
+        testSession.id,
+      );
+      expect(updatedTestSession?.results).toEqual([mockGradedTestResult]);
+    });
+
+    it("with non-existing class id", async () => {
+      // execute and assert
+      const classObj = await ClassModel.create(testClassWithStudents);
+      const notFoundId = "86cb91bdc3464f14678934cd";
+      await expect(async () => {
+        await classService.deleteStudent(classObj.students[0].id, notFoundId);
+      }).rejects.toThrowError(
+        `Student with id ${classObj.students[0].id} in class with id ${notFoundId} was not deleted`,
+      );
+    });
   });
 });

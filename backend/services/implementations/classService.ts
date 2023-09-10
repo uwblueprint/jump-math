@@ -299,6 +299,10 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
+
+      // Make a best effort to delete all test session results for the deleted student
+      // Any exceptions will be logged but not thrown
+      await this.deleteStudentResults(studentId, classId);
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -346,6 +350,26 @@ class ClassService implements IClassService {
     } catch (error: unknown) {
       Logger.info(
         `Failed to end active test sessions for class id ${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
+  }
+
+  private async deleteStudentResults(
+    studentId: string,
+    classId: string,
+  ): Promise<void> {
+    try {
+      await MgTestSession.updateMany(
+        { class: classId },
+        {
+          $pull: { results: { student: studentId } },
+        },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to delete student results for student id ${studentId} in class id ${classId}. Reason = ${getErrorMessage(
           error,
         )}`,
       );
