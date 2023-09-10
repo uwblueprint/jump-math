@@ -76,6 +76,7 @@ const DisplayClassroomAssessmentsPage = () => {
       {paginatedData?.map((session) => (
         <TestSessionListItem
           key={session.testSessionId}
+          inClassroomPage
           isReadOnly={!data?.class.isActive}
           session={{
             ...session,
