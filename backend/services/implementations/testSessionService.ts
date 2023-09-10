@@ -355,25 +355,26 @@ class TestSessionService implements ITestSessionService {
       }
 
       // If the test session is active, we don't allow teachers to update the assessment, class, or start date
-      const isActive = oldTestSession.startDate <= date;
-      const keysToValidate = ["test", "class", "startDate"];
-      const isInvalidModification = Object.entries(testSession).some(
-        ([key, newValue]) => {
-          if (keysToValidate.includes(key)) {
+      if (oldTestSession.startDate <= date) {
+        const updatableKeys = new Set(["endDate", "notes"]);
+        const isInvalidModification = Object.entries(testSession).some(
+          ([key, newValue]) => {
             const currentValue =
               oldTestSession[key as keyof TestSessionRequestDTO];
-            return currentValue instanceof Date
-              ? currentValue.getTime() !== newValue.getTime()
-              : currentValue?.toString() !== newValue;
-          }
-          return false;
-        },
-      );
-
-      if (isActive && isInvalidModification) {
-        throw new Error(
-          `Test Session id ${id} is active and so the test, class, and start date cannot be updated`,
+            return (
+              !updatableKeys.has(key) &&
+              (currentValue instanceof Date
+                ? currentValue.getTime() !== newValue.getTime()
+                : currentValue?.toString() !== newValue)
+            );
+          },
         );
+
+        if (isInvalidModification) {
+          throw new Error(
+            `Test Session id ${id} is active and so the test, class, and start date cannot be updated`,
+          );
+        }
       }
 
       updatedTestSession = await MgTestSession.findByIdAndUpdate(

@@ -21,6 +21,7 @@ import {
   mockTestSessionWithInvalidEndDate,
   mockTestSessionWithNoResults,
   mockTestSessionsWithEvenNumberOfResults,
+  mockTestSessionRequest,
 } from "../../../testUtils/testSession";
 import type {
   TestSessionRequestDTO,
@@ -381,34 +382,6 @@ describe("mongo testSessionService", (): void => {
     }).rejects.toThrowError(`Test Session id ${invalidId} not found`);
   });
 
-  it("updateTestSession for upcoming test session", async () => {
-    // insert test session into database
-    const testSession = await MgTestSession.create(
-      mockTestSessionWithExpiredStartDate,
-    );
-
-    // create DTO object to update to
-    const updatedTestSession: TestSessionRequestDTO = {
-      ...mockTestSession,
-      test: mockTestWithId2.id,
-      class: mockClassWithId2.id,
-      startDate: new Date("2022-09-10T09:00:00.000Z"),
-      endDate: new Date("2022-09-11T09:00:00.000Z"),
-      notes: "updated notes",
-    };
-
-    // update test and assert
-    const res = await testSessionService.updateTestSession(
-      testSession.id,
-      updatedTestSession,
-    );
-    assertResponseMatchesExpected(updatedTestSession, res);
-    assertResultsResponseMatchesExpected(
-      mockTestSession.results,
-      res.results ?? [],
-    );
-  });
-
   describe("updateTestSession", () => {
     it("for active test session with valid request object", async () => {
       // insert test session into database
@@ -416,7 +389,7 @@ describe("mongo testSessionService", (): void => {
 
       // create DTO object to update to
       const updatedTestSession: TestSessionRequestDTO = {
-        ...mockTestSession,
+        ...mockTestSessionRequest,
         endDate: new Date("2022-09-11T09:00:00.000Z"),
         notes: "updated notes",
       };
@@ -452,6 +425,34 @@ describe("mongo testSessionService", (): void => {
         );
       }).rejects.toThrowError(
         `Test Session id ${testSession.id} is active and so the test, class, and start date cannot be updated`,
+      );
+    });
+
+    it("for upcoming test session", async () => {
+      // insert test session into database
+      const testSession = await MgTestSession.create(
+        mockTestSessionWithExpiredStartDate,
+      );
+
+      // create DTO object to update to
+      const updatedTestSession: TestSessionRequestDTO = {
+        ...mockTestSessionRequest,
+        test: mockTestWithId2.id,
+        class: mockClassWithId2.id,
+        startDate: new Date("2022-09-10T09:00:00.000Z"),
+        endDate: new Date("2022-09-11T09:00:00.000Z"),
+        notes: "updated notes",
+      };
+
+      // update test and assert
+      const res = await testSessionService.updateTestSession(
+        testSession.id,
+        updatedTestSession,
+      );
+      assertResponseMatchesExpected(updatedTestSession, res);
+      assertResultsResponseMatchesExpected(
+        mockTestSession.results,
+        res.results ?? [],
       );
     });
 
