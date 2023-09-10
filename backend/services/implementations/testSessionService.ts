@@ -354,7 +354,7 @@ class TestSessionService implements ITestSessionService {
         );
       }
 
-      // If the test session is active, we don't allow teachers to update the assessment, class, or start date
+      // If the test session is active, we only allow teachers to update the end date and notes
       if (oldTestSession.startDate <= date) {
         const updatableKeys = new Set(["endDate", "notes"]);
         const isInvalidModification = Object.entries(testSession).some(
