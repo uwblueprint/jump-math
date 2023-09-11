@@ -35,16 +35,11 @@ const TestSessionListItemBody = ({
         <TestSessionListItemClassNameTag classroomName={classroomName} />
       )}
       <VStack align="start">
-        <Text
-          color={isPast ? "grey.300" : "blue.300"}
-          noOfLines={1}
-          textStyle="subtitle2"
-        >
+        <Text color={isPast ? "grey.300" : "blue.300"} textStyle="subtitle2">
           {testName}
         </Text>
         <Text
           color={isPast ? "grey.200" : "blue.200"}
-          noOfLines={1}
           textStyle="mobileParagraph"
         >
           {STATUS_LABELS[status]} {formatDate(targetDate)}
