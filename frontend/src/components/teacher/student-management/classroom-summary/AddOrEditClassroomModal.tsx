@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { type ReactElement, useContext } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -21,16 +21,14 @@ import {
 } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassResponse } from "../../../../APIClients/types/ClassClientTypes";
 import AuthContext from "../../../../contexts/AuthContext";
-import type {
-  ClassroomForm,
-  ClassroomInput,
-} from "../../../../types/ClassroomTypes";
+import type { ClassroomForm } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
 import {
   FormValidationError,
   getQueryName,
 } from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
+import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
@@ -45,14 +43,17 @@ const AddOrEditClassroomModal = ({
   onClose,
   isOpen,
   classroomId,
-}: AddOrEditClassroomModalProps): React.ReactElement => {
+}: AddOrEditClassroomModalProps): ReactElement => {
   const {
     handleSubmit,
     watch,
     setValue,
     reset: resetForm,
-    formState: { dirtyFields, errors },
+    formState,
+    register,
   } = useFormContext<ClassroomForm>();
+  const { dirtyFields, errors } = formState;
+
   const { authenticatedUser } = useContext(AuthContext);
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
     CREATE_CLASS,
@@ -70,13 +71,6 @@ const AddOrEditClassroomModal = ({
     },
   );
   const upsertClass = classroomId ? updateClass : createClass;
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: ClassroomInput,
-  ) => {
-    setValue(field, event.target.value);
-  };
 
   const handleDateChange = (date: Date) => {
     setValue("startDate", date, { shouldDirty: true });
@@ -133,7 +127,12 @@ const AddOrEditClassroomModal = ({
     });
   };
 
-  const handleSave = handleSubmit(onSave);
+  const handleSave = async () => {
+    await handleSubmit(onSave)();
+    if (!formState.isValid) {
+      throw new FormValidationError("Please ensure all fields are valid");
+    }
+  };
   const isEditing = !!classroomId;
 
   return (
@@ -142,38 +141,57 @@ const AddOrEditClassroomModal = ({
         cancelButtonText="Discard"
         header={isEditing ? "Edit Classroom" : "Add Classroom"}
         isOpen={isOpen}
-        messageOnError={
-          isEditing
+        messageOnError={(error) => {
+          if (error instanceof FormValidationError) {
+            return error.message;
+          }
+
+          return isEditing
             ? "Failed to update the classroom. Please try again later."
-            : "Failed to create the classroom. Please try again later."
-        }
+            : "Failed to create the classroom. Please try again later.";
+        }}
         messageOnSuccess={isEditing ? "Classroom updated." : "Classroom added."}
         onClose={onModalClose}
         onSubmit={handleSave}
         submitButtonText="Save"
         variant="large"
       >
-        <FormControl isRequired>
-          <HStack direction="row" mt={6}>
-            <VStack align="left" direction="column" width="320px">
+        <HStack direction="row" mt={6}>
+          <VStack align="left" direction="column" width="320px">
+            <FormControl isInvalid={!!errors.className} isRequired>
               <FormLabel color="blue.300">Class Name</FormLabel>
               <Input
-                onChange={(e) => handleChange(e, "className")}
                 placeholder="Type in Class Name"
                 type="text"
-                value={watch("className")}
+                {...register("className", {
+                  required: { value: true, message: "This field is required." },
+                })}
               />
-            </VStack>
-            <VStack align="left" direction="column" width="320px">
+              <InlineFormError
+                error={errors.className}
+                // only affected by fields in the same HStack
+                showPlaceholder={!!errors.startDate}
+              />
+            </FormControl>
+          </VStack>
+          <VStack align="left" direction="column" width="320px">
+            <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
               <DatePicker
                 onChange={handleDateChange}
                 value={watch("startDate")}
               />
-            </VStack>
-          </HStack>
-          <HStack direction="row" mt={6}>
-            <VStack align="left" direction="column" width="320px">
+              <InlineFormError
+                error={errors.startDate}
+                // only affected by fields in the same HStack
+                showPlaceholder={!!errors.className}
+              />
+            </FormControl>
+          </VStack>
+        </HStack>
+        <HStack direction="row" mt={6}>
+          <VStack align="left" direction="column" width="320px">
+            <FormControl isInvalid={!!errors.gradeLevel} isRequired>
               <FormLabel color="blue.300">Grade Level</FormLabel>
               <SelectFormInputClassroom
                 field="gradeLevel"
@@ -183,9 +201,10 @@ const AddOrEditClassroomModal = ({
                 setValue={setValue}
                 watch={watch}
               />
-            </VStack>
-          </HStack>
-        </FormControl>
+              <InlineFormError error={errors.gradeLevel} />
+            </FormControl>
+          </VStack>
+        </HStack>
       </Modal>
     </>
   );
