@@ -122,6 +122,39 @@ class TestService implements ITestService {
     let questions: QuestionComponent[][];
 
     try {
+      const oldTest = await MgTest.findById(id);
+      if (!oldTest) {
+        throw new Error(`Test ID ${id} not found`);
+      }
+
+      // Delete all images that are not in the new test
+      const oldImages = oldTest.questions
+        .flat()
+        .filter((question) => question.type === QuestionComponentType.IMAGE);
+
+      const newImageUrls = new Set(
+        test.questions
+          .flat()
+          .filter((question) => question.type === QuestionComponentType.IMAGE)
+          .map(
+            (question) =>
+              (question.metadata as ImageMetadataRequest).previewUrl,
+          ),
+      );
+
+      const imagesToDelete = oldImages.filter(
+        (oldImage) =>
+          !newImageUrls.has((oldImage.metadata as ImageMetadata).url),
+      );
+
+      await Promise.all(
+        imagesToDelete.map(async (image) => {
+          await this.imageUploadService.deleteImage(
+            image.metadata as ImageMetadata,
+          );
+        }),
+      );
+
       questions = await this.uploadImages(test.questions);
       updatedTest = await MgTest.findByIdAndUpdate(
         id,

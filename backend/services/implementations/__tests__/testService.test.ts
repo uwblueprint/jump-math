@@ -15,6 +15,10 @@ import {
   mockPublishedTest,
   mockTestArray,
   mockTestWithId2,
+  newImage,
+  savedImage,
+  questionsRequest,
+  questions,
 } from "../../../testUtils/tests";
 import type { TestResponseDTO } from "../../interfaces/testService";
 
@@ -37,6 +41,9 @@ describe("mongo testService", (): void => {
     testService.imageUploadService.getImage = jest
       .fn()
       .mockReturnValue(imageMetadata);
+    testService.imageUploadService.deleteImage = jest
+      .fn()
+      .mockReturnValue(imageMetadata);
   });
 
   afterEach(async () => {
@@ -56,11 +63,25 @@ describe("mongo testService", (): void => {
 
   it("updateTest", async () => {
     // insert test into database
-    const createdTest = await MgTest.create(mockTestWithId);
+    const uploadedImages = [questions[0], [savedImage]];
+    const createdTest = await MgTest.create({
+      ...mockTestWithId,
+      questions: uploadedImages,
+    });
 
     // update test and assert
-    const res = await testService.updateTest(createdTest.id, mockTestRequest2);
-    assertResponseMatchesExpected(mockTestWithId2, res);
+    const res = await testService.updateTest(createdTest.id, {
+      ...mockTestRequest2,
+      questions: [questionsRequest[0], [newImage]],
+    });
+    expect(testService.imageUploadService.deleteImage).toHaveBeenCalled();
+    assertResponseMatchesExpected(
+      {
+        ...mockTestWithId2,
+        questions: uploadedImages,
+      },
+      res,
+    );
   });
 
   it("getTestById", async () => {
