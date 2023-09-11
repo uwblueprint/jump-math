@@ -5,18 +5,23 @@ interface ModalTextProps {
   header?: React.ReactNode;
   body?: React.ReactNode;
   textColor?: string;
+  isLargeVariant?: boolean;
 }
 
 const ModalText = ({
   header,
   body,
   textColor,
+  isLargeVariant,
 }: ModalTextProps): React.ReactElement => {
   return (
     <>
       {header && (
         <ModalHeader>
-          <Text color={textColor || "grey.400"} textStyle="subtitle2">
+          <Text
+            color={textColor || "grey.400"}
+            textStyle={isLargeVariant ? "subtitle1" : "subtitle2"}
+          >
             {header}
           </Text>
         </ModalHeader>

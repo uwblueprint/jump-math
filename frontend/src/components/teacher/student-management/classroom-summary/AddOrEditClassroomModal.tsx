@@ -1,21 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
   FormControl,
   FormLabel,
   HStack,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import isSameDay from "date-fns/isSameDay";
@@ -35,11 +26,12 @@ import type {
   ClassroomInput,
 } from "../../../../types/ClassroomTypes";
 import { gradeOptions } from "../../../../utils/AssessmentUtils";
-import { getQueryName } from "../../../../utils/GeneralUtils";
+import {
+  FormValidationError,
+  getQueryName,
+} from "../../../../utils/GeneralUtils";
 import DatePicker from "../../../common/DatePicker";
-import ErrorToast from "../../../common/info/toasts/ErrorToast";
-import useToast from "../../../common/info/useToast";
-import ModalFooterButtons from "../../../common/modal/ModalFooterButtons";
+import Modal from "../../../common/modal/Modal";
 
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
@@ -54,8 +46,6 @@ const AddOrEditClassroomModal = ({
   isOpen,
   classroomId,
 }: AddOrEditClassroomModalProps): React.ReactElement => {
-  const history = useHistory();
-
   const {
     handleSubmit,
     watch,
@@ -64,10 +54,6 @@ const AddOrEditClassroomModal = ({
     formState: { dirtyFields, errors },
   } = useFormContext<ClassroomForm>();
   const { authenticatedUser } = useContext(AuthContext);
-  const [showRequestError, setShowRequestError] = useState(false);
-  const [requestErrorMessage, setRequestErrorMessage] = useState<string | null>(
-    null,
-  );
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
     CREATE_CLASS,
     {
@@ -83,8 +69,7 @@ const AddOrEditClassroomModal = ({
       ],
     },
   );
-
-  const { showToast } = useToast();
+  const upsertClass = classroomId ? updateClass : createClass;
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -114,8 +99,6 @@ const AddOrEditClassroomModal = ({
 
   const onModalClose = () => {
     resetForm();
-    setShowRequestError(false);
-    setRequestErrorMessage("");
     onClose();
   };
 
@@ -124,127 +107,85 @@ const AddOrEditClassroomModal = ({
     const now = new Date();
 
     if (!validateFields()) {
-      setShowRequestError(true);
-      setRequestErrorMessage(
-        "Please ensure all required components are filled out before saving changes",
-      );
-    } else if (
+      throw new FormValidationError("Please fill out all required fields");
+    }
+
+    if (
       dirtyFields.startDate &&
       startDate &&
       startDate < now &&
       !isSameDay(startDate, now)
     ) {
-      setShowRequestError(true);
-      setRequestErrorMessage("Please set a present or future date");
-    } else {
-      if (showRequestError) setShowRequestError(false);
-      const classObj = {
-        ...data,
-        startDate: data.startDate,
-        teacher: authenticatedUser?.id,
-      };
-
-      if (classroomId) {
-        try {
-          await updateClass({
-            variables: {
-              classroomId,
-              classObj,
-            },
-          });
-          history.replace(history.location.pathname, undefined);
-          showToast({
-            message: "Classroom information updated.",
-            status: "success",
-          });
-        } catch (e) {
-          showToast({
-            message:
-              "Failed to update the classroom's information. Please try again.",
-            status: "error",
-          });
-        }
-      } else {
-        try {
-          await createClass({
-            variables: {
-              classObj: {
-                ...data,
-                startDate: data.startDate,
-                teacher: authenticatedUser?.id,
-              },
-            },
-          });
-          showToast({
-            message: "New classroom created.",
-            status: "success",
-          });
-        } catch (e) {
-          showToast({
-            message: "Failed to create a new classroom. Please try again.",
-            status: "error",
-          });
-        }
-      }
-      onModalClose();
+      throw new FormValidationError("Please set a present or future date");
     }
+
+    const classObj = {
+      ...data,
+      startDate: data.startDate,
+      teacher: authenticatedUser?.id,
+    };
+
+    await upsertClass({
+      variables: {
+        classroomId,
+        classObj,
+      },
+    });
   };
 
   const handleSave = handleSubmit(onSave);
+  const isEditing = !!classroomId;
 
   return (
     <>
-      <Modal isCentered isOpen={isOpen} onClose={onModalClose} size="3xl">
-        <ModalOverlay />
-        <ModalContent borderRadius="12px" maxW="80vw" p={2}>
-          <ModalHeader>
-            <Text color="grey.400" textStyle="subtitle1">
-              {classroomId ? "Edit Classroom" : "Add Classroom"}
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {showRequestError && (
-              <ErrorToast errorMessage={requestErrorMessage as string} />
-            )}
-            <FormControl isRequired marginTop={showRequestError ? "10" : "0"}>
-              <HStack direction="row" mt={6}>
-                <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">Class Name</FormLabel>
-                  <Input
-                    onChange={(e) => handleChange(e, "className")}
-                    placeholder="Type in Class Name"
-                    type="text"
-                    value={watch("className")}
-                  />
-                </VStack>
-                <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">Start Date</FormLabel>
-                  <DatePicker
-                    onChange={handleDateChange}
-                    value={watch("startDate")}
-                  />
-                </VStack>
-              </HStack>
-              <HStack direction="row" mt={6}>
-                <VStack align="left" direction="column" width="320px">
-                  <FormLabel color="blue.300">Grade Level</FormLabel>
-                  <SelectFormInputClassroom
-                    field="gradeLevel"
-                    isSearchable={false}
-                    options={gradeOptions}
-                    placeholder="Choose a Grade Level"
-                    setValue={setValue}
-                    watch={watch}
-                  />
-                </VStack>
-              </HStack>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <ModalFooterButtons onDiscard={onModalClose} onSave={handleSave} />
-          </ModalFooter>
-        </ModalContent>
+      <Modal
+        cancelButtonText="Discard"
+        header={isEditing ? "Edit Classroom" : "Add Classroom"}
+        isOpen={isOpen}
+        messageOnError={
+          isEditing
+            ? "Failed to update the classroom. Please try again later."
+            : "Failed to create the classroom. Please try again later."
+        }
+        messageOnSuccess={isEditing ? "Classroom updated." : "Classroom added."}
+        onClose={onModalClose}
+        onSubmit={handleSave}
+        submitButtonText="Save"
+        variant="large"
+      >
+        <FormControl isRequired>
+          <HStack direction="row" mt={6}>
+            <VStack align="left" direction="column" width="320px">
+              <FormLabel color="blue.300">Class Name</FormLabel>
+              <Input
+                onChange={(e) => handleChange(e, "className")}
+                placeholder="Type in Class Name"
+                type="text"
+                value={watch("className")}
+              />
+            </VStack>
+            <VStack align="left" direction="column" width="320px">
+              <FormLabel color="blue.300">Start Date</FormLabel>
+              <DatePicker
+                onChange={handleDateChange}
+                value={watch("startDate")}
+              />
+            </VStack>
+          </HStack>
+          <HStack direction="row" mt={6}>
+            <VStack align="left" direction="column" width="320px">
+              <FormLabel color="blue.300">Grade Level</FormLabel>
+              <SelectFormInputClassroom
+                field="gradeLevel"
+                isSearchable={false}
+                options={gradeOptions}
+                placeholder="Choose a Grade Level"
+                setValue={setValue}
+                watch={watch}
+              />
+            </VStack>
+          </HStack>
+        </FormControl>
       </Modal>
     </>
   );
