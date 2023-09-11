@@ -147,13 +147,7 @@ class TestService implements ITestService {
           !newImageUrls.has((oldImage.metadata as ImageMetadata).url),
       );
 
-      await Promise.all(
-        imagesToDelete.map(async (image) => {
-          await this.imageUploadService.deleteImage(
-            image.metadata as ImageMetadata,
-          );
-        }),
-      );
+      await this.deleteImages([imagesToDelete]);
 
       questions = await this.uploadImages(test.questions);
       updatedTest = await MgTest.findByIdAndUpdate(
