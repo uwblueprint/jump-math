@@ -5,6 +5,7 @@ import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { formatDate } from "../../../utils/GeneralUtils";
 
 import TestSessionListItemClassNameTag from "./TestSessionListItemClassNameTag";
+import TestSessionListItemStatusTag from "./TestSessionListItemStatusTag";
 
 const STATUS_LABELS = {
   ACTIVE: "Until",
@@ -25,21 +26,24 @@ const TestSessionListItemBody = ({
   testName: string;
   targetDate: Date;
 }): React.ReactElement => {
+  const isPast = status === TestSessionStatus.PAST;
   return (
     <>
-      {!inClassroomPage && (
+      {inClassroomPage ? (
+        !isPast && <TestSessionListItemStatusTag status={status} />
+      ) : (
         <TestSessionListItemClassNameTag classroomName={classroomName} />
       )}
       <VStack align="start">
         <Text
-          color={status === TestSessionStatus.PAST ? "grey.300" : "blue.300"}
+          color={isPast ? "grey.300" : "blue.300"}
           noOfLines={1}
           textStyle="subtitle2"
         >
           {testName}
         </Text>
         <Text
-          color={status === TestSessionStatus.PAST ? "grey.200" : "blue.200"}
+          color={isPast ? "grey.200" : "blue.200"}
           noOfLines={1}
           textStyle="mobileParagraph"
         >

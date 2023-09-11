@@ -11,7 +11,6 @@ import Copyable from "../../common/Copyable";
 import TestSessionListItemBody from "./TestSessionListItemBody";
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 import TestSessionListItemStatistics from "./TestSessionListItemStatistics";
-import TestSessionListItemStatusTag from "./TestSessionListItemStatusTag";
 
 export type TestSessionListItemProps = {
   session: TestSessionEditingData & {
@@ -36,6 +35,7 @@ const TestSessionListItem = ({
   const history = useHistory();
   const { testSessionId, classroomName, testName, status } = session;
   const { targetDate, accessCode, ...testSessionEditingData } = session;
+  const isPast = status === TestSessionStatus.PAST;
 
   const formattedAccessCode = `${accessCode.slice(
     0,
@@ -56,23 +56,26 @@ const TestSessionListItem = ({
       },
     );
 
-  return status === TestSessionStatus.PAST ? (
+  return (
     <Tooltip
       bg="blue.300"
       borderRadius={4}
       hasArrow
+      isDisabled={!isPast}
       label="Click to view statistics of this assessment and each student's performance."
       p={2}
       placement="bottom"
     >
       <HStack
-        _hover={{ bg: "grey.100" }}
-        as="button"
-        borderRadius={16}
         gap={6}
-        onClick={onViewStatistics}
         p={4}
         w="100%"
+        {...(isPast && {
+          _hover: { bg: "grey.100" },
+          as: "button",
+          borderRadius: 16,
+          onClick: onViewStatistics,
+        })}
       >
         <TestSessionListItemBody
           classroomName={classroomName}
@@ -82,31 +85,24 @@ const TestSessionListItem = ({
           testName={testName}
         />
         <Spacer />
-        {stats && <TestSessionListItemStatistics stats={stats} />}
+        {isPast ? (
+          stats && <TestSessionListItemStatistics stats={stats} />
+        ) : (
+          <>
+            <Copyable
+              displayedValue={formattedAccessCode}
+              label="Access Code"
+              value={accessCode}
+            />
+            {!isReadOnly && (
+              <TestSessionListItemPopover
+                testSessionEditingData={testSessionEditingData}
+              />
+            )}
+          </>
+        )}
       </HStack>
     </Tooltip>
-  ) : (
-    <HStack gap={6} p={4} w="100%">
-      <TestSessionListItemBody
-        classroomName={classroomName}
-        inClassroomPage={inClassroomPage}
-        status={status}
-        targetDate={targetDate}
-        testName={testName}
-      />
-      <Copyable
-        displayedValue={formattedAccessCode}
-        label="Access Code"
-        value={accessCode}
-      />
-      <Spacer />
-      {inClassroomPage && <TestSessionListItemStatusTag status={status} />}
-      {!isReadOnly && (
-        <TestSessionListItemPopover
-          testSessionEditingData={testSessionEditingData}
-        />
-      )}
-    </HStack>
   );
 };
 
