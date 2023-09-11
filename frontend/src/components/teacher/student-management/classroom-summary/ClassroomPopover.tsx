@@ -9,12 +9,11 @@ import {
 import { GET_CLASSES_BY_TEACHER } from "../../../../APIClients/queries/ClassQueries";
 import checkFeatureFlag from "../../../../checkFeatureFlag";
 import { getQueryName } from "../../../../utils/GeneralUtils";
-import useToast from "../../../common/info/useToast";
-import Modal from "../../../common/modal/Modal";
 import Popover from "../../../common/popover/Popover";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
 import AddOrEditClassroomModal from "./AddOrEditClassroomModal";
+import ArchiveClassroomModal from "./ArchiveClassroomModal";
 import DeleteClassroomModal from "./DeleteClassroomModal";
 
 interface ClassroomPopoverProps {
@@ -47,33 +46,18 @@ const ClassroomPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const [archiveClass] = useMutation<{ deleteClass: string }>(ARCHIVE_CLASS, {
-    variables: { classId },
-    refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
-  });
+  const [archiveClassroom] = useMutation<{ deleteClass: string }>(
+    ARCHIVE_CLASS,
+    {
+      variables: { classId },
+      refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
+    },
+  );
 
   const [deleteClassroom] = useMutation<{ deleteClass: string }>(DELETE_CLASS, {
     variables: { classId },
     refetchQueries: [getQueryName(GET_CLASSES_BY_TEACHER)],
   });
-
-  const { showToast } = useToast();
-
-  const handleArchiveClass = async () => {
-    try {
-      await archiveClass({ variables: { classId } });
-      showToast({
-        message: "Classroom archived.",
-        status: "success",
-      });
-      onArchiveModalClose();
-    } catch (error) {
-      showToast({
-        message: "Classroom failed to archive. Please try again.",
-        status: "error",
-      });
-    }
-  };
 
   return (
     <>
@@ -97,24 +81,10 @@ const ClassroomPopover = ({
         isOpen={isEditModalOpen}
         onClose={onEditModalClose}
       />
-      <Modal
-        body={
-          <>
-            <Text color="grey.300" pt={2} textStyle="paragraph">
-              Are you sure you want to archive this classroom? You can find your
-              archived classrooms in the &quot;Archived&quot; tab.
-            </Text>
-            <Text color="red.200" pt={2} textStyle="paragraph">
-              Note that all upcoming assessments will be deleted and active
-              assessments will end.
-            </Text>
-          </>
-        }
-        header="Archive Classroom"
+      <ArchiveClassroomModal
+        archiveClassroom={archiveClassroom}
         isOpen={isArchiveModalOpen}
         onClose={onArchiveModalClose}
-        onSubmit={handleArchiveClass}
-        submitButtonText="Archive"
       />
       <DeleteClassroomModal
         deleteClassroom={deleteClassroom}
