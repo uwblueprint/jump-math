@@ -4,12 +4,14 @@ import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { format } from "date-fns";
 
 type DatePickerProps = {
+  name?: string;
   onChange: (date: Date) => void;
   value: Date | null | undefined;
   isDisabled?: boolean;
 };
 
 const DatePicker = ({
+  name,
   onChange,
   value,
   isDisabled = false,
@@ -34,7 +36,7 @@ const DatePicker = ({
         ],
       }}
       date={value || undefined}
-      name="date-input"
+      name={name ?? "date-input"}
       onDateChange={(date) => onChange(date)}
       propsConfigs={{
         dateNavBtnProps: {

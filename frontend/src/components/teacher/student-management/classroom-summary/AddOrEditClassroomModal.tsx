@@ -27,10 +27,10 @@ import {
   FormValidationError,
   getQueryName,
 } from "../../../../utils/GeneralUtils";
-import DatePicker from "../../../common/DatePicker";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
 
+import ControlledDatePicker from "./ControlledDatePicker";
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 type AddOrEditClassroomModalProps = {
@@ -47,7 +47,6 @@ const AddOrEditClassroomModal = ({
   const {
     handleSubmit,
     watch,
-    setValue,
     reset: resetForm,
     formState,
     register,
@@ -71,10 +70,6 @@ const AddOrEditClassroomModal = ({
     },
   );
   const upsertClass = classroomId ? updateClass : createClass;
-
-  const handleDateChange = (date: Date) => {
-    setValue("startDate", date, { shouldDirty: true });
-  };
 
   const validateFields = (): boolean => {
     if (!watch("className") || !!errors.className) {
@@ -177,10 +172,7 @@ const AddOrEditClassroomModal = ({
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
-              <DatePicker
-                onChange={handleDateChange}
-                value={watch("startDate")}
-              />
+              <ControlledDatePicker isRequired name="startDate" />
               <InlineFormError
                 error={errors.startDate}
                 // only affected by fields in the same HStack
