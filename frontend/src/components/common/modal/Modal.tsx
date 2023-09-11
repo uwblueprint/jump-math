@@ -45,7 +45,7 @@ const Modal = ({
   submitButtonVariant,
   cancelButtonVariant,
   messageOnSuccess,
-  messageOnError: generateErrorMessage,
+  messageOnError,
   onSubmit,
   variant = "default",
 }: ModalProps): React.ReactElement => {
@@ -78,7 +78,7 @@ const Modal = ({
             isLargeVariant={variant === "large"}
           />
           <ModalCloseButton />
-          {children && <ModalBody>{children}</ModalBody>}
+          {children && <ModalBody pb={0}>{children}</ModalBody>}
           {variant !== "large" && <Divider mt="1.5em" />}
           <ModalFooter>
             <Button
@@ -92,7 +92,7 @@ const Modal = ({
             </Button>
             <ActionButton
               isLoading={loading}
-              messageOnError={generateErrorMessage}
+              messageOnError={messageOnError}
               messageOnSuccess={messageOnSuccess}
               minWidth="10%"
               onAfterSuccess={handleClose}
