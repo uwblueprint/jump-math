@@ -10,7 +10,7 @@ const Input = {
           borderColor: "red.200",
         },
         _placeholder: {
-          color: "#a0aec0",
+          color: "placeholder.300",
         },
       },
     },

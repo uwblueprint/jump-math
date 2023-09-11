@@ -76,7 +76,7 @@ const DatePicker = ({
           "aria-label": "This is a date input, activate to open date picker",
           textAlign: "left",
           value: value ? format(value, "yyyy-MM-dd") : "Please choose a date",
-          color: value ? "grey.300" : "grey.200",
+          color: value ? "grey.300" : "placeholder.300",
           transition: "color 0s",
         },
         popoverCompProps: {

@@ -1,5 +1,6 @@
 import React, { type ReactElement } from "react";
 import { Controller } from "react-hook-form";
+import type { ChakraStylesConfig } from "chakra-react-select";
 import { Select } from "chakra-react-select";
 
 import type { StringOption } from "../../../../types/SelectInputTypes";
@@ -12,6 +13,13 @@ interface SelectFormInputClassroomProps {
   isRequired: boolean;
 }
 
+const chakraStyles: ChakraStylesConfig<StringOption> = {
+  placeholder: (provided) => ({
+    ...provided,
+    color: "placeholder.300",
+  }),
+};
+
 const SelectFormInputClassroom = ({
   name: fieldName,
   options,
@@ -22,8 +30,9 @@ const SelectFormInputClassroom = ({
   <Controller
     name={fieldName}
     render={({ field: { name, ref, onChange, onBlur, value } }) => (
-      <Select
+      <Select<StringOption>
         ref={ref}
+        chakraStyles={chakraStyles}
         errorBorderColor="red.200"
         isSearchable={isSearchable}
         name={name}
