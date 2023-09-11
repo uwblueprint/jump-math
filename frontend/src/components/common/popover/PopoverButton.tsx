@@ -1,30 +1,29 @@
-import React from "react";
-import { Button } from "@chakra-ui/react";
+import React, { type ReactElement } from "react";
 
-interface EditStatusButtonProps {
-  "aria-label"?: string;
+import type { ActionButtonProps } from "../form/ActionButton";
+import ActionButton from "../form/ActionButton";
+
+type PopoverButtonProps = ActionButtonProps & {
   name: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
-const EditStatusButton = ({
+};
+const PopoverButton = ({
   name,
-  "aria-label": ariaLabel,
-  onClick,
-}: EditStatusButtonProps): React.ReactElement => {
+  ...props
+}: PopoverButtonProps): ReactElement => {
   return (
-    <Button
-      aria-label={ariaLabel}
+    <ActionButton
       color="black"
       fontSize="18px"
       fontWeight="0"
       minWidth="200%"
-      onClick={onClick}
+      showDefaultToasts={false}
       size="md"
       textAlign="left"
+      {...props}
     >
       {name}
-    </Button>
+    </ActionButton>
   );
 };
 
-export default EditStatusButton;
+export default PopoverButton;
