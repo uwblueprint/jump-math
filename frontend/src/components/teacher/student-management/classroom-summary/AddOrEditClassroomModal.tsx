@@ -194,12 +194,11 @@ const AddOrEditClassroomModal = ({
             <FormControl isInvalid={!!errors.gradeLevel} isRequired>
               <FormLabel color="blue.300">Grade Level</FormLabel>
               <SelectFormInputClassroom
-                field="gradeLevel"
+                isRequired
                 isSearchable={false}
+                name="gradeLevel"
                 options={gradeOptions}
                 placeholder="Choose a Grade Level"
-                setValue={setValue}
-                watch={watch}
               />
               <InlineFormError error={errors.gradeLevel} />
             </FormControl>

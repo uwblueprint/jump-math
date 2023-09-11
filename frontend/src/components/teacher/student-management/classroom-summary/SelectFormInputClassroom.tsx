@@ -1,51 +1,45 @@
-import React from "react";
-import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import type { GroupBase, SingleValue } from "chakra-react-select";
+import React, { type ReactElement } from "react";
+import { Controller } from "react-hook-form";
 import { Select } from "chakra-react-select";
 
-import type {
-  ClassroomForm,
-  ClassroomInput,
-} from "../../../../types/ClassroomTypes";
 import type { StringOption } from "../../../../types/SelectInputTypes";
 
 interface SelectFormInputClassroomProps {
-  setValue: UseFormSetValue<ClassroomForm>;
-  watch: UseFormWatch<ClassroomForm>;
-  field: ClassroomInput;
+  name: string;
   options: StringOption[];
   placeholder: string;
   isSearchable: boolean;
+  isRequired: boolean;
 }
 
 const SelectFormInputClassroom = ({
-  setValue,
-  watch,
-  field,
+  name: fieldName,
   options,
   placeholder,
   isSearchable,
-}: SelectFormInputClassroomProps): React.ReactElement => {
-  const handleChange = (option: SingleValue<StringOption>) => {
-    if (option) {
-      setValue(field, option.value);
-    }
-  };
-  return (
-    <Select<StringOption, false, GroupBase<StringOption>>
-      errorBorderColor="red.200"
-      isSearchable={isSearchable}
-      name={field}
-      onChange={handleChange}
-      options={options}
-      placeholder={placeholder}
-      selectedOptionStyle="check"
-      useBasicStyles
-      value={
-        options.find((option) => option.value === watch(field)) || undefined
-      }
-    />
-  );
-};
+  isRequired,
+}: SelectFormInputClassroomProps): ReactElement => (
+  <Controller
+    name={fieldName}
+    render={({ field: { name, ref, onChange, onBlur, value } }) => (
+      <Select
+        ref={ref}
+        errorBorderColor="red.200"
+        isSearchable={isSearchable}
+        name={name}
+        onBlur={onBlur}
+        onChange={(option) => onChange(option?.value ?? null)}
+        options={options}
+        placeholder={placeholder}
+        selectedOptionStyle="check"
+        useBasicStyles
+        value={options.find((option) => option.value === value) || undefined}
+      />
+    )}
+    rules={{
+      required: { value: isRequired, message: "This field is required." },
+    }}
+  />
+);
 
 export default SelectFormInputClassroom;
