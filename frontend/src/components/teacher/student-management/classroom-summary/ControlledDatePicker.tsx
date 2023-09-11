@@ -7,11 +7,13 @@ import DatePicker from "../../../common/DatePicker";
 type ControlledDatePickerProps = {
   name?: string;
   isRequired?: boolean;
+  additionalRules?: Record<string, unknown>;
 };
 
 const ControlledDatePicker = ({
   name: fieldName,
   isRequired,
+  additionalRules,
 }: ControlledDatePickerProps): ReactElement => {
   return (
     <Controller
@@ -34,6 +36,7 @@ const ControlledDatePicker = ({
           value: isRequired ?? false,
           message: "This field is required.",
         },
+        ...additionalRules,
       }}
     ></Controller>
   );

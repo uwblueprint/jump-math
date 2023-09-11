@@ -1,5 +1,4 @@
 import React, { type ReactElement, useContext } from "react";
-import type { SubmitHandler } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import {
@@ -46,12 +45,11 @@ const AddOrEditClassroomModal = ({
 }: AddOrEditClassroomModalProps): ReactElement => {
   const {
     handleSubmit,
-    watch,
     reset: resetForm,
     formState,
     register,
   } = useFormContext<ClassroomForm>();
-  const { dirtyFields, errors } = formState;
+  const { errors } = formState;
 
   const { authenticatedUser } = useContext(AuthContext);
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
@@ -71,59 +69,25 @@ const AddOrEditClassroomModal = ({
   );
   const upsertClass = classroomId ? updateClass : createClass;
 
-  const validateFields = (): boolean => {
-    if (!watch("className") || !!errors.className) {
-      return false;
-    }
-
-    if (!watch("startDate") || !!errors.startDate) {
-      return false;
-    }
-
-    if (!watch("gradeLevel") || !!errors.gradeLevel) {
-      return false;
-    }
-    return true;
-  };
-
   const onModalClose = () => {
     resetForm();
     onClose();
   };
 
-  const onSave: SubmitHandler<ClassroomForm> = async (data) => {
-    const startDate = watch("startDate");
-    const now = new Date();
-
-    if (!validateFields()) {
-      throw new FormValidationError("Please fill out all required fields");
-    }
-
-    if (
-      dirtyFields.startDate &&
-      startDate &&
-      startDate < now &&
-      !isSameDay(startDate, now)
-    ) {
-      throw new FormValidationError("Please set a present or future date");
-    }
-
-    const classObj = {
-      ...data,
-      startDate: data.startDate,
-      teacher: authenticatedUser?.id,
-    };
-
-    await upsertClass({
+  const onSave = handleSubmit((data) =>
+    upsertClass({
       variables: {
         classroomId,
-        classObj,
+        classObj: {
+          ...data,
+          teacher: authenticatedUser?.id,
+        },
       },
-    });
-  };
+    }),
+  );
 
   const handleSave = async () => {
-    await handleSubmit(onSave)();
+    await onSave();
     if (!formState.isValid) {
       throw new FormValidationError("Please ensure all fields are valid");
     }
@@ -172,7 +136,19 @@ const AddOrEditClassroomModal = ({
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
-              <ControlledDatePicker isRequired name="startDate" />
+              <ControlledDatePicker
+                additionalRules={{
+                  validate: (value: Date) => {
+                    const now = new Date();
+                    if (value && value < now && !isSameDay(value, now)) {
+                      return "Please set a present or future date";
+                    }
+                    return true;
+                  },
+                }}
+                isRequired
+                name="startDate"
+              />
               <InlineFormError
                 error={errors.startDate}
                 // only affected by fields in the same HStack
