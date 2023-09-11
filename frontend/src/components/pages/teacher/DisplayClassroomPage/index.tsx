@@ -71,9 +71,9 @@ const studentFormDefaultValues: StudentForm = {
 };
 
 const classroomFormDefaultValues: ClassroomForm = {
-  className: "",
-  startDate: undefined,
-  gradeLevel: undefined,
+  className: null,
+  startDate: null,
+  gradeLevel: null,
 };
 
 const getLocationState = (
@@ -144,9 +144,9 @@ const DisplayClassroomsPage = () => {
     // from the server.
     classroomFormMethods.reset(
       {
-        className: displayTitle,
-        startDate: displayStartDate,
-        gradeLevel: displayGradeLevel,
+        className: displayTitle || classroomFormDefaultValues.className,
+        startDate: displayStartDate || classroomFormDefaultValues.startDate,
+        gradeLevel: displayGradeLevel || classroomFormDefaultValues.gradeLevel,
       },
       { keepDefaultValues: false },
     );
