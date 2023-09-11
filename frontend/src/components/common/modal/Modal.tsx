@@ -77,7 +77,7 @@ const Modal = ({
             header={header}
             isLargeVariant={variant === "large"}
           />
-          <ModalCloseButton />
+          <ModalCloseButton isDisabled={loading} />
           {children && <ModalBody pb={0}>{children}</ModalBody>}
           {variant !== "large" && <Divider mt="1.5em" />}
           <ModalFooter>
