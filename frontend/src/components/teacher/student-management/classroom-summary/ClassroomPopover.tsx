@@ -46,7 +46,7 @@ const ClassroomPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const [archiveClassroom] = useMutation<{ deleteClass: string }>(
+  const [archiveClassroom] = useMutation<{ archiveClass: string }>(
     ARCHIVE_CLASS,
     {
       variables: { classId },
