@@ -31,17 +31,11 @@ const TestSessionListItemPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const { showToast } = useToast();
   const history = useHistory();
 
-  const { authenticatedUser } = useContext(AuthContext);
-  const { id: teacherId } = authenticatedUser ?? {};
-
-  const [deleteTestSessionMutation] = useMutation(DELETE_TEST_SESSION, {
+  const [deleteTestSession] = useMutation(DELETE_TEST_SESSION, {
     variables: { id: testSessionEditingData.testSessionId },
-    refetchQueries: [
-      { query: GET_TEST_SESSIONS_BY_TEACHER_ID, variables: { teacherId } },
-    ],
+    refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
 
   const onEditTestSession = () => {
