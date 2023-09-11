@@ -16,6 +16,7 @@ import {
 import checkFeatureFlag from "../../../checkFeatureFlag";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
+import type { ClassroomForm } from "../../../types/ClassroomTypes";
 import {
   TabEnumClassroom,
   TABS_CLASSROOM,
@@ -37,6 +38,12 @@ const getLocationState = (
   ...(typeof state === "object" ? state : {}),
 });
 
+const classroomFormDefaultValues: ClassroomForm = {
+  className: null,
+  startDate: null,
+  gradeLevel: null,
+};
+
 const ClassroomsPage = (): ReactElement => {
   const { state } = useLocation();
   const { isAddClassroomModalOpen } = getLocationState(state);
@@ -44,7 +51,10 @@ const ClassroomsPage = (): ReactElement => {
   const [tabIndex, setTabIndex] = useState<TabEnumClassroom>(
     TabEnumClassroom.ACTIVE,
   );
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: classroomFormDefaultValues,
+    mode: "onChange",
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(
     isAddClassroomModalOpen ?? false,

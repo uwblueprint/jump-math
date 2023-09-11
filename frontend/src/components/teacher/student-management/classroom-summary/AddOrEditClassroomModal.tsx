@@ -28,6 +28,7 @@ import {
 } from "../../../../utils/GeneralUtils";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
+import useModalFormHandler from "../../../common/modal/useModalFormHandler";
 
 import ControlledDatePicker from "./ControlledDatePicker";
 import SelectFormInputClassroom from "./SelectFormInputClassroom";
@@ -44,12 +45,10 @@ const AddOrEditClassroomModal = ({
   classroomId,
 }: AddOrEditClassroomModalProps): ReactElement => {
   const {
-    handleSubmit,
     reset: resetForm,
-    formState,
+    formState: { errors },
     register,
   } = useFormContext<ClassroomForm>();
-  const { errors } = formState;
 
   const { authenticatedUser } = useContext(AuthContext);
   const [createClass] = useMutation<{ createClass: ClassResponse }>(
@@ -74,7 +73,7 @@ const AddOrEditClassroomModal = ({
     onClose();
   };
 
-  const onSave = handleSubmit((data) =>
+  const handleSave = useModalFormHandler((data) =>
     upsertClass({
       variables: {
         classroomId,
@@ -86,12 +85,6 @@ const AddOrEditClassroomModal = ({
     }),
   );
 
-  const handleSave = async () => {
-    await onSave();
-    if (!formState.isValid) {
-      throw new FormValidationError("Please ensure all fields are valid");
-    }
-  };
   const isEditing = !!classroomId;
 
   return (
