@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
 import { useMutation } from "@apollo/client";
-import { Divider, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import {
   ARCHIVE_CLASS,
