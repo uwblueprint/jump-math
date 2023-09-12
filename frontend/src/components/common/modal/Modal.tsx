@@ -69,7 +69,7 @@ const Modal = ({
         minW="42vw"
       >
         {errorMessage && (
-          <ErrorToast borderRadius="12px" errorMessage={errorMessage} />
+          <ErrorToast borderTopRadius="12px" errorMessage={errorMessage} />
         )}
         <Box p={variant === "large" ? 2 : 0}>
           <ModalText
