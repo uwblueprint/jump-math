@@ -85,8 +85,10 @@ const SubmitButton = (): React.ReactElement => {
         body={body}
         header={header}
         isOpen={isOpen}
+        messageOnError="Failed to submit the assessment. Please try again later."
         onClose={onClose}
         onSubmit={handleSubmitTest}
+        showDefaultToasts={false}
         submitButtonText="Submit"
       />
       <Button onClick={onOpen} variant="primary">
