@@ -94,6 +94,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
         isOpen={showBeginTestModal}
         onClose={() => setShowBeginTestModal(false)}
         onSubmit={handleStartTest}
+        showDefaultToasts={false}
       />
     </>
   );
