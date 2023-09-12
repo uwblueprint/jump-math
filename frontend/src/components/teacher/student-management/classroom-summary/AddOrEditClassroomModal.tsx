@@ -65,7 +65,9 @@ const AddOrEditClassroomModal = ({
       ],
     },
   );
-  const upsertClass = classroomId ? updateClass : createClass;
+
+  const isEditing = !!classroomId;
+  const upsertClass = isEditing ? updateClass : createClass;
 
   const onModalClose = () => {
     resetForm();
@@ -84,13 +86,11 @@ const AddOrEditClassroomModal = ({
     }),
   );
 
-  const isEditing = !!classroomId;
-
   return (
     <>
       <Modal
         cancelButtonText="Discard"
-        header={isEditing ? "Edit Classroom" : "Add Classroom"}
+        header={isEditing ? "Edit classroom" : "Add classroom"}
         isOpen={isOpen}
         messageOnError={(error) => {
           if (error instanceof FormValidationError) {
