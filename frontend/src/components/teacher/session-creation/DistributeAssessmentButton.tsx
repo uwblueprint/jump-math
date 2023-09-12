@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Button } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 
 import {
   CREATE_TEST_SESSION,
@@ -12,7 +12,6 @@ import type { TestSessionRequest } from "../../../APIClients/types/TestSessionCl
 import { PaperPlaneOutlineIcon } from "../../../assets/icons";
 import { DISPLAY_ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { getQueryName } from "../../../utils/GeneralUtils";
-import useToast from "../../common/info/useToast";
 
 import DistributeAssessmentModal from "./DistributeAssessmentModal";
 
@@ -25,10 +24,13 @@ const DistributeAssessmentButton = ({
   testSession,
   testSessionId,
 }: DistributeAssessmentButtonProps): React.ReactElement => {
-  const [showDistributeModal, setShowDistributeModal] = React.useState(false);
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
 
   const history = useHistory();
-  const { showToast } = useToast();
 
   const [createSession, { loading }] = useMutation<{
     createSession: string;
@@ -40,46 +42,16 @@ const DistributeAssessmentButton = ({
   }>(UPDATE_TEST_SESSION, {
     refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
+  const upsertSession = testSessionId ? updateSession : createSession;
 
-  const handleCreateSession = async () => {
-    try {
-      await createSession({
-        variables: {
-          testSession,
-        },
-      });
-      history.push(DISPLAY_ASSESSMENTS_PAGE);
-      showToast({
-        message: "New assessment created.",
-        status: "success",
-      });
-    } catch (e) {
-      showToast({
-        message: "Failed to create assessment. Please try again.",
-        status: "error",
-      });
-    }
-  };
-
-  const handleUpdateSession = async () => {
-    try {
-      await updateSession({
-        variables: {
-          id: testSessionId,
-          testSession,
-        },
-      });
-      history.push(DISPLAY_ASSESSMENTS_PAGE);
-      showToast({
-        message: "Assessment updated.",
-        status: "success",
-      });
-    } catch (e) {
-      showToast({
-        message: "Failed to update assessment. Please try again.",
-        status: "error",
-      });
-    }
+  const handleUpsertSession = async () => {
+    await upsertSession({
+      variables: {
+        id: testSessionId,
+        testSession,
+      },
+    });
+    history.push(DISPLAY_ASSESSMENTS_PAGE);
   };
 
   return (
@@ -88,17 +60,15 @@ const DistributeAssessmentButton = ({
         isLoading={loading}
         leftIcon={<PaperPlaneOutlineIcon />}
         minWidth="10"
-        onClick={() => setShowDistributeModal(true)}
+        onClick={onModalOpen}
         variant="primary"
       >
         Distribute
       </Button>
       <DistributeAssessmentModal
-        distributeAssessment={
-          testSessionId ? handleUpdateSession : handleCreateSession
-        }
-        isOpen={showDistributeModal}
-        onClose={() => setShowDistributeModal(false)}
+        distributeAssessment={handleUpsertSession}
+        isOpen={isModalOpen}
+        onClose={onModalClose}
       />
     </>
   );
