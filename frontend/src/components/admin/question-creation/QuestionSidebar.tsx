@@ -79,7 +79,7 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 const QuestionSidebar = (): React.ReactElement => {
   const { setShowQuestionEditor, setEditorQuestion } =
     useContext(AssessmentContext);
-  const { setShowPreviewQuestion } = useContext(QuestionEditorContext);
+  const { setShowQuestionPreview } = useContext(QuestionEditorContext);
 
   const closeQuestionEditor = () => {
     setEditorQuestion(null);
@@ -142,7 +142,7 @@ const QuestionSidebar = (): React.ReactElement => {
       <HStack align="center" paddingTop="2em">
         <Button
           minWidth={0}
-          onClick={() => setShowPreviewQuestion(true)}
+          onClick={() => setShowQuestionPreview(true)}
           variant="secondary"
         >
           Preview
