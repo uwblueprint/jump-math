@@ -5,12 +5,12 @@ import { EditOutlineIcon } from "../../../assets/icons";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
-const PreviewAssessmentModal = (): React.ReactElement => {
-  const { questions, setShowPreviewAssessment } = useContext(AssessmentContext);
-  const closePreviewAssessmentButton = (
+const AssessmentPreview = (): React.ReactElement => {
+  const { questions, setShowAssessmentPreview } = useContext(AssessmentContext);
+  const closeAssessmentPreviewButton = (
     <Button
       leftIcon={<EditOutlineIcon />}
-      onClick={() => setShowPreviewAssessment(false)}
+      onClick={() => setShowAssessmentPreview(false)}
       variant="tertiary"
     >
       Back to Editing
@@ -19,7 +19,7 @@ const PreviewAssessmentModal = (): React.ReactElement => {
 
   return (
     <AssessmentExperience
-      headerButton={closePreviewAssessmentButton}
+      headerButton={closeAssessmentPreviewButton}
       isPreviewMode
       questions={questions}
       title="Preview Assessment"
@@ -27,4 +27,4 @@ const PreviewAssessmentModal = (): React.ReactElement => {
   );
 };
 
-export default PreviewAssessmentModal;
+export default AssessmentPreview;

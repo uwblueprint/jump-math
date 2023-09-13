@@ -24,9 +24,9 @@ import type { Question } from "../../../types/QuestionTypes";
 import { FormValidationError } from "../../../utils/GeneralUtils";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
+import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
-import PreviewAssessmentModal from "../../admin/assessment-creation/PreviewAssessmentModal";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
 import usePageTitle from "../../auth/usePageTitle";
 import LoadingState from "../../common/info/LoadingState";
@@ -44,7 +44,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [completedForm, setCompletedForm] = useState(false);
-  const [showPreviewAssessment, setShowPreviewAssessment] = useState(false);
+  const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: { createTest: { id: string } };
@@ -194,13 +194,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
             setShowQuestionEditor,
             editorQuestion,
             setEditorQuestion,
-            showPreviewAssessment,
-            setShowPreviewAssessment,
+            showAssessmentPreview,
+            setShowAssessmentPreview,
           }}
         >
           {showQuestionEditor && <QuestionEditor />}
-          {showPreviewAssessment && <PreviewAssessmentModal />}
-          {!showQuestionEditor && !showPreviewAssessment && (
+          {showAssessmentPreview && <AssessmentPreview />}
+          {!showQuestionEditor && !showAssessmentPreview && (
             <VStack spacing="8" width="100%">
               <AssessmentEditorHeader
                 handleSubmit={handleSubmit}

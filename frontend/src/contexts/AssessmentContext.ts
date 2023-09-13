@@ -11,8 +11,8 @@ type AssessmentContextType = {
   setShowQuestionEditor: (_showQuestionEditor: boolean) => void;
   editorQuestion: Question | null;
   setEditorQuestion: (_editorQuestion: Question | null) => void;
-  showPreviewAssessment: boolean;
-  setShowPreviewAssessment: (_showPreviewAssessment: boolean) => void;
+  showAssessmentPreview: boolean;
+  setShowAssessmentPreview: (_showAssessmentPreview: boolean) => void;
 };
 
 const AssessmentContext = createContext<AssessmentContextType>({
@@ -24,8 +24,8 @@ const AssessmentContext = createContext<AssessmentContextType>({
   setShowQuestionEditor: (_showQuestionEditor: boolean): void => {},
   editorQuestion: null,
   setEditorQuestion: (_editorQuestion: Question | null): void => {},
-  showPreviewAssessment: false,
-  setShowPreviewAssessment: (_showPreviewAssessment: boolean): void => {},
+  showAssessmentPreview: false,
+  setShowAssessmentPreview: (_showAssessmentPreview: boolean): void => {},
 });
 
 export default AssessmentContext;

@@ -55,7 +55,7 @@ const AssessmentEditorHeader = ({
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
   const history = useHistory();
-  const { setShowPreviewAssessment } = useContext(AssessmentContext);
+  const { setShowAssessmentPreview } = useContext(AssessmentContext);
   const {
     onOpen: onPublishModalOpen,
     isOpen: isPublishModalOpen,
@@ -113,7 +113,7 @@ const AssessmentEditorHeader = ({
           <HStack spacing={2}>
             <Button
               leftIcon={<EyeOutlineIcon />}
-              onClick={() => setShowPreviewAssessment(true)}
+              onClick={() => setShowAssessmentPreview(true)}
               size="sm"
               variant="tertiary"
             >
