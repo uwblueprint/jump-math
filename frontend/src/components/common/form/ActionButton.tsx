@@ -6,6 +6,8 @@ import { Button } from "@chakra-ui/react";
 import { FormValidationError } from "../../../utils/GeneralUtils";
 import useToast from "../info/useToast";
 
+// TODO(juliands): re-enable later
+/*
 type ActionButtonPropsDefaultToasts =
   | {
       showDefaultToasts?: true | undefined;
@@ -21,6 +23,7 @@ type ActionButtonPropsDefaultNoToasts =
       messageOnError: string | (<T>(e: T) => string);
     }
   | { showDefaultToasts?: false | undefined };
+  */
 
 export type ActionButtonPropsRestricted<Default extends boolean> = {
   messageOnSuccess?: string;
@@ -28,9 +31,14 @@ export type ActionButtonPropsRestricted<Default extends boolean> = {
   // If showDefaultToasts is true, the button will show a toast for a success or validation error.
   // Otherwise, it will only show a toast for a non-validation error.
   showDefaultToasts?: boolean;
-} & (Default extends true
+
+  // TODO(juliands): remove later. This is a hack to get the linter to stop complaining.
+  UNUSED?: never & Default;
+};
+// TODO(juliands): re-enable later
+/* & (Default extends true
   ? ActionButtonPropsDefaultToasts
-  : ActionButtonPropsDefaultNoToasts);
+  : ActionButtonPropsDefaultNoToasts); */
 
 export type ActionButtonProps<Default extends boolean> = Omit<
   ButtonProps,
