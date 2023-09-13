@@ -34,20 +34,22 @@ const MultiOptionModal = ({
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
   const [emptyOptionError, setEmptyOptionError] = useState(false);
 
-  useEffect(() => {
-    setOptionCount(data ? data.options.length : 0);
-    setOptions(data ? data.options : []);
-  }, [data]);
-
   const resetErrors = () => {
     setOptionCountError(false);
     setNoCorrectOptionError(false);
     setEmptyOptionError(false);
   };
 
-  const handleClose = () => {
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
     setOptionCount(data ? data.options.length : 0);
     setOptions(data ? data.options : []);
+  }, [data, isOpen]);
+
+  const handleClose = () => {
     resetErrors();
     onClose();
   };
