@@ -31,6 +31,7 @@ const colors = {
     300: "#636363",
     400: "#272727",
   },
+  placeholder: { 300: "#A0AEC0" },
 };
 
 export default colors;

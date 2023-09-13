@@ -1,13 +1,16 @@
-import React from "react";
-import { Alert, AlertIcon } from "@chakra-ui/react";
+import React, { type ReactElement } from "react";
+import { Alert, AlertIcon, type AlertProps } from "@chakra-ui/react";
 
-interface ErrorToastProps {
+type ErrorToastProps = AlertProps & {
   errorMessage: string;
-}
+};
 
-const ErrorToast = ({ errorMessage }: ErrorToastProps): React.ReactElement => {
+const ErrorToast = ({
+  errorMessage,
+  ...props
+}: ErrorToastProps): ReactElement => {
   return (
-    <Alert status="error">
+    <Alert {...props} status="error">
       <AlertIcon />
       {errorMessage}
     </Alert>

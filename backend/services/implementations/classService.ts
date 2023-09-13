@@ -146,9 +146,15 @@ class ClassService implements IClassService {
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
     try {
+      // Omit other fields!
+      const sanitizedClassObj = {
+        className: classObj.className,
+        gradeLevel: classObj.gradeLevel,
+      };
+
       updatedClass = await MgClass.findOneAndUpdate(
         { _id: id, isActive: { $in: [true, undefined] } },
-        classObj,
+        sanitizedClassObj,
         {
           new: true,
           runValidators: true,

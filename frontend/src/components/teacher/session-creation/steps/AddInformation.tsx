@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { isPastDate } from "../../../../utils/GeneralUtils";
-import DatePicker from "../../../common/DatePicker";
+import DatePicker from "../../../common/form/DatePicker";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface AddInformationProps {

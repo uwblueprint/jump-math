@@ -1,18 +1,21 @@
+import type { ReactElement } from "react";
 import React from "react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { format } from "date-fns";
 
 type DatePickerProps = {
+  name?: string;
   onChange: (date: Date) => void;
-  value: Date | undefined;
+  value: Date | null | undefined;
   isDisabled?: boolean;
 };
 
 const DatePicker = ({
+  name,
   onChange,
   value,
   isDisabled = false,
-}: DatePickerProps): React.ReactElement => {
+}: DatePickerProps): ReactElement => {
   return (
     <SingleDatepicker
       configs={{
@@ -32,8 +35,8 @@ const DatePicker = ({
           "December",
         ],
       }}
-      date={value}
-      name="date-input"
+      date={value || undefined}
+      name={name ?? "date-input"}
       onDateChange={(date) => onChange(date)}
       propsConfigs={{
         dateNavBtnProps: {
@@ -68,7 +71,13 @@ const DatePicker = ({
         },
         inputProps: {
           isDisabled,
+          type: "button",
+          cursor: "pointer",
+          "aria-label": "This is a date input, activate to open date picker",
+          textAlign: "left",
           value: value ? format(value, "yyyy-MM-dd") : "Please choose a date",
+          color: value ? "grey.300" : "placeholder.300",
+          transition: "color 0s",
         },
         popoverCompProps: {
           popoverContentProps: {
