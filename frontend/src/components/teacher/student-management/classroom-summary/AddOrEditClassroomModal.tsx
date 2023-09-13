@@ -26,12 +26,11 @@ import {
   FormValidationError,
   getQueryName,
 } from "../../../../utils/GeneralUtils";
+import ControlledDatePicker from "../../../common/form/ControlledDatePicker";
+import ControlledSelect from "../../../common/form/ControlledSelect";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
 import useModalFormHandler from "../../../common/modal/useModalFormHandler";
-
-import ControlledDatePicker from "./ControlledDatePicker";
-import SelectFormInputClassroom from "./SelectFormInputClassroom";
 
 type AddOrEditClassroomModalProps = {
   onClose: () => void;
@@ -121,7 +120,6 @@ const AddOrEditClassroomModal = ({
               />
               <InlineFormError
                 error={errors.className}
-                // only affected by fields in the same HStack
                 showPlaceholder={!!errors.startDate}
               />
             </FormControl>
@@ -149,7 +147,6 @@ const AddOrEditClassroomModal = ({
               />
               <InlineFormError
                 error={errors.startDate}
-                // only affected by fields in the same HStack
                 showPlaceholder={!!errors.className}
               />
             </FormControl>
@@ -159,7 +156,7 @@ const AddOrEditClassroomModal = ({
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.gradeLevel} isRequired>
               <FormLabel color="blue.300">Grade Level</FormLabel>
-              <SelectFormInputClassroom
+              <ControlledSelect
                 isRequired
                 isSearchable={false}
                 name="gradeLevel"

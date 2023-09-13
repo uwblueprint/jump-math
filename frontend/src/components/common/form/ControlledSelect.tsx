@@ -3,9 +3,9 @@ import { Controller } from "react-hook-form";
 import type { ChakraStylesConfig } from "chakra-react-select";
 import { Select } from "chakra-react-select";
 
-import type { StringOption } from "../../../../types/SelectInputTypes";
+import type { StringOption } from "../../../types/SelectInputTypes";
 
-interface SelectFormInputClassroomProps {
+interface ControlledSelectProps {
   name: string;
   options: StringOption[];
   placeholder: string;
@@ -20,13 +20,13 @@ const chakraStyles: ChakraStylesConfig<StringOption> = {
   }),
 };
 
-const SelectFormInputClassroom = ({
+const ControlledSelect = ({
   name: fieldName,
   options,
   placeholder,
   isSearchable,
   isRequired,
-}: SelectFormInputClassroomProps): ReactElement => (
+}: ControlledSelectProps): ReactElement => (
   <Controller
     name={fieldName}
     render={({ field: { name, ref, onChange, onBlur, value } }) => (
@@ -51,4 +51,4 @@ const SelectFormInputClassroom = ({
   />
 );
 
-export default SelectFormInputClassroom;
+export default ControlledSelect;

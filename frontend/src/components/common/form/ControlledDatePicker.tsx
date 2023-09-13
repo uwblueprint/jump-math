@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-import DatePicker from "../../../common/DatePicker";
+import DatePicker from "./DatePicker";
 
 type ControlledDatePickerProps = {
   name?: string;

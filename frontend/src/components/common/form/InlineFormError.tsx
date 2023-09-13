@@ -3,6 +3,10 @@ import type { FieldError } from "react-hook-form";
 import { Box, FormErrorMessage } from "@chakra-ui/react";
 
 type InlineFormErrorProps = {
+  // If true, a placeholder will be shown to keep the form layout consistent.
+  // This is useful for forms where the error message is hidden by default;
+  // set this to true for all fields in the same visual "row" as the field
+  // with a visible error message to maintain horizontal alignment.
   showPlaceholder?: boolean;
 } & (
   | {
@@ -14,10 +18,10 @@ type InlineFormErrorProps = {
 );
 
 const InlineFormError = ({
-  showPlaceholder,
+  showPlaceholder = false,
   ...props
 }: InlineFormErrorProps): React.ReactElement => {
-  let shouldShowPlaceholder = showPlaceholder ?? false;
+  let shouldShowPlaceholder = showPlaceholder;
   let message = "";
   if ("error" in props) {
     const { error } = props;
