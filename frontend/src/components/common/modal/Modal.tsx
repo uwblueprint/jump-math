@@ -29,7 +29,7 @@ type ModalProps = {
   submitButtonVariant?: string;
   cancelButtonVariant?: string;
   onBack?: () => void;
-  onSubmit: (() => Promise<unknown>) | (() => unknown);
+  onSubmit?: (() => Promise<unknown>) | (() => unknown);
 } & ActionButtonPropsRestricted<true>;
 
 const Modal = ({
@@ -70,29 +70,35 @@ const Modal = ({
           <ErrorToast borderTopRadius="12px" errorMessage={errorMessage} />
         )}
         <Box p={variant === "large" ? 2 : 0}>
-          <ModalText
-            body={body}
-            header={header}
-            isLargeVariant={variant === "large"}
-          />
-          <ModalCloseButton isDisabled={loading} />
+          {header && (
+            <>
+              <ModalText
+                body={body}
+                header={header}
+                isLargeVariant={variant === "large"}
+              />
+              <ModalCloseButton isDisabled={loading} />
+            </>
+          )}
           {children && <ModalBody pb={0}>{children}</ModalBody>}
           {variant !== "large" && <Divider mt="1.5em" />}
           <ModalFooter>
-            <Button
-              isDisabled={loading}
-              minWidth="10%"
-              mr={2}
-              onClick={onBack ?? handleClose}
-              variant={cancelButtonVariant || "secondary"}
-            >
-              {cancelButtonText}
-            </Button>
+            {cancelButtonText && (
+              <Button
+                isDisabled={loading}
+                minWidth="10%"
+                mr={2}
+                onClick={onBack ?? handleClose}
+                variant={cancelButtonVariant || "secondary"}
+              >
+                {cancelButtonText}
+              </Button>
+            )}
             <ActionButton
               isLoading={loading}
               minWidth="10%"
               onAfterSuccess={handleClose}
-              onClick={onSubmit}
+              onClick={() => onSubmit?.()}
               onError={setErrorMessage}
               setLoading={setLoading}
               {...toastProps}
