@@ -6,12 +6,14 @@ import DatePicker from "../../../common/DatePicker";
 
 type ControlledDatePickerProps = {
   name?: string;
+  isDisabled?: boolean;
   isRequired?: boolean;
   additionalRules?: Record<string, unknown>;
 };
 
 const ControlledDatePicker = ({
   name: fieldName,
+  isDisabled,
   isRequired,
   additionalRules,
 }: ControlledDatePickerProps): ReactElement => {
@@ -20,6 +22,7 @@ const ControlledDatePicker = ({
       name={fieldName || "date-input"}
       render={({ field: { onChange, onBlur, value, name } }) => (
         <DatePicker
+          isDisabled={isDisabled}
           name={name}
           onChange={(date) => {
             onChange(date);
@@ -36,7 +39,7 @@ const ControlledDatePicker = ({
           value: isRequired ?? false,
           message: "This field is required.",
         },
-        ...additionalRules,
+        ...(additionalRules ?? {}),
       }}
     ></Controller>
   );

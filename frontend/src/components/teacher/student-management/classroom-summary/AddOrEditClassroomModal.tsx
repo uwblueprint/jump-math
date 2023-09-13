@@ -130,15 +130,20 @@ const AddOrEditClassroomModal = ({
             <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
               <ControlledDatePicker
-                additionalRules={{
-                  validate: (value: Date) => {
-                    const now = new Date();
-                    if (value && value < now && !isSameDay(value, now)) {
-                      return "Please set a present or future date";
-                    }
-                    return true;
-                  },
-                }}
+                additionalRules={
+                  isEditing
+                    ? {}
+                    : {
+                        validate: (value: Date) => {
+                          const now = new Date();
+                          if (value && value < now && !isSameDay(value, now)) {
+                            return "Please set a present or future date";
+                          }
+                          return true;
+                        },
+                      }
+                }
+                isDisabled={isEditing}
                 isRequired
                 name="startDate"
               />
