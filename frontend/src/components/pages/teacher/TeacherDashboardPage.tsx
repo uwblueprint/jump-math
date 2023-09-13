@@ -20,7 +20,7 @@ const SECTION_CONFIG = [
   {
     title: "Assessments",
     bodyComponent: <AssessmentsSection />,
-    headerGap: 0,
+    headerGap: 2,
   },
 ];
 

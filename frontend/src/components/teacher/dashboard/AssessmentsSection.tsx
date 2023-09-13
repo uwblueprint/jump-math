@@ -63,23 +63,14 @@ const AssessmentsSection = () => {
           <Tabs
             onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
           >
-            <TabList border="none" gap={8}>
+            <TabList>
               {TEST_SESSION_STATUSES.map((status) => (
-                <Tab
-                  key={status}
-                  _focus={{ background: "none" }}
-                  border="none"
-                  color="blue.100"
-                  fontWeight="bold"
-                  px={0}
-                >
-                  {titleCase(status)}
-                </Tab>
+                <Tab key={status}>{titleCase(status)}</Tab>
               ))}
             </TabList>
             <TabPanels>
               {TEST_SESSION_STATUSES.map((status) => (
-                <TabPanel key={status} p={0}>
+                <TabPanel key={status} px={0}>
                   {sortedData?.map((session) => (
                     <TestSessionListItem
                       key={session.testSessionId}
