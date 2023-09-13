@@ -83,7 +83,14 @@ describe("mongo classService", (): void => {
     const res = await classService.updateClass(classObj.id, updatedTestClass);
 
     // assert
-    assertResponseMatchesExpected(updatedTestClass, res);
+    assertResponseMatchesExpected(
+      {
+        ...testClassWithStudents,
+        className: updatedTestClass.className,
+        gradeLevel: updatedTestClass.gradeLevel,
+      },
+      res,
+    );
     assertStudentResponseMatchesExpected(
       testClassWithStudents.students,
       res.students,
