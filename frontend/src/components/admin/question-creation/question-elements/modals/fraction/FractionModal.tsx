@@ -3,7 +3,10 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import type { FractionType } from "../../../../../../types/QuestionTypes";
-import { stringToInt } from "../../../../../../utils/GeneralUtils";
+import {
+  FormValidationError,
+  stringToInt,
+} from "../../../../../../utils/GeneralUtils";
 import Modal from "../../../../../common/modal/Modal";
 import FractionInput from "../../../../../common/question-elements/fraction/FractionInput";
 
@@ -45,11 +48,13 @@ const FractionModal = ({
     onClose();
   };
 
-  const handleBack = () => {
-    resetFieldValues();
-    setError(false);
-    if (onBack) onBack();
-  };
+  const handleBack =
+    onBack &&
+    (() => {
+      resetFieldValues();
+      setError(false);
+      onBack();
+    });
 
   const handleConfirm = () => {
     const castedWholeNumber =
@@ -57,19 +62,18 @@ const FractionModal = ({
     const castedNumerator = stringToInt(numerator);
     const castedDenominator = stringToInt(denominator);
     if (
-      typeof castedWholeNumber !== "undefined" &&
-      typeof castedNumerator !== "undefined" &&
-      typeof castedDenominator !== "undefined"
+      typeof castedWholeNumber === "undefined" ||
+      typeof castedNumerator === "undefined" ||
+      typeof castedDenominator === "undefined"
     ) {
-      onConfirm({
-        wholeNumber: castedWholeNumber,
-        numerator: castedNumerator,
-        denominator: castedDenominator,
-      });
-      handleClose();
-    } else {
       setError(true);
+      throw new FormValidationError("One or more fields are invalid");
     }
+    onConfirm({
+      wholeNumber: castedWholeNumber,
+      numerator: castedNumerator,
+      denominator: castedDenominator,
+    });
   };
 
   return (
@@ -80,6 +84,7 @@ const FractionModal = ({
       onBack={handleBack}
       onClose={handleClose}
       onSubmit={handleConfirm}
+      showDefaultToasts={false}
     >
       <FormControl isInvalid={error} isRequired>
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>

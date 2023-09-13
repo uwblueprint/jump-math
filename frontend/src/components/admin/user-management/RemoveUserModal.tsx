@@ -8,7 +8,7 @@ import {
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
 import { CloseOutlineIcon } from "../../../assets/icons";
-import useToast from "../../common/info/useToast";
+import { getQueryName } from "../../../utils/GeneralUtils";
 import Modal from "../../common/modal/Modal";
 
 interface RemoveUserModalProps {
@@ -21,33 +21,13 @@ const RemoveUserModal = ({
   email,
 }: RemoveUserModalProps): React.ReactElement => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [removeUser, { error }] = useMutation<{ removeUser: null }>(
-    REMOVE_USER,
-    {
-      refetchQueries: [
-        { query: GET_USERS_BY_ROLE, variables: { role: "Admin" } },
-        { query: GET_ALL_TEACHERS },
-      ],
-    },
-  );
-
-  const { showToast } = useToast();
-
-  const onRemoveUserClick = async () => {
-    await removeUser({ variables: { email } });
-    if (error) {
-      showToast({
-        message: "Unable to remove user. Please try again.",
-        status: "error",
-      });
-    } else {
-      showToast({
-        message: "This user has been removed.",
-        status: "success",
-      });
-    }
-    onClose();
-  };
+  const [removeUser] = useMutation<{ removeUser: null }>(REMOVE_USER, {
+    variables: { email },
+    refetchQueries: [
+      getQueryName(GET_USERS_BY_ROLE),
+      getQueryName(GET_ALL_TEACHERS),
+    ],
+  });
 
   return (
     <>
@@ -63,8 +43,10 @@ const RemoveUserModal = ({
         body={`Are you sure you want to remove ${name}?`}
         header="Remove User"
         isOpen={isOpen}
+        messageOnError="Failed to remove the user. Please try again."
+        messageOnSuccess="User removed."
         onClose={onClose}
-        onSubmit={onRemoveUserClick}
+        onSubmit={removeUser}
       />
     </>
   );

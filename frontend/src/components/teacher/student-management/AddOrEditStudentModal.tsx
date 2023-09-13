@@ -71,7 +71,7 @@ const AddOrEditStudentModal = ({
   return (
     <Modal
       cancelButtonText="Discard"
-      header={isEditing ? "Edit student" : "Add student"}
+      header={isEditing ? "Edit Student" : "Add Student"}
       isOpen={isOpen}
       messageOnError={(error) => {
         if (error instanceof FormValidationError) {

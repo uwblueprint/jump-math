@@ -8,6 +8,7 @@ import {
 
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import {
+  FormValidationError,
   preventNonNumericKeys,
   stringToFloat,
 } from "../../../../../../utils/GeneralUtils";
@@ -50,6 +51,7 @@ const ShortAnswerModal = ({
       handleClose();
     } else {
       setError(true);
+      throw new FormValidationError("One or more fields are invalid");
     }
   };
 
@@ -59,6 +61,7 @@ const ShortAnswerModal = ({
       isOpen={isOpen}
       onClose={handleClose}
       onSubmit={handleConfirm}
+      showDefaultToasts={false}
     >
       <FormControl isInvalid={error} isRequired>
         <FormLabel color="grey.300" style={{ fontSize: "18px" }}>

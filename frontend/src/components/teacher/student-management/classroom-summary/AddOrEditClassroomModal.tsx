@@ -90,7 +90,7 @@ const AddOrEditClassroomModal = ({
     <>
       <Modal
         cancelButtonText="Discard"
-        header={isEditing ? "Edit classroom" : "Add classroom"}
+        header={isEditing ? "Edit Classroom" : "Add Classroom"}
         isOpen={isOpen}
         messageOnError={(error) => {
           if (error instanceof FormValidationError) {
