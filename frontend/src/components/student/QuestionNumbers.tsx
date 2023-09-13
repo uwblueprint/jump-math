@@ -1,21 +1,18 @@
 import React, { useContext } from "react";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 
-import StudentContext from "../../contexts/StudentContext";
-import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
+import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 import { questionStatus } from "../../utils/StudentUtils";
 
 import QuestionNumber from "./QuestionNumber";
 
 const QuestionNumbers = (): React.ReactElement => {
-  const { test } = useContext(StudentContext);
-  const { answers, currentQuestionIndex, setCurrentQuestionIndex } = useContext(
-    WriteAssessmentContext,
-  );
+  const { questions, answers, currentQuestionIndex, setCurrentQuestionIndex } =
+    useContext(AssessmentExperienceContext);
 
   return (
     <SimpleGrid columns={3} spacing={4}>
-      {test?.questions.map((_, index) => {
+      {questions.map((_, index) => {
         return (
           <GridItem key={index}>
             <QuestionNumber

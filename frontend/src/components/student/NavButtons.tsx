@@ -5,18 +5,21 @@ import {
   ArrowBackOutlineIcon,
   ArrowForwardOutlineIcon,
 } from "../../assets/icons";
-import StudentContext from "../../contexts/StudentContext";
-import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
+import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 
 import SubmitButton from "./SubmitButton";
 
-const NavButtons = (): React.ReactElement => {
-  const { test } = useContext(StudentContext);
-  const { currentQuestionIndex, setCurrentQuestionIndex } = useContext(
-    WriteAssessmentContext,
-  );
+interface NavButtonsProps {
+  isPreviewMode?: boolean;
+}
 
-  const questionCount = test?.questions.length ?? 0;
+const NavButtons = ({
+  isPreviewMode = false,
+}: NavButtonsProps): React.ReactElement => {
+  const { questions, currentQuestionIndex, setCurrentQuestionIndex } =
+    useContext(AssessmentExperienceContext);
+
+  const questionCount = questions.length;
 
   const isFirstQuestion = currentQuestionIndex === 0;
   const isLastQuestion = currentQuestionIndex === questionCount - 1;
@@ -37,7 +40,7 @@ const NavButtons = (): React.ReactElement => {
       )}
       <Spacer />
       {isLastQuestion ? (
-        <SubmitButton />
+        <SubmitButton isDisabled={isPreviewMode} />
       ) : (
         <Button
           onClick={() => setCurrentQuestionIndex(nextQuestion)}

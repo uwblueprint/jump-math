@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { Button, Text, useDisclosure } from "@chakra-ui/react";
 
 import { SUBMIT_TEST } from "../../APIClients/mutations/TestSessionMutations";
+import AssessmentExperienceContext from "../../contexts/AssessmentExperienceContext";
 import AuthContext from "../../contexts/AuthContext";
 import StudentContext from "../../contexts/StudentContext";
 import WriteAssessmentContext from "../../contexts/WriteAssessmentContext";
@@ -13,11 +14,16 @@ import {
 import useToast from "../common/info/useToast";
 import Modal from "../common/modal/Modal";
 
-const SubmitButton = (): React.ReactElement => {
+interface SubmitButtonProps {
+  isDisabled: boolean;
+}
+
+const SubmitButton = ({
+  isDisabled,
+}: SubmitButtonProps): React.ReactElement => {
   const { testSession } = useContext(StudentContext);
-  const { answers, setIsSubmitted, setIsLoading } = useContext(
-    WriteAssessmentContext,
-  );
+  const { answers } = useContext(AssessmentExperienceContext);
+  const { setIsSubmitted, setIsLoading } = useContext(WriteAssessmentContext);
   const { showToast } = useToast();
   const { authenticatedUser } = useContext(AuthContext);
   const { onOpen, isOpen, onClose } = useDisclosure();
@@ -89,7 +95,7 @@ const SubmitButton = (): React.ReactElement => {
         onSubmit={handleSubmitTest}
         submitButtonText="Submit"
       />
-      <Button onClick={onOpen} variant="primary">
+      <Button isDisabled={isDisabled} onClick={onOpen} variant="primary">
         Submit
       </Button>
     </>

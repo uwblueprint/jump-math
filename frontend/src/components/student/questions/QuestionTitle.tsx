@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { HStack, Text } from "@chakra-ui/react";
 
-import StudentContext from "../../../contexts/StudentContext";
-import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
+import AssessmentExperienceContext from "../../../contexts/AssessmentExperienceContext";
 import { getAnswerElements } from "../../../utils/StudentUtils";
 
 const QuestionTitle = (): React.ReactElement => {
-  const { test } = useContext(StudentContext);
-  const { currentQuestionIndex } = useContext(WriteAssessmentContext);
+  const { questions, currentQuestionIndex } = useContext(
+    AssessmentExperienceContext,
+  );
 
   const pointCount = getAnswerElements(
-    test?.questions[currentQuestionIndex] ?? [],
+    questions[currentQuestionIndex].elements,
   ).length;
 
   return (

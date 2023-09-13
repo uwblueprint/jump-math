@@ -23,6 +23,7 @@ import {
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
+import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElementType,
   ResponseElementType,
@@ -78,6 +79,7 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 const QuestionSidebar = (): React.ReactElement => {
   const { setShowQuestionEditor, setEditorQuestion } =
     useContext(AssessmentContext);
+  const { setShowQuestionPreview } = useContext(QuestionEditorContext);
 
   const closeQuestionEditor = () => {
     setEditorQuestion(null);
@@ -138,7 +140,11 @@ const QuestionSidebar = (): React.ReactElement => {
         </Accordion>
       </Stack>
       <HStack align="center" paddingTop="2em">
-        <Button minWidth={0} variant="secondary">
+        <Button
+          minWidth={0}
+          onClick={() => setShowQuestionPreview(true)}
+          variant="secondary"
+        >
           Preview
         </Button>
         <SaveQuestionEditorButton closeQuestionEditor={closeQuestionEditor} />

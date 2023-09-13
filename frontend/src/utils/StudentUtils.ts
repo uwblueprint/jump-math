@@ -7,6 +7,7 @@ import type {
 } from "../APIClients/types/TestClientTypes";
 import type { Answers } from "../types/AnswerTypes";
 import QuestionNumberTypes from "../types/QuestionNumberTypes";
+import type { Question, QuestionElement } from "../types/QuestionTypes";
 import {
   QuestionElementType,
   ResponseElementType,
@@ -14,7 +15,9 @@ import {
 
 import { stringToFloat } from "./GeneralUtils";
 
-export const getAnswerElements = <T extends QuestionComponentRequest>(
+export const getAnswerElements = <
+  T extends QuestionComponentRequest | QuestionElement,
+>(
   question: T[],
 ): T[] => {
   return question.filter(
@@ -32,13 +35,11 @@ export const getAnswerValues = (
   return answerElement?.elementAnswers ?? [];
 };
 
-export const initializeAnswers = (
-  questions: QuestionComponentRequest[][],
-): Answers[] => {
+export const initializeAnswers = (questions: Question[]): Answers[] => {
   return questions.map((question, index) => ({
     index,
     completedCount: 0,
-    elements: getAnswerElements(question).map(() => ({
+    elements: getAnswerElements(question.elements).map(() => ({
       elementAnswers: [],
     })),
   }));
@@ -154,21 +155,23 @@ export const getSubquestionIndex = (subquestionIndex: number[], i: number) => {
 };
 
 export const getAnswerElementIndexArray = (
-  elements: QuestionComponentResponse[],
+  elements: QuestionComponentResponse[] | QuestionElement[],
 ): number[] => {
   let answersSoFar = 0;
-  return elements.map((element: QuestionComponentResponse) => {
-    if (element.type in ResponseElementType) {
-      const elementIndex = answersSoFar;
-      answersSoFar += 1;
-      return elementIndex;
-    }
-    return 0;
-  });
+  return elements.map(
+    (element: QuestionComponentResponse | QuestionElement) => {
+      if (element.type in ResponseElementType) {
+        const elementIndex = answersSoFar;
+        answersSoFar += 1;
+        return elementIndex;
+      }
+      return 0;
+    },
+  );
 };
 
 export const getSubquestionIndexArray = (
-  elements: QuestionComponentResponse[],
+  elements: QuestionComponentResponse[] | QuestionElement[],
 ): number[] => {
   let subquestionsSoFar = 0;
   return elements.map((element) => {
