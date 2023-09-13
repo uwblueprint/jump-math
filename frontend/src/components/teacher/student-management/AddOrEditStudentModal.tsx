@@ -101,7 +101,6 @@ const AddOrEditStudentModal = ({
             />
             <InlineFormError
               error={errors.firstName}
-              // only affected by fields in the same HStack
               showPlaceholder={!!errors.lastName}
             />
           </FormControl>
@@ -118,7 +117,6 @@ const AddOrEditStudentModal = ({
             />
             <InlineFormError
               error={errors.lastName}
-              // only affected by fields in the same HStack
               showPlaceholder={!!errors.firstName}
             />
           </FormControl>
