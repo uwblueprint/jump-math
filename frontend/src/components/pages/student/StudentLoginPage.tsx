@@ -7,6 +7,7 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import AuthWrapper from "../../auth/AuthWrapper";
 import NameSelection from "../../auth/student-login/NameSelection";
+import usePageTitle from "../../auth/usePageTitle";
 import BackButton from "../../common/navigation/BackButton";
 import Spinner from "../../common/Spinner";
 
@@ -101,6 +102,8 @@ const StudentLoginPage = (): React.ReactElement => {
       <BackButton size="md" text="Back to Home" />
     </>
   );
+
+  usePageTitle(title);
 
   return (
     <>

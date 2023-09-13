@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
@@ -8,6 +8,7 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
+import RedirectTo from "../../auth/RedirectTo";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import NotFound from "../NotFound";
@@ -68,11 +69,9 @@ const StudentRouting = (): React.ReactElement => {
             path={Routes.WRITE_ASSESSMENT_PAGE}
             roles={["Student"]}
           />
-          <Redirect
-            exact
-            from={Routes.STUDENT_LANDING_PAGE}
-            to={Routes.ASSESSMENT_SUMMARY_PAGE}
-          />
+          <Route exact path={Routes.STUDENT_LANDING_PAGE}>
+            <RedirectTo pathname={Routes.ASSESSMENT_SUMMARY_PAGE} />
+          </Route>
           <Route component={NotFound} exact path="*" />
         </Switch>
       )}

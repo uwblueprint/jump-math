@@ -1,8 +1,8 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema } from "mongoose";
-import MgTestSession from "./testSession.model";
 import MgSchool from "./school.model";
 import MgClass from "./class.model";
+import MgTestSession from "./testSession.model";
 import type { Role } from "../types";
 import { Grade } from "../types";
 
@@ -15,7 +15,6 @@ export interface User extends Document {
   email: string;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
-  class?: string[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -55,25 +54,30 @@ const UserSchema: Schema = new Schema({
     type: Boolean,
     required: false,
   },
-  class: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
-    required: true,
-  },
 });
 
 /* eslint-disable func-names */
-UserSchema.pre("findOneAndDelete", async function () {
-  const doc = await this.findOne(this.getQuery()).clone();
-  if (doc.role !== "Teacher") return;
+UserSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc && doc.role === "Teacher") {
+      // Delete teacher reference from associated school
+      await MgSchool.findOneAndUpdate(
+        { teachers: doc.id },
+        { $pull: { teachers: doc.id } },
+      );
 
-  /* eslint-disable no-underscore-dangle */
-  await MgSchool.findOneAndUpdate(
-    { teachers: doc._id },
-    { $pull: { teachers: doc._id } },
-    { new: true },
-  );
-  await MgTestSession.deleteMany({ teacher: doc._id });
-  await MgClass.deleteMany({ teacher: doc._id });
+      // Delete classes associated with teacher
+      await MgClass.deleteMany({ teacher: doc.id });
+
+      // Delete test sessions associated with teacher
+      await MgTestSession.deleteMany({ teacher: doc.id });
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
+
+  return next();
 });
 
 export default mongoose.model<User>("User", UserSchema);

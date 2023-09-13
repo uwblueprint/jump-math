@@ -32,7 +32,6 @@ export type UserDTO = {
   role: Role;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
-  class?: string[];
 };
 
 export type TeacherDTO = UserDTO & { school: string };

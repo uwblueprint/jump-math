@@ -26,7 +26,6 @@ export interface ClassResponseDTO {
   startDate: Date;
   gradeLevel: Grade;
   teacher: string;
-  testSessions: string[];
   students: StudentResponseDTO[];
   isActive: boolean;
 }
@@ -99,10 +98,11 @@ export interface IClassService {
   /**
    * This method archives the class with the given id
    * @param id class id
-   * @returns the new updated ClassResponseDTO
+   * @param nowDate optional date to use as the archive date
+   * @returns the id of the archived class
    * @throws Error if archive fails
    */
-  archiveClass(id: string): Promise<ClassResponseDTO>;
+  archiveClass(id: string, nowDate?: Date): Promise<string>;
 
   /**
    * This method creates a new student in the database.

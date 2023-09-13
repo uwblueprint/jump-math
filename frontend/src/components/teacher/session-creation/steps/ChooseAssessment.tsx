@@ -20,6 +20,7 @@ import AssessmentsTable from "../AssessmentsTable";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseAssessmentProps {
+  isEditDisabled: boolean;
   testId: string;
   setTestId: React.Dispatch<React.SetStateAction<string>>;
   setTestName: React.Dispatch<React.SetStateAction<string>>;
@@ -34,6 +35,7 @@ const SORT_PROPERTIES = [
 ] as const;
 
 const ChooseAssessment = ({
+  isEditDisabled,
   testId,
   setTestId,
   setTestName,
@@ -134,6 +136,7 @@ const ChooseAssessment = ({
         )}
         <AssessmentsTable
           assessments={assessments}
+          isDisabled={isEditDisabled}
           selectedTestId={testId}
           setTestId={setTestId}
           setTestName={setTestName}

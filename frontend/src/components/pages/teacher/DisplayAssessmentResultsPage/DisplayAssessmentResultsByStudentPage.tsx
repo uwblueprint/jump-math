@@ -74,7 +74,7 @@ const DisplayAssessmentResultsByStudentPage = () => {
     studentIdToResultsMap[selectedStudentId] ?? {};
 
   return (
-    <Flex gap={14} h="calc(100vh - 235px)">
+    <Flex gap={14} h="calc(100vh - 235px)" pt={4}>
       <StudentList
         selectedStudentId={selectedStudentId}
         setSelectedStudentId={setSelectedStudentId}

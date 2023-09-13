@@ -8,6 +8,7 @@ interface ReviewItemProps {
   value: React.ReactNode;
   handleEdit: () => void;
   isRequired?: boolean;
+  isEditDisabled?: boolean;
 }
 
 const ReviewItem = ({
@@ -15,19 +16,22 @@ const ReviewItem = ({
   value,
   handleEdit,
   isRequired = true,
+  isEditDisabled = false,
 }: ReviewItemProps): React.ReactElement => (
   <FormControl isRequired={isRequired}>
     <HStack alignItems="flex-start">
       <FormLabel color="blue.300" marginRight={0}>
         {label}
       </FormLabel>
-      <IconButton
-        aria-label="Edit review item"
-        icon={<EditOutlineIcon />}
-        onClick={handleEdit}
-        size="icon"
-        variant="icon"
-      />
+      {!isEditDisabled && (
+        <IconButton
+          aria-label="Edit review item"
+          icon={<EditOutlineIcon />}
+          onClick={handleEdit}
+          size="icon"
+          variant="icon"
+        />
+      )}
     </HStack>
     {value}
   </FormControl>

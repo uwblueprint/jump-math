@@ -21,12 +21,13 @@ import {
 } from "../../../assets/icons";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
+import ActionButton from "../../common/form/ActionButton";
 import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
-import ArchiveModal from "../assessment-status/EditStatusModals/ArchiveModal";
-import DeleteModal from "../assessment-status/EditStatusModals/DeleteModal";
-import PublishModal from "../assessment-status/EditStatusModals/PublishModal";
+import ArchiveAssessmentModal from "../assessment-status/EditStatusModals/ArchiveAssessmentModal";
+import DeleteAssessmentModal from "../assessment-status/EditStatusModals/DeleteAssessmentModal";
+import PublishAssessmentModal from "../assessment-status/EditStatusModals/PublishAssessmentModal";
 
 interface AssessmentEditorHeaderProps {
   name: string;
@@ -37,7 +38,7 @@ interface AssessmentEditorHeaderProps {
   onDelete: SubmitHandler<TestRequest>;
   onSave: SubmitHandler<TestRequest>;
   onError: () => void;
-  validateForm: () => boolean;
+  validateForm: () => void;
   updatedAt?: string;
 }
 
@@ -72,17 +73,13 @@ const AssessmentEditorHeader = ({
   } = useDisclosure();
 
   const onPublish = () => {
-    if (validateForm()) onPublishModalOpen();
-  };
-
-  const onArchive = () => {
-    if (validateForm()) onArchiveModalOpen();
+    validateForm();
+    onPublishModalOpen();
   };
 
   const handleSave = handleSubmit(onSave, onError);
   const handlePublish = handleSubmit(onPublish, onError);
   const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
-  const handleArchive = handleSubmit(onArchive, onError);
   const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
   const handleDelete = handleSubmit(onDelete, onError);
   const handleCloseEditor = () => history.goBack();
@@ -122,22 +119,25 @@ const AssessmentEditorHeader = ({
             >
               Preview
             </Button>
-            <Button
+            <ActionButton
               leftIcon={<SaveOutlineIcon />}
+              messageOnError="Failed to save the assessment. Please try again later."
+              messageOnSuccess="Assessment saved."
               minWidth="10"
               onClick={handleSave}
               variant="secondary"
             >
               Save
-            </Button>
-            <Button
+            </ActionButton>
+            <ActionButton
               leftIcon={<TextOutlineIcon />}
               minWidth="10"
               onClick={handlePublish}
+              showDefaultToasts={false}
               variant="primary"
             >
               Publish
-            </Button>
+            </ActionButton>
             <Popover
               isOpen={popoverIsOpen}
               onClose={onClosePopover}
@@ -149,7 +149,7 @@ const AssessmentEditorHeader = ({
                     name="Archive"
                     onClick={() => {
                       onClosePopover();
-                      handleArchive();
+                      onArchiveModalOpen();
                     }}
                   />
                 )}
@@ -165,17 +165,17 @@ const AssessmentEditorHeader = ({
           </HStack>
         </Flex>
       </Box>
-      <PublishModal
+      <PublishAssessmentModal
         isOpen={isPublishModalOpen}
         onClose={onPublishModalClose}
         publishAssessment={handleConfirmPublish}
       />
-      <ArchiveModal
+      <ArchiveAssessmentModal
         archiveAssessment={handleConfirmArchive}
         isOpen={isArchiveModalOpen}
         onClose={onArchiveModalClose}
       />
-      <DeleteModal
+      <DeleteAssessmentModal
         deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}

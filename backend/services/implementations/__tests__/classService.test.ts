@@ -1,4 +1,5 @@
 import ClassModel from "../../../models/class.model";
+import TestSessionModel from "../../../models/testSession.model";
 import ClassService from "../classService";
 
 import db from "../../../testUtils/testDb";
@@ -23,13 +24,11 @@ import TestSessionService from "../testSessionService";
 import type TestService from "../testService";
 import {
   mockGradedTestResult,
+  mockTestSession,
+  mockTestSessionWithExpiredStartDate,
   mockTestSessionWithId,
+  mockTestSessions,
 } from "../../../testUtils/testSession";
-
-const testClassWithTestSessions = {
-  ...testClass[0],
-  testSessions: [mockTestSessionWithId.id],
-};
 
 describe("mongo classService", (): void => {
   let classService: ClassService;
@@ -84,7 +83,14 @@ describe("mongo classService", (): void => {
     const res = await classService.updateClass(classObj.id, updatedTestClass);
 
     // assert
-    assertResponseMatchesExpected(updatedTestClass, res);
+    assertResponseMatchesExpected(
+      {
+        ...testClassWithStudents,
+        className: updatedTestClass.className,
+        gradeLevel: updatedTestClass.gradeLevel,
+      },
+      res,
+    );
     assertStudentResponseMatchesExpected(
       testClassWithStudents.students,
       res.students,
@@ -101,7 +107,7 @@ describe("mongo classService", (): void => {
 
   it("getClassById for valid Id", async () => {
     // execute and assert
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassById(savedClass.id);
     assertResponseMatchesExpected(savedClass, res);
   });
@@ -116,10 +122,15 @@ describe("mongo classService", (): void => {
   });
 
   describe("getTestableStudentsByTestSessionId", () => {
-    it("getTestableStudentsByTestSessionId for valid testSessionId", async () => {
-      const savedClass = await ClassModel.create(testClassWithTestSessions);
+    it("for valid testSessionId", async () => {
+      const savedClass = await ClassModel.create(testClass[0]);
+      testSessionService.getTestSessionById = jest.fn().mockReturnValue({
+        ...mockTestSessionWithId,
+        class: savedClass.id,
+      });
+
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       assertTestableStudentsResponseMatchesExpected(savedClass, res);
     });
@@ -133,25 +144,11 @@ describe("mongo classService", (): void => {
       );
     });
 
-    it("for classes with same testSessionId", async () => {
-      await ClassModel.create(testClassWithTestSessions);
-      await ClassModel.create(testClassWithTestSessions);
-      const testSessionId = testClassWithTestSessions.testSessions[0];
-      await expect(async () => {
-        await classService.getTestableStudentsByTestSessionId(testSessionId);
-      }).rejects.toThrowError(
-        `More than one class has the same Test Session of id ${testSessionId}`,
-      );
-    });
-
     it("for test session with existing results", async () => {
-      const savedClass = await ClassModel.create({
-        ...testClassWithStudents,
-        testSessions: [mockTestSessionWithId.id],
-      });
-
+      const savedClass = await ClassModel.create(testClassWithStudents);
       testSessionService.getTestSessionById = jest.fn().mockReturnValue({
         ...mockTestSessionWithId,
+        class: savedClass.id,
         results: [
           {
             ...mockGradedTestResult,
@@ -161,7 +158,7 @@ describe("mongo classService", (): void => {
       });
 
       const res = await classService.getTestableStudentsByTestSessionId(
-        savedClass.testSessions[0],
+        mockTestSessionWithId.id,
       );
       expect(savedClass.id).not.toBeNull();
       expect(savedClass.className).toEqual(res.className);
@@ -171,26 +168,37 @@ describe("mongo classService", (): void => {
     });
   });
 
-  it("getClassesByTeacherId for valid testSessionId", async () => {
-    const savedClass = await ClassModel.create(testClassWithTestSessions);
+  it("getClassesByTeacherId for valid teacher id", async () => {
+    const savedClass = await ClassModel.create(testClass[0]);
     const res = await classService.getClassesByTeacherId(savedClass.teacher);
     assertArrayResponseMatchesExpected([savedClass], res);
   });
 
-  it("getClassesByTeacherId for non-existing testSessionId", async () => {
+  it("getClassesByTeacherId for non-existing teacher id", async () => {
     const notFoundId = "86cb91bdc3464f14678934cd";
     const res = await classService.getClassesByTeacherId(notFoundId);
     expect(res).toEqual([]);
   });
 
   it("deleteClass", async () => {
-    // execute
     const savedClass = await ClassModel.create(testClass[0]);
+    await TestSessionModel.insertMany(
+      mockTestSessions.map((testSession) => ({
+        ...testSession,
+        class: savedClass.id,
+      })),
+    );
 
+    // execute
     const deletedClassId = await classService.deleteClass(savedClass.id);
 
     // assert
     expect(deletedClassId).toBe(savedClass.id);
+
+    const associatedTestSession = await TestSessionModel.find({
+      class: savedClass.id,
+    });
+    expect(associatedTestSession).toEqual([]);
   });
 
   it("deleteClass with non-existing id", async () => {
@@ -201,14 +209,41 @@ describe("mongo classService", (): void => {
   });
 
   it("archive class", async () => {
-    // add test class
+    // add class
     const classObj = await ClassModel.create(testClass[0]);
 
+    // add test sessions
+    const [activeTestSession, upcomingTestSession] =
+      await TestSessionModel.insertMany([
+        {
+          ...mockTestSession,
+          class: classObj.id,
+        },
+        {
+          ...mockTestSessionWithExpiredStartDate,
+          class: classObj.id,
+        },
+      ]);
+
     // execute
-    const res = await classService.archiveClass(classObj.id);
+    const nowDate = new Date();
+    const archivedClassId = await classService.archiveClass(
+      classObj.id,
+      nowDate,
+    );
 
     // assert
-    assertResponseMatchesExpected(testClass[0], res, false);
+    expect(archivedClassId).toBe(classObj.id);
+
+    const updatedActiveTestSession = await TestSessionModel.findById(
+      activeTestSession.id,
+    );
+    expect(updatedActiveTestSession?.endDate).toEqual(nowDate);
+
+    const updatedUpcomingTestSession = await TestSessionModel.findById(
+      upcomingTestSession.id,
+    );
+    expect(updatedUpcomingTestSession).toBeNull();
   });
 
   it("archive class with non-existing id", async () => {
@@ -295,28 +330,47 @@ describe("mongo classService", (): void => {
     );
   });
 
-  it("deleteStudent", async () => {
-    const classObj = await ClassModel.create(testClassWithStudents);
-    const savedStudent = classObj.students[0];
+  describe("deleteStudent", () => {
+    it("with valid class and student id", async () => {
+      const classObj = await ClassModel.create(testClassWithStudents);
+      const savedStudent = classObj.students[0];
+      const testSession = await TestSessionModel.create({
+        ...mockTestSession,
+        class: classObj.id,
+        results: [
+          mockGradedTestResult,
+          {
+            ...mockGradedTestResult,
+            student: savedStudent.id,
+          },
+        ],
+      });
+      expect(testSession?.results?.length).toEqual(2);
 
-    // execute
-    const deletedStudentId = await classService.deleteStudent(
-      savedStudent.id,
-      classObj.id,
-    );
+      // execute
+      const deletedStudentId = await classService.deleteStudent(
+        savedStudent.id,
+        classObj.id,
+      );
 
-    // assert
-    expect(deletedStudentId).toBe(savedStudent.id);
-  });
+      // assert
+      expect(deletedStudentId).toBe(savedStudent.id);
 
-  it("deleteStudent with non-existing class id", async () => {
-    // execute and assert
-    const classObj = await ClassModel.create(testClassWithStudents);
-    const notFoundId = "86cb91bdc3464f14678934cd";
-    await expect(async () => {
-      await classService.deleteStudent(classObj.students[0].id, notFoundId);
-    }).rejects.toThrowError(
-      `Student with id ${classObj.students[0].id} in class with id ${notFoundId} was not deleted`,
-    );
+      const updatedTestSession = await testSessionService.getTestSessionById(
+        testSession.id,
+      );
+      expect(updatedTestSession?.results).toEqual([mockGradedTestResult]);
+    });
+
+    it("with non-existing class id", async () => {
+      // execute and assert
+      const classObj = await ClassModel.create(testClassWithStudents);
+      const notFoundId = "86cb91bdc3464f14678934cd";
+      await expect(async () => {
+        await classService.deleteStudent(classObj.students[0].id, notFoundId);
+      }).rejects.toThrowError(
+        `Student with id ${classObj.students[0].id} in class with id ${notFoundId} was not deleted`,
+      );
+    });
   });
 });

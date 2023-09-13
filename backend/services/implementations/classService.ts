@@ -1,6 +1,7 @@
 import type { UserDTO } from "../../types";
 import type { Class } from "../../models/class.model";
 import MgClass from "../../models/class.model";
+import MgTestSession from "../../models/testSession.model";
 import { getErrorMessage } from "../../utilities/errorUtils";
 import logger from "../../utilities/logger";
 import type {
@@ -50,7 +51,6 @@ class ClassService implements IClassService {
       // create a new class document
       newClass = await MgClass.create({
         ...classObj,
-        testSessions: [],
         students: [],
       });
     } catch (error: unknown) {
@@ -66,7 +66,6 @@ class ClassService implements IClassService {
       gradeLevel: newClass.gradeLevel,
       isActive: newClass.isActive,
       teacher: newClass.teacher,
-      testSessions: newClass.testSessions,
       students: newClass.students,
     };
   }
@@ -88,27 +87,23 @@ class ClassService implements IClassService {
   async getTestableStudentsByTestSessionId(
     testSessionId: string,
   ): Promise<TestableStudentsDTO> {
-    let classes: Class[];
+    let classObj: Class | null;
     try {
-      classes = await MgClass.find({ testSessions: { $eq: testSessionId } });
-      if (!classes.length) {
+      const testSession = await this.testSessionService.getTestSessionById(
+        testSessionId,
+      );
+      classObj = await MgClass.findById(testSession.class);
+      if (!classObj) {
         throw new Error(
           `Class with test session id ${testSessionId} not found`,
-        );
-      } else if (classes.length > 1) {
-        throw new Error(
-          `More than one class has the same Test Session of id ${testSessionId}`,
         );
       }
 
       // Filter out students who have already completed the test
-      const testSession = await this.testSessionService.getTestSessionById(
-        testSessionId,
-      );
       const completedStudents = new Set(
         testSession.results?.map((result) => result.student),
       );
-      classes[0].students = classes[0].students.filter(
+      classObj.students = classObj.students.filter(
         (student) => !completedStudents.has(student.id),
       );
     } catch (error: unknown) {
@@ -116,7 +111,7 @@ class ClassService implements IClassService {
       throw error;
     }
 
-    const { id, className, students } = classes[0];
+    const { id, className, students } = classObj;
     return { id, className, students };
   }
 
@@ -151,9 +146,15 @@ class ClassService implements IClassService {
   ): Promise<ClassResponseDTO> {
     let updatedClass: Class | null;
     try {
+      // Omit other fields!
+      const sanitizedClassObj = {
+        className: classObj.className,
+        gradeLevel: classObj.gradeLevel,
+      };
+
       updatedClass = await MgClass.findOneAndUpdate(
         { _id: id, isActive: { $in: [true, undefined] } },
-        classObj,
+        sanitizedClassObj,
         {
           new: true,
           runValidators: true,
@@ -187,10 +188,10 @@ class ClassService implements IClassService {
     }
   }
 
-  async archiveClass(id: string): Promise<ClassResponseDTO> {
-    let archivedClass: Class | null;
+  async archiveClass(id: string, nowDate?: Date): Promise<string> {
     try {
-      archivedClass = await MgClass.findOneAndUpdate(
+      const date = nowDate ?? new Date();
+      const archivedClass: Class | null = await MgClass.findOneAndUpdate(
         { _id: id, isActive: { $in: [true, undefined] } },
         { $set: { isActive: false } },
         {
@@ -204,6 +205,11 @@ class ClassService implements IClassService {
           `Class with id ${id} not found or not currently active`,
         );
       }
+
+      // Make a best effort to delete upcoming test sessions and end active test sessions
+      // Any exceptions will be logged but not thrown
+      await this.deleteUpcomingTestSessions(id, date);
+      await this.endActiveTestSessions(id, date);
     } catch (error: unknown) {
       Logger.error(
         `Failed to archive class with id ${id}. Reason = ${getErrorMessage(
@@ -212,7 +218,7 @@ class ClassService implements IClassService {
       );
       throw error;
     }
-    return mapDocumentToDTO(archivedClass);
+    return id;
   }
 
   async createStudent(
@@ -299,6 +305,10 @@ class ClassService implements IClassService {
           `Student with id ${studentId} in class with id ${classId} was not deleted`,
         );
       }
+
+      // Make a best effort to delete all test session results for the deleted student
+      // Any exceptions will be logged but not thrown
+      await this.deleteStudentResults(studentId, classId);
     } catch (error: unknown) {
       Logger.error(
         `Failed to delete student with id ${studentId} from class with id ${classId}. Reason = ${getErrorMessage(
@@ -308,6 +318,68 @@ class ClassService implements IClassService {
       throw error;
     }
     return studentId;
+  }
+
+  private async deleteUpcomingTestSessions(
+    classId: string,
+    nowDate: Date,
+  ): Promise<void> {
+    try {
+      await MgTestSession.deleteMany({
+        class: classId,
+        startDate: { $gt: nowDate },
+      });
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to delete upcoming test sessions for class id ${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
+  }
+
+  private async endActiveTestSessions(
+    classId: string,
+    nowDate: Date,
+  ): Promise<void> {
+    try {
+      await MgTestSession.updateMany(
+        {
+          class: classId,
+          startDate: { $lte: nowDate },
+          endDate: { $gte: nowDate },
+        },
+        {
+          $set: { endDate: nowDate },
+        },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to end active test sessions for class id ${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
+  }
+
+  private async deleteStudentResults(
+    studentId: string,
+    classId: string,
+  ): Promise<void> {
+    try {
+      await MgTestSession.updateMany(
+        { class: classId },
+        {
+          $pull: { results: { student: studentId } },
+        },
+      );
+    } catch (error: unknown) {
+      Logger.info(
+        `Failed to delete student results for student id ${studentId} in class id ${classId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+    }
   }
 }
 

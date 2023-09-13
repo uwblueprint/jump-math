@@ -23,13 +23,15 @@ const QuestionNumber = ({
           fontSize="20px"
           icon={<CheckmarkIcon />}
           isActive
-          minWidth="3.7rem"
+          maxWidth="3.6rem"
+          minWidth="3.6rem"
           onClick={onClick}
           variant="primary"
         />
       ) : (
         <Button
-          minWidth="3.7rem"
+          maxWidth="3.6rem"
+          minWidth="3.6rem"
           onClick={onClick}
           variant={
             status === QuestionNumberTypes.CURRENT ? "primary" : "outline"

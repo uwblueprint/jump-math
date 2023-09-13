@@ -21,12 +21,14 @@ import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import type { Question } from "../../../types/QuestionTypes";
+import { FormValidationError } from "../../../utils/GeneralUtils";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import PreviewAssessmentModal from "../../admin/assessment-creation/PreviewAssessmentModal";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
+import usePageTitle from "../../auth/usePageTitle";
 import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
@@ -54,7 +56,9 @@ const AssessmentEditorPage = (): React.ReactElement => {
 
   const [deleteTest, { loading: loadingDelete }] = useMutation<{
     deleteTest: string;
-  }>(DELETE_TEST);
+  }>(DELETE_TEST, {
+    variables: { id: state?.id },
+  });
 
   const {
     handleSubmit,
@@ -76,6 +80,16 @@ const AssessmentEditorPage = (): React.ReactElement => {
     },
   });
 
+  const assessmentName = state?.name;
+  const isExisting = !!state;
+  usePageTitle(
+    isExisting
+      ? assessmentName
+        ? `Editing "${assessmentName}"`
+        : "Edit Assessment"
+      : "Create Assessment",
+  );
+
   const noQuestionError =
     "Please add at least one question to the assessment before saving";
   useEffect(() => {
@@ -87,102 +101,79 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const validateForm = () => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
-      return false;
+      throw new FormValidationError(noQuestionError);
     }
-    return true;
   };
 
   const onCreateTest = async (test: TestRequest) => {
-    if (validateForm()) {
-      await createTest({
-        variables: {
-          test,
-        },
-      })
-        .then(() => {
-          setCompletedForm(true);
-          history.push(ASSESSMENTS_PAGE);
-        })
-        .catch(() => {
-          setErrorMessage("Assessment failed to save. Please try again.");
-        });
-    }
+    validateForm();
+    await createTest({
+      variables: {
+        test,
+      },
+    });
+    setCompletedForm(true);
+    history.push(ASSESSMENTS_PAGE);
   };
 
   const onUpdateTest = async (test: TestRequest) => {
-    if (validateForm() && state?.id) {
-      await updateTest({
-        variables: {
-          id: state.id,
-          test,
-        },
-      })
-        .then(() => {
-          setCompletedForm(true);
-          history.push(ASSESSMENTS_PAGE);
-        })
-        .catch(() => {
-          setErrorMessage("Assessment failed to update. Please try again.");
-        });
+    validateForm();
+    if (!state?.id) {
+      throw new FormValidationError("Assessment ID not found");
     }
+
+    await updateTest({
+      variables: {
+        id: state.id,
+        test,
+      },
+    });
+
+    setCompletedForm(true);
+    history.push(ASSESSMENTS_PAGE);
   };
 
   const onDeleteTest = async () => {
-    if (state?.id) {
-      await deleteTest({ variables: { id: state.id } })
-        .then(() => {
-          history.push(ASSESSMENTS_PAGE);
-        })
-        .catch(() => {
-          setErrorMessage("Assessment failed to delete. Please try again.");
-        });
+    if (!state?.id) {
+      throw new FormValidationError("Assessment ID not found");
     }
+    await deleteTest();
+    history.push(ASSESSMENTS_PAGE);
   };
 
-  const onSave: SubmitHandler<TestRequest> = async (data) => {
+  const onSave: SubmitHandler<TestRequest> = (data) =>
     onCreateTest({
       ...data,
       status: Status.DRAFT,
       questions: formatQuestionsRequest(questions),
     });
-  };
 
-  const onPublish: SubmitHandler<TestRequest> = async (data: TestRequest) => {
+  const onPublish: SubmitHandler<TestRequest> = (data: TestRequest) =>
     onCreateTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
     });
-  };
 
-  const onSaveChanges: SubmitHandler<TestRequest> = async (
-    data: TestRequest,
-  ) => {
+  const onSaveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
     onUpdateTest({
       ...data,
       questions: formatQuestionsRequest(questions),
     });
-  };
 
-  const onPublishChanges: SubmitHandler<TestRequest> = async (
-    data: TestRequest,
-  ) => {
+  const onPublishChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
     onUpdateTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
     });
-  };
 
-  const onArchiveChanges: SubmitHandler<TestRequest> = async (
-    data: TestRequest,
-  ) => {
+  const onArchiveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
     onUpdateTest({
       ...data,
       status: Status.ARCHIVED,
       questions: formatQuestionsRequest(questions),
     });
-  };
 
   const onError = () => {
     setErrorMessage("Please resolve all issues before publishing or saving");

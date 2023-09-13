@@ -62,6 +62,10 @@ const testSessionType = gql`
     createTestSession(
       testSession: TestSessionRequestDTO!
     ): TestSessionResponseDTO!
+    updateTestSession(
+      id: ID!
+      testSession: TestSessionRequestDTO!
+    ): TestSessionResponseDTO!
     createTestSessionResult(
       id: ID!
       result: ResultRequestDTO!

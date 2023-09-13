@@ -5,6 +5,7 @@ import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import StudentContext from "../../../contexts/StudentContext";
 import WriteAssessmentContext from "../../../contexts/WriteAssessmentContext";
 import { formatQuestionsResponse } from "../../../utils/QuestionUtils";
+import usePageTitle from "../../auth/usePageTitle";
 import LoadingState from "../../common/info/LoadingState";
 import TestSubmissionMessage from "../../common/info/messages/TestSubmissionMessage";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
@@ -20,6 +21,7 @@ const WriteAssessmentPage = (): React.ReactElement => {
   const questions = useMemo(() => {
     return test ? formatQuestionsResponse(test.questions) : [];
   }, [test]);
+  usePageTitle(test?.name ?? "Write Assessment");
 
   return (
     <WriteAssessmentContext.Provider

@@ -1,25 +1,25 @@
-import React, { useContext } from "react";
+import React, { type ReactElement } from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import AuthContext from "../../../contexts/AuthContext";
+import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
+import * as Routes from "../../../constants/Routes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
-import DeleteModal from "../../admin/assessment-status/EditStatusModals/DeleteModal";
-import useToast from "../../common/info/useToast";
+import { getQueryName } from "../../../utils/GeneralUtils";
+import DeleteAssessmentModal from "../../admin/assessment-status/EditStatusModals/DeleteAssessmentModal";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 
 type TestSessionPopoverProps = {
-  status: TestSessionStatus;
-  testSessionId: string;
+  testSessionEditingData: TestSessionEditingData;
 };
 
 const TestSessionListItemPopover = ({
-  status,
-  testSessionId,
-}: TestSessionPopoverProps): React.ReactElement => {
+  testSessionEditingData,
+}: TestSessionPopoverProps): ReactElement => {
   const {
     isOpen: isPopoverOpen,
     onOpen: onPopoverOpen,
@@ -31,32 +31,15 @@ const TestSessionListItemPopover = ({
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  const { showToast } = useToast();
+  const history = useHistory();
 
-  const { authenticatedUser } = useContext(AuthContext);
-  const { id: teacherId } = authenticatedUser ?? {};
-
-  const [deleteTestSessionMutation] = useMutation(DELETE_TEST_SESSION, {
-    variables: { id: testSessionId },
-    refetchQueries: [
-      { query: GET_TEST_SESSIONS_BY_TEACHER_ID, variables: { teacherId } },
-    ],
+  const [deleteTestSession] = useMutation(DELETE_TEST_SESSION, {
+    variables: { id: testSessionEditingData.testSessionId },
+    refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
 
-  const deleteTestSession = async () => {
-    try {
-      await deleteTestSessionMutation();
-      onPopoverClose();
-      showToast({
-        message: "Assessment deleted.",
-        status: "success",
-      });
-    } catch (e) {
-      showToast({
-        message: "Failed to delete the assessment. Please try again later.",
-        status: "error",
-      });
-    }
+  const onEditTestSession = () => {
+    history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, testSessionEditingData);
   };
 
   return (
@@ -66,12 +49,12 @@ const TestSessionListItemPopover = ({
       onOpen={onPopoverOpen}
     >
       <VStack divider={<Divider />} spacing={0}>
-        <PopoverButton name="Edit" onClick={() => {}} />
-        {status === TestSessionStatus.UPCOMING && (
+        <PopoverButton name="Edit" onClick={onEditTestSession} />
+        {testSessionEditingData.status === TestSessionStatus.UPCOMING && (
           <PopoverButton name="Delete" onClick={openDeleteModal} />
         )}
       </VStack>
-      <DeleteModal
+      <DeleteAssessmentModal
         deleteAssessment={deleteTestSession}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
