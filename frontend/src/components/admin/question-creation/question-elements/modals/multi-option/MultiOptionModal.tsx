@@ -62,6 +62,9 @@ const MultiOptionModal = ({
     if (optionCount === 0) {
       setOptionCountError(true);
       throw new FormValidationError("Please add an option");
+    } else if (!options.every((option) => option.value)) {
+      setEmptyOptionError(true);
+      throw new FormValidationError("Please ensure all fields are filled");
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
       throw new FormValidationError("Please mark a correct answer");
@@ -70,9 +73,6 @@ const MultiOptionModal = ({
       correctOptionCount > 1
     ) {
       throw new FormValidationError("Please mark only ONE correct answer");
-    } else if (!options.every((option) => option.value)) {
-      setEmptyOptionError(true);
-      throw new FormValidationError("Please ensure all fields are filled");
     } else if (lengthError) {
       throw new FormValidationError("One or more fields are too long");
     }
