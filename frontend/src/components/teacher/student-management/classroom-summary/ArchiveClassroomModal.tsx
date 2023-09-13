@@ -16,7 +16,7 @@ const ArchiveClassroomModal = ({
   return (
     <Modal
       body={
-        'Archiving this classroom will mark all related assessments as closed. You can find your archived classrooms in the "Archived" tab.'
+        'Active and upcoming assessments linked to this classroom will be ended and deleted, respectively. You can find this classroom later in the "Archived" tab.'
       }
       header="Archive Classroom"
       isOpen={isOpen}
