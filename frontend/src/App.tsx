@@ -140,6 +140,7 @@ const App = (): ReactElement => {
                   exact
                   path={Routes.COMPONENT_LIBRARY_PAGE}
                   roles={["Admin", "Teacher"]}
+                  title="Component Library"
                 />
                 <Route component={NotFound} exact path="*" />
               </Switch>

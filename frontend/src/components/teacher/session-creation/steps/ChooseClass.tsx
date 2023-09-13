@@ -13,12 +13,14 @@ import useClassDataQuery from "../../student-management/classroom-summary/useCla
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface ChooseClassProps {
+  isEditDisabled: boolean;
   selectedClassId: string;
   setClassId: Dispatch<SetStateAction<string>>;
   setClassName: Dispatch<SetStateAction<string>>;
 }
 
 const ChooseClass = ({
+  isEditDisabled,
   selectedClassId,
   setClassId,
   setClassName,
@@ -52,11 +54,15 @@ const ChooseClass = ({
             }) => (
               <Flex
                 key={id}
-                cursor="pointer"
-                onClick={() => {
-                  setClassId(id);
-                  setClassName(className);
-                }}
+                cursor={isEditDisabled ? "not-allowed" : "pointer"}
+                onClick={
+                  isEditDisabled
+                    ? undefined
+                    : () => {
+                        setClassId(id);
+                        setClassName(className);
+                      }
+                }
                 paddingRight="4"
                 paddingTop="4"
               >

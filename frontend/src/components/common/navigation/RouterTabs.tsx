@@ -60,7 +60,7 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
         </TabList>
         <TabPanels>
           {routes.map(({ path, Component, element }) => (
-            <TabPanel key={path} p={0} pt={8}>
+            <TabPanel key={path} p={0}>
               {Component ? <Component /> : element}
             </TabPanel>
           ))}

@@ -9,10 +9,11 @@ import {
 } from "@chakra-ui/react";
 
 import { isPastDate } from "../../../../utils/GeneralUtils";
-import DatePicker from "../../../common/DatePicker";
+import DatePicker from "../../../common/form/DatePicker";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface AddInformationProps {
+  isEditDisabled: boolean;
   startDate: Date | null;
   endDate: Date | null;
   notes: string;
@@ -23,6 +24,7 @@ interface AddInformationProps {
 }
 
 const AddInformation = ({
+  isEditDisabled,
   startDate,
   endDate,
   notes,
@@ -36,18 +38,27 @@ const AddInformation = ({
 
   useEffect(() => {
     if (startDate && endDate) {
-      setInvalidStartDate(isPastDate(startDate) || endDate <= startDate);
+      setInvalidStartDate(
+        (!isEditDisabled && isPastDate(startDate)) || endDate <= startDate,
+      );
       setInvalidEndDate(isPastDate(endDate) || endDate <= startDate);
       setValidDates(!invalidStartDate && !invalidEndDate);
       return;
     }
     if (startDate) {
-      setInvalidStartDate(isPastDate(startDate));
+      setInvalidStartDate(!isEditDisabled && isPastDate(startDate));
     }
     if (endDate) {
       setInvalidEndDate(isPastDate(endDate));
     }
-  }, [startDate, endDate, invalidStartDate, invalidEndDate, setValidDates]);
+  }, [
+    startDate,
+    endDate,
+    invalidStartDate,
+    invalidEndDate,
+    setValidDates,
+    isEditDisabled,
+  ]);
 
   return (
     <DistributeAssessmentWrapper
@@ -59,6 +70,7 @@ const AddInformation = ({
           <FormControl isInvalid={invalidStartDate} isRequired>
             <FormLabel color="blue.300">Start date</FormLabel>
             <DatePicker
+              isDisabled={isEditDisabled}
               onChange={(e) => {
                 setStartDate(e);
               }}

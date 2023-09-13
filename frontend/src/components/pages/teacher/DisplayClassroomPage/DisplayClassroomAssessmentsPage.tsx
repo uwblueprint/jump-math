@@ -48,7 +48,10 @@ const DisplayClassroomAssessmentsPage = () => {
         ({ id, startDate, endDate, test, ...session }) => ({
           ...session,
           testSessionId: id,
+          testId: test.id,
           testName: test.name,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
           targetDate: getSessionTargetDate(startDate, endDate, session.status),
         }),
       ),
@@ -73,8 +76,13 @@ const DisplayClassroomAssessmentsPage = () => {
       {paginatedData?.map((session) => (
         <TestSessionListItem
           key={session.testSessionId}
-          {...session}
+          inClassroomPage
           isReadOnly={!data?.class.isActive}
+          session={{
+            ...session,
+            classroomId: classroomId,
+            classroomName: data?.class.className ?? "",
+          }}
         />
       ))}
       {totalPages > 1 && (
@@ -107,7 +115,8 @@ const DisplayClassroomAssessmentsPage = () => {
           noResults={paginatedData.length === 0}
           noResultsComponent={
             <EmptyClassSessionsMessage
-              classId={classroomId}
+              classroomId={classroomId}
+              classroomName={data?.class.className ?? ""}
               isActive={data?.class.isActive}
             />
           }

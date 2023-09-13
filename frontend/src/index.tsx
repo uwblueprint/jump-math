@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 
 import AuthAPIClient from "./APIClients/AuthAPIClient";
@@ -96,10 +97,18 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
+const authErrorLink = onError(({ graphQLErrors }) => {
+  const wasAuthError = !!graphQLErrors?.some(
+    ({ extensions }) => extensions.code === "UNAUTHENTICATED",
+  );
+  if (wasAuthError) {
+    attemptRefresh().catch(console.error);
+  }
+});
+
 const apolloClient = new ApolloClient({
   uri: `${process.env.REACT_APP_BACKEND_URL}`,
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  link: authLink.concat(link as any),
+  link: authErrorLink.concat(authLink.concat(link)),
   cache: new InMemoryCache(),
 });
 

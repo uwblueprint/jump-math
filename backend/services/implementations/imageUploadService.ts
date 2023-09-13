@@ -116,7 +116,7 @@ class ImageUploadService implements IImageUploadService {
       return image;
     } catch (error: unknown) {
       Logger.error(
-        `Failed to get delete image for filePath: ${
+        `Failed to delete image for filePath: ${
           image.filePath
         }. Reason = ${getErrorMessage(error)}`,
       );

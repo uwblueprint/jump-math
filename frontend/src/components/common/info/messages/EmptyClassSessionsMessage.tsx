@@ -7,10 +7,12 @@ import { DISTRIBUTE_ASSESSMENT_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
 const EmptyClassSessionsMessage = ({
-  classId,
+  classroomId,
+  classroomName,
   isActive,
 }: {
-  classId?: string;
+  classroomId: string;
+  classroomName: string;
   isActive?: boolean;
 }): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
@@ -20,7 +22,10 @@ const EmptyClassSessionsMessage = ({
         buttonIcon={<PlusOutlineIcon />}
         buttonRoute={{
           pathname: DISTRIBUTE_ASSESSMENT_PAGE,
-          state: classId ? { classId } : {},
+          state: {
+            classroomId,
+            classroomName,
+          },
         }}
         buttonText={isActive ? "Create new assessment" : undefined}
         image={DistributeAssessmentsIllustration}

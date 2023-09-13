@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Text } from "@chakra-ui/react";
 
+import checkFeatureFlag from "../../../checkFeatureFlag";
 import type {
   AssessmentProperties,
   Status,
@@ -18,6 +20,8 @@ interface AssessmentsTableProps {
 const AssessmentsTable = ({
   assessments,
 }: AssessmentsTableProps): React.ReactElement => {
+  const history = useHistory();
+
   const headers = ["Status", "Name", "Grade", "Type", "Country", "Region"];
   const rows: TableRow[] = assessments.map((assessment, i) => ({
     values: [
@@ -36,6 +40,12 @@ const AssessmentsTable = ({
         assessmentStatus={assessment.status}
       />
     ),
+    onClick: () => {
+      if (checkFeatureFlag("ENABLE_ADMIN_DATA_VIZ")) {
+        // TODO fill this in
+        history.push("TBD");
+      }
+    },
   }));
 
   return <Table headers={headers} rows={rows} />;

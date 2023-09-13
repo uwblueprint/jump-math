@@ -1,6 +1,6 @@
-import type { Document } from "mongoose";
+import type { CallbackError, Document } from "mongoose";
 import mongoose, { Schema, model } from "mongoose";
-// eslint-disable-next-line import/no-cycle
+import MgTestSession from "./testSession.model";
 import { Grade } from "../types";
 
 /**
@@ -17,8 +17,6 @@ export interface Class extends Document {
   gradeLevel: Grade;
   /** the id of the teacher that teaches the class  */
   teacher: string;
-  /** the ids of the test sessions assigned to the class */
-  testSessions: string[];
   /** the students of the class */
   students: Student[];
   /** whether the class is active or archived */
@@ -71,10 +69,6 @@ const ClassSchema: Schema = new Schema(
       ref: "User",
       required: true,
     },
-    testSessions: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestSession" }],
-      required: true,
-    },
     students: {
       type: [StudentSchema],
       required: false,
@@ -87,5 +81,20 @@ const ClassSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+/* eslint-disable func-names */
+ClassSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const doc = await this.findOne(this.getQuery()).clone();
+    if (doc) {
+      // Delete all test sessions associated with class
+      await MgTestSession.deleteMany({ class: doc.id });
+    }
+  } catch (error) {
+    return next(error as CallbackError | undefined);
+  }
+
+  return next();
+});
 
 export default model<Class>("Class", ClassSchema);

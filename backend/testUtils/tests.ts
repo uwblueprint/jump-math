@@ -108,6 +108,16 @@ export const imageMetadata: ImageMetadata = {
   filePath: "assessment-images/test.png",
 };
 
+export const savedImage = {
+  type: QuestionComponentType.IMAGE,
+  metadata: imageMetadata,
+};
+
+export const newImage = {
+  type: QuestionComponentType.IMAGE,
+  metadata: imageUpload,
+};
+
 export const questions: Array<Array<QuestionComponent>> =
   getQuestions(imageMetadata);
 

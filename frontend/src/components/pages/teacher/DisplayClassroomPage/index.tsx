@@ -19,6 +19,7 @@ import {
   titleCase,
 } from "../../../../utils/GeneralUtils";
 import RedirectTo from "../../../auth/RedirectTo";
+import usePageTitle from "../../../auth/usePageTitle";
 import HeaderWithButton from "../../../common/HeaderWithButton";
 import FormBreadcrumb from "../../../common/navigation/FormBreadcrumb";
 import RouterTabs from "../../../common/navigation/RouterTabs";
@@ -70,9 +71,9 @@ const studentFormDefaultValues: StudentForm = {
 };
 
 const classroomFormDefaultValues: ClassroomForm = {
-  className: "",
-  startDate: undefined,
-  gradeLevel: undefined,
+  className: null,
+  startDate: null,
+  gradeLevel: null,
 };
 
 const getLocationState = (
@@ -143,13 +144,15 @@ const DisplayClassroomsPage = () => {
     // from the server.
     classroomFormMethods.reset(
       {
-        className: displayTitle,
-        startDate: displayStartDate,
-        gradeLevel: displayGradeLevel,
+        className: displayTitle || classroomFormDefaultValues.className,
+        startDate: displayStartDate || classroomFormDefaultValues.startDate,
+        gradeLevel: displayGradeLevel || classroomFormDefaultValues.gradeLevel,
       },
       { keepDefaultValues: false },
     );
   }, [classroomFormMethods, displayGradeLevel, displayStartDate, displayTitle]);
+
+  usePageTitle(displayTitle ?? "Classroom");
 
   return (
     <Flex direction="column" gap={3}>
@@ -167,7 +170,8 @@ const DisplayClassroomsPage = () => {
                 name: "Assessment",
                 onClick: () =>
                   history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, {
-                    classroomId,
+                    classroomId: classroomId,
+                    classroomName: displayTitle,
                   }),
               },
               { name: "Student", onClick: onStudentModalOpen },

@@ -20,6 +20,7 @@ export interface TableRow<T extends Nodes = Nodes> {
   menu?: React.ReactElement;
   id?: string;
   onClick?: () => void;
+  isDisabled?: boolean;
 }
 
 interface TableProps<T extends Nodes = Nodes> {
@@ -56,8 +57,8 @@ export const Table = <T extends Nodes = Nodes>({
               <Tr
                 key={row.id || rowIndex}
                 backgroundColor={rowIndex % 2 === 0 ? "blue.50" : "grey.50"}
-                cursor="pointer"
-                onClick={row.onClick || undefined}
+                cursor={row.isDisabled ? "not-allowed" : "pointer"}
+                onClick={row.isDisabled ? undefined : row.onClick}
               >
                 {row.values.map((value, cellIndex) => (
                   <Td

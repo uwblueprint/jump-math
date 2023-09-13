@@ -75,12 +75,21 @@ class TestSessionService implements ITestSessionService {
         throw new Error(`Test session start and end dates are not valid`);
       }
 
+      const classObj: Class | null = await MgClass.findOne({
+        _id: testSession.class,
+        isActive: { $in: [true, undefined] },
+      });
+      if (!classObj) {
+        throw new Error(
+          `Test session could not be added to class with id ${testSession.class}`,
+        );
+      }
+
       const newTestSession = await MgTestSession.create({
         ...testSession,
         accessCode: generateAccessCode(),
         results: [],
       });
-      await this.addTestSessionToClass(testSession.class, newTestSession.id);
 
       return mapDocumentToDTO(newTestSession);
     } catch (error: unknown) {
@@ -325,10 +334,49 @@ class TestSessionService implements ITestSessionService {
   async updateTestSession(
     id: string,
     testSession: TestSessionRequestDTO,
+    nowDate?: Date,
   ): Promise<TestSessionResponseDTO> {
     let updatedTestSession: TestSession | null;
 
     try {
+      const date = nowDate ?? new Date();
+      const oldTestSession: TestSession | null = await MgTestSession.findById(
+        id,
+      );
+      if (!oldTestSession) {
+        throw new Error(`Test Session id ${id} not found`);
+      }
+
+      // If the test session is past, we don't allow teachers to update the test session at all
+      if (oldTestSession.endDate < date) {
+        throw new Error(
+          `Test Session id ${id} has already ended and so cannot be updated`,
+        );
+      }
+
+      // If the test session is active, we only allow teachers to update the end date and notes
+      if (oldTestSession.startDate <= date) {
+        const updatableKeys = new Set(["endDate", "notes"]);
+        const isInvalidModification = Object.entries(testSession).some(
+          ([key, newValue]) => {
+            const currentValue =
+              oldTestSession[key as keyof TestSessionRequestDTO];
+            return (
+              !updatableKeys.has(key) &&
+              (currentValue instanceof Date
+                ? currentValue.getTime() !== newValue.getTime()
+                : currentValue?.toString() !== newValue)
+            );
+          },
+        );
+
+        if (isInvalidModification) {
+          throw new Error(
+            `Test Session id ${id} is active and so only the end date and notes can be updated`,
+          );
+        }
+      }
+
       updatedTestSession = await MgTestSession.findByIdAndUpdate(
         id,
         testSession,
@@ -496,39 +544,6 @@ class TestSessionService implements ITestSessionService {
       default: {
         return null;
       }
-    }
-  }
-
-  private async addTestSessionToClass(
-    id: string,
-    testSessionId: string,
-  ): Promise<void> {
-    try {
-      const classObj: Class | null = await MgClass.findOneAndUpdate(
-        { _id: id, isActive: { $in: [true, undefined] } },
-        {
-          $push: {
-            testSessions: testSessionId,
-          },
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
-
-      if (!classObj) {
-        throw new Error(
-          `Test session could not be added to class with id ${id}`,
-        );
-      }
-    } catch (error: unknown) {
-      Logger.error(
-        `Failed to add test session to class. Reason = ${getErrorMessage(
-          error,
-        )}`,
-      );
-      throw error;
     }
   }
 
