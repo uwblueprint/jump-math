@@ -80,18 +80,14 @@ const ActionButton = <Default extends boolean = true>({
       }
       onAfterSuccess?.();
     } catch (e) {
-      if (
-        !showDefaultToasts &&
-        !generateErrorMessage &&
+      const errorMessage =
         e instanceof FormValidationError
-      ) {
-        return;
-      }
-      console.log(e);
+          ? e.message
+          : "An error occurred. Please try again later.";
       handleError(
         (typeof generateErrorMessage === "function"
           ? generateErrorMessage(e)
-          : generateErrorMessage) ?? "Operation failed.",
+          : generateErrorMessage) ?? errorMessage,
       );
     } finally {
       setLoading(false);

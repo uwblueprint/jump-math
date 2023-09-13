@@ -53,6 +53,7 @@ const ChooseFractionTypeModal = ({
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={onNext}
+      showDefaultToasts={false}
       submitButtonText="Next"
     >
       <FormControl isRequired>
