@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import type { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import ActionButton from "../../common/form/ActionButton";
 import BackButton from "../../common/navigation/BackButton";
@@ -54,6 +55,7 @@ const AssessmentEditorHeader = ({
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
   const history = useHistory();
+  const { setShowAssessmentPreview } = useContext(AssessmentContext);
   const {
     onOpen: onPublishModalOpen,
     isOpen: isPublishModalOpen,
@@ -109,7 +111,12 @@ const AssessmentEditorHeader = ({
           </HStack>
           <Spacer />
           <HStack spacing={2}>
-            <Button leftIcon={<EyeOutlineIcon />} size="sm" variant="tertiary">
+            <Button
+              leftIcon={<EyeOutlineIcon />}
+              onClick={() => setShowAssessmentPreview(true)}
+              size="sm"
+              variant="tertiary"
+            >
               Preview
             </Button>
             <ActionButton

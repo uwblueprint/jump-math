@@ -24,6 +24,7 @@ import type { Question } from "../../../types/QuestionTypes";
 import { FormValidationError } from "../../../utils/GeneralUtils";
 import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
+import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
@@ -43,6 +44,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [completedForm, setCompletedForm] = useState(false);
+  const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: { createTest: { id: string } };
@@ -192,11 +194,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
             setShowQuestionEditor,
             editorQuestion,
             setEditorQuestion,
+            showAssessmentPreview,
+            setShowAssessmentPreview,
           }}
         >
-          {showQuestionEditor ? (
-            <QuestionEditor />
-          ) : (
+          {showQuestionEditor && <QuestionEditor />}
+          {showAssessmentPreview && <AssessmentPreview />}
+          {!showQuestionEditor && !showAssessmentPreview && (
             <VStack spacing="8" width="100%">
               <AssessmentEditorHeader
                 handleSubmit={handleSubmit}
