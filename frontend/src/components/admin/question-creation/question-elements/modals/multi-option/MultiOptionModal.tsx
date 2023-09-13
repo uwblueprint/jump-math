@@ -6,8 +6,8 @@ import type {
   MultiOptionData,
 } from "../../../../../../types/QuestionTypes";
 import { QuestionElementType } from "../../../../../../types/QuestionTypes";
+import { FormValidationError } from "../../../../../../utils/GeneralUtils";
 import { exceedsMaxLength } from "../../../../../../utils/QuestionUtils";
-import ErrorToast from "../../../../../common/info/toasts/ErrorToast";
 import Modal from "../../../../../common/modal/Modal";
 
 import MultipleChoiceOption from "./MultiOption";
@@ -32,7 +32,6 @@ const MultiOptionModal = ({
   const [options, setOptions] = useState<MultiOptionData[]>([]);
   const [optionCountError, setOptionCountError] = useState(false);
   const [noCorrectOptionError, setNoCorrectOptionError] = useState(false);
-  const [manyCorrectOptionsError, setManyCorrectOptionsError] = useState(false);
   const [emptyOptionError, setEmptyOptionError] = useState(false);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ const MultiOptionModal = ({
   const resetErrors = () => {
     setOptionCountError(false);
     setNoCorrectOptionError(false);
-    setManyCorrectOptionsError(false);
     setEmptyOptionError(false);
   };
 
@@ -63,19 +61,23 @@ const MultiOptionModal = ({
     resetErrors();
     if (optionCount === 0) {
       setOptionCountError(true);
+      throw new FormValidationError("Please add an option");
     } else if (correctOptionCount === 0) {
       setNoCorrectOptionError(true);
+      throw new FormValidationError("Please mark a correct answer");
     } else if (
       type === QuestionElementType.MULTIPLE_CHOICE &&
       correctOptionCount > 1
     ) {
-      setManyCorrectOptionsError(true);
+      throw new FormValidationError("Please mark only ONE correct answer");
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
-    } else if (!lengthError) {
-      onConfirm({ options });
-      handleClose();
+      throw new FormValidationError("Please ensure all fields are filled");
+    } else if (lengthError) {
+      throw new FormValidationError("One or more fields are too long");
     }
+
+    onConfirm({ options });
   };
 
   return (
@@ -88,17 +90,9 @@ const MultiOptionModal = ({
       isOpen={isOpen}
       onClose={handleClose}
       onSubmit={handleConfirm}
+      showDefaultToasts={false}
     >
       <VStack spacing="10" width="100%">
-        {noCorrectOptionError && (
-          <ErrorToast errorMessage="Mark a correct answer before confirming" />
-        )}
-        {manyCorrectOptionsError && (
-          <ErrorToast errorMessage="Please mark only ONE correct answer before confirming" />
-        )}
-        {emptyOptionError && (
-          <ErrorToast errorMessage="Please ensure all fields are filled before confirming" />
-        )}
         <SelectOptionCount
           optionCount={optionCount}
           optionCountError={optionCountError}
