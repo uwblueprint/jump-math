@@ -3,7 +3,7 @@ import React, { type ReactElement } from "react";
 import type { ActionButtonProps } from "../form/ActionButton";
 import ActionButton from "../form/ActionButton";
 
-type PopoverButtonProps = ActionButtonProps & {
+type PopoverButtonProps = ActionButtonProps<false> & {
   name: string;
 };
 const PopoverButton = ({

@@ -91,8 +91,10 @@ const SubmitButton = ({
         body={body}
         header={header}
         isOpen={isOpen}
+        messageOnError="Failed to submit the assessment. Please try again later."
         onClose={onClose}
         onSubmit={handleSubmitTest}
+        showDefaultToasts={false}
         submitButtonText="Submit"
       />
       <Button isDisabled={isDisabled} onClick={onOpen} variant="primary">

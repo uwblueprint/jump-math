@@ -11,12 +11,13 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
+import type { ActionButtonPropsRestricted } from "../form/ActionButton";
 import ActionButton from "../form/ActionButton";
 import ErrorToast from "../info/toasts/ErrorToast";
 
 import ModalText from "./ModalText";
 
-interface ModalProps {
+type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   variant?: "default" | "large";
@@ -28,10 +29,8 @@ interface ModalProps {
   submitButtonVariant?: string;
   cancelButtonVariant?: string;
   onBack?: () => void;
-  messageOnSuccess?: string;
-  messageOnError?: string | (<T>(e: T) => string);
   onSubmit: (() => Promise<unknown>) | (() => unknown);
-}
+} & ActionButtonPropsRestricted<true>;
 
 const Modal = ({
   isOpen,
@@ -44,10 +43,9 @@ const Modal = ({
   cancelButtonText = "Cancel",
   submitButtonVariant,
   cancelButtonVariant,
-  messageOnSuccess,
-  messageOnError,
   onSubmit,
   variant = "default",
+  ...toastProps
 }: ModalProps): React.ReactElement => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -69,7 +67,7 @@ const Modal = ({
         minW="42vw"
       >
         {errorMessage && (
-          <ErrorToast borderRadius="12px" errorMessage={errorMessage} />
+          <ErrorToast borderTopRadius="12px" errorMessage={errorMessage} />
         )}
         <Box p={variant === "large" ? 2 : 0}>
           <ModalText
@@ -92,14 +90,12 @@ const Modal = ({
             </Button>
             <ActionButton
               isLoading={loading}
-              messageOnError={messageOnError}
-              messageOnSuccess={messageOnSuccess}
               minWidth="10%"
               onAfterSuccess={handleClose}
               onClick={onSubmit}
               onError={setErrorMessage}
               setLoading={setLoading}
-              showDefaultToasts
+              {...toastProps}
               variant={submitButtonVariant || "primary"}
             >
               {submitButtonText}
