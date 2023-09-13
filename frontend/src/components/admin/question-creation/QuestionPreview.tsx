@@ -6,15 +6,15 @@ import { EditOutlineIcon } from "../../../assets/icons";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
-const PreviewQuestionModal = (): React.ReactElement => {
-  const { questionElements, setShowPreviewQuestion } = useContext(
+const QuestionPreview = (): React.ReactElement => {
+  const { questionElements, setShowQuestionPreview } = useContext(
     QuestionEditorContext,
   );
 
-  const closePreviewQuestionButton = (
+  const closeQuestionPreviewButton = (
     <Button
       leftIcon={<EditOutlineIcon />}
-      onClick={() => setShowPreviewQuestion(false)}
+      onClick={() => setShowQuestionPreview(false)}
       variant="tertiary"
     >
       Back to Editing
@@ -24,7 +24,7 @@ const PreviewQuestionModal = (): React.ReactElement => {
 
   return (
     <AssessmentExperience
-      headerButton={closePreviewQuestionButton}
+      headerButton={closeQuestionPreviewButton}
       isPreviewMode
       questions={[currentQuestion]}
       title="Preview Question"
@@ -32,4 +32,4 @@ const PreviewQuestionModal = (): React.ReactElement => {
   );
 };
 
-export default PreviewQuestionModal;
+export default QuestionPreview;
