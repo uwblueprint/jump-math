@@ -15,7 +15,7 @@ const ConfirmationModal = ({ isOpen, onClose }: ConfirmationModalProps) => (
     isOpen={isOpen}
     onClose={onClose}
     showDefaultToasts={false}
-    submitButtonText="Return to database"
+    submitButtonText="Return to users page"
     variant="large"
   >
     <AddAdminConfirmationMessage />
