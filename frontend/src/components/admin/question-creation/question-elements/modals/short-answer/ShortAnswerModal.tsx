@@ -31,24 +31,26 @@ const ShortAnswerModal = ({
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
     setAnswer(data == null ? "" : String(data));
-  }, [data]);
+  }, [data, isOpen]);
+
+  const handleClose = () => {
+    setError(false);
+    onClose();
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(event.target.value);
-  };
-
-  const handleClose = () => {
-    setAnswer(data == null ? "" : String(data));
-    setError(false);
-    onClose();
   };
 
   const handleConfirm = () => {
     const castedAnswer = stringToFloat(answer);
     if (typeof castedAnswer !== "undefined") {
       onConfirm({ answer: castedAnswer });
-      handleClose();
     } else {
       setError(true);
       throw new FormValidationError("One or more fields are invalid");
