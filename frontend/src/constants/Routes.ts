@@ -8,7 +8,7 @@ export const EMAIL_ACTION_PAGE = "/email-action";
 
 // Private Admin Routes
 export const ADMIN_LANDING_PAGE = "/admin";
-export const USER_DATABASE_PAGE = "/admin/user-database";
+export const USERS_PAGE = "/admin/users";
 export const ASSESSMENTS_PAGE = "/admin/assessments";
 export const ASSESSMENT_EDITOR_PAGE = "/admin/assessment-editor";
 
