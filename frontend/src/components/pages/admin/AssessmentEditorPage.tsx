@@ -5,7 +5,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Prompt, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Divider, VStack } from "@chakra-ui/react";
+import { Box, Divider, VStack } from "@chakra-ui/react";
 
 import {
   CREATE_NEW_TEST,
@@ -29,7 +29,6 @@ import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuest
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
 import usePageTitle from "../../auth/usePageTitle";
-import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 const AssessmentEditorPage = (): React.ReactElement => {
@@ -59,6 +58,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
   }>(DELETE_TEST, {
     variables: { id: state?.id },
   });
+
+  const isLoading = loadingCreate || loadingUpdate || loadingDelete;
 
   const {
     handleSubmit,
@@ -130,7 +131,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
     });
 
     setCompletedForm(true);
-    history.push(ASSESSMENTS_PAGE);
   };
 
   const onDeleteTest = async () => {
@@ -179,9 +179,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
     setErrorMessage("Please resolve all issues before publishing or saving");
   };
 
-  if (loadingCreate || loadingUpdate || loadingDelete)
-    return <LoadingState fullPage />;
-
   return (
     <>
       <Prompt message={confirmUnsavedChangesText} when={!completedForm} />
@@ -214,7 +211,22 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 updatedAt={state?.updatedAt}
                 validateForm={validateForm}
               />
-              <VStack spacing="8" width="92%">
+              <VStack pos="relative" spacing="8" width="92%">
+                <Box
+                  bg="white"
+                  bottom={0}
+                  height="100%"
+                  left={0}
+                  opacity={isLoading ? 0.7 : 0}
+                  pointerEvents={isLoading ? "all" : "none"}
+                  pos="absolute"
+                  right={0}
+                  top={0}
+                  transition="opacity 0.2s ease-in-out"
+                  width="100%"
+                  zIndex={1}
+                />
+
                 <BasicInformation
                   clearErrors={clearErrors}
                   control={control}
