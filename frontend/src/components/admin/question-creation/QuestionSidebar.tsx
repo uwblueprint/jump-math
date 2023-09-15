@@ -14,12 +14,7 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 
-import {
-  ArrowBackOutlineIcon,
-  ImageIcon,
-  QuestionIcon,
-  TextIcon,
-} from "../../../assets/icons";
+import { ImageIcon, QuestionIcon, TextIcon } from "../../../assets/icons";
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
@@ -28,6 +23,7 @@ import {
   QuestionElementType,
   ResponseElementType,
 } from "../../../types/QuestionTypes";
+import BackButton from "../../common/navigation/BackButton";
 
 import SaveQuestionEditorButton from "./question-elements/SaveQuestionEditorButton";
 import QuestionSidebarItem from "./QuestionSidebarItem";
@@ -101,18 +97,11 @@ const QuestionSidebar = (): React.ReactElement => {
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
-        <Box justifyContent="flex-start" paddingLeft="0">
-          <Button
-            leftIcon={<ArrowBackOutlineIcon />}
-            onClick={confirmCloseQuestionEditor}
-            size="sm"
-            variant="tertiary"
-          >
-            Back
-          </Button>
-        </Box>
-        <Text color="blue.300" textStyle="header4">
-          Create Question
+        <Text as="h1" color="blue.300" textStyle="header4">
+          <BackButton onClick={confirmCloseQuestionEditor} />
+          <Box as="span" ml={6}>
+            Create Question
+          </Box>
         </Text>
         <Accordion allowMultiple defaultIndex={[0, 1]} paddingTop="1em">
           {renderAccordionItem([
