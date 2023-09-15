@@ -97,7 +97,7 @@ const QuestionSidebar = (): React.ReactElement => {
       sx={{ position: "sticky", top: "0", bottom: "0" }}
     >
       <Stack w="22vw">
-        <Text as="h1" color="blue.300" textStyle="header4">
+        <Text as="h1" color="blue.300" display="flex" textStyle="header4">
           <BackButton onClick={confirmCloseQuestionEditor} />
           <Box as="span" ml={6}>
             Create Question
