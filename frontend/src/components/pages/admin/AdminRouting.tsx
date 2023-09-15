@@ -47,7 +47,7 @@ const AdminRouting = (): React.ReactElement => {
                 title="Assessments"
               />
               <Route exact path={Routes.ADMIN_LANDING_PAGE}>
-                <RedirectTo pathname={Routes.USER_DATABASE_PAGE} />
+                <RedirectTo pathname={Routes.ASSESSMENTS_PAGE} />
               </Route>
               <Route component={NotFound} exact path="*" />
             </Switch>
