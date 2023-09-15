@@ -9,6 +9,8 @@ import {
 
 import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 
+import { PopoverContext } from "./PopoverContext";
+
 interface PopoverProps {
   children: React.ReactNode;
   onOpen: () => void;
@@ -50,7 +52,9 @@ const Popover = ({
         overflow="hidden"
         width="100%"
       >
-        <PopoverBody>{children}</PopoverBody>
+        <PopoverContext.Provider value={{ onClose }}>
+          <PopoverBody>{children}</PopoverBody>
+        </PopoverContext.Provider>
       </PopoverContent>
     </ChakraPopover>
   );
