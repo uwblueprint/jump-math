@@ -42,7 +42,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [completedForm, setCompletedForm] = useState(false);
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
@@ -64,11 +63,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     control,
     setValue,
+    getValues,
     watch,
     clearErrors,
+    reset: resetForm,
   } = useForm<TestRequest, unknown>({
     defaultValues: {
       name: state?.name,
@@ -99,6 +100,10 @@ const AssessmentEditorPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
+  const resetDefaultValues = () => {
+    resetForm(getValues());
+  };
+
   const validateForm = () => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
@@ -113,7 +118,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
         test,
       },
     });
-    setCompletedForm(true);
     history.push(ASSESSMENTS_PAGE);
   };
 
@@ -129,8 +133,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
         test,
       },
     });
-
-    setCompletedForm(true);
+    resetDefaultValues();
   };
 
   const onDeleteTest = async () => {
@@ -181,7 +184,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
 
   return (
     <>
-      <Prompt message={confirmUnsavedChangesText} when={!completedForm} />
+      <Prompt message={confirmUnsavedChangesText} when={isDirty} />
       <DndProvider backend={HTML5Backend}>
         <AssessmentContext.Provider
           value={{
