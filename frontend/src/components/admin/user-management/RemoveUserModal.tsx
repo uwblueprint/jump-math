@@ -1,15 +1,15 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { REMOVE_USER } from "../../../APIClients/mutations/UserMutations";
 import {
   GET_ALL_TEACHERS,
   GET_USERS_BY_ROLE,
 } from "../../../APIClients/queries/UserQueries";
-import { CloseOutlineIcon } from "../../../assets/icons";
 import { getQueryName } from "../../../utils/GeneralUtils";
 import Modal from "../../common/modal/Modal";
+import PopoverButton from "../../common/popover/PopoverButton";
 
 interface RemoveUserModalProps {
   name: string;
@@ -31,14 +31,7 @@ const RemoveUserModal = ({
 
   return (
     <>
-      <Button
-        my={2}
-        onClick={onOpen}
-        rightIcon={<CloseOutlineIcon />}
-        variant="primary"
-      >
-        Remove User
-      </Button>
+      <PopoverButton name="Remove" onClick={onOpen} />
       <Modal
         body={`Are you sure you want to remove ${name}?`}
         header="Remove User"

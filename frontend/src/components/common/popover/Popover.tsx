@@ -40,12 +40,14 @@ const Popover = ({
       onClose={onClose}
       onOpen={onOpen}
       placement={placement}
+      size="status"
     >
       <PopoverTrigger>{triggerButton}</PopoverTrigger>
       <PopoverContent
         backgroundColor="grey.100"
         border="none"
         borderRadius="16px"
+        boxShadow="4px 4px 40px 5px rgba(0, 0, 0, 0.08)"
         maxHeight="50%"
         overflow="hidden"
         width="100%"
