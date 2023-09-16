@@ -50,6 +50,11 @@ const Button = {
       fontSize: "24px",
       height: "24px",
     },
+    logout: {
+      fontSize: "14px",
+      fontWeight: "100",
+      margin: "4",
+    },
   },
 
   variants: {
@@ -175,6 +180,12 @@ const Button = {
       color: "blue.300",
       _hover: {
         color: "grey.300",
+      },
+    },
+    logout: {
+      _hover: {
+        color: "blue.300",
+        fontWeight: "bold",
       },
     },
   },

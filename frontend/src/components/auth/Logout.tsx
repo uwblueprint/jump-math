@@ -1,16 +1,15 @@
 import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
-import { activePage } from "../common/navigation/NavbarItem";
 
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
 
-  const [logout] = useMutation<{ logout: null }>(LOGOUT);
+  const [logout, { loading }] = useMutation<{ logout: null }>(LOGOUT);
 
   const onLogOutClick = async () => {
     const success = await authAPIClient.logout(
@@ -23,17 +22,14 @@ const Logout = (): React.ReactElement => {
   };
 
   return (
-    <Box>
-      <Flex
-        _hover={activePage}
-        align="center"
-        cursor="pointer"
-        mx="4"
-        onClick={onLogOutClick}
-      >
-        <Text fontSize="14px">Logout</Text>
-      </Flex>
-    </Box>
+    <Button
+      isLoading={loading}
+      onClick={onLogOutClick}
+      size="logout"
+      variant="logout"
+    >
+      Logout
+    </Button>
   );
 };
 
