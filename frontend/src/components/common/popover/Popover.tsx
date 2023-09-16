@@ -46,11 +46,12 @@ const Popover = ({
         backgroundColor="grey.100"
         border="none"
         borderRadius="16px"
+        boxShadow="4px 4px 40px 5px rgba(0, 0, 0, 0.08)"
         maxHeight="50%"
         overflow="hidden"
         width="100%"
       >
-        <PopoverBody>{children}</PopoverBody>
+        <PopoverBody padding="0 !important">{children}</PopoverBody>
       </PopoverContent>
     </ChakraPopover>
   );

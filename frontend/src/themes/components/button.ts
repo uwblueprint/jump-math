@@ -53,6 +53,14 @@ const Button = {
   },
 
   variants: {
+    popover: {
+      bg: "grey.100",
+      color: "black",
+      _hover: {
+        bg: "grey.200",
+        color: "white",
+      },
+    },
     paginationNavigate: {
       bg: "transparent",
       color: "grey.300",

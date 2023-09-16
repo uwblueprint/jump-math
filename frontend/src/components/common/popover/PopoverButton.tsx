@@ -12,13 +12,12 @@ const PopoverButton = ({
 }: PopoverButtonProps): ReactElement => {
   return (
     <ActionButton
-      color="black"
       fontSize="18px"
       fontWeight="0"
       minWidth="200%"
       showDefaultToasts={false}
       size="md"
-      textAlign="left"
+      variant="popover"
       {...props}
     >
       {name}
