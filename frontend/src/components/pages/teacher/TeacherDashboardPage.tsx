@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { HStack, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
 
+import { classroomFormDefaultValues } from "../../../constants/ClassroomConstants";
 import * as Routes from "../../../constants/Routes";
-import type { ClassroomForm } from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import RouterLink from "../../common/navigation/RouterLink";
 import SimplePopover from "../../common/popover/SimplePopover";
@@ -26,12 +26,6 @@ const SECTION_CONFIG = [
     headerGap: 0,
   },
 ];
-
-const classroomFormDefaultValues: ClassroomForm = {
-  className: null,
-  startDate: null,
-  gradeLevel: null,
-};
 
 const TeacherDashboardPage = (): React.ReactElement => {
   const {
