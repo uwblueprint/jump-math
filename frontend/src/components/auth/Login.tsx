@@ -38,6 +38,8 @@ const Login = (): React.ReactElement => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [login] = useMutation<{
     login: VerifiableUser;
   }>(LOGIN);
@@ -55,6 +57,7 @@ const Login = (): React.ReactElement => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const user: VerifiableUser | null = await authAPIClient.login(
         email,
@@ -77,6 +80,7 @@ const Login = (): React.ReactElement => {
     } catch (error) {
       setLoginError(true);
     }
+    setIsLoading(false);
   };
 
   const title = isAdmin ? "Admin Login" : "Teacher Login";
@@ -111,7 +115,12 @@ const Login = (): React.ReactElement => {
       >
         Forgot Password?
       </Button>
-      <Button onClick={onLogInClick} variant="primary" width="100%">
+      <Button
+        isLoading={isLoading}
+        onClick={onLogInClick}
+        variant="primary"
+        width="100%"
+      >
         Login
       </Button>
 
