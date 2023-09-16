@@ -40,6 +40,7 @@ const Popover = ({
       onClose={onClose}
       onOpen={onOpen}
       placement={placement}
+      size="status"
     >
       <PopoverTrigger>{triggerButton}</PopoverTrigger>
       <PopoverContent
@@ -51,7 +52,7 @@ const Popover = ({
         overflow="hidden"
         width="100%"
       >
-        <PopoverBody padding="0 !important">{children}</PopoverBody>
+        <PopoverBody>{children}</PopoverBody>
       </PopoverContent>
     </ChakraPopover>
   );
