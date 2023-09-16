@@ -26,11 +26,6 @@ const ClassroomPopover = ({
   isArchived,
 }: ClassroomPopoverProps): ReactElement => {
   const {
-    isOpen: isPopoverOpen,
-    onOpen: onPopoverOpen,
-    onClose: onPopoverClose,
-  } = useDisclosure();
-  const {
     isOpen: isEditModalOpen,
     onOpen: onEditModalOpen,
     onClose: onEditModalClose,
@@ -61,11 +56,7 @@ const ClassroomPopover = ({
 
   return (
     <>
-      <Popover
-        isOpen={isPopoverOpen}
-        onClose={onPopoverClose}
-        onOpen={onPopoverOpen}
-      >
+      <Popover>
         <VStack divider={<Divider />} spacing={0}>
           {!isArchived && (
             <PopoverButton name="Edit" onClick={onEditModalOpen} />
