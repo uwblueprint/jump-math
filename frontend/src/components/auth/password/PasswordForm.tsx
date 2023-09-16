@@ -35,6 +35,7 @@ const PasswordForm = ({
   setStep = undefined,
   handleSubmitCallback = undefined,
 }: PasswordFormProps): React.ReactElement => {
+  const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -83,6 +84,7 @@ const PasswordForm = ({
       return;
     }
 
+    setIsLoading(true);
     if (handleSubmitCallback) {
       handleSubmitCallback(e);
     } else {
@@ -90,6 +92,7 @@ const PasswordForm = ({
         variables: { oobCode, newPassword: password },
       });
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -161,6 +164,7 @@ const PasswordForm = ({
       </HStack>
       {version === "AdminSignup" && (
         <Button
+          isLoading={isLoading}
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
           variant="primary"
           width="100%"
@@ -172,6 +176,7 @@ const PasswordForm = ({
         <NavigationButtons
           backButtonText="Back to login page"
           continueButtonText="Reset Password"
+          continueIsLoading={isLoading}
           onBackClick={() => history.goBack()}
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)

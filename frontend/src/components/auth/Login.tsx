@@ -37,7 +37,6 @@ const Login = (): React.ReactElement => {
 
   const [forgotPassword, setForgotPassword] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const [login] = useMutation<{

@@ -10,16 +10,23 @@ interface NavigationButtonsProps {
   onBackClick: () => void;
   continueButtonText?: string;
   backButtonText?: string;
+  continueIsLoading?: boolean;
 }
 const NavigationButtons = ({
   onContinueClick,
   onBackClick,
   continueButtonText = "Continue",
   backButtonText = "Back",
+  continueIsLoading = false,
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
-      <Button onClick={onContinueClick} variant="primary" width="100%">
+      <Button
+        isLoading={continueIsLoading}
+        onClick={onContinueClick}
+        variant="primary"
+        width="100%"
+      >
         {continueButtonText}
       </Button>
       <Button
