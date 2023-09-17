@@ -15,6 +15,7 @@ import type {
   AuthenticatedTeacher,
   VerifiableUser,
 } from "../../types/AuthTypes";
+import ActionButton from "../common/form/ActionButton";
 import BackButton from "../common/navigation/BackButton";
 import RouterLink from "../common/navigation/RouterLink";
 
@@ -111,9 +112,14 @@ const Login = (): React.ReactElement => {
       >
         Forgot Password?
       </Button>
-      <Button onClick={onLogInClick} variant="primary" width="100%">
+      <ActionButton
+        onClick={onLogInClick}
+        showDefaultToasts={false}
+        variant="primary"
+        width="100%"
+      >
         Login
-      </Button>
+      </ActionButton>
 
       {isTeacher && (
         <Text>
