@@ -25,7 +25,7 @@ const ForgotPassword = ({
   const [emailNotFoundError, setEmailNotFoundError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const [getUserByEmail, { loading }] = useLazyQuery<{
+  const [getUserByEmail] = useLazyQuery<{
     userByEmail: UserResponse;
   }>(GET_USER_BY_EMAIL, {
     onError() {
@@ -87,7 +87,6 @@ const ForgotPassword = ({
           <NavigationButtons
             backButtonText="Back to login page"
             continueButtonText="Submit"
-            continueIsLoading={loading}
             onBackClick={() => window.location.reload()}
             onContinueClick={onResetPasswordClick}
           />

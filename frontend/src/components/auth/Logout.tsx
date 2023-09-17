@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { useMutation } from "@apollo/client";
-import { Button } from "@chakra-ui/react";
 
 import authAPIClient from "../../APIClients/AuthAPIClient";
 import { LOGOUT } from "../../APIClients/mutations/AuthMutations";
 import AuthContext from "../../contexts/AuthContext";
+import ActionButton from "../common/form/ActionButton";
 
 const Logout = (): React.ReactElement => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
 
-  const [logout, { loading }] = useMutation<{ logout: null }>(LOGOUT);
+  const [logout] = useMutation<{ logout: null }>(LOGOUT);
 
   const onLogOutClick = async () => {
     const success = await authAPIClient.logout(
@@ -22,14 +22,14 @@ const Logout = (): React.ReactElement => {
   };
 
   return (
-    <Button
-      isLoading={loading}
+    <ActionButton
       onClick={onLogOutClick}
+      showDefaultToasts={false}
       size="logout"
       variant="logout"
     >
       Logout
-    </Button>
+    </ActionButton>
   );
 };
 

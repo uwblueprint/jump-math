@@ -3,7 +3,6 @@ import type { UseFormSetValue } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -13,6 +12,7 @@ import {
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+import ActionButton from "../../common/form/ActionButton";
 import FormError from "../../common/form/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -35,7 +35,6 @@ const PasswordForm = ({
   setStep = undefined,
   handleSubmitCallback = undefined,
 }: PasswordFormProps): React.ReactElement => {
-  const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -84,7 +83,6 @@ const PasswordForm = ({
       return;
     }
 
-    setIsLoading(true);
     if (handleSubmitCallback) {
       handleSubmitCallback(e);
     } else {
@@ -92,7 +90,6 @@ const PasswordForm = ({
         variables: { oobCode, newPassword: password },
       });
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -163,20 +160,19 @@ const PasswordForm = ({
         </VStack>
       </HStack>
       {version === "AdminSignup" && (
-        <Button
-          isLoading={isLoading}
+        <ActionButton
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
+          showDefaultToasts={false}
           variant="primary"
           width="100%"
         >
           Create Account
-        </Button>
+        </ActionButton>
       )}
       {version === "ResetPassword" && (
         <NavigationButtons
           backButtonText="Back to login page"
           continueButtonText="Reset Password"
-          continueIsLoading={isLoading}
           onBackClick={() => history.goBack()}
           onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             onClick(e)

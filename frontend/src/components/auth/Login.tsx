@@ -15,6 +15,7 @@ import type {
   AuthenticatedTeacher,
   VerifiableUser,
 } from "../../types/AuthTypes";
+import ActionButton from "../common/form/ActionButton";
 import BackButton from "../common/navigation/BackButton";
 import RouterLink from "../common/navigation/RouterLink";
 
@@ -37,7 +38,6 @@ const Login = (): React.ReactElement => {
 
   const [forgotPassword, setForgotPassword] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [login] = useMutation<{
     login: VerifiableUser;
@@ -56,7 +56,6 @@ const Login = (): React.ReactElement => {
       return;
     }
 
-    setIsLoading(true);
     try {
       const user: VerifiableUser | null = await authAPIClient.login(
         email,
@@ -79,7 +78,6 @@ const Login = (): React.ReactElement => {
     } catch (error) {
       setLoginError(true);
     }
-    setIsLoading(false);
   };
 
   const title = isAdmin ? "Admin Login" : "Teacher Login";
@@ -114,14 +112,14 @@ const Login = (): React.ReactElement => {
       >
         Forgot Password?
       </Button>
-      <Button
-        isLoading={isLoading}
+      <ActionButton
         onClick={onLogInClick}
+        showDefaultToasts={false}
         variant="primary"
         width="100%"
       >
         Login
-      </Button>
+      </ActionButton>
 
       {isTeacher && (
         <Text>

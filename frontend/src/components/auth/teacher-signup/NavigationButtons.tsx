@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
+import ActionButton from "../../common/form/ActionButton";
 
 interface NavigationButtonsProps {
   onContinueClick:
@@ -10,25 +11,23 @@ interface NavigationButtonsProps {
   onBackClick: () => void;
   continueButtonText?: string;
   backButtonText?: string;
-  continueIsLoading?: boolean;
 }
 const NavigationButtons = ({
   onContinueClick,
   onBackClick,
   continueButtonText = "Continue",
   backButtonText = "Back",
-  continueIsLoading = false,
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
-      <Button
-        isLoading={continueIsLoading}
+      <ActionButton
         onClick={onContinueClick}
+        showDefaultToasts={false}
         variant="primary"
         width="100%"
       >
         {continueButtonText}
-      </Button>
+      </ActionButton>
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         onClick={onBackClick}
