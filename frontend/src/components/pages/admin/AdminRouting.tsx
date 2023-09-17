@@ -15,7 +15,7 @@ import UsersPage from "./UsersPage";
 
 const pages: Page[] = [
   { title: "Assessments", url: Routes.ASSESSMENTS_PAGE },
-  { title: "Database", url: Routes.USER_DATABASE_PAGE },
+  { title: "Users", url: Routes.USERS_PAGE },
 ];
 
 const AdminRouting = (): React.ReactElement => {
@@ -35,9 +35,9 @@ const AdminRouting = (): React.ReactElement => {
               <PrivateRoute
                 component={UsersPage}
                 exact
-                path={Routes.USER_DATABASE_PAGE}
+                path={Routes.USERS_PAGE}
                 roles={["Admin"]}
-                title="Database"
+                title="Users"
               />
               <PrivateRoute
                 component={DisplayAssessmentsPage}
@@ -47,7 +47,7 @@ const AdminRouting = (): React.ReactElement => {
                 title="Assessments"
               />
               <Route exact path={Routes.ADMIN_LANDING_PAGE}>
-                <RedirectTo pathname={Routes.USER_DATABASE_PAGE} />
+                <RedirectTo pathname={Routes.ASSESSMENTS_PAGE} />
               </Route>
               <Route component={NotFound} exact path="*" />
             </Switch>

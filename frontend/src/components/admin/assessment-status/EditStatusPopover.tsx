@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
+import { Divider, VStack } from "@chakra-ui/react";
 
 import { Status } from "../../../types/AssessmentTypes";
 import Popover from "../../common/popover/Popover";
@@ -19,31 +19,28 @@ interface EditStatusPopoverProps {
 const EditStatusPopover = ({
   assessmentId,
   assessmentStatus,
-}: EditStatusPopoverProps): React.ReactElement => {
-  const { onOpen, isOpen, onClose } = useDisclosure();
-  return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <VStack divider={<Divider />} spacing="0em">
-        {assessmentStatus === Status.DRAFT && (
-          <>
-            <PublishButton assessmentId={assessmentId} />
-            <Divider />
-            <EditButton assessmentId={assessmentId} />
-          </>
-        )}
-        {assessmentStatus === Status.ARCHIVED ? (
-          <UnarchiveButton assessmentId={assessmentId} />
-        ) : (
-          <>
-            <ArchiveButton assessmentId={assessmentId} />
-            <Divider />
-            <DuplicateButton assessmentId={assessmentId} />
-          </>
-        )}
-        <DeleteButton assessmentId={assessmentId} />
-      </VStack>
-    </Popover>
-  );
-};
+}: EditStatusPopoverProps): React.ReactElement => (
+  <Popover>
+    <VStack divider={<Divider />} spacing="0em">
+      {assessmentStatus === Status.DRAFT && (
+        <>
+          <PublishButton assessmentId={assessmentId} />
+          <Divider />
+          <EditButton assessmentId={assessmentId} />
+        </>
+      )}
+      {assessmentStatus === Status.ARCHIVED ? (
+        <UnarchiveButton assessmentId={assessmentId} />
+      ) : (
+        <>
+          <ArchiveButton assessmentId={assessmentId} />
+          <Divider />
+          <DuplicateButton assessmentId={assessmentId} />
+        </>
+      )}
+      <DeleteButton assessmentId={assessmentId} />
+    </VStack>
+  </Popover>
+);
 
 export default EditStatusPopover;

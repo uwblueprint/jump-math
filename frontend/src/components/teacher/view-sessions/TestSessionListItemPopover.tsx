@@ -21,11 +21,6 @@ const TestSessionListItemPopover = ({
   testSessionEditingData,
 }: TestSessionPopoverProps): ReactElement => {
   const {
-    isOpen: isPopoverOpen,
-    onOpen: onPopoverOpen,
-    onClose: onPopoverClose,
-  } = useDisclosure();
-  const {
     isOpen: isDeleteModalOpen,
     onOpen: openDeleteModal,
     onClose: onDeleteModalClose,
@@ -43,11 +38,7 @@ const TestSessionListItemPopover = ({
   };
 
   return (
-    <Popover
-      isOpen={isPopoverOpen}
-      onClose={onPopoverClose}
-      onOpen={onPopoverOpen}
-    >
+    <Popover>
       <VStack divider={<Divider />} spacing={0}>
         <PopoverButton name="Edit" onClick={onEditTestSession} />
         {testSessionEditingData.status === TestSessionStatus.UPCOMING && (

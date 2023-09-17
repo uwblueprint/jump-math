@@ -82,7 +82,7 @@ const DisplayAssessmentResults = () => {
   return (
     <Flex direction="column" gap={8}>
       <Text as="h1" color="blue.300" textStyle="header4">
-        <BackButton returnTo={returnTo} size="xl" text="" />
+        <BackButton returnTo={returnTo} />
         <Skeleton as="span" isLoaded={!!displayTitle} ml={6}>
           <Box as="span">{displayTitle ?? "Loading..."}</Box>
         </Skeleton>

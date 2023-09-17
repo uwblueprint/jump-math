@@ -3,7 +3,6 @@ import type { UseFormSetValue } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -13,6 +12,7 @@ import {
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+import ActionButton from "../../common/form/ActionButton";
 import FormError from "../../common/form/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -24,7 +24,7 @@ interface PasswordFormProps {
   oobCode?: string;
   setValue?: UseFormSetValue<TeacherSignupForm>;
   setStep?: (step: number) => void;
-  handleSubmitCallback?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSubmitCallback?: () => void;
 }
 
 const PasswordForm = ({
@@ -64,7 +64,7 @@ const PasswordForm = ({
     },
   );
 
-  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClick = async () => {
     setDisplayMatchError(false);
     setDisplayRequirementError(false);
 
@@ -84,7 +84,7 @@ const PasswordForm = ({
     }
 
     if (handleSubmitCallback) {
-      handleSubmitCallback(e);
+      handleSubmitCallback();
     } else {
       await confirmPasswordReset({
         variables: { oobCode, newPassword: password },
@@ -160,30 +160,27 @@ const PasswordForm = ({
         </VStack>
       </HStack>
       {version === "AdminSignup" && (
-        <Button
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
+        <ActionButton
+          onClick={onClick}
+          showDefaultToasts={false}
           variant="primary"
           width="100%"
         >
           Create Account
-        </Button>
+        </ActionButton>
       )}
       {version === "ResetPassword" && (
         <NavigationButtons
           backButtonText="Back to login page"
           continueButtonText="Reset Password"
           onBackClick={() => history.goBack()}
-          onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            onClick(e)
-          }
+          onContinueClick={onClick}
         />
       )}
       {version === "TeacherSignup" && (
         <NavigationButtons
           onBackClick={() => setStep && setStep(3)}
-          onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            onClick(e)
-          } // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
+          onContinueClick={onClick} // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
         />
       )}
     </VStack>

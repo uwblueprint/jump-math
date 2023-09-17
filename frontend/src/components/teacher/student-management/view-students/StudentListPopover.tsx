@@ -50,7 +50,6 @@ const StudentListPopover = ({
     studentFormMethods,
   ]);
 
-  const { onOpen, isOpen, onClose } = useDisclosure();
   const {
     isOpen: isUpdateModalOpen,
     onClose: closeUpdateModal,
@@ -64,7 +63,7 @@ const StudentListPopover = ({
 
   return (
     <>
-      <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Popover>
         <VStack divider={<Divider />} spacing={0}>
           <PopoverButton name="Edit" onClick={openUpdateModal} />
           <PopoverButton name="Delete" onClick={openDeleteModal} />

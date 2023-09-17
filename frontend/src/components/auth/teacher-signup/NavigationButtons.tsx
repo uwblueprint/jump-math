@@ -2,11 +2,10 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 
 import { ArrowBackOutlineIcon } from "../../../assets/icons";
+import ActionButton from "../../common/form/ActionButton";
 
 interface NavigationButtonsProps {
-  onContinueClick:
-    | (() => void)
-    | ((e: React.MouseEvent<HTMLButtonElement>) => void);
+  onContinueClick: (() => Promise<unknown>) | (() => unknown);
   onBackClick: () => void;
   continueButtonText?: string;
   backButtonText?: string;
@@ -19,9 +18,14 @@ const NavigationButtons = ({
 }: NavigationButtonsProps): React.ReactElement => {
   return (
     <>
-      <Button onClick={onContinueClick} variant="primary" width="100%">
+      <ActionButton
+        onClick={onContinueClick}
+        showDefaultToasts={false}
+        variant="primary"
+        width="100%"
+      >
         {continueButtonText}
-      </Button>
+      </ActionButton>
       <Button
         leftIcon={<ArrowBackOutlineIcon />}
         onClick={onBackClick}
