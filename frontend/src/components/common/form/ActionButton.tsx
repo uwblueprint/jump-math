@@ -36,10 +36,7 @@ export type ActionButtonProps<Default extends boolean> = Omit<
   ButtonProps,
   "onClick" | "onError"
 > & {
-  onClick:
-    | (() => Promise<unknown>)
-    | (() => unknown)
-    | ((e: React.MouseEvent<HTMLButtonElement>) => unknown);
+  onClick: (() => Promise<unknown>) | (() => unknown);
   onAfterSuccess?: () => void;
   onError?: (message: string) => void;
   setLoading?: Dispatch<SetStateAction<boolean>>;
@@ -62,11 +59,11 @@ const ActionButton = <Default extends boolean = true>({
   const handleError =
     onError ?? ((message: string) => showToast({ message, status: "error" }));
 
-  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async () => {
     setLoading(true);
     controlledSetLoading?.(true);
     try {
-      await onClick(event);
+      await onClick();
       if (showDefaultToasts || messageOnSuccess) {
         showToast({
           message: messageOnSuccess ?? "Operation successful.",

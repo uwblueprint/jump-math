@@ -73,7 +73,7 @@ const TeacherSignup = (): React.ReactElement => {
     },
   );
 
-  const handleSubmitCallback = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitCallback = () => {
     methods.handleSubmit(async (data: TeacherSignupForm) => {
       await authAPIClient.registerTeacher(
         data.firstName,
@@ -85,7 +85,7 @@ const TeacherSignup = (): React.ReactElement => {
         data.school,
         registerTeacher,
       );
-    })(e);
+    })();
   };
 
   return (

@@ -24,7 +24,7 @@ interface PasswordFormProps {
   oobCode?: string;
   setValue?: UseFormSetValue<TeacherSignupForm>;
   setStep?: (step: number) => void;
-  handleSubmitCallback?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSubmitCallback?: () => void;
 }
 
 const PasswordForm = ({
@@ -64,7 +64,7 @@ const PasswordForm = ({
     },
   );
 
-  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClick = async () => {
     setDisplayMatchError(false);
     setDisplayRequirementError(false);
 
@@ -84,7 +84,7 @@ const PasswordForm = ({
     }
 
     if (handleSubmitCallback) {
-      handleSubmitCallback(e);
+      handleSubmitCallback();
     } else {
       await confirmPasswordReset({
         variables: { oobCode, newPassword: password },
@@ -161,7 +161,7 @@ const PasswordForm = ({
       </HStack>
       {version === "AdminSignup" && (
         <ActionButton
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
+          onClick={onClick}
           showDefaultToasts={false}
           variant="primary"
           width="100%"
@@ -174,17 +174,13 @@ const PasswordForm = ({
           backButtonText="Back to login page"
           continueButtonText="Reset Password"
           onBackClick={() => history.goBack()}
-          onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            onClick(e)
-          }
+          onContinueClick={onClick}
         />
       )}
       {version === "TeacherSignup" && (
         <NavigationButtons
           onBackClick={() => setStep && setStep(3)}
-          onContinueClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            onClick(e)
-          } // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
+          onContinueClick={onClick} // TODO: Back button can either go to page 2 or 3 depending on whether school exists or not
         />
       )}
     </VStack>

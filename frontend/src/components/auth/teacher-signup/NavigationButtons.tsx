@@ -5,9 +5,7 @@ import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import ActionButton from "../../common/form/ActionButton";
 
 interface NavigationButtonsProps {
-  onContinueClick:
-    | (() => void)
-    | ((e: React.MouseEvent<HTMLButtonElement>) => void);
+  onContinueClick: (() => Promise<unknown>) | (() => unknown);
   onBackClick: () => void;
   continueButtonText?: string;
   backButtonText?: string;
