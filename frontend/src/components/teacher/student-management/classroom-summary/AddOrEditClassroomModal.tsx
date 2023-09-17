@@ -30,7 +30,7 @@ import ControlledDatePicker from "../../../common/form/ControlledDatePicker";
 import ControlledSelect from "../../../common/form/ControlledSelect";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
-import useModalFormHandler from "../../../common/modal/useModalFormHandler";
+import useActionFormHandler from "../../../common/modal/useActionFormHandler";
 
 type AddOrEditClassroomModalProps = {
   onClose: () => void;
@@ -74,7 +74,7 @@ const AddOrEditClassroomModal = ({
     onClose();
   };
 
-  const handleSave = useModalFormHandler((data) =>
+  const handleSave = useActionFormHandler((data) =>
     upsertClass({
       variables: {
         classroomId,

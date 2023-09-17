@@ -19,7 +19,7 @@ import type { StudentForm } from "../../../types/ClassroomTypes";
 import { FormValidationError, getQueryName } from "../../../utils/GeneralUtils";
 import InlineFormError from "../../common/form/InlineFormError";
 import Modal from "../../common/modal/Modal";
-import useModalFormHandler from "../../common/modal/useModalFormHandler";
+import useActionFormHandler from "../../common/modal/useActionFormHandler";
 
 type AddOrEditStudentModalProps = {
   onClose: () => void;
@@ -58,7 +58,7 @@ const AddOrEditStudentModal = ({
     onClose();
   };
 
-  const handleSave = useModalFormHandler((student) =>
+  const handleSave = useActionFormHandler((student) =>
     upsertStudent({
       variables: {
         classId,

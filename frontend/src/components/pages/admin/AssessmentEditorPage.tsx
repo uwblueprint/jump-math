@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Prompt, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Box, Divider, VStack } from "@chakra-ui/react";
@@ -70,8 +70,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
 
   const isLoading = loadingCreate || loadingUpdate || loadingDelete;
 
+  const methods = useForm<TestRequest>();
   const {
-    handleSubmit,
     register,
     formState: { errors, isDirty: isFormDirty },
     control,
@@ -79,7 +79,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     watch,
     clearErrors,
     reset: resetForm,
-  } = useForm<TestRequest>();
+  } = methods;
   useEffect(() => {
     if (state) {
       resetForm({
@@ -197,10 +197,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
       questions: formatQuestionsRequest(questions),
     });
 
-  const onError = () => {
-    setErrorMessage("Please resolve all issues before publishing or saving");
-  };
-
   useReloadPrompt(isDirty);
   useEffect(() => {
     if (redirectTo) {
@@ -229,52 +225,53 @@ const AssessmentEditorPage = (): React.ReactElement => {
             setShowAssessmentPreview,
           }}
         >
-          {showQuestionEditor && <QuestionEditor />}
-          {showAssessmentPreview && <AssessmentPreview />}
-          {!showQuestionEditor && !showAssessmentPreview && (
-            <VStack spacing="8" width="100%">
-              <AssessmentEditorHeader
-                handleSubmit={handleSubmit}
-                isEditing={isExisting}
-                name={watch("name")}
-                onConfirmArchive={onArchive}
-                onConfirmPublish={onPublish}
-                onDelete={onDeleteTest}
-                onError={onError}
-                onSave={onSave}
-                updatedAt={state?.updatedAt}
-                validateForm={validateForm}
-              />
-              <VStack pos="relative" spacing="8" width="92%">
-                <Box
-                  bg="white"
-                  bottom={0}
-                  height="100%"
-                  left={0}
-                  opacity={isLoading ? 0.7 : 0}
-                  pointerEvents={isLoading ? "all" : "none"}
-                  pos="absolute"
-                  right={0}
-                  top={0}
-                  transition="opacity 0.2s ease-in-out"
-                  width="100%"
-                  zIndex={1}
+          <FormProvider {...methods}>
+            {showQuestionEditor && <QuestionEditor />}
+            {showAssessmentPreview && <AssessmentPreview />}
+            {!showQuestionEditor && !showAssessmentPreview && (
+              <VStack spacing="8" width="100%">
+                <AssessmentEditorHeader
+                  isEditing={isExisting}
+                  name={watch("name")}
+                  onConfirmArchive={onArchive}
+                  onConfirmPublish={onPublish}
+                  onDelete={onDeleteTest}
+                  onError={setErrorMessage}
+                  onSave={onSave}
+                  updatedAt={state?.updatedAt}
+                  validateForm={validateForm}
                 />
+                <VStack pos="relative" spacing="8" width="92%">
+                  <Box
+                    bg="white"
+                    bottom={0}
+                    height="100%"
+                    left={0}
+                    opacity={isLoading ? 0.7 : 0}
+                    pointerEvents={isLoading ? "all" : "none"}
+                    pos="absolute"
+                    right={0}
+                    top={0}
+                    transition="opacity 0.2s ease-in-out"
+                    width="100%"
+                    zIndex={1}
+                  />
 
-                <BasicInformation
-                  clearErrors={clearErrors}
-                  control={control}
-                  errorMessage={errorMessage}
-                  errors={errors}
-                  register={register}
-                  setValue={setValue}
-                  watch={watch}
-                />
-                <Divider />
-                <AssessmentQuestions />
+                  <BasicInformation
+                    clearErrors={clearErrors}
+                    control={control}
+                    errorMessage={errorMessage}
+                    errors={errors}
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                  />
+                  <Divider />
+                  <AssessmentQuestions />
+                </VStack>
               </VStack>
-            </VStack>
-          )}
+            )}
+          </FormProvider>
         </AssessmentContext.Provider>
       </DndProvider>
     </>

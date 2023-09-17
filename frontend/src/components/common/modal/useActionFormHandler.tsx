@@ -1,14 +1,13 @@
-import type { FieldValues } from "react-hook-form";
-import { useFormContext } from "react-hook-form";
+import { type FieldValues, useFormContext } from "react-hook-form";
 
 import { FormValidationError } from "../../../utils/GeneralUtils";
 
-const useModalFormHandler = <Values extends FieldValues>(
+const useActionFormHandler = <Values extends FieldValues>(
   onSave: (values: Values) => void,
+  onError?: (error: unknown) => void,
 ) => {
-  const { handleSubmit, formState } = useFormContext<Values>();
-
-  const trySave = handleSubmit(onSave);
+  const { formState, handleSubmit } = useFormContext<Values>();
+  const trySave = handleSubmit(onSave, onError);
 
   // We need to extract this value to trigger a re-render when the formState changes.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,4 +25,4 @@ const useModalFormHandler = <Values extends FieldValues>(
   return handleSave;
 };
 
-export default useModalFormHandler;
+export default useActionFormHandler;
