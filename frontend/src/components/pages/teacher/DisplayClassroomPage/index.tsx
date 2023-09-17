@@ -167,9 +167,9 @@ const DisplayClassroomsPage = () => {
         <HStack
           border="1px solid"
           borderColor="grey.200"
-          borderRadius="8px"
-          my="8px"
-          p="16px"
+          borderRadius={8}
+          my={2}
+          p={4}
         >
           <ArchiveOutlineIcon />
           <Text color="grey.300" textStyle="paragraph">
