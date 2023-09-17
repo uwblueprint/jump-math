@@ -72,6 +72,10 @@ const ActionButton = <Default extends boolean = true>({
       }
       onAfterSuccess?.();
     } catch (e) {
+      if (!onError && e instanceof FormValidationError) {
+        return;
+      }
+
       const errorMessage =
         e instanceof FormValidationError
           ? e.message
