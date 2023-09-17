@@ -2,12 +2,19 @@ import React, { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Flex, IconButton, Tag, useDisclosure } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  IconButton,
+  Tag,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { GET_CLASS_DETAILS_BY_ID } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassTitleData } from "../../../../APIClients/types/ClassClientTypes";
 import type { Grade } from "../../../../APIClients/types/UserClientTypes";
-import { EditOutlineIcon } from "../../../../assets/icons";
+import { ArchiveOutlineIcon, EditOutlineIcon } from "../../../../assets/icons";
 import { classroomFormDefaultValues } from "../../../../constants/ClassroomConstants";
 import * as Routes from "../../../../constants/Routes";
 import type {
@@ -156,6 +163,20 @@ const DisplayClassroomsPage = () => {
         page={1}
         setPage={(newPage) => !newPage && history.push(Routes.CLASSROOMS_PAGE)}
       />
+      {!isActive && (
+        <HStack
+          border="1px solid"
+          borderColor="grey.200"
+          borderRadius={8}
+          my={2}
+          p={4}
+        >
+          <ArchiveOutlineIcon />
+          <Text color="grey.300" textStyle="paragraph">
+            This class has been archived
+          </Text>
+        </HStack>
+      )}
       <HeaderWithButton
         button={
           <SimplePopover
