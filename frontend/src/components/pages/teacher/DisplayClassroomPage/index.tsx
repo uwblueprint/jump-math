@@ -168,7 +168,7 @@ const DisplayClassroomsPage = () => {
           border="1px solid"
           borderColor="grey.200"
           borderRadius="8px"
-          mb="24px"
+          my="8px"
           p="16px"
         >
           <ArchiveOutlineIcon />
