@@ -41,6 +41,9 @@ interface ClassroomCardBodyProps {
   text: string;
 }
 
+export const classroomCardHeight = "256px";
+export const classroomCardBorderRadius = "16px";
+
 const ClassroomCard = ({
   id,
   name,
@@ -84,14 +87,17 @@ const ClassroomCard = ({
   ];
 
   return (
-    <LinkBox h="256px" w={isDashboardVariant ? undefined : "240px"}>
+    <LinkBox
+      h={classroomCardHeight}
+      w={isDashboardVariant ? undefined : "240px"}
+    >
       <VStack
         _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
         backgroundColor={selected ? "grey.100" : ""}
         border="2.5px solid"
         borderColor="blue.50"
-        borderRadius="16px"
+        borderRadius={classroomCardBorderRadius}
         h="100%"
         p="1em"
         spacing="12px"

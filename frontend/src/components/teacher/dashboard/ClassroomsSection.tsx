@@ -6,10 +6,14 @@ import * as Routes from "../../../constants/Routes";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsGoToPageMessage from "../../common/info/messages/EmptyClassroomsGoToPage";
-import RouterLink from "../../common/navigation/RouterLink";
-import ClassroomCard from "../student-management/classroom-summary/ClassroomCard";
+import ClassroomCard, {
+  classroomCardBorderRadius,
+  classroomCardHeight,
+} from "../student-management/classroom-summary/ClassroomCard";
 import type { QueryOptions } from "../student-management/classroom-summary/useClassDataQuery";
 import useClassDataQuery from "../student-management/classroom-summary/useClassDataQuery";
+
+import ViewAllLink from "./ViewAllLink";
 
 const QUERY_DATA_OPTIONS: QueryOptions = {
   limit: 5,
@@ -66,23 +70,11 @@ const ClassroomsSection = (): ReactElement => {
                 />
               ),
             )}
-            <RouterLink
-              _hover={{ backgroundColor: "blue.50" }}
-              alignItems="center"
-              backgroundColor="grey.100"
-              borderRadius="16px"
-              color="blue.300"
-              display="flex"
-              fontSize="14px"
-              fontWeight="bold"
-              h="256px"
-              justifyContent="center"
-              textDecor="none"
+            <ViewAllLink
+              borderRadius={classroomCardBorderRadius}
+              h={classroomCardHeight}
               to={Routes.CLASSROOMS_PAGE}
-              w="100%"
-            >
-              View all
-            </RouterLink>
+            />
           </Grid>
         ))}
     </Box>

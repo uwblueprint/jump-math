@@ -18,9 +18,10 @@ import { titleCase } from "../../../utils/GeneralUtils";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
-import RouterLink from "../../common/navigation/RouterLink";
 import TestSessionListItem from "../view-sessions/TestSessionListItem";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
+
+import ViewAllLink from "./ViewAllLink";
 
 const QUERY_DATA_LIMIT_PER_STATUS = 5;
 
@@ -89,24 +90,12 @@ const AssessmentsSection = () => {
               ))}
             </TabPanels>
           </Tabs>
-          <RouterLink
-            _hover={{ backgroundColor: "blue.50" }}
-            alignItems="center"
-            backgroundColor="grey.100"
+          <ViewAllLink
             borderRadius="8px"
-            color="blue.300"
-            display="flex"
-            fontSize="14px"
-            fontWeight="bold"
             h="50px"
-            justifyContent="center"
             mt={4}
-            textDecor="none"
             to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            w="100%"
-          >
-            View all
-          </RouterLink>
+          />
         </>
       )}
       {!data?.length && !loading && !error && (
