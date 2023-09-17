@@ -1,5 +1,5 @@
 import React from "react";
-import { useDisclosure, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 
 import Popover from "../../common/popover/Popover";
 
@@ -13,16 +13,12 @@ interface RemoveUserPopoverProps {
 const RemoveUserPopover = ({
   name,
   email,
-}: RemoveUserPopoverProps): React.ReactElement => {
-  const { onOpen, onClose, isOpen } = useDisclosure();
-
-  return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <VStack spacing="0em">
-        <RemoveUserModal email={email} name={name} />
-      </VStack>
-    </Popover>
-  );
-};
+}: RemoveUserPopoverProps): React.ReactElement => (
+  <Popover>
+    <VStack spacing="0em">
+      <RemoveUserModal email={email} name={name} />
+    </VStack>
+  </Popover>
+);
 
 export default RemoveUserPopover;
