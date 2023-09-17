@@ -5,27 +5,26 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { MoreVerticalOutlineIcon } from "../../../assets/icons";
 
+import { PopoverContext } from "./PopoverContext";
+
 interface PopoverProps {
   children: React.ReactNode;
-  onOpen: () => void;
-  isOpen: boolean;
-  onClose: () => void;
   placement?: "bottom" | "right";
   trigger?: React.ReactElement;
 }
 
 const Popover = ({
   children,
-  onOpen,
-  isOpen,
-  onClose,
   placement = "right",
   trigger,
 }: PopoverProps): React.ReactElement => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const triggerButton = trigger ?? (
     <IconButton
       aria-label="Show more"
@@ -52,7 +51,9 @@ const Popover = ({
         overflow="hidden"
         width="100%"
       >
-        <PopoverBody>{children}</PopoverBody>
+        <PopoverContext.Provider value={{ onClose }}>
+          <PopoverBody>{children}</PopoverBody>
+        </PopoverContext.Provider>
       </PopoverContent>
     </ChakraPopover>
   );

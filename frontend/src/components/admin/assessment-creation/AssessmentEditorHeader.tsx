@@ -84,12 +84,6 @@ const AssessmentEditorHeader = ({
   const handleDelete = handleSubmit(onDelete, onError);
   const handleCloseEditor = () => history.goBack();
 
-  const {
-    onOpen: onOpenPopover,
-    isOpen: popoverIsOpen,
-    onClose: onClosePopover,
-  } = useDisclosure();
-
   return (
     <>
       <Box
@@ -138,28 +132,12 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </ActionButton>
-            <Popover
-              isOpen={popoverIsOpen}
-              onClose={onClosePopover}
-              onOpen={onOpenPopover}
-            >
+            <Popover>
               <VStack divider={<Divider />} spacing="0em">
                 {isEditing && (
-                  <PopoverButton
-                    name="Archive"
-                    onClick={() => {
-                      onClosePopover();
-                      onArchiveModalOpen();
-                    }}
-                  />
+                  <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
                 )}
-                <PopoverButton
-                  name="Delete"
-                  onClick={() => {
-                    onClosePopover();
-                    onDeleteModalOpen();
-                  }}
-                />
+                <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
               </VStack>
             </Popover>
           </HStack>

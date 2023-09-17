@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Divider, useDisclosure, VStack } from "@chakra-ui/react";
+import { Button, Divider, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 
@@ -12,38 +12,31 @@ type SimplePopoverProps = {
   items: { name: string; onClick: () => void }[];
 };
 
-const SimplePopover = ({ isDisabled, text, items }: SimplePopoverProps) => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
-
-  return (
-    <Popover
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpen={onOpen}
-      placement="bottom"
-      trigger={
-        <Button
-          isDisabled={isDisabled}
-          minW={0}
-          rightIcon={<PlusOutlineIcon />}
-          variant="primary"
-        >
-          {text}
-        </Button>
-      }
-    >
-      <VStack divider={<Divider />} spacing={0}>
-        {items.map((item) => (
-          <PopoverButton
-            key={item.name}
-            aria-label={`Add ${item.name.toLowerCase()}`}
-            name={item.name}
-            onClick={item.onClick}
-          />
-        ))}
-      </VStack>
-    </Popover>
-  );
-};
+const SimplePopover = ({ isDisabled, text, items }: SimplePopoverProps) => (
+  <Popover
+    placement="bottom"
+    trigger={
+      <Button
+        isDisabled={isDisabled}
+        minW={0}
+        rightIcon={<PlusOutlineIcon />}
+        variant="primary"
+      >
+        {text}
+      </Button>
+    }
+  >
+    <VStack divider={<Divider />} spacing={0}>
+      {items.map((item) => (
+        <PopoverButton
+          key={item.name}
+          aria-label={`Add ${item.name.toLowerCase()}`}
+          name={item.name}
+          onClick={item.onClick}
+        />
+      ))}
+    </VStack>
+  </Popover>
+);
 
 export default SimplePopover;
