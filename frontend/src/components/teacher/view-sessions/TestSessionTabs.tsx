@@ -10,7 +10,7 @@ import TestSessionListItem from "./TestSessionListItem";
 import type { FormattedAssessmentData } from "./useAssessmentDataQuery";
 
 type TestSessionTabsProps = {
-  data?: FormattedAssessmentData;
+  data?: FormattedAssessmentData[];
   setCurrentTab: (status: TestSessionStatus) => void;
 };
 

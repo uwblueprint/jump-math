@@ -15,15 +15,17 @@ export type FormattedAssessmentData = {
   classroomName: string;
   startDate: Date;
   endDate: Date;
+  // Target date is the start date of the session UNLESS the session is
+  // active, in which case it is the end date
   targetDate: Date;
   status: TestSessionStatus;
   accessCode: string;
-}[];
+};
 
 type AssessmentDataQueryResult = {
   loading: boolean;
   error?: Error;
-  data?: FormattedAssessmentData;
+  data?: FormattedAssessmentData[];
 };
 
 const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
