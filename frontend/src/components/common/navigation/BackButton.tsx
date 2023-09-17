@@ -7,19 +7,25 @@ import { ArrowBackOutlineIcon } from "../../../assets/icons";
 interface BackButtonProps {
   size?: string;
   text?: string;
+  onClick?: () => void;
   returnTo?: string;
 }
 
 const BackButton = ({
+  onClick,
   returnTo,
-  size = "sm",
-  text = "Back",
+  size = "xl",
+  text = "",
 }: BackButtonProps): React.ReactElement => {
   const history = useHistory();
   return (
     <Button
       leftIcon={text ? <ArrowBackOutlineIcon /> : undefined}
-      onClick={() => (returnTo ? history.push(returnTo) : history.goBack())}
+      onClick={
+        onClick
+          ? onClick
+          : () => (returnTo ? history.push(returnTo) : history.goBack())
+      }
       size={size}
       variant="tertiary"
     >

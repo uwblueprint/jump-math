@@ -94,7 +94,9 @@ const AssessmentEditorHeader = ({
       >
         <Flex minWidth="max-content">
           <HStack alignItems="start" spacing={6}>
-            <BackButton />
+            <Text as="h1" color="blue.300" textStyle="header4">
+              <BackButton />
+            </Text>
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
               <Text textStyle="smallerParagraph">
