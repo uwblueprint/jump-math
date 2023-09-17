@@ -41,8 +41,10 @@ interface ClassroomCardBodyProps {
   text: string;
 }
 
-export const classroomCardHeight = "256px";
-export const classroomCardBorderRadius = "16px";
+export const CLASSROOM_CARD_STYLES = {
+  HEIGHT: "256px",
+  BORDER_RADIUS: "16px",
+};
 
 const ClassroomCard = ({
   id,
@@ -88,7 +90,7 @@ const ClassroomCard = ({
 
   return (
     <LinkBox
-      h={classroomCardHeight}
+      h={CLASSROOM_CARD_STYLES.HEIGHT}
       w={isDashboardVariant ? undefined : "240px"}
     >
       <VStack
@@ -97,7 +99,7 @@ const ClassroomCard = ({
         backgroundColor={selected ? "grey.100" : ""}
         border="2.5px solid"
         borderColor="blue.50"
-        borderRadius={classroomCardBorderRadius}
+        borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
         h="100%"
         p="1em"
         spacing="12px"
