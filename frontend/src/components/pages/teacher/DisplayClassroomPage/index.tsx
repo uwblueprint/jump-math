@@ -15,6 +15,7 @@ import { GET_CLASS_DETAILS_BY_ID } from "../../../../APIClients/queries/ClassQue
 import type { ClassTitleData } from "../../../../APIClients/types/ClassClientTypes";
 import type { Grade } from "../../../../APIClients/types/UserClientTypes";
 import { ArchiveOutlineIcon, EditOutlineIcon } from "../../../../assets/icons";
+import { classroomFormDefaultValues } from "../../../../constants/ClassroomConstants";
 import * as Routes from "../../../../constants/Routes";
 import type {
   ClassroomForm,
@@ -75,12 +76,6 @@ const studentFormDefaultValues: StudentForm = {
   firstName: "",
   lastName: "",
   studentNumber: undefined,
-};
-
-const classroomFormDefaultValues: ClassroomForm = {
-  className: null,
-  startDate: null,
-  gradeLevel: null,
 };
 
 const getLocationState = (

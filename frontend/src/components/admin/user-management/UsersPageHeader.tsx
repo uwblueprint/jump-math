@@ -10,11 +10,7 @@ const UsersPageHeader = (): React.ReactElement => {
 
   return (
     <>
-      <HeaderWithButton
-        buttonText="Add Admin"
-        onClick={onOpen}
-        title="Database"
-      />
+      <HeaderWithButton buttonText="Add Admin" onClick={onOpen} title="Users" />
       <AddAdminModal isOpen={isOpen} onClose={onClose} />
     </>
   );

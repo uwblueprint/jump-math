@@ -122,7 +122,7 @@ const UsersPage = (): React.ReactElement => {
         <Box flex="1">
           <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
-              <Tab>Admin</Tab>
+              <Tab>Admins</Tab>
               <Tab>Teachers</Tab>
             </TabList>
             <TabPanels>

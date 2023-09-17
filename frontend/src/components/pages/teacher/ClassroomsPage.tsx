@@ -14,9 +14,9 @@ import {
 } from "@chakra-ui/react";
 
 import checkFeatureFlag from "../../../checkFeatureFlag";
+import { classroomFormDefaultValues } from "../../../constants/ClassroomConstants";
 import * as Routes from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import type { ClassroomForm } from "../../../types/ClassroomTypes";
 import {
   TabEnumClassroom,
   TABS_CLASSROOM,
@@ -37,12 +37,6 @@ const getLocationState = (
   isAddClassroomModalOpen: undefined,
   ...(typeof state === "object" ? state : {}),
 });
-
-const classroomFormDefaultValues: ClassroomForm = {
-  className: null,
-  startDate: null,
-  gradeLevel: null,
-};
 
 const ClassroomsPage = (): ReactElement => {
   const { state } = useLocation();

@@ -25,14 +25,13 @@ const ForgotPassword = ({
   const [emailNotFoundError, setEmailNotFoundError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const [getUserByEmail] = useLazyQuery<{ userByEmail: UserResponse }>(
-    GET_USER_BY_EMAIL,
-    {
-      onError() {
-        setEmailNotFoundError(true);
-      },
+  const [getUserByEmail] = useLazyQuery<{
+    userByEmail: UserResponse;
+  }>(GET_USER_BY_EMAIL, {
+    onError() {
+      setEmailNotFoundError(true);
     },
-  );
+  });
   const [resetPassword] = useMutation<{ resetPassword: boolean }>(
     RESET_PASSWORD,
     {

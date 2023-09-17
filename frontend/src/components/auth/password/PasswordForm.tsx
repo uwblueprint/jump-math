@@ -3,7 +3,6 @@ import type { UseFormSetValue } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import {
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -13,6 +12,7 @@ import {
 
 import { CONFIRM_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
 import type { TeacherSignupForm } from "../../../types/TeacherSignupTypes";
+import ActionButton from "../../common/form/ActionButton";
 import FormError from "../../common/form/FormError";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -160,13 +160,14 @@ const PasswordForm = ({
         </VStack>
       </HStack>
       {version === "AdminSignup" && (
-        <Button
+        <ActionButton
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => onClick(e)}
+          showDefaultToasts={false}
           variant="primary"
           width="100%"
         >
           Create Account
-        </Button>
+        </ActionButton>
       )}
       {version === "ResetPassword" && (
         <NavigationButtons

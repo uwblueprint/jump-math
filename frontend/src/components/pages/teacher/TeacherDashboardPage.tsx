@@ -1,13 +1,16 @@
 import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import { HStack, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
 
+import { classroomFormDefaultValues } from "../../../constants/ClassroomConstants";
 import * as Routes from "../../../constants/Routes";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import RouterLink from "../../common/navigation/RouterLink";
 import SimplePopover from "../../common/popover/SimplePopover";
 import AssessmentsSection from "../../teacher/dashboard/AssessmentsSection";
 import ClassroomsSection from "../../teacher/dashboard/ClassroomsSection";
+import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
 
 const SECTION_CONFIG = [
   {
@@ -25,6 +28,11 @@ const SECTION_CONFIG = [
 ];
 
 const TeacherDashboardPage = (): React.ReactElement => {
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
   const history = useHistory();
 
   const popoverItems = [
@@ -34,12 +42,14 @@ const TeacherDashboardPage = (): React.ReactElement => {
     },
     {
       name: "Classroom",
-      onClick: () =>
-        history.push(Routes.CLASSROOMS_PAGE, {
-          isAddClassroomModalOpen: true,
-        }),
+      onClick: onModalOpen,
     },
   ];
+
+  const methods = useForm({
+    defaultValues: classroomFormDefaultValues,
+    mode: "onChange",
+  });
 
   return (
     <>
@@ -47,6 +57,9 @@ const TeacherDashboardPage = (): React.ReactElement => {
         button={<SimplePopover items={popoverItems} text="Add New" />}
         title="Dashboard"
       />
+      <FormProvider {...methods}>
+        <AddOrEditClassroomModal isOpen={isModalOpen} onClose={onModalClose} />
+      </FormProvider>
       <HStack align="start" gap={20} mt={9}>
         {SECTION_CONFIG.map(
           ({ title, viewAllRoute, bodyComponent, headerGap }) => (
