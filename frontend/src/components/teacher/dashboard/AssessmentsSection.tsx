@@ -52,7 +52,6 @@ const AssessmentsSection = () => {
           <ViewAllLink
             borderRadius="8px"
             h="50px"
-            mt={4}
             to={Routes.DISPLAY_ASSESSMENTS_PAGE}
           />
         </>
