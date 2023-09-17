@@ -43,6 +43,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: { createTest: { id: string } };
@@ -63,7 +64,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty: isFormDirty },
     control,
     setValue,
     getValues,
@@ -81,6 +82,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
       curriculumRegion: state?.curriculumRegion,
     },
   });
+  const isDirty = !isDeleted && (isFormDirty || questions !== state?.questions);
 
   const assessmentName = state?.name;
   const isExisting = !!state;
@@ -118,7 +120,6 @@ const AssessmentEditorPage = (): React.ReactElement => {
         test,
       },
     });
-    history.push(ASSESSMENTS_PAGE);
   };
 
   const onUpdateTest = async (test: TestRequest) => {
@@ -141,8 +142,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
       throw new FormValidationError("Assessment ID not found");
     }
     await deleteTest();
-    history.push(ASSESSMENTS_PAGE);
+    setIsDeleted(true);
   };
+  useEffect(() => {
+    if (isDeleted) {
+      history.push(ASSESSMENTS_PAGE);
+    }
+  }, [isDeleted, history]);
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
     onCreateTest({
