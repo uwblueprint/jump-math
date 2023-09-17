@@ -199,7 +199,12 @@ const AssessmentEditorPage = (): React.ReactElement => {
           }}
         >
           {showQuestionEditor && <QuestionEditor />}
-          {showAssessmentPreview && <AssessmentPreview />}
+          {showAssessmentPreview && (
+            <AssessmentPreview
+              questions={questions}
+              setShowAssessmentPreview={setShowAssessmentPreview}
+            />
+          )}
           {!showQuestionEditor && !showAssessmentPreview && (
             <VStack spacing="8" width="100%">
               <AssessmentEditorHeader

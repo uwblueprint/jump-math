@@ -1,12 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import AssessmentContext from "../../../contexts/AssessmentContext";
+import type { Question } from "../../../types/QuestionTypes";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
-const AssessmentPreview = (): React.ReactElement => {
-  const { questions, setShowAssessmentPreview } = useContext(AssessmentContext);
+interface AssessmentPreviewProps {
+  questions: Question[];
+  setShowAssessmentPreview: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AssessmentPreview = ({
+  questions,
+  setShowAssessmentPreview,
+}: AssessmentPreviewProps): React.ReactElement => {
   const closeAssessmentPreviewButton = (
     <Button
       leftIcon={<EditOutlineIcon />}
