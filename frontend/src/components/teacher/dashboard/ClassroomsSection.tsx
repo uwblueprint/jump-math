@@ -2,15 +2,20 @@ import type { ReactElement } from "react";
 import React from "react";
 import { Box, Center, Grid } from "@chakra-ui/react";
 
+import * as Routes from "../../../constants/Routes";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsGoToPageMessage from "../../common/info/messages/EmptyClassroomsGoToPage";
-import ClassroomCard from "../student-management/classroom-summary/ClassroomCard";
+import ClassroomCard, {
+  CLASSROOM_CARD_STYLES,
+} from "../student-management/classroom-summary/ClassroomCard";
 import type { QueryOptions } from "../student-management/classroom-summary/useClassDataQuery";
 import useClassDataQuery from "../student-management/classroom-summary/useClassDataQuery";
 
+import ViewAllLink from "./ViewAllLink";
+
 const QUERY_DATA_OPTIONS: QueryOptions = {
-  limit: 6,
+  limit: 5,
   sort: {
     updatedAt: "DESC",
   },
@@ -64,6 +69,11 @@ const ClassroomsSection = (): ReactElement => {
                 />
               ),
             )}
+            <ViewAllLink
+              borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
+              h={CLASSROOM_CARD_STYLES.HEIGHT}
+              to={Routes.CLASSROOMS_PAGE}
+            />
           </Grid>
         ))}
     </Box>
