@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { type SubmitHandler, useFormContext } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
@@ -53,7 +52,6 @@ const AssessmentEditorHeader = ({
   validateForm,
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
-  const history = useHistory();
   const { setShowAssessmentPreview } = useContext(AssessmentContext);
   const {
     onOpen: onPublishModalOpen,
@@ -86,7 +84,6 @@ const AssessmentEditorHeader = ({
   // We don't need validation on these actions.
   const handleConfirmArchive = async () => onConfirmArchive(getValues());
   const handleDelete = async () => onDelete(getValues());
-  const handleCloseEditor = () => history.goBack();
 
   return (
     <>
@@ -140,14 +137,14 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </ActionButton>
-            <Popover>
-              <VStack divider={<Divider />} spacing="0em">
-                {isEditing && (
+            {isEditing && (
+              <Popover>
+                <VStack divider={<Divider />} spacing="0em">
                   <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
-                )}
-                <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
-              </VStack>
-            </Popover>
+                  <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
+                </VStack>
+              </Popover>
+            )}
           </HStack>
         </Flex>
       </Box>
@@ -162,7 +159,7 @@ const AssessmentEditorHeader = ({
         onClose={onArchiveModalClose}
       />
       <DeleteAssessmentModal
-        deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
+        deleteAssessment={handleDelete}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
       />
