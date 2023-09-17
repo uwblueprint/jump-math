@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { HStack, Spacer, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import HeaderWithButton from "../../common/HeaderWithButton";
@@ -47,12 +47,9 @@ const TeacherDashboardPage = (): React.ReactElement => {
       <HStack align="start" gap={20} mt={9}>
         {SECTION_CONFIG.map(({ title, bodyComponent, headerGap }) => (
           <VStack key={title} align="left" flex="1" gap={headerGap}>
-            <HStack w="100%">
-              <Text as="h2" color="blue.300" textStyle="subtitle1">
-                {title}
-              </Text>
-              <Spacer />
-            </HStack>
+            <Text as="h2" color="blue.300" textStyle="subtitle1">
+              {title}
+            </Text>
             {bodyComponent}
           </VStack>
         ))}
