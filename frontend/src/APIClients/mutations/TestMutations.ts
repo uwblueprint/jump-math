@@ -42,6 +42,44 @@ export const CREATE_NEW_TEST = gql`
   mutation CreateTest($test: TestRequestDTO!) {
     createTest(test: $test) {
       id
+      name
+      questions {
+        type
+        metadata {
+          ... on QuestionTextMetadata {
+            questionText
+          }
+          ... on TextMetadata {
+            text
+          }
+          ... on ImageMetadata {
+            filePath
+            url
+          }
+          ... on MultipleChoiceMetadata {
+            options
+            answerIndex
+          }
+          ... on MultiSelectMetadata {
+            options
+            answerIndices
+          }
+          ... on ShortAnswerMetadata {
+            answer
+          }
+          ... on FractionMetadata {
+            wholeNumber
+            numerator
+            denominator
+          }
+        }
+      }
+      grade
+      assessmentType
+      curriculumCountry
+      curriculumRegion
+      status
+      updatedAt
     }
   }
 `;
@@ -50,6 +88,44 @@ export const UPDATE_TEST = gql`
   mutation UpdateTest($id: ID!, $test: TestRequestDTO!) {
     updateTest(id: $id, test: $test) {
       id
+      name
+      questions {
+        type
+        metadata {
+          ... on QuestionTextMetadata {
+            questionText
+          }
+          ... on TextMetadata {
+            text
+          }
+          ... on ImageMetadata {
+            filePath
+            url
+          }
+          ... on MultipleChoiceMetadata {
+            options
+            answerIndex
+          }
+          ... on MultiSelectMetadata {
+            options
+            answerIndices
+          }
+          ... on ShortAnswerMetadata {
+            answer
+          }
+          ... on FractionMetadata {
+            wholeNumber
+            numerator
+            denominator
+          }
+        }
+      }
+      grade
+      assessmentType
+      curriculumCountry
+      curriculumRegion
+      status
+      updatedAt
     }
   }
 `;
