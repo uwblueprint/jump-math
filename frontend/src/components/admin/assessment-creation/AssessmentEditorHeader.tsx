@@ -134,14 +134,14 @@ const AssessmentEditorHeader = ({
             >
               Publish
             </ActionButton>
-            <Popover>
-              <VStack divider={<Divider />} spacing="0em">
-                {isEditing && (
+            {isEditing && (
+              <Popover>
+                <VStack divider={<Divider />} spacing="0em">
                   <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
-                )}
-                <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
-              </VStack>
-            </Popover>
+                  <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
+                </VStack>
+              </Popover>
+            )}
           </HStack>
         </Flex>
       </Box>

@@ -17,7 +17,7 @@ import type {
   TestRequest,
 } from "../../../APIClients/types/TestClientTypes";
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
-import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import type { Question } from "../../../types/QuestionTypes";
@@ -43,7 +43,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: { createTest: { id: string } };
@@ -82,7 +82,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
       curriculumRegion: state?.curriculumRegion,
     },
   });
-  const isDirty = !isDeleted && (isFormDirty || questions !== state?.questions);
+  const isDirty =
+    !shouldRedirect && (isFormDirty || questions !== state?.questions);
 
   const assessmentName = state?.name;
   const isExisting = !!state;
@@ -102,16 +103,26 @@ const AssessmentEditorPage = (): React.ReactElement => {
     }
   }, [questions, errorMessage]);
 
-  const resetDefaultValues = () => {
-    resetForm(getValues());
-  };
-
   const validateForm = () => {
     if (questions.length === 0) {
       setErrorMessage(noQuestionError);
       throw new FormValidationError(noQuestionError);
     }
   };
+
+  const onAfterModify = (options?: { redirect?: boolean }) => {
+    // Mark the form as clean after updating.
+    resetForm(getValues());
+    if (options?.redirect ?? true) {
+      console.log("setting");
+      setShouldRedirect(true);
+    }
+  };
+  useEffect(() => {
+    if (shouldRedirect) {
+      history.push(Routes.ASSESSMENTS_PAGE);
+    }
+  }, [shouldRedirect, history]);
 
   const onCreateTest = async (test: TestRequest) => {
     validateForm();
@@ -120,9 +131,15 @@ const AssessmentEditorPage = (): React.ReactElement => {
         test,
       },
     });
+
+    // Mark the form as clean after creating.
+    onAfterModify({ redirect: true });
   };
 
-  const onUpdateTest = async (test: TestRequest) => {
+  const onUpdateTest = async (
+    test: TestRequest,
+    options?: { redirect?: boolean },
+  ) => {
     validateForm();
     if (!state?.id) {
       throw new FormValidationError("Assessment ID not found");
@@ -134,7 +151,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
         test,
       },
     });
-    resetDefaultValues();
+
+    onAfterModify(options);
   };
 
   const onDeleteTest = async () => {
@@ -142,13 +160,8 @@ const AssessmentEditorPage = (): React.ReactElement => {
       throw new FormValidationError("Assessment ID not found");
     }
     await deleteTest();
-    setIsDeleted(true);
+    onAfterModify({ redirect: true });
   };
-  useEffect(() => {
-    if (isDeleted) {
-      history.push(ASSESSMENTS_PAGE);
-    }
-  }, [isDeleted, history]);
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
     onCreateTest({
@@ -165,10 +178,13 @@ const AssessmentEditorPage = (): React.ReactElement => {
     });
 
   const onSaveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
-      ...data,
-      questions: formatQuestionsRequest(questions),
-    });
+    onUpdateTest(
+      {
+        ...data,
+        questions: formatQuestionsRequest(questions),
+      },
+      { redirect: false },
+    );
 
   const onPublishChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
     onUpdateTest({
@@ -210,7 +226,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
             <VStack spacing="8" width="100%">
               <AssessmentEditorHeader
                 handleSubmit={handleSubmit}
-                isEditing={!!state}
+                isEditing={isExisting}
                 name={watch("name")}
                 onConfirmArchive={onArchiveChanges}
                 onConfirmPublish={state ? onPublishChanges : onPublish}
