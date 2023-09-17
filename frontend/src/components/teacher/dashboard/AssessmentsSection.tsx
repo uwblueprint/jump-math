@@ -1,24 +1,12 @@
 import React, { useMemo, useState } from "react";
-import {
-  Box,
-  Center,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import {
-  TEST_SESSION_STATUSES,
-  TestSessionStatus,
-} from "../../../types/TestSessionTypes";
-import { titleCase } from "../../../utils/GeneralUtils";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import ErrorState from "../../common/info/ErrorState";
 import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
-import TestSessionListItem from "../view-sessions/TestSessionListItem";
+import TestSessionTabs from "../view-sessions/TestSessionTabs";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
 import ViewAllLink from "./ViewAllLink";
@@ -60,27 +48,7 @@ const AssessmentsSection = () => {
       )}
       {!!data?.length && !error && !loading && (
         <>
-          <Tabs
-            onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
-          >
-            <TabList>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <Tab key={status}>{titleCase(status)}</Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <TabPanel key={status} px={0}>
-                  {sortedData?.map((session) => (
-                    <TestSessionListItem
-                      key={session.testSessionId}
-                      session={session}
-                    />
-                  ))}
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
+          <TestSessionTabs data={sortedData} setCurrentTab={setCurrentTab} />
           <ViewAllLink
             borderRadius="8px"
             h="50px"

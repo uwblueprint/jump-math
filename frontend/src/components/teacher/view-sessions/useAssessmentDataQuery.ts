@@ -4,9 +4,29 @@ import { useQuery } from "@apollo/client";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
+import type { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { getSessionTargetDate } from "../../../utils/TestSessionUtils";
 
-const useAssessmentDataQuery = (limit?: number) => {
+export type FormattedAssessmentData = {
+  testSessionId: string;
+  testId: string;
+  testName: string;
+  classroomId: string;
+  classroomName: string;
+  startDate: Date;
+  endDate: Date;
+  targetDate: Date;
+  status: TestSessionStatus;
+  accessCode: string;
+}[];
+
+type AssessmentDataQueryResult = {
+  loading: boolean;
+  error?: Error;
+  data?: FormattedAssessmentData;
+};
+
+const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
