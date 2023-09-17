@@ -122,58 +122,44 @@ const AssessmentEditorPage = (): React.ReactElement => {
     }
   };
 
-  const onCreateTest = async (test: TestRequest) => {
-    validateForm();
-    const { data } = await createTest({
-      variables: {
-        test,
-      },
-    });
-    if (!data?.createTest) {
-      throw new Error("Failed to create test");
-    }
-
-    // Mark the form as clean after creating.
-    setRedirectTo({
-      mode: "replace",
-      pathname: Routes.ASSESSMENT_EDITOR_PAGE,
-      state: {
-        ...data.createTest,
-        questions: formatQuestionsResponse(data.createTest.questions),
-      },
-    });
-  };
-
-  const onUpdateTest = async (
-    test: TestRequest,
+  const onUpsertTest = async (
+    testRequest: TestRequest,
     options?: { redirect?: boolean },
   ) => {
     validateForm();
-    if (!state?.id) {
+    if (state && !state.id) {
       throw new FormValidationError("Assessment ID not found");
     }
 
-    const { data } = await updateTest({
+    const request = {
       variables: {
-        id: state.id,
-        test,
+        id: state?.id,
+        test: testRequest,
       },
-    });
+    };
 
-    if (!data?.updateTest) {
-      throw new Error("Failed to update test");
+    let test;
+    if (isExisting) {
+      const { data } = await updateTest(request);
+      test = data?.updateTest;
+    } else {
+      const { data } = await createTest(request);
+      test = data?.createTest;
+    }
+    if (!test) {
+      throw new Error("Failed to save test");
     }
 
-    // Mark the form as clean after updating.
-    if (options?.redirect) {
+    // Mark the form as clean after saving.
+    if (options?.redirect ?? true) {
       setRedirectTo(Routes.ASSESSMENTS_PAGE);
     } else {
       setRedirectTo({
         mode: "replace",
         pathname: Routes.ASSESSMENT_EDITOR_PAGE,
         state: {
-          ...data.updateTest,
-          questions: formatQuestionsResponse(data.updateTest.questions),
+          ...test,
+          questions: formatQuestionsResponse(test.questions),
         },
       });
     }
@@ -188,37 +174,24 @@ const AssessmentEditorPage = (): React.ReactElement => {
   };
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
-    onCreateTest({
-      ...data,
-      status: Status.DRAFT,
-      questions: formatQuestionsRequest(questions),
-    });
-
-  const onPublish: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onCreateTest({
-      ...data,
-      status: Status.PUBLISHED,
-      questions: formatQuestionsRequest(questions),
-    });
-
-  const onSaveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest(
+    onUpsertTest(
       {
         ...data,
+        status: Status.DRAFT,
         questions: formatQuestionsRequest(questions),
       },
       { redirect: false },
     );
 
-  const onPublishChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
+  const onPublish: SubmitHandler<TestRequest> = (data: TestRequest) =>
+    onUpsertTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
     });
 
-  const onArchiveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
+  const onArchive: SubmitHandler<TestRequest> = (data: TestRequest) =>
+    onUpsertTest({
       ...data,
       status: Status.ARCHIVED,
       questions: formatQuestionsRequest(questions),
@@ -264,11 +237,11 @@ const AssessmentEditorPage = (): React.ReactElement => {
                 handleSubmit={handleSubmit}
                 isEditing={isExisting}
                 name={watch("name")}
-                onConfirmArchive={onArchiveChanges}
-                onConfirmPublish={state ? onPublishChanges : onPublish}
+                onConfirmArchive={onArchive}
+                onConfirmPublish={onPublish}
                 onDelete={onDeleteTest}
                 onError={onError}
-                onSave={state ? onSaveChanges : onSave}
+                onSave={onSave}
                 updatedAt={state?.updatedAt}
                 validateForm={validateForm}
               />
