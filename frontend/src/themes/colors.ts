@@ -1,6 +1,5 @@
 const colors = {
   blue: {
-    25: "#F7F9FB",
     50: "#E8EDF1",
     100: "#A1B4C7",
     200: "#5B7C9C",

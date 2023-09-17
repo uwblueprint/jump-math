@@ -69,7 +69,7 @@ const ClassroomsSection = (): ReactElement => {
             <RouterLink
               _hover={{ backgroundColor: "blue.50" }}
               alignItems="center"
-              backgroundColor="blue.25"
+              backgroundColor="grey.100"
               borderRadius="16px"
               color="blue.300"
               display="flex"

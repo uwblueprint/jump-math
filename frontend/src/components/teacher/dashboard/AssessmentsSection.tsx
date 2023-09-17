@@ -92,7 +92,7 @@ const AssessmentsSection = () => {
           <RouterLink
             _hover={{ backgroundColor: "blue.50" }}
             alignItems="center"
-            backgroundColor="blue.25"
+            backgroundColor="grey.100"
             borderRadius="8px"
             color="blue.300"
             display="flex"
