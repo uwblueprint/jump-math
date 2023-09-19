@@ -9,8 +9,7 @@ import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
+import StateHandler from "../../common/StateHandler";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
@@ -53,9 +52,7 @@ const StudentRouting = (): React.ReactElement => {
         setClassName,
       }}
     >
-      {loading && <LoadingState fullPage />}
-      {error && <ErrorState fullPage />}
-      {data && (
+      <StateHandler error={error} fullPage loading={loading}>
         <Switch>
           <PrivateRoute
             component={AssessmentSummaryPage}
@@ -74,7 +71,7 @@ const StudentRouting = (): React.ReactElement => {
           </Route>
           <Route component={NotFound} exact path="*" />
         </Switch>
-      )}
+      </StateHandler>
     </StudentContext.Provider>
   );
 };

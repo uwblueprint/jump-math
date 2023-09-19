@@ -1,13 +1,5 @@
 import React, { useMemo, useState } from "react";
-import {
-  Box,
-  Center,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import {
@@ -15,9 +7,8 @@ import {
   TestSessionStatus,
 } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
+import StateHandler from "../../common/StateHandler";
 import TestSessionListItem from "../view-sessions/TestSessionListItem";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
@@ -47,63 +38,50 @@ const AssessmentsSection = () => {
   }, [filteredData, currentTab]);
 
   return (
-    <Box flex="1">
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {!!data?.length && !error && !loading && (
-        <>
-          <Tabs
-            onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
-          >
-            <TabList border="none" gap={8}>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <Tab
-                  key={status}
-                  _focus={{ background: "none" }}
-                  border="none"
-                  color="blue.100"
-                  fontWeight="bold"
-                  px={0}
-                >
-                  {titleCase(status)}
-                </Tab>
+    <StateHandler
+      emptyState={<EmptySessionsMessage />}
+      error={error}
+      isEmpty={!data?.length}
+      loading={loading}
+    >
+      <Tabs
+        mt="-2rem"
+        onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
+      >
+        <TabList border="none" gap={8}>
+          {TEST_SESSION_STATUSES.map((status) => (
+            <Tab
+              key={status}
+              _focus={{ background: "none" }}
+              border="none"
+              color="blue.100"
+              fontWeight="bold"
+              px={0}
+            >
+              {titleCase(status)}
+            </Tab>
+          ))}
+        </TabList>
+        <TabPanels>
+          {TEST_SESSION_STATUSES.map((status) => (
+            <TabPanel key={status} p={0}>
+              {sortedData?.map((session) => (
+                <TestSessionListItem
+                  key={session.testSessionId}
+                  session={session}
+                />
               ))}
-            </TabList>
-            <TabPanels>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <TabPanel key={status} p={0}>
-                  {sortedData?.map((session) => (
-                    <TestSessionListItem
-                      key={session.testSessionId}
-                      session={session}
-                    />
-                  ))}
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
-          <ViewAllLink
-            borderRadius="8px"
-            h="50px"
-            mt={4}
-            to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-          />
-        </>
-      )}
-      {!data?.length && !loading && !error && (
-        <Box mt={8}>
-          <EmptySessionsMessage />
-        </Box>
-      )}
-    </Box>
+            </TabPanel>
+          ))}
+        </TabPanels>
+        <ViewAllLink
+          borderRadius="8px"
+          h="50px"
+          mt={4}
+          to={Routes.DISPLAY_ASSESSMENTS_PAGE}
+        />
+      </Tabs>
+    </StateHandler>
   );
 };
 

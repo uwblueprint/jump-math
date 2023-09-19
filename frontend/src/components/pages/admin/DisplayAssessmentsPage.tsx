@@ -1,14 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import {
-  Box,
-  Center,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
 import * as Routes from "../../../constants/Routes";
@@ -21,9 +13,8 @@ import {
 import { sortArray } from "../../../utils/GeneralUtils";
 import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
 import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
+import StateHandler from "../../common/StateHandler";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchableTablePage from "../../common/table/SearchableTablePage";
@@ -147,39 +138,27 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   });
 
   return (
-    <>
+    <Box height="70vh">
       <HeaderWithButton
         buttonText="Create Assessment"
         targetRoute={Routes.ASSESSMENT_EDITOR_PAGE}
         title="Assessments"
       />
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {assessments && !error && !loading && (
-        <Box flex="1">
-          <Tabs
-            marginTop={3}
-            onChange={(index) => setStatus(STATUS_ORDER[index])}
-          >
-            <TabList>
-              <Tab>All</Tab>
-              <Tab>Drafts</Tab>
-              <Tab>Published</Tab>
-              <Tab>Archived</Tab>
-            </TabList>
-            <TabPanels>{AssessmentTabPanels}</TabPanels>
-          </Tabs>
-        </Box>
-      )}
-    </>
+      <StateHandler error={error} loading={loading}>
+        <Tabs
+          marginTop={3}
+          onChange={(index) => setStatus(STATUS_ORDER[index])}
+        >
+          <TabList>
+            <Tab>All</Tab>
+            <Tab>Drafts</Tab>
+            <Tab>Published</Tab>
+            <Tab>Archived</Tab>
+          </TabList>
+          <TabPanels>{AssessmentTabPanels}</TabPanels>
+        </Tabs>
+      </StateHandler>
+    </Box>
   );
 };
 

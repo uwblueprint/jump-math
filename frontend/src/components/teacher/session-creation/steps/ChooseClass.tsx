@@ -34,8 +34,8 @@ const ChooseClass = ({
     <DistributeAssessmentWrapper
       emptyState={<EmptyClassroomsGoToPageMessage />}
       isEmpty={data?.length === 0}
-      isError={Boolean(error)}
-      isLoading={Boolean(loading)}
+      isError={error}
+      isLoading={loading}
       subtitle="Please choose classrooms you want this assessment to be distributed to."
       title="Choose a classroom"
     >
