@@ -1,15 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Box, Center } from "@chakra-ui/react";
 
 import { GET_CLASS_STUDENTS_BY_ID } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassStudentData } from "../../../../APIClients/types/ClassClientTypes";
 import { filterStudentsBySearch } from "../../../../utils/ClassroomUtils";
 import { sortArray } from "../../../../utils/GeneralUtils";
-import ErrorState from "../../../common/info/ErrorState";
-import LoadingState from "../../../common/info/LoadingState";
 import EmptyClassStudentsMessage from "../../../common/info/messages/EmptyClassStudentsMessage";
+import QueryStateHandler from "../../../common/QueryStateHandler";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
@@ -52,18 +50,8 @@ const DisplayClassroomStudentsPage = ({
   }, [searchedStudents, sortProperty, sortOrder]);
 
   return (
-    <>
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {students && !error && !loading && (
+    <QueryStateHandler error={error} loading={loading}>
+      {students && (
         <SearchableTablePage
           nameOfTableItems="students"
           noResults={isEmpty}
@@ -94,7 +82,7 @@ const DisplayClassroomStudentsPage = ({
           }
         />
       )}
-    </>
+    </QueryStateHandler>
   );
 };
 

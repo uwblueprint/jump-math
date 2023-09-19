@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Center, VStack } from "@chakra-ui/react";
 
 import { GET_CLASS_TEST_SESSIONS_BY_ID } from "../../../../APIClients/queries/ClassQueries";
 import type { ClassTestSessionData } from "../../../../APIClients/types/ClassClientTypes";
@@ -10,9 +10,8 @@ import {
   filterTestSessionsBySearch,
   getSessionTargetDate,
 } from "../../../../utils/TestSessionUtils";
-import ErrorState from "../../../common/info/ErrorState";
-import LoadingState from "../../../common/info/LoadingState";
 import EmptyClassSessionsMessage from "../../../common/info/messages/EmptyClassSessionsMessage";
+import QueryStateHandler from "../../../common/QueryStateHandler";
 import Pagination from "../../../common/table/Pagination";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
@@ -98,18 +97,8 @@ const DisplayClassroomAssessmentsPage = () => {
   );
 
   return (
-    <>
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {paginatedData && !error && !loading && (
+    <QueryStateHandler error={error} loading={loading}>
+      {paginatedData && (
         <SearchableTablePage
           nameOfTableItems="assessments"
           noResults={paginatedData.length === 0}
@@ -135,7 +124,7 @@ const DisplayClassroomAssessmentsPage = () => {
           tableComponent={tableComponent}
         />
       )}
-    </>
+    </QueryStateHandler>
   );
 };
 
