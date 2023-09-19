@@ -17,7 +17,7 @@ import AdminTab from "../../admin/user-management/admin/AdminTab";
 import AdminUserTable from "../../admin/user-management/admin/AdminUserTable";
 import TeacherUserTable from "../../admin/user-management/teacher/TeacherUserTable";
 import UsersPageHeader from "../../admin/user-management/UsersPageHeader";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 import useSortProperty from "../../common/table/useSortProperty";
@@ -98,7 +98,7 @@ const UsersPage = (): React.ReactElement => {
   return (
     <>
       <UsersPageHeader />
-      <StateHandler error={error} loading={loading}>
+      <QueryStateHandler error={error} loading={loading}>
         <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
           <TabList>
             <Tab>Admins</Tab>
@@ -139,7 +139,7 @@ const UsersPage = (): React.ReactElement => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </StateHandler>
+      </QueryStateHandler>
     </>
   );
 };

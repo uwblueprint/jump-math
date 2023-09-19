@@ -8,7 +8,7 @@ import {
 } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import TestSessionListItem from "../view-sessions/TestSessionListItem";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
@@ -38,7 +38,7 @@ const AssessmentsSection = () => {
   }, [filteredData, currentTab]);
 
   return (
-    <StateHandler error={error} loading={loading}>
+    <QueryStateHandler error={error} loading={loading}>
       {!!data?.length ? (
         <>
           <Tabs
@@ -81,7 +81,7 @@ const AssessmentsSection = () => {
       ) : (
         <EmptySessionsMessage />
       )}
-    </StateHandler>
+    </QueryStateHandler>
   );
 };
 

@@ -7,7 +7,7 @@ import type { ClassStudentData } from "../../../../APIClients/types/ClassClientT
 import { filterStudentsBySearch } from "../../../../utils/ClassroomUtils";
 import { sortArray } from "../../../../utils/GeneralUtils";
 import EmptyClassStudentsMessage from "../../../common/info/messages/EmptyClassStudentsMessage";
-import StateHandler from "../../../common/StateHandler";
+import QueryStateHandler from "../../../common/QueryStateHandler";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
@@ -50,7 +50,7 @@ const DisplayClassroomStudentsPage = ({
   }, [searchedStudents, sortProperty, sortOrder]);
 
   return (
-    <StateHandler error={error} loading={loading}>
+    <QueryStateHandler error={error} loading={loading}>
       <SearchableTablePage
         nameOfTableItems="students"
         noResults={isEmpty}
@@ -80,7 +80,7 @@ const DisplayClassroomStudentsPage = ({
           />
         }
       />
-    </StateHandler>
+    </QueryStateHandler>
   );
 };
 

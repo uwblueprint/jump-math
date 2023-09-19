@@ -14,7 +14,7 @@ import { sortArray } from "../../../utils/GeneralUtils";
 import AssessmentsTable from "../../admin/view-assessments/AssessmentsTable";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import EmptyTestsMessage from "../../common/info/messages/EmptyTestsMessage";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import type { FilterProp } from "../../common/table/FilterMenu";
 import FilterMenu from "../../common/table/FilterMenu";
 import SearchableTablePage from "../../common/table/SearchableTablePage";
@@ -144,7 +144,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         targetRoute={Routes.ASSESSMENT_EDITOR_PAGE}
         title="Assessments"
       />
-      <StateHandler error={error} loading={loading}>
+      <QueryStateHandler error={error} loading={loading}>
         <Tabs
           marginTop={3}
           onChange={(index) => setStatus(STATUS_ORDER[index])}
@@ -157,7 +157,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           </TabList>
           <TabPanels>{AssessmentTabPanels}</TabPanels>
         </Tabs>
-      </StateHandler>
+      </QueryStateHandler>
     </>
   );
 };

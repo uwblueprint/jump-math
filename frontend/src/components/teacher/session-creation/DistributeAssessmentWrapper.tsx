@@ -2,7 +2,7 @@ import React from "react";
 import type { ApolloError } from "@apollo/client";
 import { Box, Text, VStack } from "@chakra-ui/react";
 
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 
 interface DistributeAssessmentWrapperProps {
   isLoading?: boolean;
@@ -31,9 +31,9 @@ const DistributeAssessmentWrapper = ({
       <Text color="grey.300" textStyle="paragraph">
         {subtitle}
       </Text>
-      <StateHandler error={error} loading={isLoading}>
+      <QueryStateHandler error={error} loading={isLoading}>
         <Box pt="6">{isEmpty ? emptyState : children}</Box>
-      </StateHandler>
+      </QueryStateHandler>
     </VStack>
   );
 };

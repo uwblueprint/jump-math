@@ -22,7 +22,7 @@ import {
 } from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
@@ -88,7 +88,7 @@ const ClassroomsPage = (): ReactElement => {
           onClose={() => setIsModalOpen(false)}
         />
       </Box>
-      <StateHandler error={error} loading={loading}>
+      <QueryStateHandler error={error} loading={loading}>
         {data?.length !== 0 ? (
           <>
             <Tabs index={tabIndex} mt={3} onChange={handleTabChange}>
@@ -152,7 +152,7 @@ const ClassroomsPage = (): ReactElement => {
         ) : (
           <EmptyClassroomsMessage onClick={handleAddClassroom} />
         )}
-      </StateHandler>
+      </QueryStateHandler>
     </FormProvider>
   );
 };

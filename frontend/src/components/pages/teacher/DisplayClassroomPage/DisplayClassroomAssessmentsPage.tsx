@@ -11,7 +11,7 @@ import {
   getSessionTargetDate,
 } from "../../../../utils/TestSessionUtils";
 import EmptyClassSessionsMessage from "../../../common/info/messages/EmptyClassSessionsMessage";
-import StateHandler from "../../../common/StateHandler";
+import QueryStateHandler from "../../../common/QueryStateHandler";
 import Pagination from "../../../common/table/Pagination";
 import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
@@ -97,7 +97,7 @@ const DisplayClassroomAssessmentsPage = () => {
   );
 
   return (
-    <StateHandler error={error} loading={loading}>
+    <QueryStateHandler error={error} loading={loading}>
       <SearchableTablePage
         nameOfTableItems="assessments"
         noResults={paginatedData.length === 0}
@@ -122,7 +122,7 @@ const DisplayClassroomAssessmentsPage = () => {
         }
         tableComponent={tableComponent}
       />
-    </StateHandler>
+    </QueryStateHandler>
   );
 };
 
