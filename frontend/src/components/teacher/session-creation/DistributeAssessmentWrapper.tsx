@@ -6,7 +6,7 @@ import StateHandler from "../../common/StateHandler";
 
 interface DistributeAssessmentWrapperProps {
   isLoading?: boolean;
-  isError?: ApolloError;
+  error?: ApolloError;
   isEmpty?: boolean;
   title: string;
   subtitle: string;
@@ -16,7 +16,7 @@ interface DistributeAssessmentWrapperProps {
 
 const DistributeAssessmentWrapper = ({
   isLoading = false,
-  isError,
+  error,
   isEmpty = false,
   title,
   subtitle,
@@ -31,7 +31,7 @@ const DistributeAssessmentWrapper = ({
       <Text color="grey.300" pb="6" textStyle="paragraph">
         {subtitle}
       </Text>
-      <StateHandler error={isError} loading={isLoading}>
+      <StateHandler error={error} loading={isLoading}>
         {isEmpty ? emptyState : children}
       </StateHandler>
     </VStack>
