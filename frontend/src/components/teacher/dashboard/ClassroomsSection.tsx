@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React from "react";
-import { Grid } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import EmptyClassroomsGoToPageMessage from "../../common/info/messages/EmptyClassroomsGoToPage";
@@ -26,42 +26,44 @@ const ClassroomsSection = (): ReactElement => {
 
   return (
     <StateHandler error={error} loading={loading}>
-      {data?.length !== 0 ? (
-        <Grid autoRows="1fr" gap={4} pt={6} templateColumns="repeat(3, 1fr)">
-          {data?.map(
-            ({
-              id,
-              activeAssessments,
-              assessmentCount,
-              gradeLevel,
-              isActive,
-              className,
-              startDate,
-              studentCount,
-            }) => (
-              <ClassroomCard
-                key={id}
-                activeAssessments={activeAssessments}
-                assessmentCount={assessmentCount}
-                grade={gradeLevel}
-                id={id}
-                isActive={isActive}
-                isDashboardVariant
-                name={className}
-                startDate={startDate}
-                studentCount={studentCount}
-              />
-            ),
-          )}
-          <ViewAllLink
-            borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
-            h={CLASSROOM_CARD_STYLES.HEIGHT}
-            to={Routes.CLASSROOMS_PAGE}
-          />
-        </Grid>
-      ) : (
-        <EmptyClassroomsGoToPageMessage />
-      )}
+      <Box pt={6}>
+        {data?.length !== 0 ? (
+          <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
+            {data?.map(
+              ({
+                id,
+                activeAssessments,
+                assessmentCount,
+                gradeLevel,
+                isActive,
+                className,
+                startDate,
+                studentCount,
+              }) => (
+                <ClassroomCard
+                  key={id}
+                  activeAssessments={activeAssessments}
+                  assessmentCount={assessmentCount}
+                  grade={gradeLevel}
+                  id={id}
+                  isActive={isActive}
+                  isDashboardVariant
+                  name={className}
+                  startDate={startDate}
+                  studentCount={studentCount}
+                />
+              ),
+            )}
+            <ViewAllLink
+              borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
+              h={CLASSROOM_CARD_STYLES.HEIGHT}
+              to={Routes.CLASSROOMS_PAGE}
+            />
+          </Grid>
+        ) : (
+          <EmptyClassroomsGoToPageMessage />
+        )}
+      </Box>
     </StateHandler>
   );
 };
