@@ -38,49 +38,50 @@ const AssessmentsSection = () => {
   }, [filteredData, currentTab]);
 
   return (
-    <StateHandler
-      emptyState={<EmptySessionsMessage />}
-      error={error}
-      isEmpty={!data?.length}
-      loading={loading}
-    >
-      <Tabs
-        mt="-2rem"
-        onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
-      >
-        <TabList border="none" gap={8}>
-          {TEST_SESSION_STATUSES.map((status) => (
-            <Tab
-              key={status}
-              _focus={{ background: "none" }}
-              border="none"
-              color="blue.100"
-              fontWeight="bold"
-              px={0}
-            >
-              {titleCase(status)}
-            </Tab>
-          ))}
-        </TabList>
-        <TabPanels>
-          {TEST_SESSION_STATUSES.map((status) => (
-            <TabPanel key={status} p={0}>
-              {sortedData?.map((session) => (
-                <TestSessionListItem
-                  key={session.testSessionId}
-                  session={session}
-                />
+    <StateHandler error={error} loading={loading}>
+      {!!data?.length ? (
+        <>
+          <Tabs
+            mt="-2rem"
+            onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
+          >
+            <TabList border="none" gap={8}>
+              {TEST_SESSION_STATUSES.map((status) => (
+                <Tab
+                  key={status}
+                  _focus={{ background: "none" }}
+                  border="none"
+                  color="blue.100"
+                  fontWeight="bold"
+                  px={0}
+                >
+                  {titleCase(status)}
+                </Tab>
               ))}
-            </TabPanel>
-          ))}
-        </TabPanels>
-        <ViewAllLink
-          borderRadius="8px"
-          h="50px"
-          mt={4}
-          to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-        />
-      </Tabs>
+            </TabList>
+            <TabPanels>
+              {TEST_SESSION_STATUSES.map((status) => (
+                <TabPanel key={status} p={0}>
+                  {sortedData?.map((session) => (
+                    <TestSessionListItem
+                      key={session.testSessionId}
+                      session={session}
+                    />
+                  ))}
+                </TabPanel>
+              ))}
+            </TabPanels>
+            <ViewAllLink
+              borderRadius="8px"
+              h="50px"
+              mt={4}
+              to={Routes.DISPLAY_ASSESSMENTS_PAGE}
+            />
+          </Tabs>
+        </>
+      ) : (
+        <EmptySessionsMessage />
+      )}
     </StateHandler>
   );
 };

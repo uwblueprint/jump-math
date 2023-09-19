@@ -53,42 +53,43 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           title="Assessments"
         />
       </VStack>
-      <StateHandler
-        emptyState={<EmptySessionsMessage />}
-        error={error}
-        isEmpty={!data?.length}
-        loading={loading}
-      >
-        <Tabs
-          mt="-1rem"
-          onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
-        >
-          <TabList>
-            {TEST_SESSION_STATUSES.map((status) => (
-              <Tab key={status}>{titleCase(status)}</Tab>
-            ))}
-          </TabList>
-          <TabPanels>
-            {TEST_SESSION_STATUSES.map((status) => (
-              <TabPanel key={status} pl={0} pr={0}>
-                {paginatedData?.map((session) => (
-                  <TestSessionListItem
-                    key={session.testSessionId}
-                    session={session}
-                  />
+      <StateHandler error={error} loading={loading}>
+        {!!data?.length ? (
+          <>
+            <Tabs
+              mt="-1rem"
+              onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
+            >
+              <TabList>
+                {TEST_SESSION_STATUSES.map((status) => (
+                  <Tab key={status}>{titleCase(status)}</Tab>
                 ))}
-              </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
-        {totalPages > 1 && (
-          <Center>
-            <Pagination
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-              pagesCount={totalPages}
-            />
-          </Center>
+              </TabList>
+              <TabPanels>
+                {TEST_SESSION_STATUSES.map((status) => (
+                  <TabPanel key={status} pl={0} pr={0}>
+                    {paginatedData?.map((session) => (
+                      <TestSessionListItem
+                        key={session.testSessionId}
+                        session={session}
+                      />
+                    ))}
+                  </TabPanel>
+                ))}
+              </TabPanels>
+            </Tabs>
+            {totalPages > 1 && (
+              <Center>
+                <Pagination
+                  currentPage={currentPage}
+                  onPageChange={setCurrentPage}
+                  pagesCount={totalPages}
+                />
+              </Center>
+            )}
+          </>
+        ) : (
+          <EmptySessionsMessage />
         )}
       </StateHandler>
     </>

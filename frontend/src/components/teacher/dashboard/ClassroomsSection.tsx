@@ -25,44 +25,43 @@ const ClassroomsSection = (): ReactElement => {
   const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
 
   return (
-    <StateHandler
-      emptyState={<EmptyClassroomsGoToPageMessage />}
-      error={error}
-      isEmpty={data?.length === 0}
-      loading={loading}
-    >
-      <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
-        {data?.map(
-          ({
-            id,
-            activeAssessments,
-            assessmentCount,
-            gradeLevel,
-            isActive,
-            className,
-            startDate,
-            studentCount,
-          }) => (
-            <ClassroomCard
-              key={id}
-              activeAssessments={activeAssessments}
-              assessmentCount={assessmentCount}
-              grade={gradeLevel}
-              id={id}
-              isActive={isActive}
-              isDashboardVariant
-              name={className}
-              startDate={startDate}
-              studentCount={studentCount}
-            />
-          ),
-        )}
-        <ViewAllLink
-          borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
-          h={CLASSROOM_CARD_STYLES.HEIGHT}
-          to={Routes.CLASSROOMS_PAGE}
-        />
-      </Grid>
+    <StateHandler error={error} loading={loading}>
+      {data?.length !== 0 ? (
+        <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
+          {data?.map(
+            ({
+              id,
+              activeAssessments,
+              assessmentCount,
+              gradeLevel,
+              isActive,
+              className,
+              startDate,
+              studentCount,
+            }) => (
+              <ClassroomCard
+                key={id}
+                activeAssessments={activeAssessments}
+                assessmentCount={assessmentCount}
+                grade={gradeLevel}
+                id={id}
+                isActive={isActive}
+                isDashboardVariant
+                name={className}
+                startDate={startDate}
+                studentCount={studentCount}
+              />
+            ),
+          )}
+          <ViewAllLink
+            borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
+            h={CLASSROOM_CARD_STYLES.HEIGHT}
+            to={Routes.CLASSROOMS_PAGE}
+          />
+        </Grid>
+      ) : (
+        <EmptyClassroomsGoToPageMessage />
+      )}
     </StateHandler>
   );
 };

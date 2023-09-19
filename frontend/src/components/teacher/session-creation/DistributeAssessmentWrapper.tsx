@@ -31,13 +31,8 @@ const DistributeAssessmentWrapper = ({
       <Text color="grey.300" pb="6" textStyle="paragraph">
         {subtitle}
       </Text>
-      <StateHandler
-        emptyState={emptyState}
-        error={isError}
-        isEmpty={isEmpty}
-        loading={isLoading}
-      >
-        {children}
+      <StateHandler error={isError} loading={isLoading}>
+        {isEmpty ? emptyState : children}
       </StateHandler>
     </VStack>
   );
