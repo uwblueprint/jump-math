@@ -25,12 +25,12 @@ const ClassroomsSection = (): ReactElement => {
   const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
 
   return (
-    <Box flex="1" w="100%">
+    <Box flex="1" mt={8} w="100%">
       <QueryStateHandler error={error} loading={loading}>
         {data?.length === 0 ? (
           <EmptyClassroomsGoToPageMessage />
         ) : (
-          <Grid autoRows="1fr" gap={4} mt={8} templateColumns="repeat(3, 1fr)">
+          <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
             {data?.map(
               ({
                 id,
