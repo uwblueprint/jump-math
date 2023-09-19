@@ -9,7 +9,7 @@ interface StateHandlerProps {
   error?: ApolloError;
   isEmpty?: boolean;
   emptyState?: React.ReactNode;
-  children?: React.ReactNode | React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[];
   fullPage?: boolean;
 }
 

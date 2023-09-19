@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
 import * as Routes from "../../../constants/Routes";
@@ -138,7 +138,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   });
 
   return (
-    <Box height="70vh">
+    <>
       <HeaderWithButton
         buttonText="Create Assessment"
         targetRoute={Routes.ASSESSMENT_EDITOR_PAGE}
@@ -158,7 +158,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           <TabPanels>{AssessmentTabPanels}</TabPanels>
         </Tabs>
       </StateHandler>
-    </Box>
+    </>
   );
 };
 

@@ -30,7 +30,7 @@ const AdminRouting = (): React.ReactElement => {
       <Route path="*">
         <VStack align="left" flex="1" height="100vh">
           <Navbar pages={pages} />
-          <Box padding="1.5em 2em 0em 2em">
+          <Box height="70%" padding="1.5em 2em 0em 2em">
             <Switch>
               <PrivateRoute
                 component={UsersPage}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import {
   GET_ALL_TEACHERS,
@@ -96,7 +96,7 @@ const UsersPage = (): React.ReactElement => {
   };
 
   return (
-    <Box height="70vh">
+    <>
       <UsersPageHeader />
       <StateHandler error={error} loading={loading}>
         <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
@@ -140,7 +140,7 @@ const UsersPage = (): React.ReactElement => {
           </TabPanels>
         </Tabs>
       </StateHandler>
-    </Box>
+    </>
   );
 };
 
