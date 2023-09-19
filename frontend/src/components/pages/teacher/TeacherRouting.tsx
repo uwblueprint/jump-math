@@ -31,7 +31,7 @@ const TeacherRouting = (): React.ReactElement => {
           <Navbar pages={pages} />
         </Route>
       </Switch>
-      <Box padding="1.5em 2em 2em 2em">
+      <Box height="75%" padding="1.5em 2em 2em 2em">
         <Switch>
           <PrivateRoute
             component={DisplayAssessmentResults}

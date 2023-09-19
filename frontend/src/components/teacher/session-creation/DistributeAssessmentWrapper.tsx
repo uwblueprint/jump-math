@@ -1,6 +1,6 @@
 import React from "react";
 import type { ApolloError } from "@apollo/client";
-import { Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 import StateHandler from "../../common/StateHandler";
 
@@ -28,11 +28,11 @@ const DistributeAssessmentWrapper = ({
       <Text color="blue.300" textAlign="left" textStyle="header4">
         {title}
       </Text>
-      <Text color="grey.300" pb="6" textStyle="paragraph">
+      <Text color="grey.300" textStyle="paragraph">
         {subtitle}
       </Text>
       <StateHandler error={error} loading={isLoading}>
-        {isEmpty ? emptyState : children}
+        <Box pt="6">{isEmpty ? emptyState : children}</Box>
       </StateHandler>
     </VStack>
   );

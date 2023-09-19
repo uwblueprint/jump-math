@@ -16,7 +16,7 @@ const ErrorState = ({
     color="blue.300"
     height={fullPage ? "100vh" : "100%"}
     minWidth="100%"
-    my={6}
+    my={fullPage ? 0 : 6}
     pb={14}
   >
     <MessageContainer

@@ -42,7 +42,6 @@ const AssessmentsSection = () => {
       {!!data?.length ? (
         <>
           <Tabs
-            mt="-2rem"
             onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
           >
             <TabList border="none" gap={8}>

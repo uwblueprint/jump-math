@@ -76,7 +76,7 @@ const ClassroomsPage = (): ReactElement => {
 
   return (
     <FormProvider {...methods}>
-      <Box mb={10}>
+      <Box>
         <HeaderWithButton
           buttonText="Add Classroom"
           onClick={handleAddClassroom}
@@ -91,7 +91,7 @@ const ClassroomsPage = (): ReactElement => {
       <StateHandler error={error} loading={loading}>
         {data?.length !== 0 ? (
           <>
-            <Tabs index={tabIndex} mt="-1rem" onChange={handleTabChange}>
+            <Tabs index={tabIndex} mt={3} onChange={handleTabChange}>
               <TabList>
                 <Tab>Active</Tab>
                 {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (

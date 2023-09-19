@@ -27,7 +27,7 @@ const ClassroomsSection = (): ReactElement => {
   return (
     <StateHandler error={error} loading={loading}>
       {data?.length !== 0 ? (
-        <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
+        <Grid autoRows="1fr" gap={4} pt={6} templateColumns="repeat(3, 1fr)">
           {data?.map(
             ({
               id,

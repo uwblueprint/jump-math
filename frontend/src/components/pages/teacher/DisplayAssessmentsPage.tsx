@@ -45,7 +45,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   return (
     <>
-      <VStack align="left" mb={10}>
+      <VStack align="left">
         <HeaderWithButton
           buttonText="Add Assessment"
           showButton={!!data?.length}
@@ -57,7 +57,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         {!!data?.length ? (
           <>
             <Tabs
-              mt="-1rem"
+              mt={3}
               onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
             >
               <TabList>

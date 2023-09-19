@@ -57,7 +57,7 @@ const TeacherDashboardPage = (): React.ReactElement => {
       </FormProvider>
       <HStack align="start" gap={20} mt={9}>
         {SECTION_CONFIG.map(({ title, bodyComponent }) => (
-          <VStack key={title} align="left" flex="1" gap={8}>
+          <VStack key={title} align="left" flex="1">
             <Text as="h2" color="blue.300" textStyle="subtitle1">
               {title}
             </Text>
