@@ -112,7 +112,7 @@ const DistributeAssessmentPage = (): React.ReactElement => {
   };
 
   return (
-    <VStack align="left" gap={2} minHeight="80vh" paddingBottom="4">
+    <VStack align="left" gap={2} minHeight="100%" paddingBottom="4">
       <FormBreadcrumb
         breadcrumbs={BREADCRUMB_CONFIG}
         page={page}
