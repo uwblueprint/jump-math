@@ -109,8 +109,8 @@ const ChooseAssessment = ({
   return (
     <DistributeAssessmentWrapper
       emptyState={<ErrorState />}
+      error={error}
       isEmpty={isEmpty}
-      isError={error}
       isLoading={loading}
       subtitle="Please enter the name of the assessment you're looking for or use
         filter/sort options to find the assessment that suits your needs."
