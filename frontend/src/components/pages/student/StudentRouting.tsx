@@ -9,7 +9,7 @@ import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
@@ -52,7 +52,7 @@ const StudentRouting = (): React.ReactElement => {
         setClassName,
       }}
     >
-      <StateHandler error={error} fullPage loading={loading}>
+      <QueryStateHandler error={error} fullPage loading={loading}>
         <Switch>
           <PrivateRoute
             component={AssessmentSummaryPage}
@@ -71,7 +71,7 @@ const StudentRouting = (): React.ReactElement => {
           </Route>
           <Route component={NotFound} exact path="*" />
         </Switch>
-      </StateHandler>
+      </QueryStateHandler>
     </StudentContext.Provider>
   );
 };

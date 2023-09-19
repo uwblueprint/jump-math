@@ -4,7 +4,7 @@ import { Box, Grid } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import EmptyClassroomsGoToPageMessage from "../../common/info/messages/EmptyClassroomsGoToPage";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import ClassroomCard, {
   CLASSROOM_CARD_STYLES,
 } from "../student-management/classroom-summary/ClassroomCard";
@@ -25,7 +25,7 @@ const ClassroomsSection = (): ReactElement => {
   const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
 
   return (
-    <StateHandler error={error} loading={loading}>
+    <QueryStateHandler error={error} loading={loading}>
       <Box pt={6}>
         {data?.length !== 0 ? (
           <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
@@ -64,7 +64,7 @@ const ClassroomsSection = (): ReactElement => {
           <EmptyClassroomsGoToPageMessage />
         )}
       </Box>
-    </StateHandler>
+    </QueryStateHandler>
   );
 };
 

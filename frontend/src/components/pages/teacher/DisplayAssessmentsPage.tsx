@@ -15,7 +15,7 @@ import { TEST_SESSION_STATUSES } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
 import HeaderWithButton from "../../common/HeaderWithButton";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
-import StateHandler from "../../common/StateHandler";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import TestSessionListItem from "../../teacher/view-sessions/TestSessionListItem";
@@ -53,7 +53,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           title="Assessments"
         />
       </VStack>
-      <StateHandler error={error} loading={loading}>
+      <QueryStateHandler error={error} loading={loading}>
         {!!data?.length ? (
           <>
             <Tabs
@@ -91,7 +91,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         ) : (
           <EmptySessionsMessage />
         )}
-      </StateHandler>
+      </QueryStateHandler>
     </>
   );
 };
