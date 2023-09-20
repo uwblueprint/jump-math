@@ -98,32 +98,30 @@ const DisplayClassroomAssessmentsPage = () => {
 
   return (
     <QueryStateHandler error={error} loading={loading}>
-      {paginatedData && (
-        <SearchableTablePage
-          nameOfTableItems="assessments"
-          noResults={paginatedData.length === 0}
-          noResultsComponent={
-            <EmptyClassSessionsMessage
-              classroomId={classroomId}
-              classroomName={data?.class.className ?? ""}
-              isActive={data?.class.isActive}
-            />
-          }
-          search={search}
-          searchBarComponent={<SearchBar onSearch={setSearch} />}
-          searchLength={paginatedData.length}
-          sortMenuComponent={
-            <SortMenu
-              initialSortOrder={sortOrder}
-              labels={["Name", "Status"]}
-              onSortOrder={setSortOrder}
-              onSortProperty={setSortProperty}
-              properties={SORT_PROPERTIES}
-            />
-          }
-          tableComponent={tableComponent}
-        />
-      )}
+      <SearchableTablePage
+        nameOfTableItems="assessments"
+        noResults={paginatedData.length === 0}
+        noResultsComponent={
+          <EmptyClassSessionsMessage
+            classroomId={classroomId}
+            classroomName={data?.class.className ?? ""}
+            isActive={data?.class.isActive}
+          />
+        }
+        search={search}
+        searchBarComponent={<SearchBar onSearch={setSearch} />}
+        searchLength={paginatedData.length}
+        sortMenuComponent={
+          <SortMenu
+            initialSortOrder={sortOrder}
+            labels={["Name", "Status"]}
+            onSortOrder={setSortOrder}
+            onSortProperty={setSortProperty}
+            properties={SORT_PROPERTIES}
+          />
+        }
+        tableComponent={tableComponent}
+      />
     </QueryStateHandler>
   );
 };
