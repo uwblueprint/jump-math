@@ -27,7 +27,9 @@ const ClassroomsSection = (): ReactElement => {
   return (
     <QueryStateHandler error={error} loading={loading}>
       <Box pt={6}>
-        {data?.length !== 0 ? (
+        {data?.length === 0 ? (
+          <EmptyClassroomsGoToPageMessage />
+        ) : (
           <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
             {data?.map(
               ({
@@ -60,8 +62,6 @@ const ClassroomsSection = (): ReactElement => {
               to={Routes.CLASSROOMS_PAGE}
             />
           </Grid>
-        ) : (
-          <EmptyClassroomsGoToPageMessage />
         )}
       </Box>
     </QueryStateHandler>
