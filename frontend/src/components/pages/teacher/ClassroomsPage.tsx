@@ -90,65 +90,63 @@ const ClassroomsPage = (): ReactElement => {
       </Box>
       <QueryStateHandler error={error} loading={loading}>
         {!!data && data.length ? (
-          <>
-            <Tabs index={tabIndex} mt={3} onChange={handleTabChange}>
-              <TabList>
-                <Tab>Active</Tab>
-                {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
-                  <Tab>Archived</Tab>
-                )}
-              </TabList>
-              <TabPanels>
-                {TABS_CLASSROOM.map((tab) => (
-                  <TabPanel key={tab} padding="0">
-                    <Flex alignItems="left" flexWrap="wrap">
-                      {paginatedData?.map(
-                        ({
-                          id,
-                          activeAssessments,
-                          assessmentCount,
-                          gradeLevel,
-                          isActive,
-                          className,
-                          startDate,
-                          studentCount,
-                        }) => (
-                          <Flex key={id} paddingRight="4" paddingTop="4">
-                            <ClassroomCard
-                              key={id}
-                              activeAssessments={activeAssessments}
-                              assessmentCount={assessmentCount}
-                              grade={gradeLevel}
-                              id={id}
-                              isActive={isActive}
-                              name={className}
-                              startDate={startDate}
-                              studentCount={studentCount}
-                            />
-                          </Flex>
-                        ),
-                      )}
-                    </Flex>
-                    <VStack
-                      alignItems="center"
-                      paddingBottom="6"
-                      paddingTop="6"
-                      spacing="6"
-                      width="100%"
-                    >
-                      {totalPages > 1 && (
-                        <Pagination
-                          currentPage={currentPage}
-                          onPageChange={setCurrentPage}
-                          pagesCount={totalPages}
-                        />
-                      )}
-                    </VStack>
-                  </TabPanel>
-                ))}
-              </TabPanels>
-            </Tabs>
-          </>
+          <Tabs index={tabIndex} mt={3} onChange={handleTabChange}>
+            <TabList>
+              <Tab>Active</Tab>
+              {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
+                <Tab>Archived</Tab>
+              )}
+            </TabList>
+            <TabPanels>
+              {TABS_CLASSROOM.map((tab) => (
+                <TabPanel key={tab} padding="0">
+                  <Flex alignItems="left" flexWrap="wrap">
+                    {paginatedData?.map(
+                      ({
+                        id,
+                        activeAssessments,
+                        assessmentCount,
+                        gradeLevel,
+                        isActive,
+                        className,
+                        startDate,
+                        studentCount,
+                      }) => (
+                        <Flex key={id} paddingRight="4" paddingTop="4">
+                          <ClassroomCard
+                            key={id}
+                            activeAssessments={activeAssessments}
+                            assessmentCount={assessmentCount}
+                            grade={gradeLevel}
+                            id={id}
+                            isActive={isActive}
+                            name={className}
+                            startDate={startDate}
+                            studentCount={studentCount}
+                          />
+                        </Flex>
+                      ),
+                    )}
+                  </Flex>
+                  <VStack
+                    alignItems="center"
+                    paddingBottom="6"
+                    paddingTop="6"
+                    spacing="6"
+                    width="100%"
+                  >
+                    {totalPages > 1 && (
+                      <Pagination
+                        currentPage={currentPage}
+                        onPageChange={setCurrentPage}
+                        pagesCount={totalPages}
+                      />
+                    )}
+                  </VStack>
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
         ) : (
           <EmptyClassroomsMessage onClick={handleAddClassroom} />
         )}
