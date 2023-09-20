@@ -51,37 +51,35 @@ const DisplayClassroomStudentsPage = ({
 
   return (
     <QueryStateHandler error={error} loading={loading}>
-      {students && (
-        <SearchableTablePage
-          nameOfTableItems="students"
-          noResults={isEmpty}
-          noResultsComponent={
-            <EmptyClassStudentsMessage
-              isActive={data?.class.isActive}
-              onClick={onCreateStudent}
-            />
-          }
-          search={search}
-          searchBarComponent={<SearchBar onSearch={setSearch} />}
-          searchLength={students.length}
-          sortMenuComponent={
-            <SortMenu
-              initialSortOrder="descending"
-              labels={["first name", "last name", "student ID"]}
-              onSortOrder={setSortOrder}
-              onSortProperty={setSortProperty}
-              properties={SORT_PROPERTIES}
-            />
-          }
-          tableComponent={
-            <StudentsTable
-              classId={classroomId}
-              isClassActive={!!data?.class.isActive}
-              students={students}
-            />
-          }
-        />
-      )}
+      <SearchableTablePage
+        nameOfTableItems="students"
+        noResults={isEmpty}
+        noResultsComponent={
+          <EmptyClassStudentsMessage
+            isActive={data?.class.isActive}
+            onClick={onCreateStudent}
+          />
+        }
+        search={search}
+        searchBarComponent={<SearchBar onSearch={setSearch} />}
+        searchLength={students.length}
+        sortMenuComponent={
+          <SortMenu
+            initialSortOrder="descending"
+            labels={["first name", "last name", "student ID"]}
+            onSortOrder={setSortOrder}
+            onSortProperty={setSortProperty}
+            properties={SORT_PROPERTIES}
+          />
+        }
+        tableComponent={
+          <StudentsTable
+            classId={classroomId}
+            isClassActive={!!data?.class.isActive}
+            students={students}
+          />
+        }
+      />
     </QueryStateHandler>
   );
 };

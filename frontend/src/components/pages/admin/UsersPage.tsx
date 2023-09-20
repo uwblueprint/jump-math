@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import {
   GET_ALL_TEACHERS,
@@ -86,7 +86,6 @@ const UsersPage = (): React.ReactElement => {
 
   const loading = adminLoading || teacherLoading;
   const error = adminError || teacherError;
-  const data = adminData || teacherData;
 
   const handleTabChange = (index: TabEnum) => {
     setSearch("");
@@ -100,50 +99,46 @@ const UsersPage = (): React.ReactElement => {
     <>
       <UsersPageHeader />
       <QueryStateHandler error={error} loading={loading}>
-        {data && (
-          <Box flex="1">
-            <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
-              <TabList>
-                <Tab>Admins</Tab>
-                <Tab>Teachers</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel padding="0">
-                  <AdminTab
-                    search={search}
-                    searchBarComponent={<SearchBar onSearch={setSearch} />}
-                    searchLength={admins.length}
-                    sortMenuComponent={
-                      <SortMenu
-                        labels={["name", "email"]}
-                        onSortOrder={setSortOrder}
-                        onSortProperty={setAdminSortProperty}
-                        properties={ADMIN_SORT_PROPERTIES}
-                      />
-                    }
-                    UserTable={<AdminUserTable users={admins} />}
+        <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
+          <TabList>
+            <Tab>Admins</Tab>
+            <Tab>Teachers</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel padding="0">
+              <AdminTab
+                search={search}
+                searchBarComponent={<SearchBar onSearch={setSearch} />}
+                searchLength={admins.length}
+                sortMenuComponent={
+                  <SortMenu
+                    labels={["name", "email"]}
+                    onSortOrder={setSortOrder}
+                    onSortProperty={setAdminSortProperty}
+                    properties={ADMIN_SORT_PROPERTIES}
                   />
-                </TabPanel>
-                <TabPanel padding="0">
-                  <AdminTab
-                    search={search}
-                    searchBarComponent={<SearchBar onSearch={setSearch} />}
-                    searchLength={teachers.length}
-                    sortMenuComponent={
-                      <SortMenu
-                        labels={["name", "email", "school"]}
-                        onSortOrder={setSortOrder}
-                        onSortProperty={setTeacherSortProperty}
-                        properties={TEACHER_SORT_PROPERTIES}
-                      />
-                    }
-                    UserTable={<TeacherUserTable users={teachers} />}
+                }
+                UserTable={<AdminUserTable users={admins} />}
+              />
+            </TabPanel>
+            <TabPanel padding="0">
+              <AdminTab
+                search={search}
+                searchBarComponent={<SearchBar onSearch={setSearch} />}
+                searchLength={teachers.length}
+                sortMenuComponent={
+                  <SortMenu
+                    labels={["name", "email", "school"]}
+                    onSortOrder={setSortOrder}
+                    onSortProperty={setTeacherSortProperty}
+                    properties={TEACHER_SORT_PROPERTIES}
                   />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
-        )}
+                }
+                UserTable={<TeacherUserTable users={teachers} />}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </QueryStateHandler>
     </>
   );

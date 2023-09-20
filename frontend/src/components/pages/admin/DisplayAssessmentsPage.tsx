@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import { GET_ALL_TESTS } from "../../../APIClients/queries/TestQueries";
 import * as Routes from "../../../constants/Routes";
@@ -145,22 +145,18 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         title="Assessments"
       />
       <QueryStateHandler error={error} loading={loading}>
-        {assessments && (
-          <Box flex="1">
-            <Tabs
-              marginTop={3}
-              onChange={(index) => setStatus(STATUS_ORDER[index])}
-            >
-              <TabList>
-                <Tab>All</Tab>
-                <Tab>Drafts</Tab>
-                <Tab>Published</Tab>
-                <Tab>Archived</Tab>
-              </TabList>
-              <TabPanels>{AssessmentTabPanels}</TabPanels>
-            </Tabs>
-          </Box>
-        )}
+        <Tabs
+          marginTop={3}
+          onChange={(index) => setStatus(STATUS_ORDER[index])}
+        >
+          <TabList>
+            <Tab>All</Tab>
+            <Tab>Drafts</Tab>
+            <Tab>Published</Tab>
+            <Tab>Archived</Tab>
+          </TabList>
+          <TabPanels>{AssessmentTabPanels}</TabPanels>
+        </Tabs>
       </QueryStateHandler>
     </>
   );
