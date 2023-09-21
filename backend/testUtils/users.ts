@@ -8,6 +8,7 @@ export const mockAdmin: UserDTO = {
   lastName: "One",
   email: "admin@gmail.com",
   role: "Admin",
+  isVerified: true,
 };
 
 export const mockTeacher: UserDTO = {
@@ -18,6 +19,7 @@ export const mockTeacher: UserDTO = {
   role: "Teacher",
   grades: [Grade.KINDERGARTEN, Grade.GRADE_1, Grade.GRADE_2, Grade.GRADE_3],
   currentlyTeachingJM: true,
+  isVerified: true,
 };
 
 export const testUsers = [mockAdmin, mockTeacher];
