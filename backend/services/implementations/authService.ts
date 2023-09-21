@@ -129,6 +129,40 @@ class AuthService implements IAuthService {
     </span>`;
   }
 
+  private getURLDetails(link: string): {
+    url: URL;
+    oobCode: string;
+  } {
+    const url = new URL(link);
+    const { searchParams } = url;
+    const oobCode = searchParams.get("oobCode");
+    if (!oobCode) {
+      const errorMessage = `Failed to extract oobCode from link ${link}`;
+      Logger.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    url.search = "";
+    return { url, oobCode };
+  }
+
+  private getURLWithoutSearch(link: string): URL {
+    const url = new URL(link);
+    url.search = "";
+    return url;
+  }
+
+  private copyOobCodeToURL(link: URL, source: string, key: string): URL {
+    const sourceURL = new URL(source);
+    const oobCode = sourceURL.searchParams.get("oobCode");
+    if (!oobCode) {
+      const errorMessage = `Failed to extract oobCode from link ${link}`;
+      Logger.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    link.searchParams.append(key, oobCode);
+    return link;
+  }
+
   async resetPassword(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
@@ -139,9 +173,14 @@ class AuthService implements IAuthService {
 
     try {
       const user = await this.userService.getUserByEmail(email);
-      const resetLink = await firebaseAdmin
+      const firebaseResetLink = await firebaseAdmin
         .auth()
         .generatePasswordResetLink(email);
+      const resetLink = this.copyOobCodeToURL(
+        this.getURLWithoutSearch(firebaseResetLink),
+        firebaseResetLink,
+        "resetPasswordOobCode",
+      ).toString();
 
       const emailBody = this.getEmailTemplate(
         "password-reset-header.png",
@@ -174,9 +213,28 @@ class AuthService implements IAuthService {
 
     try {
       const user = await this.userService.getUserByEmail(email);
-      const emailVerificationLink = await firebaseAdmin
+      const firebaseVerificationLink = await firebaseAdmin
         .auth()
         .generateEmailVerificationLink(email);
+      let resetLinkURL = this.copyOobCodeToURL(
+        this.getURLWithoutSearch(firebaseVerificationLink),
+        firebaseVerificationLink,
+        "verifyEmailOobCode",
+      );
+      if (user.role === "Admin") {
+        const firebaseResetLink = await firebaseAdmin
+          .auth()
+          .generatePasswordResetLink(email);
+
+        resetLinkURL = this.copyOobCodeToURL(
+          resetLinkURL,
+          firebaseResetLink,
+          "resetPasswordOobCode",
+        );
+      }
+      resetLinkURL.searchParams.append("userId", user.id);
+      const emailVerificationLink = resetLinkURL.toString();
+
       const emailBody = this.getEmailTemplate(
         "email-header.png",
         user.firstName,
