@@ -164,25 +164,6 @@ class AuthService implements IAuthService {
     }
   }
 
-  async resetPasswordCode(email: string): Promise<string> {
-    let oobCode: string;
-    try {
-      const resetLink = await firebaseAdmin
-        .auth()
-        .generatePasswordResetLink(email);
-      const regex = /(?<=&oobCode=)(.*)(?=&apiKey=)/gm;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      [oobCode] = resetLink.match(regex)!;
-    } catch (error) {
-      Logger.error(
-        `Failed to generate password reset code for user with email ${email}`,
-      );
-      throw error;
-    }
-
-    return oobCode;
-  }
-
   async sendEmailVerificationLink(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
