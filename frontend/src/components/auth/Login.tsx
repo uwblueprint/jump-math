@@ -8,6 +8,7 @@ import { LOGIN } from "../../APIClients/mutations/AuthMutations";
 import { GET_SCHOOL_BY_TEACHER_ID } from "../../APIClients/queries/SchoolQueries";
 import type { SchoolResponse } from "../../APIClients/types/SchoolClientTypes";
 import { ADMIN_SIGNUP_IMAGE, TEACHER_SIGNUP_IMAGE } from "../../assets/images";
+import AUTHENTICATED_USER_KEY from "../../constants/AuthConstants";
 import * as Routes from "../../constants/Routes";
 import { HOME_PAGE } from "../../constants/Routes";
 import AuthContext from "../../contexts/AuthContext";
@@ -15,6 +16,7 @@ import type {
   AuthenticatedTeacher,
   VerifiableUser,
 } from "../../types/AuthTypes";
+import { setLocalStorageObjProperty } from "../../utils/LocalStorageUtils";
 import ActionButton from "../common/form/ActionButton";
 import BackButton from "../common/navigation/BackButton";
 import RouterLink from "../common/navigation/RouterLink";
@@ -62,15 +64,17 @@ const Login = (): React.ReactElement => {
         password,
         login,
       );
-      if (user?.emailVerified === false) {
+      if (!user?.emailVerified) {
         setUnverifiedUser(true);
         return;
       }
-      if (user?.role === "Teacher") {
+
+      if (user.role === "Teacher") {
         const { data } = await getSchool({
           variables: { teacherId: user.id },
         });
         const school = data?.schoolByTeacherId.id ?? "";
+        setLocalStorageObjProperty(AUTHENTICATED_USER_KEY, "school", school);
         setAuthenticatedUser({ ...user, school } as AuthenticatedTeacher);
       } else {
         setAuthenticatedUser(user);
