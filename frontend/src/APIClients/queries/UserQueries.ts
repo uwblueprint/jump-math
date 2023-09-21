@@ -11,6 +11,15 @@ export const GET_USERS_BY_ROLE = gql`
   }
 `;
 
+export const GET_USER_VERIFICATION_STATUS = gql`
+  query GetUserVerificationStatus($id: ID!) {
+    userVerificationStatus(id: $id) {
+      id
+      email
+      isVerified
+    }
+  }
+`;
 export const GET_USER_BY_EMAIL = gql`
   query GetUserByEmail($email: String!) {
     userByEmail(email: $email) {
@@ -19,6 +28,7 @@ export const GET_USER_BY_EMAIL = gql`
       lastName
       email
       role
+      isVerified
     }
   }
 `;

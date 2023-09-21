@@ -31,3 +31,10 @@ export type UserResponse = {
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
 };
+
+export type UserVerificationStatus = {
+  id: string;
+  email: string;
+  role: Role;
+  isVerified: boolean;
+};
