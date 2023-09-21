@@ -49,7 +49,7 @@ const ForgotPassword = ({
 
     try {
       const { data } = await getUserByEmail({ variables: { email } });
-      if (data?.userByEmail?.role === (isAdmin ? "Admin" : "Teacher")) {
+      if (data?.userByEmail?.role !== (isAdmin ? "Admin" : "Teacher")) {
         setEmailNotFoundError(true);
         return;
       }
@@ -58,6 +58,8 @@ const ForgotPassword = ({
       return;
     }
 
+    setEmailError(false);
+    setEmailNotFoundError(false);
     await resetPassword({ variables: { email } });
   };
 
