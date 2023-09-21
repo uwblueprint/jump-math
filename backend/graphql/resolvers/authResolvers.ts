@@ -23,6 +23,15 @@ const cookieOptions: CookieOptions = {
 };
 
 const authResolvers = {
+  Query: {
+    verifyPasswordResetCode: async (
+      _parent: undefined,
+      { oobCode }: { oobCode: string },
+    ): Promise<string> => {
+      const email = await authService.verifyPasswordResetCode(oobCode);
+      return email;
+    },
+  },
   Mutation: {
     login: async (
       _parent: undefined,
@@ -109,13 +118,6 @@ const authResolvers = {
       { oobCode }: { oobCode: string },
     ): Promise<string> => {
       const email = await authService.verifyEmail(oobCode);
-      return email;
-    },
-    verifyPasswordReset: async (
-      _parent: undefined,
-      { oobCode }: { oobCode: string },
-    ): Promise<string> => {
-      const email = await authService.verifyPasswordReset(oobCode);
       return email;
     },
     confirmPasswordReset: async (

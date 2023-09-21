@@ -284,7 +284,7 @@ class AuthService implements IAuthService {
     return res.email;
   }
 
-  async verifyPasswordReset(oobCode: string): Promise<string> {
+  async verifyPasswordResetCode(oobCode: string): Promise<string> {
     let res: ResetPasswordResponse;
     try {
       res = await FirebaseRestClient.verifyPasswordResetCode(oobCode);
