@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import type { ReactElement } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Button } from "@chakra-ui/react";
 
-import {
-  RESET_PASSWORD_CODE,
-  VERIFY_PASSWORD_RESET,
-} from "../../APIClients/mutations/AuthMutations";
+import { VERIFY_PASSWORD_RESET_CODE } from "../../APIClients/queries/AuthQueries";
 import { ADMIN_SIGNUP_IMAGE } from "../../assets/images";
 import { ADMIN_LOGIN_PAGE } from "../../constants/Routes";
 import LoadingState from "../common/info/LoadingState";
@@ -15,45 +13,23 @@ import EmailActionError from "./email-action/EmailActionError";
 import PasswordForm from "./password/PasswordForm";
 import AuthWrapper from "./AuthWrapper";
 
+type AdminSignupConfirmationProps = {
+  email: string;
+  resetPasswordOobCode: string;
+};
+
 const AdminSignupConfirmation = ({
   email,
-}: {
-  email: string;
-}): React.ReactElement => {
+  resetPasswordOobCode,
+}: AdminSignupConfirmationProps): ReactElement => {
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
-  const [oobCode, setOobCode] = React.useState<string>("");
-  const [verified, setVerified] = React.useState(false);
 
-  const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
-    VERIFY_PASSWORD_RESET,
-    {
-      onCompleted() {
-        setVerified(true);
-        setLoading(false);
-      },
-      onError() {
-        setLoading(false);
-      },
-    },
-  );
-
-  const [resetPasswordCode] = useMutation<{ resetPasswordCode: string }>(
-    RESET_PASSWORD_CODE,
-    {
-      onCompleted: async (data) => {
-        await verifyPasswordReset({
-          variables: { oobCode: data.resetPasswordCode },
-        });
-        setOobCode(data.resetPasswordCode);
-      },
-    },
-  );
-
-  useEffect(() => {
-    resetPasswordCode({ variables: { email } });
-  }, [email, resetPasswordCode]);
+  const { loading, error } = useQuery<{
+    verifyPasswordResetCode: string;
+  }>(VERIFY_PASSWORD_RESET_CODE, {
+    variables: { oobCode: resetPasswordOobCode },
+  });
 
   const subtitle =
     step === 1
@@ -63,7 +39,7 @@ const AdminSignupConfirmation = ({
   const setPasswordComponent = (
     <PasswordForm
       email={email}
-      oobCode={oobCode}
+      oobCode={resetPasswordOobCode}
       setStep={setStep}
       version="AdminSignup"
     />
@@ -79,20 +55,22 @@ const AdminSignupConfirmation = ({
     </Button>
   );
 
+  if (loading)
+    return (
+      <LoadingState
+        fullPage
+        text="Please wait while we check your account..."
+      />
+    );
+  if (error) return <EmailActionError mode="resetPassword" />;
+
   return (
-    <>
-      {loading && <LoadingState fullPage />}
-      {verified ? (
-        <AuthWrapper
-          form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
-          image={ADMIN_SIGNUP_IMAGE}
-          subtitle={subtitle}
-          title="Admin Sign Up Confirmation"
-        />
-      ) : (
-        <EmailActionError mode="resetPassword" />
-      )}
-    </>
+    <AuthWrapper
+      form={step === 1 ? setPasswordComponent : finalSignupConfirmation}
+      image={ADMIN_SIGNUP_IMAGE}
+      subtitle={subtitle}
+      title="Admin Sign Up Confirmation"
+    />
   );
 };
 
