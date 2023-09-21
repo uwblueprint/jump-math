@@ -51,6 +51,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      isVerified: firebaseUser.emailVerified,
     };
   }
 
@@ -78,6 +79,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      isVerified: firebaseUser.emailVerified,
     };
   }
 
@@ -143,6 +145,7 @@ class UserService implements IUserService {
             role: user.role,
             grades: user.grades,
             currentlyTeachingJM: user.currentlyTeachingJM,
+            isVerified: firebaseUser.emailVerified,
           };
         }),
       );
@@ -204,6 +207,7 @@ class UserService implements IUserService {
       role: newUser.role,
       grades: newUser.grades,
       currentlyTeachingJM: newUser.currentlyTeachingJM,
+      isVerified: firebaseUser.emailVerified,
     };
   }
 
@@ -272,6 +276,7 @@ class UserService implements IUserService {
       role: user.role,
       grades: user.grades,
       currentlyTeachingJM: user.currentlyTeachingJM,
+      isVerified: updatedFirebaseUser.emailVerified,
     };
   }
 
@@ -362,6 +367,7 @@ class UserService implements IUserService {
           role: user.role,
           grades: user.grades,
           currentlyTeachingJM: user.currentlyTeachingJM,
+          isVerified: firebaseUser.emailVerified,
         };
       }),
     );

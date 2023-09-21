@@ -32,15 +32,18 @@ export type UserDTO = {
   role: Role;
   grades?: Grade[];
   currentlyTeachingJM?: boolean;
+  isVerified: boolean;
 };
 
 export type TeacherDTO = UserDTO & { school: string };
 
-export type CreateUserDTO = Omit<UserDTO, "id"> & { password: string };
+export type CreateUserDTO = Omit<UserDTO, "id" | "isVerified"> & {
+  password: string;
+};
 
-export type UpdateUserDTO = Omit<UserDTO, "id">;
+export type UpdateUserDTO = Omit<UserDTO, "id" | "isVerified">;
 
-export type RegisterUserDTO = Omit<CreateUserDTO, "role">;
+export type RegisterUserDTO = Omit<CreateUserDTO, "role" | "isVerified">;
 
 export interface SchoolMetadata {
   name: string;
