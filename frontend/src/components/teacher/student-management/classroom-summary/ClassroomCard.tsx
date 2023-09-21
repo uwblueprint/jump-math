@@ -96,9 +96,8 @@ const ClassroomCard = ({
       <VStack
         _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
-        backgroundColor={selected ? "grey.100" : ""}
         border="2.5px solid"
-        borderColor="blue.50"
+        borderColor={selected ? "blue.200" : "blue.50"}
         borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
         h="100%"
         p="1em"
