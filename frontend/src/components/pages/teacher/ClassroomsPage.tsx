@@ -89,7 +89,7 @@ const ClassroomsPage = (): ReactElement => {
         />
       </Box>
       <QueryStateHandler error={error} loading={loading}>
-        {!!data && data.length !== 0 ? (
+        {data?.length ? (
           <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
               <Tab>Active</Tab>

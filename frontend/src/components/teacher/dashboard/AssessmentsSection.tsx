@@ -39,7 +39,7 @@ const AssessmentsSection = () => {
 
   return (
     <QueryStateHandler error={error} loading={loading}>
-      {!!data?.length ? (
+      {data?.length ? (
         <>
           <Tabs
             onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
