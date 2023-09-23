@@ -20,6 +20,7 @@ export type FormattedAssessmentData = {
   targetDate: Date;
   status: TestSessionStatus;
   accessCode: string;
+  notes?: string;
 };
 
 type AssessmentDataQueryResult = {
