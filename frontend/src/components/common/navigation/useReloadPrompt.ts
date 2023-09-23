@@ -2,9 +2,9 @@ import { useEffect } from "react";
 
 const useReloadPrompt = (when?: boolean) => {
   useEffect(() => {
-    const beforeUnloadListener = (event: BeforeUnloadEvent) => {
-      if (!when) return;
+    if (!when) return;
 
+    const beforeUnloadListener = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       return (event.returnValue = "");
     };

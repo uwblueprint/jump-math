@@ -79,9 +79,9 @@ const AssessmentEditorHeader = ({
   // We need validation on these actions.
   const handleSave = useActionFormHandler(onSave);
   const handlePublish = useActionFormHandler(onPublish);
-  const handleConfirmPublish = useActionFormHandler(onConfirmPublish);
 
   // We don't need validation on these actions.
+  const handleConfirmPublish = async () => onConfirmPublish(getValues());
   const handleConfirmArchive = async () => onConfirmArchive(getValues());
   const handleDelete = async () => onDelete(getValues());
 
