@@ -89,8 +89,8 @@ const ClassroomsPage = (): ReactElement => {
         />
       </Box>
       <QueryStateHandler error={error} loading={loading}>
-        {!!data && data.length ? (
-          <Tabs index={tabIndex} mt={3} onChange={handleTabChange}>
+        {data?.length ? (
+          <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
             <TabList>
               <Tab>Active</Tab>
               {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
