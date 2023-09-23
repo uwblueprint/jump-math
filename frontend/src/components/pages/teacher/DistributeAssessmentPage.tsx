@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, HStack, Spacer, VStack } from "@chakra-ui/react";
 
-import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
 import type { AuthenticatedTeacher } from "../../../types/AuthTypes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
@@ -13,6 +12,7 @@ import AddInformation from "../../teacher/session-creation/steps/AddInformation"
 import ChooseAssessment from "../../teacher/session-creation/steps/ChooseAssessment";
 import ChooseClass from "../../teacher/session-creation/steps/ChooseClass";
 import Review from "../../teacher/session-creation/steps/Review";
+import type { FormattedAssessmentData } from "../../teacher/view-sessions/useAssessmentDataQuery";
 
 const BREADCRUMB_CONFIG: BreadcrumbType[] = [
   { header: "Choose an assessment", page: 0 },
@@ -22,7 +22,7 @@ const BREADCRUMB_CONFIG: BreadcrumbType[] = [
 ];
 
 const DistributeAssessmentPage = (): React.ReactElement => {
-  const { state } = useLocation<TestSessionEditingData>();
+  const { state } = useLocation<FormattedAssessmentData>();
 
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId, school: schoolId } =
