@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from "react";
-import { Box, Center } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import TestSessionTabs from "../view-sessions/TestSessionTabs";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
@@ -35,18 +34,8 @@ const AssessmentsSection = () => {
   }, [filteredData, currentTab]);
 
   return (
-    <Box flex="1">
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {!!data?.length && !error && !loading && (
+    <QueryStateHandler error={error} loading={loading}>
+      {data?.length ? (
         <>
           <TestSessionTabs data={sortedData} setCurrentTab={setCurrentTab} />
           <ViewAllLink
@@ -55,13 +44,12 @@ const AssessmentsSection = () => {
             to={Routes.DISPLAY_ASSESSMENTS_PAGE}
           />
         </>
-      )}
-      {!data?.length && !loading && !error && (
+      ) : (
         <Box mt={8}>
           <EmptySessionsMessage />
         </Box>
       )}
-    </Box>
+    </QueryStateHandler>
   );
 };
 

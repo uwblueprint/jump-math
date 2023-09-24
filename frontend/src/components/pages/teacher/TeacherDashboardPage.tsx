@@ -15,12 +15,10 @@ const SECTION_CONFIG = [
   {
     title: "Classrooms",
     bodyComponent: <ClassroomsSection />,
-    headerGap: 8,
   },
   {
     title: "Assessments",
     bodyComponent: <AssessmentsSection />,
-    headerGap: 0,
   },
 ];
 
@@ -58,8 +56,8 @@ const TeacherDashboardPage = (): React.ReactElement => {
         <AddOrEditClassroomModal isOpen={isModalOpen} onClose={onModalClose} />
       </FormProvider>
       <HStack align="start" gap={20} mt={9}>
-        {SECTION_CONFIG.map(({ title, bodyComponent, headerGap }) => (
-          <VStack key={title} align="left" flex="1" gap={headerGap}>
+        {SECTION_CONFIG.map(({ title, bodyComponent }) => (
+          <VStack key={title} align="left" flex="1" gap={0}>
             <Text as="h2" color="blue.300" textStyle="subtitle1">
               {title}
             </Text>

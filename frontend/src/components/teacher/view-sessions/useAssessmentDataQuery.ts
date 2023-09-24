@@ -1,4 +1,5 @@
 import { useContext, useMemo } from "react";
+import type { ApolloError } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
@@ -25,7 +26,7 @@ export type FormattedAssessmentData = {
 
 type AssessmentDataQueryResult = {
   loading: boolean;
-  error?: Error;
+  error?: ApolloError;
   data?: FormattedAssessmentData[];
 };
 
