@@ -1,15 +1,20 @@
 {
   "projects": {
-    "default": "jump-math-98edf"
+    "default": "jump-math-98edf",
+    "production": "jump-math-prod"
   },
   "targets": {
     "jump-math-98edf": {
       "hosting": {
-        "prod": [
-          "jumpmath"
-        ],
-        "staging": [
+        "app": [
           "jump-math-staging"
+        ]
+      }
+    },
+    "jump-math-prod": {
+      "hosting": {
+        "app": [
+          "jump-math"
         ]
       }
     }
