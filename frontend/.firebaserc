@@ -14,7 +14,7 @@
     "jump-math-prod": {
       "hosting": {
         "app": [
-          "jump-math"
+          "jump-math-prod"
         ]
       }
     }
