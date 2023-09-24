@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Prompt, useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { Divider, VStack } from "@chakra-ui/react";
+import { Box, Divider, VStack } from "@chakra-ui/react";
+import type { LocationDescriptorObject } from "history";
 
 import {
   CREATE_NEW_TEST,
@@ -15,25 +16,32 @@ import {
 import type {
   Test,
   TestRequest,
+  TestResponse,
 } from "../../../APIClients/types/TestClientTypes";
 import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
-import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { Status } from "../../../types/AssessmentTypes";
 import type { Question } from "../../../types/QuestionTypes";
 import { FormValidationError } from "../../../utils/GeneralUtils";
-import { formatQuestionsRequest } from "../../../utils/QuestionUtils";
+import {
+  formatQuestionsRequest,
+  formatQuestionsResponse,
+} from "../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
 import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
 import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../admin/question-creation/QuestionEditor";
 import usePageTitle from "../../auth/usePageTitle";
-import LoadingState from "../../common/info/LoadingState";
 import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
+type RedirectOptions =
+  | (LocationDescriptorObject & { mode: "replace" | "push" })
+  | string
+  | null;
+
 const AssessmentEditorPage = (): React.ReactElement => {
-  useReloadPrompt();
   const { state } = useLocation<Test>();
   const history = useHistory();
 
@@ -43,15 +51,15 @@ const AssessmentEditorPage = (): React.ReactElement => {
   const [showQuestionEditor, setShowQuestionEditor] = useState(false);
   const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [completedForm, setCompletedForm] = useState(false);
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
+  const [redirectTo, setRedirectTo] = useState<RedirectOptions>(null);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
-    createTest: { createTest: { id: string } };
+    createTest: TestResponse;
   }>(CREATE_NEW_TEST);
 
   const [updateTest, { loading: loadingUpdate }] = useMutation<{
-    updateTest: { updateTest: { id: string } };
+    updateTest: TestResponse;
   }>(UPDATE_TEST);
 
   const [deleteTest, { loading: loadingDelete }] = useMutation<{
@@ -60,25 +68,34 @@ const AssessmentEditorPage = (): React.ReactElement => {
     variables: { id: state?.id },
   });
 
+  const isLoading = loadingCreate || loadingUpdate || loadingDelete;
+
+  const methods = useForm<TestRequest>();
   const {
-    handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isDirty: isFormDirty },
     control,
     setValue,
     watch,
     clearErrors,
-  } = useForm<TestRequest, unknown>({
-    defaultValues: {
-      name: state?.name,
-      questions: state?.questions,
-      grade: state?.grade,
-      assessmentType: state?.assessmentType,
-      status: state?.status,
-      curriculumCountry: state?.curriculumCountry,
-      curriculumRegion: state?.curriculumRegion,
-    },
-  });
+    reset: resetForm,
+  } = methods;
+  useEffect(() => {
+    if (state) {
+      resetForm({
+        name: state.name,
+        questions: state.questions,
+        grade: state.grade,
+        assessmentType: state.assessmentType,
+        status: state.status,
+        curriculumCountry: state.curriculumCountry,
+        curriculumRegion: state.curriculumRegion,
+      });
+      setQuestions(state.questions);
+    }
+  }, [state, resetForm]);
+  const isDirty =
+    !redirectTo && (isFormDirty || questions !== state?.questions);
 
   const assessmentName = state?.name;
   const isExisting = !!state;
@@ -105,32 +122,47 @@ const AssessmentEditorPage = (): React.ReactElement => {
     }
   };
 
-  const onCreateTest = async (test: TestRequest) => {
+  const onUpsertTest = async (
+    testRequest: TestRequest,
+    options?: { redirect?: boolean },
+  ) => {
     validateForm();
-    await createTest({
-      variables: {
-        test,
-      },
-    });
-    setCompletedForm(true);
-    history.push(ASSESSMENTS_PAGE);
-  };
-
-  const onUpdateTest = async (test: TestRequest) => {
-    validateForm();
-    if (!state?.id) {
+    if (state && !state.id) {
       throw new FormValidationError("Assessment ID not found");
     }
 
-    await updateTest({
+    const request = {
       variables: {
-        id: state.id,
-        test,
+        id: state?.id,
+        test: testRequest,
       },
-    });
+    };
 
-    setCompletedForm(true);
-    history.push(ASSESSMENTS_PAGE);
+    let test;
+    if (isExisting) {
+      const { data } = await updateTest(request);
+      test = data?.updateTest;
+    } else {
+      const { data } = await createTest(request);
+      test = data?.createTest;
+    }
+    if (!test) {
+      throw new Error("Failed to save test");
+    }
+
+    // Mark the form as clean after saving.
+    if (options?.redirect ?? true) {
+      setRedirectTo(Routes.ASSESSMENTS_PAGE);
+    } else {
+      setRedirectTo({
+        mode: "replace",
+        pathname: Routes.ASSESSMENT_EDITOR_PAGE,
+        state: {
+          ...test,
+          questions: formatQuestionsResponse(test.questions),
+        },
+      });
+    }
   };
 
   const onDeleteTest = async () => {
@@ -138,53 +170,48 @@ const AssessmentEditorPage = (): React.ReactElement => {
       throw new FormValidationError("Assessment ID not found");
     }
     await deleteTest();
-    history.push(ASSESSMENTS_PAGE);
+    setRedirectTo(Routes.ASSESSMENTS_PAGE);
   };
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
-    onCreateTest({
-      ...data,
-      status: Status.DRAFT,
-      questions: formatQuestionsRequest(questions),
-    });
+    onUpsertTest(
+      {
+        ...data,
+        status: Status.DRAFT,
+        questions: formatQuestionsRequest(questions),
+      },
+      { redirect: false },
+    );
 
   const onPublish: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onCreateTest({
+    onUpsertTest({
       ...data,
       status: Status.PUBLISHED,
       questions: formatQuestionsRequest(questions),
     });
 
-  const onSaveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
-      ...data,
-      questions: formatQuestionsRequest(questions),
-    });
-
-  const onPublishChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
-      ...data,
-      status: Status.PUBLISHED,
-      questions: formatQuestionsRequest(questions),
-    });
-
-  const onArchiveChanges: SubmitHandler<TestRequest> = (data: TestRequest) =>
-    onUpdateTest({
+  const onArchive: SubmitHandler<TestRequest> = (data: TestRequest) =>
+    onUpsertTest({
       ...data,
       status: Status.ARCHIVED,
       questions: formatQuestionsRequest(questions),
     });
 
-  const onError = () => {
-    setErrorMessage("Please resolve all issues before publishing or saving");
-  };
-
-  if (loadingCreate || loadingUpdate || loadingDelete)
-    return <LoadingState fullPage />;
+  useReloadPrompt(isDirty);
+  useEffect(() => {
+    if (redirectTo) {
+      if (typeof redirectTo === "object" && redirectTo.mode === "replace") {
+        history.replace(redirectTo);
+      } else {
+        history.push(redirectTo);
+      }
+      setRedirectTo(null);
+    }
+  }, [redirectTo, history]);
 
   return (
     <>
-      <Prompt message={confirmUnsavedChangesText} when={!completedForm} />
+      <Prompt message={confirmUnsavedChangesText} when={isDirty} />
       <DndProvider backend={HTML5Backend}>
         <AssessmentContext.Provider
           value={{
@@ -198,37 +225,53 @@ const AssessmentEditorPage = (): React.ReactElement => {
             setShowAssessmentPreview,
           }}
         >
-          {showQuestionEditor && <QuestionEditor />}
-          {showAssessmentPreview && <AssessmentPreview />}
-          {!showQuestionEditor && !showAssessmentPreview && (
-            <VStack spacing="8" width="100%">
-              <AssessmentEditorHeader
-                handleSubmit={handleSubmit}
-                isEditing={!!state}
-                name={watch("name")}
-                onConfirmArchive={onArchiveChanges}
-                onConfirmPublish={state ? onPublishChanges : onPublish}
-                onDelete={onDeleteTest}
-                onError={onError}
-                onSave={state ? onSaveChanges : onSave}
-                updatedAt={state?.updatedAt}
-                validateForm={validateForm}
-              />
-              <VStack spacing="8" width="92%">
-                <BasicInformation
-                  clearErrors={clearErrors}
-                  control={control}
-                  errorMessage={errorMessage}
-                  errors={errors}
-                  register={register}
-                  setValue={setValue}
-                  watch={watch}
+          <FormProvider {...methods}>
+            {showQuestionEditor && <QuestionEditor />}
+            {showAssessmentPreview && <AssessmentPreview />}
+            {!showQuestionEditor && !showAssessmentPreview && (
+              <VStack spacing="8" width="100%">
+                <AssessmentEditorHeader
+                  isEditing={isExisting}
+                  name={watch("name")}
+                  onConfirmArchive={onArchive}
+                  onConfirmPublish={onPublish}
+                  onDelete={onDeleteTest}
+                  onError={setErrorMessage}
+                  onSave={onSave}
+                  updatedAt={state?.updatedAt}
+                  validateForm={validateForm}
                 />
-                <Divider />
-                <AssessmentQuestions />
+                <VStack pos="relative" spacing="8" width="92%">
+                  <Box
+                    bg="white"
+                    bottom={0}
+                    height="100%"
+                    left={0}
+                    opacity={isLoading ? 0.7 : 0}
+                    pointerEvents={isLoading ? "all" : "none"}
+                    pos="absolute"
+                    right={0}
+                    top={0}
+                    transition="opacity 0.2s ease-in-out"
+                    width="100%"
+                    zIndex={1}
+                  />
+
+                  <BasicInformation
+                    clearErrors={clearErrors}
+                    control={control}
+                    errorMessage={errorMessage}
+                    errors={errors}
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                  />
+                  <Divider />
+                  <AssessmentQuestions />
+                </VStack>
               </VStack>
-            </VStack>
-          )}
+            )}
+          </FormProvider>
         </AssessmentContext.Provider>
       </DndProvider>
     </>
