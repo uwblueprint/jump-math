@@ -1,0 +1,26 @@
+name: "Staging: Deploy frontend"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - staging
+    paths:
+      - "frontend/**"
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/firebase-deploy
+        with:
+          channelId: live
+          backendUrl: "${{ secrets.DEV_BACKEND_URL }}"
+          oauthClientId: "${{ secrets.DEV_OAUTH_CLIENT_ID }}"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.DEV_FIREBASE_DEPLOY_SVC_ACCOUNT_JSON }}"
+          projectId: "${{ secrets.DEV_FIREBASE_PROJECT_ID }}"

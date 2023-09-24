@@ -1,0 +1,23 @@
+name: "Preview: Deploy frontend"
+
+on:
+  pull_request:
+    paths:
+      - "frontend/**"
+
+jobs:
+  build_and_preview:
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/firebase-deploy
+        with:
+          backendUrl: "${{ secrets.PREVIEW_BACKEND_URL }}"
+          oauthClientId: "${{ secrets.DEV_OAUTH_CLIENT_ID }}"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.DEV_FIREBASE_DEPLOY_SVC_ACCOUNT_JSON }}"
+          projectId: "${{ secrets.DEV_FIREBASE_PROJECT_ID }}"
