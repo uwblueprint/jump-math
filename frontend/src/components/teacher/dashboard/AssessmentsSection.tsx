@@ -1,15 +1,10 @@
 import React, { useMemo, useState } from "react";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import {
-  TEST_SESSION_STATUSES,
-  TestSessionStatus,
-} from "../../../types/TestSessionTypes";
-import { titleCase } from "../../../utils/GeneralUtils";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import QueryStateHandler from "../../common/QueryStateHandler";
-import TestSessionListItem from "../view-sessions/TestSessionListItem";
+import TestSessionTabs from "../view-sessions/TestSessionTabs";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
 import ViewAllLink from "./ViewAllLink";
@@ -41,42 +36,12 @@ const AssessmentsSection = () => {
     <QueryStateHandler error={error} loading={loading}>
       {data?.length ? (
         <>
-          <Tabs
-            onChange={(index) => setCurrentTab(TEST_SESSION_STATUSES[index])}
-          >
-            <TabList border="none" gap={8}>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <Tab
-                  key={status}
-                  _focus={{ background: "none" }}
-                  border="none"
-                  color="blue.100"
-                  fontWeight="bold"
-                  px={0}
-                >
-                  {titleCase(status)}
-                </Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              {TEST_SESSION_STATUSES.map((status) => (
-                <TabPanel key={status} p={0}>
-                  {sortedData?.map((session) => (
-                    <TestSessionListItem
-                      key={session.testSessionId}
-                      session={session}
-                    />
-                  ))}
-                </TabPanel>
-              ))}
-            </TabPanels>
-            <ViewAllLink
-              borderRadius="8px"
-              h="50px"
-              mt={4}
-              to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            />
-          </Tabs>
+          <TestSessionTabs data={sortedData} setCurrentTab={setCurrentTab} />
+          <ViewAllLink
+            borderRadius="8px"
+            h="50px"
+            to={Routes.DISPLAY_ASSESSMENTS_PAGE}
+          />
         </>
       ) : (
         <EmptySessionsMessage />

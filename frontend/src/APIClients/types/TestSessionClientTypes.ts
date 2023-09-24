@@ -44,18 +44,6 @@ export interface TestSessionOverviewData extends TestSessionMetadata {
   accessCode: string;
 }
 
-export interface TestSessionEditingData {
-  testSessionId: string;
-  testId: string;
-  testName: string;
-  classroomId: string;
-  classroomName: string;
-  startDate: Date;
-  endDate: Date;
-  status: TestSessionStatus;
-  notes?: string;
-}
-
 export interface TestSessionResultData {
   /** the answers that the student gave */
   answers: number[][][];
