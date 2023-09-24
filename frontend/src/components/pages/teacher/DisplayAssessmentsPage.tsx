@@ -44,7 +44,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         />
       </VStack>
       <QueryStateHandler error={error} loading={loading}>
-        {!!data?.length ? (
+        {data?.length ? (
           <>
             <TestSessionTabs
               data={paginatedData}

@@ -32,7 +32,7 @@ const DistributeAssessmentWrapper = ({
         {subtitle}
       </Text>
       <QueryStateHandler error={error} loading={isLoading}>
-        <Box pt="6">{isEmpty ? emptyState : children}</Box>
+        <Box pt={6}>{isEmpty ? emptyState : children}</Box>
       </QueryStateHandler>
     </VStack>
   );
