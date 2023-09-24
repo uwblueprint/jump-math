@@ -1,0 +1,26 @@
+name: "Prod: Deploy frontend"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release
+    paths:
+      - "frontend/**"
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/firebase-deploy
+        with:
+          channelId: live
+          backendUrl: "${{ secrets.PROD_BACKEND_URL }}"
+          oauthClientId: "${{ secrets.PROD_OAUTH_CLIENT_ID }}"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.PROD_FIREBASE_DEPLOY_SVC_ACCOUNT_JSON }}"
+          projectId: "${{ secrets.PROD_FIREBASE_PROJECT_ID }}"

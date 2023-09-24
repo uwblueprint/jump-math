@@ -1,0 +1,37 @@
+name: "Prod: Deploy backend"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release
+    paths:
+      - "backend/**"
+
+jobs:
+  deploy:
+    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]"
+    if: ${{ github.actor == 'dependabot[bot]' || !github.event.pull_request.head.repo.fork }}
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/heroku-deploy
+        with:
+          email: "${{ secrets.PROD_HEROKU_EMAIL }}"
+          apiKey: "${{ secrets.PROD_HEROKU_API_KEY }}"
+          appName: "${{ secrets.PROD_PROJECT_ID }}"
+          databaseUrl: "${{ secrets.PROD_MG_DATABASE_URL }}"
+          firebaseApiKey: "${{ secrets.PROD_FIREBASE_WEB_API_KEY }}"
+          firebaseRequestUri: "${{ secrets.PROD_FIREBASE_REQUEST_URI }}"
+          firebaseBucket: "${{ secrets.PROD_FIREBASE_STORAGE_DEFAULT_BUCKET }}"
+          firebaseProject: "${{ secrets.PROD_PROJECT_ID }}"
+          firebasePrivateKey: "${{ secrets.PROD_FIREBASE_SVC_ACCOUNT_PRIVATE_KEY }}"
+          firebaseEmail: "${{ secrets.PROD_FIREBASE_SVC_ACCOUNT_CLIENT_EMAIL }}"
+          mailerUser: "${{ secrets.PROD_MAILER_USER }}"
+          mailerId: "${{ secrets.PROD_MAILER_CLIENT_ID }}"
+          mailerSecret: "${{ secrets.PROD_MAILER_CLIENT_SECRET }}"
+          mailerRefreshToken: "${{ secrets.PROD_MAILER_REFRESH_TOKEN }}"
+          sourceBranch: "release"
