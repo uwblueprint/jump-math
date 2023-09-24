@@ -8,9 +8,10 @@ import QueryStateHandler from "../../common/QueryStateHandler";
 import TestSessionTabs from "../view-sessions/TestSessionTabs";
 import useAssessmentDataQuery from "../view-sessions/useAssessmentDataQuery";
 
+import useViewAllLimitedData from "./useViewAllLimitedData";
 import ViewAllLink from "./ViewAllLink";
 
-const QUERY_DATA_LIMIT_PER_STATUS = 5;
+const QUERY_DATA_LIMIT_PER_STATUS = 6;
 
 const AssessmentsSection = () => {
   const [currentTab, setCurrentTab] = useState(TestSessionStatus.ACTIVE);
@@ -33,16 +34,23 @@ const AssessmentsSection = () => {
     });
   }, [filteredData, currentTab]);
 
+  const [limitedData, showViewAll] = useViewAllLimitedData(
+    sortedData,
+    QUERY_DATA_LIMIT_PER_STATUS,
+  );
+
   return (
     <QueryStateHandler error={error} loading={loading}>
       {data?.length ? (
         <>
-          <TestSessionTabs data={sortedData} setCurrentTab={setCurrentTab} />
-          <ViewAllLink
-            borderRadius="8px"
-            h="50px"
-            to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-          />
+          <TestSessionTabs data={limitedData} setCurrentTab={setCurrentTab} />
+          {showViewAll && (
+            <ViewAllLink
+              borderRadius="8px"
+              h="50px"
+              to={Routes.DISPLAY_ASSESSMENTS_PAGE}
+            />
+          )}
         </>
       ) : (
         <Box mt={8}>
