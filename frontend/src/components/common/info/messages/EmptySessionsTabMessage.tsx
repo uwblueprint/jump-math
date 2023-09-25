@@ -8,9 +8,11 @@ import MessageContainer from "../MessageContainer";
 const BODY_PARAGRAPHS_BY_STATUS: Record<TestSessionStatus, string[]> = {
   UPCOMING: ["Create an assessment to view it here."],
   ACTIVE: [
-    "Upcoming assessments will appear here once they are open for students to take.",
+    "Upcoming assessments will appear here once they are open for students.",
   ],
-  PAST: ["Active assessments will appear here once they are closed."],
+  PAST: [
+    "Active assessments will appear here once they are no longer open for students.",
+  ],
 };
 
 const EmptySessionsTabMessage = ({
