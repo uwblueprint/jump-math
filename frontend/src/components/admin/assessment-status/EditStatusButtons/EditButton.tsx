@@ -26,7 +26,7 @@ const EditButton = ({ assessmentId }: EditButtonProps): React.ReactElement => {
       onClick={async () => {
         if (data) {
           history.push({
-            pathname: Routes.ASSESSMENT_EDITOR_PAGE(assessmentId),
+            pathname: Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }),
             state: data.test,
           });
         } else {

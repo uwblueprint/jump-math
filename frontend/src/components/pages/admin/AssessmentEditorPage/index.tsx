@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
@@ -28,10 +28,14 @@ const AssessmentEditorPage = () => {
   });
 
   const test = locationState || testData?.test;
-  const state = test && {
-    ...test,
-    questions: formatQuestionsResponse(test.questions),
-  };
+  const state = useMemo(
+    () =>
+      test && {
+        ...test,
+        questions: formatQuestionsResponse(test.questions),
+      },
+    [test],
+  );
 
   return (
     <Box mx={4}>

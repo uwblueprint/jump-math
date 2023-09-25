@@ -160,10 +160,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       setRedirectTo({
         mode: "replace",
         pathname: history.location.pathname,
-        state: {
-          ...test,
-          questions: formatQuestionsResponse(test.questions),
-        },
+        state: test,
       });
     }
   };

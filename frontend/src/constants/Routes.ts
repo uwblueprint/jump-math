@@ -11,8 +11,9 @@ export const ADMIN_LANDING_PAGE = "/admin";
 export const USERS_PAGE = "/admin/users";
 export const ASSESSMENTS_PAGE = "/admin/assessments";
 export const ASSESSMENT_CREATOR_PAGE = "/admin/assessments/create";
-export const ASSESSMENT_EDITOR_PAGE = (assessmentId = ":assessmentId") =>
-  `/admin/assessments/${assessmentId}/edit`;
+export const ASSESSMENT_EDITOR_PAGE = ({
+  assessmentId = ":assessmentId",
+} = {}) => `/admin/assessments/${assessmentId}/edit`;
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";
