@@ -60,17 +60,17 @@ const AssessmentsSection = () => {
               {TEST_SESSION_STATUSES.map((status) => (
                 <TabPanel key={status} p={0}>
                   <TestSessionTabContents data={limitedData} status={status} />
+                  {showViewAll && (
+                    <ViewAllLink
+                      borderRadius="8px"
+                      h="50px"
+                      to={Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(status)}
+                    />
+                  )}
                 </TabPanel>
               ))}
             </TabPanels>
           </Tabs>
-          {showViewAll && (
-            <ViewAllLink
-              borderRadius="8px"
-              h="50px"
-              to={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            />
-          )}
         </>
       ) : (
         <Box mt={8}>
