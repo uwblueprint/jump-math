@@ -1,7 +1,7 @@
 import type { TestSessionStatus } from "../../types/TestSessionTypes";
 
 import type { ClassResponse, StudentResponse } from "./ClassClientTypes";
-import type { Test } from "./TestClientTypes";
+import type { TestResponse } from "./TestClientTypes";
 
 export interface TestSessionRequest {
   /** the ID of the corresponding test from the Test collection */
@@ -33,7 +33,7 @@ export type TestSessionSetupData = TestSessionMetadata;
 
 export interface TestSessionOverviewData extends TestSessionMetadata {
   /** the name of the test that this test session is for */
-  test: Pick<Test, "id" | "name">;
+  test: Pick<TestResponse, "id" | "name">;
   /** the name of the class that this test session is for */
   class: Pick<ClassResponse, "id" | "className">;
   /** after this date, the test is no longer available to students */
@@ -64,12 +64,12 @@ export interface TestSessionResult {
 
 export interface TestSessionWithResultsData {
   /** the test that this test session is for */
-  test: Pick<Test, "questions">;
+  test: Pick<TestResponse, "questions">;
   /** the results for this test session */
   results: TestSessionResult[];
 }
 
 export interface TestSessionTitleData {
   /** the name of the test that this test session is for */
-  test: Pick<Test, "name">;
+  test: Pick<TestResponse, "name">;
 }

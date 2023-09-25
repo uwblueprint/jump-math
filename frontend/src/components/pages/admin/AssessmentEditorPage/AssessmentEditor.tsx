@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { type ReactElement, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Prompt, useHistory, useLocation } from "react-router-dom";
+import { Prompt, useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Box, Divider, VStack } from "@chakra-ui/react";
 import type { LocationDescriptorObject } from "history";
@@ -12,37 +12,40 @@ import {
   CREATE_NEW_TEST,
   DELETE_TEST,
   UPDATE_TEST,
-} from "../../../APIClients/mutations/TestMutations";
+} from "../../../../APIClients/mutations/TestMutations";
 import type {
   Test,
   TestRequest,
   TestResponse,
-} from "../../../APIClients/types/TestClientTypes";
-import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
-import * as Routes from "../../../constants/Routes";
-import AssessmentContext from "../../../contexts/AssessmentContext";
-import { Status } from "../../../types/AssessmentTypes";
-import type { Question } from "../../../types/QuestionTypes";
-import { FormValidationError } from "../../../utils/GeneralUtils";
+} from "../../../../APIClients/types/TestClientTypes";
+import confirmUnsavedChangesText from "../../../../constants/GeneralConstants";
+import * as Routes from "../../../../constants/Routes";
+import AssessmentContext from "../../../../contexts/AssessmentContext";
+import { Status } from "../../../../types/AssessmentTypes";
+import type { Question } from "../../../../types/QuestionTypes";
+import { FormValidationError } from "../../../../utils/GeneralUtils";
 import {
   formatQuestionsRequest,
   formatQuestionsResponse,
-} from "../../../utils/QuestionUtils";
-import AssessmentEditorHeader from "../../admin/assessment-creation/AssessmentEditorHeader";
-import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
-import AssessmentQuestions from "../../admin/assessment-creation/AssessmentQuestions";
-import BasicInformation from "../../admin/assessment-creation/BasicInformation";
-import QuestionEditor from "../../admin/question-creation/QuestionEditor";
-import usePageTitle from "../../auth/usePageTitle";
-import useReloadPrompt from "../../common/navigation/useReloadPrompt";
+} from "../../../../utils/QuestionUtils";
+import AssessmentEditorHeader from "../../../admin/assessment-creation/AssessmentEditorHeader";
+import AssessmentPreview from "../../../admin/assessment-creation/AssessmentPreview";
+import AssessmentQuestions from "../../../admin/assessment-creation/AssessmentQuestions";
+import BasicInformation from "../../../admin/assessment-creation/BasicInformation";
+import QuestionEditor from "../../../admin/question-creation/QuestionEditor";
+import usePageTitle from "../../../auth/usePageTitle";
+import useReloadPrompt from "../../../common/navigation/useReloadPrompt";
 
 type RedirectOptions =
   | (LocationDescriptorObject & { mode: "replace" | "push" })
   | string
   | null;
 
-const AssessmentEditorPage = (): React.ReactElement => {
-  const { state } = useLocation<Test>();
+type AssessmentEditorProps = {
+  state?: Test;
+};
+
+const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
   const history = useHistory();
 
   const [questions, setQuestions] = useState<Question[]>(
@@ -84,7 +87,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     if (state) {
       resetForm({
         name: state.name,
-        questions: state.questions,
+        questions: formatQuestionsRequest(state.questions),
         grade: state.grade,
         assessmentType: state.assessmentType,
         status: state.status,
@@ -156,7 +159,7 @@ const AssessmentEditorPage = (): React.ReactElement => {
     } else {
       setRedirectTo({
         mode: "replace",
-        pathname: Routes.ASSESSMENT_EDITOR_PAGE,
+        pathname: history.location.pathname,
         state: {
           ...test,
           questions: formatQuestionsResponse(test.questions),
@@ -278,4 +281,4 @@ const AssessmentEditorPage = (): React.ReactElement => {
   );
 };
 
-export default AssessmentEditorPage;
+export default AssessmentEditor;
