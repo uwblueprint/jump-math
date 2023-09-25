@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Center, VStack } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
@@ -61,7 +61,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             )}
           </>
         ) : (
-          <EmptySessionsMessage />
+          <Box mt={8}>
+            <EmptySessionsMessage />
+          </Box>
         )}
       </QueryStateHandler>
     </>

@@ -148,7 +148,9 @@ const ClassroomsPage = (): ReactElement => {
             </TabPanels>
           </Tabs>
         ) : (
-          <EmptyClassroomsMessage onClick={handleAddClassroom} />
+          <Box mt={8}>
+            <EmptyClassroomsMessage onClick={handleAddClassroom} />
+          </Box>
         )}
       </QueryStateHandler>
     </FormProvider>
