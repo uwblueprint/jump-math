@@ -89,6 +89,15 @@ export const GET_TEST_SESSIONS_BY_TEACHER_ID = gql`
   }
 `;
 
+export const GET_TEST_SESSION_STATUS_SUMMARY = gql`
+  query TestSessionStatusSummary($teacherId: ID!) {
+    testSessionStatusSummary(teacherId: $teacherId) {
+      status
+      count
+    }
+  }
+`;
+
 export const GET_TEST_SESSION_TITLE = gql`
   query TestSessionTitle($id: ID!) {
     testSession(id: $id) {

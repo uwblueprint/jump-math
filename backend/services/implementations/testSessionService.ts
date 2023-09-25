@@ -28,7 +28,11 @@ import {
   roundTwoDecimals,
 } from "../../utilities/generalUtils";
 import calculateMarkDistribution from "../../utilities/dataVisualizationUtils";
-import { getSessionStatus } from "../../utilities/testSessionUtils";
+import type { TestSessionStatus } from "../../utilities/testSessionUtils";
+import {
+  TEST_SESSION_STATUSES,
+  getSessionStatus,
+} from "../../utilities/testSessionUtils";
 
 const Logger = logger(__filename);
 
@@ -223,6 +227,46 @@ class TestSessionService implements ITestSessionService {
     } catch (error: unknown) {
       Logger.error(
         `Failed to get test sessions for teacherId=${teacherId}. Reason = ${getErrorMessage(
+          error,
+        )}`,
+      );
+      throw error;
+    }
+  }
+
+  async getTestSessionStatusSummary(
+    teacherId: string,
+  ): Promise<{ status: TestSessionStatus; count: number }[]> {
+    try {
+      const nowDate = new Date();
+
+      const queries = [
+        // active
+        MgTestSession.countDocuments({
+          teacher: { $eq: teacherId },
+          endDate: { $gte: nowDate },
+          startDate: { $lte: nowDate },
+        }),
+        // upcoming
+        MgTestSession.countDocuments({
+          teacher: { $eq: teacherId },
+          startDate: { $gt: nowDate },
+        }),
+        // past
+        MgTestSession.countDocuments({
+          teacher: { $eq: teacherId },
+          endDate: { $lt: nowDate },
+        }),
+      ];
+
+      const testSessionCountsByStatus = await Promise.all(queries);
+      return testSessionCountsByStatus.map((count, i) => ({
+        status: TEST_SESSION_STATUSES[i],
+        count,
+      }));
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to get test session status summary for teacherId=${teacherId}. Reason = ${getErrorMessage(
           error,
         )}`,
       );

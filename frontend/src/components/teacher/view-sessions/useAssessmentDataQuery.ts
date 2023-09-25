@@ -2,7 +2,10 @@ import { useContext, useMemo } from "react";
 import type { ApolloError } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 
-import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
+import {
+  GET_TEST_SESSION_STATUS_SUMMARY,
+  GET_TEST_SESSIONS_BY_TEACHER_ID,
+} from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
 import type { TestSessionStatus } from "../../../types/TestSessionTypes";
@@ -28,13 +31,18 @@ type AssessmentDataQueryResult = {
   loading: boolean;
   error?: ApolloError;
   data?: FormattedAssessmentData[];
+  statusSummary?: Record<TestSessionStatus, number>;
 };
 
 const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
-  const { loading, error, data } = useQuery<{
+  const {
+    loading: dataLoading,
+    error: dataError,
+    data,
+  } = useQuery<{
     testSessionsByTeacherId: TestSessionOverviewData[];
   }>(GET_TEST_SESSIONS_BY_TEACHER_ID, {
     fetchPolicy: "cache-and-network",
@@ -60,10 +68,32 @@ const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
     [data],
   );
 
+  const {
+    loading: summaryLoading,
+    error: summaryError,
+    data: statusData,
+  } = useQuery<{
+    testSessionStatusSummary: { status: TestSessionStatus; count: number }[];
+  }>(GET_TEST_SESSION_STATUS_SUMMARY, {
+    fetchPolicy: "cache-and-network",
+    variables: { teacherId },
+    skip: !teacherId,
+  });
+
+  const statusSummary = useMemo(
+    () =>
+      statusData?.testSessionStatusSummary?.reduce(
+        (acc, { status, count }) => ({ ...acc, [status]: count }),
+        {} as Record<TestSessionStatus, number>,
+      ),
+    [statusData],
+  );
+
   return {
-    loading,
-    error,
+    loading: dataLoading || summaryLoading,
+    error: dataError || summaryError,
     data: formattedData,
+    statusSummary,
   };
 };
 

@@ -21,9 +21,14 @@ import type { FormattedAssessmentData } from "../../teacher/view-sessions/useAss
 import useAssessmentDataQuery from "../../teacher/view-sessions/useAssessmentDataQuery";
 import NotFound from "../NotFound";
 
-const TAB_CONFIG = (data: FormattedAssessmentData[] | undefined) => [
+const TAB_CONFIG = (
+  data: FormattedAssessmentData[] | undefined,
+  statusSummary?: Record<TestSessionStatus, number>,
+) => [
   ...TEST_SESSION_STATUSES.map((status) => ({
-    name: titleCase(status),
+    name:
+      titleCase(status) +
+      (statusSummary?.[status] == null ? "" : ` (${statusSummary[status]})`),
     path: Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(status),
     element: <TestSessionTabContents data={data} status={status} />,
   })),
@@ -50,7 +55,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     "status",
   )?.toUpperCase() as TestSessionStatus;
 
-  const { loading, error, data } = useAssessmentDataQuery();
+  const { loading, error, data, statusSummary } = useAssessmentDataQuery();
 
   const filteredData = useMemo(() => {
     return data?.filter((session) => session.status === currentTab);
@@ -94,7 +99,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         !error &&
         (data?.length ? (
           <>
-            <RouterTabs routes={TAB_CONFIG(paginatedData)} />
+            <RouterTabs routes={TAB_CONFIG(paginatedData, statusSummary)} />
             {totalPages > 1 && (
               <Center>
                 <Pagination

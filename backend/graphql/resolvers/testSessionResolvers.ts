@@ -39,6 +39,10 @@ const testSessionResolvers = {
       _parent: undefined,
       { teacherId, limit }: { teacherId: string; limit?: number },
     ) => testSessionService.getTestSessionsByTeacherId(teacherId, limit),
+    testSessionStatusSummary: (
+      _parent: undefined,
+      { teacherId }: { teacherId: string },
+    ) => testSessionService.getTestSessionStatusSummary(teacherId),
     getStudentLeaderBoard: (_parent: undefined, { id }: { id: string }) =>
       testSessionService.getStudentLeaderBoard(id),
   },

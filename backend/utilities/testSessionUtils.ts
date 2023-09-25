@@ -1,8 +1,14 @@
 export const enum TestSessionStatus {
-  PAST = "PAST",
-  UPCOMING = "UPCOMING",
   ACTIVE = "ACTIVE",
+  UPCOMING = "UPCOMING",
+  PAST = "PAST",
 }
+
+export const TEST_SESSION_STATUSES = [
+  TestSessionStatus.ACTIVE,
+  TestSessionStatus.UPCOMING,
+  TestSessionStatus.PAST,
+];
 
 export const getSessionStatus = (
   startDate: string | Date,

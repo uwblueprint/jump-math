@@ -20,7 +20,7 @@ const QUERY_DATA_LIMIT_PER_STATUS = 6;
 const AssessmentsSection = () => {
   const [currentTab, setCurrentTab] = useState(TestSessionStatus.ACTIVE);
 
-  const { loading, error, data } = useAssessmentDataQuery(
+  const { loading, error, data, statusSummary } = useAssessmentDataQuery(
     QUERY_DATA_LIMIT_PER_STATUS,
   );
 
@@ -53,7 +53,12 @@ const AssessmentsSection = () => {
           >
             <TabList>
               {TEST_SESSION_STATUSES.map((status) => (
-                <Tab key={status}>{titleCase(status)}</Tab>
+                <Tab key={status}>
+                  {titleCase(status)}
+                  {statusSummary?.[status] == null
+                    ? ""
+                    : ` (${statusSummary[status]})`}
+                </Tab>
               ))}
             </TabList>
             <TabPanels>
