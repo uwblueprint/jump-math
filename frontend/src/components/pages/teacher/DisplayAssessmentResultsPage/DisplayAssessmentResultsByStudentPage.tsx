@@ -67,7 +67,11 @@ const DisplayAssessmentResultsByStudentPage = () => {
 
   if (error || !data) {
     // We're returning not found page because the session id comes from the url.
-    return <NotFound />;
+    return (
+      <Box w="full">
+        <NotFound />
+      </Box>
+    );
   }
 
   const { result: currentStudentResult, student: currentStudent } =

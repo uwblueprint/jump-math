@@ -4,10 +4,8 @@ import {
   Box,
   Button,
   Center,
-  HStack,
   Image,
   Link,
-  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
