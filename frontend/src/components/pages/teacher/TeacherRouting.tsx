@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Box, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import type Page from "../../../types/PageTypes";
@@ -31,7 +31,7 @@ const TeacherRouting = (): React.ReactElement => {
           <Navbar pages={pages} />
         </Route>
       </Switch>
-      <Box minHeight="90vh" padding="1.5em 2em 2em 2em">
+      <Flex flex="1" flexDirection="column" padding="1.5em 2em 2em 2em">
         <Switch>
           <PrivateRoute
             component={DisplayAssessmentResults}
@@ -77,7 +77,7 @@ const TeacherRouting = (): React.ReactElement => {
           </Route>
           <Route component={NotFound} exact path="*" />
         </Switch>
-      </Box>
+      </Flex>
     </VStack>
   );
 };

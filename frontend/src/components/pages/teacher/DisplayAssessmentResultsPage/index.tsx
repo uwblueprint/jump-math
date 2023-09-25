@@ -80,7 +80,7 @@ const DisplayAssessmentResults = () => {
 
   const displayTitle = data?.testSession.test.name ?? sessionTitle;
   return (
-    <Flex direction="column" gap={8}>
+    <Flex direction="column" flex="1" gap={8}>
       <Text as="h1" color="blue.300" textStyle="header4">
         <BackButton returnTo={returnTo} />
         <Skeleton as="span" isLoaded={!!displayTitle} ml={6}>

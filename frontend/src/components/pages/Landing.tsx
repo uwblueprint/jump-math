@@ -52,7 +52,7 @@ const Landing = (): React.ReactElement => {
   usePageTitle("Welcome");
 
   return (
-    <Box>
+    <Box height="100vh">
       <Stack justifyContent="left" p={8}>
         <Link
           _hover={{ color: "blue.200", textDecoration: "none" }}
@@ -62,7 +62,7 @@ const Landing = (): React.ReactElement => {
           {"< Back to Home"}
         </Link>
       </Stack>
-      <Center pb={24} pt={10}>
+      <Center height="90%" pb={24} pt={10}>
         <Box
           borderColor="grey.200"
           borderRadius="12px"

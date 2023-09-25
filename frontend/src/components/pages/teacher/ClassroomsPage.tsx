@@ -90,7 +90,7 @@ const ClassroomsPage = (): ReactElement => {
       </Box>
       <QueryStateHandler error={error} loading={loading}>
         {data?.length ? (
-          <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
+          <Tabs index={tabIndex} mt={2} onChange={handleTabChange}>
             <TabList>
               <Tab>Active</Tab>
               {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (

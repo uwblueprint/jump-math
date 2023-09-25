@@ -55,7 +55,7 @@ const TeacherDashboardPage = (): React.ReactElement => {
       <FormProvider {...methods}>
         <AddOrEditClassroomModal isOpen={isModalOpen} onClose={onModalClose} />
       </FormProvider>
-      <HStack align="start" gap={20} mt={9}>
+      <HStack align="start" alignItems="stretch" gap={20} h="full" mt={9}>
         {SECTION_CONFIG.map(({ title, bodyComponent }) => (
           <VStack key={title} align="left" flex="1" gap={0}>
             <Text as="h2" color="blue.300" textStyle="subtitle1">
