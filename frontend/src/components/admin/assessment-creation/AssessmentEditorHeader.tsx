@@ -18,6 +18,7 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import ActionButton from "../../common/form/ActionButton";
@@ -96,7 +97,7 @@ const AssessmentEditorHeader = ({
         <Flex minWidth="max-content">
           <HStack alignItems="start" spacing={6}>
             <Text as="h1" color="blue.300" textStyle="header4">
-              <BackButton />
+              <BackButton returnTo={Routes.ASSESSMENTS_PAGE} />
             </Text>
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
