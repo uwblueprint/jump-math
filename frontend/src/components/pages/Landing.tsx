@@ -6,7 +6,6 @@ import {
   Center,
   Image,
   Link,
-  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -52,17 +51,17 @@ const Landing = (): React.ReactElement => {
   usePageTitle("Welcome");
 
   return (
-    <Box>
-      <Stack justifyContent="left" p={8}>
-        <Link
-          _hover={{ color: "blue.200", textDecoration: "none" }}
-          href="https://jumpmath.org/"
-          textStyle="subtitle2"
-        >
-          {"< Back to Home"}
-        </Link>
-      </Stack>
-      <Center pb={24} pt={10}>
+    <VStack align="start" alignItems="stretch" height="100vh">
+      <Link
+        _hover={{ color: "blue.200", textDecoration: "none" }}
+        href="https://jumpmath.org/"
+        justifyContent="left"
+        p={8}
+        textStyle="subtitle2"
+      >
+        {"< Back to Home"}
+      </Link>
+      <Center flex="1" pb={24}>
         <Box
           borderColor="grey.200"
           borderRadius="12px"
@@ -80,7 +79,7 @@ const Landing = (): React.ReactElement => {
           </VStack>
         </Box>
       </Center>
-    </Box>
+    </VStack>
   );
 };
 

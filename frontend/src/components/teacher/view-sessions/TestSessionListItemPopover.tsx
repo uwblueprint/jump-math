@@ -5,7 +5,6 @@ import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
-import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { getQueryName } from "../../../utils/GeneralUtils";
@@ -13,12 +12,14 @@ import DeleteAssessmentModal from "../../admin/assessment-status/EditStatusModal
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
 
+import type { FormattedAssessmentData } from "./useAssessmentDataQuery";
+
 type TestSessionPopoverProps = {
-  testSessionEditingData: TestSessionEditingData;
+  session: FormattedAssessmentData;
 };
 
 const TestSessionListItemPopover = ({
-  testSessionEditingData,
+  session,
 }: TestSessionPopoverProps): ReactElement => {
   const {
     isOpen: isDeleteModalOpen,
@@ -29,19 +30,19 @@ const TestSessionListItemPopover = ({
   const history = useHistory();
 
   const [deleteTestSession] = useMutation(DELETE_TEST_SESSION, {
-    variables: { id: testSessionEditingData.testSessionId },
+    variables: { id: session.testSessionId },
     refetchQueries: [getQueryName(GET_TEST_SESSIONS_BY_TEACHER_ID)],
   });
 
   const onEditTestSession = () => {
-    history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, testSessionEditingData);
+    history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, session);
   };
 
   return (
     <Popover>
       <VStack divider={<Divider />} spacing={0}>
         <PopoverButton name="Edit" onClick={onEditTestSession} />
-        {testSessionEditingData.status === TestSessionStatus.UPCOMING && (
+        {session.status === TestSessionStatus.UPCOMING && (
           <PopoverButton name="Delete" onClick={openDeleteModal} />
         )}
       </VStack>

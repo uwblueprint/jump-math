@@ -32,7 +32,7 @@ const MessageContainer = ({
       maxW={["80%", "50%"]}
       mx="auto"
       my={10}
-      pt={12}
+      py={12}
       textAlign="center"
     >
       <Image m="auto" pb="1.5em" src={image} />

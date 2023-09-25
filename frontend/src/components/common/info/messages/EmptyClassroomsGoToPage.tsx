@@ -14,7 +14,7 @@ const EmptyClassroomsGoToPageMessage = (): React.ReactElement => {
     history.push(Routes.CLASSROOMS_PAGE, { isAddClassroomModalOpen: true });
 
   return (
-    <Center __css={styles} pb={14}>
+    <Center __css={styles}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
         buttonText="Go to Classrooms"

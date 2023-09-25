@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Center, Text, VStack } from "@chakra-ui/react";
+import type { ApolloError } from "@apollo/client";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
+import QueryStateHandler from "../../common/QueryStateHandler";
 
 interface DistributeAssessmentWrapperProps {
   isLoading?: boolean;
-  isError?: boolean;
+  error?: ApolloError;
   isEmpty?: boolean;
   title: string;
   subtitle: string;
@@ -16,7 +16,7 @@ interface DistributeAssessmentWrapperProps {
 
 const DistributeAssessmentWrapper = ({
   isLoading = false,
-  isError = false,
+  error,
   isEmpty = false,
   title,
   subtitle,
@@ -24,27 +24,18 @@ const DistributeAssessmentWrapper = ({
   children,
 }: DistributeAssessmentWrapperProps): React.ReactElement => {
   return (
-    <VStack align="left" spacing="2">
+    <VStack align="left" flex="1" spacing="2">
       <Text color="blue.300" textAlign="left" textStyle="header4">
         {title}
       </Text>
       <Text color="grey.300" textStyle="paragraph">
         {subtitle}
       </Text>
-      <Box pt="6">
-        {isLoading && (
-          <Center flex="1" margin="15%">
-            <LoadingState />
-          </Center>
-        )}
-        {isError && (
-          <Box height="100%" mt={10}>
-            <ErrorState />
-          </Box>
-        )}
-        {!isLoading && !isError && isEmpty && emptyState}
-        {!isLoading && !isError && !isEmpty && children}
-      </Box>
+      <QueryStateHandler error={error} loading={isLoading}>
+        <Flex flex="1" pt="6">
+          {isEmpty ? emptyState : children}
+        </Flex>
+      </QueryStateHandler>
     </VStack>
   );
 };

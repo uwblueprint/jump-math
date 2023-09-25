@@ -8,7 +8,7 @@ import MessageContainer from "../MessageContainer";
 const EmptyTestsMessage = (): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles} pb={14}>
+    <Center __css={styles}>
       <MessageContainer
         buttonRoute={ASSESSMENT_EDITOR_PAGE}
         buttonText="Create assessment"

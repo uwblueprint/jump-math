@@ -1,11 +1,10 @@
 import type { ReactElement } from "react";
 import React from "react";
-import { Box, Center, Grid } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
 import EmptyClassroomsGoToPageMessage from "../../common/info/messages/EmptyClassroomsGoToPage";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import ClassroomCard, {
   CLASSROOM_CARD_STYLES,
 } from "../student-management/classroom-summary/ClassroomCard";
@@ -26,23 +25,9 @@ const ClassroomsSection = (): ReactElement => {
   const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
 
   return (
-    <Box flex="1" w="100%">
-      {loading && (
-        <Center flex="1" margin="15%" mt="calc(15% - 2rem)">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={2}>
-          <ErrorState />
-        </Box>
-      )}
-      {data &&
-        !error &&
-        !loading &&
-        (data.length === 0 ? (
-          <EmptyClassroomsGoToPageMessage />
-        ) : (
+    <QueryStateHandler error={error} loading={loading}>
+      <Box mt={8}>
+        {data?.length ? (
           <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
             {data?.map(
               ({
@@ -75,8 +60,11 @@ const ClassroomsSection = (): ReactElement => {
               to={Routes.CLASSROOMS_PAGE}
             />
           </Grid>
-        ))}
-    </Box>
+        ) : (
+          <EmptyClassroomsGoToPageMessage />
+        )}
+      </Box>
+    </QueryStateHandler>
   );
 };
 

@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { HStack, Spacer, Tooltip } from "@chakra-ui/react";
 
-import type { TestSessionEditingData } from "../../../APIClients/types/TestSessionClientTypes";
 import * as Routes from "../../../constants/Routes";
 import type { TestSessionItemStats } from "../../../types/TestSessionTypes";
 import { TestSessionStatus } from "../../../types/TestSessionTypes";
@@ -11,14 +10,10 @@ import Copyable from "../../common/Copyable";
 import TestSessionListItemBody from "./TestSessionListItemBody";
 import TestSessionListItemPopover from "./TestSessionListItemPopover";
 import TestSessionListItemStatistics from "./TestSessionListItemStatistics";
+import type { FormattedAssessmentData } from "./useAssessmentDataQuery";
 
 export type TestSessionListItemProps = {
-  session: TestSessionEditingData & {
-    // Target date should be the start date of the session UNLESS
-    // the session is active, in which case it should be the end date
-    targetDate: Date;
-    accessCode: string;
-  };
+  session: FormattedAssessmentData;
   isReadOnly?: boolean;
   stats?: TestSessionItemStats;
   inClassroomPage?: boolean;
@@ -33,8 +28,14 @@ const TestSessionListItem = ({
   inClassroomPage = false,
 }: TestSessionListItemProps): React.ReactElement => {
   const history = useHistory();
-  const { testSessionId, classroomName, testName, status } = session;
-  const { targetDate, accessCode, ...testSessionEditingData } = session;
+  const {
+    testSessionId,
+    classroomName,
+    testName,
+    status,
+    targetDate,
+    accessCode,
+  } = session;
   const isPast = status === TestSessionStatus.PAST;
 
   const formattedAccessCode = `${accessCode.slice(
@@ -94,11 +95,7 @@ const TestSessionListItem = ({
               label="Access Code"
               value={accessCode}
             />
-            {!isReadOnly && (
-              <TestSessionListItemPopover
-                testSessionEditingData={testSessionEditingData}
-              />
-            )}
+            {!isReadOnly && <TestSessionListItemPopover session={session} />}
           </>
         )}
       </HStack>

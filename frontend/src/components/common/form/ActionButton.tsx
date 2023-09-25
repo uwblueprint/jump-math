@@ -57,12 +57,14 @@ const ActionButton = <Default extends boolean = true>({
   const [isLoading, setLoading] = useState(false);
 
   const handleError =
-    onError ?? ((message: string) => showToast({ message, status: "error" }));
+    onError ??
+    ((message: string) => message && showToast({ message, status: "error" }));
 
   const handleClick = async () => {
     setLoading(true);
     controlledSetLoading?.(true);
     try {
+      handleError("");
       await onClick();
       if (showDefaultToasts || messageOnSuccess) {
         showToast({
@@ -72,15 +74,18 @@ const ActionButton = <Default extends boolean = true>({
       }
       onAfterSuccess?.();
     } catch (e) {
-      const errorMessage =
-        e instanceof FormValidationError
-          ? e.message
-          : "An error occurred. Please try again later.";
-      handleError(
+      if (!onError && e instanceof FormValidationError) {
+        return;
+      }
+
+      const nonValidationMessage =
         (typeof generateErrorMessage === "function"
           ? generateErrorMessage(e)
-          : generateErrorMessage) ?? errorMessage,
-      );
+          : generateErrorMessage) ??
+        "An error occurred. Please try again later.";
+      const errorMessage =
+        e instanceof FormValidationError ? e.message : nonValidationMessage;
+      handleError(errorMessage);
     } finally {
       setLoading(false);
       controlledSetLoading?.(false);
