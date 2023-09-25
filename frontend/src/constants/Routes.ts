@@ -16,6 +16,8 @@ export const ASSESSMENT_EDITOR_PAGE = "/admin/assessment-editor";
 export const TEACHER_LANDING_PAGE = "/teacher";
 export const TEACHER_DASHBOARD_PAGE = "/teacher/dashboard";
 export const DISPLAY_ASSESSMENTS_PAGE = "/teacher/assessments";
+export const DISPLAY_ASSESSMENTS_BY_STATUS_PAGE = (status: string) =>
+  `${DISPLAY_ASSESSMENTS_PAGE}/${status}`;
 export const DISPLAY_ASSESSMENT_RESULTS_PAGE = ({
   sessionId = ":sessionId",
 } = {}) => `/teacher/assessment-results/${sessionId}`;

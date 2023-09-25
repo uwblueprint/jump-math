@@ -48,7 +48,6 @@ const TeacherRouting = (): React.ReactElement => {
           />
           <PrivateRoute
             component={DisplayAssessmentsPage}
-            exact
             path={Routes.DISPLAY_ASSESSMENTS_PAGE}
             roles={["Teacher"]}
             title="Assessments"
