@@ -9,7 +9,7 @@ const LoadingState = ({
   text?: string;
 }): React.ReactElement => {
   return (
-    <Center height={fullPage ? "100vh" : "auto"}>
+    <Center flex="1" height={fullPage ? "100vh" : "auto"}>
       <VStack spacing={6} textAlign="center">
         <Spinner size="xl" />
         <Text color="blue.300" textStyle="paragraph">

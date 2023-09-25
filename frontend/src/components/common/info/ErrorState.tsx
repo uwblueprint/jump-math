@@ -14,9 +14,10 @@ const ErrorState = ({
     backgroundColor={fullPage ? "" : "blue.50"}
     borderRadius="1rem"
     color="blue.300"
-    height={fullPage ? "100vh" : "100%"}
+    flex="1"
+    height={fullPage ? "100vh" : "auto"}
     minWidth="100%"
-    pb={14}
+    my={fullPage ? 0 : 6}
   >
     <MessageContainer
       image={ErrorIllustration}

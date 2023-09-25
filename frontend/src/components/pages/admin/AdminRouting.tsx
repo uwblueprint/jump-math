@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Box, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
 import type Page from "../../../types/PageTypes";
@@ -30,7 +30,7 @@ const AdminRouting = (): React.ReactElement => {
       <Route path="*">
         <VStack align="left" flex="1" height="100vh">
           <Navbar pages={pages} />
-          <Box padding="1.5em 2em 0em 2em">
+          <Flex flex="1" flexDirection="column" padding="1.5em 2em 0em 2em">
             <Switch>
               <PrivateRoute
                 component={UsersPage}
@@ -51,7 +51,7 @@ const AdminRouting = (): React.ReactElement => {
               </Route>
               <Route component={NotFound} exact path="*" />
             </Switch>
-          </Box>
+          </Flex>
         </VStack>
       </Route>
     </Switch>

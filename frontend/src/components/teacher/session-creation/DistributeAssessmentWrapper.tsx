@@ -1,6 +1,6 @@
 import React from "react";
 import type { ApolloError } from "@apollo/client";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 
 import QueryStateHandler from "../../common/QueryStateHandler";
 
@@ -24,18 +24,18 @@ const DistributeAssessmentWrapper = ({
   children,
 }: DistributeAssessmentWrapperProps): React.ReactElement => {
   return (
-    <VStack align="left" spacing="2">
+    <VStack align="left" flex="1" spacing="2">
       <Text color="blue.300" textAlign="left" textStyle="header4">
         {title}
       </Text>
       <Text color="grey.300" textStyle="paragraph">
         {subtitle}
       </Text>
-      <Box pt="6">
-        <QueryStateHandler error={error} loading={isLoading}>
+      <QueryStateHandler error={error} loading={isLoading}>
+        <Flex flex="1" pt="6">
           {isEmpty ? emptyState : children}
-        </QueryStateHandler>
-      </Box>
+        </Flex>
+      </QueryStateHandler>
     </VStack>
   );
 };

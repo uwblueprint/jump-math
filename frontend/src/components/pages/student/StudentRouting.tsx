@@ -9,8 +9,7 @@ import * as Routes from "../../../constants/Routes";
 import StudentContext from "../../../contexts/StudentContext";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import NotFound from "../NotFound";
 
 import AssessmentSummaryPage from "./AssessmentSummaryPage";
@@ -53,28 +52,28 @@ const StudentRouting = (): React.ReactElement => {
         setClassName,
       }}
     >
-      {loading && <LoadingState fullPage />}
-      {error && <ErrorState fullPage />}
-      {data && (
-        <Switch>
-          <PrivateRoute
-            component={AssessmentSummaryPage}
-            exact
-            path={Routes.ASSESSMENT_SUMMARY_PAGE}
-            roles={["Student"]}
-          />
-          <PrivateRoute
-            component={WriteAssessmentPage}
-            exact
-            path={Routes.WRITE_ASSESSMENT_PAGE}
-            roles={["Student"]}
-          />
-          <Route exact path={Routes.STUDENT_LANDING_PAGE}>
-            <RedirectTo pathname={Routes.ASSESSMENT_SUMMARY_PAGE} />
-          </Route>
-          <Route component={NotFound} exact path="*" />
-        </Switch>
-      )}
+      <QueryStateHandler error={error} fullPage loading={loading}>
+        {data && (
+          <Switch>
+            <PrivateRoute
+              component={AssessmentSummaryPage}
+              exact
+              path={Routes.ASSESSMENT_SUMMARY_PAGE}
+              roles={["Student"]}
+            />
+            <PrivateRoute
+              component={WriteAssessmentPage}
+              exact
+              path={Routes.WRITE_ASSESSMENT_PAGE}
+              roles={["Student"]}
+            />
+            <Route exact path={Routes.STUDENT_LANDING_PAGE}>
+              <RedirectTo pathname={Routes.ASSESSMENT_SUMMARY_PAGE} />
+            </Route>
+            <Route component={NotFound} exact path="*" />
+          </Switch>
+        )}
+      </QueryStateHandler>
     </StudentContext.Provider>
   );
 };
