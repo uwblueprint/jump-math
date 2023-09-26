@@ -18,6 +18,7 @@ import {
 import { ImageIcon, QuestionIcon, TextIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
 import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElementType,
@@ -77,9 +78,21 @@ const QuestionSidebar = (): React.ReactElement => {
   const { assessmentId } = useParams<{ assessmentId?: string }>();
 
   const { setShowQuestionPreview } = useContext(QuestionEditorContext);
+  const { redirectableHistory, setQuestionEditorDirty } =
+    useContext(AssessmentContext);
 
   const closeQuestionEditor = () => {
+    setQuestionEditorDirty(null);
     history.push(
+      assessmentId
+        ? Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId })
+        : Routes.ASSESSMENT_CREATOR_PAGE,
+    );
+  };
+
+  const closeQuestionEditorAfterSaving = () => {
+    setQuestionEditorDirty(null);
+    redirectableHistory.push(
       assessmentId
         ? Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId })
         : Routes.ASSESSMENT_CREATOR_PAGE,
@@ -133,7 +146,9 @@ const QuestionSidebar = (): React.ReactElement => {
         >
           Preview
         </Button>
-        <SaveQuestionEditorButton closeQuestionEditor={closeQuestionEditor} />
+        <SaveQuestionEditorButton
+          closeQuestionEditor={closeQuestionEditorAfterSaving}
+        />
       </HStack>
     </VStack>
   );

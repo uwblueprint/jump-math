@@ -1,12 +1,15 @@
-import React, { type ReactElement, useContext, useState } from "react";
-import { Prompt, useParams } from "react-router-dom";
+import React, {
+  type ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
-import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
-import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
@@ -17,7 +20,7 @@ import QuestionWorkspace from "./QuestionWorkspace";
 
 const QuestionEditor = (): ReactElement => {
   const { questionIndex } = useParams<{ questionIndex?: string }>();
-  const { questions } = useContext(AssessmentContext);
+  const { questions, setQuestionEditorDirty } = useContext(AssessmentContext);
   const editorQuestion = questions[Number(questionIndex) - 1];
 
   const [questionElements, setQuestionElements] = useState<QuestionElement[]>(
@@ -34,8 +37,9 @@ const QuestionEditor = (): ReactElement => {
   const isDirty = editorQuestion
     ? editorQuestion.elements !== questionElements
     : questionElements.length > 0;
-
-  useReloadPrompt(isDirty);
+  useEffect(() => {
+    setQuestionEditorDirty(isDirty);
+  }, [setQuestionEditorDirty, isDirty]);
 
   return (
     <QuestionEditorContext.Provider
@@ -56,7 +60,6 @@ const QuestionEditor = (): ReactElement => {
         setShowQuestionPreview,
       }}
     >
-      <Prompt message={confirmUnsavedChangesText} when={isDirty} />
       {showQuestionPreview ? (
         <QuestionPreview />
       ) : (

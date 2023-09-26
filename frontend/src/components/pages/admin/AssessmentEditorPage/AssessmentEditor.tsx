@@ -3,10 +3,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Prompt, Route, Switch, useHistory } from "react-router-dom";
+import { Prompt, Route, Switch } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Box, Divider, VStack } from "@chakra-ui/react";
-import type { LocationDescriptorObject } from "history";
 
 import {
   CREATE_NEW_TEST,
@@ -31,12 +30,8 @@ import AssessmentQuestions from "../../../admin/assessment-creation/AssessmentQu
 import BasicInformation from "../../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../../admin/question-creation/QuestionEditor";
 import usePageTitle from "../../../auth/usePageTitle";
+import useRedirectableNavigatePrompt from "../../../common/navigation/useRedirectableNavigatePrompt";
 import useReloadPrompt from "../../../common/navigation/useReloadPrompt";
-
-type RedirectOptions =
-  | (LocationDescriptorObject & { mode: "replace" | "push" })
-  | string
-  | null;
 import NotFound from "../../NotFound";
 
 type AssessmentEditorProps = {
@@ -44,14 +39,11 @@ type AssessmentEditorProps = {
 };
 
 const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
-  const history = useHistory();
-
   const [questions, setQuestions] = useState<Question[]>(
     state?.questions || [],
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
-  const [redirectTo, setRedirectTo] = useState<RedirectOptions>(null);
 
   const [createTest, { loading: loadingCreate }] = useMutation<{
     createTest: TestResponse;
@@ -93,8 +85,20 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       setQuestions(state.questions);
     }
   }, [state, resetForm]);
-  const isDirty =
-    !redirectTo && (isFormDirty || questions !== state?.questions);
+
+  const isAssessmentEditorDirty = isFormDirty || questions !== state?.questions;
+  const [isQuestionEditorDirty, setQuestionEditorDirty] = useState<
+    boolean | null
+  >(null);
+
+  // Any page refresh should trigger a prompt if any of the editors are dirty.
+  useReloadPrompt(isQuestionEditorDirty || isAssessmentEditorDirty);
+
+  // Any navigation away from the page should trigger a prompt if the current editor is dirty.
+  // We are assuming that navigation will only occur within the assessment editor.
+  const [showPrompt, redirectableHistory] = useRedirectableNavigatePrompt(
+    isQuestionEditorDirty ?? isAssessmentEditorDirty,
+  );
 
   const assessmentName = state?.name;
   const isExisting = !!state;
@@ -151,11 +155,10 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
 
     // Mark the form as clean after saving.
     if (options?.redirect ?? true) {
-      setRedirectTo(Routes.ASSESSMENTS_PAGE);
+      redirectableHistory.push(Routes.ASSESSMENTS_PAGE);
     } else {
-      setRedirectTo({
-        mode: "replace",
-        pathname: history.location.pathname,
+      redirectableHistory.replace({
+        pathname: redirectableHistory.location.pathname,
         state: test,
       });
     }
@@ -166,7 +169,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       throw new FormValidationError("Assessment ID not found");
     }
     await deleteTest();
-    setRedirectTo(Routes.ASSESSMENTS_PAGE);
+    redirectableHistory.push(Routes.ASSESSMENTS_PAGE);
   };
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
@@ -193,24 +196,14 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       questions: formatQuestionsRequest(questions),
     });
 
-  useReloadPrompt(isDirty);
-  useEffect(() => {
-    if (redirectTo) {
-      if (typeof redirectTo === "object" && redirectTo.mode === "replace") {
-        history.replace(redirectTo);
-      } else {
-        history.push(redirectTo);
-      }
-      setRedirectTo(null);
-    }
-  }, [redirectTo, history]);
-
   return (
     <>
-      <Prompt message={confirmUnsavedChangesText} when={isDirty} />
+      <Prompt message={confirmUnsavedChangesText} when={showPrompt} />
       <DndProvider backend={HTML5Backend}>
         <AssessmentContext.Provider
           value={{
+            redirectableHistory,
+            setQuestionEditorDirty,
             questions,
             setQuestions,
             showAssessmentPreview,

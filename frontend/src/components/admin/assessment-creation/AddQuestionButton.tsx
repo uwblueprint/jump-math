@@ -1,13 +1,15 @@
-import React, { type ReactElement } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { type ReactElement, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { Button, Text } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
+import AssessmentContext from "../../../contexts/AssessmentContext";
 
 const AddQuestionButton = (): ReactElement => {
-  const history = useHistory();
   const { assessmentId } = useParams<{ assessmentId?: string }>();
+  const { redirectableHistory, setQuestionEditorDirty } =
+    useContext(AssessmentContext);
 
   return (
     <Button
@@ -16,13 +18,14 @@ const AddQuestionButton = (): ReactElement => {
       borderRadius="16px"
       color="grey.300"
       leftIcon={<PlusOutlineIcon />}
-      onClick={() =>
-        history.push(
+      onClick={() => {
+        setQuestionEditorDirty(false);
+        redirectableHistory.push(
           assessmentId
             ? Routes.ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE({ assessmentId })
             : Routes.ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE,
-        )
-      }
+        );
+      }}
       paddingBottom="8"
       paddingTop="8"
       width="100%"
