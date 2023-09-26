@@ -12,8 +12,6 @@ type AssessmentContextType = {
   setQuestionEditorDirty: (_isDirty: SetStateAction<boolean | null>) => void;
   questions: Question[];
   setQuestions: (_questions: (prevElements: Question[]) => Question[]) => void;
-  showAssessmentPreview: boolean;
-  setShowAssessmentPreview: (_showAssessmentPreview: boolean) => void;
 };
 
 const AssessmentContext = createContext<AssessmentContextType>({
@@ -35,8 +33,6 @@ const AssessmentContext = createContext<AssessmentContextType>({
   setQuestions: (
     _questions: (prevElements: Question[]) => Question[],
   ): void => {},
-  showAssessmentPreview: false,
-  setShowAssessmentPreview: (_showAssessmentPreview: boolean): void => {},
 });
 
 export default AssessmentContext;

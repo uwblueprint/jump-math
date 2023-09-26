@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { type SubmitHandler, useFormContext } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -53,7 +54,9 @@ const AssessmentEditorHeader = ({
   validateForm,
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
-  const { setShowAssessmentPreview } = useContext(AssessmentContext);
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
+  const { redirectableHistory } = useContext(AssessmentContext);
+
   const {
     onOpen: onPublishModalOpen,
     isOpen: isPublishModalOpen,
@@ -111,7 +114,13 @@ const AssessmentEditorHeader = ({
           <HStack spacing={2}>
             <Button
               leftIcon={<EyeOutlineIcon />}
-              onClick={() => setShowAssessmentPreview(true)}
+              onClick={() =>
+                redirectableHistory.push(
+                  assessmentId
+                    ? Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({ assessmentId })
+                    : Routes.ASSESSMENT_CREATOR_PREVIEW_PAGE,
+                )
+              }
               size="sm"
               variant="tertiary"
             >

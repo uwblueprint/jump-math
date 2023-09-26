@@ -27,6 +27,11 @@ export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
   assessmentId = ":assessmentId",
 } = {}) =>
   `/admin/assessments/${assessmentId}/edit/questions/${questionIndex}/edit`;
+export const ASSESSMENT_CREATOR_PREVIEW_PAGE =
+  "/admin/assessments/create/preview";
+export const ASSESSMENT_EDITOR_PREVIEW_PAGE = ({
+  assessmentId = ":assessmentId",
+} = {}) => `/admin/assessments/${assessmentId}/preview`;
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

@@ -31,6 +31,11 @@ const AdminRouting = (): React.ReactElement => {
         path={Routes.ASSESSMENT_CREATOR_PAGE}
         roles={["Admin"]}
       />
+      <PrivateRoute
+        component={AssessmentEditorPage}
+        path={Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE()}
+        roles={["Admin"]}
+      />
       <Route path="*">
         <VStack align="left" flex="1" height="100vh">
           <Navbar pages={pages} />
