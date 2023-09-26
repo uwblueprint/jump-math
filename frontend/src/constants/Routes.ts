@@ -14,6 +14,19 @@ export const ASSESSMENT_CREATOR_PAGE = "/admin/assessments/create";
 export const ASSESSMENT_EDITOR_PAGE = ({
   assessmentId = ":assessmentId",
 } = {}) => `/admin/assessments/${assessmentId}/edit`;
+export const ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE =
+  "/admin/assessments/create/questions/add";
+export const ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE = ({
+  questionIndex = ":questionIndex",
+} = {}) => `/admin/assessments/create/questions/${questionIndex}/edit`;
+export const ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE = ({
+  assessmentId = ":assessmentId",
+} = {}) => `/admin/assessments/${assessmentId}/edit/questions/add`;
+export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
+  questionIndex = ":questionIndex",
+  assessmentId = ":assessmentId",
+} = {}) =>
+  `/admin/assessments/${assessmentId}/edit/questions/${questionIndex}/edit`;
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from "react";
 import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Box,
   HStack,
@@ -19,6 +20,7 @@ import {
   EditOutlineIcon,
   HamburgerMenuIcon,
 } from "../../../assets/icons";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import type { DragQuestionItem } from "../../../types/DragTypes";
 import { DragTypes } from "../../../types/DragTypes";
@@ -40,8 +42,10 @@ const QuestionCard = ({
   index,
   question,
 }: QuestionCardProps): React.ReactElement => {
-  const { setQuestions, setShowQuestionEditor, setEditorQuestion } =
-    useContext(AssessmentContext);
+  const history = useHistory();
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
+
+  const { setQuestions } = useContext(AssessmentContext);
 
   const { id } = question;
   const questionTexts = getQuestionTexts(question.elements);
@@ -138,8 +142,16 @@ const QuestionCard = ({
                 aria-label="Edit question card"
                 icon={<EditOutlineIcon />}
                 onClick={() => {
-                  setShowQuestionEditor(true);
-                  setEditorQuestion(question);
+                  history.push(
+                    assessmentId
+                      ? Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                          assessmentId,
+                          questionIndex: String(index + 1),
+                        })
+                      : Routes.ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE({
+                          questionIndex: String(index + 1),
+                        }),
+                  );
                 }}
                 size="icon"
                 variant="icon"

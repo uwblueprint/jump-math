@@ -3,7 +3,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Prompt, useHistory } from "react-router-dom";
+import { Prompt, Route, Switch, useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Box, Divider, VStack } from "@chakra-ui/react";
 import type { LocationDescriptorObject } from "history";
@@ -24,10 +24,7 @@ import AssessmentContext from "../../../../contexts/AssessmentContext";
 import { Status } from "../../../../types/AssessmentTypes";
 import type { Question } from "../../../../types/QuestionTypes";
 import { FormValidationError } from "../../../../utils/GeneralUtils";
-import {
-  formatQuestionsRequest,
-  formatQuestionsResponse,
-} from "../../../../utils/QuestionUtils";
+import { formatQuestionsRequest } from "../../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../../admin/assessment-creation/AssessmentEditorHeader";
 import AssessmentPreview from "../../../admin/assessment-creation/AssessmentPreview";
 import AssessmentQuestions from "../../../admin/assessment-creation/AssessmentQuestions";
@@ -40,6 +37,7 @@ type RedirectOptions =
   | (LocationDescriptorObject & { mode: "replace" | "push" })
   | string
   | null;
+import NotFound from "../../NotFound";
 
 type AssessmentEditorProps = {
   state?: Test;
@@ -51,8 +49,6 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
   const [questions, setQuestions] = useState<Question[]>(
     state?.questions || [],
   );
-  const [showQuestionEditor, setShowQuestionEditor] = useState(false);
-  const [editorQuestion, setEditorQuestion] = useState<Question | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [showAssessmentPreview, setShowAssessmentPreview] = useState(false);
   const [redirectTo, setRedirectTo] = useState<RedirectOptions>(null);
@@ -217,60 +213,85 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
           value={{
             questions,
             setQuestions,
-            showQuestionEditor,
-            setShowQuestionEditor,
-            editorQuestion,
-            setEditorQuestion,
             showAssessmentPreview,
             setShowAssessmentPreview,
           }}
         >
           <FormProvider {...methods}>
-            {showQuestionEditor && <QuestionEditor />}
-            {showAssessmentPreview && <AssessmentPreview />}
-            {!showQuestionEditor && !showAssessmentPreview && (
-              <VStack spacing="8" width="100%">
-                <AssessmentEditorHeader
-                  isEditing={isExisting}
-                  name={watch("name")}
-                  onConfirmArchive={onArchive}
-                  onConfirmPublish={onPublish}
-                  onDelete={onDeleteTest}
-                  onError={setErrorMessage}
-                  onSave={onSave}
-                  updatedAt={state?.updatedAt}
-                  validateForm={validateForm}
+            {!showAssessmentPreview && (
+              <Switch>
+                <Route
+                  component={QuestionEditor}
+                  path={Routes.ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE()}
                 />
-                <VStack pos="relative" spacing="8" width="92%">
-                  <Box
-                    bg="white"
-                    bottom={0}
-                    height="100%"
-                    left={0}
-                    opacity={isLoading ? 0.7 : 0}
-                    pointerEvents={isLoading ? "all" : "none"}
-                    pos="absolute"
-                    right={0}
-                    top={0}
-                    transition="opacity 0.2s ease-in-out"
-                    width="100%"
-                    zIndex={1}
-                  />
+                <Route
+                  component={QuestionEditor}
+                  path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE()}
+                />
+                <Route
+                  exact
+                  path={
+                    state?.id
+                      ? Routes.ASSESSMENT_EDITOR_PAGE()
+                      : Routes.ASSESSMENT_CREATOR_PAGE
+                  }
+                >
+                  <VStack spacing="8" width="100%">
+                    <AssessmentEditorHeader
+                      isEditing={isExisting}
+                      name={watch("name")}
+                      onConfirmArchive={onArchive}
+                      onConfirmPublish={onPublish}
+                      onDelete={onDeleteTest}
+                      onError={setErrorMessage}
+                      onSave={onSave}
+                      updatedAt={state?.updatedAt}
+                      validateForm={validateForm}
+                    />
+                    <VStack pos="relative" spacing="8" width="92%">
+                      <Box
+                        bg="white"
+                        bottom={0}
+                        height="100%"
+                        left={0}
+                        opacity={isLoading ? 0.7 : 0}
+                        pointerEvents={isLoading ? "all" : "none"}
+                        pos="absolute"
+                        right={0}
+                        top={0}
+                        transition="opacity 0.2s ease-in-out"
+                        width="100%"
+                        zIndex={1}
+                      />
 
-                  <BasicInformation
-                    clearErrors={clearErrors}
-                    control={control}
-                    errorMessage={errorMessage}
-                    errors={errors}
-                    register={register}
-                    setValue={setValue}
-                    watch={watch}
-                  />
-                  <Divider />
-                  <AssessmentQuestions />
-                </VStack>
-              </VStack>
+                      <BasicInformation
+                        clearErrors={clearErrors}
+                        control={control}
+                        errorMessage={errorMessage}
+                        errors={errors}
+                        register={register}
+                        setValue={setValue}
+                        watch={watch}
+                      />
+                      <Divider />
+                      <AssessmentQuestions />
+                    </VStack>
+                  </VStack>
+                </Route>
+                <Route
+                  component={QuestionEditor}
+                  exact
+                  path={Routes.ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE}
+                />
+                <Route
+                  component={QuestionEditor}
+                  exact
+                  path={Routes.ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE()}
+                />
+                <Route component={NotFound} exact path="*" />
+              </Switch>
             )}
+            {showAssessmentPreview && <AssessmentPreview />}
           </FormProvider>
         </AssessmentContext.Provider>
       </DndProvider>

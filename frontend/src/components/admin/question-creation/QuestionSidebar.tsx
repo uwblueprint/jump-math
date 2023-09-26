@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Accordion,
   AccordionButton,
@@ -15,9 +16,8 @@ import {
 } from "@chakra-ui/react";
 
 import { ImageIcon, QuestionIcon, TextIcon } from "../../../assets/icons";
-import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
+import * as Routes from "../../../constants/Routes";
 import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
-import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElementType,
@@ -73,20 +73,17 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 };
 
 const QuestionSidebar = (): React.ReactElement => {
-  const { setShowQuestionEditor, setEditorQuestion } =
-    useContext(AssessmentContext);
+  const history = useHistory();
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
+
   const { setShowQuestionPreview } = useContext(QuestionEditorContext);
 
   const closeQuestionEditor = () => {
-    setEditorQuestion(null);
-    setShowQuestionEditor(false);
-  };
-
-  const confirmCloseQuestionEditor = () => {
-    /* eslint-disable-next-line no-alert */
-    if (window.confirm(confirmUnsavedChangesText)) {
-      closeQuestionEditor();
-    }
+    history.push(
+      assessmentId
+        ? Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId })
+        : Routes.ASSESSMENT_CREATOR_PAGE,
+    );
   };
 
   return (
@@ -98,7 +95,7 @@ const QuestionSidebar = (): React.ReactElement => {
     >
       <Stack w="22vw">
         <Text as="h1" color="blue.300" display="flex" textStyle="header4">
-          <BackButton onClick={confirmCloseQuestionEditor} />
+          <BackButton onClick={closeQuestionEditor} />
           <Box as="span" ml={3}>
             Create Question
           </Box>

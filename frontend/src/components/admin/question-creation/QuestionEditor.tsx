@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
+import React, { type ReactElement, useContext, useState } from "react";
+import { Prompt, useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
+import confirmUnsavedChangesText from "../../../constants/GeneralConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
+import useReloadPrompt from "../../common/navigation/useReloadPrompt";
 
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
@@ -12,20 +15,27 @@ import QuestionPreview from "./QuestionPreview";
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
-const QuestionEditor = (): React.ReactElement => {
-  const { editorQuestion } = useContext(AssessmentContext);
-  const [questionElements, setQuestionElements] = React.useState<
-    QuestionElement[]
-  >(editorQuestion ? editorQuestion.elements : []);
-  const [showAddShortAnswerModal, setShowAddShortAnswerModal] =
-    React.useState(false);
+const QuestionEditor = (): ReactElement => {
+  const { questionIndex } = useParams<{ questionIndex?: string }>();
+  const { questions } = useContext(AssessmentContext);
+  const editorQuestion = questions[Number(questionIndex) - 1];
+
+  const [questionElements, setQuestionElements] = useState<QuestionElement[]>(
+    editorQuestion?.elements ?? [],
+  );
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = useState(false);
   const [showAddMultipleChoiceModal, setShowAddMultipleChoiceModal] =
-    React.useState(false);
-  const [showAddMultiSelectModal, setShowAddMultiSelectModal] =
-    React.useState(false);
-  const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
-  const [showEditorError, setShowEditorError] = React.useState(false);
-  const [showQuestionPreview, setShowQuestionPreview] = React.useState(false);
+    useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = useState(false);
+  const [showAddFractionModal, setShowAddFractionModal] = useState(false);
+  const [showEditorError, setShowEditorError] = useState(false);
+  const [showQuestionPreview, setShowQuestionPreview] = useState(false);
+
+  const isDirty = editorQuestion
+    ? editorQuestion.elements !== questionElements
+    : questionElements.length > 0;
+
+  useReloadPrompt(isDirty);
 
   return (
     <QuestionEditorContext.Provider
@@ -46,6 +56,7 @@ const QuestionEditor = (): React.ReactElement => {
         setShowQuestionPreview,
       }}
     >
+      <Prompt message={confirmUnsavedChangesText} when={isDirty} />
       {showQuestionPreview ? (
         <QuestionPreview />
       ) : (
