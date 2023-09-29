@@ -109,8 +109,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       : "Create Assessment",
   );
 
-  const noQuestionError =
-    "Please add at least one question to the assessment before saving";
+  const noQuestionError = "Please add at least one question to the assessment";
   useEffect(() => {
     if (errorMessage === noQuestionError && questions.length !== 0) {
       setErrorMessage("");

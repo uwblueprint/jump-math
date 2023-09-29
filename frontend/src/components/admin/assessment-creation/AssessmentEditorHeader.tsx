@@ -3,7 +3,6 @@ import { type SubmitHandler, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import {
   Box,
-  Button,
   Divider,
   Flex,
   HStack,
@@ -73,6 +72,15 @@ const AssessmentEditorHeader = ({
     onClose: onArchiveModalClose,
   } = useDisclosure();
 
+  const onPreview = () => {
+    validateForm();
+    redirectableHistory.push(
+      assessmentId
+        ? Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({ assessmentId })
+        : Routes.ASSESSMENT_CREATOR_PREVIEW_PAGE,
+    );
+  };
+
   const onPublish = () => {
     validateForm();
     onPublishModalOpen();
@@ -81,6 +89,7 @@ const AssessmentEditorHeader = ({
   const { getValues } = useFormContext<TestRequest>();
 
   // We need validation on these actions.
+  const handlePreview = useActionFormHandler(onPreview);
   const handleSave = useActionFormHandler(onSave);
   const handlePublish = useActionFormHandler(onPublish);
 
@@ -112,20 +121,15 @@ const AssessmentEditorHeader = ({
           </HStack>
           <Spacer />
           <HStack spacing={2}>
-            <Button
+            <ActionButton
               leftIcon={<EyeOutlineIcon />}
-              onClick={() =>
-                redirectableHistory.push(
-                  assessmentId
-                    ? Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({ assessmentId })
-                    : Routes.ASSESSMENT_CREATOR_PREVIEW_PAGE,
-                )
-              }
+              onClick={handlePreview}
+              showDefaultToasts={false}
               size="sm"
               variant="tertiary"
             >
               Preview
-            </Button>
+            </ActionButton>
             <ActionButton
               leftIcon={<SaveOutlineIcon />}
               messageOnError="Failed to save the assessment. Please try again later."
