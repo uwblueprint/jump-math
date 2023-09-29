@@ -1,0 +1,73 @@
+name: Deploy backend to Heroku
+
+inputs:
+  email:
+    required: true
+  apiKey:
+    required: true
+  appName:
+    required: true
+  databaseUrl:
+    required: true
+  firebaseApiKey:
+    required: true
+  firebaseRequestUri:
+    required: true
+  firebaseBucket:
+    required: true
+  firebaseProject:
+    required: true
+  firebasePrivateKey:
+    required: true
+  firebaseEmail:
+    required: true
+  mailerUser:
+    required: true
+  mailerId:
+    required: true
+  mailerSecret:
+    required: true
+  mailerRefreshToken:
+    required: true
+  sourceBranch:
+    required: false
+    default: main
+
+runs:
+    using: composite
+    steps:
+      - name: Set Heroku login credentials
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login ${{ inputs.email }}
+              password ${{ inputs.apiKey }}
+            machine git.heroku.com
+              login ${{ inputs.email }}
+              password ${{ inputs.apiKey }}
+          EOF
+        shell: bash
+      - name: Add Heroku git remote
+        run: heroku git:remote --app "${{ inputs.appName }}"
+        shell: bash
+      - name: Set Heroku config vars
+        run: |
+          config() {
+            heroku config:set "$1"="$2" -a "${{ inputs.appName }}"
+          }
+          config MG_DATABASE_URL "${{ inputs.databaseUrl }}"
+          config FIREBASE_WEB_API_KEY "${{ inputs.firebaseApiKey }}"
+          config FIREBASE_REQUEST_URI "${{ inputs.firebaseRequestUri }}"
+          config FIREBASE_STORAGE_DEFAULT_BUCKET "${{ inputs.firebaseBucket }}"
+          config FIREBASE_PROJECT_ID "${{ inputs.firebaseProject }}"
+          config FIREBASE_SVC_ACCOUNT_PRIVATE_KEY "${{ inputs.firebasePrivateKey }}"
+          config FIREBASE_SVC_ACCOUNT_CLIENT_EMAIL "${{ inputs.firebaseEmail }}"
+          config MAILER_USER "${{ inputs.mailerUser }}"
+          config MAILER_CLIENT_ID "${{ inputs.mailerId }}"
+          config MAILER_CLIENT_SECRET "${{ inputs.mailerSecret }}"
+          config MAILER_REFRESH_TOKEN "${{ inputs.mailerRefreshToken }}"
+          config PREVIEW_DEPLOY true
+        shell: bash
+      - name: Push to Heroku
+        run: git push heroku `git subtree split --prefix backend "${{ inputs.sourceBranch }}"`:refs/heads/main --force
+        shell: bash

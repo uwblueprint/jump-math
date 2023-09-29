@@ -3,7 +3,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Redirect, useLocation } from "react-router-dom";
 import {
   Box,
-  Center,
   Flex,
   Tab,
   TabList,
@@ -22,9 +21,9 @@ import {
   TABS_CLASSROOM,
 } from "../../../types/ClassroomTypes";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
+import EmptyArchivedClassroomsMessage from "../../common/info/messages/EmptyArchivedClassroomsMessage";
 import EmptyClassroomsMessage from "../../common/info/messages/EmptyClassroomsMessage";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import AddOrEditClassroomModal from "../../teacher/student-management/classroom-summary/AddOrEditClassroomModal";
@@ -90,30 +89,20 @@ const ClassroomsPage = (): ReactElement => {
           onClose={() => setIsModalOpen(false)}
         />
       </Box>
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box height="100%" mt={10}>
-          <ErrorState />
-        </Box>
-      )}
-      {data && !error && !loading && (
-        <Box flex="1">
-          {data.length !== 0 ? (
-            <>
-              <Tabs index={tabIndex} marginTop={3} onChange={handleTabChange}>
-                <TabList>
-                  <Tab>Active</Tab>
-                  {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
-                    <Tab>Archived</Tab>
-                  )}
-                </TabList>
-                <TabPanels>
-                  {TABS_CLASSROOM.map((tab) => (
-                    <TabPanel key={tab} padding="0">
+      <QueryStateHandler error={error} loading={loading}>
+        {data?.length ? (
+          <Tabs index={tabIndex} mt={2} onChange={handleTabChange}>
+            <TabList>
+              <Tab>Active</Tab>
+              {checkFeatureFlag("ENABLE_CLASSROOM_ARCHIVING") && (
+                <Tab>Archived</Tab>
+              )}
+            </TabList>
+            <TabPanels>
+              {TABS_CLASSROOM.map((tab) => (
+                <TabPanel key={tab} padding="0">
+                  {paginatedData?.length ? (
+                    <>
                       <Flex alignItems="left" flexWrap="wrap">
                         {paginatedData?.map(
                           ({
@@ -157,16 +146,20 @@ const ClassroomsPage = (): ReactElement => {
                           />
                         )}
                       </VStack>
-                    </TabPanel>
-                  ))}
-                </TabPanels>
-              </Tabs>
-            </>
-          ) : (
-            <EmptyClassroomsMessage onClick={handleAddClassroom} />
-          )}
-        </Box>
-      )}
+                    </>
+                  ) : tabIndex === 0 ? (
+                    <EmptyClassroomsMessage onClick={handleAddClassroom} />
+                  ) : (
+                    <EmptyArchivedClassroomsMessage />
+                  )}
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        ) : (
+          <EmptyClassroomsMessage onClick={handleAddClassroom} />
+        )}
+      </QueryStateHandler>
     </FormProvider>
   );
 };

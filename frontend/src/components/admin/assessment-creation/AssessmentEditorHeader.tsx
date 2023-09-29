@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import type { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { type SubmitHandler, useFormContext } from "react-hook-form";
 import {
   Box,
   Button,
@@ -22,6 +21,7 @@ import {
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import ActionButton from "../../common/form/ActionButton";
+import useActionFormHandler from "../../common/modal/useActionFormHandler";
 import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
@@ -31,20 +31,18 @@ import PublishAssessmentModal from "../assessment-status/EditStatusModals/Publis
 
 interface AssessmentEditorHeaderProps {
   name: string;
-  handleSubmit: UseFormHandleSubmit<TestRequest>;
   isEditing: boolean;
   onConfirmArchive: SubmitHandler<TestRequest>;
   onConfirmPublish: SubmitHandler<TestRequest>;
   onDelete: SubmitHandler<TestRequest>;
   onSave: SubmitHandler<TestRequest>;
-  onError: () => void;
+  onError: (message: string) => void;
   validateForm: () => void;
   updatedAt?: string;
 }
 
 const AssessmentEditorHeader = ({
   name,
-  handleSubmit,
   isEditing,
   onConfirmArchive,
   onConfirmPublish,
@@ -54,7 +52,6 @@ const AssessmentEditorHeader = ({
   validateForm,
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
-  const history = useHistory();
   const { setShowAssessmentPreview } = useContext(AssessmentContext);
   const {
     onOpen: onPublishModalOpen,
@@ -77,12 +74,16 @@ const AssessmentEditorHeader = ({
     onPublishModalOpen();
   };
 
-  const handleSave = handleSubmit(onSave, onError);
-  const handlePublish = handleSubmit(onPublish, onError);
-  const handleConfirmPublish = handleSubmit(onConfirmPublish, onError);
-  const handleConfirmArchive = handleSubmit(onConfirmArchive, onError);
-  const handleDelete = handleSubmit(onDelete, onError);
-  const handleCloseEditor = () => history.goBack();
+  const { getValues } = useFormContext<TestRequest>();
+
+  // We need validation on these actions.
+  const handleSave = useActionFormHandler(onSave);
+  const handlePublish = useActionFormHandler(onPublish);
+
+  // We don't need validation on these actions.
+  const handleConfirmPublish = async () => onConfirmPublish(getValues());
+  const handleConfirmArchive = async () => onConfirmArchive(getValues());
+  const handleDelete = async () => onDelete(getValues());
 
   return (
     <>
@@ -121,6 +122,7 @@ const AssessmentEditorHeader = ({
               messageOnSuccess="Assessment saved."
               minWidth="10"
               onClick={handleSave}
+              onError={onError}
               variant="secondary"
             >
               Save
@@ -129,19 +131,20 @@ const AssessmentEditorHeader = ({
               leftIcon={<TextOutlineIcon />}
               minWidth="10"
               onClick={handlePublish}
+              onError={onError}
               showDefaultToasts={false}
               variant="primary"
             >
               Publish
             </ActionButton>
-            <Popover>
-              <VStack divider={<Divider />} spacing="0em">
-                {isEditing && (
+            {isEditing && (
+              <Popover>
+                <VStack divider={<Divider />} spacing="0em">
                   <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
-                )}
-                <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
-              </VStack>
-            </Popover>
+                  <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
+                </VStack>
+              </Popover>
+            )}
           </HStack>
         </Flex>
       </Box>
@@ -156,7 +159,7 @@ const AssessmentEditorHeader = ({
         onClose={onArchiveModalClose}
       />
       <DeleteAssessmentModal
-        deleteAssessment={isEditing ? handleDelete : handleCloseEditor}
+        deleteAssessment={handleDelete}
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
       />

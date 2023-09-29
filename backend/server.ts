@@ -28,8 +28,8 @@ const CORS_ALLOW_LIST = [
   "https://jump-math-staging.web.app",
   "https://jump-math-staging.firebaseapp.com",
   // Production
-  "https://jumpmath.web.app",
-  "https://jumpmath.firebaseapp.com",
+  "https://jump-math-prod.web.app",
+  "https://jump-math-prod.firebaseapp.com",
 ];
 
 const CORS_OPTIONS: cors.CorsOptions = {
