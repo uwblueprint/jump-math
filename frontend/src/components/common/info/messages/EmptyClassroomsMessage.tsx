@@ -14,7 +14,7 @@ const EmptyClassroomsMessage = ({
 }: EmptyClassroomsStateProps): React.ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles}>
+    <Center __css={styles} mt={8}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
         buttonText="Create a classroom"
