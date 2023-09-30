@@ -17,7 +17,7 @@ const TestSessionTabContents = ({
   data,
   status,
 }: TestSessionTabContentsProps): ReactElement => (
-  <Box py={4}>
+  <Box py={4} w="100%">
     {data?.length ? (
       data.map((session) => (
         <TestSessionListItem key={session.testSessionId} session={session} />

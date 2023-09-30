@@ -22,7 +22,7 @@ const EmptySessionsTabMessage = ({
 }): ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles} pb={14} pt={4}>
+    <Center __css={styles}>
       <MessageContainer
         image={DistributeAssessmentsIllustration}
         paragraphs={BODY_PARAGRAPHS_BY_STATUS[status]}
