@@ -17,7 +17,7 @@ const EmailActionHandler = (): React.ReactElement => {
     case "resetPassword":
       return <ResetPasswordHandler oobCode={oobCode} />;
     case null:
-      return <LoadingState />;
+      return <LoadingState fullPage />;
     default:
       return <NotFound />;
   }

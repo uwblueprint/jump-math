@@ -157,7 +157,7 @@ const DisplayClassroomsPage = () => {
   usePageTitle(displayTitle ?? "Classroom");
 
   return (
-    <Flex direction="column" gap={3}>
+    <Flex direction="column" flex="1" gap={3}>
       <FormBreadcrumb
         breadcrumbs={BREADCRUMB_CONFIG(displayTitle)}
         page={1}

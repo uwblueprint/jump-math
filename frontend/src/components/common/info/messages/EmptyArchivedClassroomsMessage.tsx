@@ -1,24 +1,21 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import { Center, useStyleConfig } from "@chakra-ui/react";
 
 import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
-import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
-const EmptyTestsMessage = (): React.ReactElement => {
+const EmptyArchivedClassroomsMessage = (): ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles}>
+    <Center __css={styles} mt={8}>
       <MessageContainer
-        buttonRoute={ASSESSMENT_EDITOR_PAGE}
-        buttonText="Create assessment"
         image={DisplayAssessmentsIllustration}
-        paragraphs={["Create your first assessment"]}
-        subtitle="You currently have no assessments."
+        paragraphs={["Use the archive option on a classroom to view it here"]}
+        subtitle="You currently have no archived classroooms."
         textColor="blue.300"
       />
     </Center>
   );
 };
 
-export default EmptyTestsMessage;
+export default EmptyArchivedClassroomsMessage;

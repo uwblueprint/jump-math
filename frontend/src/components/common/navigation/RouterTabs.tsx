@@ -9,7 +9,14 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import {
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 
 export type RouteConfig = {
   name?: string;
@@ -42,6 +49,9 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
   return (
     <>
       <Tabs
+        display="flex"
+        flex="1"
+        flexDirection="column"
         index={currentRouteIndex}
         isLazy
         onChange={(index) => {
@@ -58,10 +68,10 @@ const RouterTabs = ({ routes }: RouterTabsProps) => {
             name ? <Tab key={path}>{name}</Tab> : null,
           )}
         </TabList>
-        <TabPanels>
+        <TabPanels flex="1">
           {routes.map(({ path, Component, element }) => (
-            <TabPanel key={path} p={0}>
-              {Component ? <Component /> : element}
+            <TabPanel key={path} h="full" p={0}>
+              <Flex h="full">{Component ? <Component /> : element}</Flex>
             </TabPanel>
           ))}
         </TabPanels>

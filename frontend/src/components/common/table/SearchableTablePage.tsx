@@ -36,7 +36,7 @@ const SearchableTablePage = <T, SortPropTypes extends readonly string[]>({
   );
   return (
     <>
-      <VStack pb={8} pt={4} spacing={6}>
+      <VStack pt={4} spacing={6} w="full">
         {searchLength !== 0 && (
           <HStack width="100%">
             {searchBarComponent}

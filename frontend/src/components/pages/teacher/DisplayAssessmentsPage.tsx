@@ -9,11 +9,10 @@ import {
 import { titleCase } from "../../../utils/GeneralUtils";
 import RedirectTo from "../../auth/RedirectTo";
 import HeaderWithButton from "../../common/HeaderWithButton";
-import ErrorState from "../../common/info/ErrorState";
-import LoadingState from "../../common/info/LoadingState";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import RouterTabs from "../../common/navigation/RouterTabs";
 import useRouteMatchParam from "../../common/navigation/useRouteMatchParams";
+import QueryStateHandler from "../../common/QueryStateHandler";
 import Pagination from "../../common/table/Pagination";
 import usePaginatedData from "../../common/table/usePaginatedData";
 import TestSessionTabContents from "../../teacher/view-sessions/TestSessionTabContents";
@@ -76,7 +75,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   return (
     <>
-      <VStack align="left" mb={10}>
+      <VStack align="left">
         <HeaderWithButton
           buttonText="Add Assessment"
           showButton={!!data?.length}
@@ -84,20 +83,8 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           title="Assessments"
         />
       </VStack>
-
-      {loading && (
-        <Center flex="1" margin="15%">
-          <LoadingState />
-        </Center>
-      )}
-      {error && (
-        <Box>
-          <ErrorState />
-        </Box>
-      )}
-      {!loading &&
-        !error &&
-        (data?.length ? (
+      <QueryStateHandler error={error} loading={loading}>
+        {data?.length ? (
           <>
             <RouterTabs routes={TAB_CONFIG(paginatedData, statusSummary)} />
             {totalPages > 1 && (
@@ -111,8 +98,11 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
             )}
           </>
         ) : (
-          <EmptySessionsMessage />
-        ))}
+          <Box mt={8}>
+            <EmptySessionsMessage />
+          </Box>
+        )}
+      </QueryStateHandler>
     </>
   );
 };

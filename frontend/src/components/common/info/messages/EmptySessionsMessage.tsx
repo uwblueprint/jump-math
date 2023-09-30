@@ -9,7 +9,7 @@ import MessageContainer from "../MessageContainer";
 const EmptySessionsMessage = (): ReactElement => {
   const styles = useStyleConfig("Center", { variant: "emptyMessage" });
   return (
-    <Center __css={styles} pb={14}>
+    <Center __css={styles}>
       <MessageContainer
         buttonIcon={<PlusOutlineIcon />}
         buttonRoute={{
