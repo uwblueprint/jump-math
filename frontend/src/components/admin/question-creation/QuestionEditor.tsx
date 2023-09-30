@@ -4,9 +4,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useParams } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
@@ -19,8 +20,12 @@ import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
 const QuestionEditor = (): ReactElement => {
-  const { questionIndex } = useParams<{ questionIndex?: string }>();
-  const { questions, setQuestionEditorDirty } = useContext(AssessmentContext);
+  const { assessmentId, questionIndex } = useParams<{
+    assessmentId?: string;
+    questionIndex?: string;
+  }>();
+  const { questions, setQuestionEditorDirty, redirectableHistory } =
+    useContext(AssessmentContext);
   const editorQuestion = questions[Number(questionIndex) - 1];
 
   const [questionElements, setQuestionElements] = useState<QuestionElement[]>(
@@ -32,7 +37,6 @@ const QuestionEditor = (): ReactElement => {
   const [showAddMultiSelectModal, setShowAddMultiSelectModal] = useState(false);
   const [showAddFractionModal, setShowAddFractionModal] = useState(false);
   const [showEditorError, setShowEditorError] = useState(false);
-  const [showQuestionPreview, setShowQuestionPreview] = useState(false);
 
   const isDirty = editorQuestion
     ? editorQuestion.elements !== questionElements
@@ -56,14 +60,16 @@ const QuestionEditor = (): ReactElement => {
         setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
-        showQuestionPreview,
-        setShowQuestionPreview,
       }}
     >
-      {showQuestionPreview ? (
-        <QuestionPreview />
-      ) : (
-        <>
+      <Switch>
+        <Route
+          exact
+          path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+            assessmentId: assessmentId && ":assessmentId",
+            questionIndex: questionIndex && ":questionIndex",
+          })}
+        >
           <Flex minHeight="100vh">
             <QuestionSidebar />
             <QuestionWorkspace />
@@ -71,8 +77,26 @@ const QuestionEditor = (): ReactElement => {
           <AddShortAnswerModal />
           <AddMultiOptionModal />
           <AddFractionModal />
-        </>
-      )}
+        </Route>
+        <Route
+          path={Routes.ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE({
+            assessmentId: assessmentId && ":assessmentId",
+            questionIndex: questionIndex && ":questionIndex",
+          })}
+        >
+          <QuestionPreview
+            goBack={() =>
+              redirectableHistory.push(
+                Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                  assessmentId,
+                  questionIndex,
+                }),
+              )
+            }
+            questionElements={questionElements}
+          />
+        </Route>
+      </Switch>
     </QuestionEditorContext.Provider>
   );
 };

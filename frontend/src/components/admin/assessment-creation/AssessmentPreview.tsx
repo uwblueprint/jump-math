@@ -1,11 +1,8 @@
 import type { ReactNode } from "react";
-import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
-import * as Routes from "../../../constants/Routes";
-import AssessmentContext from "../../../contexts/AssessmentContext";
 import type { Question } from "../../../types/QuestionTypes";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
@@ -18,14 +15,11 @@ const AssessmentPreview = ({
   questions,
   goBack,
 }: AssessmentPreviewProps): ReactNode => {
-  const { assessmentId } = useParams<{ assessmentId?: string }>();
-  const { redirectableHistory } = useContext(AssessmentContext);
-
   useEffect(() => {
     if (!questions.length) {
-      redirectableHistory.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
+      goBack();
     }
-  }, [assessmentId, questions, redirectableHistory]);
+  }, [goBack, questions]);
 
   if (!questions.length) {
     return null;

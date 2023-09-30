@@ -19,7 +19,6 @@ import { ImageIcon, QuestionIcon, TextIcon } from "../../../assets/icons";
 import * as Routes from "../../../constants/Routes";
 import typeToIconMetadata from "../../../constants/StudentAssessmentConstants";
 import AssessmentContext from "../../../contexts/AssessmentContext";
-import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import {
   QuestionElementType,
   ResponseElementType,
@@ -75,9 +74,11 @@ const renderAccordionItem = (items: AccordionItemProps[]) => {
 
 const QuestionSidebar = (): React.ReactElement => {
   const history = useHistory();
-  const { assessmentId } = useParams<{ assessmentId?: string }>();
+  const { assessmentId, questionIndex } = useParams<{
+    assessmentId?: string;
+    questionIndex?: string;
+  }>();
 
-  const { setShowQuestionPreview } = useContext(QuestionEditorContext);
   const { redirectableHistory, setQuestionEditorDirty } =
     useContext(AssessmentContext);
 
@@ -133,7 +134,14 @@ const QuestionSidebar = (): React.ReactElement => {
       <HStack align="center" paddingTop="2em">
         <Button
           minWidth={0}
-          onClick={() => setShowQuestionPreview(true)}
+          onClick={() =>
+            redirectableHistory.push(
+              Routes.ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE({
+                assessmentId,
+                questionIndex,
+              }),
+            )
+          }
           variant="secondary"
         >
           Preview

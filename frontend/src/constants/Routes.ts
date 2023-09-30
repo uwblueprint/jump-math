@@ -36,6 +36,16 @@ export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
   ASSESSMENT_EDITOR_BASE({ assessmentId }) +
   "/questions/" +
   (questionIndex ? `${questionIndex}/edit` : "add");
+export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
+  assessmentId,
+  questionIndex,
+}: {
+  assessmentId?: string;
+  questionIndex?: string;
+}) =>
+  ASSESSMENT_EDITOR_BASE({ assessmentId }) +
+  "/questions/" +
+  (questionIndex ? `${questionIndex}/preview` : "add/preview");
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

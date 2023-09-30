@@ -19,8 +19,6 @@ type QuestionEditorContextType = {
   setShowAddFractionModal: (_showAddFractionModal: boolean) => void;
   showEditorError: boolean;
   setShowEditorError: (_showEditorError: boolean) => void;
-  showQuestionPreview: boolean;
-  setShowQuestionPreview: (_showQuestionPreview: boolean) => void;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
@@ -40,8 +38,6 @@ const QuestionEditorContext = createContext<QuestionEditorContextType>({
   setShowAddFractionModal: (_showAddFractionModal: boolean): void => {},
   showEditorError: false,
   setShowEditorError: (_showEditorError: boolean): void => {},
-  showQuestionPreview: false,
-  setShowQuestionPreview: (_showQuestionPreview: boolean): void => {},
 });
 
 export default QuestionEditorContext;
