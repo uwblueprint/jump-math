@@ -83,20 +83,12 @@ const QuestionSidebar = (): React.ReactElement => {
 
   const closeQuestionEditor = () => {
     setQuestionEditorDirty(null);
-    history.push(
-      assessmentId
-        ? Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId })
-        : Routes.ASSESSMENT_CREATOR_PAGE,
-    );
+    history.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
   };
 
   const closeQuestionEditorAfterSaving = () => {
     setQuestionEditorDirty(null);
-    redirectableHistory.push(
-      assessmentId
-        ? Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId })
-        : Routes.ASSESSMENT_CREATOR_PAGE,
-    );
+    redirectableHistory.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
   };
 
   return (

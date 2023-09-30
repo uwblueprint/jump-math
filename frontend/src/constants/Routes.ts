@@ -9,29 +9,33 @@ export const EMAIL_ACTION_PAGE = "/email-action";
 // Private Admin Routes
 export const ADMIN_LANDING_PAGE = "/admin";
 export const USERS_PAGE = "/admin/users";
+
 export const ASSESSMENTS_PAGE = "/admin/assessments";
-export const ASSESSMENT_CREATOR_PAGE = "/admin/assessments/create";
+export const ASSESSMENT_EDITOR_BASE = ({
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => "/admin/assessments/" + (assessmentId ?? "create");
 export const ASSESSMENT_EDITOR_PAGE = ({
-  assessmentId = ":assessmentId",
-} = {}) => `/admin/assessments/${assessmentId}/edit`;
-export const ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE =
-  "/admin/assessments/create/questions/add";
-export const ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE = ({
-  questionIndex = ":questionIndex",
-} = {}) => `/admin/assessments/create/questions/${questionIndex}/edit`;
-export const ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE = ({
-  assessmentId = ":assessmentId",
-} = {}) => `/admin/assessments/${assessmentId}/edit/questions/add`;
-export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
-  questionIndex = ":questionIndex",
-  assessmentId = ":assessmentId",
-} = {}) =>
-  `/admin/assessments/${assessmentId}/edit/questions/${questionIndex}/edit`;
-export const ASSESSMENT_CREATOR_PREVIEW_PAGE =
-  "/admin/assessments/create/preview";
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + (assessmentId ? "/edit" : "");
 export const ASSESSMENT_EDITOR_PREVIEW_PAGE = ({
-  assessmentId = ":assessmentId",
-} = {}) => `/admin/assessments/${assessmentId}/preview`;
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + "/preview";
+export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
+  assessmentId,
+  questionIndex,
+}: {
+  assessmentId?: string;
+  questionIndex?: string;
+}) =>
+  ASSESSMENT_EDITOR_BASE({ assessmentId }) +
+  "/questions/" +
+  (questionIndex ? `${questionIndex}/edit` : "add");
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

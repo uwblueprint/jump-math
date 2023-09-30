@@ -156,7 +156,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       redirectableHistory.push(Routes.ASSESSMENTS_PAGE);
     } else {
       redirectableHistory.replace({
-        pathname: redirectableHistory.location.pathname,
+        pathname: Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId: test.id }),
         state: test,
       });
     }
@@ -210,19 +210,25 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
             <Switch>
               <Route
                 component={QuestionEditor}
-                path={Routes.ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE()}
+                // Existing question on existing/new test
+                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                  assessmentId: state?.id && ":assessmentId",
+                  questionIndex: ":questionIndex",
+                })}
               />
               <Route
                 component={QuestionEditor}
-                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE()}
+                // New question on existing/new test
+                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                  assessmentId: state?.id && ":assessmentId",
+                })}
               />
               <Route
                 exact
-                path={
-                  state?.id
-                    ? Routes.ASSESSMENT_EDITOR_PAGE()
-                    : Routes.ASSESSMENT_CREATOR_PAGE
-                }
+                // Existing/new assessment
+                path={Routes.ASSESSMENT_EDITOR_PAGE({
+                  assessmentId: state?.id && ":assessmentId",
+                })}
               >
                 <VStack spacing="8" width="100%">
                   <AssessmentEditorHeader
@@ -267,29 +273,16 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
                 </VStack>
               </Route>
               <Route
-                component={QuestionEditor}
-                exact
-                path={Routes.ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE}
-              />
-              <Route
-                component={QuestionEditor}
-                path={Routes.ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE()}
-              />
-              <Route
-                path={
-                  state?.id
-                    ? Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE()
-                    : Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE()
-                }
+                path={Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
+                  assessmentId: state?.id && ":assessmentId",
+                })}
               >
                 <AssessmentPreview
                   goBack={() =>
                     redirectableHistory.push(
-                      state?.id
-                        ? Routes.ASSESSMENT_EDITOR_PAGE({
-                            assessmentId: state.id,
-                          })
-                        : Routes.ASSESSMENT_CREATOR_PAGE,
+                      Routes.ASSESSMENT_EDITOR_PAGE({
+                        assessmentId: state?.id,
+                      }),
                     )
                   }
                   questions={questions}

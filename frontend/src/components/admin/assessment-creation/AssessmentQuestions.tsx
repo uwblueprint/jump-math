@@ -31,11 +31,9 @@ const AssessmentQuestions = (): React.ReactElement => {
           onClick={() => {
             setQuestionEditorDirty(false);
             redirectableHistory.push(
-              assessmentId
-                ? Routes.ASSESSMENT_EDITOR_QUESTION_CREATOR_PAGE({
-                    assessmentId,
-                  })
-                : Routes.ASSESSMENT_CREATOR_QUESTION_CREATOR_PAGE,
+              Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                assessmentId,
+              }),
             );
           }}
           variant="outline"

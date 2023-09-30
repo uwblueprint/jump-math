@@ -10,7 +10,7 @@ const CreateAssessmentButton = (): React.ReactElement => {
   return (
     <Button
       my={2}
-      onClick={() => history.push(Routes.ASSESSMENT_CREATOR_PAGE)}
+      onClick={() => history.push(Routes.ASSESSMENT_EDITOR_PAGE({}))}
       rightIcon={<PlusOutlineIcon />}
       variant="primary"
     >

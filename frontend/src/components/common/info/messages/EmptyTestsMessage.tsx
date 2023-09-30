@@ -10,7 +10,7 @@ const EmptyTestsMessage = (): React.ReactElement => {
   return (
     <Center __css={styles} pb={14}>
       <MessageContainer
-        buttonRoute={Routes.ASSESSMENT_CREATOR_PAGE}
+        buttonRoute={Routes.ASSESSMENT_EDITOR_PAGE({})}
         buttonText="Create assessment"
         image={DisplayAssessmentsIllustration}
         paragraphs={["Create your first assessment"]}

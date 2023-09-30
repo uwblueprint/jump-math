@@ -144,14 +144,10 @@ const QuestionCard = ({
                 onClick={() => {
                   setQuestionEditorDirty(false);
                   redirectableHistory.push(
-                    assessmentId
-                      ? Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
-                          assessmentId,
-                          questionIndex: String(index + 1),
-                        })
-                      : Routes.ASSESSMENT_CREATOR_QUESTION_EDITOR_PAGE({
-                          questionIndex: String(index + 1),
-                        }),
+                    Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                      assessmentId,
+                      questionIndex: String(index + 1),
+                    }),
                   );
                 }}
                 size="icon"

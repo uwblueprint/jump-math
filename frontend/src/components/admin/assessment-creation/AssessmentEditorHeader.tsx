@@ -75,9 +75,9 @@ const AssessmentEditorHeader = ({
   const onPreview = () => {
     validateForm();
     redirectableHistory.push(
-      assessmentId
-        ? Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({ assessmentId })
-        : Routes.ASSESSMENT_CREATOR_PREVIEW_PAGE,
+      Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
+        assessmentId,
+      }),
     );
   };
 

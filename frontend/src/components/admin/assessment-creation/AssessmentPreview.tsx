@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 import { EditOutlineIcon } from "../../../assets/icons";
@@ -17,13 +18,14 @@ const AssessmentPreview = ({
   questions,
   goBack,
 }: AssessmentPreviewProps): ReactNode => {
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
   const { redirectableHistory } = useContext(AssessmentContext);
 
   useEffect(() => {
     if (!questions.length) {
-      redirectableHistory.push(Routes.ASSESSMENT_CREATOR_PAGE);
+      redirectableHistory.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
     }
-  }, [questions, redirectableHistory]);
+  }, [assessmentId, questions, redirectableHistory]);
 
   if (!questions.length) {
     return null;
