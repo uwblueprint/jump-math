@@ -143,7 +143,7 @@ const ClassroomCard = ({
           );
         })}
         {!!activeAssessments && (
-          <Tag bgColor="yellow.50" color="yellow.300" size="lg">
+          <Tag bgColor="green.50" color="green.300" size="lg">
             <Text textStyle="mobileParagraph">
               {activeAssessments} active test
               {activeAssessments === 1 ? "" : "s"}
