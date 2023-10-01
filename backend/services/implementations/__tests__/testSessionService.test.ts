@@ -320,13 +320,26 @@ describe("mongo testSessionService", (): void => {
       expect(deletedTestSessionId).toBe(savedTestSession.id);
     });
 
-    it("with test session that already started", async () => {
+    it("with valid active test session id", async () => {
+      const savedTestSession = await MgTestSession.create(mockTestSession);
+
+      const deletedTestSessionId = await testSessionService.deleteTestSession(
+        savedTestSession.id,
+        new Date(),
+      );
+      expect(deletedTestSessionId).toBe(savedTestSession.id);
+    });
+
+    it("with past test session", async () => {
       const savedTestSession = await MgTestSession.create(mockTestSession);
 
       await expect(async () => {
-        await testSessionService.deleteTestSession(savedTestSession.id);
+        await testSessionService.deleteTestSession(
+          savedTestSession.id,
+          new Date("2056-09-02T09:00:00.000Z"),
+        );
       }).rejects.toThrowError(
-        `Test Session id ${savedTestSession.id} not found or test session has already started`,
+        `Test Session id ${savedTestSession.id} not found or test session has past`,
       );
     });
 
@@ -335,7 +348,7 @@ describe("mongo testSessionService", (): void => {
       await expect(async () => {
         await testSessionService.deleteTestSession(notFoundId);
       }).rejects.toThrowError(
-        `Test Session id ${notFoundId} not found or test session has already started`,
+        `Test Session id ${notFoundId} not found or test session has past`,
       );
     });
   });
