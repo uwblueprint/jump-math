@@ -61,7 +61,7 @@ export const isAuthorizedByRole = (roles: Set<Role>) => {
 
 /* Determine if request for a user-specific resource is authorized based on accessToken
  * validity and if the userId that the token was issued to matches the requested userId
- * Note: userIdField is the name of the request parameter containing the requested userId */
+ * Note: userIdBeingAccessed is the name of the request parameter containing the requested userId */
 export const isAuthorizedByUserId = (userIdBeingAccessed: string) => {
   return async (
     resolve: (
