@@ -150,11 +150,11 @@ class TestSessionService implements ITestSessionService {
     try {
       const result = await MgTestSession.deleteOne({
         _id: id,
-        startDate: { $gt: now ?? new Date() },
+        endDate: { $gt: now ?? new Date() },
       });
       if (!result.deletedCount) {
         throw new Error(
-          `Test Session id ${id} not found or test session has already started`,
+          `Test Session id ${id} not found or test session has passed`,
         );
       }
       return id;
