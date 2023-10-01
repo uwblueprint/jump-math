@@ -339,7 +339,7 @@ describe("mongo testSessionService", (): void => {
           new Date("2056-09-02T09:00:00.000Z"),
         );
       }).rejects.toThrowError(
-        `Test Session id ${savedTestSession.id} not found or test session has past`,
+        `Test Session id ${savedTestSession.id} not found or test session has passed`,
       );
     });
 
@@ -348,7 +348,7 @@ describe("mongo testSessionService", (): void => {
       await expect(async () => {
         await testSessionService.deleteTestSession(notFoundId);
       }).rejects.toThrowError(
-        `Test Session id ${notFoundId} not found or test session has past`,
+        `Test Session id ${notFoundId} not found or test session has passed`,
       );
     });
   });

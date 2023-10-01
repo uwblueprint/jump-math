@@ -133,7 +133,7 @@ export interface ITestSessionService {
    * @param id id to delete
    * @param now optional date to use as the current date
    * @returns deleted id
-   * @throws Error if deletion fails or given test session has past
+   * @throws Error if deletion fails or given test session has passed
    */
   deleteTestSession(id: string, now?: Date): Promise<string>;
 

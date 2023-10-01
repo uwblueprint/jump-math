@@ -154,7 +154,7 @@ class TestSessionService implements ITestSessionService {
       });
       if (!result.deletedCount) {
         throw new Error(
-          `Test Session id ${id} not found or test session has past`,
+          `Test Session id ${id} not found or test session has passed`,
         );
       }
       return id;
