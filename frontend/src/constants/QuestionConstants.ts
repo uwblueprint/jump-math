@@ -1,4 +1,4 @@
-const editorTooltips = {
+export const editorTooltips = {
   QUESTION_TEXT: "This is question text",
   TEXT: "This is text",
   IMAGE: "This is an image",
@@ -10,4 +10,5 @@ const editorTooltips = {
   FRACTION: "Students will have to input a proper, improper, or mixed fraction",
 };
 
-export default editorTooltips;
+export const MAX_FILE_SIZE_MB = 10;
+export const MAX_FILES = 20;

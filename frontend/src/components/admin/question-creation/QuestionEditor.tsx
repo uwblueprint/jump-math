@@ -25,6 +25,7 @@ const QuestionEditor = (): React.ReactElement => {
     React.useState(false);
   const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
   const [showEditorError, setShowEditorError] = React.useState(false);
+  const [editorError, setEditorError] = React.useState("");
   const [showQuestionPreview, setShowQuestionPreview] = React.useState(false);
 
   return (
@@ -42,6 +43,8 @@ const QuestionEditor = (): React.ReactElement => {
         setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
+        editorError,
+        setEditorError,
         showQuestionPreview,
         setShowQuestionPreview,
       }}

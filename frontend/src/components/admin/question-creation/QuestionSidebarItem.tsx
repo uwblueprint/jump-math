@@ -3,7 +3,7 @@ import { useDrag } from "react-dnd";
 import { Box, Icon, Text, Tooltip, VStack, WrapItem } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import editorTooltips from "../../../constants/QuestionConstants";
+import { editorTooltips } from "../../../constants/QuestionConstants";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import { DragTypes } from "../../../types/DragTypes";
 import type { QuestionElement } from "../../../types/QuestionTypes";

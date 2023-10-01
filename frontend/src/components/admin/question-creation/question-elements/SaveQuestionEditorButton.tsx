@@ -3,6 +3,10 @@ import { Button } from "@chakra-ui/react";
 import update from "immutability-helper";
 import { v4 as uuidv4 } from "uuid";
 
+import {
+  MAX_FILE_SIZE_MB,
+  MAX_FILES,
+} from "../../../../constants/QuestionConstants";
 import AssessmentContext from "../../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../../contexts/QuestionEditorContext";
 import type {
@@ -32,8 +36,12 @@ const SaveQuestionEditorButton = ({
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
   const { setQuestions, editorQuestion } = useContext(AssessmentContext);
-  const { questionElements, setQuestionElements, setShowEditorError } =
-    useContext(QuestionEditorContext);
+  const {
+    questionElements,
+    setQuestionElements,
+    setShowEditorError,
+    setEditorError,
+  } = useContext(QuestionEditorContext);
 
   const setElementError = (element: QuestionElement, errorText: string) => {
     setQuestionElements((prevElements) => {
@@ -104,6 +112,37 @@ const SaveQuestionEditorButton = ({
     return true;
   };
 
+  const validateNoImageErrors = () => {
+    const newImageElements = questionElements.filter(
+      (element) =>
+        element.type === QuestionElementType.IMAGE &&
+        (element.data as ImageMetadataRequest).file !== undefined,
+    );
+
+    if (newImageElements.length > MAX_FILES) {
+      setShowEditorError(true);
+      setEditorError(
+        `Total number of new files exceeds ${MAX_FILES}. Please try again with fewer image files.`,
+      );
+      return false;
+    }
+
+    const totalImageSize = newImageElements.reduce((total, element) => {
+      const fileSize = (element.data as ImageMetadataRequest).file?.size ?? 0;
+      return total + fileSize;
+    }, 0);
+
+    if (totalImageSize > MAX_FILE_SIZE_MB * 1000000) {
+      setShowEditorError(true);
+      setEditorError(
+        `Total size of new files exceeds ${MAX_FILE_SIZE_MB}MB. Please try again with smaller image files.`,
+      );
+      return false;
+    }
+
+    return true;
+  };
+
   const validateNoExistingErrors = () => {
     return questionElements.every(
       (element) =>
@@ -119,6 +158,9 @@ const SaveQuestionEditorButton = ({
         (element) => element.type === QuestionElementType.QUESTION_TEXT,
       ).length === 0;
     setShowEditorError(emptyEditor);
+    setEditorError(
+      "Please add at least one question to the editor before saving",
+    );
     return !emptyEditor;
   };
 
@@ -154,6 +196,7 @@ const SaveQuestionEditorButton = ({
       validateNoMissingQuestionError() &&
       validateNoQuestionPairErrors() &&
       validateNoEmptyElementErrors() &&
+      validateNoImageErrors() &&
       validateNoExistingErrors()
     ) {
       const validatedQuestionElements = questionElements.map((element) => {

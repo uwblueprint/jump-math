@@ -1,8 +1,13 @@
 import type { Dispatch, ReactElement, SetStateAction } from "react";
 import React, { useState } from "react";
+import { ApolloError } from "@apollo/client";
 import type { ButtonProps } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 
+import {
+  MAX_FILE_SIZE_MB,
+  MAX_FILES,
+} from "../../../constants/QuestionConstants";
 import { FormValidationError } from "../../../utils/GeneralUtils";
 import useToast from "../info/useToast";
 
@@ -84,7 +89,12 @@ const ActionButton = <Default extends boolean = true>({
           : generateErrorMessage) ??
         "An error occurred. Please try again later.";
       const errorMessage =
-        e instanceof FormValidationError ? e.message : nonValidationMessage;
+        e instanceof ApolloError &&
+        e.message == "Response not successful: Received status code 413"
+          ? `Total size of new files exceeds ${MAX_FILE_SIZE_MB}MB or total number of new files exceeds ${MAX_FILES}. Please try again with fewer / smaller image files.`
+          : e instanceof FormValidationError
+          ? e.message
+          : nonValidationMessage;
       handleError(errorMessage);
     } finally {
       setLoading(false);

@@ -10,7 +10,7 @@ import QuestionElementItem from "./QuestionElementItem";
 import WelcomeMessage from "./WelcomeMessage";
 
 const QuestionWorkspace = (): React.ReactElement => {
-  const { questionElements, showEditorError } = useContext(
+  const { questionElements, showEditorError, editorError } = useContext(
     QuestionEditorContext,
   );
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
@@ -24,15 +24,12 @@ const QuestionWorkspace = (): React.ReactElement => {
 
   const isHovering = canDrop && isOver;
 
-  const emptyEditorError =
-    "Please add at least one question to the editor before saving";
-
   return (
     <Box ref={drop} flex="1" overflow="auto">
       <VStack align="left" margin="3em 5em">
         {showEditorError && (
           <Box paddingBottom="4">
-            <ErrorToast errorMessage={emptyEditorError} />
+            <ErrorToast errorMessage={editorError} />
           </Box>
         )}
         {!isHovering && !questionElements.length && <WelcomeMessage />}
