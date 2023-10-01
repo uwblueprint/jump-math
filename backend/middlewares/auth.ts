@@ -61,8 +61,8 @@ export const isAuthorizedByRole = (roles: Set<Role>) => {
 
 /* Determine if request for a user-specific resource is authorized based on accessToken
  * validity and if the userId that the token was issued to matches the requested userId
- * Note: userIdField is the name of the request parameter containing the requested userId */
-export const isAuthorizedByUserId = (userIdField: string) => {
+ * Note: userIdBeingAccessed is the name of the request parameter containing the requested userId */
+export const isAuthorizedByUserId = (userIdBeingAccessed: string) => {
   return async (
     resolve: (
       parent: any,
@@ -78,7 +78,10 @@ export const isAuthorizedByUserId = (userIdField: string) => {
     const accessToken = getAccessToken(context.req);
     const authorized =
       accessToken &&
-      (await authService.isAuthorizedByUserId(accessToken, args[userIdField]));
+      (await authService.isAuthorizedByUserId(
+        accessToken,
+        args[userIdBeingAccessed],
+      ));
 
     if (!authorized) {
       throw new AuthenticationError(

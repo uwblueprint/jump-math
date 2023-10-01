@@ -96,9 +96,8 @@ const ClassroomCard = ({
       <VStack
         _hover={{ backgroundColor: "grey.100" }}
         alignItems="flex-start"
-        backgroundColor={selected ? "grey.100" : ""}
         border="2.5px solid"
-        borderColor="blue.50"
+        borderColor={selected ? "blue.200" : "blue.50"}
         borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
         h="100%"
         p="1em"
@@ -144,9 +143,10 @@ const ClassroomCard = ({
           );
         })}
         {!!activeAssessments && (
-          <Tag bgColor="grey.100" color="grey.300" size="lg">
+          <Tag bgColor="green.50" color="green.300" size="lg">
             <Text textStyle="mobileParagraph">
-              {activeAssessments} Coming Tests
+              {activeAssessments} active test
+              {activeAssessments === 1 ? "" : "s"}
             </Text>
           </Tag>
         )}

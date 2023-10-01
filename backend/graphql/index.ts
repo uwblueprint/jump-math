@@ -62,6 +62,7 @@ const buildSchema = async () => {
   const graphQLMiddlewares = {
     Query: {
       tests: authorizedByAllRoles(),
+      schoolByTeacherId: isAuthorizedByUserId("teacherId"),
     },
     Mutation: {
       createUser: authorizedByAdmin(),
