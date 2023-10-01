@@ -4,10 +4,6 @@ import { ApolloError } from "@apollo/client";
 import type { ButtonProps } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 
-import {
-  MAX_FILE_SIZE_MB,
-  MAX_FILES,
-} from "../../../constants/QuestionConstants";
 import { FormValidationError } from "../../../utils/GeneralUtils";
 import useToast from "../info/useToast";
 
@@ -91,7 +87,7 @@ const ActionButton = <Default extends boolean = true>({
       const errorMessage =
         e instanceof ApolloError &&
         e.message == "Response not successful: Received status code 413"
-          ? `Total size of new files exceeds ${MAX_FILE_SIZE_MB}MB or total number of new files exceeds ${MAX_FILES}. Please try again with fewer / smaller image files.`
+          ? `Request is too large. Please try again with smaller / fewer image files.`
           : e instanceof FormValidationError
           ? e.message
           : nonValidationMessage;
