@@ -11,21 +11,17 @@ const EmailActionHandler = (): ReactElement => {
   const resetPasswordOobCode = urlParams.get("resetPasswordOobCode") ?? "";
   const userId = urlParams.get("userId") ?? "";
 
-  if (!(verifyEmailOobCode && userId) && !resetPasswordOobCode) {
-    return <NotFound />;
-  }
-
-  if (!verifyEmailOobCode && resetPasswordOobCode) {
+  if (verifyEmailOobCode && userId)
+    return (
+      <VerifyEmailHandler
+        resetPasswordOobCode={resetPasswordOobCode}
+        userId={userId}
+        verifyEmailOobCode={verifyEmailOobCode}
+      />
+    );
+  if (resetPasswordOobCode && !verifyEmailOobCode)
     return <ResetPasswordHandler oobCode={resetPasswordOobCode} />;
-  }
-
-  return (
-    <VerifyEmailHandler
-      resetPasswordOobCode={resetPasswordOobCode}
-      userId={userId}
-      verifyEmailOobCode={verifyEmailOobCode}
-    />
-  );
+  return <NotFound />;
 };
 
 export default EmailActionHandler;
