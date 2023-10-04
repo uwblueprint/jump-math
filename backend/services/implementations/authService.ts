@@ -129,22 +129,6 @@ class AuthService implements IAuthService {
     </span>`;
   }
 
-  private getURLDetails(link: string): {
-    url: URL;
-    oobCode: string;
-  } {
-    const url = new URL(link);
-    const { searchParams } = url;
-    const oobCode = searchParams.get("oobCode");
-    if (!oobCode) {
-      const errorMessage = `Failed to extract oobCode from link ${link}`;
-      Logger.error(errorMessage);
-      throw new Error(errorMessage);
-    }
-    url.search = "";
-    return { url, oobCode };
-  }
-
   private getURLWithoutSearch(link: string): URL {
     const url = new URL(link);
     url.search = "";
