@@ -71,9 +71,9 @@ const runServer = async () => {
   app.use(cors(CORS_OPTIONS));
   app.use(
     await graphqlUploadExpress({
-      maxFileSize: 10 * 1024 * 1024, // 10 MB
-      maxFieldSize: 10 * 1024 * 1024, // 10 MB
-      maxFiles: 20,
+      maxFileSize: 5 * 1024 * 1024, // 5 MB
+      maxFieldSize: Infinity,
+      maxFiles: Infinity,
     }),
   );
   app.use(express.json());
