@@ -211,14 +211,14 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
               <Route
                 component={QuestionEditor}
                 // New question on existing/new test
-                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({
                   assessmentId: state?.id && ":assessmentId",
                 })}
               />
               <Route
                 component={QuestionEditor}
                 // Existing question on existing/new test
-                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({
                   assessmentId: state?.id && ":assessmentId",
                   questionIndex: ":questionIndex",
                 })}

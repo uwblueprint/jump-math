@@ -15,7 +15,7 @@ export const ASSESSMENT_EDITOR_BASE = ({
   assessmentId,
 }: {
   assessmentId?: string;
-}) => "/admin/assessments/" + (assessmentId ?? "create");
+}) => "/admin/assessments/" + (assessmentId ?? "new");
 export const ASSESSMENT_EDITOR_PAGE = ({
   assessmentId,
 }: {
@@ -26,6 +26,16 @@ export const ASSESSMENT_EDITOR_PREVIEW_PAGE = ({
 }: {
   assessmentId?: string;
 }) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + "/preview";
+export const ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE = ({
+  assessmentId,
+  questionIndex,
+}: {
+  assessmentId?: string;
+  questionIndex?: string;
+}) =>
+  ASSESSMENT_EDITOR_BASE({ assessmentId }) +
+  "/questions/" +
+  (questionIndex ?? "new");
 export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
   assessmentId,
   questionIndex,
@@ -33,9 +43,8 @@ export const ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE = ({
   assessmentId?: string;
   questionIndex?: string;
 }) =>
-  ASSESSMENT_EDITOR_BASE({ assessmentId }) +
-  "/questions/" +
-  (questionIndex ? `${questionIndex}/edit` : "add");
+  ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
+  (questionIndex ? "/edit" : "");
 export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
   assessmentId,
   questionIndex,
@@ -43,9 +52,8 @@ export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
   assessmentId?: string;
   questionIndex?: string;
 }) =>
-  ASSESSMENT_EDITOR_BASE({ assessmentId }) +
-  "/questions/" +
-  (questionIndex ? `${questionIndex}/preview` : "add/preview");
+  ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
+  "/preview";
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

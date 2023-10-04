@@ -11,6 +11,7 @@ import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
+import NotFound from "../../pages/NotFound";
 
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
@@ -96,6 +97,7 @@ const QuestionEditor = (): ReactElement => {
             questionElements={questionElements}
           />
         </Route>
+        <Route component={NotFound} exact path="*" />
       </Switch>
     </QuestionEditorContext.Provider>
   );
