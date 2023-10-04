@@ -29,6 +29,24 @@ export const getAccessToken = (req: Request): string | null => {
   return null;
 };
 
+/* No-op authorization check which always resolves */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const isAuthorizedForEveryone =
+  () =>
+  async (
+    resolve: (
+      parent: any,
+      args: { [key: string]: any },
+      context: ExpressContext,
+      info: GraphQLResolveInfo,
+    ) => any,
+    parent: any,
+    args: { [key: string]: any },
+    context: ExpressContext,
+    info: GraphQLResolveInfo,
+  ) =>
+    resolve(parent, args, context, info);
+
 /* Determine if request is authorized based on accessToken validity and role of client */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */

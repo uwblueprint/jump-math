@@ -13,6 +13,12 @@ const authService: IAuthService = new AuthService(userService, emailService);
 
 const userResolvers = {
   Query: {
+    userVerificationStatus: async (
+      _parent: undefined,
+      { id }: { id: string },
+    ): Promise<UserDTO> => {
+      return userService.getUserById(id);
+    },
     userByEmail: async (
       _parent: undefined,
       { email }: { email: string },

@@ -30,15 +30,17 @@ const authType = gql`
     school: SchoolMetadataInput!
   }
 
+  extend type Query {
+    verifyPasswordResetCode(oobCode: String!): String!
+  }
+
   extend type Mutation {
     login(email: String!, password: String!): AuthDTO!
     registerTeacher(user: RegisterTeacherDTO!): AuthDTO!
     refresh: String!
     logout(userId: ID!): ID
     resetPassword(email: String!): Boolean!
-    resetPasswordCode(email: String!): String!
     verifyEmail(oobCode: String!): String!
-    verifyPasswordReset(oobCode: String!): String!
     confirmPasswordReset(newPassword: String!, oobCode: String!): Boolean!
     sendEmailVerificationLink(email: String!): Boolean!
   }

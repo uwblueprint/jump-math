@@ -35,14 +35,6 @@ interface IAuthService {
   resetPassword(email: string): Promise<void>;
 
   /**
-   * Generate a password reset code for the user with the given email
-   * @param email email of user requesting password reset
-   * @returns oobCode for password reset
-   * @throws Error if unable to generate code
-   */
-  resetPasswordCode(email: string): Promise<string>;
-
-  /**
    * Generate an email verification link for the user with the given email and send
    * the link to that email address
    * @param email email of user that needs to be verified
@@ -94,7 +86,7 @@ interface IAuthService {
    * @param oobCode email action code sent to the user's email for resetting the password
    * @returns the user's email if the password reset code is valid, empty string otherwise
    */
-  verifyPasswordReset(oobCode: string): Promise<string>;
+  verifyPasswordResetCode(oobCode: string): Promise<string>;
 
   /**
    * Apply a password reset change to the account of the user with the given oobCode

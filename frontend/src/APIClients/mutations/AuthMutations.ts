@@ -57,21 +57,9 @@ export const RESET_PASSWORD = gql`
   }
 `;
 
-export const RESET_PASSWORD_CODE = gql`
-  mutation ResetPasswordCode($email: String!) {
-    resetPasswordCode(email: $email)
-  }
-`;
-
 export const VERIFY_EMAIL = gql`
   mutation VerifyEmail($oobCode: String!) {
     verifyEmail(oobCode: $oobCode)
-  }
-`;
-
-export const VERIFY_PASSWORD_RESET = gql`
-  mutation VerifyPasswordReset($oobCode: String!) {
-    verifyPasswordReset(oobCode: $oobCode)
   }
 `;
 

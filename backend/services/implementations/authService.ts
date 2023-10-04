@@ -129,6 +129,24 @@ class AuthService implements IAuthService {
     </span>`;
   }
 
+  private getURLWithoutSearch(link: string): URL {
+    const url = new URL(link);
+    url.search = "";
+    return url;
+  }
+
+  private copyOobCodeToURL(link: URL, source: string, key: string): URL {
+    const sourceURL = new URL(source);
+    const oobCode = sourceURL.searchParams.get("oobCode");
+    if (!oobCode) {
+      const errorMessage = `Failed to extract oobCode from link ${link}`;
+      Logger.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    link.searchParams.append(key, oobCode);
+    return link;
+  }
+
   async resetPassword(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
@@ -139,9 +157,14 @@ class AuthService implements IAuthService {
 
     try {
       const user = await this.userService.getUserByEmail(email);
-      const resetLink = await firebaseAdmin
+      const firebaseResetLink = await firebaseAdmin
         .auth()
         .generatePasswordResetLink(email);
+      const resetLink = this.copyOobCodeToURL(
+        this.getURLWithoutSearch(firebaseResetLink),
+        firebaseResetLink,
+        "resetPasswordOobCode",
+      ).toString();
 
       const emailBody = this.getEmailTemplate(
         "password-reset-header.png",
@@ -164,25 +187,6 @@ class AuthService implements IAuthService {
     }
   }
 
-  async resetPasswordCode(email: string): Promise<string> {
-    let oobCode: string;
-    try {
-      const resetLink = await firebaseAdmin
-        .auth()
-        .generatePasswordResetLink(email);
-      const regex = /(?<=&oobCode=)(.*)(?=&apiKey=)/gm;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      [oobCode] = resetLink.match(regex)!;
-    } catch (error) {
-      Logger.error(
-        `Failed to generate password reset code for user with email ${email}`,
-      );
-      throw error;
-    }
-
-    return oobCode;
-  }
-
   async sendEmailVerificationLink(email: string): Promise<void> {
     if (!this.emailService) {
       const errorMessage =
@@ -193,9 +197,28 @@ class AuthService implements IAuthService {
 
     try {
       const user = await this.userService.getUserByEmail(email);
-      const emailVerificationLink = await firebaseAdmin
+      const firebaseVerificationLink = await firebaseAdmin
         .auth()
         .generateEmailVerificationLink(email);
+      let resetLinkURL = this.copyOobCodeToURL(
+        this.getURLWithoutSearch(firebaseVerificationLink),
+        firebaseVerificationLink,
+        "verifyEmailOobCode",
+      );
+      if (user.role === "Admin") {
+        const firebaseResetLink = await firebaseAdmin
+          .auth()
+          .generatePasswordResetLink(email);
+
+        resetLinkURL = this.copyOobCodeToURL(
+          resetLinkURL,
+          firebaseResetLink,
+          "resetPasswordOobCode",
+        );
+      }
+      resetLinkURL.searchParams.append("userId", user.id);
+      const emailVerificationLink = resetLinkURL.toString();
+
       const emailBody = this.getEmailTemplate(
         "email-header.png",
         user.firstName,
@@ -303,7 +326,7 @@ class AuthService implements IAuthService {
     return res.email;
   }
 
-  async verifyPasswordReset(oobCode: string): Promise<string> {
+  async verifyPasswordResetCode(oobCode: string): Promise<string> {
     let res: ResetPasswordResponse;
     try {
       res = await FirebaseRestClient.verifyPasswordResetCode(oobCode);

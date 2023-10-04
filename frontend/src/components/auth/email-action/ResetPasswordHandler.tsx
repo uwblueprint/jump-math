@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
 
-import { VERIFY_PASSWORD_RESET } from "../../../APIClients/mutations/AuthMutations";
+import { VERIFY_PASSWORD_RESET_CODE } from "../../../APIClients/queries/AuthQueries";
 import { GET_USER_BY_EMAIL } from "../../../APIClients/queries/UserQueries";
 import type { Role } from "../../../types/AuthTypes";
 import LoadingState from "../../common/info/LoadingState";
@@ -16,10 +16,9 @@ const ResetPasswordHandler = ({
 }): React.ReactElement => {
   const [passwordResetVerified, setPasswordResetVerified] = useState(false);
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
   const [role, setRole] = React.useState<Role | null>(null);
 
-  useQuery(GET_USER_BY_EMAIL, {
+  const { loading: roleLoading } = useQuery(GET_USER_BY_EMAIL, {
     variables: { email },
     onCompleted: (data) => {
       setRole(data.userByEmail.role);
@@ -27,34 +26,29 @@ const ResetPasswordHandler = ({
     skip: !!role || !email,
   });
 
-  const [verifyPasswordReset] = useMutation<{ verifyPasswordReset: string }>(
-    VERIFY_PASSWORD_RESET,
-    {
-      onCompleted(data: { verifyPasswordReset: string }) {
-        setEmail(data.verifyPasswordReset);
-        setPasswordResetVerified(true);
-        setLoading(false);
-      },
-      onError() {
-        setLoading(false);
-      },
+  const { loading: verifyCodeLoading } = useQuery<{
+    verifyPasswordResetCode: string;
+  }>(VERIFY_PASSWORD_RESET_CODE, {
+    onCompleted(data: { verifyPasswordResetCode: string }) {
+      setEmail(data.verifyPasswordResetCode);
+      setPasswordResetVerified(true);
     },
-  );
+    variables: { oobCode },
+  });
 
-  useEffect(() => {
-    verifyPasswordReset({ variables: { oobCode } });
-  }, [oobCode, verifyPasswordReset]);
+  const isLoading = verifyCodeLoading || roleLoading;
+  if (isLoading) {
+    return (
+      <LoadingState
+        fullPage
+        text="Please wait while we check your account..."
+      />
+    );
+  }
+  if (!passwordResetVerified || !role) {
+    return <EmailActionError mode="resetPassword" />;
+  }
 
-  return (
-    <>
-      {loading && <LoadingState fullPage />}
-      {passwordResetVerified && role && (
-        <SetNewPassword email={email} oobCode={oobCode} role={role} />
-      )}
-      {!loading && !passwordResetVerified && (
-        <EmailActionError mode="resetPassword" />
-      )}
-    </>
-  );
+  return <SetNewPassword email={email} oobCode={oobCode} role={role} />;
 };
 export default ResetPasswordHandler;

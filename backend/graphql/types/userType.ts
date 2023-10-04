@@ -15,6 +15,14 @@ const userType = gql`
     grades: [GradeEnum]
     currentlyTeachingJM: Boolean
     class: [String]
+    isVerified: Boolean!
+  }
+
+  type UserVerificationStatusDTO {
+    id: ID!
+    email: String!
+    role: Role!
+    isVerified: Boolean!
   }
 
   type TeacherDTO {
@@ -50,6 +58,7 @@ const userType = gql`
   }
 
   extend type Query {
+    userVerificationStatus(id: ID!): UserVerificationStatusDTO!
     userByEmail(email: String!): UserDTO!
     usersByRole(role: String!): [UserDTO!]!
     teachers: [TeacherDTO]
