@@ -6,13 +6,9 @@ import type { TestSessionStatus } from "../../../../types/TestSessionTypes";
 import MessageContainer from "../MessageContainer";
 
 const BODY_PARAGRAPHS_BY_STATUS: Record<TestSessionStatus, string[]> = {
-  UPCOMING: ["Create an assessment to view it here."],
-  ACTIVE: [
-    "Upcoming assessments will appear here once they are open for students.",
-  ],
-  PAST: [
-    "Active assessments will appear here once they are no longer open for students.",
-  ],
+  UPCOMING: ["Assessments will appear here before they have started."],
+  ACTIVE: ["Assessments will appear here once they have started."],
+  PAST: ["Assessments will appear here after they have ended."],
 };
 
 const EmptySessionsTabMessage = ({
@@ -26,7 +22,7 @@ const EmptySessionsTabMessage = ({
       <MessageContainer
         image={DistributeAssessmentsIllustration}
         paragraphs={BODY_PARAGRAPHS_BY_STATUS[status]}
-        subtitle={`You currently have no ${status.toLowerCase()} assessments.`}
+        subtitle={`You have no ${status.toLowerCase()} assessments.`}
         textColor="blue.300"
       />
     </Center>
