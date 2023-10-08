@@ -1,38 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import type { SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { createContext } from "react";
-import type { LocationDescriptor } from "history";
 
-import type { RedirectableNavigatePromptHistory } from "../components/common/navigation/useRedirectableNavigatePrompt";
+import type { DisablePromptFunction } from "../components/common/navigation/useDisableReloadPrompt";
 import type { Question } from "../types/QuestionTypes";
 
 type AssessmentContextType = {
-  redirectableHistory: RedirectableNavigatePromptHistory;
-  setQuestionEditorDirty: (_isDirty: SetStateAction<boolean | null>) => void;
+  disableEditorPrompt: DisablePromptFunction;
   questions: Question[];
-  setQuestions: (_questions: (prevElements: Question[]) => Question[]) => void;
+  setQuestions: Dispatch<SetStateAction<Question[]>>;
+  isQuestionEditorDirty: boolean;
+  setQuestionEditorDirty: Dispatch<SetStateAction<boolean>>;
 };
 
 const AssessmentContext = createContext<AssessmentContextType>({
-  redirectableHistory: {
-    push: (_location: LocationDescriptor) => {},
-    replace: (_location: LocationDescriptor) => {},
-    location: {
-      pathname: "",
-      search: "",
-      hash: "",
-      state: null,
-      key: "",
-    },
-  },
-  setQuestionEditorDirty: (
-    _isDirty: SetStateAction<boolean | null>,
-  ): void => {},
+  disableEditorPrompt: () => () => {},
   questions: [],
-  setQuestions: (
-    _questions: (prevElements: Question[]) => Question[],
-  ): void => {},
+  setQuestions: () => {},
+  isQuestionEditorDirty: false,
+  setQuestionEditorDirty: () => {},
 });
 
 export default AssessmentContext;

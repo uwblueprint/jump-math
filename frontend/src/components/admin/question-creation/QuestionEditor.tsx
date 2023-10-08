@@ -1,10 +1,11 @@
+import type { SetStateAction } from "react";
 import React, {
   type ReactElement,
   useContext,
   useEffect,
   useState,
 } from "react";
-import { Route, Switch, useParams } from "react-router-dom";
+import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
 import * as Routes from "../../../constants/Routes";
@@ -21,11 +22,12 @@ import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
 const QuestionEditor = (): ReactElement => {
+  const history = useHistory();
   const { assessmentId, questionIndex } = useParams<{
     assessmentId?: string;
     questionIndex?: string;
   }>();
-  const { questions, setQuestionEditorDirty, redirectableHistory } =
+  const { questions, disableEditorPrompt, setQuestionEditorDirty } =
     useContext(AssessmentContext);
   const editorQuestion = questions[Number(questionIndex) - 1];
 
@@ -39,18 +41,26 @@ const QuestionEditor = (): ReactElement => {
   const [showAddFractionModal, setShowAddFractionModal] = useState(false);
   const [showEditorError, setShowEditorError] = useState(false);
 
-  const isDirty = editorQuestion
-    ? editorQuestion.elements !== questionElements
-    : questionElements.length > 0;
   useEffect(() => {
-    setQuestionEditorDirty(isDirty);
-  }, [setQuestionEditorDirty, isDirty]);
+    // on page load
+    setQuestionEditorDirty(false);
+  }, [editorQuestion.elements, setQuestionEditorDirty]);
+
+  const setQuestionElementsWithDirtyCheck = (
+    newElements: SetStateAction<QuestionElement[]>,
+    markDirty = true,
+  ) => {
+    setQuestionElements(newElements);
+    if (markDirty) {
+      setQuestionEditorDirty(true);
+    }
+  };
 
   return (
     <QuestionEditorContext.Provider
       value={{
         questionElements,
-        setQuestionElements,
+        setQuestionElements: setQuestionElementsWithDirtyCheck,
         showAddShortAnswerModal,
         setShowAddShortAnswerModal,
         showAddMultipleChoiceModal,
@@ -87,7 +97,7 @@ const QuestionEditor = (): ReactElement => {
         >
           <QuestionPreview
             goBack={() =>
-              redirectableHistory.push(
+              disableEditorPrompt(history.push)(
                 Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
                   assessmentId,
                   questionIndex,

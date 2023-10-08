@@ -3,7 +3,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Prompt, Route, Switch } from "react-router-dom";
+import { Prompt, Route, Switch, useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Box, Divider, VStack } from "@chakra-ui/react";
 
@@ -30,7 +30,7 @@ import AssessmentQuestions from "../../../admin/assessment-creation/AssessmentQu
 import BasicInformation from "../../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../../admin/question-creation/QuestionEditor";
 import usePageTitle from "../../../auth/usePageTitle";
-import useRedirectableNavigatePrompt from "../../../common/navigation/useRedirectableNavigatePrompt";
+import useDisableReloadPrompt from "../../../common/navigation/useDisableReloadPrompt";
 import useReloadPrompt from "../../../common/navigation/useReloadPrompt";
 import NotFound from "../../NotFound";
 
@@ -39,6 +39,8 @@ type AssessmentEditorProps = {
 };
 
 const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
+  const history = useHistory();
+
   const [questions, setQuestions] = useState<Question[]>(
     state?.questions || [],
   );
@@ -86,18 +88,15 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
   }, [state, resetForm]);
 
   const isAssessmentEditorDirty = isFormDirty || questions !== state?.questions;
-  const [isQuestionEditorDirty, setQuestionEditorDirty] = useState<
-    boolean | null
-  >(null);
+  const [isQuestionEditorDirty, setQuestionEditorDirty] = useState(false);
 
   // Any page refresh should trigger a prompt if any of the editors are dirty.
-  useReloadPrompt(isQuestionEditorDirty || isAssessmentEditorDirty);
+  useReloadPrompt(isAssessmentEditorDirty || isQuestionEditorDirty);
 
   // Any navigation away from the page should trigger a prompt if the current editor is dirty.
-  // We are assuming that navigation will only occur within the assessment editor.
-  const [showPrompt, redirectableHistory] = useRedirectableNavigatePrompt(
-    isQuestionEditorDirty ?? isAssessmentEditorDirty,
-  );
+  const [isPromptDisabled, disableEditorPrompt] = useDisableReloadPrompt();
+  const showPrompt =
+    !isPromptDisabled && (isAssessmentEditorDirty || isQuestionEditorDirty);
 
   const assessmentName = state?.name;
   const isExisting = !!state;
@@ -153,9 +152,9 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
 
     // Mark the form as clean after saving.
     if (options?.redirect ?? true) {
-      redirectableHistory.push(Routes.ASSESSMENTS_PAGE);
+      disableEditorPrompt(history.push)(Routes.ASSESSMENTS_PAGE);
     } else {
-      redirectableHistory.replace({
+      disableEditorPrompt(history.replace)({
         pathname: Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId: test.id }),
         state: test,
       });
@@ -167,7 +166,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       throw new FormValidationError("Assessment ID not found");
     }
     await deleteTest();
-    redirectableHistory.push(Routes.ASSESSMENTS_PAGE);
+    disableEditorPrompt(history.push)(Routes.ASSESSMENTS_PAGE);
   };
 
   const onSave: SubmitHandler<TestRequest> = (data) =>
@@ -200,10 +199,11 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
       <DndProvider backend={HTML5Backend}>
         <AssessmentContext.Provider
           value={{
-            redirectableHistory,
-            setQuestionEditorDirty,
+            disableEditorPrompt,
             questions,
             setQuestions,
+            isQuestionEditorDirty,
+            setQuestionEditorDirty,
           }}
         >
           <FormProvider {...methods}>
@@ -279,7 +279,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
               >
                 <AssessmentPreview
                   goBack={() =>
-                    redirectableHistory.push(
+                    disableEditorPrompt(history.push)(
                       Routes.ASSESSMENT_EDITOR_PAGE({
                         assessmentId: state?.id,
                       }),

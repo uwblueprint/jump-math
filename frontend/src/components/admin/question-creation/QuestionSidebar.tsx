@@ -79,17 +79,20 @@ const QuestionSidebar = (): React.ReactElement => {
     questionIndex?: string;
   }>();
 
-  const { redirectableHistory, setQuestionEditorDirty } =
+  const { disableEditorPrompt, isQuestionEditorDirty } =
     useContext(AssessmentContext);
 
   const closeQuestionEditor = () => {
-    setQuestionEditorDirty(null);
-    history.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
+    const navigate = isQuestionEditorDirty
+      ? history.push
+      : disableEditorPrompt(history.push);
+    navigate(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
   };
 
   const closeQuestionEditorAfterSaving = () => {
-    setQuestionEditorDirty(null);
-    redirectableHistory.push(Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }));
+    disableEditorPrompt(history.push)(
+      Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }),
+    );
   };
 
   return (
@@ -135,7 +138,7 @@ const QuestionSidebar = (): React.ReactElement => {
         <Button
           minWidth={0}
           onClick={() =>
-            redirectableHistory.push(
+            disableEditorPrompt(history.push)(
               Routes.ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE({
                 assessmentId,
                 questionIndex,

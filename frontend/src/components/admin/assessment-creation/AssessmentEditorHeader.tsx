@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { type SubmitHandler, useFormContext } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Box,
   Divider,
@@ -53,8 +53,9 @@ const AssessmentEditorHeader = ({
   validateForm,
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
+  const history = useHistory();
   const { assessmentId } = useParams<{ assessmentId?: string }>();
-  const { redirectableHistory } = useContext(AssessmentContext);
+  const { disableEditorPrompt } = useContext(AssessmentContext);
 
   const {
     onOpen: onPublishModalOpen,
@@ -74,7 +75,7 @@ const AssessmentEditorHeader = ({
 
   const onPreview = () => {
     validateForm();
-    redirectableHistory.push(
+    disableEditorPrompt(history.push)(
       Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
         assessmentId,
       }),

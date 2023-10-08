@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import type { DragSourceMonitor } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Box,
   HStack,
@@ -42,10 +42,10 @@ const QuestionCard = ({
   index,
   question,
 }: QuestionCardProps): React.ReactElement => {
+  const history = useHistory();
   const { assessmentId } = useParams<{ assessmentId?: string }>();
 
-  const { redirectableHistory, setQuestions, setQuestionEditorDirty } =
-    useContext(AssessmentContext);
+  const { disableEditorPrompt, setQuestions } = useContext(AssessmentContext);
 
   const { id } = question;
   const questionTexts = getQuestionTexts(question.elements);
@@ -142,8 +142,7 @@ const QuestionCard = ({
                 aria-label="Edit question card"
                 icon={<EditOutlineIcon />}
                 onClick={() => {
-                  setQuestionEditorDirty(false);
-                  redirectableHistory.push(
+                  disableEditorPrompt(history.push)(
                     Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
                       assessmentId,
                       questionIndex: String(index + 1),

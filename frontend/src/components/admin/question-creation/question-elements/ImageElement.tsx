@@ -60,7 +60,7 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
         prevElements,
         error,
       );
-    });
+    }, false);
   }, [imageMetadataRequest, setQuestionElements, error, id]);
 
   return (

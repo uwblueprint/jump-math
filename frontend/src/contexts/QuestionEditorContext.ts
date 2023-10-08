@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
+import type { Dispatch, SetStateAction } from "react";
 import { createContext } from "react";
 
 import type { QuestionElement } from "../types/QuestionTypes";
@@ -7,37 +6,34 @@ import type { QuestionElement } from "../types/QuestionTypes";
 type QuestionEditorContextType = {
   questionElements: QuestionElement[];
   setQuestionElements: (
-    _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
+    questionElements: SetStateAction<QuestionElement[]>,
+    markDirty?: boolean,
   ) => void;
   showAddShortAnswerModal: boolean;
-  setShowAddShortAnswerModal: (_showShortAnswerModal: boolean) => void;
+  setShowAddShortAnswerModal: Dispatch<SetStateAction<boolean>>;
   showAddMultipleChoiceModal: boolean;
-  setShowAddMultipleChoiceModal: (_showAddMultipleChoiceModal: boolean) => void;
+  setShowAddMultipleChoiceModal: Dispatch<SetStateAction<boolean>>;
   showAddMultiSelectModal: boolean;
-  setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean) => void;
+  setShowAddMultiSelectModal: Dispatch<SetStateAction<boolean>>;
   showAddFractionModal: boolean;
-  setShowAddFractionModal: (_showAddFractionModal: boolean) => void;
+  setShowAddFractionModal: Dispatch<SetStateAction<boolean>>;
   showEditorError: boolean;
-  setShowEditorError: (_showEditorError: boolean) => void;
+  setShowEditorError: Dispatch<SetStateAction<boolean>>;
 };
 
 const QuestionEditorContext = createContext<QuestionEditorContextType>({
   questionElements: [],
-  setQuestionElements: (
-    _questionElements: (prevElements: QuestionElement[]) => QuestionElement[],
-  ): void => {},
+  setQuestionElements: () => {},
   showAddShortAnswerModal: false,
-  setShowAddShortAnswerModal: (_showAddShortAnswerModal: boolean): void => {},
+  setShowAddShortAnswerModal: () => {},
   showAddMultipleChoiceModal: false,
-  setShowAddMultipleChoiceModal: (
-    _showAddMultipleChoiceModal: boolean,
-  ): void => {},
+  setShowAddMultipleChoiceModal: () => {},
   showAddMultiSelectModal: false,
-  setShowAddMultiSelectModal: (_showAddMultiSelectModal: boolean): void => {},
+  setShowAddMultiSelectModal: () => {},
   showAddFractionModal: false,
-  setShowAddFractionModal: (_showAddFractionModal: boolean): void => {},
+  setShowAddFractionModal: () => {},
   showEditorError: false,
-  setShowEditorError: (_showEditorError: boolean): void => {},
+  setShowEditorError: () => {},
 });
 
 export default QuestionEditorContext;

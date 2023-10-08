@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
@@ -12,10 +12,10 @@ import QuestionCard from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
 const AssessmentQuestions = (): React.ReactElement => {
+  const history = useHistory();
   const { assessmentId } = useParams<{ assessmentId?: string }>();
 
-  const { redirectableHistory, questions, setQuestionEditorDirty } =
-    useContext(AssessmentContext);
+  const { disableEditorPrompt, questions } = useContext(AssessmentContext);
   const pointCount: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b.elements).length,
     0,
@@ -29,8 +29,7 @@ const AssessmentQuestions = (): React.ReactElement => {
         <Button
           leftIcon={<PlusOutlineIcon />}
           onClick={() => {
-            setQuestionEditorDirty(false);
-            redirectableHistory.push(
+            disableEditorPrompt(history.push)(
               Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
                 assessmentId,
               }),
