@@ -39,6 +39,7 @@ const TAB_CONFIG = (
         pathname={Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(
           TestSessionStatus.ACTIVE.toLowerCase(),
         )}
+        title={null}
       />
     ),
   },

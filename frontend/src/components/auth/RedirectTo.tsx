@@ -6,7 +6,7 @@ import usePageTitle from "./usePageTitle";
 type RedirectToProps<T> = {
   pathname: string | ((params: T) => string);
   replace?: boolean;
-  title?: string;
+  title?: string | null;
 };
 
 const RedirectTo = <T extends { [K in keyof T]?: string } = object>({
@@ -17,7 +17,7 @@ const RedirectTo = <T extends { [K in keyof T]?: string } = object>({
   const params = useParams<T>();
   const location = useLocation();
 
-  usePageTitle(title ?? "Redirecting...");
+  usePageTitle(title ?? "Redirecting...", title === null);
 
   return (
     <Redirect
