@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Button,
   Flex,
@@ -36,10 +36,14 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
       if (e.target?.result) {
-        setImageMetadataRequest({
+        const metadata = {
           previewUrl: e.target.result as string,
           file,
-        });
+        };
+        setImageMetadataRequest(metadata);
+        setQuestionElements((prevElements) =>
+          updatedQuestionElement(id, metadata, prevElements, error),
+        );
       }
     };
     fileReader.readAsDataURL(file);
@@ -51,17 +55,6 @@ const ImageElement = ({ id, data }: ImageElementProps): React.ReactElement => {
   const openFileBrowser = () => {
     if (inputFile.current) inputFile.current.click();
   };
-
-  useEffect(() => {
-    setQuestionElements((prevElements) => {
-      return updatedQuestionElement(
-        id,
-        imageMetadataRequest,
-        prevElements,
-        error,
-      );
-    }, false);
-  }, [imageMetadataRequest, setQuestionElements, error, id]);
 
   return (
     <Flex pb={6} w="100%">

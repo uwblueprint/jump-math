@@ -44,16 +44,13 @@ const QuestionEditor = (): ReactElement => {
   useEffect(() => {
     // on page load
     setQuestionEditorDirty(false);
-  }, [editorQuestion.elements, setQuestionEditorDirty]);
+  }, [editorQuestion?.elements, setQuestionEditorDirty]);
 
   const setQuestionElementsWithDirtyCheck = (
     newElements: SetStateAction<QuestionElement[]>,
-    markDirty = true,
   ) => {
     setQuestionElements(newElements);
-    if (markDirty) {
-      setQuestionEditorDirty(true);
-    }
+    setQuestionEditorDirty(true);
   };
 
   return (
