@@ -47,17 +47,17 @@ const TeacherRouting = (): React.ReactElement => {
             title="Dashboard"
           />
           <PrivateRoute
-            component={DisplayAssessmentsPage}
-            path={Routes.DISPLAY_ASSESSMENTS_PAGE}
-            roles={["Teacher"]}
-            title="Assessments"
-          />
-          <PrivateRoute
             component={DistributeAssessmentPage}
             exact
             path={Routes.DISTRIBUTE_ASSESSMENT_PAGE}
             roles={["Teacher"]}
             title="Distribute Assessment"
+          />
+          <PrivateRoute
+            component={DisplayAssessmentsPage}
+            path={Routes.DISPLAY_ASSESSMENTS_PAGE}
+            roles={["Teacher"]}
+            title="Assessments"
           />
           <PrivateRoute
             component={ClassroomsPage}
