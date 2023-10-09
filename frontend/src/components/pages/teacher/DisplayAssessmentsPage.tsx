@@ -28,7 +28,7 @@ const TAB_CONFIG = (
     name:
       titleCase(status) +
       (statusSummary?.[status] == null ? "" : ` (${statusSummary[status]})`),
-    path: Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(status),
+    path: Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(status.toLowerCase()),
     element: <TestSessionTabContents data={data} status={status} />,
   })),
   {
@@ -37,7 +37,7 @@ const TAB_CONFIG = (
     element: (
       <RedirectTo
         pathname={Routes.DISPLAY_ASSESSMENTS_BY_STATUS_PAGE(
-          TestSessionStatus.ACTIVE,
+          TestSessionStatus.ACTIVE.toLowerCase(),
         )}
       />
     ),
