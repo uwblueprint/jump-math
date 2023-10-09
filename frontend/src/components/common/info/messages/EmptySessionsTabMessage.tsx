@@ -6,9 +6,9 @@ import type { TestSessionStatus } from "../../../../types/TestSessionTypes";
 import MessageContainer from "../MessageContainer";
 
 const BODY_PARAGRAPHS_BY_STATUS: Record<TestSessionStatus, string[]> = {
-  UPCOMING: ["Assessments will appear here before they have started."],
-  ACTIVE: ["Assessments will appear here once they have started."],
-  PAST: ["Assessments will appear here after they have ended."],
+  UPCOMING: ["Assessments that haven't started yet will appear here."],
+  ACTIVE: ["Assessments that have started will appear here."],
+  PAST: ["Assessments that have ended will appear here."],
 };
 
 const EmptySessionsTabMessage = ({
