@@ -11,10 +11,13 @@ import ClassroomCard, {
 import type { QueryOptions } from "../student-management/classroom-summary/useClassDataQuery";
 import useClassDataQuery from "../student-management/classroom-summary/useClassDataQuery";
 
+import useViewAllLimitedData from "./useViewAllLimitedData";
 import ViewAllLink from "./ViewAllLink";
 
+const QUERY_LIMIT = 6;
+
 const QUERY_DATA_OPTIONS: QueryOptions = {
-  limit: 5,
+  limit: QUERY_LIMIT,
   sort: {
     updatedAt: "DESC",
   },
@@ -23,13 +26,14 @@ const QUERY_DATA_OPTIONS: QueryOptions = {
 
 const ClassroomsSection = (): ReactElement => {
   const { loading, error, data } = useClassDataQuery(QUERY_DATA_OPTIONS);
+  const [limitedData, showViewAll] = useViewAllLimitedData(data, QUERY_LIMIT);
 
   return (
     <QueryStateHandler error={error} loading={loading}>
       <Box mt={8}>
-        {data?.length ? (
+        {limitedData?.length ? (
           <Grid autoRows="1fr" gap={4} templateColumns="repeat(3, 1fr)">
-            {data?.map(
+            {limitedData?.map(
               ({
                 id,
                 activeAssessments,
@@ -54,11 +58,13 @@ const ClassroomsSection = (): ReactElement => {
                 />
               ),
             )}
-            <ViewAllLink
-              borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
-              h={CLASSROOM_CARD_STYLES.HEIGHT}
-              to={Routes.CLASSROOMS_PAGE}
-            />
+            {showViewAll && (
+              <ViewAllLink
+                borderRadius={CLASSROOM_CARD_STYLES.BORDER_RADIUS}
+                h={CLASSROOM_CARD_STYLES.HEIGHT}
+                to={Routes.CLASSROOMS_PAGE}
+              />
+            )}
           </Grid>
         ) : (
           <EmptyClassroomsGoToPageMessage />

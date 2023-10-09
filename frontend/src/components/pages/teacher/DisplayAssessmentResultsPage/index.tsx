@@ -40,6 +40,7 @@ const getTabConfig = (isTeacherDataVizEnabled: boolean) => [
             ? Routes.DISPLAY_ASSESSMENT_RESULTS_SUMMARY_PAGE
             : Routes.DISPLAY_ASSESSMENT_RESULTS_BY_STUDENT_PAGE
         }
+        title={null}
       />
     ),
   },

@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
-import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { getSessionTargetDate } from "../../../utils/TestSessionUtils";
 
 export type FormattedAssessmentData = {
@@ -28,6 +28,7 @@ type AssessmentDataQueryResult = {
   loading: boolean;
   error?: ApolloError;
   data?: FormattedAssessmentData[];
+  statusSummary?: Record<TestSessionStatus, number>;
 };
 
 const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
@@ -60,10 +61,24 @@ const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
     [data],
   );
 
+  const statusSummary = useMemo(
+    () =>
+      formattedData?.reduce(
+        (acc, { status }) => ({ ...acc, [status]: acc[status] + 1 }),
+        {
+          [TestSessionStatus.ACTIVE]: 0,
+          [TestSessionStatus.UPCOMING]: 0,
+          [TestSessionStatus.PAST]: 0,
+        },
+      ),
+    [formattedData],
+  );
+
   return {
     loading,
     error,
     data: formattedData,
+    statusSummary,
   };
 };
 

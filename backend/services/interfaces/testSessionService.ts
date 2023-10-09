@@ -144,7 +144,7 @@ export interface ITestSessionService {
 
   /**
    * This method retrieves all TestSessions associated with the given teacherId
-   * @param teacherId the teacher id associated with the test session
+   * @param teacherId the teacher id associated with the test sessions
    * @param limit the optional maximum number of test sessions to return
    * @returns returns array of requested TestSessionResponseDTO
    * @throws Error if retrieval fails
