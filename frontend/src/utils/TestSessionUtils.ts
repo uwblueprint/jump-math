@@ -31,6 +31,6 @@ export const getCountFromStatusSummary = (
   status: TestSessionStatus,
   limit: number,
 ): string =>
-  statusSummary?.[status] >= limit
+  statusSummary[status] >= limit
     ? `${limit - 1}+`
-    : (statusSummary?.[status] ?? 0).toString();
+    : statusSummary[status].toString();

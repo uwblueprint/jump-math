@@ -56,13 +56,12 @@ const AssessmentsSection = () => {
               {TEST_SESSION_STATUSES.map((status) => (
                 <Tab key={status}>
                   {titleCase(status)}
-                  {statusSummary?.[status] == null
-                    ? ""
-                    : ` (${getCountFromStatusSummary(
-                        statusSummary,
-                        status,
-                        QUERY_DATA_LIMIT_PER_STATUS,
-                      )})`}
+                  {statusSummary &&
+                    ` (${getCountFromStatusSummary(
+                      statusSummary,
+                      status,
+                      QUERY_DATA_LIMIT_PER_STATUS,
+                    )})`}
                 </Tab>
               ))}
             </TabList>
