@@ -7,6 +7,7 @@ import {
   TestSessionStatus,
 } from "../../../types/TestSessionTypes";
 import { titleCase } from "../../../utils/GeneralUtils";
+import { getCountFromStatusSummary } from "../../../utils/TestSessionUtils";
 import EmptySessionsMessage from "../../common/info/messages/EmptySessionsMessage";
 import QueryStateHandler from "../../common/QueryStateHandler";
 import TestSessionTabContents from "../view-sessions/TestSessionTabContents";
@@ -57,7 +58,11 @@ const AssessmentsSection = () => {
                   {titleCase(status)}
                   {statusSummary?.[status] == null
                     ? ""
-                    : ` (${statusSummary[status]})`}
+                    : ` (${getCountFromStatusSummary(
+                        statusSummary,
+                        status,
+                        QUERY_DATA_LIMIT_PER_STATUS,
+                      )})`}
                 </Tab>
               ))}
             </TabList>

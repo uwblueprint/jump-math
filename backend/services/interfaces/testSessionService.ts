@@ -173,17 +173,6 @@ export interface ITestSessionService {
   ): Promise<Array<TestSessionResponseDTO>>;
 
   /**
-   * This method counts the number of test sessions in each status and returns
-   * the result as an object.
-   * @param teacherId the teacher id associated with the test sessions
-   * @returns an object containing the number of test sessions in each status
-   * @throws Error if retrieval fails
-   */
-  getTestSessionStatusSummary(
-    teacherId: string,
-  ): Promise<{ status: TestSessionStatus; count: number }[]>;
-
-  /**
    * This method gets the mark distribution of the results for a
    * test session given the id
    * @param id The unique identifier of the Test Session document

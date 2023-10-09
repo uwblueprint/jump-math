@@ -37,11 +37,6 @@ const testSessionType = gql`
     notes: String
   }
 
-  type TestSessionStatusSummaryEntry {
-    status: TestSessionStatus!
-    count: Int!
-  }
-
   input TestSessionRequestDTO {
     test: ID!
     teacher: ID!
@@ -60,7 +55,6 @@ const testSessionType = gql`
       teacherId: ID!
       limit: Int
     ): [TestSessionResponseDTO!]!
-    testSessionStatusSummary(teacherId: ID!): [TestSessionStatusSummaryEntry!]!
     getStudentLeaderBoard(id: ID!): TopAndBottomStudents!
   }
 

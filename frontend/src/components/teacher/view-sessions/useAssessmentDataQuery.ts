@@ -2,13 +2,10 @@ import { useContext, useMemo } from "react";
 import type { ApolloError } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 
-import {
-  GET_TEST_SESSION_STATUS_SUMMARY,
-  GET_TEST_SESSIONS_BY_TEACHER_ID,
-} from "../../../APIClients/queries/TestSessionQueries";
+import { GET_TEST_SESSIONS_BY_TEACHER_ID } from "../../../APIClients/queries/TestSessionQueries";
 import type { TestSessionOverviewData } from "../../../APIClients/types/TestSessionClientTypes";
 import AuthContext from "../../../contexts/AuthContext";
-import type { TestSessionStatus } from "../../../types/TestSessionTypes";
+import { TestSessionStatus } from "../../../types/TestSessionTypes";
 import { getSessionTargetDate } from "../../../utils/TestSessionUtils";
 
 export type FormattedAssessmentData = {
@@ -38,11 +35,7 @@ const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
   const { authenticatedUser } = useContext(AuthContext);
   const { id: teacherId } = authenticatedUser ?? {};
 
-  const {
-    loading: dataLoading,
-    error: dataError,
-    data,
-  } = useQuery<{
+  const { loading, error, data } = useQuery<{
     testSessionsByTeacherId: TestSessionOverviewData[];
   }>(GET_TEST_SESSIONS_BY_TEACHER_ID, {
     fetchPolicy: "cache-and-network",
@@ -68,30 +61,22 @@ const useAssessmentDataQuery = (limit?: number): AssessmentDataQueryResult => {
     [data],
   );
 
-  const {
-    loading: summaryLoading,
-    error: summaryError,
-    data: statusData,
-  } = useQuery<{
-    testSessionStatusSummary: { status: TestSessionStatus; count: number }[];
-  }>(GET_TEST_SESSION_STATUS_SUMMARY, {
-    fetchPolicy: "cache-and-network",
-    variables: { teacherId },
-    skip: !teacherId,
-  });
-
   const statusSummary = useMemo(
     () =>
-      statusData?.testSessionStatusSummary?.reduce(
-        (acc, { status, count }) => ({ ...acc, [status]: count }),
-        {} as Record<TestSessionStatus, number>,
+      formattedData?.reduce(
+        (acc, { status }) => ({ ...acc, [status]: acc[status] + 1 }),
+        {
+          [TestSessionStatus.ACTIVE]: 0,
+          [TestSessionStatus.UPCOMING]: 0,
+          [TestSessionStatus.PAST]: 0,
+        },
       ),
-    [statusData],
+    [formattedData],
   );
 
   return {
-    loading: dataLoading || summaryLoading,
-    error: dataError || summaryError,
+    loading,
+    error,
     data: formattedData,
     statusSummary,
   };

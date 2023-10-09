@@ -25,3 +25,12 @@ export const filterTestSessionsBySearch = <T extends SearchableTestSession>(
           includesIgnoreCase(session.status, search),
       )
     : sessions;
+
+export const getCountFromStatusSummary = (
+  statusSummary: Record<TestSessionStatus, number>,
+  status: TestSessionStatus,
+  limit: number,
+): string =>
+  statusSummary?.[status] >= limit
+    ? `${limit - 1}+`
+    : (statusSummary?.[status] ?? 0).toString();
