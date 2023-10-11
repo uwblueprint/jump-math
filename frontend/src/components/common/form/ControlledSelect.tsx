@@ -1,48 +1,34 @@
 import React, { type ReactElement } from "react";
 import { Controller } from "react-hook-form";
-import type { ChakraStylesConfig } from "chakra-react-select";
-import { Select } from "chakra-react-select";
 
-import type { StringOption } from "../../../types/SelectInputTypes";
+import type { OptionBase, StringOption } from "../../../types/SelectInputTypes";
 
-interface ControlledSelectProps {
+import Select from "./Select";
+
+interface ControlledSelectProps<Option extends OptionBase = StringOption> {
   name: string;
-  options: StringOption[];
+  options: Option[];
   placeholder: string;
   isSearchable: boolean;
   isRequired: boolean;
 }
 
-const chakraStyles: ChakraStylesConfig<StringOption> = {
-  placeholder: (provided) => ({
-    ...provided,
-    color: "placeholder.300",
-  }),
-};
-
-const ControlledSelect = ({
+const ControlledSelect = <Option extends OptionBase>({
   name: fieldName,
-  options,
-  placeholder,
-  isSearchable,
   isRequired,
-}: ControlledSelectProps): ReactElement => (
+  ...props
+}: ControlledSelectProps<Option>): ReactElement => (
   <Controller
     name={fieldName}
     render={({ field: { name, ref, onChange, onBlur, value } }) => (
-      <Select<StringOption>
+      <Select<Option>
+        {...props}
         ref={ref}
-        chakraStyles={chakraStyles}
         errorBorderColor="red.200"
-        isSearchable={isSearchable}
         name={name}
         onBlur={onBlur}
-        onChange={(option) => onChange(option?.value ?? null)}
-        options={options}
-        placeholder={placeholder}
-        selectedOptionStyle="check"
-        useBasicStyles
-        value={options.find((option) => option.value === value) || undefined}
+        onChange={onChange}
+        value={value}
       />
     )}
     rules={{

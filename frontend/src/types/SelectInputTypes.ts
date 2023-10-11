@@ -1,23 +1,17 @@
-import type { OptionBase } from "chakra-react-select";
+import type { OptionBase as ChakraOptionBase } from "chakra-react-select";
 
 import type { StudentResponse } from "../APIClients/types/ClassClientTypes";
 import type { Grade } from "../APIClients/types/UserClientTypes";
 
-export interface StringOrBoolOption extends OptionBase {
-  value: string | boolean;
+export interface OptionBase<T = unknown> extends ChakraOptionBase {
+  value: T;
   label: string;
 }
 
-export interface StringOption extends StringOrBoolOption {
-  value: string;
-}
+export type StringOrBoolOption = OptionBase<string | boolean>;
 
-export interface GradeOption extends OptionBase {
-  value: Grade;
-  label: string;
-}
+export type StringOption = OptionBase<string>;
 
-export interface StudentOption extends OptionBase {
-  value: StudentResponse;
-  label: string;
-}
+export type GradeOption = OptionBase<Grade>;
+
+export type StudentOption = OptionBase<StudentResponse>;
