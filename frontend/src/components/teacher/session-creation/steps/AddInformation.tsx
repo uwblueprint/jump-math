@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { type ReactElement, useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   HStack,
   Textarea,
   VStack,
 } from "@chakra-ui/react";
 
-import { isPastDate } from "../../../../utils/GeneralUtils";
-import DatePicker from "../../../common/form/DatePicker";
+import { getEarliestValidDate } from "../../../../utils/DateUtils";
+import DateTimePicker from "../../../common/form/DateTimePicker";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 
 interface AddInformationProps {
@@ -32,33 +33,33 @@ const AddInformation = ({
   setEndDate,
   setNotes,
   setValidDates,
-}: AddInformationProps): React.ReactElement => {
-  const [invalidStartDate, setInvalidStartDate] = useState(false);
-  const [invalidEndDate, setInvalidEndDate] = useState(false);
+}: AddInformationProps): ReactElement => {
+  const [invalidStartDate, setInvalidStartDate] = useState("");
+  const [invalidEndDate, setInvalidEndDate] = useState("");
 
-  useEffect(() => {
-    if (startDate && endDate) {
-      setInvalidStartDate(
-        (!isEditDisabled && isPastDate(startDate)) || endDate <= startDate,
-      );
-      setInvalidEndDate(isPastDate(endDate) || endDate <= startDate);
-      setValidDates(!invalidStartDate && !invalidEndDate);
-      return;
-    }
-    if (startDate) {
-      setInvalidStartDate(!isEditDisabled && isPastDate(startDate));
-    }
-    if (endDate) {
-      setInvalidEndDate(isPastDate(endDate));
-    }
-  }, [
-    startDate,
-    endDate,
-    invalidStartDate,
-    invalidEndDate,
-    setValidDates,
-    isEditDisabled,
-  ]);
+  const validateDates = (
+    now: Date,
+    newStartDate: Date | null,
+    newEndDate: Date | null,
+  ) => {
+    const earliestValidDate = getEarliestValidDate(now);
+
+    const isEndDateTooOld = !!newEndDate && newEndDate <= earliestValidDate;
+    const isInvalidDateOrder =
+      !!newStartDate && !!newEndDate && newStartDate >= newEndDate;
+
+    setInvalidStartDate(
+      isInvalidDateOrder ? "Start date must be before end date." : "",
+    );
+    setInvalidEndDate(
+      isInvalidDateOrder
+        ? "End date must be after start date."
+        : isEndDateTooOld
+        ? "End date must be at least 1 hour in the future."
+        : "",
+    );
+    setValidDates(!isInvalidDateOrder && !isEndDateTooOld);
+  };
 
   return (
     <DistributeAssessmentWrapper
@@ -73,26 +74,36 @@ const AddInformation = ({
         paddingBottom="6"
       >
         <HStack alignItems="flex-start" gap="15" pt="4">
-          <FormControl isInvalid={invalidStartDate} isRequired>
+          <FormControl isInvalid={!!invalidStartDate} isRequired>
             <FormLabel color="blue.300">Start date</FormLabel>
-            <DatePicker
+            <DateTimePicker
               isDisabled={isEditDisabled}
-              onChange={(e) => {
-                setStartDate(e);
+              name="startDate"
+              onChange={(newDate: Date | null) => {
+                setStartDate(newDate);
+
+                const now = new Date();
+                validateDates(now, newDate, endDate);
               }}
-              value={startDate ?? undefined}
+              value={startDate}
             />
-            <FormErrorMessage>Invalid start date.</FormErrorMessage>
+            <FormErrorMessage>{invalidStartDate}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={invalidEndDate} isRequired>
+        </HStack>
+        <HStack alignItems="flex-start" gap="15" pt="4">
+          <FormControl isInvalid={!!invalidEndDate} isRequired>
             <FormLabel color="blue.300">End date</FormLabel>
-            <DatePicker
-              onChange={(e) => {
-                setEndDate(e);
+            <DateTimePicker
+              name="endDate"
+              onChange={(newDate: Date | null) => {
+                setEndDate(newDate);
+
+                const now = new Date();
+                validateDates(now, startDate, newDate);
               }}
-              value={endDate ?? undefined}
+              value={endDate}
             />
-            <FormErrorMessage>Invalid end date.</FormErrorMessage>
+            <FormErrorMessage>{invalidEndDate}</FormErrorMessage>
           </FormControl>
         </HStack>
         <FormControl>
@@ -102,6 +113,9 @@ const AddInformation = ({
             placeholder="(Optional)"
             value={notes}
           />
+          <FormHelperText>
+            Notes will be shown to students before they start the assessment.
+          </FormHelperText>
         </FormControl>
       </VStack>
     </DistributeAssessmentWrapper>

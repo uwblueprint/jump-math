@@ -364,7 +364,7 @@ class TestSessionService implements ITestSessionService {
             return (
               !updatableKeys.has(key) &&
               (currentValue instanceof Date
-                ? currentValue.getTime() !== newValue.getTime()
+                ? currentValue.getTime() !== new Date(newValue).getTime()
                 : currentValue?.toString() !== newValue)
             );
           },
