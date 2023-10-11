@@ -9,7 +9,7 @@ interface ControlledSelectProps<Option extends OptionBase = StringOption> {
   name: string;
   options: Option[];
   placeholder: string;
-  isSearchable: boolean;
+  isSearchable?: boolean;
   isRequired: boolean;
 }
 

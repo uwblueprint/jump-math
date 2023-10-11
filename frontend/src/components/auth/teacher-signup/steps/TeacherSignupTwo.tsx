@@ -10,6 +10,7 @@ import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
+import ControlledSelect from "../../../common/form/ControlledSelect";
 import AuthWrapper from "../../AuthWrapper";
 import NavigationButtons from "../NavigationButtons";
 import SelectFormInput from "../SelectFormInput";
@@ -68,6 +69,22 @@ const TeacherSignupTwo = ({
         <FormLabel color="grey.400">
           Are you currently teaching Jump Math in the classroom?
         </FormLabel>
+        <ControlledSelect
+          isRequired
+          isSearchable={false}
+          name="currentlyTeachingJM"
+          options={[
+            {
+              value: true,
+              label: "Yes",
+            },
+            {
+              value: false,
+              label: "No",
+            },
+          ]}
+          placeholder="Select Response"
+        />
         <SelectFormInput
           field="currentlyTeachingJM"
           isSearchable={false}

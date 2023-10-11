@@ -1,13 +1,12 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import type { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import type { GroupBase, SingleValue } from "chakra-react-select";
-import { Select } from "chakra-react-select";
 
 import type { StringOrBoolOption } from "../../../types/SelectInputTypes";
 import type {
   TeacherInput,
   TeacherSignupForm,
 } from "../../../types/TeacherSignupTypes";
+import Select from "../../common/form/Select";
 
 interface SelectFormInputProps {
   setValue: UseFormSetValue<TeacherSignupForm>;
@@ -27,26 +26,23 @@ const SelectFormInput = ({
   placeholder,
   resetError,
   isSearchable,
-}: SelectFormInputProps): React.ReactElement => {
-  const handleChange = (option: SingleValue<StringOrBoolOption>) => {
+}: SelectFormInputProps): ReactElement => {
+  const handleChange = (option: StringOrBoolOption["value"] | null) => {
     if (option) {
-      setValue(field, option.value);
+      setValue(field, option);
       resetError(false);
     }
   };
   return (
-    <Select<StringOrBoolOption, false, GroupBase<StringOrBoolOption>>
-      errorBorderColor="red.200"
+    <Select
       isSearchable={isSearchable}
       name={field}
       onChange={handleChange}
       options={options}
       placeholder={placeholder}
-      selectedOptionStyle="check"
-      useBasicStyles
-      value={
+      /*value={
         options.find((option) => option.value === watch(field)) || undefined
-      }
+      }*/
     />
   );
 };
