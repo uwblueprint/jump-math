@@ -2,7 +2,7 @@ import React from "react";
 import { Center, useStyleConfig } from "@chakra-ui/react";
 
 import DisplayAssessmentsIllustration from "../../../../assets/illustrations/display-assessments.svg";
-import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
+import * as Routes from "../../../../constants/Routes";
 import MessageContainer from "../MessageContainer";
 
 const EmptyTestsMessage = (): React.ReactElement => {
@@ -10,7 +10,7 @@ const EmptyTestsMessage = (): React.ReactElement => {
   return (
     <Center __css={styles}>
       <MessageContainer
-        buttonRoute={ASSESSMENT_EDITOR_PAGE}
+        buttonRoute={Routes.ASSESSMENT_EDITOR_PAGE({})}
         buttonText="Create assessment"
         image={DisplayAssessmentsIllustration}
         paragraphs={["Create your first assessment"]}

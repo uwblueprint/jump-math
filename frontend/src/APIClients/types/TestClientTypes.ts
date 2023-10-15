@@ -78,6 +78,6 @@ export type TestResponse = TestRequest & {
   updatedAt: string;
 };
 
-export type Test = TestResponse & {
+export type Test = Omit<TestResponse, "questions"> & {
   questions: Question[];
 };

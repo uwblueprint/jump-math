@@ -142,13 +142,6 @@ class TestService implements ITestService {
           ),
       );
 
-      const imagesToDelete = oldImages.filter(
-        (oldImage) =>
-          !newImageUrls.has((oldImage.metadata as ImageMetadata).url),
-      );
-
-      await this.deleteImages([imagesToDelete]);
-
       questions = await this.uploadImages(test.questions);
       updatedTest = await MgTest.findByIdAndUpdate(
         id,
@@ -164,8 +157,17 @@ class TestService implements ITestService {
       if (!updatedTest) {
         throw new Error(`Test ID ${id} not found`);
       }
+
+      const imagesToDelete = oldImages.filter(
+        (oldImage) =>
+          !newImageUrls.has((oldImage.metadata as ImageMetadata).url),
+      );
+      await this.deleteImages([imagesToDelete]);
     } catch (error: unknown) {
       Logger.error(`Failed to update test. Reason = ${getErrorMessage(error)}`);
+      // Leaving this in in case we can reproduce an image upload error
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Logger.error((error as any).stack);
       throw error;
     }
 

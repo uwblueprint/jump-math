@@ -23,8 +23,14 @@ const AdminRouting = (): React.ReactElement => {
     <Switch>
       <PrivateRoute
         component={AssessmentEditorPage}
-        exact
-        path={Routes.ASSESSMENT_EDITOR_PAGE}
+        // New assessments
+        path={Routes.ASSESSMENT_EDITOR_BASE({})}
+        roles={["Admin"]}
+      />
+      <PrivateRoute
+        component={AssessmentEditorPage}
+        // Existing assessments
+        path={Routes.ASSESSMENT_EDITOR_BASE({ assessmentId: ":assessmentId" })}
         roles={["Admin"]}
       />
       <Route path="*">

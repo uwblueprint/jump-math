@@ -4,8 +4,7 @@ import { useQuery } from "@apollo/client";
 
 import { GET_TEST } from "../../../../APIClients/queries/TestQueries";
 import type { TestResponse } from "../../../../APIClients/types/TestClientTypes";
-import { ASSESSMENT_EDITOR_PAGE } from "../../../../constants/Routes";
-import { formatQuestionsResponse } from "../../../../utils/QuestionUtils";
+import * as Routes from "../../../../constants/Routes";
 import useToast from "../../../common/info/useToast";
 import PopoverButton from "../../../common/popover/PopoverButton";
 
@@ -27,11 +26,8 @@ const EditButton = ({ assessmentId }: EditButtonProps): React.ReactElement => {
       onClick={async () => {
         if (data) {
           history.push({
-            pathname: ASSESSMENT_EDITOR_PAGE,
-            state: {
-              ...data.test,
-              questions: formatQuestionsResponse(data.test.questions),
-            },
+            pathname: Routes.ASSESSMENT_EDITOR_PAGE({ assessmentId }),
+            state: data.test,
           });
         } else {
           showToast({

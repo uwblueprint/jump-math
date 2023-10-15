@@ -1,9 +1,18 @@
-import React, { useContext } from "react";
+import type { SetStateAction } from "react";
+import React, {
+  type ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import QuestionEditorContext from "../../../contexts/QuestionEditorContext";
 import type { QuestionElement } from "../../../types/QuestionTypes";
+import NotFound from "../../pages/NotFound";
 
 import AddFractionModal from "./question-elements/modals/fraction/AddFractionModal";
 import AddMultiOptionModal from "./question-elements/modals/multi-option/AddMultiOptionModal";
@@ -12,26 +21,43 @@ import QuestionPreview from "./QuestionPreview";
 import QuestionSidebar from "./QuestionSidebar";
 import QuestionWorkspace from "./QuestionWorkspace";
 
-const QuestionEditor = (): React.ReactElement => {
-  const { editorQuestion } = useContext(AssessmentContext);
-  const [questionElements, setQuestionElements] = React.useState<
-    QuestionElement[]
-  >(editorQuestion ? editorQuestion.elements : []);
-  const [showAddShortAnswerModal, setShowAddShortAnswerModal] =
-    React.useState(false);
+const QuestionEditor = (): ReactElement => {
+  const history = useHistory();
+  const { assessmentId, questionIndex } = useParams<{
+    assessmentId?: string;
+    questionIndex?: string;
+  }>();
+  const { questions, disableEditorPrompt, setQuestionEditorDirty } =
+    useContext(AssessmentContext);
+  const editorQuestion = questions[Number(questionIndex) - 1];
+
+  const [questionElements, setQuestionElements] = useState<QuestionElement[]>(
+    editorQuestion?.elements ?? [],
+  );
+  const [showAddShortAnswerModal, setShowAddShortAnswerModal] = useState(false);
   const [showAddMultipleChoiceModal, setShowAddMultipleChoiceModal] =
-    React.useState(false);
-  const [showAddMultiSelectModal, setShowAddMultiSelectModal] =
-    React.useState(false);
-  const [showAddFractionModal, setShowAddFractionModal] = React.useState(false);
-  const [showEditorError, setShowEditorError] = React.useState(false);
-  const [showQuestionPreview, setShowQuestionPreview] = React.useState(false);
+    useState(false);
+  const [showAddMultiSelectModal, setShowAddMultiSelectModal] = useState(false);
+  const [showAddFractionModal, setShowAddFractionModal] = useState(false);
+  const [showEditorError, setShowEditorError] = useState(false);
+
+  useEffect(() => {
+    // on page load
+    setQuestionEditorDirty(false);
+  }, [editorQuestion?.elements, setQuestionEditorDirty]);
+
+  const setQuestionElementsWithDirtyCheck = (
+    newElements: SetStateAction<QuestionElement[]>,
+  ) => {
+    setQuestionElements(newElements);
+    setQuestionEditorDirty(true);
+  };
 
   return (
     <QuestionEditorContext.Provider
       value={{
         questionElements,
-        setQuestionElements,
+        setQuestionElements: setQuestionElementsWithDirtyCheck,
         showAddShortAnswerModal,
         setShowAddShortAnswerModal,
         showAddMultipleChoiceModal,
@@ -42,14 +68,16 @@ const QuestionEditor = (): React.ReactElement => {
         setShowAddFractionModal,
         showEditorError,
         setShowEditorError,
-        showQuestionPreview,
-        setShowQuestionPreview,
       }}
     >
-      {showQuestionPreview ? (
-        <QuestionPreview />
-      ) : (
-        <>
+      <Switch>
+        <Route
+          exact
+          path={Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+            assessmentId: assessmentId && ":assessmentId",
+            questionIndex: questionIndex && ":questionIndex",
+          })}
+        >
           <Flex minHeight="100vh">
             <QuestionSidebar />
             <QuestionWorkspace />
@@ -57,8 +85,27 @@ const QuestionEditor = (): React.ReactElement => {
           <AddShortAnswerModal />
           <AddMultiOptionModal />
           <AddFractionModal />
-        </>
-      )}
+        </Route>
+        <Route
+          path={Routes.ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE({
+            assessmentId: assessmentId && ":assessmentId",
+            questionIndex: questionIndex && ":questionIndex",
+          })}
+        >
+          <QuestionPreview
+            goBack={() =>
+              disableEditorPrompt(history.push)(
+                Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                  assessmentId,
+                  questionIndex,
+                }),
+              )
+            }
+            questionElements={questionElements}
+          />
+        </Route>
+        <Route component={NotFound} exact path="*" />
+      </Switch>
     </QuestionEditorContext.Provider>
   );
 };

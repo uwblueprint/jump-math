@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import update from "immutability-helper";
 import { v4 as uuidv4 } from "uuid";
@@ -31,7 +32,8 @@ const SaveQuestionEditorButton = ({
   const emptyElementError =
     "Please ensure this field is filled. If you do not need this item, please delete it.";
 
-  const { setQuestions, editorQuestion } = useContext(AssessmentContext);
+  const { questionIndex } = useParams<{ questionIndex?: string }>();
+  const { questions, setQuestions } = useContext(AssessmentContext);
   const { questionElements, setQuestionElements, setShowEditorError } =
     useContext(QuestionEditorContext);
 
@@ -162,6 +164,8 @@ const SaveQuestionEditorButton = ({
           error: "",
         };
       });
+
+      const editorQuestion = questions[Number(questionIndex) - 1];
       if (!editorQuestion) {
         addQuestion(validatedQuestionElements);
       } else {

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { type SubmitHandler, useFormContext } from "react-hook-form";
+import { useHistory, useParams } from "react-router-dom";
 import {
   Box,
-  Button,
   Divider,
   Flex,
   HStack,
@@ -18,6 +18,7 @@ import {
   SaveOutlineIcon,
   TextOutlineIcon,
 } from "../../../assets/icons";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { formatDate, getCurrentDate } from "../../../utils/GeneralUtils";
 import ActionButton from "../../common/form/ActionButton";
@@ -52,7 +53,10 @@ const AssessmentEditorHeader = ({
   validateForm,
   updatedAt,
 }: AssessmentEditorHeaderProps): React.ReactElement => {
-  const { setShowAssessmentPreview } = useContext(AssessmentContext);
+  const history = useHistory();
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
+  const { disableEditorPrompt } = useContext(AssessmentContext);
+
   const {
     onOpen: onPublishModalOpen,
     isOpen: isPublishModalOpen,
@@ -69,6 +73,15 @@ const AssessmentEditorHeader = ({
     onClose: onArchiveModalClose,
   } = useDisclosure();
 
+  const onPreview = () => {
+    validateForm();
+    disableEditorPrompt(history.push)(
+      Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
+        assessmentId,
+      }),
+    );
+  };
+
   const onPublish = () => {
     validateForm();
     onPublishModalOpen();
@@ -77,6 +90,7 @@ const AssessmentEditorHeader = ({
   const { getValues } = useFormContext<TestRequest>();
 
   // We need validation on these actions.
+  const handlePreview = useActionFormHandler(onPreview);
   const handleSave = useActionFormHandler(onSave);
   const handlePublish = useActionFormHandler(onPublish);
 
@@ -96,7 +110,7 @@ const AssessmentEditorHeader = ({
         <Flex minWidth="max-content">
           <HStack alignItems="start" spacing={6}>
             <Text as="h1" color="blue.300" textStyle="header4">
-              <BackButton />
+              <BackButton returnTo={Routes.ASSESSMENTS_PAGE} />
             </Text>
             <VStack align="left">
               <Text textStyle="subtitle1">{name || "Untitled Assessment"}</Text>
@@ -108,14 +122,15 @@ const AssessmentEditorHeader = ({
           </HStack>
           <Spacer />
           <HStack spacing={2}>
-            <Button
+            <ActionButton
               leftIcon={<EyeOutlineIcon />}
-              onClick={() => setShowAssessmentPreview(true)}
+              onClick={handlePreview}
+              showDefaultToasts={false}
               size="sm"
               variant="tertiary"
             >
               Preview
-            </Button>
+            </ActionButton>
             <ActionButton
               leftIcon={<SaveOutlineIcon />}
               messageOnError="Failed to save the assessment. Please try again later."

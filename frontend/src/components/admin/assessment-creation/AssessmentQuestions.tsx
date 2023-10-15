@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 
 import { PlusOutlineIcon } from "../../../assets/icons";
+import * as Routes from "../../../constants/Routes";
 import AssessmentContext from "../../../contexts/AssessmentContext";
 import { getQuestionTexts } from "../../../utils/QuestionUtils";
 
@@ -10,7 +12,10 @@ import QuestionCard from "./QuestionCard";
 import QuestionSummary from "./QuestionSummary";
 
 const AssessmentQuestions = (): React.ReactElement => {
-  const { questions, setShowQuestionEditor } = useContext(AssessmentContext);
+  const history = useHistory();
+  const { assessmentId } = useParams<{ assessmentId?: string }>();
+
+  const { disableEditorPrompt, questions } = useContext(AssessmentContext);
   const pointCount: number = questions.reduce(
     (a, b) => a + getQuestionTexts(b.elements).length,
     0,
@@ -23,7 +28,13 @@ const AssessmentQuestions = (): React.ReactElement => {
         <Spacer />
         <Button
           leftIcon={<PlusOutlineIcon />}
-          onClick={() => setShowQuestionEditor(true)}
+          onClick={() => {
+            disableEditorPrompt(history.push)(
+              Routes.ASSESSMENT_EDITOR_QUESTION_EDITOR_PAGE({
+                assessmentId,
+              }),
+            );
+          }}
           variant="outline"
         >
           Add Question

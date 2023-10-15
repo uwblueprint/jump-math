@@ -141,7 +141,7 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
     <>
       <HeaderWithButton
         buttonText="Create Assessment"
-        targetRoute={Routes.ASSESSMENT_EDITOR_PAGE}
+        targetRoute={Routes.ASSESSMENT_EDITOR_PAGE({})}
         title="Assessments"
       />
       <QueryStateHandler error={error} loading={loading}>
