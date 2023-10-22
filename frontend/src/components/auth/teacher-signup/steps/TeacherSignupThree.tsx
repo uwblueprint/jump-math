@@ -1,4 +1,5 @@
-import React from "react";
+import type { ChangeEvent, ReactElement } from "react";
+import React, { useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import countryList from "react-select-country-list";
 import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
@@ -9,28 +10,26 @@ import type {
   TeacherSignupForm,
   TeacherSignupProps,
 } from "../../../../types/TeacherSignupTypes";
+import ControlledSelect from "../../../common/form/ControlledSelect";
 import AuthWrapper from "../../AuthWrapper";
 import NavigationButtons from "../NavigationButtons";
-import SelectFormInput from "../SelectFormInput";
 
-const TeacherSignupThree = ({
-  setPage,
-}: TeacherSignupProps): React.ReactElement => {
+const TeacherSignupThree = ({ setPage }: TeacherSignupProps): ReactElement => {
   const {
+    trigger,
     watch,
     setValue,
     formState: { errors },
   } = useFormContext<TeacherSignupForm>();
-  const [schoolNameError, setSchoolNameError] = React.useState(false);
-  const [countryError, setCountryError] = React.useState(false);
-  const [cityError, setCityError] = React.useState(false);
-  const [districtError, setDistrictError] = React.useState(false);
-  const [addressError, setAddressError] = React.useState(false);
+  const [schoolNameError, setSchoolNameError] = useState(false);
+  const [cityError, setCityError] = useState(false);
+  const [districtError, setDistrictError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
 
-  const countryOptions = React.useMemo(() => countryList().getData(), []);
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
     field: TeacherInput,
   ) => {
     setValue(field, event.target.value);
@@ -38,9 +37,6 @@ const TeacherSignupThree = ({
     switch (field) {
       case "school.name":
         setSchoolNameError(false);
-        break;
-      case "school.country":
-        setCountryError(false);
         break;
       case "school.city":
         setCityError(false);
@@ -56,7 +52,7 @@ const TeacherSignupThree = ({
     }
   };
 
-  const validateFields = (): boolean => {
+  const validateFields = async (): Promise<boolean> => {
     let isValid = true;
 
     if (!watch("school.name") || !!errors.school?.name) {
@@ -64,8 +60,7 @@ const TeacherSignupThree = ({
       isValid = false;
     }
 
-    if (!watch("school.country") || !!errors.school?.country) {
-      setCountryError(true);
+    if (!(await trigger("school.country"))) {
       isValid = false;
     }
 
@@ -86,8 +81,8 @@ const TeacherSignupThree = ({
     return isValid;
   };
 
-  const onContinueClick = () => {
-    if (validateFields()) setPage(4);
+  const onContinueClick = async () => {
+    if (await validateFields()) setPage(4);
   };
 
   const title = "Teacher Sign Up";
@@ -106,16 +101,14 @@ const TeacherSignupThree = ({
       </FormControl>
 
       <Stack direction={["row"]} width="100%">
-        <FormControl isInvalid={countryError} isRequired>
+        <FormControl isInvalid={!!errors.school?.country} isRequired>
           <FormLabel color="grey.400">Country</FormLabel>
-          <SelectFormInput
-            field="school.country"
+          <ControlledSelect
+            isRequired
             isSearchable
+            name="school.country"
             options={countryOptions}
             placeholder="Select Country"
-            resetError={setCountryError}
-            setValue={setValue}
-            watch={watch}
           />
         </FormControl>
         <FormControl isInvalid={cityError} isRequired>
@@ -158,7 +151,7 @@ const TeacherSignupThree = ({
   );
   const error =
     schoolNameError ||
-    countryError ||
+    !!errors.school?.country ||
     cityError ||
     districtError ||
     addressError

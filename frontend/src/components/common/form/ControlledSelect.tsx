@@ -32,7 +32,12 @@ const ControlledSelect = <Option extends OptionBase>({
       />
     )}
     rules={{
-      required: { value: isRequired, message: "This field is required." },
+      validate: (value) => {
+        if (isRequired && (value == null || value === "")) {
+          return "This field is required.";
+        }
+        return true;
+      },
     }}
   />
 );
