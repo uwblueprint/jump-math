@@ -21,7 +21,7 @@ interface SelectProps<Option extends OptionBase>
   placeholder?: string;
   isSearchable?: boolean;
   onChange?: (value: Option["value"] | null) => void;
-  value?: string | null;
+  value?: Option["value"] | null;
 }
 
 const Select = fwRef(function Select<Option extends OptionBase>(
