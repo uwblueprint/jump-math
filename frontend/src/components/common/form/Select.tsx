@@ -11,29 +11,39 @@ declare module "react" {
   ): (props: P & React.RefAttributes<T>) => ReactNode | null;
 }
 
-interface SelectProps<Option extends OptionBase>
+type OptionType<Option> = Option[] | Option | null;
+type OnChangeValue<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+> = IsMulti extends true ? Option["value"][] : Option["value"] | null;
+
+interface SelectProps<Option extends OptionBase, IsMulti extends boolean>
   extends Omit<
-    ComponentPropsWithoutRef<typeof ChakraSelect<Option>>,
+    ComponentPropsWithoutRef<typeof ChakraSelect<Option, IsMulti>>,
     "onChange" | "value"
   > {
   name?: string;
   options: Option[];
   placeholder?: string;
   isSearchable?: boolean;
-  onChange?: (value: Option["value"] | null) => void;
+  onChange?: (value: OnChangeValue<Option, IsMulti>) => void;
   value?: Option["value"] | null;
 }
 
-const Select = fwRef(function Select<Option extends OptionBase>(
+const Select = fwRef(function Select<
+  Option extends OptionBase,
+  IsMulti extends boolean = false,
+>(
   {
     options,
     isSearchable = true,
+    useBasicStyles = true,
     onChange,
     value,
     chakraStyles,
     ...props
-  }: SelectProps<Option>,
-  ref: ForwardedRef<SelectInstance<Option>>,
+  }: SelectProps<Option, IsMulti>,
+  ref: ForwardedRef<SelectInstance<Option, IsMulti>>,
 ): ReactElement {
   const defaultStyles: ChakraStylesConfig<Option> = {
     placeholder: (provided) => ({
@@ -43,7 +53,7 @@ const Select = fwRef(function Select<Option extends OptionBase>(
   };
 
   return (
-    <ChakraSelect<Option>
+    <ChakraSelect<Option, IsMulti>
       {...props}
       ref={ref}
       chakraStyles={{
@@ -52,10 +62,17 @@ const Select = fwRef(function Select<Option extends OptionBase>(
       }}
       errorBorderColor="red.200"
       isSearchable={isSearchable}
-      onChange={(option) => onChange?.(option?.value ?? null)}
+      onChange={(newValue) => {
+        const choices = newValue as OptionType<Option>;
+        return onChange?.(
+          (Array.isArray(choices) ? choices : [choices]).map(
+            (choice) => choice?.value ?? null,
+          ),
+        );
+      }}
       options={options}
       selectedOptionStyle="check"
-      useBasicStyles
+      useBasicStyles={useBasicStyles}
       value={options.find((option) => option.value === value) || undefined}
     />
   );

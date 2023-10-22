@@ -1,6 +1,8 @@
+import type { ReactElement } from "react";
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
+
+import Select from "../form/Select";
 
 import type { FilterProp } from "./FilterMenu";
 
@@ -16,7 +18,7 @@ const FilterRow = ({
   filterProp,
   optionsSelected,
   setOptionsSelected,
-}: FilterRowProps): React.ReactElement => {
+}: FilterRowProps): ReactElement => {
   return (
     <>
       <Flex justifyContent="space-around" pb={4} pt={2} px={3}>
@@ -45,12 +47,12 @@ const FilterRow = ({
             focusBorderColor="blue.300"
             isMulti
             onChange={(choices) => {
-              const values = choices.map((choice) => choice.value);
               setOptionsSelected(
-                new Map(optionsSelected.set(filterProp.label, values)),
+                new Map(optionsSelected.set(filterProp.label, choices)),
               );
             }}
             options={filterProp.options}
+            useBasicStyles={false}
           />
         </div>
       </Flex>
