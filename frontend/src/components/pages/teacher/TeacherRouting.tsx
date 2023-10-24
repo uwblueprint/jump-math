@@ -7,6 +7,7 @@ import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
 import Navbar from "../../common/navigation/Navbar";
+import AssessmentPreviewPage from "../admin/AssessmentPreviewPage";
 import NotFound from "../NotFound";
 
 import ClassroomsPage from "./ClassroomsPage";
@@ -27,6 +28,13 @@ const TeacherRouting = (): React.ReactElement => {
     <VStack align="left" flex="1" height="100vh">
       <Switch>
         <Route path={Routes.DISPLAY_ASSESSMENT_RESULTS_PAGE()} />
+        <PrivateRoute
+          component={AssessmentPreviewPage}
+          path={Routes.TEACHER_ASSESSMENT_PREVIEW_PAGE({
+            assessmentId: ":assessmentId",
+          })}
+          roles={["Teacher"]}
+        />
         <Route path="*">
           <Navbar pages={pages} />
         </Route>

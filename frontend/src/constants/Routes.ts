@@ -81,6 +81,11 @@ export const DISPLAY_CLASSROOM_ASSESSMENTS_PAGE = ({
 export const DISPLAY_CLASSROOM_STUDENTS_PAGE = ({
   classroomId = ":classroomId",
 } = {}) => `/teacher/classrooms/${classroomId}/students`;
+export const TEACHER_ASSESSMENT_PREVIEW_PAGE = ({
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => "/teacher/assessment-preview/" + assessmentId;
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";
