@@ -55,6 +55,12 @@ export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
   ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
   "/preview";
 
+export const ASESESSMENT_PREVIEW_PAGE = ({
+  assessmentId,
+}: {
+  assessmentId: string;
+}) => "/admin/assessment/" + assessmentId;
+
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";
 export const TEACHER_DASHBOARD_PAGE = "/teacher/dashboard";

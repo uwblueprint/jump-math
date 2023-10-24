@@ -2,18 +2,20 @@ import type { ReactNode } from "react";
 import React, { useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 
-import { EditOutlineIcon } from "../../../assets/icons";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import type { Question } from "../../../types/QuestionTypes";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
 type AssessmentPreviewProps = {
   questions: Question[];
   goBack: () => void;
+  backButtonText: string;
 };
 
 const AssessmentPreview = ({
   questions,
   goBack,
+  backButtonText,
 }: AssessmentPreviewProps): ReactNode => {
   useEffect(() => {
     if (!questions.length) {
@@ -26,8 +28,12 @@ const AssessmentPreview = ({
   }
 
   const closeAssessmentPreviewButton = (
-    <Button leftIcon={<EditOutlineIcon />} onClick={goBack} variant="tertiary">
-      Back to Editing
+    <Button
+      leftIcon={<ArrowBackOutlineIcon />}
+      onClick={goBack}
+      variant="tertiary"
+    >
+      {backButtonText}
     </Button>
   );
 

@@ -278,6 +278,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
                 })}
               >
                 <AssessmentPreview
+                  backButtonText="Back to Editing"
                   goBack={() =>
                     disableEditorPrompt(history.push)(
                       Routes.ASSESSMENT_EDITOR_PAGE({
