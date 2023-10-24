@@ -75,11 +75,11 @@ const AssessmentEditorHeader = ({
 
   const onPreview = () => {
     validateForm();
-    disableEditorPrompt(history.push)(
-      Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
+    disableEditorPrompt(history.push)({
+      pathname: Routes.ASSESSMENT_PREVIEW_PAGE({
         assessmentId,
       }),
-    );
+    });
   };
 
   const onPublish = () => {

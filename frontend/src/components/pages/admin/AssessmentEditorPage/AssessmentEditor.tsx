@@ -25,7 +25,6 @@ import type { Question } from "../../../../types/QuestionTypes";
 import { FormValidationError } from "../../../../utils/GeneralUtils";
 import { formatQuestionsRequest } from "../../../../utils/QuestionUtils";
 import AssessmentEditorHeader from "../../../admin/assessment-creation/AssessmentEditorHeader";
-import AssessmentPreview from "../../../admin/assessment-creation/AssessmentPreview";
 import AssessmentQuestions from "../../../admin/assessment-creation/AssessmentQuestions";
 import BasicInformation from "../../../admin/assessment-creation/BasicInformation";
 import QuestionEditor from "../../../admin/question-creation/QuestionEditor";
@@ -271,23 +270,6 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
                     <AssessmentQuestions />
                   </VStack>
                 </VStack>
-              </Route>
-              <Route
-                path={Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
-                  assessmentId: state?.id && ":assessmentId",
-                })}
-              >
-                <AssessmentPreview
-                  backButtonText="Back to Editing"
-                  goBack={() =>
-                    disableEditorPrompt(history.push)(
-                      Routes.ASSESSMENT_EDITOR_PAGE({
-                        assessmentId: state?.id,
-                      }),
-                    )
-                  }
-                  questions={questions}
-                />
               </Route>
               <Route component={NotFound} exact path="*" />
             </Switch>

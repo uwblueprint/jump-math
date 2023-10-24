@@ -6,7 +6,6 @@ import { Box } from "@chakra-ui/react";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
 import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
-import { ASSESSMENTS_PAGE } from "../../../constants/Routes";
 import { formatQuestionsResponse } from "../../../utils/QuestionUtils";
 import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
 import QueryStateHandler from "../../common/QueryStateHandler";
@@ -44,8 +43,8 @@ const AssessmentPreviewPage = () => {
     <Box mx={4}>
       <QueryStateHandler error={error} loading={loading}>
         <AssessmentPreview
-          backButtonText="Return to Assessments"
-          goBack={() => history.push(ASSESSMENTS_PAGE)}
+          backButtonText="Back"
+          goBack={() => history.goBack()}
           questions={state?.questions || []}
         />
       </QueryStateHandler>

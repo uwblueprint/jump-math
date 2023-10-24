@@ -37,6 +37,7 @@ const AssessmentPreview = ({
     </Button>
   );
 
+  // TODO: combine with AssessmentPreviewPage component
   return (
     <AssessmentExperience
       headerButton={closeAssessmentPreviewButton}

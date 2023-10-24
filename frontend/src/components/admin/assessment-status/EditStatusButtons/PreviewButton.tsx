@@ -28,7 +28,7 @@ const PreviewButton = ({
       onClick={async () => {
         if (data) {
           history.push({
-            pathname: Routes.ASESESSMENT_PREVIEW_PAGE({ assessmentId }),
+            pathname: Routes.ASSESSMENT_PREVIEW_PAGE({ assessmentId }),
             state: data.test,
           });
         } else {

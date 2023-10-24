@@ -36,7 +36,7 @@ const AdminRouting = (): React.ReactElement => {
       />
       <PrivateRoute
         component={AssessmentPreviewPage}
-        path={Routes.ASESESSMENT_PREVIEW_PAGE({
+        path={Routes.ASSESSMENT_PREVIEW_PAGE({
           assessmentId: ":assessmentId",
         })}
         roles={["Admin"]}
