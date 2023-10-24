@@ -34,6 +34,7 @@ const TeacherRouting = (): React.ReactElement => {
             assessmentId: ":assessmentId",
           })}
           roles={["Teacher"]}
+          title="Preview Assessment"
         />
         <Route path="*">
           <Navbar pages={pages} />

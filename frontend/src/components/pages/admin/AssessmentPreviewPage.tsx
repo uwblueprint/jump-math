@@ -13,7 +13,7 @@ import QueryStateHandler from "../../common/QueryStateHandler";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
 const AssessmentPreviewPage = () => {
-  // TODO: move to common folder
+  // TODO: move to different folder
   const history = useHistory();
 
   // Data could come from the previous page.
@@ -42,6 +42,7 @@ const AssessmentPreviewPage = () => {
     [test],
   );
 
+  // TODO: fix for teacher dashboard
   const assessmentName = state?.name;
   usePageTitle(`Previewing "${assessmentName}`);
 

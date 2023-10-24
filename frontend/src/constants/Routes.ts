@@ -50,7 +50,7 @@ export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
   ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
   "/preview";
 
-export const ASSESSMENT_PREVIEW_PAGE = ({
+export const ADMIN_ASSESSMENT_PREVIEW_PAGE = ({
   assessmentId,
 }: {
   assessmentId?: string;
