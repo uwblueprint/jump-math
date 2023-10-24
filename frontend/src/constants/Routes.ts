@@ -54,7 +54,7 @@ export const ASSESSMENT_PREVIEW_PAGE = ({
   assessmentId,
 }: {
   assessmentId?: string;
-}) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + "/preview";
+}) => "/admin/assessment/" + assessmentId + "/preview";
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

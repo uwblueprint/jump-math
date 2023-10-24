@@ -2,13 +2,15 @@ import React, { useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 import { GET_TEST } from "../../../APIClients/queries/TestQueries";
 import type { TestResponse } from "../../../APIClients/types/TestClientTypes";
+import { ArrowBackOutlineIcon } from "../../../assets/icons";
 import { formatQuestionsResponse } from "../../../utils/QuestionUtils";
-import AssessmentPreview from "../../admin/assessment-creation/AssessmentPreview";
+import usePageTitle from "../../auth/usePageTitle";
 import QueryStateHandler from "../../common/QueryStateHandler";
+import AssessmentExperience from "../../student/AssessmentExperience";
 
 const AssessmentPreviewPage = () => {
   const history = useHistory();
@@ -39,13 +41,27 @@ const AssessmentPreviewPage = () => {
     [test],
   );
 
+  const assessmentName = state?.name;
+  usePageTitle(`Previewing "${assessmentName}`);
+
+  const closeAssessmentPreviewButton = (
+    <Button
+      leftIcon={<ArrowBackOutlineIcon />}
+      onClick={() => history.goBack()}
+      variant="tertiary"
+    >
+      Back
+    </Button>
+  );
+
   return (
     <Box mx={4}>
       <QueryStateHandler error={error} loading={loading}>
-        <AssessmentPreview
-          backButtonText="Back"
-          goBack={() => history.goBack()}
+        <AssessmentExperience
+          headerButton={closeAssessmentPreviewButton}
+          isPreviewMode
           questions={state?.questions || []}
+          title="Preview Assessment"
         />
       </QueryStateHandler>
     </Box>
