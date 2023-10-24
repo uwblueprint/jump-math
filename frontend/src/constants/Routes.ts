@@ -50,7 +50,7 @@ export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
   ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
   "/preview";
 
-export const ASSESSMENT_PREVIEW_PAGE = ({
+export const ADMIN_ASSESSMENT_PREVIEW_PAGE = ({
   assessmentId,
 }: {
   assessmentId?: string;
@@ -81,6 +81,11 @@ export const DISPLAY_CLASSROOM_ASSESSMENTS_PAGE = ({
 export const DISPLAY_CLASSROOM_STUDENTS_PAGE = ({
   classroomId = ":classroomId",
 } = {}) => `/teacher/classrooms/${classroomId}/students`;
+export const TEACHER_ASSESSMENT_PREVIEW_PAGE = ({
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => "/teacher/assessment-preview/" + assessmentId;
 
 // Private Student Routes
 export const STUDENT_LANDING_PAGE = "/student";

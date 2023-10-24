@@ -7,10 +7,10 @@ import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
 import Navbar from "../../common/navigation/Navbar";
+import AssessmentPreviewPage from "../common/AssessmentPreviewPage";
 import NotFound from "../NotFound";
 
 import AssessmentEditorPage from "./AssessmentEditorPage";
-import AssessmentPreviewPage from "./AssessmentPreviewPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
@@ -36,7 +36,7 @@ const AdminRouting = (): React.ReactElement => {
       />
       <PrivateRoute
         component={AssessmentPreviewPage}
-        path={Routes.ASSESSMENT_PREVIEW_PAGE({
+        path={Routes.ADMIN_ASSESSMENT_PREVIEW_PAGE({
           assessmentId: ":assessmentId",
         })}
         roles={["Admin"]}
