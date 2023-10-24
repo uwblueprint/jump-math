@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
 import { useHistory } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { Divider, useDisclosure, VStack } from "@chakra-ui/react";
 
 import { DELETE_TEST_SESSION } from "../../../APIClients/mutations/TestSessionMutations";
@@ -29,8 +29,8 @@ const TestSessionListItemPopover = ({
     onOpen: openDeleteModal,
     onClose: onDeleteModalClose,
   } = useDisclosure();
-
   const history = useHistory();
+  const { showToast } = useToast();
 
   const [deleteTestSession] = useMutation(DELETE_TEST_SESSION, {
     variables: { id: session.testSessionId },
@@ -41,13 +41,14 @@ const TestSessionListItemPopover = ({
     history.push(Routes.DISTRIBUTE_ASSESSMENT_PAGE, session);
   };
 
-  const { data } = useQuery<{ test: TestResponse }>(GET_TEST, {
-    fetchPolicy: "cache-and-network",
-    variables: { id: session.testId },
-  });
-  const { showToast } = useToast();
+  const [previewTest] = useLazyQuery<{
+    test: TestResponse;
+  }>(GET_TEST);
 
-  const onPreview = async () => {
+  const onPreviewTest = async () => {
+    const { data } = await previewTest({
+      variables: { id: session.testId },
+    });
     if (data) {
       history.push({
         pathname: Routes.TEACHER_ASSESSMENT_PREVIEW_PAGE({
@@ -72,7 +73,7 @@ const TestSessionListItemPopover = ({
           <>
             <PopoverButton name="Delete" onClick={openDeleteModal} />
             <Divider />
-            <PopoverButton name="Preview" onClick={onPreview} />
+            <PopoverButton name="Preview" onClick={onPreviewTest} />
           </>
         )}
       </VStack>

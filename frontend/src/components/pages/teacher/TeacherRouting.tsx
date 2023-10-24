@@ -7,7 +7,7 @@ import type Page from "../../../types/PageTypes";
 import PrivateRoute from "../../auth/PrivateRoute";
 import RedirectTo from "../../auth/RedirectTo";
 import Navbar from "../../common/navigation/Navbar";
-import AssessmentPreviewPage from "../admin/AssessmentPreviewPage";
+import AssessmentPreviewPage from "../common/AssessmentPreviewPage";
 import NotFound from "../NotFound";
 
 import ClassroomsPage from "./ClassroomsPage";

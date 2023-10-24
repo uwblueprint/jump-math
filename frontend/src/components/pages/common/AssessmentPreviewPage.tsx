@@ -13,7 +13,6 @@ import QueryStateHandler from "../../common/QueryStateHandler";
 import AssessmentExperience from "../../student/AssessmentExperience";
 
 const AssessmentPreviewPage = () => {
-  // TODO: move to different folder
   const history = useHistory();
 
   // Data could come from the previous page.

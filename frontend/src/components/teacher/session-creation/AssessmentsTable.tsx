@@ -40,12 +40,12 @@ const AssessmentsTable = ({
   isDisabled = false,
 }: AssessmentsTableProps): React.ReactElement => {
   const history = useHistory();
+  const { showToast } = useToast();
 
   const [previewAssessmentQuery] = useLazyQuery<{
     test: TestResponse;
   }>(GET_TEST);
 
-  const { showToast } = useToast();
   const previewAssessment = async (assessmentId: string) => {
     const { data } = await previewAssessmentQuery({
       variables: { id: assessmentId },
