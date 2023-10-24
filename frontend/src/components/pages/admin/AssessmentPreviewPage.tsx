@@ -42,7 +42,6 @@ const AssessmentPreviewPage = () => {
     [test],
   );
 
-  // TODO: fix for teacher dashboard
   const assessmentName = state?.name;
   usePageTitle(`Previewing "${assessmentName}`);
 

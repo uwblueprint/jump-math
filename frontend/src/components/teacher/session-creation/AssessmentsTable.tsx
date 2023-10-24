@@ -41,13 +41,13 @@ const AssessmentsTable = ({
 }: AssessmentsTableProps): React.ReactElement => {
   const history = useHistory();
 
-  const [previewAssessment] = useLazyQuery<{
+  const [previewAssessmentQuery] = useLazyQuery<{
     test: TestResponse;
   }>(GET_TEST);
 
   const { showToast } = useToast();
-  const onPreviewClick = async (assessmentId: string) => {
-    const { data } = await previewAssessment({
+  const previewAssessment = async (assessmentId: string) => {
+    const { data } = await previewAssessmentQuery({
       variables: { id: assessmentId },
     });
     if (data) {
@@ -88,10 +88,9 @@ const AssessmentsTable = ({
       <ActionButton
         aria-label="preview-assessment"
         leftIcon={<EyeOutlineIcon boxSize={5} />}
-        onClick={() => onPreviewClick(assessment.id)}
+        onClick={() => previewAssessment(assessment.id)}
         showDefaultToasts={false}
         size="sm"
-        variant="tertiary"
       />
     ),
     onClick: () => {
