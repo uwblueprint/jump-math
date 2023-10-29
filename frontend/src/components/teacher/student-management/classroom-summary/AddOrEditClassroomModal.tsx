@@ -158,7 +158,6 @@ const AddOrEditClassroomModal = ({
               <FormLabel color="blue.300">Grade Level</FormLabel>
               <ControlledSelect
                 isRequired
-                isSearchable={false}
                 name="gradeLevel"
                 options={gradeOptions}
                 placeholder="Choose a Grade Level"

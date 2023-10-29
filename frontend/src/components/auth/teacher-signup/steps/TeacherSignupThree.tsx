@@ -105,7 +105,6 @@ const TeacherSignupThree = ({ setPage }: TeacherSignupProps): ReactElement => {
           <FormLabel color="grey.400">Country</FormLabel>
           <ControlledSelect
             isRequired
-            isSearchable
             name="school.country"
             options={countryOptions}
             placeholder="Select Country"

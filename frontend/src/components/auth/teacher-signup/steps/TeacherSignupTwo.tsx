@@ -53,7 +53,6 @@ const TeacherSignupTwo = ({
         </FormLabel>
         <ControlledSelect
           isRequired
-          isSearchable={false}
           name="currentlyTeachingJM"
           options={[
             {
@@ -73,7 +72,6 @@ const TeacherSignupTwo = ({
         <FormLabel color="grey.400">School</FormLabel>
         <ControlledSelect
           isRequired
-          isSearchable
           name="school.id"
           options={schools.map((school) => ({
             value: school.id,
