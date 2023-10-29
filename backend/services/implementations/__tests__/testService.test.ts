@@ -129,7 +129,7 @@ describe("mongo testService", (): void => {
     const unarchivedTest = await testService.unarchiveTest(test.id);
     assertResponseMatchesExpected(mockTestWithId, unarchivedTest, true);
     expect(test.id).not.toEqual(unarchivedTest.id);
-    expect(`${test.name} [COPY]`).toEqual(unarchivedTest.name);
+    expect(test.name).toEqual(unarchivedTest.name);
 
     const originalTest = await MgTest.findById(test.id);
     expect(originalTest?.status).toBe(AssessmentStatus.DELETED);

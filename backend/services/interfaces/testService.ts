@@ -103,7 +103,7 @@ export interface ITestService {
    * @returns a TestResponseDTO with the duplicated test
    * @throws Error if Test with given id not found
    */
-  duplicateTest(id: string): Promise<TestResponseDTO>;
+  duplicateTest(id: string, renameTest?: boolean): Promise<TestResponseDTO>;
 
   /**
    * unarchive a Test given the id

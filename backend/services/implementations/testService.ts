@@ -258,7 +258,7 @@ class TestService implements ITestService {
     return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
-  async duplicateTest(id: string): Promise<TestResponseDTO> {
+  async duplicateTest(id: string, renameTest = true): Promise<TestResponseDTO> {
     let test: Test | null;
 
     try {
@@ -268,7 +268,9 @@ class TestService implements ITestService {
       }
       // eslint-disable-next-line no-underscore-dangle
       test._id = new mongoose.Types.ObjectId();
-      test.name += " [COPY]";
+      if (renameTest) {
+        test.name += " [COPY]";
+      }
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
@@ -294,7 +296,7 @@ class TestService implements ITestService {
       if (test.status !== AssessmentStatus.ARCHIVED) {
         throw new Error(`Test with ID ${id} is not in archived status`);
       }
-      unarchivedTest = await this.duplicateTest(id);
+      unarchivedTest = await this.duplicateTest(id, false);
 
       try {
         await this.deleteTest(id);
