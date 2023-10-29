@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import type { MultiOptionData } from "../../../../../../types/QuestionTypes";
@@ -66,7 +66,6 @@ const SelectOptionCount = ({
         placeholder="Select Input"
         value={optionCount}
       />
-      <FormErrorMessage>Select a value before confirming.</FormErrorMessage>
     </FormControl>
   );
 };
