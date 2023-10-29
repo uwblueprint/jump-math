@@ -2,10 +2,7 @@ import React, { type ReactElement, useMemo } from "react";
 import type {
   Control,
   FieldErrorsImpl,
-  UseFormClearErrors,
   UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
 } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import countryList from "react-select-country-list";
@@ -30,12 +27,9 @@ import ErrorToast from "../../common/info/toasts/ErrorToast";
 
 interface BasicInformationProps {
   register: UseFormRegister<TestRequest>;
-  setValue: UseFormSetValue<TestRequest>;
-  watch: UseFormWatch<TestRequest>;
   control: Control<TestRequest, unknown>;
   errors: Partial<FieldErrorsImpl<TestRequest>>;
   errorMessage: string;
-  clearErrors: UseFormClearErrors<TestRequest>;
 }
 
 const BasicInformation = ({

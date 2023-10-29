@@ -67,9 +67,7 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
     register,
     formState: { errors, isDirty: isFormDirty },
     control,
-    setValue,
     watch,
-    clearErrors,
     reset: resetForm,
   } = methods;
   useEffect(() => {
@@ -259,13 +257,10 @@ const AssessmentEditor = ({ state }: AssessmentEditorProps): ReactElement => {
                     />
 
                     <BasicInformation
-                      clearErrors={clearErrors}
                       control={control}
                       errorMessage={errorMessage}
                       errors={errors}
                       register={register}
-                      setValue={setValue}
-                      watch={watch}
                     />
                     <Divider />
                     <AssessmentQuestions />
