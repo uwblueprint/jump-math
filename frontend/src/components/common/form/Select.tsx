@@ -66,9 +66,9 @@ const Select = fwRef(function Select<
       onChange={(newValue) => {
         const choices = newValue as OptionType<Option>;
         return onChange?.(
-          (Array.isArray(choices) ? choices : [choices]).map(
-            (choice) => choice?.value ?? null,
-          ),
+          (Array.isArray(choices)
+            ? choices.map((choice) => choice.value ?? null)
+            : choices?.value ?? null) as OnChangeValue<Option, IsMulti>,
         );
       }}
       options={options}
