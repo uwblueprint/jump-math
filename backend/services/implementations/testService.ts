@@ -127,6 +127,10 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} not found`);
       }
 
+      if (oldTest.status !== AssessmentStatus.DRAFT) {
+        throw new Error(`Test with ID ${id} cannot be edited`);
+      }
+
       // Delete all images that are not in the new test
       const oldImages = oldTest.questions
         .flat()

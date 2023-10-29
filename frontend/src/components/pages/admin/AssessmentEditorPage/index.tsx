@@ -5,7 +5,10 @@ import { Box } from "@chakra-ui/react";
 
 import { GET_TEST } from "../../../../APIClients/queries/TestQueries";
 import type { TestResponse } from "../../../../APIClients/types/TestClientTypes";
+import * as Routes from "../../../../constants/Routes";
+import { Status } from "../../../../types/AssessmentTypes";
 import { formatQuestionsResponse } from "../../../../utils/QuestionUtils";
+import RedirectTo from "../../../auth/RedirectTo";
 import QueryStateHandler from "../../../common/QueryStateHandler";
 
 import AssessmentEditor from "./AssessmentEditor";
@@ -36,6 +39,14 @@ const AssessmentEditorPage = () => {
       },
     [test],
   );
+
+  if (!!state?.status && state.status !== Status.DRAFT) {
+    return (
+      <RedirectTo
+        pathname={Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({ assessmentId })}
+      />
+    );
+  }
 
   return (
     <Box mx={4}>
