@@ -37,13 +37,11 @@ const SearchableTablePage = <T, SortPropTypes extends readonly string[]>({
   return (
     <>
       <VStack pt={4} spacing={6} w="full">
-        {searchLength !== 0 && (
-          <HStack width="100%">
-            {searchBarComponent}
-            {sortMenuComponent}
-            {filterMenuComponent}
-          </HStack>
-        )}
+        <HStack width="100%">
+          {searchBarComponent}
+          {sortMenuComponent}
+          {filterMenuComponent}
+        </HStack>
         {search && (
           <Text color="grey.300" fontSize="16px" width="100%">
             Showing {searchLength} results for &quot;
