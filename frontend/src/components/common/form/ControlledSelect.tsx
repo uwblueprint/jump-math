@@ -10,7 +10,7 @@ interface ControlledSelectProps<Option extends OptionBase = StringOption> {
   options: Option[];
   placeholder: string;
   isSearchable?: boolean;
-  isRequired: boolean;
+  isRequired: boolean | string;
 }
 
 const ControlledSelect = <Option extends OptionBase>({
@@ -34,7 +34,9 @@ const ControlledSelect = <Option extends OptionBase>({
     rules={{
       validate: (value) => {
         if (isRequired && (value == null || value === "")) {
-          return "This field is required.";
+          return typeof isRequired === "string"
+            ? isRequired
+            : "This field is required.";
         }
         return true;
       },

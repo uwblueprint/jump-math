@@ -60,7 +60,7 @@ const BasicInformation = ({
           <FormControl isInvalid={!!errors.grade} isRequired>
             <FormLabel color="grey.400">Grade Level</FormLabel>
             <ControlledSelect
-              isRequired
+              isRequired="Please select a grade"
               name="grade"
               options={gradeOptions}
               placeholder="Select a grade"
@@ -118,12 +118,14 @@ const BasicInformation = ({
             >
               <FormLabel color="grey.400">Country</FormLabel>
               <ControlledSelect
-                isRequired
+                isRequired="Please select a country"
                 name="curriculumCountry"
                 options={countryOptions}
                 placeholder="Select a country"
               />
-              <FormErrorMessage>{errors.grade?.message}</FormErrorMessage>
+              <FormErrorMessage>
+                {errors.curriculumCountry?.message}
+              </FormErrorMessage>
             </FormControl>
             <FormControl
               isInvalid={!!errors.curriculumRegion}
