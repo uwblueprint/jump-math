@@ -5,6 +5,7 @@ import { Select as ChakraSelect } from "chakra-react-select";
 
 import type { OptionBase } from "../../../types/SelectInputTypes";
 
+// React doesn't include a generic type for forwardRef, so we have to add it ourselves.
 declare module "react" {
   function forwardRef<T, P>(
     render: (props: P, ref: React.Ref<T>) => ReactNode | null,
