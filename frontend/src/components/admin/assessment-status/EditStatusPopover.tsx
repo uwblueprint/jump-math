@@ -33,8 +33,12 @@ const EditStatusPopover = ({
         <UnarchiveButton assessmentId={assessmentId} />
       ) : (
         <>
-          <ArchiveButton assessmentId={assessmentId} />
-          <Divider />
+          {assessmentStatus === Status.PUBLISHED && (
+            <>
+              <ArchiveButton assessmentId={assessmentId} />
+              <Divider />
+            </>
+          )}
           <DuplicateButton assessmentId={assessmentId} />
         </>
       )}

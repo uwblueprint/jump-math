@@ -26,7 +26,6 @@ import useActionFormHandler from "../../common/modal/useActionFormHandler";
 import BackButton from "../../common/navigation/BackButton";
 import Popover from "../../common/popover/Popover";
 import PopoverButton from "../../common/popover/PopoverButton";
-import ArchiveAssessmentModal from "../assessment-status/EditStatusModals/ArchiveAssessmentModal";
 import DeleteAssessmentModal from "../assessment-status/EditStatusModals/DeleteAssessmentModal";
 import PublishAssessmentModal from "../assessment-status/EditStatusModals/PublishAssessmentModal";
 
@@ -45,7 +44,6 @@ interface AssessmentEditorHeaderProps {
 const AssessmentEditorHeader = ({
   name,
   isEditing,
-  onConfirmArchive,
   onConfirmPublish,
   onDelete,
   onSave,
@@ -66,11 +64,6 @@ const AssessmentEditorHeader = ({
     onOpen: onDeleteModalOpen,
     isOpen: isDeleteModalOpen,
     onClose: onDeleteModalClose,
-  } = useDisclosure();
-  const {
-    onOpen: onArchiveModalOpen,
-    isOpen: isArchiveModalOpen,
-    onClose: onArchiveModalClose,
   } = useDisclosure();
 
   const onPreview = () => {
@@ -96,7 +89,6 @@ const AssessmentEditorHeader = ({
 
   // We don't need validation on these actions.
   const handleConfirmPublish = async () => onConfirmPublish(getValues());
-  const handleConfirmArchive = async () => onConfirmArchive(getValues());
   const handleDelete = async () => onDelete(getValues());
 
   return (
@@ -155,7 +147,6 @@ const AssessmentEditorHeader = ({
             {isEditing && (
               <Popover>
                 <VStack divider={<Divider />} spacing="0em">
-                  <PopoverButton name="Archive" onClick={onArchiveModalOpen} />
                   <PopoverButton name="Delete" onClick={onDeleteModalOpen} />
                 </VStack>
               </Popover>
@@ -167,11 +158,6 @@ const AssessmentEditorHeader = ({
         isOpen={isPublishModalOpen}
         onClose={onPublishModalClose}
         publishAssessment={handleConfirmPublish}
-      />
-      <ArchiveAssessmentModal
-        archiveAssessment={handleConfirmArchive}
-        isOpen={isArchiveModalOpen}
-        onClose={onArchiveModalClose}
       />
       <DeleteAssessmentModal
         deleteAssessment={handleDelete}

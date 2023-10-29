@@ -336,7 +336,7 @@ class TestService implements ITestService {
       test = await MgTest.findOneAndUpdate(
         {
           _id: id,
-          status: { $in: [AssessmentStatus.DRAFT, AssessmentStatus.PUBLISHED] },
+          status: AssessmentStatus.PUBLISHED,
         },
         {
           $set: {
@@ -351,7 +351,7 @@ class TestService implements ITestService {
 
       if (!test) {
         throw new Error(
-          `Test with ID ${id} is not found or not in draft / published status`,
+          `Test with ID ${id} is not found or not in published status`,
         );
       }
     } catch (error: unknown) {
