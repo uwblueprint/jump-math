@@ -296,6 +296,10 @@ class TestService implements ITestService {
       if (test.status !== AssessmentStatus.ARCHIVED) {
         throw new Error(`Test with ID ${id} is not in archived status`);
       }
+
+      // We have to duplicate the test and soft-delete the archived one
+      // rather than just updating the status because old test sessions
+      // will still refer to the archived test in their session results
       unarchivedTest = await this.duplicateTest(id, false);
 
       try {
