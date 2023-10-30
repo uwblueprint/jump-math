@@ -4,11 +4,11 @@ import {
   PaginationContainer,
   PaginationNext,
   PaginationPage,
-  PaginationPageGroup,
   PaginationPrevious,
   PaginationSeparator,
   usePagination,
 } from "@ajna/pagination";
+import { HStack } from "@chakra-ui/react";
 
 const outerLimit = 1;
 const innerLimit = 1;
@@ -44,7 +44,7 @@ const Pagination = ({
             &lt; Previous
           </PaginationPrevious>
         )}
-        <PaginationPageGroup align="center" isInline>
+        <HStack align="center">
           {pages.map((page: number, index: number) => {
             if (
               index === 0 ||
@@ -85,7 +85,7 @@ const Pagination = ({
             }
             return null;
           })}
-        </PaginationPageGroup>
+        </HStack>
 
         {currentPage !== pagesCount && (
           <PaginationNext

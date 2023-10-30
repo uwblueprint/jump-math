@@ -62,7 +62,7 @@ const DisplayClassroomStudentsPage = ({
         }
         resultsLength={students.length}
         search={search}
-        searchBarComponent={<SearchBar onSearch={setSearch} />}
+        searchBarComponent={<SearchBar onSearch={setSearch} search={search} />}
         sortMenuComponent={
           <SortMenu
             initialSortOrder="descending"

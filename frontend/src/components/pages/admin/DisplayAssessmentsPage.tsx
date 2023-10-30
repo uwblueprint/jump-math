@@ -47,8 +47,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
   const [regions, setRegions] = React.useState<Array<string>>([]);
   const [status, setStatus] = React.useState("");
 
-  const [isEmpty, setEmpty] = React.useState(true);
-
   const [filterOptions, setFilterOptions] = React.useState<FilterProp[]>([
     { label: "Grade", setState: setGrades, options: [] },
     { label: "Type", setState: setTestTypes, options: [] },
@@ -87,9 +85,6 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
 
   const filteredAssessments = React.useMemo(() => {
     if (!data) return [];
-    if (data.tests.length) {
-      setEmpty(false);
-    }
 
     const filterProps = [grades, testTypes, countries, regions, status];
     return filterAssessments(data.tests, filterProps);
@@ -109,11 +104,13 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
         <SearchableTablePage
           filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
           nameOfTableItems="assessments"
-          noResults={isEmpty}
+          noResults={(data?.tests?.length ?? 0) === 0}
           noResultsComponent={<EmptyTestsMessage />}
           resultsLength={assessments.length}
           search={search}
-          searchBarComponent={<SearchBar onSearch={setSearch} />}
+          searchBarComponent={
+            <SearchBar onSearch={setSearch} search={search} />
+          }
           sortMenuComponent={
             <SortMenu
               initialSortOrder="descending"
@@ -147,7 +144,10 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
       <QueryStateHandler error={error} loading={loading}>
         <Tabs
           marginTop={3}
-          onChange={(index) => setStatus(STATUS_ORDER[index])}
+          onChange={(index) => {
+            setSearch("");
+            setStatus(STATUS_ORDER[index]);
+          }}
         >
           <TabList>
             <Tab>All</Tab>
