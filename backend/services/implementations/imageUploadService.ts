@@ -15,6 +15,7 @@ import type {
   ImageMetadata,
   ImageMetadataRequest,
 } from "../../types/questionMetadataTypes";
+import type IImageService from "../interfaces/imageCountService";
 
 const Logger = logger(__filename);
 
@@ -32,16 +33,19 @@ const writeFile = (readStream: ReadStream, filePath: string): Promise<void> => {
 class ImageUploadService implements IImageUploadService {
   uploadDir: string;
 
+  imageService: IImageService;
+
   storageService: IFileStorageService;
 
   googleStorageUploadUrl: string;
 
-  constructor(uploadDir: string) {
+  constructor(uploadDir: string, imageService: IImageService) {
     this.uploadDir = escapeRegExp(uploadDir);
 
     const defaultBucket = process.env.FIREBASE_STORAGE_DEFAULT_BUCKET || "";
     const storageService = new FileStorageService(defaultBucket);
     this.storageService = storageService;
+    this.imageService = imageService;
 
     this.googleStorageUploadUrl = escapeRegExp(
       `https://storage.googleapis.com/${defaultBucket}`,
@@ -53,11 +57,13 @@ class ImageUploadService implements IImageUploadService {
     let filePath = this.getFilePath(image);
 
     try {
-      if (filePath)
+      if (filePath) {
+        await this.incrementImageCount({ filePath, url: "" });
         return await this.hydrateImage({
           filePath,
           url: image.previewUrl,
         });
+      }
 
       const { createReadStream, mimetype, filename } = await image.file;
       if (!fs.existsSync(this.uploadDir)) {
@@ -75,6 +81,20 @@ class ImageUploadService implements IImageUploadService {
       if (filePath && fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
+    }
+  }
+
+  async incrementImageCount(image: ImageMetadata): Promise<ImageMetadata> {
+    try {
+      await this.imageService.incrementCount(image.filePath);
+      return image;
+    } catch (error: unknown) {
+      Logger.error(
+        `Failed to increment image count for filePath: ${
+          image.filePath
+        }. Reason = ${getErrorMessage(error)}`,
+      );
+      throw error;
     }
   }
 
@@ -112,7 +132,13 @@ class ImageUploadService implements IImageUploadService {
 
   async deleteImage(image: ImageMetadata): Promise<ImageMetadata> {
     try {
-      await this.storageService.deleteFile(image.filePath);
+      const decrementCount = await this.imageService.decrementCount(
+        image.filePath,
+      );
+      if (decrementCount === 0) {
+        await this.storageService.deleteFile(image.filePath);
+      }
+
       return image;
     } catch (error: unknown) {
       Logger.error(
@@ -130,6 +156,7 @@ class ImageUploadService implements IImageUploadService {
   ): Promise<ImageMetadata> {
     try {
       await this.storageService.createFile(filePath, filePath, fileContentType);
+      await this.imageService.initializeCount(filePath);
       return await this.getImage(filePath);
     } catch (error: unknown) {
       Logger.error(

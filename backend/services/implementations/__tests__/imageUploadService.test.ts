@@ -9,6 +9,9 @@ import {
 } from "../../../testUtils/imageUpload";
 import type IImageUploadService from "../../interfaces/imageUploadService";
 import ImageUploadService from "../imageUploadService";
+import ImageCountService from "../imageCountService";
+import type { FileUpload } from "../../../lib/graphql-upload";
+import MgImageCount from "../../../models/imageCount.model";
 
 jest.mock("firebase-admin", () => {
   const storage = jest.fn().mockReturnValue({
@@ -24,7 +27,7 @@ jest.mock("firebase-admin", () => {
           getSignedUrl: jest
             .fn()
             .mockReturnValue([
-              "https://storage.googleapis.com/jump-math-98edf.appspot.com/test-bucket/test.png",
+              "https://storage.googleapis.com/test-url/test-bucket/test.png",
             ]),
           delete: jest.fn().mockReturnValue({}),
         }),
@@ -36,6 +39,7 @@ jest.mock("firebase-admin", () => {
 
 describe("mongo imageUploadService", (): void => {
   let imageUploadService: IImageUploadService;
+  let imageCountService: ImageCountService;
 
   beforeAll(async () => {
     await db.connect();
@@ -46,7 +50,8 @@ describe("mongo imageUploadService", (): void => {
   });
 
   beforeEach(async () => {
-    imageUploadService = new ImageUploadService(uploadDir);
+    imageCountService = new ImageCountService();
+    imageUploadService = new ImageUploadService(uploadDir, imageCountService);
   });
 
   afterEach(async () => {
@@ -54,6 +59,8 @@ describe("mongo imageUploadService", (): void => {
   });
 
   it("deleteImage - invalid filePath", async () => {
+    await imageCountService.initializeCount(imageMetadata.filePath);
+
     await expect(async () => {
       await imageUploadService.deleteImage(imageMetadata);
     }).rejects.toThrowError(
@@ -65,8 +72,38 @@ describe("mongo imageUploadService", (): void => {
     const uploadedImage = await imageUploadService.uploadImage(imageUpload);
     assertResponseMatchesExpected(uploadedImage);
 
-    const res = await imageUploadService.deleteImage(uploadedImage);
+    // check that the reference count is 1
+    let referenceCount = await MgImageCount.findOne({
+      filePath: uploadedImage.filePath,
+    });
+    expect(referenceCount?.referenceCount).toEqual(1);
+
+    // upload same image and check that the reference count is 2
+    const id = uploadedImage.filePath.split("_")[1];
+    await imageUploadService.uploadImage({
+      file: undefined as unknown as Promise<FileUpload>,
+      previewUrl: `${uploadedImage.url}_${id}?GoogleAccessId=fi&Expires=1698622126&Signature=gV`,
+    });
+    referenceCount = await MgImageCount.findOne({
+      filePath: uploadedImage.filePath,
+    });
+    expect(referenceCount?.referenceCount).toEqual(2);
+
+    // delete image and check that the reference count is 1
+    let res = await imageUploadService.deleteImage(uploadedImage);
     assertResponseMatchesExpected(res);
+    referenceCount = await MgImageCount.findOne({
+      filePath: uploadedImage.filePath,
+    });
+    expect(referenceCount?.referenceCount).toEqual(1);
+
+    // delete same image and check that the reference count is 0
+    res = await imageUploadService.deleteImage(uploadedImage);
+    assertResponseMatchesExpected(res);
+    referenceCount = await MgImageCount.findOne({
+      filePath: uploadedImage.filePath,
+    });
+    expect(referenceCount).toBeNull();
   });
 
   it("uploadImage - invalid image type", async () => {

@@ -21,6 +21,7 @@ import type {
   ImageMetadataRequest,
   ImageMetadataTypes,
 } from "../../types/questionMetadataTypes";
+import ImageService from "./imageCountService";
 
 const Logger = logger(__filename);
 
@@ -28,7 +29,11 @@ class TestService implements ITestService {
   imageUploadService: IImageUploadService;
 
   constructor() {
-    this.imageUploadService = new ImageUploadService("assessment-images");
+    const imageService = new ImageService();
+    this.imageUploadService = new ImageUploadService(
+      "assessment-images",
+      imageService,
+    );
   }
 
   /* eslint-disable class-methods-use-this */
@@ -266,12 +271,29 @@ class TestService implements ITestService {
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
-      // eslint-disable-next-line no-underscore-dangle
-      test._id = new mongoose.Types.ObjectId();
-      test.name += " [COPY]";
-      test.isNew = true;
-      test.status = AssessmentStatus.DRAFT;
-      test.save();
+
+      await this.incrementImageCounts(test.questions);
+      try {
+        // eslint-disable-next-line no-underscore-dangle
+        test._id = new mongoose.Types.ObjectId();
+        test.name += " [COPY]";
+        test.isNew = true;
+        test.status = AssessmentStatus.DRAFT;
+        test.save();
+      } catch (mongoDbError) {
+        // rollback image upload in GCP
+        try {
+          await this.deleteImages(test.questions);
+        } catch (imageError) {
+          Logger.error(
+            `Failed to rollback image upload after test duplication failure. Reason = ${getErrorMessage(
+              imageError,
+            )}`,
+          );
+        }
+
+        throw mongoDbError;
+      }
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
@@ -397,6 +419,15 @@ class TestService implements ITestService {
     return this.processImages<ImageMetadataRequest>(
       questions,
       this.imageUploadService.uploadImage.bind(this.imageUploadService),
+    );
+  }
+
+  private async incrementImageCounts(
+    questions: QuestionComponent[][],
+  ): Promise<void> {
+    await this.processImages<ImageMetadata>(
+      questions,
+      this.imageUploadService.incrementImageCount.bind(this.imageUploadService),
     );
   }
 

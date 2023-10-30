@@ -12,6 +12,13 @@ interface IImageUploadService {
   uploadImage(image: ImageMetadataRequest): Promise<ImageMetadata>;
 
   /**
+   * Increment the reference count of an image
+   * @param image the image to increment
+   * @returns a url and file path for the requested image
+   */
+  incrementImageCount(image: ImageMetadata): Promise<ImageMetadata>;
+
+  /**
    * Get an image stored in Firebase
    * @param file the file path to get
    * @returns a url and file path for the requested image
