@@ -271,29 +271,14 @@ class TestService implements ITestService {
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
+      // eslint-disable-next-line no-underscore-dangle
+      test._id = new mongoose.Types.ObjectId();
+      test.name += " [COPY]";
+      test.isNew = true;
+      test.status = AssessmentStatus.DRAFT;
+      test.save();
 
       await this.incrementImageCounts(test.questions);
-      try {
-        // eslint-disable-next-line no-underscore-dangle
-        test._id = new mongoose.Types.ObjectId();
-        test.name += " [COPY]";
-        test.isNew = true;
-        test.status = AssessmentStatus.DRAFT;
-        test.save();
-      } catch (mongoDbError) {
-        // rollback image upload in GCP
-        try {
-          await this.deleteImages(test.questions);
-        } catch (imageError) {
-          Logger.error(
-            `Failed to rollback image upload after test duplication failure. Reason = ${getErrorMessage(
-              imageError,
-            )}`,
-          );
-        }
-
-        throw mongoDbError;
-      }
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(

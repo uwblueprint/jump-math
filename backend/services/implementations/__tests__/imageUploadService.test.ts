@@ -97,7 +97,7 @@ describe("mongo imageUploadService", (): void => {
     });
     expect(referenceCount?.referenceCount).toEqual(1);
 
-    // delete same image and check that the reference count is 0
+    // delete same image and check that the image is deleted
     res = await imageUploadService.deleteImage(uploadedImage);
     assertResponseMatchesExpected(res);
     referenceCount = await MgImageCount.findOne({
