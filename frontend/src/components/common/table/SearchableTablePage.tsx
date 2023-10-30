@@ -14,7 +14,7 @@ interface SearchableTablePageProps<T, SortPropTypes extends readonly string[]> {
   searchBarComponent: React.ReactElement<SearchBarProps>;
   tableComponent: React.ReactElement<T[]>;
   search: string;
-  searchLength: number;
+  resultsLength: number;
   nameOfTableItems: string;
 }
 
@@ -26,7 +26,7 @@ const SearchableTablePage = <T, SortPropTypes extends readonly string[]>({
   searchBarComponent,
   tableComponent,
   search,
-  searchLength,
+  resultsLength,
   nameOfTableItems,
 }: SearchableTablePageProps<T, SortPropTypes>): React.ReactElement => {
   const emptyResults = noResults ? (
@@ -37,20 +37,18 @@ const SearchableTablePage = <T, SortPropTypes extends readonly string[]>({
   return (
     <>
       <VStack pt={4} spacing={6} w="full">
-        {searchLength !== 0 && (
-          <HStack width="100%">
-            {searchBarComponent}
-            {sortMenuComponent}
-            {filterMenuComponent}
-          </HStack>
-        )}
+        <HStack width="100%">
+          {searchBarComponent}
+          {sortMenuComponent}
+          {filterMenuComponent}
+        </HStack>
         {search && (
           <Text color="grey.300" fontSize="16px" width="100%">
-            Showing {searchLength} results for &quot;
+            Showing {resultsLength} results for &quot;
             {search}&quot;
           </Text>
         )}
-        {searchLength !== 0 ? tableComponent : emptyResults}
+        {resultsLength !== 0 ? tableComponent : emptyResults}
       </VStack>
     </>
   );

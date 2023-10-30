@@ -11,7 +11,7 @@ interface AdminTabProps<SortPropTypes extends readonly string[]> {
   searchBarComponent: React.ReactElement<SearchBarProps>;
   UserTable: React.ReactElement<AdminUser[] | TeacherUser[]>;
   search: string;
-  searchLength: number;
+  resultsLength: number;
 }
 
 export interface AdminTableProps {
@@ -26,7 +26,7 @@ const AdminTab = <SortPropTypes extends readonly string[]>({
   searchBarComponent,
   UserTable,
   search,
-  searchLength,
+  resultsLength,
 }: AdminTabProps<SortPropTypes>): React.ReactElement => {
   return (
     <>
@@ -37,10 +37,14 @@ const AdminTab = <SortPropTypes extends readonly string[]>({
         </HStack>
         {search && (
           <Text color="grey.300" fontSize="16px" width="100%">
-            Showing {searchLength} results for &quot;{search}&quot;
+            Showing {resultsLength} results for &quot;{search}&quot;
           </Text>
         )}
-        {searchLength !== 0 ? UserTable : <NoResultsTableState items="users" />}
+        {resultsLength !== 0 ? (
+          UserTable
+        ) : (
+          <NoResultsTableState items="users" />
+        )}
       </VStack>
     </>
   );
