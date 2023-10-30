@@ -107,9 +107,9 @@ const UsersPage = (): React.ReactElement => {
           <TabPanels>
             <TabPanel padding="0">
               <AdminTab
+                resultsLength={admins.length}
                 search={search}
                 searchBarComponent={<SearchBar onSearch={setSearch} />}
-                searchLength={admins.length}
                 sortMenuComponent={
                   <SortMenu
                     labels={["name", "email"]}
@@ -123,9 +123,9 @@ const UsersPage = (): React.ReactElement => {
             </TabPanel>
             <TabPanel padding="0">
               <AdminTab
+                resultsLength={teachers.length}
                 search={search}
                 searchBarComponent={<SearchBar onSearch={setSearch} />}
-                searchLength={teachers.length}
                 sortMenuComponent={
                   <SortMenu
                     labels={["name", "email", "school"]}

@@ -111,9 +111,9 @@ const DisplayAssessmentsPage = (): React.ReactElement => {
           nameOfTableItems="assessments"
           noResults={isEmpty}
           noResultsComponent={<EmptyTestsMessage />}
+          resultsLength={assessments.length}
           search={search}
           searchBarComponent={<SearchBar onSearch={setSearch} />}
-          searchLength={assessments.length}
           sortMenuComponent={
             <SortMenu
               initialSortOrder="descending"

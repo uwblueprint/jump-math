@@ -108,9 +108,9 @@ const DisplayClassroomAssessmentsPage = () => {
             isActive={data?.class.isActive}
           />
         }
+        resultsLength={paginatedData.length}
         search={search}
         searchBarComponent={<SearchBar onSearch={setSearch} />}
-        searchLength={paginatedData.length}
         sortMenuComponent={
           <SortMenu
             initialSortOrder={sortOrder}
