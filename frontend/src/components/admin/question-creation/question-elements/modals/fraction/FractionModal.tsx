@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 
 import type { FractionMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import type { FractionType } from "../../../../../../types/QuestionTypes";
@@ -34,6 +34,7 @@ const FractionModal = ({
 
   useEffect(() => {
     if (!isOpen) {
+      setError(false);
       return;
     }
 
@@ -41,11 +42,6 @@ const FractionModal = ({
     setNumerator(String(data?.numerator ?? ""));
     setDenominator(String(data?.denominator ?? ""));
   }, [data, isOpen]);
-
-  const handleClose = () => {
-    setError(false);
-    onClose();
-  };
 
   const handleConfirm = () => {
     const castedWholeNumber =
@@ -58,7 +54,7 @@ const FractionModal = ({
       typeof castedDenominator === "undefined"
     ) {
       setError(true);
-      throw new FormValidationError("One or more fields are invalid");
+      throw new FormValidationError("Please provide all parts of the fraction");
     }
     onConfirm({
       wholeNumber: castedWholeNumber,
@@ -73,7 +69,7 @@ const FractionModal = ({
       header="Create fraction question"
       isOpen={isOpen}
       onBack={onBack}
-      onClose={handleClose}
+      onClose={onClose}
       onSubmit={handleConfirm}
       showDefaultToasts={false}
     >
@@ -95,7 +91,6 @@ const FractionModal = ({
           }
           wholeNumber={fractionType === "mixed" ? wholeNumber : null}
         />
-        <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
       </FormControl>
     </Modal>
   );
