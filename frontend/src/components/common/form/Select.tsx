@@ -74,7 +74,7 @@ const Select = fwRef(function Select<
       options={options}
       selectedOptionStyle="check"
       useBasicStyles={useBasicStyles}
-      value={options.find((option) => option.value === value) || undefined}
+      value={options.find((option) => option.value === value) || null}
     />
   );
 });
