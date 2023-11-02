@@ -223,8 +223,8 @@ class AuthService implements IAuthService {
         "email-header.png",
         user.firstName,
         [
-          "You have been invited to join the Jump Math Workspace!",
-          "Please use the link below to confirm your log in details and you can receive your personalized Jump Math email address if you haven’t already!",
+          "You have been invited to join the JUMP Math Workspace!",
+          "Please use the link below to confirm your log in details. Once you have verified your email, you can hop back into helping your class excel in mathematics.",
           "We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally!",
         ],
         emailVerificationLink,
