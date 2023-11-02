@@ -66,7 +66,7 @@ const TeacherSignupTwo = ({
     <>
       <FormControl isInvalid={isCurrentlyTeachingJMError} isRequired>
         <FormLabel color="grey.400">
-          Are you currently teaching Jump Math in the classroom?
+          Are you currently teaching JUMP Math in the classroom?
         </FormLabel>
         <SelectFormInput
           field="currentlyTeachingJM"
