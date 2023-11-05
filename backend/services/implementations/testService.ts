@@ -271,14 +271,15 @@ class TestService implements ITestService {
       if (!test) {
         throw new Error(`Test ID ${id} not found`);
       }
+
+      await this.incrementImageCounts(test.questions);
+
       // eslint-disable-next-line no-underscore-dangle
       test._id = new mongoose.Types.ObjectId();
       test.name += " [COPY]";
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
-      test.save();
-
-      await this.incrementImageCounts(test.questions);
+      await test.save();
     } catch (error: unknown) {
       Logger.error(
         `Failed to duplicate test with ID ${id}. Reason = ${getErrorMessage(
