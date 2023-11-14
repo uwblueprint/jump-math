@@ -121,7 +121,7 @@ const FormModal = ({ isOpen, onClose, onSubmit }: FormModalProps) => {
       </FormControl>
       <FormControl as="fieldset" isRequired mt={8}>
         <FormLabel color="grey.300">
-          Does the user already have a Jump Math email address?
+          Does the user already have a JUMP Math email address?
         </FormLabel>
         <RadioGroup
           color="grey.300"
@@ -150,7 +150,7 @@ const FormModal = ({ isOpen, onClose, onSubmit }: FormModalProps) => {
         <>
           <FormControl isInvalid={isInvalidEmail} isRequired mt={6}>
             <FormLabel color="grey.300">{`Please enter their ${
-              hasJumpMathEmail ? "Jump Math" : ""
+              hasJumpMathEmail ? "JUMP Math" : ""
             } email address`}</FormLabel>
             <Input
               isInvalid={requiredFieldEmpty && email.length === 0}

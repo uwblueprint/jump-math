@@ -121,7 +121,7 @@ class AuthService implements IAuthService {
       </a>
       </center>
       <br>
-      Have questions about Jump Math? Drop us an email at <span style="text-decoration: underline;">askus@jumpmath.ca</span> and we’ll get in touch shortly!
+      Have questions about JUMP Math? Drop us an email at <span style="text-decoration: underline;">askus@jumpmath.ca</span> and we’ll get in touch shortly!
       <br><br>
       <strong style="letter-spacing: 0.16em;">AUTOMATION PRIVACY POLICY:</strong>
       <br><br>
@@ -223,12 +223,12 @@ class AuthService implements IAuthService {
         "email-header.png",
         user.firstName,
         [
-          "You have been invited to join the Jump Math Workspace!",
-          "Please use the link below to confirm your log in details and you can receive your personalized Jump Math email address if you haven’t already!",
+          "You have been invited to join the JUMP Math Workspace!",
+          "Please use the link below to confirm your log in details. Once you have verified your email, you can hop back into helping your class excel in mathematics.",
           "We can’t wait for you to join a team of likeminded individuals and help us take a step forward in the education of over 250,000 students globally!",
         ],
         emailVerificationLink,
-        "Open Jump Math",
+        "Open JUMP Math",
       );
       this.emailService.sendEmail(email, "Verify your email", emailBody);
     } catch (error) {

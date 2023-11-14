@@ -41,7 +41,7 @@ const AssessmentSummaryPage = (): React.ReactElement => {
       {test && testSession && (
         <HStack alignItems="flex-start" pt="4em">
           <Image
-            alt="Jump Math Logo"
+            alt="JUMP Math Logo"
             mx="2em"
             src={JUMP_MATH_LOGO.src}
             width="15%"
