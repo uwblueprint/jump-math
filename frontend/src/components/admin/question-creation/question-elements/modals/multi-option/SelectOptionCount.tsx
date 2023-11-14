@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Select,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
 import type { MultiOptionData } from "../../../../../../types/QuestionTypes";
+import Select from "../../../../../common/form/Select";
 
 interface SelectOptionCountProps {
   optionCount: number;
@@ -34,15 +30,20 @@ const SelectOptionCount = ({
     setOptions((prevOptions) => prevOptions.slice(0, n));
   };
 
-  const handleSelectCount = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const count = parseInt(event.target.value, 10);
-    const countDiff = count - optionCount;
+  const handleSelectCount = (value: number | null) => {
+    if (value == null) {
+      setOptions([]);
+      setOptionCount(0);
+      return;
+    }
+
+    const countDiff = value - optionCount;
     if (countDiff > 0) {
       addOptions(countDiff);
     } else {
       removeOptions(countDiff);
     }
-    setOptionCount(count);
+    setOptionCount(value);
   };
 
   return (
@@ -51,20 +52,20 @@ const SelectOptionCount = ({
         How many options would you like?
       </FormLabel>
       <Select
-        onChange={(e) => handleSelectCount(e)}
+        chakraStyles={{
+          container: (provided) => ({
+            ...provided,
+            width: "50%",
+          }),
+        }}
+        onChange={handleSelectCount}
+        options={[...Array(4)].map((_, i) => ({
+          label: String(i + 1),
+          value: i + 1,
+        }))}
+        placeholder="Select Input"
         value={optionCount}
-        width="50%"
-      >
-        <option disabled value={0}>
-          Select Input
-        </option>
-        {[...Array(4)].map((i, count) => (
-          <option key={count + 1} value={count + 1}>
-            {count + 1}
-          </option>
-        ))}
-      </Select>
-      <FormErrorMessage>Select a value before confirming.</FormErrorMessage>
+      />
     </FormControl>
   );
 };

@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 import type { ShortAnswerMetadata } from "../../../../../../types/QuestionMetadataTypes";
 import {
@@ -53,7 +48,7 @@ const ShortAnswerModal = ({
       onConfirm({ answer: castedAnswer });
     } else {
       setError(true);
-      throw new FormValidationError("One or more fields are invalid");
+      throw new FormValidationError("Please enter a correct answer");
     }
   };
 
@@ -77,7 +72,6 @@ const ShortAnswerModal = ({
           value={answer}
           width="50%"
         />
-        <FormErrorMessage>Enter a value before confirming.</FormErrorMessage>
       </FormControl>
     </Modal>
   );

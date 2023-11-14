@@ -1,11 +1,8 @@
-import React from "react";
+import React, { type ReactElement, useMemo } from "react";
 import type {
   Control,
   FieldErrorsImpl,
-  UseFormClearErrors,
   UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
 } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import countryList from "react-select-country-list";
@@ -20,53 +17,28 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import type { SingleValue } from "chakra-react-select";
-import { Select } from "chakra-react-select";
 
 import type { TestRequest } from "../../../APIClients/types/TestClientTypes";
 import { UseCase } from "../../../types/AssessmentTypes";
-import type {
-  GradeOption,
-  StringOption,
-} from "../../../types/SelectInputTypes";
 import { gradeOptions } from "../../../utils/AssessmentUtils";
+import ControlledSelect from "../../common/form/ControlledSelect";
 import FormRadio from "../../common/form/FormRadio";
 import ErrorToast from "../../common/info/toasts/ErrorToast";
 
 interface BasicInformationProps {
   register: UseFormRegister<TestRequest>;
-  setValue: UseFormSetValue<TestRequest>;
-  watch: UseFormWatch<TestRequest>;
   control: Control<TestRequest, unknown>;
   errors: Partial<FieldErrorsImpl<TestRequest>>;
   errorMessage: string;
-  clearErrors: UseFormClearErrors<TestRequest>;
 }
 
 const BasicInformation = ({
   register,
-  setValue,
-  watch,
   control,
   errors,
   errorMessage,
-  clearErrors,
-}: BasicInformationProps): React.ReactElement => {
-  const handleGradeChange = (option: SingleValue<GradeOption>) => {
-    if (option) {
-      setValue("grade", option.value);
-      clearErrors("grade");
-    }
-  };
-
-  const handleCountryChange = (option: SingleValue<StringOption>) => {
-    if (option) {
-      setValue("curriculumCountry", option.value);
-      clearErrors("curriculumCountry");
-    }
-  };
-
-  const countryOptions = React.useMemo(() => countryList().getData(), []);
+}: BasicInformationProps): ReactElement => {
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   return (
     <Box width="100%">
@@ -85,30 +57,16 @@ const BasicInformation = ({
         </FormControl>
 
         <Box width="50%">
-          <Controller
-            control={control}
-            name="grade"
-            render={({ field: { name }, fieldState: { error } }) => (
-              <FormControl isInvalid={Boolean(error)} isRequired>
-                <FormLabel color="grey.400">Grade Level</FormLabel>
-                <Select
-                  name={name}
-                  onChange={handleGradeChange}
-                  options={gradeOptions}
-                  placeholder="Select a grade"
-                  selectedOptionStyle="check"
-                  useBasicStyles
-                  value={
-                    gradeOptions.find(
-                      (option) => option.value === watch("grade"),
-                    ) || undefined
-                  }
-                />
-                <FormErrorMessage>{error?.message}</FormErrorMessage>
-              </FormControl>
-            )}
-            rules={{ required: "Please select a grade" }}
-          />
+          <FormControl isInvalid={!!errors.grade} isRequired>
+            <FormLabel color="grey.400">Grade Level</FormLabel>
+            <ControlledSelect
+              isRequired="Please select a grade"
+              name="grade"
+              options={gradeOptions}
+              placeholder="Select a grade"
+            />
+            <FormErrorMessage>{errors.grade?.message}</FormErrorMessage>
+          </FormControl>
         </Box>
 
         <Box width="50%">
@@ -152,37 +110,25 @@ const BasicInformation = ({
             Curriculum
           </Text>
           <HStack alignItems="flex-start" width="100%">
-            <Controller
-              control={control}
-              name="curriculumCountry"
-              render={({ field: { name }, fieldState: { error } }) => (
-                <FormControl
-                  isInvalid={Boolean(error)}
-                  isRequired
-                  mr={2}
-                  variant="paragraph"
-                >
-                  <FormLabel color="grey.400">Country</FormLabel>
-                  <Select
-                    name={name}
-                    onChange={handleCountryChange}
-                    options={countryOptions}
-                    placeholder="Select a country"
-                    useBasicStyles
-                    value={
-                      countryOptions.find(
-                        (option) => option.value === watch("curriculumCountry"),
-                      ) || undefined
-                    }
-                  />
-                  <FormErrorMessage>{error?.message}</FormErrorMessage>
-                </FormControl>
-              )}
-              rules={{ required: "Please select a country" }}
-            />
-
             <FormControl
-              isInvalid={Boolean(errors.curriculumRegion)}
+              isInvalid={!!errors.curriculumCountry?.message}
+              isRequired
+              mr={2}
+              variant="paragraph"
+            >
+              <FormLabel color="grey.400">Country</FormLabel>
+              <ControlledSelect
+                isRequired="Please select a country"
+                name="curriculumCountry"
+                options={countryOptions}
+                placeholder="Select a country"
+              />
+              <FormErrorMessage>
+                {errors.curriculumCountry?.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl
+              isInvalid={!!errors.curriculumRegion}
               isRequired
               variant="paragraph"
             >

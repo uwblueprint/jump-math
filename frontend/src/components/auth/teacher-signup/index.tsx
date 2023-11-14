@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -15,23 +16,6 @@ import TeacherSignupFour from "./steps/TeacherSignupFour";
 import TeacherSignupOne from "./steps/TeacherSignUpOne";
 import TeacherSignupThree from "./steps/TeacherSignupThree";
 import TeacherSignupTwo from "./steps/TeacherSignupTwo";
-
-const defaultValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  grades: [],
-  currentlyTeachingJM: null,
-  school: {
-    name: "",
-    id: "",
-    country: "",
-    city: "",
-    district: "",
-    address: "",
-  },
-  password: "",
-} as TeacherSignupForm;
 
 const renderPageComponent = (
   page: number,
@@ -53,12 +37,11 @@ const renderPageComponent = (
   }
 };
 
-const TeacherSignup = (): React.ReactElement => {
+const TeacherSignup = (): ReactElement => {
   const methods = useForm<TeacherSignupForm>({
-    defaultValues,
     mode: "onChange",
   });
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const [error, setError] = useState("");
   const [registerTeacher] = useMutation<{ register: AuthenticatedUser }>(
     REGISTER_TEACHER,

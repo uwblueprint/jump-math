@@ -7,8 +7,6 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
-import type { SingleValue } from "chakra-react-select";
-import { Select } from "chakra-react-select";
 
 import { GET_TESTABLE_STUDENTS_BY_TEST_SESSION } from "../../../APIClients/queries/ClassQueries";
 import type { StudentResponse } from "../../../APIClients/types/ClassClientTypes";
@@ -16,7 +14,7 @@ import type { TestSessionSetupData } from "../../../APIClients/types/TestSession
 import { STUDENT_SIGNUP_IMAGE } from "../../../assets/images";
 import { HOME_PAGE, STUDENT_LANDING_PAGE } from "../../../constants/Routes";
 import AuthContext from "../../../contexts/AuthContext";
-import type { StudentOption } from "../../../types/SelectInputTypes";
+import Select from "../../common/form/Select";
 import AuthWrapper from "../AuthWrapper";
 import NavigationButtons from "../teacher-signup/NavigationButtons";
 
@@ -37,9 +35,9 @@ const NameSelection = ({
     data?.testableStudentsByTestSessionId.students ?? [];
   const className = data?.testableStudentsByTestSessionId.className ?? "";
 
-  const [selectedStudent, setSelectedStudent] = useState<StudentOption>();
+  const [selectedStudent, setSelectedStudent] = useState<StudentResponse>();
   const [error, setError] = useState(false);
-  const handleStudentChange = (option: SingleValue<StudentOption>) => {
+  const handleStudentChange = (option: StudentResponse | null) => {
     if (option) {
       setSelectedStudent(option);
       setError(false);
@@ -65,7 +63,6 @@ const NameSelection = ({
                 : `${student.firstName} ${student.lastName}`,
             }))}
             placeholder="Search for your name by typing it in the field"
-            useBasicStyles
             value={selectedStudent}
           />
           <FormErrorMessage>Please select your name</FormErrorMessage>
@@ -81,7 +78,7 @@ const NameSelection = ({
             setError(true);
           } else {
             setAuthenticatedUser({
-              ...selectedStudent.value,
+              ...selectedStudent,
               role: "Student",
             });
             history.push({

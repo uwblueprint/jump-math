@@ -63,7 +63,7 @@ const MultiOptionModal = ({
     resetErrors();
     if (optionCount === 0) {
       setOptionCountError(true);
-      throw new FormValidationError("Please add an option");
+      throw new FormValidationError("Please select a number of options");
     } else if (!options.every((option) => option.value)) {
       setEmptyOptionError(true);
       throw new FormValidationError("Please ensure all fields are filled");
