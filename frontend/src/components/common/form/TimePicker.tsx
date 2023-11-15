@@ -152,7 +152,13 @@ const TimePicker = forwardRef(function TimePicker(
               minuteInputRef.current?.focus();
             }}
             onFocus={() => {
-              hourInputRef.current?.openMenu("first");
+              setTimeout(() => {
+                // For use with a date picker, our date picker will focus itself
+                // when it starts to close. This means that we might need to re-
+                // focus the hour input afterwards.
+                hourInputRef.current?.focus();
+                hourInputRef.current?.openMenu("first");
+              });
             }}
             options={HOUR_OPTIONS}
             placeholder="00"

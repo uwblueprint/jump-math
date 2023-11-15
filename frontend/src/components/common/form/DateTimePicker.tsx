@@ -33,12 +33,12 @@ const DateTimePicker = ({
       onChange(combineDateAndTime(newDate, timeValue));
     }
 
-    // For some reason, the time picker doesn't focus properly if we click it
-    // while the date picker is open. This is a workaround to make sure the
-    // click happens after the date picker has started to close.
+    // For some reason, the time picker doesn't focus properly if we try to
+    // focus it while the date picker is open. This is a workaround to make
+    // sure the focus happens after the date picker has started to close.
     setTimeout(() => {
       timePickerRef.current?.click();
-    }, 0);
+    });
   };
 
   const handleTimeChange = (newTime: Date | null) => {
