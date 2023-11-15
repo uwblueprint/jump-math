@@ -34,6 +34,9 @@ const chakraStyles = (
       outline: "none",
     },
     border: "none",
+    _disabled: {
+      opacity: 1,
+    },
   }),
   valueContainer: (provided) => ({
     ...provided,
