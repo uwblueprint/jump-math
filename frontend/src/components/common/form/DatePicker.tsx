@@ -69,7 +69,7 @@ const getDatePickerStyles = (
     cursor: "pointer",
     "aria-label": "This is a date input, activate to open date picker",
     textAlign: "left",
-    value: value ? format(value, "yyyy-MM-dd") : "Please choose a date",
+    value: value ? format(value, "yyyy-MM-dd") : "Choose a date",
     color: value ? "grey.300" : "placeholder.300",
     transition: "color 0s",
   },
