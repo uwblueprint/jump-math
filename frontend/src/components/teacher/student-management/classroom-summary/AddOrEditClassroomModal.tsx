@@ -107,7 +107,7 @@ const AddOrEditClassroomModal = ({
         submitButtonText="Save"
         variant="large"
       >
-        <HStack direction="row" mt={6}>
+        <HStack direction="row" mt={6} spacing={8}>
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.className} isRequired>
               <FormLabel color="blue.300">Class Name</FormLabel>
