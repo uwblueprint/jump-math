@@ -78,7 +78,7 @@ const chakraStyles = (
   }),
   menu: (provided) => ({
     ...provided,
-    w: 200,
+    w: 105,
   }),
 });
 
