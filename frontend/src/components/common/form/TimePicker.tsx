@@ -88,18 +88,10 @@ type TimePickerProps = {
   defaultDay?: Date;
   onChange: (date: Date) => void;
   isDisabled?: boolean;
-  attachmentDirection?: "left" | "right";
 };
 
 const TimePicker = forwardRef(function TimePicker(
-  {
-    name,
-    value,
-    defaultDay,
-    onChange,
-    isDisabled,
-    attachmentDirection,
-  }: TimePickerProps,
+  { name, value, defaultDay, onChange, isDisabled }: TimePickerProps,
   ref: ForwardedRef<HTMLDivElement>,
 ): ReactElement {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -119,13 +111,9 @@ const TimePicker = forwardRef(function TimePicker(
           borderColor: "blue.500",
         }}
         _invalid={{
-          borderLeftWidth: attachmentDirection === "left" ? 0 : undefined,
-          borderRightWidth: attachmentDirection === "right" ? 0 : undefined,
           borderColor: "red.200",
         }}
         as="div"
-        borderLeftRadius={attachmentDirection === "left" ? 0 : undefined}
-        borderRightRadius={attachmentDirection === "right" ? 0 : undefined}
         cursor="pointer"
         isDisabled={isDisabled}
         onClick={(e) => {
