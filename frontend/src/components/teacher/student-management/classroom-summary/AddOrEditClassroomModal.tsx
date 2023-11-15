@@ -26,7 +26,7 @@ import {
   FormValidationError,
   getQueryName,
 } from "../../../../utils/GeneralUtils";
-import ControlledDatePicker from "../../../common/form/ControlledDatePicker";
+import ControlledDateTimePicker from "../../../common/form/ControlledDateTimePicker";
 import ControlledSelect from "../../../common/form/ControlledSelect";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
@@ -127,7 +127,7 @@ const AddOrEditClassroomModal = ({
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
-              <ControlledDatePicker
+              <ControlledDateTimePicker
                 additionalRules={
                   isEditing
                     ? {}

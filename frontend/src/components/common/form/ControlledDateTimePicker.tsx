@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-import DatePicker from "./DatePicker";
+import DateTimePicker from "./DateTimePicker";
 
 type ControlledDatePickerProps = {
   name?: string;
@@ -11,7 +11,7 @@ type ControlledDatePickerProps = {
   additionalRules?: Record<string, unknown>;
 };
 
-const ControlledDatePicker = ({
+const ControlledDateTimePicker = ({
   name: fieldName,
   isDisabled,
   isRequired,
@@ -21,7 +21,7 @@ const ControlledDatePicker = ({
     <Controller
       name={fieldName || "date-input"}
       render={({ field: { onChange, onBlur, value, name } }) => (
-        <DatePicker
+        <DateTimePicker
           isDisabled={isDisabled}
           name={name}
           onChange={(date) => {
@@ -45,4 +45,4 @@ const ControlledDatePicker = ({
   );
 };
 
-export default ControlledDatePicker;
+export default ControlledDateTimePicker;
