@@ -75,7 +75,7 @@ const AddInformation = ({
       >
         <HStack alignItems="flex-start" gap="15" pt="4">
           <FormControl isInvalid={!!invalidStartDate} isRequired>
-            <FormLabel color="blue.300">Start date</FormLabel>
+            <FormLabel color="blue.300">Start Date</FormLabel>
             <DateTimePicker
               isDisabled={isEditDisabled}
               name="startDate"
@@ -92,7 +92,7 @@ const AddInformation = ({
         </HStack>
         <HStack alignItems="flex-start" gap="15" pt="4">
           <FormControl isInvalid={!!invalidEndDate} isRequired>
-            <FormLabel color="blue.300">End date</FormLabel>
+            <FormLabel color="blue.300">End Date</FormLabel>
             <DateTimePicker
               name="endDate"
               onChange={(newDate: Date | null) => {

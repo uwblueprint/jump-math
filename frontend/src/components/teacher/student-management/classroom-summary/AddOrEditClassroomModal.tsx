@@ -112,7 +112,7 @@ const AddOrEditClassroomModal = ({
             <FormControl isInvalid={!!errors.className} isRequired>
               <FormLabel color="blue.300">Class Name</FormLabel>
               <Input
-                placeholder="Type in Class Name"
+                placeholder="Type in class name"
                 type="text"
                 {...register("className", {
                   required: { value: true, message: "This field is required." },
@@ -160,7 +160,7 @@ const AddOrEditClassroomModal = ({
                 isRequired
                 name="gradeLevel"
                 options={gradeOptions}
-                placeholder="Choose a Grade Level"
+                placeholder="Choose a grade level"
               />
               <InlineFormError error={errors.gradeLevel} />
             </FormControl>
