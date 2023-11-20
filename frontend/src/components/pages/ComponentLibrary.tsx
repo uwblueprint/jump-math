@@ -9,6 +9,7 @@ import { QuestionElementType } from "../../types/QuestionTypes";
 import MultipleChoiceVisualizer from "../admin/assessment-visualization/question-elements/MultipleChoiceVisualizer";
 import MultiSelectVisualizer from "../admin/assessment-visualization/question-elements/MultiSelectVisualizer";
 import ShortAnswerVisualizer from "../admin/assessment-visualization/question-elements/ShortAnswerVisualizer";
+import TimePicker from "../common/form/TimePicker";
 import MultiOptionInput from "../common/question-elements/multi-option/MultiOptionInput";
 import ChartSection from "../data-visualization/ChartSection";
 import StatisticCard from "../data-visualization/StatisticCard";
@@ -116,8 +117,16 @@ const ComponentLibrary = (): React.ReactElement => {
   const [selectedStudentId, setSelectedStudentId] = useState<string>(
     MOCK_STUDENTS[0].id,
   );
+  const [selectedTime, setSelectedTime] = useState<Date>(new Date());
   return (
     <FormProvider {...methods}>
+      <Box w={300}>
+        <TimePicker
+          name="time-picker"
+          onChange={setSelectedTime}
+          value={selectedTime}
+        />
+      </Box>
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1024} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={1023} />
       <CorrectedShortAnswer correctAnswer={1024} studentAnswer={undefined} />

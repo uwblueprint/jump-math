@@ -1,4 +1,3 @@
-import { isSameDay } from "date-fns";
 import type { DocumentNode } from "graphql";
 import { getOperationAST } from "graphql";
 
@@ -80,11 +79,6 @@ export const stringToFloat = (input: string): number | undefined => {
 export const stringToInt = (input: string): number | undefined => {
   const value = parseInt(input);
   return Number.isNaN(value) ? undefined : value;
-};
-
-export const isPastDate = (input: Date) => {
-  const now = new Date();
-  return input < now && !isSameDay(input, now);
 };
 
 export const getLetterFromNumber = (number: number): string => {

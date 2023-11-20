@@ -1,7 +1,7 @@
 import React from "react";
 import { HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
-import { formatDate } from "../../../../utils/GeneralUtils";
+import { formatDateTime } from "../../../../utils/GeneralUtils";
 import DistributeAssessmentWrapper from "../DistributeAssessmentWrapper";
 import ReviewItem from "../ReviewItem";
 
@@ -50,7 +50,7 @@ const Review = ({
             value={
               <Input
                 isDisabled
-                value={startDate ? formatDate(startDate) : ""}
+                value={startDate ? formatDateTime(startDate) : ""}
                 width={80}
               />
             }
@@ -61,7 +61,7 @@ const Review = ({
             value={
               <Input
                 isDisabled
-                value={endDate ? formatDate(endDate) : ""}
+                value={endDate ? formatDateTime(endDate) : ""}
                 width={80}
               />
             }
