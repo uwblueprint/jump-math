@@ -26,7 +26,7 @@ import {
   FormValidationError,
   getQueryName,
 } from "../../../../utils/GeneralUtils";
-import ControlledDatePicker from "../../../common/form/ControlledDatePicker";
+import ControlledDateTimePicker from "../../../common/form/ControlledDateTimePicker";
 import ControlledSelect from "../../../common/form/ControlledSelect";
 import InlineFormError from "../../../common/form/InlineFormError";
 import Modal from "../../../common/modal/Modal";
@@ -107,12 +107,12 @@ const AddOrEditClassroomModal = ({
         submitButtonText="Save"
         variant="large"
       >
-        <HStack direction="row" mt={6}>
+        <HStack direction="row" mt={6} spacing={8}>
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.className} isRequired>
               <FormLabel color="blue.300">Class Name</FormLabel>
               <Input
-                placeholder="Type in Class Name"
+                placeholder="Type in class name"
                 type="text"
                 {...register("className", {
                   required: { value: true, message: "This field is required." },
@@ -127,7 +127,7 @@ const AddOrEditClassroomModal = ({
           <VStack align="left" direction="column" width="320px">
             <FormControl isInvalid={!!errors.startDate} isRequired>
               <FormLabel color="blue.300">Start Date</FormLabel>
-              <ControlledDatePicker
+              <ControlledDateTimePicker
                 additionalRules={
                   isEditing
                     ? {}
@@ -160,7 +160,7 @@ const AddOrEditClassroomModal = ({
                 isRequired
                 name="gradeLevel"
                 options={gradeOptions}
-                placeholder="Choose a Grade Level"
+                placeholder="Choose a grade level"
               />
               <InlineFormError error={errors.gradeLevel} />
             </FormControl>
