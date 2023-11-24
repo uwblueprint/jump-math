@@ -38,6 +38,9 @@ describe("mongo testService", (): void => {
     testService.imageUploadService.uploadImage = jest
       .fn()
       .mockReturnValue(imageMetadata);
+    testService.imageUploadService.incrementImageCount = jest
+      .fn()
+      .mockReturnValue(imageMetadata);
     testService.imageUploadService.getImage = jest
       .fn()
       .mockReturnValue(imageMetadata);
@@ -117,6 +120,13 @@ describe("mongo testService", (): void => {
     expect(test.id).not.toEqual(duplicateTest.id);
     expect(`${test.name} [COPY]`).toEqual(duplicateTest.name);
 
+    expect(
+      testService.imageUploadService.incrementImageCount,
+    ).toHaveBeenCalledWith(imageMetadata);
+    expect(
+      testService.imageUploadService.incrementImageCount,
+    ).toHaveBeenCalledTimes(1);
+
     const originalTest = await testService.getTestById(test.id);
     assertResponseMatchesExpected(mockPublishedTest, originalTest);
     expect(test.id).toEqual(originalTest.id);
@@ -130,6 +140,13 @@ describe("mongo testService", (): void => {
     assertResponseMatchesExpected(mockTestWithId, unarchivedTest, true);
     expect(test.id).not.toEqual(unarchivedTest.id);
     expect(`${test.name} [COPY]`).toEqual(unarchivedTest.name);
+
+    expect(
+      testService.imageUploadService.incrementImageCount,
+    ).toHaveBeenCalledWith(imageMetadata);
+    expect(
+      testService.imageUploadService.incrementImageCount,
+    ).toHaveBeenCalledTimes(1);
 
     const originalTest = await MgTest.findById(test.id);
     expect(originalTest?.status).toBe(AssessmentStatus.DELETED);

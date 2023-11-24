@@ -7,9 +7,10 @@ import type {
   ImageMetadataRequest,
 } from "../types/questionMetadataTypes";
 
+export const MOCK_FIREBASE_STORAGE_DEFAULT_BUCKET = "test-url";
 export const filename = "test.png";
 export const uploadDir = "test-bucket";
-export const signedUrl = `https://storage.googleapis.com/jump-math-98edf.appspot.com/${uploadDir}/${filename}`;
+export const signedUrl = `https://storage.googleapis.com/${MOCK_FIREBASE_STORAGE_DEFAULT_BUCKET}/${uploadDir}/${filename}`;
 export const invalidImageType = "text/plain";
 
 const createReadStream = (): ReadStream =>

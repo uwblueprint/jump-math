@@ -3,6 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
+import { MOCK_FIREBASE_STORAGE_DEFAULT_BUCKET } from "./testUtils/imageUpload";
+
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -204,3 +206,7 @@ export default {
   // Increases timeout to let tests run
   testTimeout: 1000000,
 };
+
+process.env = Object.assign(process.env, {
+  FIREBASE_STORAGE_DEFAULT_BUCKET: MOCK_FIREBASE_STORAGE_DEFAULT_BUCKET,
+});
