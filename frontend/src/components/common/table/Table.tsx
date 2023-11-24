@@ -36,7 +36,7 @@ export const Table = <T extends Nodes = Nodes>({
     usePaginatedData(rows);
 
   return (
-    <VStack alignItems="center" paddingBottom="6" spacing="6" width="100%">
+    <VStack alignItems="center" spacing="6" width="100%">
       <TableContainer
         border="1px solid"
         borderColor="blue.50"

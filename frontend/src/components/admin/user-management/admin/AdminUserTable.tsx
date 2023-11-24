@@ -6,11 +6,14 @@ import type {
   AuthenticatedAdmin,
   AuthenticatedTeacher,
 } from "../../../../types/AuthTypes";
+import type { AdminUser } from "../../../../types/UserTypes";
 import type { TableRow } from "../../../common/table/Table";
 import { Table } from "../../../common/table/Table";
 import RemoveUserPopover from "../RemoveUserPopover";
 
-import type { AdminTableProps } from "./AdminTab";
+interface AdminTableProps {
+  users: AdminUser[];
+}
 
 const AdminUserTable = ({ users }: AdminTableProps): React.ReactElement => {
   const { authenticatedUser } = useContext(AuthContext);

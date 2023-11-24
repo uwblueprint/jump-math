@@ -13,11 +13,12 @@ import {
   filterAdminUsersBySearch,
   filterTeacherUsersBySearch,
 } from "../../../utils/UserUtils";
-import AdminTab from "../../admin/user-management/admin/AdminTab";
 import AdminUserTable from "../../admin/user-management/admin/AdminUserTable";
 import TeacherUserTable from "../../admin/user-management/teacher/TeacherUserTable";
 import UsersPageHeader from "../../admin/user-management/UsersPageHeader";
+import EmptyUsersMessage from "../../common/info/messages/EmptyUsersMessage";
 import QueryStateHandler from "../../common/QueryStateHandler";
+import SearchableTablePage from "../../common/table/SearchableTablePage";
 import SearchBar from "../../common/table/SearchBar";
 import SortMenu, { type SortOrder } from "../../common/table/SortMenu";
 import useSortProperty from "../../common/table/useSortProperty";
@@ -106,10 +107,15 @@ const UsersPage = (): React.ReactElement => {
           </TabList>
           <TabPanels>
             <TabPanel padding="0">
-              <AdminTab
+              <SearchableTablePage
+                nameOfTableItems="admins"
+                noResults={(adminData?.usersByRole?.length ?? 0) === 0}
+                noResultsComponent={<EmptyUsersMessage role="admin" />}
                 resultsLength={admins.length}
                 search={search}
-                searchBarComponent={<SearchBar onSearch={setSearch} />}
+                searchBarComponent={
+                  <SearchBar onSearch={setSearch} search={search} />
+                }
                 sortMenuComponent={
                   <SortMenu
                     labels={["name", "email"]}
@@ -118,14 +124,19 @@ const UsersPage = (): React.ReactElement => {
                     properties={ADMIN_SORT_PROPERTIES}
                   />
                 }
-                UserTable={<AdminUserTable users={admins} />}
+                tableComponent={<AdminUserTable users={admins} />}
               />
             </TabPanel>
             <TabPanel padding="0">
-              <AdminTab
+              <SearchableTablePage
+                nameOfTableItems="teachers"
+                noResults={(teacherData?.teachers?.length ?? 0) === 0}
+                noResultsComponent={<EmptyUsersMessage role="teacher" />}
                 resultsLength={teachers.length}
                 search={search}
-                searchBarComponent={<SearchBar onSearch={setSearch} />}
+                searchBarComponent={
+                  <SearchBar onSearch={setSearch} search={search} />
+                }
                 sortMenuComponent={
                   <SortMenu
                     labels={["name", "email", "school"]}
@@ -134,7 +145,7 @@ const UsersPage = (): React.ReactElement => {
                     properties={TEACHER_SORT_PROPERTIES}
                   />
                 }
-                UserTable={<TeacherUserTable users={teachers} />}
+                tableComponent={<TeacherUserTable users={teachers} />}
               />
             </TabPanel>
           </TabPanels>

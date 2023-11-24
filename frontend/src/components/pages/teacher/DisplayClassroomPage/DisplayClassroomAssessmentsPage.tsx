@@ -100,7 +100,7 @@ const DisplayClassroomAssessmentsPage = () => {
     <QueryStateHandler error={error} loading={loading}>
       <SearchableTablePage
         nameOfTableItems="assessments"
-        noResults={paginatedData.length === 0}
+        noResults={(data?.class?.testSessions?.length ?? 0) === 0}
         noResultsComponent={
           <EmptyClassSessionsMessage
             classroomId={classroomId}
@@ -110,7 +110,7 @@ const DisplayClassroomAssessmentsPage = () => {
         }
         resultsLength={paginatedData.length}
         search={search}
-        searchBarComponent={<SearchBar onSearch={setSearch} />}
+        searchBarComponent={<SearchBar onSearch={setSearch} search={search} />}
         sortMenuComponent={
           <SortMenu
             initialSortOrder={sortOrder}

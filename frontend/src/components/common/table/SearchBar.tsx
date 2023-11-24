@@ -10,10 +10,11 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { SearchOutlineIcon } from "../../../assets/icons";
 
 export interface SearchBarProps {
+  search: string;
   onSearch: Dispatch<SetStateAction<string>>;
 }
 
-const SearchBar = ({ onSearch }: SearchBarProps): ReactElement => {
+const SearchBar = ({ search, onSearch }: SearchBarProps): ReactElement => {
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       onSearch(event.target.value);
@@ -30,6 +31,7 @@ const SearchBar = ({ onSearch }: SearchBarProps): ReactElement => {
         borderRadius="6px"
         onChange={handleInputChange}
         placeholder="Search bar"
+        value={search}
       />
       <InputRightElement h="full" pointerEvents="none">
         <SearchOutlineIcon />

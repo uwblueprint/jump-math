@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
-import { HStack, Text, VStack } from "@chakra-ui/react";
 
 import { GET_PUBLISHED_TESTS } from "../../../../APIClients/queries/TestQueries";
 import {
@@ -12,6 +11,7 @@ import { sortArray } from "../../../../utils/GeneralUtils";
 import ErrorState from "../../../common/info/ErrorState";
 import type { FilterProp } from "../../../common/table/FilterMenu";
 import FilterMenu from "../../../common/table/FilterMenu";
+import SearchableTablePage from "../../../common/table/SearchableTablePage";
 import SearchBar from "../../../common/table/SearchBar";
 import type { SortOrder } from "../../../common/table/SortMenu";
 import SortMenu from "../../../common/table/SortMenu";
@@ -116,9 +116,15 @@ const ChooseAssessment = ({
         filter/sort options to find the assessment that suits your needs."
       title="Choose an Assessment"
     >
-      <VStack spacing={6} width="100%">
-        <HStack width="100%">
-          <SearchBar onSearch={setSearch} />
+      <SearchableTablePage
+        filterMenuComponent={<FilterMenu filterProps={filterOptions} />}
+        nameOfTableItems="assessments"
+        noResults={isEmpty}
+        noResultsComponent={<ErrorState />}
+        resultsLength={assessments.length}
+        search={search}
+        searchBarComponent={<SearchBar onSearch={setSearch} search={search} />}
+        sortMenuComponent={
           <SortMenu
             initialSortOrder="ascending"
             labels={["name", "grade", "type", "country", "region"]}
@@ -126,22 +132,17 @@ const ChooseAssessment = ({
             onSortProperty={setSortProperty}
             properties={SORT_PROPERTIES}
           />
-          {<FilterMenu filterProps={filterOptions} />}
-        </HStack>
-        {search && (
-          <Text color="grey.300" fontSize="16px" width="100%">
-            Showing {assessments.length} results for &quot;
-            {search}&quot;
-          </Text>
-        )}
-        <AssessmentsTable
-          assessments={assessments}
-          isDisabled={isEditDisabled}
-          selectedTestId={testId}
-          setTestId={setTestId}
-          setTestName={setTestName}
-        />
-      </VStack>
+        }
+        tableComponent={
+          <AssessmentsTable
+            assessments={assessments}
+            isDisabled={isEditDisabled}
+            selectedTestId={testId}
+            setTestId={setTestId}
+            setTestName={setTestName}
+          />
+        }
+      />
     </DistributeAssessmentWrapper>
   );
 };

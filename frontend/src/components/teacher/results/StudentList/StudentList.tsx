@@ -51,7 +51,7 @@ const StudentList = ({
   return (
     <Flex direction="column" height="100%" w="sm">
       <Flex alignItems="center" justifyContent="space-between" mb={4} p={1}>
-        <SearchBar onSearch={setSearch} />
+        <SearchBar onSearch={setSearch} search={search} />
         <SortMenu labels={[]} onSortOrder={setSortDirection} properties={[]} />
       </Flex>
       <OrderedList
