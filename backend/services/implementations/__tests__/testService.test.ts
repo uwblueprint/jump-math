@@ -129,7 +129,7 @@ describe("mongo testService", (): void => {
     const unarchivedTest = await testService.unarchiveTest(test.id);
     assertResponseMatchesExpected(mockTestWithId, unarchivedTest, true);
     expect(test.id).not.toEqual(unarchivedTest.id);
-    expect(`${test.name} [COPY]`).toEqual(unarchivedTest.name);
+    expect(test.name).toEqual(unarchivedTest.name);
 
     const originalTest = await MgTest.findById(test.id);
     expect(originalTest?.status).toBe(AssessmentStatus.DELETED);
@@ -137,6 +137,7 @@ describe("mongo testService", (): void => {
 
   it("archiveTest", async () => {
     const test = await MgTest.create(mockTestWithId);
+    await testService.publishTest(test.id);
 
     const archivedTest = await testService.archiveTest(test.id);
     assertResponseMatchesExpected(mockArchivedTest, archivedTest);
@@ -188,7 +189,7 @@ describe("mongo testService", (): void => {
       await expect(async () => {
         await testService.archiveTest(notFoundId);
       }).rejects.toThrowError(
-        `Test with ID ${notFoundId} is not found or not in draft / published status`,
+        `Test with ID ${notFoundId} is not found or not in published status`,
       );
     });
   });
@@ -219,7 +220,7 @@ describe("mongo testService", (): void => {
       await expect(async () => {
         await testService.archiveTest(test.id);
       }).rejects.toThrowError(
-        `Test with ID ${test.id} is not found or not in draft / published status`,
+        `Test with ID ${test.id} is not found or not in published status`,
       );
     });
   });

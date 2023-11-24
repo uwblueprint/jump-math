@@ -127,6 +127,10 @@ class TestService implements ITestService {
         throw new Error(`Test ID ${id} not found`);
       }
 
+      if (oldTest.status !== AssessmentStatus.DRAFT) {
+        throw new Error(`Test with ID ${id} cannot be edited`);
+      }
+
       // Delete all images that are not in the new test
       const oldImages = oldTest.questions
         .flat()
@@ -258,7 +262,7 @@ class TestService implements ITestService {
     return (await this.mapTestsToTestResponseDTOs([test]))[0];
   }
 
-  async duplicateTest(id: string): Promise<TestResponseDTO> {
+  async duplicateTest(id: string, renameTest = true): Promise<TestResponseDTO> {
     let test: Test | null;
 
     try {
@@ -268,7 +272,9 @@ class TestService implements ITestService {
       }
       // eslint-disable-next-line no-underscore-dangle
       test._id = new mongoose.Types.ObjectId();
-      test.name += " [COPY]";
+      if (renameTest) {
+        test.name += " [COPY]";
+      }
       test.isNew = true;
       test.status = AssessmentStatus.DRAFT;
       test.save();
@@ -294,7 +300,11 @@ class TestService implements ITestService {
       if (test.status !== AssessmentStatus.ARCHIVED) {
         throw new Error(`Test with ID ${id} is not in archived status`);
       }
-      unarchivedTest = await this.duplicateTest(id);
+
+      // We have to duplicate the test and soft-delete the archived one
+      // rather than just updating the status because old test sessions
+      // will still refer to the archived test in their session results
+      unarchivedTest = await this.duplicateTest(id, false);
 
       try {
         await this.deleteTest(id);
@@ -330,7 +340,7 @@ class TestService implements ITestService {
       test = await MgTest.findOneAndUpdate(
         {
           _id: id,
-          status: { $in: [AssessmentStatus.DRAFT, AssessmentStatus.PUBLISHED] },
+          status: AssessmentStatus.PUBLISHED,
         },
         {
           $set: {
@@ -345,7 +355,7 @@ class TestService implements ITestService {
 
       if (!test) {
         throw new Error(
-          `Test with ID ${id} is not found or not in draft / published status`,
+          `Test with ID ${id} is not found or not in published status`,
         );
       }
     } catch (error: unknown) {
