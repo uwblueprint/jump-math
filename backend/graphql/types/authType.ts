@@ -12,12 +12,12 @@ const authType = gql`
   }
 
   input SchoolMetadataInput {
-    name: String!
-    id: ID!
-    country: String!
-    city: String!
-    district: String!
-    address: String!
+    name: String
+    id: ID
+    country: String
+    city: String
+    district: String
+    address: String
   }
 
   input RegisterTeacherDTO {
