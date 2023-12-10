@@ -10,6 +10,7 @@ import Navbar from "../../common/navigation/Navbar";
 import NotFound from "../NotFound";
 
 import AssessmentEditorPage from "./AssessmentEditorPage";
+import AssessmentPreviewPage from "./AssessmentPreviewPage";
 import DisplayAssessmentsPage from "./DisplayAssessmentsPage";
 import UsersPage from "./UsersPage";
 
@@ -31,6 +32,13 @@ const AdminRouting = (): React.ReactElement => {
         component={AssessmentEditorPage}
         // Existing assessments
         path={Routes.ASSESSMENT_EDITOR_BASE({ assessmentId: ":assessmentId" })}
+        roles={["Admin"]}
+      />
+      <PrivateRoute
+        component={AssessmentPreviewPage}
+        path={Routes.ASSESSMENT_PREVIEW_PAGE({
+          assessmentId: ":assessmentId",
+        })}
         roles={["Admin"]}
       />
       <Route path="*">

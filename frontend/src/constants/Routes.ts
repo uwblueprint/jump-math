@@ -21,11 +21,6 @@ export const ASSESSMENT_EDITOR_PAGE = ({
 }: {
   assessmentId?: string;
 }) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + (assessmentId ? "/edit" : "");
-export const ASSESSMENT_EDITOR_PREVIEW_PAGE = ({
-  assessmentId,
-}: {
-  assessmentId?: string;
-}) => ASSESSMENT_EDITOR_BASE({ assessmentId }) + "/preview";
 export const ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE = ({
   assessmentId,
   questionIndex,
@@ -54,6 +49,12 @@ export const ASSESSMENT_EDITOR_QUESTION_PREVIEW_PAGE = ({
 }) =>
   ASSESSMENT_EDITOR_QUESTION_EDITOR_BASE({ assessmentId, questionIndex }) +
   "/preview";
+
+export const ASSESSMENT_PREVIEW_PAGE = ({
+  assessmentId,
+}: {
+  assessmentId?: string;
+}) => "/admin/assessment/" + assessmentId + "/preview";
 
 // Private Teacher Routes
 export const TEACHER_LANDING_PAGE = "/teacher";

@@ -76,7 +76,7 @@ const AssessmentEditorHeader = ({
   const onPreview = () => {
     validateForm();
     disableEditorPrompt(history.push)(
-      Routes.ASSESSMENT_EDITOR_PREVIEW_PAGE({
+      Routes.ASSESSMENT_PREVIEW_PAGE({
         assessmentId,
       }),
     );
