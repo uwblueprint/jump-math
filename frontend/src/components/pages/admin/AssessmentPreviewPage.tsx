@@ -42,7 +42,7 @@ const AssessmentPreviewPage = () => {
   );
 
   const assessmentName = state?.name;
-  usePageTitle(`Previewing "${assessmentName}`);
+  usePageTitle(`Previewing "${assessmentName || "assesssment"}`);
 
   const closeAssessmentPreviewButton = (
     <Button

@@ -25,7 +25,7 @@ const PreviewButton = ({
   return (
     <PopoverButton
       name="Preview"
-      onClick={async () => {
+      onClick={() => {
         if (data) {
           history.push({
             pathname: Routes.ASSESSMENT_PREVIEW_PAGE({ assessmentId }),
